@@ -2,33 +2,33 @@
 
 import ClientRuntime
 
-/// Amazon HealthLake is a HIPAA eligibile service that allows customers to store, transform, query, and analyze their FHIR-formatted data in a consistent fashion in the cloud.
+/// AWS HealthLake is a HIPAA eligibile service that allows customers to store, transform, query, and analyze their FHIR-formatted data in a consistent fashion in the cloud.
 public protocol HealthLakeClientProtocol {
-    /// Creates a Data Store that can ingest and export FHIR formatted data.
+    /// Creates a data store that can ingest and export FHIR formatted data.
     func createFHIRDatastore(input: CreateFHIRDatastoreInput) async throws -> CreateFHIRDatastoreOutputResponse
-    /// Deletes a Data Store.
+    /// Deletes a data store.
     func deleteFHIRDatastore(input: DeleteFHIRDatastoreInput) async throws -> DeleteFHIRDatastoreOutputResponse
-    /// Gets the properties associated with the FHIR Data Store, including the Data Store ID, Data Store ARN, Data Store name, Data Store status, created at, Data Store type version, and Data Store endpoint.
+    /// Gets the properties associated with the FHIR data store, including the data store ID, data store ARN, data store name, data store status, when the data store was created, data store type version, and the data store's endpoint.
     func describeFHIRDatastore(input: DescribeFHIRDatastoreInput) async throws -> DescribeFHIRDatastoreOutputResponse
     /// Displays the properties of a FHIR export job, including the ID, ARN, name, and the status of the job.
     func describeFHIRExportJob(input: DescribeFHIRExportJobInput) async throws -> DescribeFHIRExportJobOutputResponse
     /// Displays the properties of a FHIR import job, including the ID, ARN, name, and the status of the job.
     func describeFHIRImportJob(input: DescribeFHIRImportJobInput) async throws -> DescribeFHIRImportJobOutputResponse
-    /// Lists all FHIR Data Stores that are in the user’s account, regardless of Data Store status.
+    /// Lists all FHIR data stores that are in the user’s account, regardless of data store status.
     func listFHIRDatastores(input: ListFHIRDatastoresInput) async throws -> ListFHIRDatastoresOutputResponse
     /// Lists all FHIR export jobs associated with an account and their statuses.
     func listFHIRExportJobs(input: ListFHIRExportJobsInput) async throws -> ListFHIRExportJobsOutputResponse
     /// Lists all FHIR import jobs associated with an account and their statuses.
     func listFHIRImportJobs(input: ListFHIRImportJobsInput) async throws -> ListFHIRImportJobsOutputResponse
-    /// Returns a list of all existing tags associated with a Data Store.
+    /// Returns a list of all existing tags associated with a data store.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Begins a FHIR export job.
     func startFHIRExportJob(input: StartFHIRExportJobInput) async throws -> StartFHIRExportJobOutputResponse
     /// Begins a FHIR Import job.
     func startFHIRImportJob(input: StartFHIRImportJobInput) async throws -> StartFHIRImportJobOutputResponse
-    /// Adds a user specified key and value tag to a Data Store.
+    /// Adds a user specified key and value tag to a data store.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
-    /// Removes tags from a Data Store.
+    /// Removes tags from a data store.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
 }
 

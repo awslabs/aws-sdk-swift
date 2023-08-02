@@ -1940,6 +1940,41 @@ extension ListProjectsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension SageMakerClient {
+    /// Paginate over `[ListResourceCatalogsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListResourceCatalogsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResourceCatalogsOutputResponse`
+    public func listResourceCatalogsPaginated(input: ListResourceCatalogsInput) -> ClientRuntime.PaginatorSequence<ListResourceCatalogsInput, ListResourceCatalogsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListResourceCatalogsInput, ListResourceCatalogsOutputResponse>(input: input, inputKey: \ListResourceCatalogsInput.nextToken, outputKey: \ListResourceCatalogsOutputResponse.nextToken, paginationFunction: self.listResourceCatalogs(input:))
+    }
+}
+
+extension ListResourceCatalogsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListResourceCatalogsInput {
+        return ListResourceCatalogsInput(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )}
+}
+
+extension PaginatorSequence where Input == ListResourceCatalogsInput, Output == ListResourceCatalogsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listResourceCatalogsPaginated`
+    /// to access the nested member `[SageMakerClientTypes.ResourceCatalog]`
+    /// - Returns: `[SageMakerClientTypes.ResourceCatalog]`
+    public func resourceCatalogs() async throws -> [SageMakerClientTypes.ResourceCatalog] {
+        return try await self.asyncCompactMap { item in item.resourceCatalogs }
+    }
+}
+extension SageMakerClient {
     /// Paginate over `[ListSpacesOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -2433,6 +2468,7 @@ extension SageMakerClient {
 extension SearchInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> SearchInput {
         return SearchInput(
+            crossAccountFilterOption: self.crossAccountFilterOption,
             maxResults: self.maxResults,
             nextToken: token,
             resource: self.resource,

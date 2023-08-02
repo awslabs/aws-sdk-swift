@@ -11511,12 +11511,14 @@ public struct TagResourceOutputResponse: Swift.Equatable {
 extension DrsClientTypes {
     public enum TargetInstanceTypeRightSizingMethod: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case basic
+        case inAws
         case `none`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TargetInstanceTypeRightSizingMethod] {
             return [
                 .basic,
+                .inAws,
                 .none,
                 .sdkUnknown("")
             ]
@@ -11528,6 +11530,7 @@ extension DrsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .basic: return "BASIC"
+            case .inAws: return "IN_AWS"
             case .none: return "NONE"
             case let .sdkUnknown(s): return s
             }

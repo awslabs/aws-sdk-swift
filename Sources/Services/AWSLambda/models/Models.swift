@@ -16082,6 +16082,7 @@ extension LambdaClientTypes {
         case providedal2
         case python27
         case python310
+        case python311
         case python36
         case python37
         case python38
@@ -16117,6 +16118,7 @@ extension LambdaClientTypes {
                 .providedal2,
                 .python27,
                 .python310,
+                .python311,
                 .python36,
                 .python37,
                 .python38,
@@ -16157,6 +16159,7 @@ extension LambdaClientTypes {
             case .providedal2: return "provided.al2"
             case .python27: return "python2.7"
             case .python310: return "python3.10"
+            case .python311: return "python3.11"
             case .python36: return "python3.6"
             case .python37: return "python3.7"
             case .python38: return "python3.8"

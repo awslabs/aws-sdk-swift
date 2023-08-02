@@ -105,6 +105,8 @@ public protocol CloudFormationClientProtocol {
     func listExports(input: ListExportsInput) async throws -> ListExportsOutputResponse
     /// Lists all stacks that are importing an exported output value. To modify or remove an exported output value, first use this action to see which stacks are using it. To see the exported output values in your account, see [ListExports]. For more information about importing an exported output value, see the [Fn::ImportValue](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html) function.
     func listImports(input: ListImportsInput) async throws -> ListImportsOutputResponse
+    /// Returns drift information for resources in a stack instance. ListStackInstanceResourceDrifts returns drift information for the most recent drift detection operation. If an operation is in progress, it may only return partial results.
+    func listStackInstanceResourceDrifts(input: ListStackInstanceResourceDriftsInput) async throws -> ListStackInstanceResourceDriftsOutputResponse
     /// Returns summary information about stack instances that are associated with the specified stack set. You can filter for stack instances that are associated with a specific Amazon Web Services account name or Region, or that have a specific status.
     func listStackInstances(input: ListStackInstancesInput) async throws -> ListStackInstancesOutputResponse
     /// Returns descriptions of all resources of the specified stack. For deleted stacks, ListStackResources returns resource information for up to 90 days after the stack has been deleted.

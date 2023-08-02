@@ -90,8 +90,12 @@ public protocol ConnectClientProtocol {
     func deleteIntegrationAssociation(input: DeleteIntegrationAssociationInput) async throws -> DeleteIntegrationAssociationOutputResponse
     /// Deletes a prompt.
     func deletePrompt(input: DeletePromptInput) async throws -> DeletePromptOutputResponse
+    /// Deletes a queue.
+    func deleteQueue(input: DeleteQueueInput) async throws -> DeleteQueueOutputResponse
     /// Deletes a quick connect.
     func deleteQuickConnect(input: DeleteQuickConnectInput) async throws -> DeleteQuickConnectOutputResponse
+    /// Deletes a routing profile.
+    func deleteRoutingProfile(input: DeleteRoutingProfileInput) async throws -> DeleteRoutingProfileOutputResponse
     /// Deletes a rule for the specified Amazon Connect instance.
     func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. Deletes a security profile.

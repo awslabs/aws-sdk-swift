@@ -62,6 +62,8 @@ public protocol DatabaseMigrationClientProtocol {
     func describeEndpointSettings(input: DescribeEndpointSettingsInput) async throws -> DescribeEndpointSettingsOutputResponse
     /// Returns information about the type of endpoints available.
     func describeEndpointTypes(input: DescribeEndpointTypesInput) async throws -> DescribeEndpointTypesOutputResponse
+    /// Returns information about the replication instance versions used in the project.
+    func describeEngineVersions(input: DescribeEngineVersionsInput) async throws -> DescribeEngineVersionsOutputResponse
     /// Lists categories for all event source types, or, if specified, for a specified source type. You can see a list of the event categories and source types in [Working with Events and Notifications](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Events.html) in the Database Migration Service User Guide.
     func describeEventCategories(input: DescribeEventCategoriesInput) async throws -> DescribeEventCategoriesOutputResponse
     /// Lists events for a given source identifier and source type. You can also specify a start and end time. For more information on DMS events, see [Working with Events and Notifications](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Events.html) in the Database Migration Service User Guide.

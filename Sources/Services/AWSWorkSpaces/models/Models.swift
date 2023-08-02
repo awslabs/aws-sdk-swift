@@ -11737,7 +11737,7 @@ extension WorkSpacesClientTypes {
         public var userName: Swift.String?
         /// Indicates whether the data stored on the user volume is encrypted.
         public var userVolumeEncryptionEnabled: Swift.Bool?
-        /// The symmetric KMS key used to encrypt data stored on your WorkSpace. Amazon WorkSpaces does not support asymmetric KMS keys.
+        /// The ARN of the symmetric KMS key used to encrypt data stored on your WorkSpace. Amazon WorkSpaces does not support asymmetric KMS keys.
         public var volumeEncryptionKey: Swift.String?
         /// The identifier of the WorkSpace.
         public var workspaceId: Swift.String?
@@ -12980,7 +12980,7 @@ extension WorkSpacesClientTypes {
         public var userName: Swift.String?
         /// Indicates whether the data stored on the user volume is encrypted.
         public var userVolumeEncryptionEnabled: Swift.Bool?
-        /// The symmetric KMS key used to encrypt data stored on your WorkSpace. Amazon WorkSpaces does not support asymmetric KMS keys.
+        /// The ARN of the symmetric KMS key used to encrypt data stored on your WorkSpace. Amazon WorkSpaces does not support asymmetric KMS keys.
         public var volumeEncryptionKey: Swift.String?
         /// The WorkSpace properties.
         public var workspaceProperties: WorkSpacesClientTypes.WorkspaceProperties?

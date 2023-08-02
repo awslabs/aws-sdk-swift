@@ -364,6 +364,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.AggregationFunction: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeAggregationFunction = "AttributeAggregationFunction"
         case categoricalAggregationFunction = "CategoricalAggregationFunction"
         case dateAggregationFunction = "DateAggregationFunction"
         case numericalAggregationFunction = "NumericalAggregationFunction"
@@ -371,6 +372,9 @@ extension QuickSightClientTypes.AggregationFunction: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributeAggregationFunction = self.attributeAggregationFunction {
+            try encodeContainer.encode(attributeAggregationFunction, forKey: .attributeAggregationFunction)
+        }
         if let categoricalAggregationFunction = self.categoricalAggregationFunction {
             try encodeContainer.encode(categoricalAggregationFunction.rawValue, forKey: .categoricalAggregationFunction)
         }
@@ -390,12 +394,16 @@ extension QuickSightClientTypes.AggregationFunction: Swift.Codable {
         categoricalAggregationFunction = categoricalAggregationFunctionDecoded
         let dateAggregationFunctionDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DateAggregationFunction.self, forKey: .dateAggregationFunction)
         dateAggregationFunction = dateAggregationFunctionDecoded
+        let attributeAggregationFunctionDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AttributeAggregationFunction.self, forKey: .attributeAggregationFunction)
+        attributeAggregationFunction = attributeAggregationFunctionDecoded
     }
 }
 
 extension QuickSightClientTypes {
     /// An aggregation function aggregates values from a dimension or measure. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
     public struct AggregationFunction: Swift.Equatable {
+        /// Aggregation for attributes.
+        public var attributeAggregationFunction: QuickSightClientTypes.AttributeAggregationFunction?
         /// Aggregation for categorical values.
         ///
         /// * COUNT: Aggregate by the total number of values, including duplicates.
@@ -416,11 +424,13 @@ extension QuickSightClientTypes {
         public var numericalAggregationFunction: QuickSightClientTypes.NumericalAggregationFunction?
 
         public init(
+            attributeAggregationFunction: QuickSightClientTypes.AttributeAggregationFunction? = nil,
             categoricalAggregationFunction: QuickSightClientTypes.CategoricalAggregationFunction? = nil,
             dateAggregationFunction: QuickSightClientTypes.DateAggregationFunction? = nil,
             numericalAggregationFunction: QuickSightClientTypes.NumericalAggregationFunction? = nil
         )
         {
+            self.attributeAggregationFunction = attributeAggregationFunction
             self.categoricalAggregationFunction = categoricalAggregationFunction
             self.dateAggregationFunction = dateAggregationFunction
             self.numericalAggregationFunction = numericalAggregationFunction
@@ -1577,6 +1587,53 @@ extension QuickSightClientTypes {
         )
         {
             self.initialTopicId = initialTopicId
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AnonymousUserSnapshotJobResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fileGroups = "FileGroups"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fileGroups = fileGroups {
+            var fileGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fileGroups)
+            for snapshotjobresultfilegroup0 in fileGroups {
+                try fileGroupsContainer.encode(snapshotjobresultfilegroup0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fileGroupsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.SnapshotJobResultFileGroup?].self, forKey: .fileGroups)
+        var fileGroupsDecoded0:[QuickSightClientTypes.SnapshotJobResultFileGroup]? = nil
+        if let fileGroupsContainer = fileGroupsContainer {
+            fileGroupsDecoded0 = [QuickSightClientTypes.SnapshotJobResultFileGroup]()
+            for structure0 in fileGroupsContainer {
+                if let structure0 = structure0 {
+                    fileGroupsDecoded0?.append(structure0)
+                }
+            }
+        }
+        fileGroups = fileGroupsDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that contains the file groups that are requested for the artifact generation in a StartDashboardSnapshotJob API call.
+    public struct AnonymousUserSnapshotJobResult: Swift.Equatable {
+        /// A list of SnapshotJobResultFileGroup objects that contain information on the files that are requested during a StartDashboardSnapshotJob API call. If the job succeeds, these objects contain the location where the snapshot artifacts are stored. If the job fails, the objects contain information about the error that caused the job to fail.
+        public var fileGroups: [QuickSightClientTypes.SnapshotJobResultFileGroup]?
+
+        public init(
+            fileGroups: [QuickSightClientTypes.SnapshotJobResultFileGroup]? = nil
+        )
+        {
+            self.fileGroups = fileGroups
         }
     }
 
@@ -4077,6 +4134,53 @@ extension QuickSightClientTypes {
         {
             self.roleArn = roleArn
             self.workGroup = workGroup
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AttributeAggregationFunction: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case simpleAttributeAggregation = "SimpleAttributeAggregation"
+        case valueForMultipleValues = "ValueForMultipleValues"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let simpleAttributeAggregation = self.simpleAttributeAggregation {
+            try encodeContainer.encode(simpleAttributeAggregation.rawValue, forKey: .simpleAttributeAggregation)
+        }
+        if let valueForMultipleValues = self.valueForMultipleValues {
+            try encodeContainer.encode(valueForMultipleValues, forKey: .valueForMultipleValues)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let simpleAttributeAggregationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SimpleAttributeAggregationFunction.self, forKey: .simpleAttributeAggregation)
+        simpleAttributeAggregation = simpleAttributeAggregationDecoded
+        let valueForMultipleValuesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .valueForMultipleValues)
+        valueForMultipleValues = valueForMultipleValuesDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// Aggregation for attributes.
+    public struct AttributeAggregationFunction: Swift.Equatable {
+        /// The built-in aggregation functions for attributes.
+        ///
+        /// * UNIQUE_VALUE: Returns the unique value for a field, aggregated by the dimension fields.
+        public var simpleAttributeAggregation: QuickSightClientTypes.SimpleAttributeAggregationFunction?
+        /// Used by the UNIQUE_VALUE aggregation function. If there are multiple values for the field used by the aggregation, the value for this property will be returned instead. Defaults to '*'.
+        public var valueForMultipleValues: Swift.String?
+
+        public init(
+            simpleAttributeAggregation: QuickSightClientTypes.SimpleAttributeAggregationFunction? = nil,
+            valueForMultipleValues: Swift.String? = nil
+        )
+        {
+            self.simpleAttributeAggregation = simpleAttributeAggregation
+            self.valueForMultipleValues = valueForMultipleValues
         }
     }
 
@@ -20853,6 +20957,7 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes.DateTimePickerControlDisplayOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dateTimeFormat = "DateTimeFormat"
+        case infoIconLabelOptions = "InfoIconLabelOptions"
         case titleOptions = "TitleOptions"
     }
 
@@ -20860,6 +20965,9 @@ extension QuickSightClientTypes.DateTimePickerControlDisplayOptions: Swift.Codab
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dateTimeFormat = self.dateTimeFormat {
             try encodeContainer.encode(dateTimeFormat, forKey: .dateTimeFormat)
+        }
+        if let infoIconLabelOptions = self.infoIconLabelOptions {
+            try encodeContainer.encode(infoIconLabelOptions, forKey: .infoIconLabelOptions)
         }
         if let titleOptions = self.titleOptions {
             try encodeContainer.encode(titleOptions, forKey: .titleOptions)
@@ -20872,6 +20980,8 @@ extension QuickSightClientTypes.DateTimePickerControlDisplayOptions: Swift.Codab
         titleOptions = titleOptionsDecoded
         let dateTimeFormatDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dateTimeFormat)
         dateTimeFormat = dateTimeFormatDecoded
+        let infoIconLabelOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SheetControlInfoIconLabelOptions.self, forKey: .infoIconLabelOptions)
+        infoIconLabelOptions = infoIconLabelOptionsDecoded
     }
 }
 
@@ -20880,15 +20990,19 @@ extension QuickSightClientTypes {
     public struct DateTimePickerControlDisplayOptions: Swift.Equatable {
         /// Customize how dates are formatted in controls.
         public var dateTimeFormat: Swift.String?
+        /// The configuration of info icon label options.
+        public var infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions?
         /// The options to configure the title visibility, name, and font size.
         public var titleOptions: QuickSightClientTypes.LabelOptions?
 
         public init(
             dateTimeFormat: Swift.String? = nil,
+            infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions? = nil,
             titleOptions: QuickSightClientTypes.LabelOptions? = nil
         )
         {
             self.dateTimeFormat = dateTimeFormat
+            self.infoIconLabelOptions = infoIconLabelOptions
             self.titleOptions = titleOptions
         }
     }
@@ -21795,6 +21909,8 @@ public enum DeleteAccountCustomizationOutputError: ClientRuntime.HttpResponseErr
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionNotMetException": return try await PreconditionNotMetException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceUnavailableException": return try await ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -26453,6 +26569,389 @@ extension DescribeDashboardPermissionsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DescribeDashboardSnapshotJobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let dashboardId = dashboardId else {
+            return nil
+        }
+        guard let snapshotJobId = snapshotJobId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/dashboards/\(dashboardId.urlPercentEncoding())/snapshot-jobs/\(snapshotJobId.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeDashboardSnapshotJobInput: Swift.Equatable {
+    /// The ID of the Amazon Web Services account that the dashboard snapshot job is executed in.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the dashboard that you have started a snapshot job for.
+    /// This member is required.
+    public var dashboardId: Swift.String?
+    /// The ID of the job to be described. The job ID is set when you start a new job with a StartDashboardSnapshotJob API call.
+    /// This member is required.
+    public var snapshotJobId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        dashboardId: Swift.String? = nil,
+        snapshotJobId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.dashboardId = dashboardId
+        self.snapshotJobId = snapshotJobId
+    }
+}
+
+struct DescribeDashboardSnapshotJobInputBody: Swift.Equatable {
+}
+
+extension DescribeDashboardSnapshotJobInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DescribeDashboardSnapshotJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedUserEditionException": return try await UnsupportedUserEditionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeDashboardSnapshotJobOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeDashboardSnapshotJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.awsAccountId = output.awsAccountId
+            self.createdTime = output.createdTime
+            self.dashboardId = output.dashboardId
+            self.jobStatus = output.jobStatus
+            self.lastUpdatedTime = output.lastUpdatedTime
+            self.requestId = output.requestId
+            self.snapshotConfiguration = output.snapshotConfiguration
+            self.snapshotJobId = output.snapshotJobId
+            self.status = output.status
+            self.userConfiguration = output.userConfiguration
+        } else {
+            self.arn = nil
+            self.awsAccountId = nil
+            self.createdTime = nil
+            self.dashboardId = nil
+            self.jobStatus = nil
+            self.lastUpdatedTime = nil
+            self.requestId = nil
+            self.snapshotConfiguration = nil
+            self.snapshotJobId = nil
+            self.status = 0
+            self.userConfiguration = nil
+        }
+    }
+}
+
+public struct DescribeDashboardSnapshotJobOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) for the snapshot job. The job ARN is generated when you start a new job with a StartDashboardSnapshotJob API call.
+    public var arn: Swift.String?
+    /// The ID of the Amazon Web Services account that the dashboard snapshot job is executed in.
+    public var awsAccountId: Swift.String?
+    /// The time that the snapshot job was created.
+    public var createdTime: ClientRuntime.Date?
+    /// The ID of the dashboard that you have started a snapshot job for.
+    public var dashboardId: Swift.String?
+    /// Indicates the status of a job. The status updates as the job executes. This shows one of the following values.
+    ///
+    /// * COMPLETED - The job was completed successfully.
+    ///
+    /// * FAILED - The job failed to execute.
+    ///
+    /// * QUEUED - The job is queued and hasn't started yet.
+    ///
+    /// * RUNNING - The job is still running.
+    public var jobStatus: QuickSightClientTypes.SnapshotJobStatus?
+    /// The time that the snapshot job status was last updated.
+    public var lastUpdatedTime: ClientRuntime.Date?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The snapshot configuration of the job. This information is provided when you make a StartDashboardSnapshotJob API call.
+    public var snapshotConfiguration: QuickSightClientTypes.SnapshotConfiguration?
+    /// The ID of the job to be described. The job ID is set when you start a new job with a StartDashboardSnapshotJob API call.
+    public var snapshotJobId: Swift.String?
+    /// The HTTP status of the request
+    public var status: Swift.Int
+    /// The user configuration for the snapshot job. This information is provided when you make a StartDashboardSnapshotJob API call.
+    public var userConfiguration: QuickSightClientTypes.SnapshotUserConfigurationRedacted?
+
+    public init(
+        arn: Swift.String? = nil,
+        awsAccountId: Swift.String? = nil,
+        createdTime: ClientRuntime.Date? = nil,
+        dashboardId: Swift.String? = nil,
+        jobStatus: QuickSightClientTypes.SnapshotJobStatus? = nil,
+        lastUpdatedTime: ClientRuntime.Date? = nil,
+        requestId: Swift.String? = nil,
+        snapshotConfiguration: QuickSightClientTypes.SnapshotConfiguration? = nil,
+        snapshotJobId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        userConfiguration: QuickSightClientTypes.SnapshotUserConfigurationRedacted? = nil
+    )
+    {
+        self.arn = arn
+        self.awsAccountId = awsAccountId
+        self.createdTime = createdTime
+        self.dashboardId = dashboardId
+        self.jobStatus = jobStatus
+        self.lastUpdatedTime = lastUpdatedTime
+        self.requestId = requestId
+        self.snapshotConfiguration = snapshotConfiguration
+        self.snapshotJobId = snapshotJobId
+        self.status = status
+        self.userConfiguration = userConfiguration
+    }
+}
+
+struct DescribeDashboardSnapshotJobOutputResponseBody: Swift.Equatable {
+    let awsAccountId: Swift.String?
+    let dashboardId: Swift.String?
+    let snapshotJobId: Swift.String?
+    let userConfiguration: QuickSightClientTypes.SnapshotUserConfigurationRedacted?
+    let snapshotConfiguration: QuickSightClientTypes.SnapshotConfiguration?
+    let arn: Swift.String?
+    let jobStatus: QuickSightClientTypes.SnapshotJobStatus?
+    let createdTime: ClientRuntime.Date?
+    let lastUpdatedTime: ClientRuntime.Date?
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension DescribeDashboardSnapshotJobOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case awsAccountId = "AwsAccountId"
+        case createdTime = "CreatedTime"
+        case dashboardId = "DashboardId"
+        case jobStatus = "JobStatus"
+        case lastUpdatedTime = "LastUpdatedTime"
+        case requestId = "RequestId"
+        case snapshotConfiguration = "SnapshotConfiguration"
+        case snapshotJobId = "SnapshotJobId"
+        case status = "Status"
+        case userConfiguration = "UserConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let awsAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .awsAccountId)
+        awsAccountId = awsAccountIdDecoded
+        let dashboardIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dashboardId)
+        dashboardId = dashboardIdDecoded
+        let snapshotJobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotJobId)
+        snapshotJobId = snapshotJobIdDecoded
+        let userConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SnapshotUserConfigurationRedacted.self, forKey: .userConfiguration)
+        userConfiguration = userConfigurationDecoded
+        let snapshotConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SnapshotConfiguration.self, forKey: .snapshotConfiguration)
+        snapshotConfiguration = snapshotConfigurationDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let jobStatusDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SnapshotJobStatus.self, forKey: .jobStatus)
+        jobStatus = jobStatusDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+        let lastUpdatedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedTime)
+        lastUpdatedTime = lastUpdatedTimeDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+    }
+}
+
+extension DescribeDashboardSnapshotJobResultInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let dashboardId = dashboardId else {
+            return nil
+        }
+        guard let snapshotJobId = snapshotJobId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/dashboards/\(dashboardId.urlPercentEncoding())/snapshot-jobs/\(snapshotJobId.urlPercentEncoding())/result"
+    }
+}
+
+public struct DescribeDashboardSnapshotJobResultInput: Swift.Equatable {
+    /// The ID of the Amazon Web Services account that the dashboard snapshot job is executed in.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the dashboard that you have started a snapshot job for.
+    /// This member is required.
+    public var dashboardId: Swift.String?
+    /// The ID of the job to be described. The job ID is set when you start a new job with a StartDashboardSnapshotJob API call.
+    /// This member is required.
+    public var snapshotJobId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        dashboardId: Swift.String? = nil,
+        snapshotJobId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.dashboardId = dashboardId
+        self.snapshotJobId = snapshotJobId
+    }
+}
+
+struct DescribeDashboardSnapshotJobResultInputBody: Swift.Equatable {
+}
+
+extension DescribeDashboardSnapshotJobResultInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DescribeDashboardSnapshotJobResultOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionNotMetException": return try await PreconditionNotMetException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedUserEditionException": return try await UnsupportedUserEditionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeDashboardSnapshotJobResultOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeDashboardSnapshotJobResultOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.createdTime = output.createdTime
+            self.errorInfo = output.errorInfo
+            self.jobStatus = output.jobStatus
+            self.lastUpdatedTime = output.lastUpdatedTime
+            self.requestId = output.requestId
+            self.result = output.result
+        } else {
+            self.arn = nil
+            self.createdTime = nil
+            self.errorInfo = nil
+            self.jobStatus = nil
+            self.lastUpdatedTime = nil
+            self.requestId = nil
+            self.result = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct DescribeDashboardSnapshotJobResultOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) for the snapshot job. The job ARN is generated when you start a new job with a StartDashboardSnapshotJob API call.
+    public var arn: Swift.String?
+    /// The time that a snapshot job was created.
+    public var createdTime: ClientRuntime.Date?
+    /// Displays information for the error that caused a job to fail.
+    public var errorInfo: QuickSightClientTypes.SnapshotJobErrorInfo?
+    /// Indicates the status of a job after it has reached a terminal state. A finished snapshot job will retuen a COMPLETED or FAILED status.
+    public var jobStatus: QuickSightClientTypes.SnapshotJobStatus?
+    /// The time that a snapshot job status was last updated.
+    public var lastUpdatedTime: ClientRuntime.Date?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The result of the snapshot job. Jobs that have successfully completed will return the S3Uri where they are located. Jobs that have failedwill return information on the error that caused the job to fail.
+    public var result: QuickSightClientTypes.SnapshotJobResult?
+    /// The HTTP status of the request
+    public var status: Swift.Int
+
+    public init(
+        arn: Swift.String? = nil,
+        createdTime: ClientRuntime.Date? = nil,
+        errorInfo: QuickSightClientTypes.SnapshotJobErrorInfo? = nil,
+        jobStatus: QuickSightClientTypes.SnapshotJobStatus? = nil,
+        lastUpdatedTime: ClientRuntime.Date? = nil,
+        requestId: Swift.String? = nil,
+        result: QuickSightClientTypes.SnapshotJobResult? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.arn = arn
+        self.createdTime = createdTime
+        self.errorInfo = errorInfo
+        self.jobStatus = jobStatus
+        self.lastUpdatedTime = lastUpdatedTime
+        self.requestId = requestId
+        self.result = result
+        self.status = status
+    }
+}
+
+struct DescribeDashboardSnapshotJobResultOutputResponseBody: Swift.Equatable {
+    let arn: Swift.String?
+    let jobStatus: QuickSightClientTypes.SnapshotJobStatus?
+    let createdTime: ClientRuntime.Date?
+    let lastUpdatedTime: ClientRuntime.Date?
+    let result: QuickSightClientTypes.SnapshotJobResult?
+    let errorInfo: QuickSightClientTypes.SnapshotJobErrorInfo?
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension DescribeDashboardSnapshotJobResultOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case createdTime = "CreatedTime"
+        case errorInfo = "ErrorInfo"
+        case jobStatus = "JobStatus"
+        case lastUpdatedTime = "LastUpdatedTime"
+        case requestId = "RequestId"
+        case result = "Result"
+        case status = "Status"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let jobStatusDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SnapshotJobStatus.self, forKey: .jobStatus)
+        jobStatus = jobStatusDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+        let lastUpdatedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedTime)
+        lastUpdatedTime = lastUpdatedTimeDecoded
+        let resultDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SnapshotJobResult.self, forKey: .result)
+        result = resultDecoded
+        let errorInfoDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SnapshotJobErrorInfo.self, forKey: .errorInfo)
+        errorInfo = errorInfoDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+    }
+}
+
 extension DescribeDataSetInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let awsAccountId = awsAccountId else {
@@ -30696,12 +31195,16 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.DropDownControlDisplayOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case infoIconLabelOptions = "InfoIconLabelOptions"
         case selectAllOptions = "SelectAllOptions"
         case titleOptions = "TitleOptions"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let infoIconLabelOptions = self.infoIconLabelOptions {
+            try encodeContainer.encode(infoIconLabelOptions, forKey: .infoIconLabelOptions)
+        }
         if let selectAllOptions = self.selectAllOptions {
             try encodeContainer.encode(selectAllOptions, forKey: .selectAllOptions)
         }
@@ -30716,22 +31219,28 @@ extension QuickSightClientTypes.DropDownControlDisplayOptions: Swift.Codable {
         selectAllOptions = selectAllOptionsDecoded
         let titleOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.LabelOptions.self, forKey: .titleOptions)
         titleOptions = titleOptionsDecoded
+        let infoIconLabelOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SheetControlInfoIconLabelOptions.self, forKey: .infoIconLabelOptions)
+        infoIconLabelOptions = infoIconLabelOptionsDecoded
     }
 }
 
 extension QuickSightClientTypes {
     /// The display options of a control.
     public struct DropDownControlDisplayOptions: Swift.Equatable {
+        /// The configuration of info icon label options.
+        public var infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions?
         /// The configuration of the Select all options in a dropdown control.
         public var selectAllOptions: QuickSightClientTypes.ListControlSelectAllOptions?
         /// The options to configure the title visibility, name, and font size.
         public var titleOptions: QuickSightClientTypes.LabelOptions?
 
         public init(
+            infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions? = nil,
             selectAllOptions: QuickSightClientTypes.ListControlSelectAllOptions? = nil,
             titleOptions: QuickSightClientTypes.LabelOptions? = nil
         )
         {
+            self.infoIconLabelOptions = infoIconLabelOptions
             self.selectAllOptions = selectAllOptions
             self.titleOptions = titleOptions
         }
@@ -43809,6 +44318,7 @@ extension ListAssetBundleImportJobsOutputResponseBody: Swift.Decodable {
 
 extension QuickSightClientTypes.ListControlDisplayOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case infoIconLabelOptions = "InfoIconLabelOptions"
         case searchOptions = "SearchOptions"
         case selectAllOptions = "SelectAllOptions"
         case titleOptions = "TitleOptions"
@@ -43816,6 +44326,9 @@ extension QuickSightClientTypes.ListControlDisplayOptions: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let infoIconLabelOptions = self.infoIconLabelOptions {
+            try encodeContainer.encode(infoIconLabelOptions, forKey: .infoIconLabelOptions)
+        }
         if let searchOptions = self.searchOptions {
             try encodeContainer.encode(searchOptions, forKey: .searchOptions)
         }
@@ -43835,12 +44348,16 @@ extension QuickSightClientTypes.ListControlDisplayOptions: Swift.Codable {
         selectAllOptions = selectAllOptionsDecoded
         let titleOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.LabelOptions.self, forKey: .titleOptions)
         titleOptions = titleOptionsDecoded
+        let infoIconLabelOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SheetControlInfoIconLabelOptions.self, forKey: .infoIconLabelOptions)
+        infoIconLabelOptions = infoIconLabelOptionsDecoded
     }
 }
 
 extension QuickSightClientTypes {
     /// The display options of a control.
     public struct ListControlDisplayOptions: Swift.Equatable {
+        /// The configuration of info icon label options.
+        public var infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions?
         /// The configuration of the search options in a list control.
         public var searchOptions: QuickSightClientTypes.ListControlSearchOptions?
         /// The configuration of the Select all options in a list control.
@@ -43849,11 +44366,13 @@ extension QuickSightClientTypes {
         public var titleOptions: QuickSightClientTypes.LabelOptions?
 
         public init(
+            infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions? = nil,
             searchOptions: QuickSightClientTypes.ListControlSearchOptions? = nil,
             selectAllOptions: QuickSightClientTypes.ListControlSelectAllOptions? = nil,
             titleOptions: QuickSightClientTypes.LabelOptions? = nil
         )
         {
+            self.infoIconLabelOptions = infoIconLabelOptions
             self.searchOptions = searchOptions
             self.selectAllOptions = selectAllOptions
             self.titleOptions = titleOptions
@@ -57515,6 +58034,7 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes.RelativeDateTimeControlDisplayOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dateTimeFormat = "DateTimeFormat"
+        case infoIconLabelOptions = "InfoIconLabelOptions"
         case titleOptions = "TitleOptions"
     }
 
@@ -57522,6 +58042,9 @@ extension QuickSightClientTypes.RelativeDateTimeControlDisplayOptions: Swift.Cod
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dateTimeFormat = self.dateTimeFormat {
             try encodeContainer.encode(dateTimeFormat, forKey: .dateTimeFormat)
+        }
+        if let infoIconLabelOptions = self.infoIconLabelOptions {
+            try encodeContainer.encode(infoIconLabelOptions, forKey: .infoIconLabelOptions)
         }
         if let titleOptions = self.titleOptions {
             try encodeContainer.encode(titleOptions, forKey: .titleOptions)
@@ -57534,6 +58057,8 @@ extension QuickSightClientTypes.RelativeDateTimeControlDisplayOptions: Swift.Cod
         titleOptions = titleOptionsDecoded
         let dateTimeFormatDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dateTimeFormat)
         dateTimeFormat = dateTimeFormatDecoded
+        let infoIconLabelOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SheetControlInfoIconLabelOptions.self, forKey: .infoIconLabelOptions)
+        infoIconLabelOptions = infoIconLabelOptionsDecoded
     }
 }
 
@@ -57542,15 +58067,19 @@ extension QuickSightClientTypes {
     public struct RelativeDateTimeControlDisplayOptions: Swift.Equatable {
         /// Customize how dates are formatted in controls.
         public var dateTimeFormat: Swift.String?
+        /// The configuration of info icon label options.
+        public var infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions?
         /// The options to configure the title visibility, name, and font size.
         public var titleOptions: QuickSightClientTypes.LabelOptions?
 
         public init(
             dateTimeFormat: Swift.String? = nil,
+            infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions? = nil,
             titleOptions: QuickSightClientTypes.LabelOptions? = nil
         )
         {
             self.dateTimeFormat = dateTimeFormat
+            self.infoIconLabelOptions = infoIconLabelOptions
             self.titleOptions = titleOptions
         }
     }
@@ -58789,6 +59318,64 @@ extension QuickSightClientTypes {
             self.matchAllValue = matchAllValue
             self.tagKey = tagKey
             self.tagMultiValueDelimiter = tagMultiValueDelimiter
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.S3BucketConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bucketName = "BucketName"
+        case bucketPrefix = "BucketPrefix"
+        case bucketRegion = "BucketRegion"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bucketName = self.bucketName {
+            try encodeContainer.encode(bucketName, forKey: .bucketName)
+        }
+        if let bucketPrefix = self.bucketPrefix {
+            try encodeContainer.encode(bucketPrefix, forKey: .bucketPrefix)
+        }
+        if let bucketRegion = self.bucketRegion {
+            try encodeContainer.encode(bucketRegion, forKey: .bucketRegion)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketName)
+        bucketName = bucketNameDecoded
+        let bucketPrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketPrefix)
+        bucketPrefix = bucketPrefixDecoded
+        let bucketRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketRegion)
+        bucketRegion = bucketRegionDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// An optional structure that contains the Amazon S3 bucket configuration that the generated snapshots are stored in. If you don't provide this information, generated snapshots are stored in the default Amazon QuickSight bucket.
+    public struct S3BucketConfiguration: Swift.Equatable {
+        /// The name of an existing Amazon S3 bucket where the generated snapshot artifacts are sent.
+        /// This member is required.
+        public var bucketName: Swift.String?
+        /// The prefix of the Amazon S3 bucket that the generated snapshots are stored in.
+        /// This member is required.
+        public var bucketPrefix: Swift.String?
+        /// The region that the Amazon S3 bucket is located in. The bucket must be located in the same region that the StartDashboardSnapshotJob API call is made.
+        /// This member is required.
+        public var bucketRegion: Swift.String?
+
+        public init(
+            bucketName: Swift.String? = nil,
+            bucketPrefix: Swift.String? = nil,
+            bucketRegion: Swift.String? = nil
+        )
+        {
+            self.bucketName = bucketName
+            self.bucketPrefix = bucketPrefix
+            self.bucketRegion = bucketRegion
         }
     }
 
@@ -62210,6 +62797,51 @@ extension QuickSightClientTypes {
     }
 }
 
+extension QuickSightClientTypes.SheetControlInfoIconLabelOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case infoIconText = "InfoIconText"
+        case visibility = "Visibility"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let infoIconText = self.infoIconText {
+            try encodeContainer.encode(infoIconText, forKey: .infoIconText)
+        }
+        if let visibility = self.visibility {
+            try encodeContainer.encode(visibility.rawValue, forKey: .visibility)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let visibilityDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.Visibility.self, forKey: .visibility)
+        visibility = visibilityDecoded
+        let infoIconTextDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .infoIconText)
+        infoIconText = infoIconTextDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A control to display info icons for filters and parameters.
+    public struct SheetControlInfoIconLabelOptions: Swift.Equatable {
+        /// The text content of info icon.
+        public var infoIconText: Swift.String?
+        /// The visibility configuration of info icon label options.
+        public var visibility: QuickSightClientTypes.Visibility?
+
+        public init(
+            infoIconText: Swift.String? = nil,
+            visibility: QuickSightClientTypes.Visibility? = nil
+        )
+        {
+            self.infoIconText = infoIconText
+            self.visibility = visibility
+        }
+    }
+
+}
+
 extension QuickSightClientTypes.SheetControlLayout: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configuration = "Configuration"
@@ -62992,6 +63624,35 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes {
+    public enum SimpleAttributeAggregationFunction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case uniqueValue
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SimpleAttributeAggregationFunction] {
+            return [
+                .uniqueValue,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .uniqueValue: return "UNIQUE_VALUE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SimpleAttributeAggregationFunction(rawValue: rawValue) ?? SimpleAttributeAggregationFunction.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension QuickSightClientTypes.SimpleClusterMarker: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case color = "Color"
@@ -63088,11 +63749,15 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.SliderControlDisplayOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case infoIconLabelOptions = "InfoIconLabelOptions"
         case titleOptions = "TitleOptions"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let infoIconLabelOptions = self.infoIconLabelOptions {
+            try encodeContainer.encode(infoIconLabelOptions, forKey: .infoIconLabelOptions)
+        }
         if let titleOptions = self.titleOptions {
             try encodeContainer.encode(titleOptions, forKey: .titleOptions)
         }
@@ -63102,19 +63767,25 @@ extension QuickSightClientTypes.SliderControlDisplayOptions: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let titleOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.LabelOptions.self, forKey: .titleOptions)
         titleOptions = titleOptionsDecoded
+        let infoIconLabelOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SheetControlInfoIconLabelOptions.self, forKey: .infoIconLabelOptions)
+        infoIconLabelOptions = infoIconLabelOptionsDecoded
     }
 }
 
 extension QuickSightClientTypes {
     /// The display options of a control.
     public struct SliderControlDisplayOptions: Swift.Equatable {
+        /// The configuration of info icon label options.
+        public var infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions?
         /// The options to configure the title visibility, name, and font size.
         public var titleOptions: QuickSightClientTypes.LabelOptions?
 
         public init(
+            infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions? = nil,
             titleOptions: QuickSightClientTypes.LabelOptions? = nil
         )
         {
+            self.infoIconLabelOptions = infoIconLabelOptions
             self.titleOptions = titleOptions
         }
     }
@@ -63300,6 +63971,903 @@ extension QuickSightClientTypes {
             self.panelConfiguration = panelConfiguration
             self.xAxis = xAxis
             self.yAxis = yAxis
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.SnapshotAnonymousUser: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case rowLevelPermissionTags = "RowLevelPermissionTags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let rowLevelPermissionTags = rowLevelPermissionTags {
+            var rowLevelPermissionTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rowLevelPermissionTags)
+            for sessiontag0 in rowLevelPermissionTags {
+                try rowLevelPermissionTagsContainer.encode(sessiontag0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rowLevelPermissionTagsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.SessionTag?].self, forKey: .rowLevelPermissionTags)
+        var rowLevelPermissionTagsDecoded0:[QuickSightClientTypes.SessionTag]? = nil
+        if let rowLevelPermissionTagsContainer = rowLevelPermissionTagsContainer {
+            rowLevelPermissionTagsDecoded0 = [QuickSightClientTypes.SessionTag]()
+            for structure0 in rowLevelPermissionTagsContainer {
+                if let structure0 = structure0 {
+                    rowLevelPermissionTagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        rowLevelPermissionTags = rowLevelPermissionTagsDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that contains information on the anonymous user configuration.
+    public struct SnapshotAnonymousUser: Swift.Equatable {
+        /// The tags to be used for row-level security (RLS). Make sure that the relevant datasets have RLS tags configured before you start a snapshot export job. You can configure the RLS tags of a dataset with a DataSet$RowLevelPermissionTagConfiguration API call. These are not the tags that are used for Amazon Web Services resource tagging. For more information on row level security in Amazon QuickSight, see [Using Row-Level Security (RLS) with Tags](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-rls-tags.html)in the Amazon QuickSight User Guide.
+        public var rowLevelPermissionTags: [QuickSightClientTypes.SessionTag]?
+
+        public init(
+            rowLevelPermissionTags: [QuickSightClientTypes.SessionTag]? = nil
+        )
+        {
+            self.rowLevelPermissionTags = rowLevelPermissionTags
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.SnapshotAnonymousUserRedacted: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case rowLevelPermissionTagKeys = "RowLevelPermissionTagKeys"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let rowLevelPermissionTagKeys = rowLevelPermissionTagKeys {
+            var rowLevelPermissionTagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rowLevelPermissionTagKeys)
+            for sessiontagkey0 in rowLevelPermissionTagKeys {
+                try rowLevelPermissionTagKeysContainer.encode(sessiontagkey0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rowLevelPermissionTagKeysContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .rowLevelPermissionTagKeys)
+        var rowLevelPermissionTagKeysDecoded0:[Swift.String]? = nil
+        if let rowLevelPermissionTagKeysContainer = rowLevelPermissionTagKeysContainer {
+            rowLevelPermissionTagKeysDecoded0 = [Swift.String]()
+            for string0 in rowLevelPermissionTagKeysContainer {
+                if let string0 = string0 {
+                    rowLevelPermissionTagKeysDecoded0?.append(string0)
+                }
+            }
+        }
+        rowLevelPermissionTagKeys = rowLevelPermissionTagKeysDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// Use this structure to redact sensitive information that you provide about an anonymous user from the snapshot.
+    public struct SnapshotAnonymousUserRedacted: Swift.Equatable {
+        /// The tag keys for the RowLevelPermissionTags.
+        public var rowLevelPermissionTagKeys: [Swift.String]?
+
+        public init(
+            rowLevelPermissionTagKeys: [Swift.String]? = nil
+        )
+        {
+            self.rowLevelPermissionTagKeys = rowLevelPermissionTagKeys
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.SnapshotConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destinationConfiguration = "DestinationConfiguration"
+        case fileGroups = "FileGroups"
+        case parameters = "Parameters"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let destinationConfiguration = self.destinationConfiguration {
+            try encodeContainer.encode(destinationConfiguration, forKey: .destinationConfiguration)
+        }
+        if let fileGroups = fileGroups {
+            var fileGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fileGroups)
+            for snapshotfilegroup0 in fileGroups {
+                try fileGroupsContainer.encode(snapshotfilegroup0)
+            }
+        }
+        if let parameters = self.parameters {
+            try encodeContainer.encode(parameters, forKey: .parameters)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fileGroupsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.SnapshotFileGroup?].self, forKey: .fileGroups)
+        var fileGroupsDecoded0:[QuickSightClientTypes.SnapshotFileGroup]? = nil
+        if let fileGroupsContainer = fileGroupsContainer {
+            fileGroupsDecoded0 = [QuickSightClientTypes.SnapshotFileGroup]()
+            for structure0 in fileGroupsContainer {
+                if let structure0 = structure0 {
+                    fileGroupsDecoded0?.append(structure0)
+                }
+            }
+        }
+        fileGroups = fileGroupsDecoded0
+        let destinationConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SnapshotDestinationConfiguration.self, forKey: .destinationConfiguration)
+        destinationConfiguration = destinationConfigurationDecoded
+        let parametersDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.Parameters.self, forKey: .parameters)
+        parameters = parametersDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// Describes the configuration of the dashboard snapshot.
+    public struct SnapshotConfiguration: Swift.Equatable {
+        /// A structure that contains information on the Amazon S3 bucket that the generated snapshot is stored in.
+        public var destinationConfiguration: QuickSightClientTypes.SnapshotDestinationConfiguration?
+        /// A list of SnapshotJobResultFileGroup objects that contain information about the snapshot that is generated. This list can hold a maximum of 6 FileGroup configurations.
+        /// This member is required.
+        public var fileGroups: [QuickSightClientTypes.SnapshotFileGroup]?
+        /// A list of Amazon QuickSight parameters and the list's override values.
+        public var parameters: QuickSightClientTypes.Parameters?
+
+        public init(
+            destinationConfiguration: QuickSightClientTypes.SnapshotDestinationConfiguration? = nil,
+            fileGroups: [QuickSightClientTypes.SnapshotFileGroup]? = nil,
+            parameters: QuickSightClientTypes.Parameters? = nil
+        )
+        {
+            self.destinationConfiguration = destinationConfiguration
+            self.fileGroups = fileGroups
+            self.parameters = parameters
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.SnapshotDestinationConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case s3Destinations = "S3Destinations"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let s3Destinations = s3Destinations {
+            var s3DestinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .s3Destinations)
+            for snapshots3destinationconfiguration0 in s3Destinations {
+                try s3DestinationsContainer.encode(snapshots3destinationconfiguration0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3DestinationsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.SnapshotS3DestinationConfiguration?].self, forKey: .s3Destinations)
+        var s3DestinationsDecoded0:[QuickSightClientTypes.SnapshotS3DestinationConfiguration]? = nil
+        if let s3DestinationsContainer = s3DestinationsContainer {
+            s3DestinationsDecoded0 = [QuickSightClientTypes.SnapshotS3DestinationConfiguration]()
+            for structure0 in s3DestinationsContainer {
+                if let structure0 = structure0 {
+                    s3DestinationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        s3Destinations = s3DestinationsDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that contains information on the Amazon S3 destinations of the generated snapshot.
+    public struct SnapshotDestinationConfiguration: Swift.Equatable {
+        /// A list of SnapshotS3DestinationConfiguration objects that contain Amazon S3 destination configurations. This structure can hold a maximum of 1 S3DestinationConfiguration.
+        public var s3Destinations: [QuickSightClientTypes.SnapshotS3DestinationConfiguration]?
+
+        public init(
+            s3Destinations: [QuickSightClientTypes.SnapshotS3DestinationConfiguration]? = nil
+        )
+        {
+            self.s3Destinations = s3Destinations
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.SnapshotFile: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case formatType = "FormatType"
+        case sheetSelections = "SheetSelections"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let formatType = self.formatType {
+            try encodeContainer.encode(formatType.rawValue, forKey: .formatType)
+        }
+        if let sheetSelections = sheetSelections {
+            var sheetSelectionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sheetSelections)
+            for snapshotfilesheetselection0 in sheetSelections {
+                try sheetSelectionsContainer.encode(snapshotfilesheetselection0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sheetSelectionsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.SnapshotFileSheetSelection?].self, forKey: .sheetSelections)
+        var sheetSelectionsDecoded0:[QuickSightClientTypes.SnapshotFileSheetSelection]? = nil
+        if let sheetSelectionsContainer = sheetSelectionsContainer {
+            sheetSelectionsDecoded0 = [QuickSightClientTypes.SnapshotFileSheetSelection]()
+            for structure0 in sheetSelectionsContainer {
+                if let structure0 = structure0 {
+                    sheetSelectionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        sheetSelections = sheetSelectionsDecoded0
+        let formatTypeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SnapshotFileFormatType.self, forKey: .formatType)
+        formatType = formatTypeDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that contains the information for the snapshot that you want to generate. This information is provided by you when you start a new snapshot job.
+    public struct SnapshotFile: Swift.Equatable {
+        /// The format of the snapshot file to be generated. You can choose between CSV and PDF.
+        /// This member is required.
+        public var formatType: QuickSightClientTypes.SnapshotFileFormatType?
+        /// A list of SnapshotFileSheetSelection objects that contain information on the dashboard sheet that is exported. These objects provide information about the snapshot artifacts that are generated during the job. This structure can hold a maximum of 5 CSV configurations or 1 configuration for PDF.
+        /// This member is required.
+        public var sheetSelections: [QuickSightClientTypes.SnapshotFileSheetSelection]?
+
+        public init(
+            formatType: QuickSightClientTypes.SnapshotFileFormatType? = nil,
+            sheetSelections: [QuickSightClientTypes.SnapshotFileSheetSelection]? = nil
+        )
+        {
+            self.formatType = formatType
+            self.sheetSelections = sheetSelections
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum SnapshotFileFormatType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case csv
+        case pdf
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SnapshotFileFormatType] {
+            return [
+                .csv,
+                .pdf,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .csv: return "CSV"
+            case .pdf: return "PDF"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SnapshotFileFormatType(rawValue: rawValue) ?? SnapshotFileFormatType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes.SnapshotFileGroup: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case files = "Files"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let files = files {
+            var filesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .files)
+            for snapshotfile0 in files {
+                try filesContainer.encode(snapshotfile0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.SnapshotFile?].self, forKey: .files)
+        var filesDecoded0:[QuickSightClientTypes.SnapshotFile]? = nil
+        if let filesContainer = filesContainer {
+            filesDecoded0 = [QuickSightClientTypes.SnapshotFile]()
+            for structure0 in filesContainer {
+                if let structure0 = structure0 {
+                    filesDecoded0?.append(structure0)
+                }
+            }
+        }
+        files = filesDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that contains the information on the snapshot files.
+    public struct SnapshotFileGroup: Swift.Equatable {
+        /// A list of SnapshotFile objects that contain the information on the snapshot files that need to be generated. This structure can hold 1 configuration at a time.
+        public var files: [QuickSightClientTypes.SnapshotFile]?
+
+        public init(
+            files: [QuickSightClientTypes.SnapshotFile]? = nil
+        )
+        {
+            self.files = files
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.SnapshotFileSheetSelection: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case selectionScope = "SelectionScope"
+        case sheetId = "SheetId"
+        case visualIds = "VisualIds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let selectionScope = self.selectionScope {
+            try encodeContainer.encode(selectionScope.rawValue, forKey: .selectionScope)
+        }
+        if let sheetId = self.sheetId {
+            try encodeContainer.encode(sheetId, forKey: .sheetId)
+        }
+        if let visualIds = visualIds {
+            var visualIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .visualIds)
+            for shortrestrictiveresourceid0 in visualIds {
+                try visualIdsContainer.encode(shortrestrictiveresourceid0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sheetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sheetId)
+        sheetId = sheetIdDecoded
+        let selectionScopeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SnapshotFileSheetSelectionScope.self, forKey: .selectionScope)
+        selectionScope = selectionScopeDecoded
+        let visualIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .visualIds)
+        var visualIdsDecoded0:[Swift.String]? = nil
+        if let visualIdsContainer = visualIdsContainer {
+            visualIdsDecoded0 = [Swift.String]()
+            for string0 in visualIdsContainer {
+                if let string0 = string0 {
+                    visualIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        visualIds = visualIdsDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that contains information that identifies the snapshot that needs to be generated.
+    public struct SnapshotFileSheetSelection: Swift.Equatable {
+        /// The selection scope of the visuals on a sheet of a dashboard that you are generating a snapthot of. You can choose one of the following options.
+        ///
+        /// * ALL_VISUALS - Selects all visuals that are on the sheet. This value is required if the snapshot is a PDF.
+        ///
+        /// * SELECTED_VISUALS - Select the visual that you want to add to the snapshot. This value is required if the snapshot is a CSV.
+        /// This member is required.
+        public var selectionScope: QuickSightClientTypes.SnapshotFileSheetSelectionScope?
+        /// The sheet ID of the dashboard to generate the snapshot artifact from. This value is required for CSV or PDF format types.
+        /// This member is required.
+        public var sheetId: Swift.String?
+        /// A structure that lists the IDs of the visuals in the selected sheet. Supported visual types are table, pivot table visuals. This value is required if you are generating a CSV. This value supports a maximum of 1 visual ID.
+        public var visualIds: [Swift.String]?
+
+        public init(
+            selectionScope: QuickSightClientTypes.SnapshotFileSheetSelectionScope? = nil,
+            sheetId: Swift.String? = nil,
+            visualIds: [Swift.String]? = nil
+        )
+        {
+            self.selectionScope = selectionScope
+            self.sheetId = sheetId
+            self.visualIds = visualIds
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum SnapshotFileSheetSelectionScope: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case allVisuals
+        case selectedVisuals
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SnapshotFileSheetSelectionScope] {
+            return [
+                .allVisuals,
+                .selectedVisuals,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .allVisuals: return "ALL_VISUALS"
+            case .selectedVisuals: return "SELECTED_VISUALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SnapshotFileSheetSelectionScope(rawValue: rawValue) ?? SnapshotFileSheetSelectionScope.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes.SnapshotJobErrorInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorMessage = "ErrorMessage"
+        case errorType = "ErrorType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+        if let errorType = self.errorType {
+            try encodeContainer.encode(errorType, forKey: .errorType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+        let errorTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorType)
+        errorType = errorTypeDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// An object that contains information on the error that caused the snapshot job to fail.
+    public struct SnapshotJobErrorInfo: Swift.Equatable {
+        /// The error message.
+        public var errorMessage: Swift.String?
+        /// The error type.
+        public var errorType: Swift.String?
+
+        public init(
+            errorMessage: Swift.String? = nil,
+            errorType: Swift.String? = nil
+        )
+        {
+            self.errorMessage = errorMessage
+            self.errorType = errorType
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.SnapshotJobResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case anonymousUsers = "AnonymousUsers"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let anonymousUsers = anonymousUsers {
+            var anonymousUsersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .anonymousUsers)
+            for anonymoususersnapshotjobresult0 in anonymousUsers {
+                try anonymousUsersContainer.encode(anonymoususersnapshotjobresult0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let anonymousUsersContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AnonymousUserSnapshotJobResult?].self, forKey: .anonymousUsers)
+        var anonymousUsersDecoded0:[QuickSightClientTypes.AnonymousUserSnapshotJobResult]? = nil
+        if let anonymousUsersContainer = anonymousUsersContainer {
+            anonymousUsersDecoded0 = [QuickSightClientTypes.AnonymousUserSnapshotJobResult]()
+            for structure0 in anonymousUsersContainer {
+                if let structure0 = structure0 {
+                    anonymousUsersDecoded0?.append(structure0)
+                }
+            }
+        }
+        anonymousUsers = anonymousUsersDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// An object that provides information on the result of a snapshot job. This object provides information about the job, the job status, and the location of the generated file.
+    public struct SnapshotJobResult: Swift.Equatable {
+        /// A list of AnonymousUserSnapshotJobResult objects that contain information on anonymous users and their user configurations. This data provided by you when you make a StartDashboardSnapshotJob API call.
+        public var anonymousUsers: [QuickSightClientTypes.AnonymousUserSnapshotJobResult]?
+
+        public init(
+            anonymousUsers: [QuickSightClientTypes.AnonymousUserSnapshotJobResult]? = nil
+        )
+        {
+            self.anonymousUsers = anonymousUsers
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.SnapshotJobResultErrorInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorMessage = "ErrorMessage"
+        case errorType = "ErrorType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+        if let errorType = self.errorType {
+            try encodeContainer.encode(errorType, forKey: .errorType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+        let errorTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorType)
+        errorType = errorTypeDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// Information on the error that caused the snapshot job to fail.
+    public struct SnapshotJobResultErrorInfo: Swift.Equatable {
+        /// The error message.
+        public var errorMessage: Swift.String?
+        /// The error type.
+        public var errorType: Swift.String?
+
+        public init(
+            errorMessage: Swift.String? = nil,
+            errorType: Swift.String? = nil
+        )
+        {
+            self.errorMessage = errorMessage
+            self.errorType = errorType
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.SnapshotJobResultFileGroup: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case files = "Files"
+        case s3Results = "S3Results"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let files = files {
+            var filesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .files)
+            for snapshotfile0 in files {
+                try filesContainer.encode(snapshotfile0)
+            }
+        }
+        if let s3Results = s3Results {
+            var s3ResultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .s3Results)
+            for snapshotjobs3result0 in s3Results {
+                try s3ResultsContainer.encode(snapshotjobs3result0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.SnapshotFile?].self, forKey: .files)
+        var filesDecoded0:[QuickSightClientTypes.SnapshotFile]? = nil
+        if let filesContainer = filesContainer {
+            filesDecoded0 = [QuickSightClientTypes.SnapshotFile]()
+            for structure0 in filesContainer {
+                if let structure0 = structure0 {
+                    filesDecoded0?.append(structure0)
+                }
+            }
+        }
+        files = filesDecoded0
+        let s3ResultsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.SnapshotJobS3Result?].self, forKey: .s3Results)
+        var s3ResultsDecoded0:[QuickSightClientTypes.SnapshotJobS3Result]? = nil
+        if let s3ResultsContainer = s3ResultsContainer {
+            s3ResultsDecoded0 = [QuickSightClientTypes.SnapshotJobS3Result]()
+            for structure0 in s3ResultsContainer {
+                if let structure0 = structure0 {
+                    s3ResultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        s3Results = s3ResultsDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that contains information on the generated snapshot file groups.
+    public struct SnapshotJobResultFileGroup: Swift.Equatable {
+        /// A list of SnapshotFile objects.
+        public var files: [QuickSightClientTypes.SnapshotFile]?
+        /// A list of SnapshotJobS3Result objects.
+        public var s3Results: [QuickSightClientTypes.SnapshotJobS3Result]?
+
+        public init(
+            files: [QuickSightClientTypes.SnapshotFile]? = nil,
+            s3Results: [QuickSightClientTypes.SnapshotJobS3Result]? = nil
+        )
+        {
+            self.files = files
+            self.s3Results = s3Results
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.SnapshotJobS3Result: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorInfo = "ErrorInfo"
+        case s3DestinationConfiguration = "S3DestinationConfiguration"
+        case s3Uri = "S3Uri"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorInfo = errorInfo {
+            var errorInfoContainer = encodeContainer.nestedUnkeyedContainer(forKey: .errorInfo)
+            for snapshotjobresulterrorinfo0 in errorInfo {
+                try errorInfoContainer.encode(snapshotjobresulterrorinfo0)
+            }
+        }
+        if let s3DestinationConfiguration = self.s3DestinationConfiguration {
+            try encodeContainer.encode(s3DestinationConfiguration, forKey: .s3DestinationConfiguration)
+        }
+        if let s3Uri = self.s3Uri {
+            try encodeContainer.encode(s3Uri, forKey: .s3Uri)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3DestinationConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SnapshotS3DestinationConfiguration.self, forKey: .s3DestinationConfiguration)
+        s3DestinationConfiguration = s3DestinationConfigurationDecoded
+        let s3UriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Uri)
+        s3Uri = s3UriDecoded
+        let errorInfoContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.SnapshotJobResultErrorInfo?].self, forKey: .errorInfo)
+        var errorInfoDecoded0:[QuickSightClientTypes.SnapshotJobResultErrorInfo]? = nil
+        if let errorInfoContainer = errorInfoContainer {
+            errorInfoDecoded0 = [QuickSightClientTypes.SnapshotJobResultErrorInfo]()
+            for structure0 in errorInfoContainer {
+                if let structure0 = structure0 {
+                    errorInfoDecoded0?.append(structure0)
+                }
+            }
+        }
+        errorInfo = errorInfoDecoded0
+    }
+}
+
+extension QuickSightClientTypes.SnapshotJobS3Result: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SnapshotJobS3Result(errorInfo: \(Swift.String(describing: errorInfo)), s3DestinationConfiguration: \(Swift.String(describing: s3DestinationConfiguration)), s3Uri: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+    /// The Amazon S3 result from the snapshot job. The result includes the DestinationConfiguration and the Amazon S3 Uri. If an error occured during the job, the result returns information on the error.
+    public struct SnapshotJobS3Result: Swift.Equatable {
+        /// An array of error records that describe any failures that occur while the dashboard snapshot job runs.
+        public var errorInfo: [QuickSightClientTypes.SnapshotJobResultErrorInfo]?
+        /// A list of Amazon S3 bucket configurations that are provided when you make a StartDashboardSnapshotJob API call.
+        public var s3DestinationConfiguration: QuickSightClientTypes.SnapshotS3DestinationConfiguration?
+        /// The Amazon S3 Uri.
+        public var s3Uri: Swift.String?
+
+        public init(
+            errorInfo: [QuickSightClientTypes.SnapshotJobResultErrorInfo]? = nil,
+            s3DestinationConfiguration: QuickSightClientTypes.SnapshotS3DestinationConfiguration? = nil,
+            s3Uri: Swift.String? = nil
+        )
+        {
+            self.errorInfo = errorInfo
+            self.s3DestinationConfiguration = s3DestinationConfiguration
+            self.s3Uri = s3Uri
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum SnapshotJobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case completed
+        case failed
+        case queued
+        case running
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SnapshotJobStatus] {
+            return [
+                .completed,
+                .failed,
+                .queued,
+                .running,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .queued: return "QUEUED"
+            case .running: return "RUNNING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SnapshotJobStatus(rawValue: rawValue) ?? SnapshotJobStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes.SnapshotS3DestinationConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bucketConfiguration = "BucketConfiguration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bucketConfiguration = self.bucketConfiguration {
+            try encodeContainer.encode(bucketConfiguration, forKey: .bucketConfiguration)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bucketConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.S3BucketConfiguration.self, forKey: .bucketConfiguration)
+        bucketConfiguration = bucketConfigurationDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that describes the Amazon S3 settings to use to save the generated dashboard snapshot.
+    public struct SnapshotS3DestinationConfiguration: Swift.Equatable {
+        /// A structure that contains details about the Amazon S3 bucket that the generated dashboard snapshot is saved in.
+        public var bucketConfiguration: QuickSightClientTypes.S3BucketConfiguration?
+
+        public init(
+            bucketConfiguration: QuickSightClientTypes.S3BucketConfiguration? = nil
+        )
+        {
+            self.bucketConfiguration = bucketConfiguration
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.SnapshotUserConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case anonymousUsers = "AnonymousUsers"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let anonymousUsers = anonymousUsers {
+            var anonymousUsersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .anonymousUsers)
+            for snapshotanonymoususer0 in anonymousUsers {
+                try anonymousUsersContainer.encode(snapshotanonymoususer0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let anonymousUsersContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.SnapshotAnonymousUser?].self, forKey: .anonymousUsers)
+        var anonymousUsersDecoded0:[QuickSightClientTypes.SnapshotAnonymousUser]? = nil
+        if let anonymousUsersContainer = anonymousUsersContainer {
+            anonymousUsersDecoded0 = [QuickSightClientTypes.SnapshotAnonymousUser]()
+            for structure0 in anonymousUsersContainer {
+                if let structure0 = structure0 {
+                    anonymousUsersDecoded0?.append(structure0)
+                }
+            }
+        }
+        anonymousUsers = anonymousUsersDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that contains information about the users that the dashboard snapshot is generated for.
+    public struct SnapshotUserConfiguration: Swift.Equatable {
+        /// An array of records that describe the anonymous users that the dashboard snapshot is generated for.
+        public var anonymousUsers: [QuickSightClientTypes.SnapshotAnonymousUser]?
+
+        public init(
+            anonymousUsers: [QuickSightClientTypes.SnapshotAnonymousUser]? = nil
+        )
+        {
+            self.anonymousUsers = anonymousUsers
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.SnapshotUserConfigurationRedacted: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case anonymousUsers = "AnonymousUsers"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let anonymousUsers = anonymousUsers {
+            var anonymousUsersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .anonymousUsers)
+            for snapshotanonymoususerredacted0 in anonymousUsers {
+                try anonymousUsersContainer.encode(snapshotanonymoususerredacted0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let anonymousUsersContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.SnapshotAnonymousUserRedacted?].self, forKey: .anonymousUsers)
+        var anonymousUsersDecoded0:[QuickSightClientTypes.SnapshotAnonymousUserRedacted]? = nil
+        if let anonymousUsersContainer = anonymousUsersContainer {
+            anonymousUsersDecoded0 = [QuickSightClientTypes.SnapshotAnonymousUserRedacted]()
+            for structure0 in anonymousUsersContainer {
+                if let structure0 = structure0 {
+                    anonymousUsersDecoded0?.append(structure0)
+                }
+            }
+        }
+        anonymousUsers = anonymousUsersDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that contains information about the users that the dashboard snapshot is generated for. Sensitive user information is excluded.
+    public struct SnapshotUserConfigurationRedacted: Swift.Equatable {
+        /// An array of records that describe anonymous users that the dashboard snapshot is generated for. Sensitive user information is excluded.
+        public var anonymousUsers: [QuickSightClientTypes.SnapshotAnonymousUserRedacted]?
+
+        public init(
+            anonymousUsers: [QuickSightClientTypes.SnapshotAnonymousUserRedacted]? = nil
+        )
+        {
+            self.anonymousUsers = anonymousUsers
         }
     }
 
@@ -64028,6 +65596,184 @@ extension StartAssetBundleImportJobOutputResponseBody: Swift.Decodable {
         arn = arnDecoded
         let assetBundleImportJobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .assetBundleImportJobId)
         assetBundleImportJobId = assetBundleImportJobIdDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+    }
+}
+
+extension StartDashboardSnapshotJobInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case snapshotConfiguration = "SnapshotConfiguration"
+        case snapshotJobId = "SnapshotJobId"
+        case userConfiguration = "UserConfiguration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let snapshotConfiguration = self.snapshotConfiguration {
+            try encodeContainer.encode(snapshotConfiguration, forKey: .snapshotConfiguration)
+        }
+        if let snapshotJobId = self.snapshotJobId {
+            try encodeContainer.encode(snapshotJobId, forKey: .snapshotJobId)
+        }
+        if let userConfiguration = self.userConfiguration {
+            try encodeContainer.encode(userConfiguration, forKey: .userConfiguration)
+        }
+    }
+}
+
+extension StartDashboardSnapshotJobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let dashboardId = dashboardId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/dashboards/\(dashboardId.urlPercentEncoding())/snapshot-jobs"
+    }
+}
+
+public struct StartDashboardSnapshotJobInput: Swift.Equatable {
+    /// The ID of the Amazon Web Services account that the dashboard snapshot job is executed in.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the dashboard that you want to start a snapshot job for.
+    /// This member is required.
+    public var dashboardId: Swift.String?
+    /// A structure that describes the configuration of the dashboard snapshot.
+    /// This member is required.
+    public var snapshotConfiguration: QuickSightClientTypes.SnapshotConfiguration?
+    /// An ID for the dashboard snapshot job. This ID is unique to the dashboard while the job is running. This ID can be used to poll the status of a job with a DescribeDashboardSnapshotJob while the job runs. You can reuse this ID for another job 24 hours after the current job is completed.
+    /// This member is required.
+    public var snapshotJobId: Swift.String?
+    /// A structure that contains information about the anonymous users that the generated snapshot is for. This API will not return information about registered Amazon QuickSight.
+    /// This member is required.
+    public var userConfiguration: QuickSightClientTypes.SnapshotUserConfiguration?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        dashboardId: Swift.String? = nil,
+        snapshotConfiguration: QuickSightClientTypes.SnapshotConfiguration? = nil,
+        snapshotJobId: Swift.String? = nil,
+        userConfiguration: QuickSightClientTypes.SnapshotUserConfiguration? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.dashboardId = dashboardId
+        self.snapshotConfiguration = snapshotConfiguration
+        self.snapshotJobId = snapshotJobId
+        self.userConfiguration = userConfiguration
+    }
+}
+
+struct StartDashboardSnapshotJobInputBody: Swift.Equatable {
+    let snapshotJobId: Swift.String?
+    let userConfiguration: QuickSightClientTypes.SnapshotUserConfiguration?
+    let snapshotConfiguration: QuickSightClientTypes.SnapshotConfiguration?
+}
+
+extension StartDashboardSnapshotJobInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case snapshotConfiguration = "SnapshotConfiguration"
+        case snapshotJobId = "SnapshotJobId"
+        case userConfiguration = "UserConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let snapshotJobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotJobId)
+        snapshotJobId = snapshotJobIdDecoded
+        let userConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SnapshotUserConfiguration.self, forKey: .userConfiguration)
+        userConfiguration = userConfigurationDecoded
+        let snapshotConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SnapshotConfiguration.self, forKey: .snapshotConfiguration)
+        snapshotConfiguration = snapshotConfigurationDecoded
+    }
+}
+
+public enum StartDashboardSnapshotJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceExistsException": return try await ResourceExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedPricingPlanException": return try await UnsupportedPricingPlanException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedUserEditionException": return try await UnsupportedUserEditionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StartDashboardSnapshotJobOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartDashboardSnapshotJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.requestId = output.requestId
+            self.snapshotJobId = output.snapshotJobId
+        } else {
+            self.arn = nil
+            self.requestId = nil
+            self.snapshotJobId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct StartDashboardSnapshotJobOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) for the dashboard snapshot job.
+    public var arn: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The ID of the job. The job ID is set when you start a new job with a StartDashboardSnapshotJob API call.
+    public var snapshotJobId: Swift.String?
+    /// The HTTP status of the request
+    public var status: Swift.Int
+
+    public init(
+        arn: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        snapshotJobId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.arn = arn
+        self.requestId = requestId
+        self.snapshotJobId = snapshotJobId
+        self.status = status
+    }
+}
+
+struct StartDashboardSnapshotJobOutputResponseBody: Swift.Equatable {
+    let arn: Swift.String?
+    let snapshotJobId: Swift.String?
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension StartDashboardSnapshotJobOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case requestId = "RequestId"
+        case snapshotJobId = "SnapshotJobId"
+        case status = "Status"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let snapshotJobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotJobId)
+        snapshotJobId = snapshotJobIdDecoded
         let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
         requestId = requestIdDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
@@ -67456,12 +69202,16 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.TextAreaControlDisplayOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case infoIconLabelOptions = "InfoIconLabelOptions"
         case placeholderOptions = "PlaceholderOptions"
         case titleOptions = "TitleOptions"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let infoIconLabelOptions = self.infoIconLabelOptions {
+            try encodeContainer.encode(infoIconLabelOptions, forKey: .infoIconLabelOptions)
+        }
         if let placeholderOptions = self.placeholderOptions {
             try encodeContainer.encode(placeholderOptions, forKey: .placeholderOptions)
         }
@@ -67476,22 +69226,28 @@ extension QuickSightClientTypes.TextAreaControlDisplayOptions: Swift.Codable {
         titleOptions = titleOptionsDecoded
         let placeholderOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TextControlPlaceholderOptions.self, forKey: .placeholderOptions)
         placeholderOptions = placeholderOptionsDecoded
+        let infoIconLabelOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SheetControlInfoIconLabelOptions.self, forKey: .infoIconLabelOptions)
+        infoIconLabelOptions = infoIconLabelOptionsDecoded
     }
 }
 
 extension QuickSightClientTypes {
     /// The display options of a control.
     public struct TextAreaControlDisplayOptions: Swift.Equatable {
+        /// The configuration of info icon label options.
+        public var infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions?
         /// The configuration of the placeholder options in a text area control.
         public var placeholderOptions: QuickSightClientTypes.TextControlPlaceholderOptions?
         /// The options to configure the title visibility, name, and font size.
         public var titleOptions: QuickSightClientTypes.LabelOptions?
 
         public init(
+            infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions? = nil,
             placeholderOptions: QuickSightClientTypes.TextControlPlaceholderOptions? = nil,
             titleOptions: QuickSightClientTypes.LabelOptions? = nil
         )
         {
+            self.infoIconLabelOptions = infoIconLabelOptions
             self.placeholderOptions = placeholderOptions
             self.titleOptions = titleOptions
         }
@@ -67591,12 +69347,16 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.TextFieldControlDisplayOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case infoIconLabelOptions = "InfoIconLabelOptions"
         case placeholderOptions = "PlaceholderOptions"
         case titleOptions = "TitleOptions"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let infoIconLabelOptions = self.infoIconLabelOptions {
+            try encodeContainer.encode(infoIconLabelOptions, forKey: .infoIconLabelOptions)
+        }
         if let placeholderOptions = self.placeholderOptions {
             try encodeContainer.encode(placeholderOptions, forKey: .placeholderOptions)
         }
@@ -67611,22 +69371,28 @@ extension QuickSightClientTypes.TextFieldControlDisplayOptions: Swift.Codable {
         titleOptions = titleOptionsDecoded
         let placeholderOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TextControlPlaceholderOptions.self, forKey: .placeholderOptions)
         placeholderOptions = placeholderOptionsDecoded
+        let infoIconLabelOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SheetControlInfoIconLabelOptions.self, forKey: .infoIconLabelOptions)
+        infoIconLabelOptions = infoIconLabelOptionsDecoded
     }
 }
 
 extension QuickSightClientTypes {
     /// The display options of a control.
     public struct TextFieldControlDisplayOptions: Swift.Equatable {
+        /// The configuration of info icon label options.
+        public var infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions?
         /// The configuration of the placeholder options in a text field control.
         public var placeholderOptions: QuickSightClientTypes.TextControlPlaceholderOptions?
         /// The options to configure the title visibility, name, and font size.
         public var titleOptions: QuickSightClientTypes.LabelOptions?
 
         public init(
+            infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions? = nil,
             placeholderOptions: QuickSightClientTypes.TextControlPlaceholderOptions? = nil,
             titleOptions: QuickSightClientTypes.LabelOptions? = nil
         )
         {
+            self.infoIconLabelOptions = infoIconLabelOptions
             self.placeholderOptions = placeholderOptions
             self.titleOptions = titleOptions
         }

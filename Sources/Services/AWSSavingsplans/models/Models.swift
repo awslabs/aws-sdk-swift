@@ -592,9 +592,9 @@ extension DescribeSavingsPlansInputBody: Swift.Decodable {
         var statesDecoded0:[SavingsplansClientTypes.SavingsPlanState]? = nil
         if let statesContainer = statesContainer {
             statesDecoded0 = [SavingsplansClientTypes.SavingsPlanState]()
-            for string0 in statesContainer {
-                if let string0 = string0 {
-                    statesDecoded0?.append(string0)
+            for enum0 in statesContainer {
+                if let enum0 = enum0 {
+                    statesDecoded0?.append(enum0)
                 }
             }
         }
@@ -635,7 +635,7 @@ extension DescribeSavingsPlansOfferingRatesInput: Swift.Encodable {
                 try filtersContainer.encode(savingsplanofferingratefilterelement0)
             }
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -696,7 +696,7 @@ public struct DescribeSavingsPlansOfferingRatesInput: Swift.Equatable {
     /// The filters.
     public var filters: [SavingsplansClientTypes.SavingsPlanOfferingRateFilterElement]?
     /// The maximum number of results to return with a single call. To retrieve additional results, make another call with the returned token value.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token for the next page of results.
     public var nextToken: Swift.String?
     /// The specific AWS operation for the line item in the billing report.
@@ -716,7 +716,7 @@ public struct DescribeSavingsPlansOfferingRatesInput: Swift.Equatable {
 
     public init(
         filters: [SavingsplansClientTypes.SavingsPlanOfferingRateFilterElement]? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         operations: [Swift.String]? = nil,
         products: [SavingsplansClientTypes.SavingsPlanProductType]? = nil,
@@ -750,7 +750,7 @@ struct DescribeSavingsPlansOfferingRatesInputBody: Swift.Equatable {
     let operations: [Swift.String]?
     let filters: [SavingsplansClientTypes.SavingsPlanOfferingRateFilterElement]?
     let nextToken: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
 }
 
 extension DescribeSavingsPlansOfferingRatesInputBody: Swift.Decodable {
@@ -784,9 +784,9 @@ extension DescribeSavingsPlansOfferingRatesInputBody: Swift.Decodable {
         var savingsPlanPaymentOptionsDecoded0:[SavingsplansClientTypes.SavingsPlanPaymentOption]? = nil
         if let savingsPlanPaymentOptionsContainer = savingsPlanPaymentOptionsContainer {
             savingsPlanPaymentOptionsDecoded0 = [SavingsplansClientTypes.SavingsPlanPaymentOption]()
-            for string0 in savingsPlanPaymentOptionsContainer {
-                if let string0 = string0 {
-                    savingsPlanPaymentOptionsDecoded0?.append(string0)
+            for enum0 in savingsPlanPaymentOptionsContainer {
+                if let enum0 = enum0 {
+                    savingsPlanPaymentOptionsDecoded0?.append(enum0)
                 }
             }
         }
@@ -795,9 +795,9 @@ extension DescribeSavingsPlansOfferingRatesInputBody: Swift.Decodable {
         var savingsPlanTypesDecoded0:[SavingsplansClientTypes.SavingsPlanType]? = nil
         if let savingsPlanTypesContainer = savingsPlanTypesContainer {
             savingsPlanTypesDecoded0 = [SavingsplansClientTypes.SavingsPlanType]()
-            for string0 in savingsPlanTypesContainer {
-                if let string0 = string0 {
-                    savingsPlanTypesDecoded0?.append(string0)
+            for enum0 in savingsPlanTypesContainer {
+                if let enum0 = enum0 {
+                    savingsPlanTypesDecoded0?.append(enum0)
                 }
             }
         }
@@ -806,9 +806,9 @@ extension DescribeSavingsPlansOfferingRatesInputBody: Swift.Decodable {
         var productsDecoded0:[SavingsplansClientTypes.SavingsPlanProductType]? = nil
         if let productsContainer = productsContainer {
             productsDecoded0 = [SavingsplansClientTypes.SavingsPlanProductType]()
-            for string0 in productsContainer {
-                if let string0 = string0 {
-                    productsDecoded0?.append(string0)
+            for enum0 in productsContainer {
+                if let enum0 = enum0 {
+                    productsDecoded0?.append(enum0)
                 }
             }
         }
@@ -817,9 +817,9 @@ extension DescribeSavingsPlansOfferingRatesInputBody: Swift.Decodable {
         var serviceCodesDecoded0:[SavingsplansClientTypes.SavingsPlanRateServiceCode]? = nil
         if let serviceCodesContainer = serviceCodesContainer {
             serviceCodesDecoded0 = [SavingsplansClientTypes.SavingsPlanRateServiceCode]()
-            for string0 in serviceCodesContainer {
-                if let string0 = string0 {
-                    serviceCodesDecoded0?.append(string0)
+            for enum0 in serviceCodesContainer {
+                if let enum0 = enum0 {
+                    serviceCodesDecoded0?.append(enum0)
                 }
             }
         }
@@ -859,7 +859,7 @@ extension DescribeSavingsPlansOfferingRatesInputBody: Swift.Decodable {
         filters = filtersDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
     }
 }
@@ -978,7 +978,7 @@ extension DescribeSavingsPlansOfferingsInput: Swift.Encodable {
                 try filtersContainer.encode(savingsplanofferingfilterelement0)
             }
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -1042,7 +1042,7 @@ public struct DescribeSavingsPlansOfferingsInput: Swift.Equatable {
     /// The filters.
     public var filters: [SavingsplansClientTypes.SavingsPlanOfferingFilterElement]?
     /// The maximum number of results to return with a single call. To retrieve additional results, make another call with the returned token value.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token for the next page of results.
     public var nextToken: Swift.String?
     /// The IDs of the offerings.
@@ -1065,7 +1065,7 @@ public struct DescribeSavingsPlansOfferingsInput: Swift.Equatable {
         descriptions: [Swift.String]? = nil,
         durations: [Swift.Int]? = nil,
         filters: [SavingsplansClientTypes.SavingsPlanOfferingFilterElement]? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         offeringIds: [Swift.String]? = nil,
         operations: [Swift.String]? = nil,
@@ -1105,7 +1105,7 @@ struct DescribeSavingsPlansOfferingsInputBody: Swift.Equatable {
     let operations: [Swift.String]?
     let filters: [SavingsplansClientTypes.SavingsPlanOfferingFilterElement]?
     let nextToken: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
 }
 
 extension DescribeSavingsPlansOfferingsInputBody: Swift.Decodable {
@@ -1142,9 +1142,9 @@ extension DescribeSavingsPlansOfferingsInputBody: Swift.Decodable {
         var paymentOptionsDecoded0:[SavingsplansClientTypes.SavingsPlanPaymentOption]? = nil
         if let paymentOptionsContainer = paymentOptionsContainer {
             paymentOptionsDecoded0 = [SavingsplansClientTypes.SavingsPlanPaymentOption]()
-            for string0 in paymentOptionsContainer {
-                if let string0 = string0 {
-                    paymentOptionsDecoded0?.append(string0)
+            for enum0 in paymentOptionsContainer {
+                if let enum0 = enum0 {
+                    paymentOptionsDecoded0?.append(enum0)
                 }
             }
         }
@@ -1155,9 +1155,9 @@ extension DescribeSavingsPlansOfferingsInputBody: Swift.Decodable {
         var planTypesDecoded0:[SavingsplansClientTypes.SavingsPlanType]? = nil
         if let planTypesContainer = planTypesContainer {
             planTypesDecoded0 = [SavingsplansClientTypes.SavingsPlanType]()
-            for string0 in planTypesContainer {
-                if let string0 = string0 {
-                    planTypesDecoded0?.append(string0)
+            for enum0 in planTypesContainer {
+                if let enum0 = enum0 {
+                    planTypesDecoded0?.append(enum0)
                 }
             }
         }
@@ -1177,9 +1177,9 @@ extension DescribeSavingsPlansOfferingsInputBody: Swift.Decodable {
         var currenciesDecoded0:[SavingsplansClientTypes.CurrencyCode]? = nil
         if let currenciesContainer = currenciesContainer {
             currenciesDecoded0 = [SavingsplansClientTypes.CurrencyCode]()
-            for string0 in currenciesContainer {
-                if let string0 = string0 {
-                    currenciesDecoded0?.append(string0)
+            for enum0 in currenciesContainer {
+                if let enum0 = enum0 {
+                    currenciesDecoded0?.append(enum0)
                 }
             }
         }
@@ -1241,7 +1241,7 @@ extension DescribeSavingsPlansOfferingsInputBody: Swift.Decodable {
         filters = filtersDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
     }
 }
@@ -1809,9 +1809,9 @@ extension SavingsplansClientTypes.SavingsPlan: Swift.Codable {
         var productTypesDecoded0:[SavingsplansClientTypes.SavingsPlanProductType]? = nil
         if let productTypesContainer = productTypesContainer {
             productTypesDecoded0 = [SavingsplansClientTypes.SavingsPlanProductType]()
-            for string0 in productTypesContainer {
-                if let string0 = string0 {
-                    productTypesDecoded0?.append(string0)
+            for enum0 in productTypesContainer {
+                if let enum0 = enum0 {
+                    productTypesDecoded0?.append(enum0)
                 }
             }
         }
@@ -2047,9 +2047,9 @@ extension SavingsplansClientTypes.SavingsPlanOffering: Swift.Codable {
         var productTypesDecoded0:[SavingsplansClientTypes.SavingsPlanProductType]? = nil
         if let productTypesContainer = productTypesContainer {
             productTypesDecoded0 = [SavingsplansClientTypes.SavingsPlanProductType]()
-            for string0 in productTypesContainer {
-                if let string0 = string0 {
-                    productTypesDecoded0?.append(string0)
+            for enum0 in productTypesContainer {
+                if let enum0 = enum0 {
+                    productTypesDecoded0?.append(enum0)
                 }
             }
         }

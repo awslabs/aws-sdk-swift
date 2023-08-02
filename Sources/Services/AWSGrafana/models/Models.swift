@@ -827,7 +827,7 @@ public struct CreateWorkspaceInput: Swift.Equatable {
     public var clientToken: Swift.String?
     /// The configuration string for the workspace that you create. For more information about the format and configuration options available, see [Working in your Grafana workspace](https://docs.aws.amazon.com/grafana/latest/userguide/AMG-configure-workspace.html).
     public var configuration: Swift.String?
-    /// Specifies the version of Grafana to support in the new workspace. Supported values are 8.4 and 9.4.
+    /// Specifies the version of Grafana to support in the new workspace. To get a list of supported version, use the ListVersions operation.
     public var grafanaVersion: Swift.String?
     /// Configuration for network access to your workspace. When this is configured, only listed IP addresses and VPC endpoints will be able to access your workspace. Standard Grafana authentication and authorization will still be required. If this is not configured, or is removed, then all IP addresses and VPC endpoints will be allowed. Standard Grafana authentication and authorization will still be required.
     public var networkAccessControl: GrafanaClientTypes.NetworkAccessConfiguration?
@@ -840,7 +840,7 @@ public struct CreateWorkspaceInput: Swift.Equatable {
     public var stackSetName: Swift.String?
     /// The list of tags associated with the workspace.
     public var tags: [Swift.String:Swift.String]?
-    /// The configuration settings for an Amazon VPC that contains data sources for your Grafana workspace to connect to.
+    /// The configuration settings for an Amazon VPC that contains data sources for your Grafana workspace to connect to. Connecting to a private VPC is not yet available in the Asia Pacific (Seoul) Region (ap-northeast-2).
     public var vpcConfiguration: GrafanaClientTypes.VpcConfiguration?
     /// This parameter is for internal use only, and should not be used.
     public var workspaceDataSources: [GrafanaClientTypes.DataSourceType]?
@@ -1472,8 +1472,10 @@ extension DescribeWorkspaceConfigurationOutputResponse: ClientRuntime.HttpRespon
             let responseDecoder = decoder {
             let output: DescribeWorkspaceConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configuration = output.configuration
+            self.grafanaVersion = output.grafanaVersion
         } else {
             self.configuration = nil
+            self.grafanaVersion = nil
         }
     }
 }
@@ -1482,28 +1484,36 @@ public struct DescribeWorkspaceConfigurationOutputResponse: Swift.Equatable {
     /// The configuration string for the workspace that you requested. For more information about the format and configuration options available, see [Working in your Grafana workspace](https://docs.aws.amazon.com/grafana/latest/userguide/AMG-configure-workspace.html).
     /// This member is required.
     public var configuration: Swift.String?
+    /// The supported Grafana version for the workspace.
+    public var grafanaVersion: Swift.String?
 
     public init(
-        configuration: Swift.String? = nil
+        configuration: Swift.String? = nil,
+        grafanaVersion: Swift.String? = nil
     )
     {
         self.configuration = configuration
+        self.grafanaVersion = grafanaVersion
     }
 }
 
 struct DescribeWorkspaceConfigurationOutputResponseBody: Swift.Equatable {
     let configuration: Swift.String?
+    let grafanaVersion: Swift.String?
 }
 
 extension DescribeWorkspaceConfigurationOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configuration
+        case grafanaVersion
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configuration)
         configuration = configurationDecoded
+        let grafanaVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .grafanaVersion)
+        grafanaVersion = grafanaVersionDecoded
     }
 }
 
@@ -2086,6 +2096,136 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListVersionsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let workspaceId = workspaceId {
+                let workspaceIdQueryItem = ClientRuntime.URLQueryItem(name: "workspace-id".urlPercentEncoding(), value: Swift.String(workspaceId).urlPercentEncoding())
+                items.append(workspaceIdQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListVersionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/versions"
+    }
+}
+
+public struct ListVersionsInput: Swift.Equatable {
+    /// The maximum number of results to include in the response.
+    public var maxResults: Swift.Int?
+    /// The token to use when requesting the next set of results. You receive this token from a previous ListVersions operation.
+    public var nextToken: Swift.String?
+    /// The ID of the workspace to list the available upgrade versions. If not included, lists all versions of Grafana that are supported for CreateWorkspace.
+    public var workspaceId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.workspaceId = workspaceId
+    }
+}
+
+struct ListVersionsInputBody: Swift.Equatable {
+}
+
+extension ListVersionsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum ListVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.grafanaVersions = output.grafanaVersions
+            self.nextToken = output.nextToken
+        } else {
+            self.grafanaVersions = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListVersionsOutputResponse: Swift.Equatable {
+    /// The Grafana versions available to create. If a workspace ID is included in the request, the Grafana versions to which this workspace can be upgraded.
+    public var grafanaVersions: [Swift.String]?
+    /// The token to use in a subsequent ListVersions operation to return the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        grafanaVersions: [Swift.String]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.grafanaVersions = grafanaVersions
+        self.nextToken = nextToken
+    }
+}
+
+struct ListVersionsOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let grafanaVersions: [Swift.String]?
+}
+
+extension ListVersionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case grafanaVersions
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let grafanaVersionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .grafanaVersions)
+        var grafanaVersionsDecoded0:[Swift.String]? = nil
+        if let grafanaVersionsContainer = grafanaVersionsContainer {
+            grafanaVersionsDecoded0 = [Swift.String]()
+            for string0 in grafanaVersionsContainer {
+                if let string0 = string0 {
+                    grafanaVersionsDecoded0?.append(string0)
+                }
+            }
+        }
+        grafanaVersions = grafanaVersionsDecoded0
+    }
+}
+
 extension ListWorkspacesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -2257,12 +2397,12 @@ extension GrafanaClientTypes.NetworkAccessConfiguration: Swift.Codable {
 }
 
 extension GrafanaClientTypes {
-    /// The configuration settings for in-bound network access to your workspace. When this is configured, only listed IP addresses and VPC endpoints will be able to access your workspace. Standard Grafana authentication and authorization will still be required. If this is not configured, or is removed, then all IP addresses and VPC endpoints will be allowed. Standard Grafana authentication and authorization will still be required.
+    /// The configuration settings for in-bound network access to your workspace. When this is configured, only listed IP addresses and VPC endpoints will be able to access your workspace. Standard Grafana authentication and authorization are still required. Access is granted to a caller that is in either the IP address list or the VPC endpoint list - they do not need to be in both. If this is not configured, or is removed, then all IP addresses and VPC endpoints are allowed. Standard Grafana authentication and authorization are still required. While both prefixListIds and vpceIds are required, you can pass in an empty array of strings for either parameter if you do not want to allow any of that type. If both are passed as empty arrays, no traffic is allowed to the workspace, because only explicitly allowed connections are accepted.
     public struct NetworkAccessConfiguration: Swift.Equatable {
-        /// An array of prefix list IDs. A prefix list is a list of CIDR ranges of IP addresses. The IP addresses specified are allowed to access your workspace. If the list is not included in the configuration then no IP addresses will be allowed to access the workspace. You create a prefix list using the Amazon VPC console. Prefix list IDs have the format pl-1a2b3c4d . For more information about prefix lists, see [Group CIDR blocks using managed prefix lists](https://docs.aws.amazon.com/vpc/latest/userguide/managed-prefix-lists.html)in the Amazon Virtual Private Cloud User Guide.
+        /// An array of prefix list IDs. A prefix list is a list of CIDR ranges of IP addresses. The IP addresses specified are allowed to access your workspace. If the list is not included in the configuration (passed an empty array) then no IP addresses are allowed to access the workspace. You create a prefix list using the Amazon VPC console. Prefix list IDs have the format pl-1a2b3c4d . For more information about prefix lists, see [Group CIDR blocks using managed prefix lists](https://docs.aws.amazon.com/vpc/latest/userguide/managed-prefix-lists.html)in the Amazon Virtual Private Cloud User Guide.
         /// This member is required.
         public var prefixListIds: [Swift.String]?
-        /// An array of Amazon VPC endpoint IDs for the workspace. You can create VPC endpoints to your Amazon Managed Grafana workspace for access from within a VPC. If a NetworkAccessConfiguration is specified then only VPC endpoints specified here will be allowed to access the workspace. VPC endpoint IDs have the format vpce-1a2b3c4d . For more information about creating an interface VPC endpoint, see [Interface VPC endpoints](https://docs.aws.amazon.com/grafana/latest/userguide/VPC-endpoints) in the Amazon Managed Grafana User Guide. The only VPC endpoints that can be specified here are interface VPC endpoints for Grafana workspaces (using the com.amazonaws.[region].grafana-workspace service endpoint). Other VPC endpoints will be ignored.
+        /// An array of Amazon VPC endpoint IDs for the workspace. You can create VPC endpoints to your Amazon Managed Grafana workspace for access from within a VPC. If a NetworkAccessConfiguration is specified then only VPC endpoints specified here are allowed to access the workspace. If you pass in an empty array of strings, then no VPCs are allowed to access the workspace. VPC endpoint IDs have the format vpce-1a2b3c4d . For more information about creating an interface VPC endpoint, see [Interface VPC endpoints](https://docs.aws.amazon.com/grafana/latest/userguide/VPC-endpoints) in the Amazon Managed Grafana User Guide. The only VPC endpoints that can be specified here are interface VPC endpoints for Grafana workspaces (using the com.amazonaws.[region].grafana-workspace service endpoint). Other VPC endpoints are ignored.
         /// This member is required.
         public var vpceIds: [Swift.String]?
 
@@ -3536,12 +3676,16 @@ extension UpdateWorkspaceAuthenticationOutputResponseBody: Swift.Decodable {
 extension UpdateWorkspaceConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configuration
+        case grafanaVersion
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let configuration = self.configuration {
             try encodeContainer.encode(configuration, forKey: .configuration)
+        }
+        if let grafanaVersion = self.grafanaVersion {
+            try encodeContainer.encode(grafanaVersion, forKey: .grafanaVersion)
         }
     }
 }
@@ -3559,33 +3703,41 @@ public struct UpdateWorkspaceConfigurationInput: Swift.Equatable {
     /// The new configuration string for the workspace. For more information about the format and configuration options available, see [Working in your Grafana workspace](https://docs.aws.amazon.com/grafana/latest/userguide/AMG-configure-workspace.html).
     /// This member is required.
     public var configuration: Swift.String?
+    /// Specifies the version of Grafana to support in the new workspace. Can only be used to upgrade (for example, from 8.4 to 9.4), not downgrade (for example, from 9.4 to 8.4). To know what versions are available to upgrade to for a specific workspace, see the ListVersions operation.
+    public var grafanaVersion: Swift.String?
     /// The ID of the workspace to update.
     /// This member is required.
     public var workspaceId: Swift.String?
 
     public init(
         configuration: Swift.String? = nil,
+        grafanaVersion: Swift.String? = nil,
         workspaceId: Swift.String? = nil
     )
     {
         self.configuration = configuration
+        self.grafanaVersion = grafanaVersion
         self.workspaceId = workspaceId
     }
 }
 
 struct UpdateWorkspaceConfigurationInputBody: Swift.Equatable {
     let configuration: Swift.String?
+    let grafanaVersion: Swift.String?
 }
 
 extension UpdateWorkspaceConfigurationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configuration
+        case grafanaVersion
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configuration)
         configuration = configurationDecoded
+        let grafanaVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .grafanaVersion)
+        grafanaVersion = grafanaVersionDecoded
     }
 }
 
@@ -4227,7 +4379,7 @@ extension GrafanaClientTypes.VpcConfiguration: Swift.Codable {
 }
 
 extension GrafanaClientTypes {
-    /// The configuration settings for an Amazon VPC that contains data sources for your Grafana workspace to connect to. Provided securityGroupIds and subnetIds must be part of the same VPC.
+    /// The configuration settings for an Amazon VPC that contains data sources for your Grafana workspace to connect to. Provided securityGroupIds and subnetIds must be part of the same VPC. Connecting to a private VPC is not yet available in the Asia Pacific (Seoul) Region (ap-northeast-2).
     public struct VpcConfiguration: Swift.Equatable {
         /// The list of Amazon EC2 security group IDs attached to the Amazon VPC for your Grafana workspace to connect. Duplicates not allowed.
         /// This member is required.
@@ -4598,6 +4750,10 @@ extension GrafanaClientTypes {
         case upgradeFailed
         /// Workspace is being upgraded to enterprise.
         case upgrading
+        /// Workspace version update failed.
+        case versionUpdateFailed
+        /// Workspace version is being updated.
+        case versionUpdating
         case sdkUnknown(Swift.String)
 
         public static var allCases: [WorkspaceStatus] {
@@ -4613,6 +4769,8 @@ extension GrafanaClientTypes {
                 .updating,
                 .upgradeFailed,
                 .upgrading,
+                .versionUpdateFailed,
+                .versionUpdating,
                 .sdkUnknown("")
             ]
         }
@@ -4633,6 +4791,8 @@ extension GrafanaClientTypes {
             case .updating: return "UPDATING"
             case .upgradeFailed: return "UPGRADE_FAILED"
             case .upgrading: return "UPGRADING"
+            case .versionUpdateFailed: return "VERSION_UPDATE_FAILED"
+            case .versionUpdating: return "VERSION_UPDATING"
             case let .sdkUnknown(s): return s
             }
         }

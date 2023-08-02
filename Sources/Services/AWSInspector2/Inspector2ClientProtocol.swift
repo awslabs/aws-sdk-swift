@@ -10,6 +10,8 @@ public protocol Inspector2ClientProtocol {
     func batchGetAccountStatus(input: BatchGetAccountStatusInput) async throws -> BatchGetAccountStatusOutputResponse
     /// Retrieves code snippets from findings that Amazon Inspector detected code vulnerabilities in.
     func batchGetCodeSnippet(input: BatchGetCodeSnippetInput) async throws -> BatchGetCodeSnippetOutputResponse
+    /// Gets vulnerability details for findings.
+    func batchGetFindingDetails(input: BatchGetFindingDetailsInput) async throws -> BatchGetFindingDetailsOutputResponse
     /// Gets free trial status for multiple Amazon Web Services accounts.
     func batchGetFreeTrialInfo(input: BatchGetFreeTrialInfoInput) async throws -> BatchGetFreeTrialInfoOutputResponse
     /// Retrieves Amazon Inspector deep inspection activation status of multiple member accounts within your organization. You must be the delegated administrator of an organization in Amazon Inspector to use this API.

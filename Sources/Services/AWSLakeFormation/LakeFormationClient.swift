@@ -1147,7 +1147,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         return result
     }
 
-    /// Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER. This operation returns only those permissions that have been explicitly granted. For information about permissions, see [Security and Access Control to Metadata and Data](https://docs-aws.amazon.com/lake-formation/latest/dg/security-data-access.html).
+    /// Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER. This operation returns only those permissions that have been explicitly granted. For information about permissions, see [Security and Access Control to Metadata and Data](https://docs.aws.amazon.com/lake-formation/latest/dg/security-data-access.html).
     public func listPermissions(input: ListPermissionsInput) async throws -> ListPermissionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

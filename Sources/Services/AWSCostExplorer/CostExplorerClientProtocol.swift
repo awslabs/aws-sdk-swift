@@ -74,6 +74,8 @@ public protocol CostExplorerClientProtocol {
     func getReservationUtilization(input: GetReservationUtilizationInput) async throws -> GetReservationUtilizationOutputResponse
     /// Creates recommendations that help you save cost by identifying idle and underutilized Amazon EC2 instances. Recommendations are generated to either downsize or terminate instances, along with providing savings detail and metrics. For more information about calculation and function, see [Optimizing Your Cost with Rightsizing Recommendations](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/ce-rightsizing.html) in the Billing and Cost Management User Guide.
     func getRightsizingRecommendation(input: GetRightsizingRecommendationInput) async throws -> GetRightsizingRecommendationOutputResponse
+    /// Retrieves the details for a Savings Plan recommendation. These details include the hourly data-points that construct the new cost, coverage, and utilization charts.
+    func getSavingsPlanPurchaseRecommendationDetails(input: GetSavingsPlanPurchaseRecommendationDetailsInput) async throws -> GetSavingsPlanPurchaseRecommendationDetailsOutputResponse
     /// Retrieves the Savings Plans covered for your account. This enables you to see how much of your cost is covered by a Savings Plan. An organization’s management account can see the coverage of the associated member accounts. This supports dimensions, Cost Categories, and nested expressions. For any time period, you can filter data for Savings Plans usage with the following dimensions:
     ///
     /// * LINKED_ACCOUNT
@@ -115,7 +117,7 @@ public protocol CostExplorerClientProtocol {
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates an existing cost anomaly monitor. The changes made are applied going forward, and doesn't change anomalies detected in the past.
     func updateAnomalyMonitor(input: UpdateAnomalyMonitorInput) async throws -> UpdateAnomalyMonitorOutputResponse
-    /// Updates an existing cost anomaly monitor subscription.
+    /// Updates an existing cost anomaly subscription. Specify the fields that you want to update. Omitted fields are unchanged. The JSON below describes the generic construct for each type. See [Request Parameters](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_UpdateAnomalySubscription.html#API_UpdateAnomalySubscription_RequestParameters) for possible values as they apply to AnomalySubscription.
     func updateAnomalySubscription(input: UpdateAnomalySubscriptionInput) async throws -> UpdateAnomalySubscriptionOutputResponse
     /// Updates status for cost allocation tags in bulk, with maximum batch size of 20. If the tag status that's updated is the same as the existing tag status, the request doesn't fail. Instead, it doesn't have any effect on the tag status (for example, activating the active tag).
     func updateCostAllocationTagsStatus(input: UpdateCostAllocationTagsStatusInput) async throws -> UpdateCostAllocationTagsStatusOutputResponse

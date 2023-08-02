@@ -797,6 +797,43 @@ extension CostExplorerClient: CostExplorerClientProtocol {
         return result
     }
 
+    /// Retrieves the details for a Savings Plan recommendation. These details include the hourly data-points that construct the new cost, coverage, and utilization charts.
+    public func getSavingsPlanPurchaseRecommendationDetails(input: GetSavingsPlanPurchaseRecommendationDetailsInput) async throws -> GetSavingsPlanPurchaseRecommendationDetailsOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getSavingsPlanPurchaseRecommendationDetails")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ce")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetSavingsPlanPurchaseRecommendationDetailsInput, GetSavingsPlanPurchaseRecommendationDetailsOutputResponse, GetSavingsPlanPurchaseRecommendationDetailsOutputError>(id: "getSavingsPlanPurchaseRecommendationDetails")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSavingsPlanPurchaseRecommendationDetailsInput, GetSavingsPlanPurchaseRecommendationDetailsOutputResponse, GetSavingsPlanPurchaseRecommendationDetailsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSavingsPlanPurchaseRecommendationDetailsInput, GetSavingsPlanPurchaseRecommendationDetailsOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSavingsPlanPurchaseRecommendationDetailsOutputResponse, GetSavingsPlanPurchaseRecommendationDetailsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetSavingsPlanPurchaseRecommendationDetailsInput, GetSavingsPlanPurchaseRecommendationDetailsOutputResponse>(xAmzTarget: "AWSInsightsIndexService.GetSavingsPlanPurchaseRecommendationDetails"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetSavingsPlanPurchaseRecommendationDetailsInput, GetSavingsPlanPurchaseRecommendationDetailsOutputResponse>(xmlName: "GetSavingsPlanPurchaseRecommendationDetailsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetSavingsPlanPurchaseRecommendationDetailsInput, GetSavingsPlanPurchaseRecommendationDetailsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSavingsPlanPurchaseRecommendationDetailsOutputResponse, GetSavingsPlanPurchaseRecommendationDetailsOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSavingsPlanPurchaseRecommendationDetailsOutputResponse, GetSavingsPlanPurchaseRecommendationDetailsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSavingsPlanPurchaseRecommendationDetailsOutputResponse, GetSavingsPlanPurchaseRecommendationDetailsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSavingsPlanPurchaseRecommendationDetailsOutputResponse, GetSavingsPlanPurchaseRecommendationDetailsOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Retrieves the Savings Plans covered for your account. This enables you to see how much of your cost is covered by a Savings Plan. An organization’s management account can see the coverage of the associated member accounts. This supports dimensions, Cost Categories, and nested expressions. For any time period, you can filter data for Savings Plans usage with the following dimensions:
     ///
     /// * LINKED_ACCOUNT
@@ -1363,7 +1400,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
         return result
     }
 
-    /// Updates an existing cost anomaly monitor subscription.
+    /// Updates an existing cost anomaly subscription. Specify the fields that you want to update. Omitted fields are unchanged. The JSON below describes the generic construct for each type. See [Request Parameters](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_UpdateAnomalySubscription.html#API_UpdateAnomalySubscription_RequestParameters) for possible values as they apply to AnomalySubscription.
     public func updateAnomalySubscription(input: UpdateAnomalySubscriptionInput) async throws -> UpdateAnomalySubscriptionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

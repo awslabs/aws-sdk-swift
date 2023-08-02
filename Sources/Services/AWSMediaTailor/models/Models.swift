@@ -247,6 +247,7 @@ extension MediaTailorClientTypes.Alert: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case alertCode = "AlertCode"
         case alertMessage = "AlertMessage"
+        case category = "Category"
         case lastModifiedTime = "LastModifiedTime"
         case relatedResourceArns = "RelatedResourceArns"
         case resourceArn = "ResourceArn"
@@ -259,6 +260,9 @@ extension MediaTailorClientTypes.Alert: Swift.Codable {
         }
         if let alertMessage = self.alertMessage {
             try encodeContainer.encode(alertMessage, forKey: .alertMessage)
+        }
+        if let category = self.category {
+            try encodeContainer.encode(category.rawValue, forKey: .category)
         }
         if let lastModifiedTime = self.lastModifiedTime {
             try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
@@ -295,6 +299,8 @@ extension MediaTailorClientTypes.Alert: Swift.Codable {
         relatedResourceArns = relatedResourceArnsDecoded0
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
+        let categoryDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.AlertCategory.self, forKey: .category)
+        category = categoryDecoded
     }
 }
 
@@ -307,6 +313,8 @@ extension MediaTailorClientTypes {
         /// If an alert is generated for a resource, an explanation of the reason for the alert.
         /// This member is required.
         public var alertMessage: Swift.String?
+        /// The category that MediaTailor assigns to the alert.
+        public var category: MediaTailorClientTypes.AlertCategory?
         /// The timestamp when the alert was last modified.
         /// This member is required.
         public var lastModifiedTime: ClientRuntime.Date?
@@ -320,6 +328,7 @@ extension MediaTailorClientTypes {
         public init(
             alertCode: Swift.String? = nil,
             alertMessage: Swift.String? = nil,
+            category: MediaTailorClientTypes.AlertCategory? = nil,
             lastModifiedTime: ClientRuntime.Date? = nil,
             relatedResourceArns: [Swift.String]? = nil,
             resourceArn: Swift.String? = nil
@@ -327,12 +336,48 @@ extension MediaTailorClientTypes {
         {
             self.alertCode = alertCode
             self.alertMessage = alertMessage
+            self.category = category
             self.lastModifiedTime = lastModifiedTime
             self.relatedResourceArns = relatedResourceArns
             self.resourceArn = resourceArn
         }
     }
 
+}
+
+extension MediaTailorClientTypes {
+    public enum AlertCategory: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case info
+        case playbackWarning
+        case schedulingError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AlertCategory] {
+            return [
+                .info,
+                .playbackWarning,
+                .schedulingError,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .info: return "INFO"
+            case .playbackWarning: return "PLAYBACK_WARNING"
+            case .schedulingError: return "SCHEDULING_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AlertCategory(rawValue: rawValue) ?? AlertCategory.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension MediaTailorClientTypes.AvailMatchingCriteria: Swift.Codable {
@@ -5012,7 +5057,7 @@ extension MediaTailorClientTypes {
         /// For SCTE35_ENHANCED output, defines a key. MediaTailor takes this key, and its associated value, and generates the key/value pair within the EXT-X-ASSETtag. If you specify a key, you must also specify a corresponding value.
         /// This member is required.
         public var key: Swift.String?
-        /// For SCTE35_ENHANCED output, defines a vaue. MediaTailor; takes this value, and its associated key, and generates the key/value pair within the EXT-X-ASSETtag. If you specify a value, you must also specify a corresponding key.
+        /// For SCTE35_ENHANCED output, defines a value. MediaTailor; takes this value, and its associated key, and generates the key/value pair within the EXT-X-ASSETtag. If you specify a value, you must also specify a corresponding key.
         /// This member is required.
         public var value: Swift.String?
 

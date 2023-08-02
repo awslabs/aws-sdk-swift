@@ -841,6 +841,160 @@ extension CreateSourceRepositoryBranchOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateSourceRepositoryInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+    }
+}
+
+extension CreateSourceRepositoryInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let spaceName = spaceName else {
+            return nil
+        }
+        guard let projectName = projectName else {
+            return nil
+        }
+        guard let name = name else {
+            return nil
+        }
+        return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(projectName.urlPercentEncoding())/sourceRepositories/\(name.urlPercentEncoding())"
+    }
+}
+
+public struct CreateSourceRepositoryInput: Swift.Equatable {
+    /// The description of the source repository.
+    public var description: Swift.String?
+    /// The name of the source repository. For more information about name requirements, see [Quotas for source repositories](https://docs.aws.amazon.com/codecatalyst/latest/userguide/source-quotas.html).
+    /// This member is required.
+    public var name: Swift.String?
+    /// The name of the project in the space.
+    /// This member is required.
+    public var projectName: Swift.String?
+    /// The name of the space.
+    /// This member is required.
+    public var spaceName: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        projectName: Swift.String? = nil,
+        spaceName: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.name = name
+        self.projectName = projectName
+        self.spaceName = spaceName
+    }
+}
+
+struct CreateSourceRepositoryInputBody: Swift.Equatable {
+    let description: Swift.String?
+}
+
+extension CreateSourceRepositoryInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+public enum CreateSourceRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateSourceRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateSourceRepositoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.description = output.description
+            self.name = output.name
+            self.projectName = output.projectName
+            self.spaceName = output.spaceName
+        } else {
+            self.description = nil
+            self.name = nil
+            self.projectName = nil
+            self.spaceName = nil
+        }
+    }
+}
+
+public struct CreateSourceRepositoryOutputResponse: Swift.Equatable {
+    /// The description of the source repository.
+    public var description: Swift.String?
+    /// The name of the source repository.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The name of the project in the space.
+    /// This member is required.
+    public var projectName: Swift.String?
+    /// The name of the space.
+    /// This member is required.
+    public var spaceName: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        projectName: Swift.String? = nil,
+        spaceName: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.name = name
+        self.projectName = projectName
+        self.spaceName = spaceName
+    }
+}
+
+struct CreateSourceRepositoryOutputResponseBody: Swift.Equatable {
+    let spaceName: Swift.String?
+    let projectName: Swift.String?
+    let name: Swift.String?
+    let description: Swift.String?
+}
+
+extension CreateSourceRepositoryOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case name
+        case projectName
+        case spaceName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let spaceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .spaceName)
+        spaceName = spaceNameDecoded
+        let projectNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .projectName)
+        projectName = projectNameDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
 extension DeleteAccessTokenInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let id = id else {
@@ -1009,6 +1163,329 @@ extension DeleteDevEnvironmentOutputResponseBody: Swift.Decodable {
         projectName = projectNameDecoded
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
+    }
+}
+
+extension DeleteProjectInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let spaceName = spaceName else {
+            return nil
+        }
+        guard let name = name else {
+            return nil
+        }
+        return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(name.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteProjectInput: Swift.Equatable {
+    /// The name of the project in the space. To retrieve a list of project names, use [ListProjects].
+    /// This member is required.
+    public var name: Swift.String?
+    /// The name of the space.
+    /// This member is required.
+    public var spaceName: Swift.String?
+
+    public init(
+        name: Swift.String? = nil,
+        spaceName: Swift.String? = nil
+    )
+    {
+        self.name = name
+        self.spaceName = spaceName
+    }
+}
+
+struct DeleteProjectInputBody: Swift.Equatable {
+}
+
+extension DeleteProjectInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DeleteProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteProjectOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteProjectOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.displayName = output.displayName
+            self.name = output.name
+            self.spaceName = output.spaceName
+        } else {
+            self.displayName = nil
+            self.name = nil
+            self.spaceName = nil
+        }
+    }
+}
+
+public struct DeleteProjectOutputResponse: Swift.Equatable {
+    /// The friendly name displayed to users of the project in Amazon CodeCatalyst.
+    public var displayName: Swift.String?
+    /// The name of the project in the space.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The name of the space.
+    /// This member is required.
+    public var spaceName: Swift.String?
+
+    public init(
+        displayName: Swift.String? = nil,
+        name: Swift.String? = nil,
+        spaceName: Swift.String? = nil
+    )
+    {
+        self.displayName = displayName
+        self.name = name
+        self.spaceName = spaceName
+    }
+}
+
+struct DeleteProjectOutputResponseBody: Swift.Equatable {
+    let spaceName: Swift.String?
+    let name: Swift.String?
+    let displayName: Swift.String?
+}
+
+extension DeleteProjectOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case displayName
+        case name
+        case spaceName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let spaceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .spaceName)
+        spaceName = spaceNameDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let displayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayName)
+        displayName = displayNameDecoded
+    }
+}
+
+extension DeleteSourceRepositoryInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let spaceName = spaceName else {
+            return nil
+        }
+        guard let projectName = projectName else {
+            return nil
+        }
+        guard let name = name else {
+            return nil
+        }
+        return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(projectName.urlPercentEncoding())/sourceRepositories/\(name.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteSourceRepositoryInput: Swift.Equatable {
+    /// The name of the source repository.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The name of the project in the space.
+    /// This member is required.
+    public var projectName: Swift.String?
+    /// The name of the space.
+    /// This member is required.
+    public var spaceName: Swift.String?
+
+    public init(
+        name: Swift.String? = nil,
+        projectName: Swift.String? = nil,
+        spaceName: Swift.String? = nil
+    )
+    {
+        self.name = name
+        self.projectName = projectName
+        self.spaceName = spaceName
+    }
+}
+
+struct DeleteSourceRepositoryInputBody: Swift.Equatable {
+}
+
+extension DeleteSourceRepositoryInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DeleteSourceRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteSourceRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteSourceRepositoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.name = output.name
+            self.projectName = output.projectName
+            self.spaceName = output.spaceName
+        } else {
+            self.name = nil
+            self.projectName = nil
+            self.spaceName = nil
+        }
+    }
+}
+
+public struct DeleteSourceRepositoryOutputResponse: Swift.Equatable {
+    /// The name of the repository.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The name of the project in the space.
+    /// This member is required.
+    public var projectName: Swift.String?
+    /// The name of the space.
+    /// This member is required.
+    public var spaceName: Swift.String?
+
+    public init(
+        name: Swift.String? = nil,
+        projectName: Swift.String? = nil,
+        spaceName: Swift.String? = nil
+    )
+    {
+        self.name = name
+        self.projectName = projectName
+        self.spaceName = spaceName
+    }
+}
+
+struct DeleteSourceRepositoryOutputResponseBody: Swift.Equatable {
+    let spaceName: Swift.String?
+    let projectName: Swift.String?
+    let name: Swift.String?
+}
+
+extension DeleteSourceRepositoryOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case projectName
+        case spaceName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let spaceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .spaceName)
+        spaceName = spaceNameDecoded
+        let projectNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .projectName)
+        projectName = projectNameDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension DeleteSpaceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let name = name else {
+            return nil
+        }
+        return "/v1/spaces/\(name.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteSpaceInput: Swift.Equatable {
+    /// The name of the space. To retrieve a list of space names, use [ListSpaces].
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        name: Swift.String? = nil
+    )
+    {
+        self.name = name
+    }
+}
+
+struct DeleteSpaceInputBody: Swift.Equatable {
+}
+
+extension DeleteSpaceInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DeleteSpaceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteSpaceOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteSpaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.displayName = output.displayName
+            self.name = output.name
+        } else {
+            self.displayName = nil
+            self.name = nil
+        }
+    }
+}
+
+public struct DeleteSpaceOutputResponse: Swift.Equatable {
+    /// The friendly name of the space displayed to users of the space in Amazon CodeCatalyst.
+    public var displayName: Swift.String?
+    /// The name of the space.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        displayName: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.displayName = displayName
+        self.name = name
+    }
+}
+
+struct DeleteSpaceOutputResponseBody: Swift.Equatable {
+    let name: Swift.String?
+    let displayName: Swift.String?
+}
+
+extension DeleteSpaceOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case displayName
+        case name
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let displayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayName)
+        displayName = displayNameDecoded
     }
 }
 
@@ -1690,7 +2167,7 @@ extension CodeCatalystClientTypes {
         public var responsePayload: CodeCatalystClientTypes.EventPayload?
         /// The IP address of the user whose actions are recorded in the event.
         public var sourceIpAddress: Swift.String?
-        ///
+        /// The user agent whose actions are recorded in the event.
         public var userAgent: Swift.String?
         /// The system-generated unique ID of the user whose actions are recorded in the event.
         /// This member is required.
@@ -1881,14 +2358,14 @@ extension CodeCatalystClientTypes.Filter: Swift.Codable {
 }
 
 extension CodeCatalystClientTypes {
-    ///
+    /// Information about a filter used to limit results of a query.
     public struct Filter: Swift.Equatable {
-        ///
+        /// The operator used to compare the fields.
         public var comparisonOperator: Swift.String?
-        ///
+        /// A key that can be used to sort results.
         /// This member is required.
         public var key: Swift.String?
-        ///
+        /// The values of the key.
         /// This member is required.
         public var values: [Swift.String]?
 
@@ -2395,6 +2872,158 @@ extension GetSourceRepositoryCloneUrlsOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let httpsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .https)
         https = httpsDecoded
+    }
+}
+
+extension GetSourceRepositoryInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let spaceName = spaceName else {
+            return nil
+        }
+        guard let projectName = projectName else {
+            return nil
+        }
+        guard let name = name else {
+            return nil
+        }
+        return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(projectName.urlPercentEncoding())/sourceRepositories/\(name.urlPercentEncoding())"
+    }
+}
+
+public struct GetSourceRepositoryInput: Swift.Equatable {
+    /// The name of the source repository.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The name of the project in the space.
+    /// This member is required.
+    public var projectName: Swift.String?
+    /// The name of the space.
+    /// This member is required.
+    public var spaceName: Swift.String?
+
+    public init(
+        name: Swift.String? = nil,
+        projectName: Swift.String? = nil,
+        spaceName: Swift.String? = nil
+    )
+    {
+        self.name = name
+        self.projectName = projectName
+        self.spaceName = spaceName
+    }
+}
+
+struct GetSourceRepositoryInputBody: Swift.Equatable {
+}
+
+extension GetSourceRepositoryInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetSourceRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetSourceRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetSourceRepositoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.createdTime = output.createdTime
+            self.description = output.description
+            self.lastUpdatedTime = output.lastUpdatedTime
+            self.name = output.name
+            self.projectName = output.projectName
+            self.spaceName = output.spaceName
+        } else {
+            self.createdTime = nil
+            self.description = nil
+            self.lastUpdatedTime = nil
+            self.name = nil
+            self.projectName = nil
+            self.spaceName = nil
+        }
+    }
+}
+
+public struct GetSourceRepositoryOutputResponse: Swift.Equatable {
+    /// The time the source repository was created, in coordinated universal time (UTC) timestamp format as specified in [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339#section-5.6).
+    /// This member is required.
+    public var createdTime: ClientRuntime.Date?
+    /// The description of the source repository.
+    public var description: Swift.String?
+    /// The time the source repository was last updated, in coordinated universal time (UTC) timestamp format as specified in [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339#section-5.6).
+    /// This member is required.
+    public var lastUpdatedTime: ClientRuntime.Date?
+    /// The name of the source repository.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The name of the project in the space.
+    /// This member is required.
+    public var projectName: Swift.String?
+    /// The name of the space.
+    /// This member is required.
+    public var spaceName: Swift.String?
+
+    public init(
+        createdTime: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        lastUpdatedTime: ClientRuntime.Date? = nil,
+        name: Swift.String? = nil,
+        projectName: Swift.String? = nil,
+        spaceName: Swift.String? = nil
+    )
+    {
+        self.createdTime = createdTime
+        self.description = description
+        self.lastUpdatedTime = lastUpdatedTime
+        self.name = name
+        self.projectName = projectName
+        self.spaceName = spaceName
+    }
+}
+
+struct GetSourceRepositoryOutputResponseBody: Swift.Equatable {
+    let spaceName: Swift.String?
+    let projectName: Swift.String?
+    let name: Swift.String?
+    let description: Swift.String?
+    let lastUpdatedTime: ClientRuntime.Date?
+    let createdTime: ClientRuntime.Date?
+}
+
+extension GetSourceRepositoryOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdTime
+        case description
+        case lastUpdatedTime
+        case name
+        case projectName
+        case spaceName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let spaceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .spaceName)
+        spaceName = spaceNameDecoded
+        let projectNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .projectName)
+        projectName = projectNameDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let lastUpdatedTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastUpdatedTime)
+        lastUpdatedTime = lastUpdatedTimeDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdTime)
+        createdTime = createdTimeDecoded
     }
 }
 
@@ -4411,7 +5040,7 @@ extension CodeCatalystClientTypes {
         /// A key that can be used to sort results.
         /// This member is required.
         public var key: CodeCatalystClientTypes.FilterKey?
-        /// The value of the key.
+        /// The values of the key.
         /// This member is required.
         public var values: [Swift.String]?
 
@@ -5568,6 +6197,274 @@ extension UpdateDevEnvironmentOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension UpdateProjectInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+    }
+}
+
+extension UpdateProjectInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let spaceName = spaceName else {
+            return nil
+        }
+        guard let name = name else {
+            return nil
+        }
+        return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(name.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateProjectInput: Swift.Equatable {
+    /// The description of the project.
+    public var description: Swift.String?
+    /// The name of the project.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The name of the space.
+    /// This member is required.
+    public var spaceName: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        spaceName: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.name = name
+        self.spaceName = spaceName
+    }
+}
+
+struct UpdateProjectInputBody: Swift.Equatable {
+    let description: Swift.String?
+}
+
+extension UpdateProjectInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+public enum UpdateProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateProjectOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateProjectOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.description = output.description
+            self.displayName = output.displayName
+            self.name = output.name
+            self.spaceName = output.spaceName
+        } else {
+            self.description = nil
+            self.displayName = nil
+            self.name = nil
+            self.spaceName = nil
+        }
+    }
+}
+
+public struct UpdateProjectOutputResponse: Swift.Equatable {
+    /// The description of the project.
+    public var description: Swift.String?
+    /// The friendly name of the project displayed to users in Amazon CodeCatalyst.
+    public var displayName: Swift.String?
+    /// The name of the project.
+    public var name: Swift.String?
+    /// The name of the space.
+    public var spaceName: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        name: Swift.String? = nil,
+        spaceName: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.displayName = displayName
+        self.name = name
+        self.spaceName = spaceName
+    }
+}
+
+struct UpdateProjectOutputResponseBody: Swift.Equatable {
+    let spaceName: Swift.String?
+    let name: Swift.String?
+    let displayName: Swift.String?
+    let description: Swift.String?
+}
+
+extension UpdateProjectOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case displayName
+        case name
+        case spaceName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let spaceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .spaceName)
+        spaceName = spaceNameDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let displayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayName)
+        displayName = displayNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+extension UpdateSpaceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+    }
+}
+
+extension UpdateSpaceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let name = name else {
+            return nil
+        }
+        return "/v1/spaces/\(name.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateSpaceInput: Swift.Equatable {
+    /// The description of the space.
+    public var description: Swift.String?
+    /// The name of the space.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.name = name
+    }
+}
+
+struct UpdateSpaceInputBody: Swift.Equatable {
+    let description: Swift.String?
+}
+
+extension UpdateSpaceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+public enum UpdateSpaceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateSpaceOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateSpaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.description = output.description
+            self.displayName = output.displayName
+            self.name = output.name
+        } else {
+            self.description = nil
+            self.displayName = nil
+            self.name = nil
+        }
+    }
+}
+
+public struct UpdateSpaceOutputResponse: Swift.Equatable {
+    /// The description of the space.
+    public var description: Swift.String?
+    /// The friendly name of the space displayed to users in Amazon CodeCatalyst.
+    public var displayName: Swift.String?
+    /// The name of the space.
+    public var name: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.displayName = displayName
+        self.name = name
+    }
+}
+
+struct UpdateSpaceOutputResponseBody: Swift.Equatable {
+    let name: Swift.String?
+    let displayName: Swift.String?
+    let description: Swift.String?
+}
+
+extension UpdateSpaceOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case displayName
+        case name
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let displayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayName)
+        displayName = displayNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
 extension CodeCatalystClientTypes.UserIdentity: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case awsAccountId
@@ -5610,7 +6507,7 @@ extension CodeCatalystClientTypes {
     public struct UserIdentity: Swift.Equatable {
         /// The Amazon Web Services account number of the user in Amazon Web Services, if any.
         public var awsAccountId: Swift.String?
-        ///
+        /// The ID of the Amazon CodeCatalyst service principal.
         /// This member is required.
         public var principalId: Swift.String?
         /// The display name of the user in Amazon CodeCatalyst.

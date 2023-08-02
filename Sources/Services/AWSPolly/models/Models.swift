@@ -949,6 +949,7 @@ extension PollyClientTypes {
         case esMx
         case esUs
         case fiFi
+        case frBe
         case frCa
         case frFr
         case hiIn
@@ -957,6 +958,7 @@ extension PollyClientTypes {
         case jaJp
         case koKr
         case nbNo
+        case nlBe
         case nlNl
         case plPl
         case ptBr
@@ -990,6 +992,7 @@ extension PollyClientTypes {
                 .esMx,
                 .esUs,
                 .fiFi,
+                .frBe,
                 .frCa,
                 .frFr,
                 .hiIn,
@@ -998,6 +1001,7 @@ extension PollyClientTypes {
                 .jaJp,
                 .koKr,
                 .nbNo,
+                .nlBe,
                 .nlNl,
                 .plPl,
                 .ptBr,
@@ -1036,6 +1040,7 @@ extension PollyClientTypes {
             case .esMx: return "es-MX"
             case .esUs: return "es-US"
             case .fiFi: return "fi-FI"
+            case .frBe: return "fr-BE"
             case .frCa: return "fr-CA"
             case .frFr: return "fr-FR"
             case .hiIn: return "hi-IN"
@@ -1044,6 +1049,7 @@ extension PollyClientTypes {
             case .jaJp: return "ja-JP"
             case .koKr: return "ko-KR"
             case .nbNo: return "nb-NO"
+            case .nlBe: return "nl-BE"
             case .nlNl: return "nl-NL"
             case .plPl: return "pl-PL"
             case .ptBr: return "pt-BR"
@@ -3407,6 +3413,7 @@ extension PollyClientTypes {
         case hiujin
         case ida
         case ines
+        case isabelle
         case ivy
         case jacek
         case jan
@@ -3422,6 +3429,7 @@ extension PollyClientTypes {
         case laura
         case lea
         case liam
+        case lisa
         case liv
         case lotte
         case lucia
@@ -3501,6 +3509,7 @@ extension PollyClientTypes {
                 .hiujin,
                 .ida,
                 .ines,
+                .isabelle,
                 .ivy,
                 .jacek,
                 .jan,
@@ -3516,6 +3525,7 @@ extension PollyClientTypes {
                 .laura,
                 .lea,
                 .liam,
+                .lisa,
                 .liv,
                 .lotte,
                 .lucia,
@@ -3600,6 +3610,7 @@ extension PollyClientTypes {
             case .hiujin: return "Hiujin"
             case .ida: return "Ida"
             case .ines: return "Ines"
+            case .isabelle: return "Isabelle"
             case .ivy: return "Ivy"
             case .jacek: return "Jacek"
             case .jan: return "Jan"
@@ -3615,6 +3626,7 @@ extension PollyClientTypes {
             case .laura: return "Laura"
             case .lea: return "Lea"
             case .liam: return "Liam"
+            case .lisa: return "Lisa"
             case .liv: return "Liv"
             case .lotte: return "Lotte"
             case .lucia: return "Lucia"

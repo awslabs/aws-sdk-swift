@@ -67,7 +67,7 @@ public struct HealthLakeClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
 }
 
 extension HealthLakeClient: HealthLakeClientProtocol {
-    /// Creates a Data Store that can ingest and export FHIR formatted data.
+    /// Creates a data store that can ingest and export FHIR formatted data.
     public func createFHIRDatastore(input: CreateFHIRDatastoreInput) async throws -> CreateFHIRDatastoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -112,7 +112,7 @@ extension HealthLakeClient: HealthLakeClientProtocol {
         return result
     }
 
-    /// Deletes a Data Store.
+    /// Deletes a data store.
     public func deleteFHIRDatastore(input: DeleteFHIRDatastoreInput) async throws -> DeleteFHIRDatastoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -149,7 +149,7 @@ extension HealthLakeClient: HealthLakeClientProtocol {
         return result
     }
 
-    /// Gets the properties associated with the FHIR Data Store, including the Data Store ID, Data Store ARN, Data Store name, Data Store status, created at, Data Store type version, and Data Store endpoint.
+    /// Gets the properties associated with the FHIR data store, including the data store ID, data store ARN, data store name, data store status, when the data store was created, data store type version, and the data store's endpoint.
     public func describeFHIRDatastore(input: DescribeFHIRDatastoreInput) async throws -> DescribeFHIRDatastoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -260,7 +260,7 @@ extension HealthLakeClient: HealthLakeClientProtocol {
         return result
     }
 
-    /// Lists all FHIR Data Stores that are in the user’s account, regardless of Data Store status.
+    /// Lists all FHIR data stores that are in the user’s account, regardless of data store status.
     public func listFHIRDatastores(input: ListFHIRDatastoresInput) async throws -> ListFHIRDatastoresOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -371,7 +371,7 @@ extension HealthLakeClient: HealthLakeClientProtocol {
         return result
     }
 
-    /// Returns a list of all existing tags associated with a Data Store.
+    /// Returns a list of all existing tags associated with a data store.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -498,7 +498,7 @@ extension HealthLakeClient: HealthLakeClientProtocol {
         return result
     }
 
-    /// Adds a user specified key and value tag to a Data Store.
+    /// Adds a user specified key and value tag to a data store.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -535,7 +535,7 @@ extension HealthLakeClient: HealthLakeClientProtocol {
         return result
     }
 
-    /// Removes tags from a Data Store.
+    /// Removes tags from a data store.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

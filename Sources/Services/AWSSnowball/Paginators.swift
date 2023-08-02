@@ -183,3 +183,24 @@ extension PaginatorSequence where Input == ListLongTermPricingInput, Output == L
         return try await self.asyncCompactMap { item in item.longTermPricingEntries }
     }
 }
+extension SnowballClient {
+    /// Paginate over `[ListPickupLocationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPickupLocationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPickupLocationsOutputResponse`
+    public func listPickupLocationsPaginated(input: ListPickupLocationsInput) -> ClientRuntime.PaginatorSequence<ListPickupLocationsInput, ListPickupLocationsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListPickupLocationsInput, ListPickupLocationsOutputResponse>(input: input, inputKey: \ListPickupLocationsInput.nextToken, outputKey: \ListPickupLocationsOutputResponse.nextToken, paginationFunction: self.listPickupLocations(input:))
+    }
+}
+
+extension ListPickupLocationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListPickupLocationsInput {
+        return ListPickupLocationsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}

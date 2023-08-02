@@ -50,7 +50,7 @@ public protocol ApiGatewayV2ClientProtocol {
     func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutputResponse
     /// Deletes a Route.
     func deleteRoute(input: DeleteRouteInput) async throws -> DeleteRouteOutputResponse
-    /// Deletes a route request parameter.
+    /// Deletes a route request parameter. Supported only for WebSocket APIs.
     func deleteRouteRequestParameter(input: DeleteRouteRequestParameterInput) async throws -> DeleteRouteRequestParameterOutputResponse
     /// Deletes a RouteResponse.
     func deleteRouteResponse(input: DeleteRouteResponseInput) async throws -> DeleteRouteResponseOutputResponse

@@ -352,7 +352,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// * If you finish before the timeout period ends, send a callback by using the [CompleteLifecycleAction] API call.
     ///
     ///
-    /// For more information, see [Amazon EC2 Auto Scaling lifecycle hooks](https://docs.aws.amazon.com/autoscaling/ec2/userguide/lifecycle-hooks.html) in the Amazon EC2 Auto Scaling User Guide.
+    /// For more information, see [Complete a lifecycle action](https://docs.aws.amazon.com/autoscaling/ec2/userguide/completing-lifecycle-hooks.html) in the Amazon EC2 Auto Scaling User Guide.
     public func completeLifecycleAction(input: CompleteLifecycleActionInput) async throws -> CompleteLifecycleActionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1658,7 +1658,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
         return result
     }
 
-    /// Detaches one or more traffic sources from the specified Auto Scaling group. When you detach a taffic, it enters the Removing state while deregistering the instances in the group. When all instances are deregistered, then you can no longer describe the traffic source using the [DescribeTrafficSources] API call. The instances continue to run.
+    /// Detaches one or more traffic sources from the specified Auto Scaling group. When you detach a traffic source, it enters the Removing state while deregistering the instances in the group. When all instances are deregistered, then you can no longer describe the traffic source using the [DescribeTrafficSources] API call. The instances continue to run.
     public func detachTrafficSources(input: DetachTrafficSourcesInput) async throws -> DetachTrafficSourcesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

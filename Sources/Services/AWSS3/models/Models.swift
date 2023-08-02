@@ -1029,6 +1029,7 @@ extension S3ClientTypes {
         case apNortheast2
         case apNortheast3
         case apSouth1
+        case apSouth2
         case apSoutheast1
         case apSoutheast2
         case apSoutheast3
@@ -1038,6 +1039,7 @@ extension S3ClientTypes {
         case euCentral1
         case euNorth1
         case euSouth1
+        case euSouth2
         case euWest1
         case euWest2
         case euWest3
@@ -1059,6 +1061,7 @@ extension S3ClientTypes {
                 .apNortheast2,
                 .apNortheast3,
                 .apSouth1,
+                .apSouth2,
                 .apSoutheast1,
                 .apSoutheast2,
                 .apSoutheast3,
@@ -1068,6 +1071,7 @@ extension S3ClientTypes {
                 .euCentral1,
                 .euNorth1,
                 .euSouth1,
+                .euSouth2,
                 .euWest1,
                 .euWest2,
                 .euWest3,
@@ -1094,6 +1098,7 @@ extension S3ClientTypes {
             case .apNortheast2: return "ap-northeast-2"
             case .apNortheast3: return "ap-northeast-3"
             case .apSouth1: return "ap-south-1"
+            case .apSouth2: return "ap-south-2"
             case .apSoutheast1: return "ap-southeast-1"
             case .apSoutheast2: return "ap-southeast-2"
             case .apSoutheast3: return "ap-southeast-3"
@@ -1103,6 +1108,7 @@ extension S3ClientTypes {
             case .euCentral1: return "eu-central-1"
             case .euNorth1: return "eu-north-1"
             case .euSouth1: return "eu-south-1"
+            case .euSouth2: return "eu-south-2"
             case .euWest1: return "eu-west-1"
             case .euWest2: return "eu-west-2"
             case .euWest3: return "eu-west-3"
@@ -10683,7 +10689,7 @@ extension GetObjectInput {
         var operation = ClientRuntime.OperationStack<GetObjectInput, GetObjectOutputResponse, GetObjectOutputError>(id: "getObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectInput, GetObjectOutputResponse, GetObjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetObjectInput, GetObjectOutputResponse>())
-        let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
+        let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectOutputResponse, GetObjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.serializeStep.intercept(position: .after, middleware: GetObjectInputGETQueryItemMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectOutputResponse, GetObjectOutputError>(options: config.retryStrategyOptions))
@@ -10728,7 +10734,7 @@ extension GetObjectInput {
         var operation = ClientRuntime.OperationStack<GetObjectInput, GetObjectOutputResponse, GetObjectOutputError>(id: "getObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectInput, GetObjectOutputResponse, GetObjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetObjectInput, GetObjectOutputResponse>())
-        let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
+        let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectOutputResponse, GetObjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -13914,9 +13920,11 @@ extension S3ClientTypes {
         case intelligenttieringaccesstier
         case ismultipartuploaded
         case lastmodifieddate
+        case objectaccesscontrollist
         case objectlocklegalholdstatus
         case objectlockmode
         case objectlockretainuntildate
+        case objectowner
         case replicationstatus
         case size
         case storageclass
@@ -13931,9 +13939,11 @@ extension S3ClientTypes {
                 .intelligenttieringaccesstier,
                 .ismultipartuploaded,
                 .lastmodifieddate,
+                .objectaccesscontrollist,
                 .objectlocklegalholdstatus,
                 .objectlockmode,
                 .objectlockretainuntildate,
+                .objectowner,
                 .replicationstatus,
                 .size,
                 .storageclass,
@@ -13953,9 +13963,11 @@ extension S3ClientTypes {
             case .intelligenttieringaccesstier: return "IntelligentTieringAccessTier"
             case .ismultipartuploaded: return "IsMultipartUploaded"
             case .lastmodifieddate: return "LastModifiedDate"
+            case .objectaccesscontrollist: return "ObjectAccessControlList"
             case .objectlocklegalholdstatus: return "ObjectLockLegalHoldStatus"
             case .objectlockmode: return "ObjectLockMode"
             case .objectlockretainuntildate: return "ObjectLockRetainUntilDate"
+            case .objectowner: return "ObjectOwner"
             case .replicationstatus: return "ReplicationStatus"
             case .size: return "Size"
             case .storageclass: return "StorageClass"
@@ -23603,7 +23615,7 @@ extension PutObjectInput {
         var operation = ClientRuntime.OperationStack<PutObjectInput, PutObjectOutputResponse, PutObjectOutputError>(id: "putObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutputResponse, PutObjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutObjectInput, PutObjectOutputResponse>())
-        let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
+        let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutObjectOutputResponse, PutObjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.serializeStep.intercept(position: .after, middleware: PutObjectInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutObjectOutputResponse, PutObjectOutputError>(options: config.retryStrategyOptions))
@@ -23648,7 +23660,7 @@ extension PutObjectInput {
         var operation = ClientRuntime.OperationStack<PutObjectInput, PutObjectOutputResponse, PutObjectOutputError>(id: "putObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutputResponse, PutObjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutObjectInput, PutObjectOutputResponse>())
-        let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
+        let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutObjectOutputResponse, PutObjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -29129,7 +29141,7 @@ extension UploadPartInput {
         var operation = ClientRuntime.OperationStack<UploadPartInput, UploadPartOutputResponse, UploadPartOutputError>(id: "uploadPart")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadPartInput, UploadPartOutputResponse, UploadPartOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UploadPartInput, UploadPartOutputResponse>())
-        let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
+        let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UploadPartOutputResponse, UploadPartOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))

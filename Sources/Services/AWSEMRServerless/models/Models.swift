@@ -645,6 +645,108 @@ extension CancelJobRunOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension EMRServerlessClientTypes.CloudWatchLoggingConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabled
+        case encryptionKeyArn
+        case logGroupName
+        case logStreamNamePrefix
+        case logTypes
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enabled = self.enabled {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+        if let encryptionKeyArn = self.encryptionKeyArn {
+            try encodeContainer.encode(encryptionKeyArn, forKey: .encryptionKeyArn)
+        }
+        if let logGroupName = self.logGroupName {
+            try encodeContainer.encode(logGroupName, forKey: .logGroupName)
+        }
+        if let logStreamNamePrefix = self.logStreamNamePrefix {
+            try encodeContainer.encode(logStreamNamePrefix, forKey: .logStreamNamePrefix)
+        }
+        if let logTypes = logTypes {
+            var logTypesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .logTypes)
+            for (dictKey0, logTypeMap0) in logTypes {
+                var logTypeMap0Container = logTypesContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for logtypestring1 in logTypeMap0 {
+                    try logTypeMap0Container.encode(logtypestring1)
+                }
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
+        enabled = enabledDecoded
+        let logGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logGroupName)
+        logGroupName = logGroupNameDecoded
+        let logStreamNamePrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logStreamNamePrefix)
+        logStreamNamePrefix = logStreamNamePrefixDecoded
+        let encryptionKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .encryptionKeyArn)
+        encryptionKeyArn = encryptionKeyArnDecoded
+        let logTypesContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String?]?].self, forKey: .logTypes)
+        var logTypesDecoded0: [Swift.String:[Swift.String]]? = nil
+        if let logTypesContainer = logTypesContainer {
+            logTypesDecoded0 = [Swift.String:[Swift.String]]()
+            for (key0, logtypelist0) in logTypesContainer {
+                var logtypelist0Decoded0: [Swift.String]? = nil
+                if let logtypelist0 = logtypelist0 {
+                    logtypelist0Decoded0 = [Swift.String]()
+                    for string1 in logtypelist0 {
+                        if let string1 = string1 {
+                            logtypelist0Decoded0?.append(string1)
+                        }
+                    }
+                }
+                logTypesDecoded0?[key0] = logtypelist0Decoded0
+            }
+        }
+        logTypes = logTypesDecoded0
+    }
+}
+
+extension EMRServerlessClientTypes {
+    /// The Amazon CloudWatch configuration for monitoring logs. You can configure your jobs to send log information to CloudWatch.
+    public struct CloudWatchLoggingConfiguration: Swift.Equatable {
+        /// Enables CloudWatch logging.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// The Key Management Service (KMS) key ARN to encrypt the logs that you store in CloudWatch Logs.
+        public var encryptionKeyArn: Swift.String?
+        /// The name of the log group in Amazon CloudWatch Logs where you want to publish your logs.
+        public var logGroupName: Swift.String?
+        /// Prefix for the CloudWatch log stream name.
+        public var logStreamNamePrefix: Swift.String?
+        /// The types of logs that you want to publish to CloudWatch. If you don't specify any log types, driver STDOUT and STDERR logs will be published to CloudWatch Logs by default. For more information including the supported worker types for Hive and Spark, see [Logging for EMR Serverless with CloudWatch](https://docs.aws.amazon.com/emr/latest/EMR-Serverless-UserGuide/logging.html#jobs-log-storage-cw).
+        ///
+        /// * Key Valid Values: SPARK_DRIVER, SPARK_EXECUTOR, HIVE_DRIVER, TEZ_TASK
+        ///
+        /// * Array Members Valid Values: STDOUT, STDERR, HIVE_LOG, TEZ_AM, SYSTEM_LOGS
+        public var logTypes: [Swift.String:[Swift.String]]?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            encryptionKeyArn: Swift.String? = nil,
+            logGroupName: Swift.String? = nil,
+            logStreamNamePrefix: Swift.String? = nil,
+            logTypes: [Swift.String:[Swift.String]]? = nil
+        )
+        {
+            self.enabled = enabled
+            self.encryptionKeyArn = encryptionKeyArn
+            self.logGroupName = logGroupName
+            self.logStreamNamePrefix = logStreamNamePrefix
+            self.logTypes = logTypes
+        }
+    }
+
+}
+
 extension EMRServerlessClientTypes.Configuration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case classification
@@ -2688,12 +2790,16 @@ extension EMRServerlessClientTypes {
 
 extension EMRServerlessClientTypes.MonitoringConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cloudWatchLoggingConfiguration
         case managedPersistenceMonitoringConfiguration
         case s3MonitoringConfiguration
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cloudWatchLoggingConfiguration = self.cloudWatchLoggingConfiguration {
+            try encodeContainer.encode(cloudWatchLoggingConfiguration, forKey: .cloudWatchLoggingConfiguration)
+        }
         if let managedPersistenceMonitoringConfiguration = self.managedPersistenceMonitoringConfiguration {
             try encodeContainer.encode(managedPersistenceMonitoringConfiguration, forKey: .managedPersistenceMonitoringConfiguration)
         }
@@ -2708,22 +2814,28 @@ extension EMRServerlessClientTypes.MonitoringConfiguration: Swift.Codable {
         s3MonitoringConfiguration = s3MonitoringConfigurationDecoded
         let managedPersistenceMonitoringConfigurationDecoded = try containerValues.decodeIfPresent(EMRServerlessClientTypes.ManagedPersistenceMonitoringConfiguration.self, forKey: .managedPersistenceMonitoringConfiguration)
         managedPersistenceMonitoringConfiguration = managedPersistenceMonitoringConfigurationDecoded
+        let cloudWatchLoggingConfigurationDecoded = try containerValues.decodeIfPresent(EMRServerlessClientTypes.CloudWatchLoggingConfiguration.self, forKey: .cloudWatchLoggingConfiguration)
+        cloudWatchLoggingConfiguration = cloudWatchLoggingConfigurationDecoded
     }
 }
 
 extension EMRServerlessClientTypes {
     /// The configuration setting for monitoring.
     public struct MonitoringConfiguration: Swift.Equatable {
+        /// The Amazon CloudWatch configuration for monitoring logs. You can configure your jobs to send log information to CloudWatch.
+        public var cloudWatchLoggingConfiguration: EMRServerlessClientTypes.CloudWatchLoggingConfiguration?
         /// The managed log persistence configuration for a job run.
         public var managedPersistenceMonitoringConfiguration: EMRServerlessClientTypes.ManagedPersistenceMonitoringConfiguration?
         /// The Amazon S3 configuration for monitoring log publishing.
         public var s3MonitoringConfiguration: EMRServerlessClientTypes.S3MonitoringConfiguration?
 
         public init(
+            cloudWatchLoggingConfiguration: EMRServerlessClientTypes.CloudWatchLoggingConfiguration? = nil,
             managedPersistenceMonitoringConfiguration: EMRServerlessClientTypes.ManagedPersistenceMonitoringConfiguration? = nil,
             s3MonitoringConfiguration: EMRServerlessClientTypes.S3MonitoringConfiguration? = nil
         )
         {
+            self.cloudWatchLoggingConfiguration = cloudWatchLoggingConfiguration
             self.managedPersistenceMonitoringConfiguration = managedPersistenceMonitoringConfiguration
             self.s3MonitoringConfiguration = s3MonitoringConfiguration
         }

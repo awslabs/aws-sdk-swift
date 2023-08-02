@@ -175,6 +175,42 @@ extension Inspector2Client: Inspector2ClientProtocol {
         return result
     }
 
+    /// Gets vulnerability details for findings.
+    public func batchGetFindingDetails(input: BatchGetFindingDetailsInput) async throws -> BatchGetFindingDetailsOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchGetFindingDetails")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "inspector2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<BatchGetFindingDetailsInput, BatchGetFindingDetailsOutputResponse, BatchGetFindingDetailsOutputError>(id: "batchGetFindingDetails")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetFindingDetailsInput, BatchGetFindingDetailsOutputResponse, BatchGetFindingDetailsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetFindingDetailsInput, BatchGetFindingDetailsOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetFindingDetailsOutputResponse, BatchGetFindingDetailsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetFindingDetailsInput, BatchGetFindingDetailsOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchGetFindingDetailsInput, BatchGetFindingDetailsOutputResponse>(xmlName: "BatchGetFindingDetailsRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetFindingDetailsOutputResponse, BatchGetFindingDetailsOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetFindingDetailsOutputResponse, BatchGetFindingDetailsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetFindingDetailsOutputResponse, BatchGetFindingDetailsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetFindingDetailsOutputResponse, BatchGetFindingDetailsOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Gets free trial status for multiple Amazon Web Services accounts.
     public func batchGetFreeTrialInfo(input: BatchGetFreeTrialInfoInput) async throws -> BatchGetFreeTrialInfoOutputResponse
     {

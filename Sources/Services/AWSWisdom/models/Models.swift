@@ -437,6 +437,7 @@ extension WisdomClientTypes.AssistantData: Swift.Codable {
         case assistantArn
         case assistantId
         case description
+        case integrationConfiguration
         case name
         case serverSideEncryptionConfiguration
         case status
@@ -454,6 +455,9 @@ extension WisdomClientTypes.AssistantData: Swift.Codable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let integrationConfiguration = self.integrationConfiguration {
+            try encodeContainer.encode(integrationConfiguration, forKey: .integrationConfiguration)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -502,6 +506,8 @@ extension WisdomClientTypes.AssistantData: Swift.Codable {
         tags = tagsDecoded0
         let serverSideEncryptionConfigurationDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.ServerSideEncryptionConfiguration.self, forKey: .serverSideEncryptionConfiguration)
         serverSideEncryptionConfiguration = serverSideEncryptionConfigurationDecoded
+        let integrationConfigurationDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.AssistantIntegrationConfiguration.self, forKey: .integrationConfiguration)
+        integrationConfiguration = integrationConfigurationDecoded
     }
 }
 
@@ -516,6 +522,8 @@ extension WisdomClientTypes {
         public var assistantId: Swift.String?
         /// The description.
         public var description: Swift.String?
+        /// The configuration information for the Wisdom assistant integration.
+        public var integrationConfiguration: WisdomClientTypes.AssistantIntegrationConfiguration?
         /// The name.
         /// This member is required.
         public var name: Swift.String?
@@ -534,6 +542,7 @@ extension WisdomClientTypes {
             assistantArn: Swift.String? = nil,
             assistantId: Swift.String? = nil,
             description: Swift.String? = nil,
+            integrationConfiguration: WisdomClientTypes.AssistantIntegrationConfiguration? = nil,
             name: Swift.String? = nil,
             serverSideEncryptionConfiguration: WisdomClientTypes.ServerSideEncryptionConfiguration? = nil,
             status: WisdomClientTypes.AssistantStatus? = nil,
@@ -544,11 +553,47 @@ extension WisdomClientTypes {
             self.assistantArn = assistantArn
             self.assistantId = assistantId
             self.description = description
+            self.integrationConfiguration = integrationConfiguration
             self.name = name
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
             self.status = status
             self.tags = tags
             self.type = type
+        }
+    }
+
+}
+
+extension WisdomClientTypes.AssistantIntegrationConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case topicIntegrationArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let topicIntegrationArn = self.topicIntegrationArn {
+            try encodeContainer.encode(topicIntegrationArn, forKey: .topicIntegrationArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let topicIntegrationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicIntegrationArn)
+        topicIntegrationArn = topicIntegrationArnDecoded
+    }
+}
+
+extension WisdomClientTypes {
+    /// The configuration information for the Wisdom assistant integration.
+    public struct AssistantIntegrationConfiguration: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the integrated Amazon SNS topic used for streaming chat messages.
+        public var topicIntegrationArn: Swift.String?
+
+        public init(
+            topicIntegrationArn: Swift.String? = nil
+        )
+        {
+            self.topicIntegrationArn = topicIntegrationArn
         }
     }
 
@@ -603,6 +648,7 @@ extension WisdomClientTypes.AssistantSummary: Swift.Codable {
         case assistantArn
         case assistantId
         case description
+        case integrationConfiguration
         case name
         case serverSideEncryptionConfiguration
         case status
@@ -620,6 +666,9 @@ extension WisdomClientTypes.AssistantSummary: Swift.Codable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let integrationConfiguration = self.integrationConfiguration {
+            try encodeContainer.encode(integrationConfiguration, forKey: .integrationConfiguration)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -668,6 +717,8 @@ extension WisdomClientTypes.AssistantSummary: Swift.Codable {
         tags = tagsDecoded0
         let serverSideEncryptionConfigurationDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.ServerSideEncryptionConfiguration.self, forKey: .serverSideEncryptionConfiguration)
         serverSideEncryptionConfiguration = serverSideEncryptionConfigurationDecoded
+        let integrationConfigurationDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.AssistantIntegrationConfiguration.self, forKey: .integrationConfiguration)
+        integrationConfiguration = integrationConfigurationDecoded
     }
 }
 
@@ -682,6 +733,8 @@ extension WisdomClientTypes {
         public var assistantId: Swift.String?
         /// The description of the assistant.
         public var description: Swift.String?
+        /// The configuration information for the Wisdom assistant integration.
+        public var integrationConfiguration: WisdomClientTypes.AssistantIntegrationConfiguration?
         /// The name of the assistant.
         /// This member is required.
         public var name: Swift.String?
@@ -700,6 +753,7 @@ extension WisdomClientTypes {
             assistantArn: Swift.String? = nil,
             assistantId: Swift.String? = nil,
             description: Swift.String? = nil,
+            integrationConfiguration: WisdomClientTypes.AssistantIntegrationConfiguration? = nil,
             name: Swift.String? = nil,
             serverSideEncryptionConfiguration: WisdomClientTypes.ServerSideEncryptionConfiguration? = nil,
             status: WisdomClientTypes.AssistantStatus? = nil,
@@ -710,6 +764,7 @@ extension WisdomClientTypes {
             self.assistantArn = assistantArn
             self.assistantId = assistantId
             self.description = description
+            self.integrationConfiguration = integrationConfiguration
             self.name = name
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
             self.status = status
@@ -5879,6 +5934,7 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
 extension WisdomClientTypes.SessionData: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description
+        case integrationConfiguration
         case name
         case sessionArn
         case sessionId
@@ -5889,6 +5945,9 @@ extension WisdomClientTypes.SessionData: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let integrationConfiguration = self.integrationConfiguration {
+            try encodeContainer.encode(integrationConfiguration, forKey: .integrationConfiguration)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -5928,6 +5987,8 @@ extension WisdomClientTypes.SessionData: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let integrationConfigurationDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.SessionIntegrationConfiguration.self, forKey: .integrationConfiguration)
+        integrationConfiguration = integrationConfigurationDecoded
     }
 }
 
@@ -5936,6 +5997,8 @@ extension WisdomClientTypes {
     public struct SessionData: Swift.Equatable {
         /// The description of the session.
         public var description: Swift.String?
+        /// The configuration information for the session integration.
+        public var integrationConfiguration: WisdomClientTypes.SessionIntegrationConfiguration?
         /// The name of the session.
         /// This member is required.
         public var name: Swift.String?
@@ -5950,6 +6013,7 @@ extension WisdomClientTypes {
 
         public init(
             description: Swift.String? = nil,
+            integrationConfiguration: WisdomClientTypes.SessionIntegrationConfiguration? = nil,
             name: Swift.String? = nil,
             sessionArn: Swift.String? = nil,
             sessionId: Swift.String? = nil,
@@ -5957,10 +6021,46 @@ extension WisdomClientTypes {
         )
         {
             self.description = description
+            self.integrationConfiguration = integrationConfiguration
             self.name = name
             self.sessionArn = sessionArn
             self.sessionId = sessionId
             self.tags = tags
+        }
+    }
+
+}
+
+extension WisdomClientTypes.SessionIntegrationConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case topicIntegrationArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let topicIntegrationArn = self.topicIntegrationArn {
+            try encodeContainer.encode(topicIntegrationArn, forKey: .topicIntegrationArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let topicIntegrationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicIntegrationArn)
+        topicIntegrationArn = topicIntegrationArnDecoded
+    }
+}
+
+extension WisdomClientTypes {
+    /// The configuration information for the session integration.
+    public struct SessionIntegrationConfiguration: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the integrated Amazon SNS topic used for streaming chat messages.
+        public var topicIntegrationArn: Swift.String?
+
+        public init(
+            topicIntegrationArn: Swift.String? = nil
+        )
+        {
+            self.topicIntegrationArn = topicIntegrationArn
         }
     }
 

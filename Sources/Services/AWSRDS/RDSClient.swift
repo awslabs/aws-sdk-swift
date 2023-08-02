@@ -1080,7 +1080,7 @@ extension RDSClient: RDSClientProtocol {
         return result
     }
 
-    /// Creates an Aurora global database spread across multiple Amazon Web Services Regions. The global database contains a single primary cluster with read-write capability, and a read-only secondary cluster that receives data from the primary cluster through high-speed replication performed by the Aurora storage subsystem. You can create a global database that is initially empty, and then add a primary cluster and a secondary cluster to it. Or you can specify an existing Aurora cluster during the create operation, and this cluster becomes the primary cluster of the global database. This operation applies only to Aurora DB clusters.
+    /// Creates an Aurora global database spread across multiple Amazon Web Services Regions. The global database contains a single primary cluster with read-write capability, and a read-only secondary cluster that receives data from the primary cluster through high-speed replication performed by the Aurora storage subsystem. You can create a global database that is initially empty, and then create the primary and secondary DB clusters in the global database. Or you can specify an existing Aurora cluster during the create operation, and this cluster becomes the primary cluster of the global database. This operation applies only to Aurora DB clusters.
     public func createGlobalCluster(input: CreateGlobalClusterInput) async throws -> CreateGlobalClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1152,7 +1152,7 @@ extension RDSClient: RDSClientProtocol {
         return result
     }
 
-    /// Deletes a blue/green deployment. For more information, see [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html) in the Amazon RDS User Guide and [ Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html) in the Amazon Aurora User Guide.
+    /// Deletes a blue/green deployment. For more information, see [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html) in the Amazon RDS User Guide and [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html) in the Amazon Aurora User Guide.
     public func deleteBlueGreenDeployment(input: DeleteBlueGreenDeploymentInput) async throws -> DeleteBlueGreenDeploymentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1263,6 +1263,42 @@ extension RDSClient: RDSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDBClusterOutputResponse, DeleteDBClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDBClusterOutputResponse, DeleteDBClusterOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDBClusterOutputResponse, DeleteDBClusterOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Deletes automated backups using the DbClusterResourceId value of the source DB cluster or the Amazon Resource Name (ARN) of the automated backups.
+    public func deleteDBClusterAutomatedBackup(input: DeleteDBClusterAutomatedBackupInput) async throws -> DeleteDBClusterAutomatedBackupOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteDBClusterAutomatedBackup")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "rds")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeleteDBClusterAutomatedBackupInput, DeleteDBClusterAutomatedBackupOutputResponse, DeleteDBClusterAutomatedBackupOutputError>(id: "deleteDBClusterAutomatedBackup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDBClusterAutomatedBackupInput, DeleteDBClusterAutomatedBackupOutputResponse, DeleteDBClusterAutomatedBackupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDBClusterAutomatedBackupInput, DeleteDBClusterAutomatedBackupOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDBClusterAutomatedBackupOutputResponse, DeleteDBClusterAutomatedBackupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteDBClusterAutomatedBackupInput, DeleteDBClusterAutomatedBackupOutputResponse>(xmlName: "DeleteDBClusterAutomatedBackupMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteDBClusterAutomatedBackupInput, DeleteDBClusterAutomatedBackupOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDBClusterAutomatedBackupOutputResponse, DeleteDBClusterAutomatedBackupOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDBClusterAutomatedBackupOutputResponse, DeleteDBClusterAutomatedBackupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDBClusterAutomatedBackupOutputResponse, DeleteDBClusterAutomatedBackupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDBClusterAutomatedBackupOutputResponse, DeleteDBClusterAutomatedBackupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1850,7 +1886,7 @@ extension RDSClient: RDSClientProtocol {
         return result
     }
 
-    /// Returns information about blue/green deployments. For more information, see [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html) in the Amazon RDS User Guide and [ Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html) in the Amazon Aurora User Guide.
+    /// Describes one or more blue/green deployments. For more information, see [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html) in the Amazon RDS User Guide and [ Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html) in the Amazon Aurora User Guide.
     public func describeBlueGreenDeployments(input: DescribeBlueGreenDeploymentsInput) async throws -> DescribeBlueGreenDeploymentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1918,6 +1954,42 @@ extension RDSClient: RDSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCertificatesOutputResponse, DescribeCertificatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCertificatesOutputResponse, DescribeCertificatesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCertificatesOutputResponse, DescribeCertificatesOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Displays backups for both current and deleted DB clusters. For example, use this operation to find details about automated backups for previously deleted clusters. Current clusters are returned for both the DescribeDBClusterAutomatedBackups and DescribeDBClusters operations. All parameters are optional.
+    public func describeDBClusterAutomatedBackups(input: DescribeDBClusterAutomatedBackupsInput) async throws -> DescribeDBClusterAutomatedBackupsOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeDBClusterAutomatedBackups")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "rds")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DescribeDBClusterAutomatedBackupsInput, DescribeDBClusterAutomatedBackupsOutputResponse, DescribeDBClusterAutomatedBackupsOutputError>(id: "describeDBClusterAutomatedBackups")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBClusterAutomatedBackupsInput, DescribeDBClusterAutomatedBackupsOutputResponse, DescribeDBClusterAutomatedBackupsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBClusterAutomatedBackupsInput, DescribeDBClusterAutomatedBackupsOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeDBClusterAutomatedBackupsOutputResponse, DescribeDBClusterAutomatedBackupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeDBClusterAutomatedBackupsInput, DescribeDBClusterAutomatedBackupsOutputResponse>(xmlName: "DescribeDBClusterAutomatedBackupsMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeDBClusterAutomatedBackupsInput, DescribeDBClusterAutomatedBackupsOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeDBClusterAutomatedBackupsOutputResponse, DescribeDBClusterAutomatedBackupsOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBClusterAutomatedBackupsOutputResponse, DescribeDBClusterAutomatedBackupsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBClusterAutomatedBackupsOutputResponse, DescribeDBClusterAutomatedBackupsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBClusterAutomatedBackupsOutputResponse, DescribeDBClusterAutomatedBackupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3981,7 +4053,7 @@ extension RDSClient: RDSClientProtocol {
         return result
     }
 
-    /// Modify a setting for an Amazon Aurora global cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. For more information on Amazon Aurora, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. This action only applies to Aurora DB clusters.
+    /// Modifies a setting for an Amazon Aurora global cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. For more information on Amazon Aurora, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. This operation only applies to Aurora global database clusters.
     public func modifyGlobalCluster(input: ModifyGlobalClusterInput) async throws -> ModifyGlobalClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5101,7 +5173,7 @@ extension RDSClient: RDSClientProtocol {
         return result
     }
 
-    /// Switches over a blue/green deployment. Before you switch over, production traffic is routed to the databases in the blue environment. After you switch over, production traffic is routed to the databases in the green environment. For more information, see [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html) in the Amazon RDS User Guide and [ Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html) in the Amazon Aurora User Guide.
+    /// Switches over a blue/green deployment. Before you switch over, production traffic is routed to the databases in the blue environment. After you switch over, production traffic is routed to the databases in the green environment. For more information, see [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html) in the Amazon RDS User Guide and [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html) in the Amazon Aurora User Guide.
     public func switchoverBlueGreenDeployment(input: SwitchoverBlueGreenDeploymentInput) async throws -> SwitchoverBlueGreenDeploymentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

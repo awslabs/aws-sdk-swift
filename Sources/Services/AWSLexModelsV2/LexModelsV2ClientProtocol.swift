@@ -138,10 +138,73 @@ public protocol LexModelsV2ClientProtocol {
     func listExports(input: ListExportsInput) async throws -> ListExportsOutputResponse
     /// Lists the imports for a bot, bot locale, or custom vocabulary. Imports are kept in the list for 7 days.
     func listImports(input: ListImportsInput) async throws -> ListImportsOutputResponse
+    /// Retrieves summary metrics for the intents in your bot. The following fields are required:
+    ///
+    /// * metrics – A list of [AnalyticsIntentMetric](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_AnalyticsIntentMetric.html) objects. In each object, use the name field to specify the metric to calculate, the statistic field to specify whether to calculate the Sum, Average, or Max number, and the order field to specify whether to sort the results in Ascending or Descending order.
+    ///
+    /// * startDateTime and endDateTime – Define a time range for which you want to retrieve results.
+    ///
+    ///
+    /// Of the optional fields, you can organize the results in the following ways:
+    ///
+    /// * Use the filters field to filter the results, the groupBy field to specify categories by which to group the results, and the binBy field to specify time intervals by which to group the results.
+    ///
+    /// * Use the maxResults field to limit the number of results to return in a single response and the nextToken field to return the next batch of results if the response does not return the full set of results.
+    ///
+    ///
+    /// Note that an order field exists in both binBy and metrics. You can specify only one order in a given request.
+    func listIntentMetrics(input: ListIntentMetricsInput) async throws -> ListIntentMetricsOutputResponse
+    /// Retrieves summary statistics for a path of intents that users take over sessions with your bot. The following fields are required:
+    ///
+    /// * startDateTime and endDateTime – Define a time range for which you want to retrieve results.
+    ///
+    /// * intentPath – Define an order of intents for which you want to retrieve metrics. Separate intents in the path with a forward slash. For example, populate the intentPath field with /BookCar/BookHotel to see details about how many times users invoked the BookCar and BookHotel intents in that order.
+    ///
+    ///
+    /// Use the optional filters field to filter the results.
+    func listIntentPaths(input: ListIntentPathsInput) async throws -> ListIntentPathsOutputResponse
     /// Get a list of intents that meet the specified criteria.
     func listIntents(input: ListIntentsInput) async throws -> ListIntentsOutputResponse
+    /// Retrieves summary metrics for the stages within intents in your bot. The following fields are required:
+    ///
+    /// * metrics – A list of [AnalyticsIntentStageMetric](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_AnalyticsIntentStageMetric.html) objects. In each object, use the name field to specify the metric to calculate, the statistic field to specify whether to calculate the Sum, Average, or Max number, and the order field to specify whether to sort the results in Ascending or Descending order.
+    ///
+    /// * startDateTime and endDateTime – Define a time range for which you want to retrieve results.
+    ///
+    ///
+    /// Of the optional fields, you can organize the results in the following ways:
+    ///
+    /// * Use the filters field to filter the results, the groupBy field to specify categories by which to group the results, and the binBy field to specify time intervals by which to group the results.
+    ///
+    /// * Use the maxResults field to limit the number of results to return in a single response and the nextToken field to return the next batch of results if the response does not return the full set of results.
+    ///
+    ///
+    /// Note that an order field exists in both binBy and metrics. You can only specify one order in a given request.
+    func listIntentStageMetrics(input: ListIntentStageMetricsInput) async throws -> ListIntentStageMetricsOutputResponse
     /// Gets a list of recommended intents provided by the bot recommendation that you can use in your bot. Intents in the response are ordered by relevance.
     func listRecommendedIntents(input: ListRecommendedIntentsInput) async throws -> ListRecommendedIntentsOutputResponse
+    /// Retrieves a list of metadata for individual user sessions with your bot. The startDateTime and endDateTime fields are required. These fields define a time range for which you want to retrieve results. Of the optional fields, you can organize the results in the following ways:
+    ///
+    /// * Use the filters field to filter the results and the sortBy field to specify the values by which to sort the results.
+    ///
+    /// * Use the maxResults field to limit the number of results to return in a single response and the nextToken field to return the next batch of results if the response does not return the full set of results.
+    func listSessionAnalyticsData(input: ListSessionAnalyticsDataInput) async throws -> ListSessionAnalyticsDataOutputResponse
+    /// Retrieves summary metrics for the user sessions with your bot. The following fields are required:
+    ///
+    /// * metrics – A list of [AnalyticsSessionMetric](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_AnalyticsSessionMetric.html) objects. In each object, use the name field to specify the metric to calculate, the statistic field to specify whether to calculate the Sum, Average, or Max number, and the order field to specify whether to sort the results in Ascending or Descending order.
+    ///
+    /// * startDateTime and endDateTime – Define a time range for which you want to retrieve results.
+    ///
+    ///
+    /// Of the optional fields, you can organize the results in the following ways:
+    ///
+    /// * Use the filters field to filter the results, the groupBy field to specify categories by which to group the results, and the binBy field to specify time intervals by which to group the results.
+    ///
+    /// * Use the maxResults field to limit the number of results to return in a single response and the nextToken field to return the next batch of results if the response does not return the full set of results.
+    ///
+    ///
+    /// Note that an order field exists in both binBy and metrics. Currently, you can specify it in either field, but not in both.
+    func listSessionMetrics(input: ListSessionMetricsInput) async throws -> ListSessionMetricsOutputResponse
     /// Gets a list of slots that match the specified criteria.
     func listSlots(input: ListSlotsInput) async throws -> ListSlotsOutputResponse
     /// Gets a list of slot types that match the specified criteria.
@@ -156,6 +219,33 @@ public protocol LexModelsV2ClientProtocol {
     func listTestSetRecords(input: ListTestSetRecordsInput) async throws -> ListTestSetRecordsOutputResponse
     /// The list of the test sets
     func listTestSets(input: ListTestSetsInput) async throws -> ListTestSetsOutputResponse
+    /// To use this API operation, your IAM role must have permissions to perform the [ListAggregatedUtterances](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListAggregatedUtterances.html) operation, which provides access to utterance-related analytics. See [Viewing utterance statistics](https://docs.aws.amazon.com/lexv2/latest/dg/monitoring-utterances.html) for the IAM policy to apply to the IAM role. Retrieves a list of metadata for individual user utterances to your bot. The following fields are required:
+    ///
+    /// * startDateTime and endDateTime – Define a time range for which you want to retrieve results.
+    ///
+    ///
+    /// Of the optional fields, you can organize the results in the following ways:
+    ///
+    /// * Use the filters field to filter the results and the sortBy field to specify the values by which to sort the results.
+    ///
+    /// * Use the maxResults field to limit the number of results to return in a single response and the nextToken field to return the next batch of results if the response does not return the full set of results.
+    func listUtteranceAnalyticsData(input: ListUtteranceAnalyticsDataInput) async throws -> ListUtteranceAnalyticsDataOutputResponse
+    /// To use this API operation, your IAM role must have permissions to perform the [ListAggregatedUtterances](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListAggregatedUtterances.html) operation, which provides access to utterance-related analytics. See [Viewing utterance statistics](https://docs.aws.amazon.com/lexv2/latest/dg/monitoring-utterances.html) for the IAM policy to apply to the IAM role. Retrieves summary metrics for the utterances in your bot. The following fields are required:
+    ///
+    /// * metrics – A list of [AnalyticsUtteranceMetric](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_AnalyticsUtteranceMetric.html) objects. In each object, use the name field to specify the metric to calculate, the statistic field to specify whether to calculate the Sum, Average, or Max number, and the order field to specify whether to sort the results in Ascending or Descending order.
+    ///
+    /// * startDateTime and endDateTime – Define a time range for which you want to retrieve results.
+    ///
+    ///
+    /// Of the optional fields, you can organize the results in the following ways:
+    ///
+    /// * Use the filters field to filter the results, the groupBy field to specify categories by which to group the results, and the binBy field to specify time intervals by which to group the results.
+    ///
+    /// * Use the maxResults field to limit the number of results to return in a single response and the nextToken field to return the next batch of results if the response does not return the full set of results.
+    ///
+    ///
+    /// Note that an order field exists in both binBy and metrics. Currently, you can specify it in either field, but not in both.
+    func listUtteranceMetrics(input: ListUtteranceMetricsInput) async throws -> ListUtteranceMetricsOutputResponse
     /// Search for associated transcripts that meet the specified criteria.
     func searchAssociatedTranscripts(input: SearchAssociatedTranscriptsInput) async throws -> SearchAssociatedTranscriptsOutputResponse
     /// Use this to provide your transcript data, and to start the bot recommendation process.

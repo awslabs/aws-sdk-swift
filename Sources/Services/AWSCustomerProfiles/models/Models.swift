@@ -790,6 +790,164 @@ extension CustomerProfilesClientTypes {
 
 }
 
+extension CustomerProfilesClientTypes {
+    public enum AttributeMatchingModel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case manyToMany
+        case oneToOne
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AttributeMatchingModel] {
+            return [
+                .manyToMany,
+                .oneToOne,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .manyToMany: return "MANY_TO_MANY"
+            case .oneToOne: return "ONE_TO_ONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AttributeMatchingModel(rawValue: rawValue) ?? AttributeMatchingModel.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes.AttributeTypesSelector: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case address = "Address"
+        case attributeMatchingModel = "AttributeMatchingModel"
+        case emailAddress = "EmailAddress"
+        case phoneNumber = "PhoneNumber"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let address = address {
+            var addressContainer = encodeContainer.nestedUnkeyedContainer(forKey: .address)
+            for string1to2550 in address {
+                try addressContainer.encode(string1to2550)
+            }
+        }
+        if let attributeMatchingModel = self.attributeMatchingModel {
+            try encodeContainer.encode(attributeMatchingModel.rawValue, forKey: .attributeMatchingModel)
+        }
+        if let emailAddress = emailAddress {
+            var emailAddressContainer = encodeContainer.nestedUnkeyedContainer(forKey: .emailAddress)
+            for string1to2550 in emailAddress {
+                try emailAddressContainer.encode(string1to2550)
+            }
+        }
+        if let phoneNumber = phoneNumber {
+            var phoneNumberContainer = encodeContainer.nestedUnkeyedContainer(forKey: .phoneNumber)
+            for string1to2550 in phoneNumber {
+                try phoneNumberContainer.encode(string1to2550)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let attributeMatchingModelDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.AttributeMatchingModel.self, forKey: .attributeMatchingModel)
+        attributeMatchingModel = attributeMatchingModelDecoded
+        let addressContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .address)
+        var addressDecoded0:[Swift.String]? = nil
+        if let addressContainer = addressContainer {
+            addressDecoded0 = [Swift.String]()
+            for string0 in addressContainer {
+                if let string0 = string0 {
+                    addressDecoded0?.append(string0)
+                }
+            }
+        }
+        address = addressDecoded0
+        let phoneNumberContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .phoneNumber)
+        var phoneNumberDecoded0:[Swift.String]? = nil
+        if let phoneNumberContainer = phoneNumberContainer {
+            phoneNumberDecoded0 = [Swift.String]()
+            for string0 in phoneNumberContainer {
+                if let string0 = string0 {
+                    phoneNumberDecoded0?.append(string0)
+                }
+            }
+        }
+        phoneNumber = phoneNumberDecoded0
+        let emailAddressContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .emailAddress)
+        var emailAddressDecoded0:[Swift.String]? = nil
+        if let emailAddressContainer = emailAddressContainer {
+            emailAddressDecoded0 = [Swift.String]()
+            for string0 in emailAddressContainer {
+                if let string0 = string0 {
+                    emailAddressDecoded0?.append(string0)
+                }
+            }
+        }
+        emailAddress = emailAddressDecoded0
+    }
+}
+
+extension CustomerProfilesClientTypes {
+    /// Configuration information about the AttributeTypesSelector where the rule-based identity resolution uses to match profiles. You can choose how profiles are compared across attribute types and which attribute to use for matching from each type. There are three attribute types you can configure:
+    ///
+    /// * Email type
+    ///
+    /// * You can choose from Email, BusinessEmail, and PersonalEmail
+    ///
+    ///
+    ///
+    ///
+    /// * Phone number type
+    ///
+    /// * You can choose from Phone, HomePhone, and MobilePhone
+    ///
+    ///
+    ///
+    ///
+    /// * Address type
+    ///
+    /// * You can choose from Address, BusinessAddress, MaillingAddress, and ShippingAddress
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// You can either choose ONE_TO_ONE or MANY_TO_MANY as the AttributeMatchingModel. When choosing MANY_TO_MANY, the system can match attribute across the sub-types of an attribute type. For example, if the value of the Email field of Profile A and the value of BusinessEmail field of Profile B matches, the two profiles are matched on the Email type. When choosing ONE_TO_ONE the system can only match if the sub-types are exact matches. For example, only when the value of the Email field of Profile A and the value of the Email field of Profile B matches, the two profiles are matched on the Email type.
+    public struct AttributeTypesSelector: Swift.Equatable {
+        /// The Address type. You can choose from Address, BusinessAddress, MaillingAddress, and ShippingAddress. You only can use the Address type in the MatchingRule. For example, if you want to match profile based on BusinessAddress.City or MaillingAddress.City, you need to choose the BusinessAddress and the MaillingAddress to represent the Address type and specify the Address.City on the matching rule.
+        public var address: [Swift.String]?
+        /// Configures the AttributeMatchingModel, you can either choose ONE_TO_ONE or MANY_TO_MANY.
+        /// This member is required.
+        public var attributeMatchingModel: CustomerProfilesClientTypes.AttributeMatchingModel?
+        /// The Email type. You can choose from EmailAddress, BusinessEmailAddress and PersonalEmailAddress. You only can use the EmailAddress type in the MatchingRule. For example, if you want to match profile based on PersonalEmailAddress or BusinessEmailAddress, you need to choose the PersonalEmailAddress and the BusinessEmailAddress to represent the EmailAddress type and only specify the EmailAddress on the matching rule.
+        public var emailAddress: [Swift.String]?
+        /// The PhoneNumber type. You can choose from PhoneNumber, HomePhoneNumber, and MobilePhoneNumber. You only can use the PhoneNumber type in the MatchingRule. For example, if you want to match a profile based on Phone or HomePhone, you need to choose the Phone and the HomePhone to represent the PhoneNumber type and only specify the PhoneNumber on the matching rule.
+        public var phoneNumber: [Swift.String]?
+
+        public init(
+            address: [Swift.String]? = nil,
+            attributeMatchingModel: CustomerProfilesClientTypes.AttributeMatchingModel? = nil,
+            emailAddress: [Swift.String]? = nil,
+            phoneNumber: [Swift.String]? = nil
+        )
+        {
+            self.address = address
+            self.attributeMatchingModel = attributeMatchingModel
+            self.emailAddress = emailAddress
+            self.phoneNumber = phoneNumber
+        }
+    }
+
+}
+
 extension CustomerProfilesClientTypes.AutoMerging: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case conflictResolution = "ConflictResolution"
@@ -1517,6 +1675,7 @@ extension CreateDomainInput: Swift.Encodable {
         case defaultEncryptionKey = "DefaultEncryptionKey"
         case defaultExpirationDays = "DefaultExpirationDays"
         case matching = "Matching"
+        case ruleBasedMatching = "RuleBasedMatching"
         case tags = "Tags"
     }
 
@@ -1533,6 +1692,9 @@ extension CreateDomainInput: Swift.Encodable {
         }
         if let matching = self.matching {
             try encodeContainer.encode(matching, forKey: .matching)
+        }
+        if let ruleBasedMatching = self.ruleBasedMatching {
+            try encodeContainer.encode(ruleBasedMatching, forKey: .ruleBasedMatching)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
@@ -1565,6 +1727,8 @@ public struct CreateDomainInput: Swift.Equatable {
     public var domainName: Swift.String?
     /// The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly batch process called Identity Resolution Job. If you do not specify a date and time for Identity Resolution Job to run, by default it runs every Saturday at 12AM UTC to detect duplicate profiles in your domains. After the Identity Resolution Job completes, use the [GetMatches](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html) API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from S3.
     public var matching: CustomerProfilesClientTypes.MatchingRequest?
+    /// The process of matching duplicate profiles using the Rule-Based matching. If RuleBasedMatching = true, Amazon Connect Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
+    public var ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingRequest?
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -1574,6 +1738,7 @@ public struct CreateDomainInput: Swift.Equatable {
         defaultExpirationDays: Swift.Int? = nil,
         domainName: Swift.String? = nil,
         matching: CustomerProfilesClientTypes.MatchingRequest? = nil,
+        ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingRequest? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -1582,6 +1747,7 @@ public struct CreateDomainInput: Swift.Equatable {
         self.defaultExpirationDays = defaultExpirationDays
         self.domainName = domainName
         self.matching = matching
+        self.ruleBasedMatching = ruleBasedMatching
         self.tags = tags
     }
 }
@@ -1591,6 +1757,7 @@ struct CreateDomainInputBody: Swift.Equatable {
     let defaultEncryptionKey: Swift.String?
     let deadLetterQueueUrl: Swift.String?
     let matching: CustomerProfilesClientTypes.MatchingRequest?
+    let ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingRequest?
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -1600,6 +1767,7 @@ extension CreateDomainInputBody: Swift.Decodable {
         case defaultEncryptionKey = "DefaultEncryptionKey"
         case defaultExpirationDays = "DefaultExpirationDays"
         case matching = "Matching"
+        case ruleBasedMatching = "RuleBasedMatching"
         case tags = "Tags"
     }
 
@@ -1613,6 +1781,8 @@ extension CreateDomainInputBody: Swift.Decodable {
         deadLetterQueueUrl = deadLetterQueueUrlDecoded
         let matchingDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.MatchingRequest.self, forKey: .matching)
         matching = matchingDecoded
+        let ruleBasedMatchingDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.RuleBasedMatchingRequest.self, forKey: .ruleBasedMatching)
+        ruleBasedMatching = ruleBasedMatchingDecoded
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
         if let tagsContainer = tagsContainer {
@@ -1654,6 +1824,7 @@ extension CreateDomainOutputResponse: ClientRuntime.HttpResponseBinding {
             self.domainName = output.domainName
             self.lastUpdatedAt = output.lastUpdatedAt
             self.matching = output.matching
+            self.ruleBasedMatching = output.ruleBasedMatching
             self.tags = output.tags
         } else {
             self.createdAt = nil
@@ -1663,6 +1834,7 @@ extension CreateDomainOutputResponse: ClientRuntime.HttpResponseBinding {
             self.domainName = nil
             self.lastUpdatedAt = nil
             self.matching = nil
+            self.ruleBasedMatching = nil
             self.tags = nil
         }
     }
@@ -1687,6 +1859,8 @@ public struct CreateDomainOutputResponse: Swift.Equatable {
     public var lastUpdatedAt: ClientRuntime.Date?
     /// The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly batch process called Identity Resolution Job. If you do not specify a date and time for Identity Resolution Job to run, by default it runs every Saturday at 12AM UTC to detect duplicate profiles in your domains. After the Identity Resolution Job completes, use the [GetMatches](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html) API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from S3.
     public var matching: CustomerProfilesClientTypes.MatchingResponse?
+    /// The process of matching duplicate profiles using the Rule-Based matching. If RuleBasedMatching = true, Amazon Connect Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
+    public var ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingResponse?
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -1698,6 +1872,7 @@ public struct CreateDomainOutputResponse: Swift.Equatable {
         domainName: Swift.String? = nil,
         lastUpdatedAt: ClientRuntime.Date? = nil,
         matching: CustomerProfilesClientTypes.MatchingResponse? = nil,
+        ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingResponse? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -1708,6 +1883,7 @@ public struct CreateDomainOutputResponse: Swift.Equatable {
         self.domainName = domainName
         self.lastUpdatedAt = lastUpdatedAt
         self.matching = matching
+        self.ruleBasedMatching = ruleBasedMatching
         self.tags = tags
     }
 }
@@ -1718,6 +1894,7 @@ struct CreateDomainOutputResponseBody: Swift.Equatable {
     let defaultEncryptionKey: Swift.String?
     let deadLetterQueueUrl: Swift.String?
     let matching: CustomerProfilesClientTypes.MatchingResponse?
+    let ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingResponse?
     let createdAt: ClientRuntime.Date?
     let lastUpdatedAt: ClientRuntime.Date?
     let tags: [Swift.String:Swift.String]?
@@ -1732,6 +1909,7 @@ extension CreateDomainOutputResponseBody: Swift.Decodable {
         case domainName = "DomainName"
         case lastUpdatedAt = "LastUpdatedAt"
         case matching = "Matching"
+        case ruleBasedMatching = "RuleBasedMatching"
         case tags = "Tags"
     }
 
@@ -1747,6 +1925,8 @@ extension CreateDomainOutputResponseBody: Swift.Decodable {
         deadLetterQueueUrl = deadLetterQueueUrlDecoded
         let matchingDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.MatchingResponse.self, forKey: .matching)
         matching = matchingDecoded
+        let ruleBasedMatchingDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.RuleBasedMatchingResponse.self, forKey: .ruleBasedMatching)
+        ruleBasedMatching = ruleBasedMatchingDecoded
         let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
         createdAt = createdAtDecoded
         let lastUpdatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedAt)
@@ -4875,6 +5055,7 @@ extension GetDomainOutputResponse: ClientRuntime.HttpResponseBinding {
             self.domainName = output.domainName
             self.lastUpdatedAt = output.lastUpdatedAt
             self.matching = output.matching
+            self.ruleBasedMatching = output.ruleBasedMatching
             self.stats = output.stats
             self.tags = output.tags
         } else {
@@ -4885,6 +5066,7 @@ extension GetDomainOutputResponse: ClientRuntime.HttpResponseBinding {
             self.domainName = nil
             self.lastUpdatedAt = nil
             self.matching = nil
+            self.ruleBasedMatching = nil
             self.stats = nil
             self.tags = nil
         }
@@ -4909,6 +5091,8 @@ public struct GetDomainOutputResponse: Swift.Equatable {
     public var lastUpdatedAt: ClientRuntime.Date?
     /// The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly batch process called Identity Resolution Job. If you do not specify a date and time for Identity Resolution Job to run, by default it runs every Saturday at 12AM UTC to detect duplicate profiles in your domains. After the Identity Resolution Job completes, use the [GetMatches](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html) API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from S3.
     public var matching: CustomerProfilesClientTypes.MatchingResponse?
+    /// The process of matching duplicate profiles using the Rule-Based matching. If RuleBasedMatching = true, Amazon Connect Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
+    public var ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingResponse?
     /// Usage-specific statistics about the domain.
     public var stats: CustomerProfilesClientTypes.DomainStats?
     /// The tags used to organize, track, or control access for this resource.
@@ -4922,6 +5106,7 @@ public struct GetDomainOutputResponse: Swift.Equatable {
         domainName: Swift.String? = nil,
         lastUpdatedAt: ClientRuntime.Date? = nil,
         matching: CustomerProfilesClientTypes.MatchingResponse? = nil,
+        ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingResponse? = nil,
         stats: CustomerProfilesClientTypes.DomainStats? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
@@ -4933,6 +5118,7 @@ public struct GetDomainOutputResponse: Swift.Equatable {
         self.domainName = domainName
         self.lastUpdatedAt = lastUpdatedAt
         self.matching = matching
+        self.ruleBasedMatching = ruleBasedMatching
         self.stats = stats
         self.tags = tags
     }
@@ -4945,6 +5131,7 @@ struct GetDomainOutputResponseBody: Swift.Equatable {
     let deadLetterQueueUrl: Swift.String?
     let stats: CustomerProfilesClientTypes.DomainStats?
     let matching: CustomerProfilesClientTypes.MatchingResponse?
+    let ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingResponse?
     let createdAt: ClientRuntime.Date?
     let lastUpdatedAt: ClientRuntime.Date?
     let tags: [Swift.String:Swift.String]?
@@ -4959,6 +5146,7 @@ extension GetDomainOutputResponseBody: Swift.Decodable {
         case domainName = "DomainName"
         case lastUpdatedAt = "LastUpdatedAt"
         case matching = "Matching"
+        case ruleBasedMatching = "RuleBasedMatching"
         case stats = "Stats"
         case tags = "Tags"
     }
@@ -4977,6 +5165,8 @@ extension GetDomainOutputResponseBody: Swift.Decodable {
         stats = statsDecoded
         let matchingDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.MatchingResponse.self, forKey: .matching)
         matching = matchingDecoded
+        let ruleBasedMatchingDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.RuleBasedMatchingResponse.self, forKey: .ruleBasedMatching)
+        ruleBasedMatching = ruleBasedMatchingDecoded
         let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
         createdAt = createdAtDecoded
         let lastUpdatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedAt)
@@ -6142,6 +6332,227 @@ extension GetProfileObjectTypeTemplateOutputResponseBody: Swift.Decodable {
             }
         }
         keys = keysDecoded0
+    }
+}
+
+extension GetSimilarProfilesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case matchType = "MatchType"
+        case searchKey = "SearchKey"
+        case searchValue = "SearchValue"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let matchType = self.matchType {
+            try encodeContainer.encode(matchType.rawValue, forKey: .matchType)
+        }
+        if let searchKey = self.searchKey {
+            try encodeContainer.encode(searchKey, forKey: .searchKey)
+        }
+        if let searchValue = self.searchValue {
+            try encodeContainer.encode(searchValue, forKey: .searchValue)
+        }
+    }
+}
+
+extension GetSimilarProfilesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension GetSimilarProfilesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/matches"
+    }
+}
+
+public struct GetSimilarProfilesInput: Swift.Equatable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// Specify the type of matching to get similar profiles for.
+    /// This member is required.
+    public var matchType: CustomerProfilesClientTypes.MatchType?
+    /// The maximum number of objects returned per page.
+    public var maxResults: Swift.Int?
+    /// The pagination token from the previous GetSimilarProfiles API call.
+    public var nextToken: Swift.String?
+    /// The string indicating the search key to be used.
+    /// This member is required.
+    public var searchKey: Swift.String?
+    /// The string based on SearchKey to be searched for similar profiles.
+    /// This member is required.
+    public var searchValue: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        matchType: CustomerProfilesClientTypes.MatchType? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        searchKey: Swift.String? = nil,
+        searchValue: Swift.String? = nil
+    )
+    {
+        self.domainName = domainName
+        self.matchType = matchType
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.searchKey = searchKey
+        self.searchValue = searchValue
+    }
+}
+
+struct GetSimilarProfilesInputBody: Swift.Equatable {
+    let matchType: CustomerProfilesClientTypes.MatchType?
+    let searchKey: Swift.String?
+    let searchValue: Swift.String?
+}
+
+extension GetSimilarProfilesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case matchType = "MatchType"
+        case searchKey = "SearchKey"
+        case searchValue = "SearchValue"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let matchTypeDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.MatchType.self, forKey: .matchType)
+        matchType = matchTypeDecoded
+        let searchKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .searchKey)
+        searchKey = searchKeyDecoded
+        let searchValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .searchValue)
+        searchValue = searchValueDecoded
+    }
+}
+
+public enum GetSimilarProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetSimilarProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetSimilarProfilesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.confidenceScore = output.confidenceScore
+            self.matchId = output.matchId
+            self.matchType = output.matchType
+            self.nextToken = output.nextToken
+            self.profileIds = output.profileIds
+            self.ruleLevel = output.ruleLevel
+        } else {
+            self.confidenceScore = nil
+            self.matchId = nil
+            self.matchType = nil
+            self.nextToken = nil
+            self.profileIds = nil
+            self.ruleLevel = nil
+        }
+    }
+}
+
+public struct GetSimilarProfilesOutputResponse: Swift.Equatable {
+    /// It only has value when the MatchType is ML_BASED_MATCHING.A number between 0 and 1, where a higher score means higher similarity. Examining match confidence scores lets you distinguish between groups of similar records in which the system is highly confident (which you may decide to merge), groups of similar records about which the system is uncertain (which you may decide to have reviewed by a human), and groups of similar records that the system deems to be unlikely (which you may decide to reject). Given confidence scores vary as per the data input, it should not be used as an absolute measure of matching quality.
+    public var confidenceScore: Swift.Double?
+    /// The string matchId that the similar profiles belong to.
+    public var matchId: Swift.String?
+    /// Specify the type of matching to get similar profiles for.
+    public var matchType: CustomerProfilesClientTypes.MatchType?
+    /// The pagination token from the previous GetSimilarProfiles API call.
+    public var nextToken: Swift.String?
+    /// Set of profileIds that belong to the same matching group.
+    public var profileIds: [Swift.String]?
+    /// The integer rule level that the profiles matched on.
+    public var ruleLevel: Swift.Int?
+
+    public init(
+        confidenceScore: Swift.Double? = nil,
+        matchId: Swift.String? = nil,
+        matchType: CustomerProfilesClientTypes.MatchType? = nil,
+        nextToken: Swift.String? = nil,
+        profileIds: [Swift.String]? = nil,
+        ruleLevel: Swift.Int? = nil
+    )
+    {
+        self.confidenceScore = confidenceScore
+        self.matchId = matchId
+        self.matchType = matchType
+        self.nextToken = nextToken
+        self.profileIds = profileIds
+        self.ruleLevel = ruleLevel
+    }
+}
+
+struct GetSimilarProfilesOutputResponseBody: Swift.Equatable {
+    let profileIds: [Swift.String]?
+    let matchId: Swift.String?
+    let matchType: CustomerProfilesClientTypes.MatchType?
+    let ruleLevel: Swift.Int?
+    let confidenceScore: Swift.Double?
+    let nextToken: Swift.String?
+}
+
+extension GetSimilarProfilesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case confidenceScore = "ConfidenceScore"
+        case matchId = "MatchId"
+        case matchType = "MatchType"
+        case nextToken = "NextToken"
+        case profileIds = "ProfileIds"
+        case ruleLevel = "RuleLevel"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let profileIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .profileIds)
+        var profileIdsDecoded0:[Swift.String]? = nil
+        if let profileIdsContainer = profileIdsContainer {
+            profileIdsDecoded0 = [Swift.String]()
+            for string0 in profileIdsContainer {
+                if let string0 = string0 {
+                    profileIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        profileIds = profileIdsDecoded0
+        let matchIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .matchId)
+        matchId = matchIdDecoded
+        let matchTypeDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.MatchType.self, forKey: .matchType)
+        matchType = matchTypeDecoded
+        let ruleLevelDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ruleLevel)
+        ruleLevel = ruleLevelDecoded
+        let confidenceScoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .confidenceScore)
+        confidenceScore = confidenceScoreDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
     }
 }
 
@@ -8866,6 +9277,136 @@ extension ListProfileObjectsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListRuleBasedMatchesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListRuleBasedMatchesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/profiles/ruleBasedMatches"
+    }
+}
+
+public struct ListRuleBasedMatchesInput: Swift.Equatable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The maximum number of MatchIds returned per page.
+    public var maxResults: Swift.Int?
+    /// The pagination token from the previous ListRuleBasedMatches API call.
+    public var nextToken: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.domainName = domainName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListRuleBasedMatchesInputBody: Swift.Equatable {
+}
+
+extension ListRuleBasedMatchesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum ListRuleBasedMatchesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListRuleBasedMatchesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListRuleBasedMatchesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.matchIds = output.matchIds
+            self.nextToken = output.nextToken
+        } else {
+            self.matchIds = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListRuleBasedMatchesOutputResponse: Swift.Equatable {
+    /// The list of MatchIds for the given domain.
+    public var matchIds: [Swift.String]?
+    /// The pagination token from the previous ListRuleBasedMatches API call.
+    public var nextToken: Swift.String?
+
+    public init(
+        matchIds: [Swift.String]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.matchIds = matchIds
+        self.nextToken = nextToken
+    }
+}
+
+struct ListRuleBasedMatchesOutputResponseBody: Swift.Equatable {
+    let matchIds: [Swift.String]?
+    let nextToken: Swift.String?
+}
+
+extension ListRuleBasedMatchesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case matchIds = "MatchIds"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let matchIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .matchIds)
+        var matchIdsDecoded0:[Swift.String]? = nil
+        if let matchIdsContainer = matchIdsContainer {
+            matchIdsDecoded0 = [Swift.String]()
+            for string0 in matchIdsContainer {
+                if let string0 = string0 {
+                    matchIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        matchIds = matchIdsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let resourceArn = resourceArn else {
@@ -9449,6 +9990,38 @@ extension CustomerProfilesClientTypes {
 
 }
 
+extension CustomerProfilesClientTypes {
+    public enum MatchType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case mlBasedMatching
+        case ruleBasedMatching
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MatchType] {
+            return [
+                .mlBasedMatching,
+                .ruleBasedMatching,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .mlBasedMatching: return "ML_BASED_MATCHING"
+            case .ruleBasedMatching: return "RULE_BASED_MATCHING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MatchType(rawValue: rawValue) ?? MatchType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension CustomerProfilesClientTypes.MatchingRequest: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoMerging = "AutoMerging"
@@ -9575,6 +10148,88 @@ extension CustomerProfilesClientTypes {
             self.enabled = enabled
             self.exportingConfig = exportingConfig
             self.jobSchedule = jobSchedule
+        }
+    }
+
+}
+
+extension CustomerProfilesClientTypes.MatchingRule: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case rule = "Rule"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let rule = rule {
+            var ruleContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rule)
+            for string1to2550 in rule {
+                try ruleContainer.encode(string1to2550)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ruleContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .rule)
+        var ruleDecoded0:[Swift.String]? = nil
+        if let ruleContainer = ruleContainer {
+            ruleDecoded0 = [Swift.String]()
+            for string0 in ruleContainer {
+                if let string0 = string0 {
+                    ruleDecoded0?.append(string0)
+                }
+            }
+        }
+        rule = ruleDecoded0
+    }
+}
+
+extension CustomerProfilesClientTypes {
+    /// Specifies how does the rule-based matching process should match profiles. You can choose from the following attributes to build the matching Rule:
+    ///
+    /// * AccountNumber
+    ///
+    /// * Address.Address
+    ///
+    /// * Address.City
+    ///
+    /// * Address.Country
+    ///
+    /// * Address.County
+    ///
+    /// * Address.PostalCode
+    ///
+    /// * Address.State
+    ///
+    /// * Address.Province
+    ///
+    /// * BirthDate
+    ///
+    /// * BusinessName
+    ///
+    /// * EmailAddress
+    ///
+    /// * FirstName
+    ///
+    /// * Gender
+    ///
+    /// * LastName
+    ///
+    /// * MiddleName
+    ///
+    /// * PhoneNumber
+    ///
+    /// * Any customized profile attributes that start with the Attributes
+    public struct MatchingRule: Swift.Equatable {
+        /// A single rule level of the MatchRules. Configures how the rule-based matching process should match profiles.
+        /// This member is required.
+        public var rule: [Swift.String]?
+
+        public init(
+            rule: [Swift.String]? = nil
+        )
+        {
+            self.rule = rule
         }
     }
 
@@ -11274,6 +11929,278 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension CustomerProfilesClientTypes.RuleBasedMatchingRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeTypesSelector = "AttributeTypesSelector"
+        case conflictResolution = "ConflictResolution"
+        case enabled = "Enabled"
+        case exportingConfig = "ExportingConfig"
+        case matchingRules = "MatchingRules"
+        case maxAllowedRuleLevelForMatching = "MaxAllowedRuleLevelForMatching"
+        case maxAllowedRuleLevelForMerging = "MaxAllowedRuleLevelForMerging"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributeTypesSelector = self.attributeTypesSelector {
+            try encodeContainer.encode(attributeTypesSelector, forKey: .attributeTypesSelector)
+        }
+        if let conflictResolution = self.conflictResolution {
+            try encodeContainer.encode(conflictResolution, forKey: .conflictResolution)
+        }
+        if let enabled = self.enabled {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+        if let exportingConfig = self.exportingConfig {
+            try encodeContainer.encode(exportingConfig, forKey: .exportingConfig)
+        }
+        if let matchingRules = matchingRules {
+            var matchingRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .matchingRules)
+            for matchingrule0 in matchingRules {
+                try matchingRulesContainer.encode(matchingrule0)
+            }
+        }
+        if let maxAllowedRuleLevelForMatching = self.maxAllowedRuleLevelForMatching {
+            try encodeContainer.encode(maxAllowedRuleLevelForMatching, forKey: .maxAllowedRuleLevelForMatching)
+        }
+        if let maxAllowedRuleLevelForMerging = self.maxAllowedRuleLevelForMerging {
+            try encodeContainer.encode(maxAllowedRuleLevelForMerging, forKey: .maxAllowedRuleLevelForMerging)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
+        enabled = enabledDecoded
+        let matchingRulesContainer = try containerValues.decodeIfPresent([CustomerProfilesClientTypes.MatchingRule?].self, forKey: .matchingRules)
+        var matchingRulesDecoded0:[CustomerProfilesClientTypes.MatchingRule]? = nil
+        if let matchingRulesContainer = matchingRulesContainer {
+            matchingRulesDecoded0 = [CustomerProfilesClientTypes.MatchingRule]()
+            for structure0 in matchingRulesContainer {
+                if let structure0 = structure0 {
+                    matchingRulesDecoded0?.append(structure0)
+                }
+            }
+        }
+        matchingRules = matchingRulesDecoded0
+        let maxAllowedRuleLevelForMergingDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxAllowedRuleLevelForMerging)
+        maxAllowedRuleLevelForMerging = maxAllowedRuleLevelForMergingDecoded
+        let maxAllowedRuleLevelForMatchingDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxAllowedRuleLevelForMatching)
+        maxAllowedRuleLevelForMatching = maxAllowedRuleLevelForMatchingDecoded
+        let attributeTypesSelectorDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.AttributeTypesSelector.self, forKey: .attributeTypesSelector)
+        attributeTypesSelector = attributeTypesSelectorDecoded
+        let conflictResolutionDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.ConflictResolution.self, forKey: .conflictResolution)
+        conflictResolution = conflictResolutionDecoded
+        let exportingConfigDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.ExportingConfig.self, forKey: .exportingConfig)
+        exportingConfig = exportingConfigDecoded
+    }
+}
+
+extension CustomerProfilesClientTypes {
+    /// The request to enable the rule-based matching.
+    public struct RuleBasedMatchingRequest: Swift.Equatable {
+        /// Configures information about the AttributeTypesSelector where the rule-based identity resolution uses to match profiles.
+        public var attributeTypesSelector: CustomerProfilesClientTypes.AttributeTypesSelector?
+        /// How the auto-merging process should resolve conflicts between different profiles.
+        public var conflictResolution: CustomerProfilesClientTypes.ConflictResolution?
+        /// The flag that enables the rule-based matching process of duplicate profiles.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// Configuration information about the S3 bucket where Identity Resolution Jobs writes result files. You need to give Customer Profiles service principal write permission to your S3 bucket. Otherwise, you'll get an exception in the API response. For an example policy, see [Amazon Connect Customer Profiles cross-service confused deputy prevention](https://docs.aws.amazon.com/connect/latest/adminguide/cross-service-confused-deputy-prevention.html#customer-profiles-cross-service).
+        public var exportingConfig: CustomerProfilesClientTypes.ExportingConfig?
+        /// Configures how the rule-based matching process should match profiles. You can have up to 15 MatchingRule in the MatchingRules.
+        public var matchingRules: [CustomerProfilesClientTypes.MatchingRule]?
+        /// Indicates the maximum allowed rule level.
+        public var maxAllowedRuleLevelForMatching: Swift.Int?
+        /// [MatchingRule](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_MatchingRule.html)
+        public var maxAllowedRuleLevelForMerging: Swift.Int?
+
+        public init(
+            attributeTypesSelector: CustomerProfilesClientTypes.AttributeTypesSelector? = nil,
+            conflictResolution: CustomerProfilesClientTypes.ConflictResolution? = nil,
+            enabled: Swift.Bool? = nil,
+            exportingConfig: CustomerProfilesClientTypes.ExportingConfig? = nil,
+            matchingRules: [CustomerProfilesClientTypes.MatchingRule]? = nil,
+            maxAllowedRuleLevelForMatching: Swift.Int? = nil,
+            maxAllowedRuleLevelForMerging: Swift.Int? = nil
+        )
+        {
+            self.attributeTypesSelector = attributeTypesSelector
+            self.conflictResolution = conflictResolution
+            self.enabled = enabled
+            self.exportingConfig = exportingConfig
+            self.matchingRules = matchingRules
+            self.maxAllowedRuleLevelForMatching = maxAllowedRuleLevelForMatching
+            self.maxAllowedRuleLevelForMerging = maxAllowedRuleLevelForMerging
+        }
+    }
+
+}
+
+extension CustomerProfilesClientTypes.RuleBasedMatchingResponse: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeTypesSelector = "AttributeTypesSelector"
+        case conflictResolution = "ConflictResolution"
+        case enabled = "Enabled"
+        case exportingConfig = "ExportingConfig"
+        case matchingRules = "MatchingRules"
+        case maxAllowedRuleLevelForMatching = "MaxAllowedRuleLevelForMatching"
+        case maxAllowedRuleLevelForMerging = "MaxAllowedRuleLevelForMerging"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributeTypesSelector = self.attributeTypesSelector {
+            try encodeContainer.encode(attributeTypesSelector, forKey: .attributeTypesSelector)
+        }
+        if let conflictResolution = self.conflictResolution {
+            try encodeContainer.encode(conflictResolution, forKey: .conflictResolution)
+        }
+        if let enabled = self.enabled {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+        if let exportingConfig = self.exportingConfig {
+            try encodeContainer.encode(exportingConfig, forKey: .exportingConfig)
+        }
+        if let matchingRules = matchingRules {
+            var matchingRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .matchingRules)
+            for matchingrule0 in matchingRules {
+                try matchingRulesContainer.encode(matchingrule0)
+            }
+        }
+        if let maxAllowedRuleLevelForMatching = self.maxAllowedRuleLevelForMatching {
+            try encodeContainer.encode(maxAllowedRuleLevelForMatching, forKey: .maxAllowedRuleLevelForMatching)
+        }
+        if let maxAllowedRuleLevelForMerging = self.maxAllowedRuleLevelForMerging {
+            try encodeContainer.encode(maxAllowedRuleLevelForMerging, forKey: .maxAllowedRuleLevelForMerging)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
+        enabled = enabledDecoded
+        let matchingRulesContainer = try containerValues.decodeIfPresent([CustomerProfilesClientTypes.MatchingRule?].self, forKey: .matchingRules)
+        var matchingRulesDecoded0:[CustomerProfilesClientTypes.MatchingRule]? = nil
+        if let matchingRulesContainer = matchingRulesContainer {
+            matchingRulesDecoded0 = [CustomerProfilesClientTypes.MatchingRule]()
+            for structure0 in matchingRulesContainer {
+                if let structure0 = structure0 {
+                    matchingRulesDecoded0?.append(structure0)
+                }
+            }
+        }
+        matchingRules = matchingRulesDecoded0
+        let statusDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.RuleBasedMatchingStatus.self, forKey: .status)
+        status = statusDecoded
+        let maxAllowedRuleLevelForMergingDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxAllowedRuleLevelForMerging)
+        maxAllowedRuleLevelForMerging = maxAllowedRuleLevelForMergingDecoded
+        let maxAllowedRuleLevelForMatchingDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxAllowedRuleLevelForMatching)
+        maxAllowedRuleLevelForMatching = maxAllowedRuleLevelForMatchingDecoded
+        let attributeTypesSelectorDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.AttributeTypesSelector.self, forKey: .attributeTypesSelector)
+        attributeTypesSelector = attributeTypesSelectorDecoded
+        let conflictResolutionDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.ConflictResolution.self, forKey: .conflictResolution)
+        conflictResolution = conflictResolutionDecoded
+        let exportingConfigDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.ExportingConfig.self, forKey: .exportingConfig)
+        exportingConfig = exportingConfigDecoded
+    }
+}
+
+extension CustomerProfilesClientTypes {
+    /// The response of the Rule-based matching request.
+    public struct RuleBasedMatchingResponse: Swift.Equatable {
+        /// Configures information about the AttributeTypesSelector where the rule-based identity resolution uses to match profiles.
+        public var attributeTypesSelector: CustomerProfilesClientTypes.AttributeTypesSelector?
+        /// How the auto-merging process should resolve conflicts between different profiles.
+        public var conflictResolution: CustomerProfilesClientTypes.ConflictResolution?
+        /// The flag that enables the rule-based matching process of duplicate profiles.
+        public var enabled: Swift.Bool?
+        /// Configuration information about the S3 bucket where Identity Resolution Jobs writes result files. You need to give Customer Profiles service principal write permission to your S3 bucket. Otherwise, you'll get an exception in the API response. For an example policy, see [Amazon Connect Customer Profiles cross-service confused deputy prevention](https://docs.aws.amazon.com/connect/latest/adminguide/cross-service-confused-deputy-prevention.html#customer-profiles-cross-service).
+        public var exportingConfig: CustomerProfilesClientTypes.ExportingConfig?
+        /// Configures how the rule-based matching process should match profiles. You can have up to 15 MatchingRule in the MatchingRules.
+        public var matchingRules: [CustomerProfilesClientTypes.MatchingRule]?
+        /// Indicates the maximum allowed rule level.
+        public var maxAllowedRuleLevelForMatching: Swift.Int?
+        /// [MatchingRule](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_MatchingRule.html)
+        public var maxAllowedRuleLevelForMerging: Swift.Int?
+        /// PENDING
+        ///
+        /// * The first status after configuration a rule-based matching rule. If it is an existing domain, the rule-based Identity Resolution waits one hour before creating the matching rule. If it is a new domain, the system will skip the PENDING stage.
+        ///
+        ///
+        /// IN_PROGRESS
+        ///
+        /// * The system is creating the rule-based matching rule. Under this status, the system is evaluating the existing data and you can no longer change the Rule-based matching configuration.
+        ///
+        ///
+        /// ACTIVE
+        ///
+        /// * The rule is ready to use. You can change the rule a day after the status is in ACTIVE.
+        public var status: CustomerProfilesClientTypes.RuleBasedMatchingStatus?
+
+        public init(
+            attributeTypesSelector: CustomerProfilesClientTypes.AttributeTypesSelector? = nil,
+            conflictResolution: CustomerProfilesClientTypes.ConflictResolution? = nil,
+            enabled: Swift.Bool? = nil,
+            exportingConfig: CustomerProfilesClientTypes.ExportingConfig? = nil,
+            matchingRules: [CustomerProfilesClientTypes.MatchingRule]? = nil,
+            maxAllowedRuleLevelForMatching: Swift.Int? = nil,
+            maxAllowedRuleLevelForMerging: Swift.Int? = nil,
+            status: CustomerProfilesClientTypes.RuleBasedMatchingStatus? = nil
+        )
+        {
+            self.attributeTypesSelector = attributeTypesSelector
+            self.conflictResolution = conflictResolution
+            self.enabled = enabled
+            self.exportingConfig = exportingConfig
+            self.matchingRules = matchingRules
+            self.maxAllowedRuleLevelForMatching = maxAllowedRuleLevelForMatching
+            self.maxAllowedRuleLevelForMerging = maxAllowedRuleLevelForMerging
+            self.status = status
+        }
+    }
+
+}
+
+extension CustomerProfilesClientTypes {
+    public enum RuleBasedMatchingStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case inProgress
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuleBasedMatchingStatus] {
+            return [
+                .active,
+                .inProgress,
+                .pending,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .inProgress: return "IN_PROGRESS"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RuleBasedMatchingStatus(rawValue: rawValue) ?? RuleBasedMatchingStatus.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -13343,6 +14270,7 @@ extension UpdateDomainInput: Swift.Encodable {
         case defaultEncryptionKey = "DefaultEncryptionKey"
         case defaultExpirationDays = "DefaultExpirationDays"
         case matching = "Matching"
+        case ruleBasedMatching = "RuleBasedMatching"
         case tags = "Tags"
     }
 
@@ -13359,6 +14287,9 @@ extension UpdateDomainInput: Swift.Encodable {
         }
         if let matching = self.matching {
             try encodeContainer.encode(matching, forKey: .matching)
+        }
+        if let ruleBasedMatching = self.ruleBasedMatching {
+            try encodeContainer.encode(ruleBasedMatching, forKey: .ruleBasedMatching)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
@@ -13390,6 +14321,8 @@ public struct UpdateDomainInput: Swift.Equatable {
     public var domainName: Swift.String?
     /// The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly batch process called Identity Resolution Job. If you do not specify a date and time for Identity Resolution Job to run, by default it runs every Saturday at 12AM UTC to detect duplicate profiles in your domains. After the Identity Resolution Job completes, use the [GetMatches](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html) API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from S3.
     public var matching: CustomerProfilesClientTypes.MatchingRequest?
+    /// The process of matching duplicate profiles using the rule-Based matching. If RuleBasedMatching = true, Amazon Connect Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
+    public var ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingRequest?
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -13399,6 +14332,7 @@ public struct UpdateDomainInput: Swift.Equatable {
         defaultExpirationDays: Swift.Int? = nil,
         domainName: Swift.String? = nil,
         matching: CustomerProfilesClientTypes.MatchingRequest? = nil,
+        ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingRequest? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -13407,6 +14341,7 @@ public struct UpdateDomainInput: Swift.Equatable {
         self.defaultExpirationDays = defaultExpirationDays
         self.domainName = domainName
         self.matching = matching
+        self.ruleBasedMatching = ruleBasedMatching
         self.tags = tags
     }
 }
@@ -13416,6 +14351,7 @@ struct UpdateDomainInputBody: Swift.Equatable {
     let defaultEncryptionKey: Swift.String?
     let deadLetterQueueUrl: Swift.String?
     let matching: CustomerProfilesClientTypes.MatchingRequest?
+    let ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingRequest?
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -13425,6 +14361,7 @@ extension UpdateDomainInputBody: Swift.Decodable {
         case defaultEncryptionKey = "DefaultEncryptionKey"
         case defaultExpirationDays = "DefaultExpirationDays"
         case matching = "Matching"
+        case ruleBasedMatching = "RuleBasedMatching"
         case tags = "Tags"
     }
 
@@ -13438,6 +14375,8 @@ extension UpdateDomainInputBody: Swift.Decodable {
         deadLetterQueueUrl = deadLetterQueueUrlDecoded
         let matchingDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.MatchingRequest.self, forKey: .matching)
         matching = matchingDecoded
+        let ruleBasedMatchingDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.RuleBasedMatchingRequest.self, forKey: .ruleBasedMatching)
+        ruleBasedMatching = ruleBasedMatchingDecoded
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
         if let tagsContainer = tagsContainer {
@@ -13479,6 +14418,7 @@ extension UpdateDomainOutputResponse: ClientRuntime.HttpResponseBinding {
             self.domainName = output.domainName
             self.lastUpdatedAt = output.lastUpdatedAt
             self.matching = output.matching
+            self.ruleBasedMatching = output.ruleBasedMatching
             self.tags = output.tags
         } else {
             self.createdAt = nil
@@ -13488,6 +14428,7 @@ extension UpdateDomainOutputResponse: ClientRuntime.HttpResponseBinding {
             self.domainName = nil
             self.lastUpdatedAt = nil
             self.matching = nil
+            self.ruleBasedMatching = nil
             self.tags = nil
         }
     }
@@ -13511,6 +14452,8 @@ public struct UpdateDomainOutputResponse: Swift.Equatable {
     public var lastUpdatedAt: ClientRuntime.Date?
     /// The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly batch process called Identity Resolution Job. If you do not specify a date and time for Identity Resolution Job to run, by default it runs every Saturday at 12AM UTC to detect duplicate profiles in your domains. After the Identity Resolution Job completes, use the [GetMatches](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html) API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from S3.
     public var matching: CustomerProfilesClientTypes.MatchingResponse?
+    /// The process of matching duplicate profiles using the rule-Based matching. If RuleBasedMatching = true, Amazon Connect Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
+    public var ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingResponse?
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -13522,6 +14465,7 @@ public struct UpdateDomainOutputResponse: Swift.Equatable {
         domainName: Swift.String? = nil,
         lastUpdatedAt: ClientRuntime.Date? = nil,
         matching: CustomerProfilesClientTypes.MatchingResponse? = nil,
+        ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingResponse? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -13532,6 +14476,7 @@ public struct UpdateDomainOutputResponse: Swift.Equatable {
         self.domainName = domainName
         self.lastUpdatedAt = lastUpdatedAt
         self.matching = matching
+        self.ruleBasedMatching = ruleBasedMatching
         self.tags = tags
     }
 }
@@ -13542,6 +14487,7 @@ struct UpdateDomainOutputResponseBody: Swift.Equatable {
     let defaultEncryptionKey: Swift.String?
     let deadLetterQueueUrl: Swift.String?
     let matching: CustomerProfilesClientTypes.MatchingResponse?
+    let ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingResponse?
     let createdAt: ClientRuntime.Date?
     let lastUpdatedAt: ClientRuntime.Date?
     let tags: [Swift.String:Swift.String]?
@@ -13556,6 +14502,7 @@ extension UpdateDomainOutputResponseBody: Swift.Decodable {
         case domainName = "DomainName"
         case lastUpdatedAt = "LastUpdatedAt"
         case matching = "Matching"
+        case ruleBasedMatching = "RuleBasedMatching"
         case tags = "Tags"
     }
 
@@ -13571,6 +14518,8 @@ extension UpdateDomainOutputResponseBody: Swift.Decodable {
         deadLetterQueueUrl = deadLetterQueueUrlDecoded
         let matchingDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.MatchingResponse.self, forKey: .matching)
         matching = matchingDecoded
+        let ruleBasedMatchingDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.RuleBasedMatchingResponse.self, forKey: .ruleBasedMatching)
+        ruleBasedMatching = ruleBasedMatchingDecoded
         let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
         createdAt = createdAtDecoded
         let lastUpdatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedAt)

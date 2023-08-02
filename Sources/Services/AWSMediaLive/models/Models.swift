@@ -8647,6 +8647,7 @@ extension DescribeInputDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: DescribeInputDeviceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
+            self.availabilityZone = output.availabilityZone
             self.connectionState = output.connectionState
             self.deviceSettingsSyncState = output.deviceSettingsSyncState
             self.deviceUpdateStatus = output.deviceUpdateStatus
@@ -8661,6 +8662,7 @@ extension DescribeInputDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
             self.uhdDeviceSettings = output.uhdDeviceSettings
         } else {
             self.arn = nil
+            self.availabilityZone = nil
             self.connectionState = nil
             self.deviceSettingsSyncState = nil
             self.deviceUpdateStatus = nil
@@ -8681,6 +8683,8 @@ extension DescribeInputDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DescribeInputDeviceOutputResponse: Swift.Equatable {
     /// The unique ARN of the input device.
     public var arn: Swift.String?
+    /// The Availability Zone associated with this input device.
+    public var availabilityZone: Swift.String?
     /// The state of the connection between the input device and AWS.
     public var connectionState: MediaLiveClientTypes.InputDeviceConnectionState?
     /// The status of the action to synchronize the device configuration. If you change the configuration of the input device (for example, the maximum bitrate), MediaLive sends the new data to the device. The device might not update itself immediately. SYNCED means the device has updated its configuration. SYNCING means that it has not updated its configuration.
@@ -8708,6 +8712,7 @@ public struct DescribeInputDeviceOutputResponse: Swift.Equatable {
 
     public init(
         arn: Swift.String? = nil,
+        availabilityZone: Swift.String? = nil,
         connectionState: MediaLiveClientTypes.InputDeviceConnectionState? = nil,
         deviceSettingsSyncState: MediaLiveClientTypes.DeviceSettingsSyncState? = nil,
         deviceUpdateStatus: MediaLiveClientTypes.DeviceUpdateStatus? = nil,
@@ -8723,6 +8728,7 @@ public struct DescribeInputDeviceOutputResponse: Swift.Equatable {
     )
     {
         self.arn = arn
+        self.availabilityZone = availabilityZone
         self.connectionState = connectionState
         self.deviceSettingsSyncState = deviceSettingsSyncState
         self.deviceUpdateStatus = deviceUpdateStatus
@@ -8752,11 +8758,13 @@ struct DescribeInputDeviceOutputResponseBody: Swift.Equatable {
     let type: MediaLiveClientTypes.InputDeviceType?
     let uhdDeviceSettings: MediaLiveClientTypes.InputDeviceUhdSettings?
     let tags: [Swift.String:Swift.String]?
+    let availabilityZone: Swift.String?
 }
 
 extension DescribeInputDeviceOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "arn"
+        case availabilityZone = "availabilityZone"
         case connectionState = "connectionState"
         case deviceSettingsSyncState = "deviceSettingsSyncState"
         case deviceUpdateStatus = "deviceUpdateStatus"
@@ -8808,6 +8816,8 @@ extension DescribeInputDeviceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let availabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZone)
+        availabilityZone = availabilityZoneDecoded
     }
 }
 
@@ -19795,6 +19805,7 @@ extension MediaLiveClientTypes {
 extension MediaLiveClientTypes.InputDeviceSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "arn"
+        case availabilityZone = "availabilityZone"
         case connectionState = "connectionState"
         case deviceSettingsSyncState = "deviceSettingsSyncState"
         case deviceUpdateStatus = "deviceUpdateStatus"
@@ -19813,6 +19824,9 @@ extension MediaLiveClientTypes.InputDeviceSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let availabilityZone = self.availabilityZone {
+            try encodeContainer.encode(availabilityZone, forKey: .availabilityZone)
         }
         if let connectionState = self.connectionState {
             try encodeContainer.encode(connectionState.rawValue, forKey: .connectionState)
@@ -19892,6 +19906,8 @@ extension MediaLiveClientTypes.InputDeviceSummary: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let availabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZone)
+        availabilityZone = availabilityZoneDecoded
     }
 }
 
@@ -19900,6 +19916,8 @@ extension MediaLiveClientTypes {
     public struct InputDeviceSummary: Swift.Equatable {
         /// The unique ARN of the input device.
         public var arn: Swift.String?
+        /// The Availability Zone associated with this input device.
+        public var availabilityZone: Swift.String?
         /// The state of the connection between the input device and AWS.
         public var connectionState: MediaLiveClientTypes.InputDeviceConnectionState?
         /// The status of the action to synchronize the device configuration. If you change the configuration of the input device (for example, the maximum bitrate), MediaLive sends the new data to the device. The device might not update itself immediately. SYNCED means the device has updated its configuration. SYNCING means that it has not updated its configuration.
@@ -19927,6 +19945,7 @@ extension MediaLiveClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            availabilityZone: Swift.String? = nil,
             connectionState: MediaLiveClientTypes.InputDeviceConnectionState? = nil,
             deviceSettingsSyncState: MediaLiveClientTypes.DeviceSettingsSyncState? = nil,
             deviceUpdateStatus: MediaLiveClientTypes.DeviceUpdateStatus? = nil,
@@ -19942,6 +19961,7 @@ extension MediaLiveClientTypes {
         )
         {
             self.arn = arn
+            self.availabilityZone = availabilityZone
             self.connectionState = connectionState
             self.deviceSettingsSyncState = deviceSettingsSyncState
             self.deviceUpdateStatus = deviceUpdateStatus
@@ -35273,6 +35293,7 @@ extension UpdateChannelOutputResponseBody: Swift.Decodable {
 
 extension UpdateInputDeviceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZone = "availabilityZone"
         case hdDeviceSettings = "hdDeviceSettings"
         case name = "name"
         case uhdDeviceSettings = "uhdDeviceSettings"
@@ -35280,6 +35301,9 @@ extension UpdateInputDeviceInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let availabilityZone = self.availabilityZone {
+            try encodeContainer.encode(availabilityZone, forKey: .availabilityZone)
+        }
         if let hdDeviceSettings = self.hdDeviceSettings {
             try encodeContainer.encode(hdDeviceSettings, forKey: .hdDeviceSettings)
         }
@@ -35303,6 +35327,8 @@ extension UpdateInputDeviceInput: ClientRuntime.URLPathProvider {
 
 /// A request to update an input device.
 public struct UpdateInputDeviceInput: Swift.Equatable {
+    /// The Availability Zone you want associated with this input device.
+    public var availabilityZone: Swift.String?
     /// The settings that you want to apply to the HD input device.
     public var hdDeviceSettings: MediaLiveClientTypes.InputDeviceConfigurableSettings?
     /// The unique ID of the input device. For example, hd-123456789abcdef.
@@ -35314,12 +35340,14 @@ public struct UpdateInputDeviceInput: Swift.Equatable {
     public var uhdDeviceSettings: MediaLiveClientTypes.InputDeviceConfigurableSettings?
 
     public init(
+        availabilityZone: Swift.String? = nil,
         hdDeviceSettings: MediaLiveClientTypes.InputDeviceConfigurableSettings? = nil,
         inputDeviceId: Swift.String? = nil,
         name: Swift.String? = nil,
         uhdDeviceSettings: MediaLiveClientTypes.InputDeviceConfigurableSettings? = nil
     )
     {
+        self.availabilityZone = availabilityZone
         self.hdDeviceSettings = hdDeviceSettings
         self.inputDeviceId = inputDeviceId
         self.name = name
@@ -35331,10 +35359,12 @@ struct UpdateInputDeviceInputBody: Swift.Equatable {
     let hdDeviceSettings: MediaLiveClientTypes.InputDeviceConfigurableSettings?
     let name: Swift.String?
     let uhdDeviceSettings: MediaLiveClientTypes.InputDeviceConfigurableSettings?
+    let availabilityZone: Swift.String?
 }
 
 extension UpdateInputDeviceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZone = "availabilityZone"
         case hdDeviceSettings = "hdDeviceSettings"
         case name = "name"
         case uhdDeviceSettings = "uhdDeviceSettings"
@@ -35348,6 +35378,8 @@ extension UpdateInputDeviceInputBody: Swift.Decodable {
         name = nameDecoded
         let uhdDeviceSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputDeviceConfigurableSettings.self, forKey: .uhdDeviceSettings)
         uhdDeviceSettings = uhdDeviceSettingsDecoded
+        let availabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZone)
+        availabilityZone = availabilityZoneDecoded
     }
 }
 
@@ -35375,6 +35407,7 @@ extension UpdateInputDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: UpdateInputDeviceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
+            self.availabilityZone = output.availabilityZone
             self.connectionState = output.connectionState
             self.deviceSettingsSyncState = output.deviceSettingsSyncState
             self.deviceUpdateStatus = output.deviceUpdateStatus
@@ -35389,6 +35422,7 @@ extension UpdateInputDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
             self.uhdDeviceSettings = output.uhdDeviceSettings
         } else {
             self.arn = nil
+            self.availabilityZone = nil
             self.connectionState = nil
             self.deviceSettingsSyncState = nil
             self.deviceUpdateStatus = nil
@@ -35409,6 +35443,8 @@ extension UpdateInputDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct UpdateInputDeviceOutputResponse: Swift.Equatable {
     /// The unique ARN of the input device.
     public var arn: Swift.String?
+    /// The Availability Zone associated with this input device.
+    public var availabilityZone: Swift.String?
     /// The state of the connection between the input device and AWS.
     public var connectionState: MediaLiveClientTypes.InputDeviceConnectionState?
     /// The status of the action to synchronize the device configuration. If you change the configuration of the input device (for example, the maximum bitrate), MediaLive sends the new data to the device. The device might not update itself immediately. SYNCED means the device has updated its configuration. SYNCING means that it has not updated its configuration.
@@ -35436,6 +35472,7 @@ public struct UpdateInputDeviceOutputResponse: Swift.Equatable {
 
     public init(
         arn: Swift.String? = nil,
+        availabilityZone: Swift.String? = nil,
         connectionState: MediaLiveClientTypes.InputDeviceConnectionState? = nil,
         deviceSettingsSyncState: MediaLiveClientTypes.DeviceSettingsSyncState? = nil,
         deviceUpdateStatus: MediaLiveClientTypes.DeviceUpdateStatus? = nil,
@@ -35451,6 +35488,7 @@ public struct UpdateInputDeviceOutputResponse: Swift.Equatable {
     )
     {
         self.arn = arn
+        self.availabilityZone = availabilityZone
         self.connectionState = connectionState
         self.deviceSettingsSyncState = deviceSettingsSyncState
         self.deviceUpdateStatus = deviceUpdateStatus
@@ -35480,11 +35518,13 @@ struct UpdateInputDeviceOutputResponseBody: Swift.Equatable {
     let type: MediaLiveClientTypes.InputDeviceType?
     let uhdDeviceSettings: MediaLiveClientTypes.InputDeviceUhdSettings?
     let tags: [Swift.String:Swift.String]?
+    let availabilityZone: Swift.String?
 }
 
 extension UpdateInputDeviceOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "arn"
+        case availabilityZone = "availabilityZone"
         case connectionState = "connectionState"
         case deviceSettingsSyncState = "deviceSettingsSyncState"
         case deviceUpdateStatus = "deviceUpdateStatus"
@@ -35536,6 +35576,8 @@ extension UpdateInputDeviceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let availabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZone)
+        availabilityZone = availabilityZoneDecoded
     }
 }
 

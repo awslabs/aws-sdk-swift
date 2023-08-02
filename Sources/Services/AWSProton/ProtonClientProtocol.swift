@@ -106,6 +106,8 @@ public protocol ProtonClientProtocol {
     func createTemplateSyncConfig(input: CreateTemplateSyncConfigInput) async throws -> CreateTemplateSyncConfigOutputResponse
     /// Delete an Proton component resource. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     func deleteComponent(input: DeleteComponentInput) async throws -> DeleteComponentOutputResponse
+    /// Delete the deployment.
+    func deleteDeployment(input: DeleteDeploymentInput) async throws -> DeleteDeploymentOutputResponse
     /// Delete an environment.
     func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutputResponse
     /// In an environment account, delete an environment account connection. After you delete an environment account connection that’s in use by an Proton environment, Proton can’t manage the environment infrastructure resources until a new environment account connection is accepted for the environment account and associated environment. You're responsible for cleaning up provisioned resources that remain without an environment connection. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
@@ -130,6 +132,8 @@ public protocol ProtonClientProtocol {
     func getAccountSettings(input: GetAccountSettingsInput) async throws -> GetAccountSettingsOutputResponse
     /// Get detailed data for a component. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     func getComponent(input: GetComponentInput) async throws -> GetComponentOutputResponse
+    /// Get detailed data for a deployment.
+    func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutputResponse
     /// Get detailed data for an environment.
     func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutputResponse
     /// In an environment account, get the detailed data for an environment account connection. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
@@ -168,6 +172,8 @@ public protocol ProtonClientProtocol {
     func listComponentProvisionedResources(input: ListComponentProvisionedResourcesInput) async throws -> ListComponentProvisionedResourcesOutputResponse
     /// List components with summary data. You can filter the result list by environment, service, or a single service instance. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutputResponse
+    /// List deployments. You can filter the result list by environment, service, or a single service instance.
+    func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutputResponse
     /// View a list of environment account connections. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
     func listEnvironmentAccountConnections(input: ListEnvironmentAccountConnectionsInput) async throws -> ListEnvironmentAccountConnectionsOutputResponse
     /// List the infrastructure as code outputs for your environment.

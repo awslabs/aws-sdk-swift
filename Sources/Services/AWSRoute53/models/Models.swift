@@ -2205,6 +2205,7 @@ extension Route53ClientTypes {
         case euWest1
         case euWest2
         case euWest3
+        case ilCentral1
         case meCentral1
         case meSouth1
         case saEast1
@@ -2243,6 +2244,7 @@ extension Route53ClientTypes {
                 .euWest1,
                 .euWest2,
                 .euWest3,
+                .ilCentral1,
                 .meCentral1,
                 .meSouth1,
                 .saEast1,
@@ -2286,6 +2288,7 @@ extension Route53ClientTypes {
             case .euWest1: return "eu-west-1"
             case .euWest2: return "eu-west-2"
             case .euWest3: return "eu-west-3"
+            case .ilCentral1: return "il-central-1"
             case .meCentral1: return "me-central-1"
             case .meSouth1: return "me-south-1"
             case .saEast1: return "sa-east-1"
@@ -2947,7 +2950,7 @@ public struct CreateHostedZoneInput: Swift.Equatable {
     /// A unique string that identifies the request and that allows failed CreateHostedZone requests to be retried without the risk of executing the operation twice. You must use a unique CallerReference string every time you submit a CreateHostedZone request. CallerReference can be any unique string, for example, a date/time stamp.
     /// This member is required.
     public var callerReference: Swift.String?
-    /// If you want to associate a reusable delegation set with this hosted zone, the ID that Amazon Route 53 assigned to the reusable delegation set when you created it. For more information about reusable delegation sets, see [CreateReusableDelegationSet](https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateReusableDelegationSet.html).
+    /// If you want to associate a reusable delegation set with this hosted zone, the ID that Amazon Route 53 assigned to the reusable delegation set when you created it. For more information about reusable delegation sets, see [CreateReusableDelegationSet](https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateReusableDelegationSet.html). If you are using a reusable delegation set to create a public hosted zone for a subdomain, make sure that the parent hosted zone doesn't use one or more of the same name servers. If you have overlapping nameservers, the operation will cause a ConflictingDomainsExist error.
     public var delegationSetId: Swift.String?
     /// (Optional) A complex type that contains the following optional values:
     ///
@@ -15468,6 +15471,7 @@ extension Route53ClientTypes {
         case euWest1
         case euWest2
         case euWest3
+        case ilCentral1
         case meCentral1
         case meSouth1
         case saEast1
@@ -15501,6 +15505,7 @@ extension Route53ClientTypes {
                 .euWest1,
                 .euWest2,
                 .euWest3,
+                .ilCentral1,
                 .meCentral1,
                 .meSouth1,
                 .saEast1,
@@ -15539,6 +15544,7 @@ extension Route53ClientTypes {
             case .euWest1: return "eu-west-1"
             case .euWest2: return "eu-west-2"
             case .euWest3: return "eu-west-3"
+            case .ilCentral1: return "il-central-1"
             case .meCentral1: return "me-central-1"
             case .meSouth1: return "me-south-1"
             case .saEast1: return "sa-east-1"
@@ -18162,6 +18168,7 @@ extension Route53ClientTypes {
         case euWest1
         case euWest2
         case euWest3
+        case ilCentral1
         case meCentral1
         case meSouth1
         case saEast1
@@ -18199,6 +18206,7 @@ extension Route53ClientTypes {
                 .euWest1,
                 .euWest2,
                 .euWest3,
+                .ilCentral1,
                 .meCentral1,
                 .meSouth1,
                 .saEast1,
@@ -18241,6 +18249,7 @@ extension Route53ClientTypes {
             case .euWest1: return "eu-west-1"
             case .euWest2: return "eu-west-2"
             case .euWest3: return "eu-west-3"
+            case .ilCentral1: return "il-central-1"
             case .meCentral1: return "me-central-1"
             case .meSouth1: return "me-south-1"
             case .saEast1: return "sa-east-1"

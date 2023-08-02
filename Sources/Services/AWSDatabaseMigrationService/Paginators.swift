@@ -139,6 +139,27 @@ extension DescribeEndpointTypesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension DatabaseMigrationClient {
+    /// Paginate over `[DescribeEngineVersionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeEngineVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEngineVersionsOutputResponse`
+    public func describeEngineVersionsPaginated(input: DescribeEngineVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeEngineVersionsInput, DescribeEngineVersionsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeEngineVersionsInput, DescribeEngineVersionsOutputResponse>(input: input, inputKey: \DescribeEngineVersionsInput.marker, outputKey: \DescribeEngineVersionsOutputResponse.marker, paginationFunction: self.describeEngineVersions(input:))
+    }
+}
+
+extension DescribeEngineVersionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeEngineVersionsInput {
+        return DescribeEngineVersionsInput(
+            marker: token,
+            maxRecords: self.maxRecords
+        )}
+}
+extension DatabaseMigrationClient {
     /// Paginate over `[DescribeEventsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

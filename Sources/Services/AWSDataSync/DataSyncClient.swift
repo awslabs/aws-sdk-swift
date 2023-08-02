@@ -149,7 +149,14 @@ extension DataSyncClient: DataSyncClientProtocol {
         return result
     }
 
-    /// Activates an DataSync agent that you have deployed in your storage environment. The activation process associates your agent with your account. In the activation process, you specify information such as the Amazon Web Services Region that you want to activate the agent in. You activate the agent in the Amazon Web Services Region where your target locations (in Amazon S3 or Amazon EFS) reside. Your tasks are created in this Amazon Web Services Region. You can activate the agent in a VPC (virtual private cloud) or provide the agent access to a VPC endpoint so you can run tasks without going over the public internet. You can use an agent for more than one location. If a task uses multiple agents, all of them need to have status AVAILABLE for the task to run. If you use multiple agents for a source location, the status of all the agents must be AVAILABLE for the task to run. Agents are automatically updated by Amazon Web Services on a regular basis, using a mechanism that ensures minimal interruption to your tasks.
+    /// Activates an DataSync agent that you've deployed in your storage environment. The activation process associates the agent with your Amazon Web Services account. If you haven't deployed an agent yet, see the following topics to learn more:
+    ///
+    /// * [Agent requirements](https://docs.aws.amazon.com/datasync/latest/userguide/agent-requirements.html)
+    ///
+    /// * [Create an agent](https://docs.aws.amazon.com/datasync/latest/userguide/configure-agent.html)
+    ///
+    ///
+    /// If you're transferring between Amazon Web Services storage services, you don't need a DataSync agent.
     public func createAgent(input: CreateAgentInput) async throws -> CreateAgentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -182,6 +189,43 @@ extension DataSyncClient: DataSyncClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAgentOutputResponse, CreateAgentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAgentOutputResponse, CreateAgentOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAgentOutputResponse, CreateAgentOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Creates an endpoint for a Microsoft Azure Blob Storage container that DataSync can use as a transfer source or destination. Before you begin, make sure you know [how DataSync accesses Azure Blob Storage](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access) and works with [access tiers](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access-tiers) and [blob types](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#blob-types). You also need a [DataSync agent](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-creating-agent) that can connect to your container.
+    public func createLocationAzureBlob(input: CreateLocationAzureBlobInput) async throws -> CreateLocationAzureBlobOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createLocationAzureBlob")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "datasync")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<CreateLocationAzureBlobInput, CreateLocationAzureBlobOutputResponse, CreateLocationAzureBlobOutputError>(id: "createLocationAzureBlob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationAzureBlobInput, CreateLocationAzureBlobOutputResponse, CreateLocationAzureBlobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLocationAzureBlobInput, CreateLocationAzureBlobOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLocationAzureBlobOutputResponse, CreateLocationAzureBlobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateLocationAzureBlobInput, CreateLocationAzureBlobOutputResponse>(xAmzTarget: "FmrsService.CreateLocationAzureBlob"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateLocationAzureBlobInput, CreateLocationAzureBlobOutputResponse>(xmlName: "CreateLocationAzureBlobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateLocationAzureBlobInput, CreateLocationAzureBlobOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLocationAzureBlobOutputResponse, CreateLocationAzureBlobOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationAzureBlobOutputResponse, CreateLocationAzureBlobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationAzureBlobOutputResponse, CreateLocationAzureBlobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationAzureBlobOutputResponse, CreateLocationAzureBlobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -408,7 +452,7 @@ extension DataSyncClient: DataSyncClientProtocol {
         return result
     }
 
-    /// Defines a file system on a Network File System (NFS) server that can be read from or written to.
+    /// Creates an endpoint for an Network File System (NFS) file server that DataSync can use for a data transfer.
     public func createLocationNfs(input: CreateLocationNfsInput) async throws -> CreateLocationNfsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -526,7 +570,7 @@ extension DataSyncClient: DataSyncClientProtocol {
         return result
     }
 
-    /// Creates an endpoint for a Server Message Block (SMB) file server that DataSync can access for a transfer. For more information, see [Creating an SMB location](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html).
+    /// Creates an endpoint for a Server Message Block (SMB) file server that DataSync can use for a data transfer. Before you begin, make sure that you understand how DataSync [accesses an SMB file server](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html).
     public func createLocationSmb(input: CreateLocationSmbInput) async throws -> CreateLocationSmbOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -781,6 +825,43 @@ extension DataSyncClient: DataSyncClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDiscoveryJobOutputResponse, DescribeDiscoveryJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDiscoveryJobOutputResponse, DescribeDiscoveryJobOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDiscoveryJobOutputResponse, DescribeDiscoveryJobOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Provides details about how an DataSync transfer location for Microsoft Azure Blob Storage is configured.
+    public func describeLocationAzureBlob(input: DescribeLocationAzureBlobInput) async throws -> DescribeLocationAzureBlobOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeLocationAzureBlob")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "datasync")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DescribeLocationAzureBlobInput, DescribeLocationAzureBlobOutputResponse, DescribeLocationAzureBlobOutputError>(id: "describeLocationAzureBlob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationAzureBlobInput, DescribeLocationAzureBlobOutputResponse, DescribeLocationAzureBlobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLocationAzureBlobInput, DescribeLocationAzureBlobOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLocationAzureBlobOutputResponse, DescribeLocationAzureBlobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeLocationAzureBlobInput, DescribeLocationAzureBlobOutputResponse>(xAmzTarget: "FmrsService.DescribeLocationAzureBlob"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeLocationAzureBlobInput, DescribeLocationAzureBlobOutputResponse>(xmlName: "DescribeLocationAzureBlobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeLocationAzureBlobInput, DescribeLocationAzureBlobOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLocationAzureBlobOutputResponse, DescribeLocationAzureBlobOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationAzureBlobOutputResponse, DescribeLocationAzureBlobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationAzureBlobOutputResponse, DescribeLocationAzureBlobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationAzureBlobOutputResponse, DescribeLocationAzureBlobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1266,7 +1347,7 @@ extension DataSyncClient: DataSyncClientProtocol {
         return result
     }
 
-    /// Returns metadata about a task.
+    /// Provides information about an DataSync transfer task.
     public func describeTask(input: DescribeTaskInput) async throws -> DescribeTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1303,7 +1384,7 @@ extension DataSyncClient: DataSyncClientProtocol {
         return result
     }
 
-    /// Returns detailed metadata about a task that is being executed.
+    /// Provides information about an DataSync transfer task that's running.
     public func describeTaskExecution(input: DescribeTaskExecutionInput) async throws -> DescribeTaskExecutionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1936,6 +2017,43 @@ extension DataSyncClient: DataSyncClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDiscoveryJobOutputResponse, UpdateDiscoveryJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDiscoveryJobOutputResponse, UpdateDiscoveryJobOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDiscoveryJobOutputResponse, UpdateDiscoveryJobOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Modifies some configurations of the Microsoft Azure Blob Storage transfer location that you're using with DataSync.
+    public func updateLocationAzureBlob(input: UpdateLocationAzureBlobInput) async throws -> UpdateLocationAzureBlobOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateLocationAzureBlob")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "datasync")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<UpdateLocationAzureBlobInput, UpdateLocationAzureBlobOutputResponse, UpdateLocationAzureBlobOutputError>(id: "updateLocationAzureBlob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLocationAzureBlobInput, UpdateLocationAzureBlobOutputResponse, UpdateLocationAzureBlobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLocationAzureBlobInput, UpdateLocationAzureBlobOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateLocationAzureBlobOutputResponse, UpdateLocationAzureBlobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateLocationAzureBlobInput, UpdateLocationAzureBlobOutputResponse>(xAmzTarget: "FmrsService.UpdateLocationAzureBlob"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateLocationAzureBlobInput, UpdateLocationAzureBlobOutputResponse>(xmlName: "UpdateLocationAzureBlobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateLocationAzureBlobInput, UpdateLocationAzureBlobOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateLocationAzureBlobOutputResponse, UpdateLocationAzureBlobOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLocationAzureBlobOutputResponse, UpdateLocationAzureBlobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLocationAzureBlobOutputResponse, UpdateLocationAzureBlobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLocationAzureBlobOutputResponse, UpdateLocationAzureBlobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

@@ -2,6 +2,79 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension ChimeSDKMediaPipelinesClientTypes.ActiveSpeakerOnlyConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activeSpeakerPosition = "ActiveSpeakerPosition"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let activeSpeakerPosition = self.activeSpeakerPosition {
+            try encodeContainer.encode(activeSpeakerPosition.rawValue, forKey: .activeSpeakerPosition)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let activeSpeakerPositionDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.ActiveSpeakerPosition.self, forKey: .activeSpeakerPosition)
+        activeSpeakerPosition = activeSpeakerPositionDecoded
+    }
+}
+
+extension ChimeSDKMediaPipelinesClientTypes {
+    /// Defines the configuration for an ActiveSpeakerOnly video tile.
+    public struct ActiveSpeakerOnlyConfiguration: Swift.Equatable {
+        /// The position of the ActiveSpeakerOnly video tile.
+        public var activeSpeakerPosition: ChimeSDKMediaPipelinesClientTypes.ActiveSpeakerPosition?
+
+        public init(
+            activeSpeakerPosition: ChimeSDKMediaPipelinesClientTypes.ActiveSpeakerPosition? = nil
+        )
+        {
+            self.activeSpeakerPosition = activeSpeakerPosition
+        }
+    }
+
+}
+
+extension ChimeSDKMediaPipelinesClientTypes {
+    public enum ActiveSpeakerPosition: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case bottomleft
+        case bottomright
+        case topleft
+        case topright
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ActiveSpeakerPosition] {
+            return [
+                .bottomleft,
+                .bottomright,
+                .topleft,
+                .topright,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .bottomleft: return "BottomLeft"
+            case .bottomright: return "BottomRight"
+            case .topleft: return "TopLeft"
+            case .topright: return "TopRight"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ActiveSpeakerPosition(rawValue: rawValue) ?? ActiveSpeakerPosition.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ChimeSDKMediaPipelinesClientTypes.AmazonTranscribeCallAnalyticsProcessorConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case callAnalyticsStreamCategories = "CallAnalyticsStreamCategories"
@@ -176,14 +249,19 @@ extension ChimeSDKMediaPipelinesClientTypes.AmazonTranscribeProcessorConfigurati
         case contentRedactionType = "ContentRedactionType"
         case enablePartialResultsStabilization = "EnablePartialResultsStabilization"
         case filterPartialResults = "FilterPartialResults"
+        case identifyLanguage = "IdentifyLanguage"
         case languageCode = "LanguageCode"
         case languageModelName = "LanguageModelName"
+        case languageOptions = "LanguageOptions"
         case partialResultsStability = "PartialResultsStability"
         case piiEntityTypes = "PiiEntityTypes"
+        case preferredLanguage = "PreferredLanguage"
         case showSpeakerLabel = "ShowSpeakerLabel"
         case vocabularyFilterMethod = "VocabularyFilterMethod"
         case vocabularyFilterName = "VocabularyFilterName"
+        case vocabularyFilterNames = "VocabularyFilterNames"
         case vocabularyName = "VocabularyName"
+        case vocabularyNames = "VocabularyNames"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -200,17 +278,26 @@ extension ChimeSDKMediaPipelinesClientTypes.AmazonTranscribeProcessorConfigurati
         if filterPartialResults != false {
             try encodeContainer.encode(filterPartialResults, forKey: .filterPartialResults)
         }
+        if identifyLanguage != false {
+            try encodeContainer.encode(identifyLanguage, forKey: .identifyLanguage)
+        }
         if let languageCode = self.languageCode {
             try encodeContainer.encode(languageCode.rawValue, forKey: .languageCode)
         }
         if let languageModelName = self.languageModelName {
             try encodeContainer.encode(languageModelName, forKey: .languageModelName)
         }
+        if let languageOptions = self.languageOptions {
+            try encodeContainer.encode(languageOptions, forKey: .languageOptions)
+        }
         if let partialResultsStability = self.partialResultsStability {
             try encodeContainer.encode(partialResultsStability.rawValue, forKey: .partialResultsStability)
         }
         if let piiEntityTypes = self.piiEntityTypes {
             try encodeContainer.encode(piiEntityTypes, forKey: .piiEntityTypes)
+        }
+        if let preferredLanguage = self.preferredLanguage {
+            try encodeContainer.encode(preferredLanguage.rawValue, forKey: .preferredLanguage)
         }
         if showSpeakerLabel != false {
             try encodeContainer.encode(showSpeakerLabel, forKey: .showSpeakerLabel)
@@ -221,8 +308,14 @@ extension ChimeSDKMediaPipelinesClientTypes.AmazonTranscribeProcessorConfigurati
         if let vocabularyFilterName = self.vocabularyFilterName {
             try encodeContainer.encode(vocabularyFilterName, forKey: .vocabularyFilterName)
         }
+        if let vocabularyFilterNames = self.vocabularyFilterNames {
+            try encodeContainer.encode(vocabularyFilterNames, forKey: .vocabularyFilterNames)
+        }
         if let vocabularyName = self.vocabularyName {
             try encodeContainer.encode(vocabularyName, forKey: .vocabularyName)
+        }
+        if let vocabularyNames = self.vocabularyNames {
+            try encodeContainer.encode(vocabularyNames, forKey: .vocabularyNames)
         }
     }
 
@@ -252,6 +345,16 @@ extension ChimeSDKMediaPipelinesClientTypes.AmazonTranscribeProcessorConfigurati
         languageModelName = languageModelNameDecoded
         let filterPartialResultsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .filterPartialResults) ?? false
         filterPartialResults = filterPartialResultsDecoded
+        let identifyLanguageDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .identifyLanguage) ?? false
+        identifyLanguage = identifyLanguageDecoded
+        let languageOptionsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .languageOptions)
+        languageOptions = languageOptionsDecoded
+        let preferredLanguageDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.CallAnalyticsLanguageCode.self, forKey: .preferredLanguage)
+        preferredLanguage = preferredLanguageDecoded
+        let vocabularyNamesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vocabularyNames)
+        vocabularyNames = vocabularyNamesDecoded
+        let vocabularyFilterNamesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vocabularyFilterNames)
+        vocabularyFilterNames = vocabularyFilterNamesDecoded
     }
 }
 
@@ -266,51 +369,70 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public var enablePartialResultsStabilization: Swift.Bool
         /// If true, TranscriptEvents with IsPartial: true are filtered out of the insights target.
         public var filterPartialResults: Swift.Bool
+        /// Turns language identification on or off.
+        public var identifyLanguage: Swift.Bool
         /// The language code that represents the language spoken in your audio. If you're unsure of the language spoken in your audio, consider using IdentifyLanguage to enable automatic language identification. For a list of languages that real-time Call Analytics supports, see the [Supported languages table](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) in the Amazon Transcribe Developer Guide.
-        /// This member is required.
         public var languageCode: ChimeSDKMediaPipelinesClientTypes.CallAnalyticsLanguageCode?
         /// The name of the custom language model that you want to use when processing your transcription. Note that language model names are case sensitive. The language of the specified language model must match the language code you specify in your transcription request. If the languages don't match, the custom language model isn't applied. There are no errors or warnings associated with a language mismatch. For more information, see [Custom language models](https://docs.aws.amazon.com/transcribe/latest/dg/custom-language-models.html) in the Amazon Transcribe Developer Guide.
         public var languageModelName: Swift.String?
+        /// The language options for the transcription, such as automatic language detection.
+        public var languageOptions: Swift.String?
         /// The level of stability to use when you enable partial results stabilization (EnablePartialResultsStabilization). Low stability provides the highest accuracy. High stability transcribes faster, but with slightly lower accuracy. For more information, see [Partial-result stabilization](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html#streaming-partial-result-stabilization) in the Amazon Transcribe Developer Guide.
         public var partialResultsStability: ChimeSDKMediaPipelinesClientTypes.PartialResultsStability?
         /// The types of personally identifiable information (PII) to redact from a transcript. You can include as many types as you'd like, or you can select ALL. To include PiiEntityTypes in your Call Analytics request, you must also include ContentIdentificationType or ContentRedactionType, but you can't include both. Values must be comma-separated and can include: ADDRESS, BANK_ACCOUNT_NUMBER, BANK_ROUTING, CREDIT_DEBIT_CVV, CREDIT_DEBIT_EXPIRY, CREDIT_DEBIT_NUMBER, EMAIL, NAME, PHONE, PIN, SSN, or ALL. If you leave this parameter empty, the default behavior is equivalent to ALL.
         public var piiEntityTypes: Swift.String?
+        /// The preferred language for the transcription.
+        public var preferredLanguage: ChimeSDKMediaPipelinesClientTypes.CallAnalyticsLanguageCode?
         /// Enables speaker partitioning (diarization) in your transcription output. Speaker partitioning labels the speech from individual speakers in your media file. For more information, see [Partitioning speakers (diarization)](https://docs.aws.amazon.com/transcribe/latest/dg/diarization.html) in the Amazon Transcribe Developer Guide.
         public var showSpeakerLabel: Swift.Bool
         /// The vocabulary filtering method used in your Call Analytics transcription.
         public var vocabularyFilterMethod: ChimeSDKMediaPipelinesClientTypes.VocabularyFilterMethod?
         /// The name of the custom vocabulary filter that you specified in your Call Analytics request. Length Constraints: Minimum length of 1. Maximum length of 200.
         public var vocabularyFilterName: Swift.String?
+        /// The names of the custom vocabulary filter or filters using during transcription.
+        public var vocabularyFilterNames: Swift.String?
         /// The name of the custom vocabulary that you specified in your Call Analytics request. Length Constraints: Minimum length of 1. Maximum length of 200.
         public var vocabularyName: Swift.String?
+        /// The names of the custom vocabulary or vocabularies used during transcription.
+        public var vocabularyNames: Swift.String?
 
         public init(
             contentIdentificationType: ChimeSDKMediaPipelinesClientTypes.ContentType? = nil,
             contentRedactionType: ChimeSDKMediaPipelinesClientTypes.ContentType? = nil,
             enablePartialResultsStabilization: Swift.Bool = false,
             filterPartialResults: Swift.Bool = false,
+            identifyLanguage: Swift.Bool = false,
             languageCode: ChimeSDKMediaPipelinesClientTypes.CallAnalyticsLanguageCode? = nil,
             languageModelName: Swift.String? = nil,
+            languageOptions: Swift.String? = nil,
             partialResultsStability: ChimeSDKMediaPipelinesClientTypes.PartialResultsStability? = nil,
             piiEntityTypes: Swift.String? = nil,
+            preferredLanguage: ChimeSDKMediaPipelinesClientTypes.CallAnalyticsLanguageCode? = nil,
             showSpeakerLabel: Swift.Bool = false,
             vocabularyFilterMethod: ChimeSDKMediaPipelinesClientTypes.VocabularyFilterMethod? = nil,
             vocabularyFilterName: Swift.String? = nil,
-            vocabularyName: Swift.String? = nil
+            vocabularyFilterNames: Swift.String? = nil,
+            vocabularyName: Swift.String? = nil,
+            vocabularyNames: Swift.String? = nil
         )
         {
             self.contentIdentificationType = contentIdentificationType
             self.contentRedactionType = contentRedactionType
             self.enablePartialResultsStabilization = enablePartialResultsStabilization
             self.filterPartialResults = filterPartialResults
+            self.identifyLanguage = identifyLanguage
             self.languageCode = languageCode
             self.languageModelName = languageModelName
+            self.languageOptions = languageOptions
             self.partialResultsStability = partialResultsStability
             self.piiEntityTypes = piiEntityTypes
+            self.preferredLanguage = preferredLanguage
             self.showSpeakerLabel = showSpeakerLabel
             self.vocabularyFilterMethod = vocabularyFilterMethod
             self.vocabularyFilterName = vocabularyFilterName
+            self.vocabularyFilterNames = vocabularyFilterNames
             self.vocabularyName = vocabularyName
+            self.vocabularyNames = vocabularyNames
         }
     }
 
@@ -793,6 +915,50 @@ extension BadRequestExceptionBody: Swift.Decodable {
 }
 
 extension ChimeSDKMediaPipelinesClientTypes {
+    public enum BorderColor: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case black
+        case blue
+        case green
+        case red
+        case white
+        case yellow
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BorderColor] {
+            return [
+                .black,
+                .blue,
+                .green,
+                .red,
+                .white,
+                .yellow,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .black: return "Black"
+            case .blue: return "Blue"
+            case .green: return "Green"
+            case .red: return "Red"
+            case .white: return "White"
+            case .yellow: return "Yellow"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BorderColor(rawValue: rawValue) ?? BorderColor.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ChimeSDKMediaPipelinesClientTypes {
     public enum CallAnalyticsLanguageCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case deDe
         case enAu
@@ -841,6 +1007,38 @@ extension ChimeSDKMediaPipelinesClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = CallAnalyticsLanguageCode(rawValue: rawValue) ?? CallAnalyticsLanguageCode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ChimeSDKMediaPipelinesClientTypes {
+    public enum CanvasOrientation: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case landscape
+        case portrait
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CanvasOrientation] {
+            return [
+                .landscape,
+                .portrait,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .landscape: return "Landscape"
+            case .portrait: return "Portrait"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CanvasOrientation(rawValue: rawValue) ?? CanvasOrientation.sdkUnknown(rawValue)
         }
     }
 }
@@ -1507,6 +1705,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
 extension ChimeSDKMediaPipelinesClientTypes {
     public enum ContentShareLayoutOption: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case activespeakeronly
         case horizontal
         case presenteronly
         case vertical
@@ -1514,6 +1713,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public static var allCases: [ContentShareLayoutOption] {
             return [
+                .activespeakeronly,
                 .horizontal,
                 .presenteronly,
                 .vertical,
@@ -1526,6 +1726,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .activespeakeronly: return "ActiveSpeakerOnly"
             case .horizontal: return "Horizontal"
             case .presenteronly: return "PresenterOnly"
             case .vertical: return "Vertical"
@@ -2212,7 +2413,7 @@ public struct CreateMediaInsightsPipelineInput: Swift.Equatable {
     public var mediaInsightsPipelineConfigurationArn: Swift.String?
     /// The runtime metadata for the media insights pipeline. Consists of a key-value map of strings.
     public var mediaInsightsRuntimeMetadata: [Swift.String:Swift.String]?
-    /// The runtime configuration for the S3 recording sink.
+    /// The runtime configuration for the S3 recording sink. If specified, the settings in this structure override any settings in S3RecordingSinkConfiguration.
     public var s3RecordingSinkRuntimeConfiguration: ChimeSDKMediaPipelinesClientTypes.S3RecordingSinkRuntimeConfiguration?
     /// The tags assigned to the media insights pipeline.
     public var tags: [ChimeSDKMediaPipelinesClientTypes.Tag]?
@@ -3225,17 +3426,37 @@ extension GetMediaPipelineOutputResponseBody: Swift.Decodable {
 
 extension ChimeSDKMediaPipelinesClientTypes.GridViewConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activeSpeakerOnlyConfiguration = "ActiveSpeakerOnlyConfiguration"
+        case canvasOrientation = "CanvasOrientation"
         case contentShareLayout = "ContentShareLayout"
+        case horizontalLayoutConfiguration = "HorizontalLayoutConfiguration"
         case presenterOnlyConfiguration = "PresenterOnlyConfiguration"
+        case verticalLayoutConfiguration = "VerticalLayoutConfiguration"
+        case videoAttribute = "VideoAttribute"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let activeSpeakerOnlyConfiguration = self.activeSpeakerOnlyConfiguration {
+            try encodeContainer.encode(activeSpeakerOnlyConfiguration, forKey: .activeSpeakerOnlyConfiguration)
+        }
+        if let canvasOrientation = self.canvasOrientation {
+            try encodeContainer.encode(canvasOrientation.rawValue, forKey: .canvasOrientation)
+        }
         if let contentShareLayout = self.contentShareLayout {
             try encodeContainer.encode(contentShareLayout.rawValue, forKey: .contentShareLayout)
         }
+        if let horizontalLayoutConfiguration = self.horizontalLayoutConfiguration {
+            try encodeContainer.encode(horizontalLayoutConfiguration, forKey: .horizontalLayoutConfiguration)
+        }
         if let presenterOnlyConfiguration = self.presenterOnlyConfiguration {
             try encodeContainer.encode(presenterOnlyConfiguration, forKey: .presenterOnlyConfiguration)
+        }
+        if let verticalLayoutConfiguration = self.verticalLayoutConfiguration {
+            try encodeContainer.encode(verticalLayoutConfiguration, forKey: .verticalLayoutConfiguration)
+        }
+        if let videoAttribute = self.videoAttribute {
+            try encodeContainer.encode(videoAttribute, forKey: .videoAttribute)
         }
     }
 
@@ -3245,28 +3466,199 @@ extension ChimeSDKMediaPipelinesClientTypes.GridViewConfiguration: Swift.Codable
         contentShareLayout = contentShareLayoutDecoded
         let presenterOnlyConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.PresenterOnlyConfiguration.self, forKey: .presenterOnlyConfiguration)
         presenterOnlyConfiguration = presenterOnlyConfigurationDecoded
+        let activeSpeakerOnlyConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.ActiveSpeakerOnlyConfiguration.self, forKey: .activeSpeakerOnlyConfiguration)
+        activeSpeakerOnlyConfiguration = activeSpeakerOnlyConfigurationDecoded
+        let horizontalLayoutConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.HorizontalLayoutConfiguration.self, forKey: .horizontalLayoutConfiguration)
+        horizontalLayoutConfiguration = horizontalLayoutConfigurationDecoded
+        let verticalLayoutConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.VerticalLayoutConfiguration.self, forKey: .verticalLayoutConfiguration)
+        verticalLayoutConfiguration = verticalLayoutConfigurationDecoded
+        let videoAttributeDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.VideoAttribute.self, forKey: .videoAttribute)
+        videoAttribute = videoAttributeDecoded
+        let canvasOrientationDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.CanvasOrientation.self, forKey: .canvasOrientation)
+        canvasOrientation = canvasOrientationDecoded
     }
 }
 
 extension ChimeSDKMediaPipelinesClientTypes {
     /// Specifies the type of grid layout.
     public struct GridViewConfiguration: Swift.Equatable {
+        /// The configuration settings for an ActiveSpeakerOnly video tile.
+        public var activeSpeakerOnlyConfiguration: ChimeSDKMediaPipelinesClientTypes.ActiveSpeakerOnlyConfiguration?
+        /// The orientation setting, horizontal or vertical.
+        public var canvasOrientation: ChimeSDKMediaPipelinesClientTypes.CanvasOrientation?
         /// Defines the layout of the video tiles when content sharing is enabled.
         /// This member is required.
         public var contentShareLayout: ChimeSDKMediaPipelinesClientTypes.ContentShareLayoutOption?
+        /// The configuration settings for a horizontal layout.
+        public var horizontalLayoutConfiguration: ChimeSDKMediaPipelinesClientTypes.HorizontalLayoutConfiguration?
         /// Defines the configuration options for a presenter only video tile.
         public var presenterOnlyConfiguration: ChimeSDKMediaPipelinesClientTypes.PresenterOnlyConfiguration?
+        /// The configuration settings for a vertical layout.
+        public var verticalLayoutConfiguration: ChimeSDKMediaPipelinesClientTypes.VerticalLayoutConfiguration?
+        /// The attribute settings for the video tiles.
+        public var videoAttribute: ChimeSDKMediaPipelinesClientTypes.VideoAttribute?
 
         public init(
+            activeSpeakerOnlyConfiguration: ChimeSDKMediaPipelinesClientTypes.ActiveSpeakerOnlyConfiguration? = nil,
+            canvasOrientation: ChimeSDKMediaPipelinesClientTypes.CanvasOrientation? = nil,
             contentShareLayout: ChimeSDKMediaPipelinesClientTypes.ContentShareLayoutOption? = nil,
-            presenterOnlyConfiguration: ChimeSDKMediaPipelinesClientTypes.PresenterOnlyConfiguration? = nil
+            horizontalLayoutConfiguration: ChimeSDKMediaPipelinesClientTypes.HorizontalLayoutConfiguration? = nil,
+            presenterOnlyConfiguration: ChimeSDKMediaPipelinesClientTypes.PresenterOnlyConfiguration? = nil,
+            verticalLayoutConfiguration: ChimeSDKMediaPipelinesClientTypes.VerticalLayoutConfiguration? = nil,
+            videoAttribute: ChimeSDKMediaPipelinesClientTypes.VideoAttribute? = nil
         )
         {
+            self.activeSpeakerOnlyConfiguration = activeSpeakerOnlyConfiguration
+            self.canvasOrientation = canvasOrientation
             self.contentShareLayout = contentShareLayout
+            self.horizontalLayoutConfiguration = horizontalLayoutConfiguration
             self.presenterOnlyConfiguration = presenterOnlyConfiguration
+            self.verticalLayoutConfiguration = verticalLayoutConfiguration
+            self.videoAttribute = videoAttribute
         }
     }
 
+}
+
+extension ChimeSDKMediaPipelinesClientTypes {
+    public enum HighlightColor: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case black
+        case blue
+        case green
+        case red
+        case white
+        case yellow
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HighlightColor] {
+            return [
+                .black,
+                .blue,
+                .green,
+                .red,
+                .white,
+                .yellow,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .black: return "Black"
+            case .blue: return "Blue"
+            case .green: return "Green"
+            case .red: return "Red"
+            case .white: return "White"
+            case .yellow: return "Yellow"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = HighlightColor(rawValue: rawValue) ?? HighlightColor.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ChimeSDKMediaPipelinesClientTypes.HorizontalLayoutConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tileAspectRatio = "TileAspectRatio"
+        case tileCount = "TileCount"
+        case tileOrder = "TileOrder"
+        case tilePosition = "TilePosition"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tileAspectRatio = self.tileAspectRatio {
+            try encodeContainer.encode(tileAspectRatio, forKey: .tileAspectRatio)
+        }
+        if let tileCount = self.tileCount {
+            try encodeContainer.encode(tileCount, forKey: .tileCount)
+        }
+        if let tileOrder = self.tileOrder {
+            try encodeContainer.encode(tileOrder.rawValue, forKey: .tileOrder)
+        }
+        if let tilePosition = self.tilePosition {
+            try encodeContainer.encode(tilePosition.rawValue, forKey: .tilePosition)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tileOrderDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.TileOrder.self, forKey: .tileOrder)
+        tileOrder = tileOrderDecoded
+        let tilePositionDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.HorizontalTilePosition.self, forKey: .tilePosition)
+        tilePosition = tilePositionDecoded
+        let tileCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .tileCount)
+        tileCount = tileCountDecoded
+        let tileAspectRatioDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tileAspectRatio)
+        tileAspectRatio = tileAspectRatioDecoded
+    }
+}
+
+extension ChimeSDKMediaPipelinesClientTypes {
+    /// Defines the configuration settings for the horizontal layout.
+    public struct HorizontalLayoutConfiguration: Swift.Equatable {
+        /// Sets the aspect ratio of the video tiles, such as 16:9.
+        public var tileAspectRatio: Swift.String?
+        /// The maximum number of video tiles to display.
+        public var tileCount: Swift.Int?
+        /// Sets the automatic ordering of the video tiles.
+        public var tileOrder: ChimeSDKMediaPipelinesClientTypes.TileOrder?
+        /// Sets the position of horizontal tiles.
+        public var tilePosition: ChimeSDKMediaPipelinesClientTypes.HorizontalTilePosition?
+
+        public init(
+            tileAspectRatio: Swift.String? = nil,
+            tileCount: Swift.Int? = nil,
+            tileOrder: ChimeSDKMediaPipelinesClientTypes.TileOrder? = nil,
+            tilePosition: ChimeSDKMediaPipelinesClientTypes.HorizontalTilePosition? = nil
+        )
+        {
+            self.tileAspectRatio = tileAspectRatio
+            self.tileCount = tileCount
+            self.tileOrder = tileOrder
+            self.tilePosition = tilePosition
+        }
+    }
+
+}
+
+extension ChimeSDKMediaPipelinesClientTypes {
+    public enum HorizontalTilePosition: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case bottom
+        case top
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HorizontalTilePosition] {
+            return [
+                .bottom,
+                .top,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .bottom: return "Bottom"
+            case .top: return "Top"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = HorizontalTilePosition(rawValue: rawValue) ?? HorizontalTilePosition.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ChimeSDKMediaPipelinesClientTypes.IssueDetectionConfiguration: Swift.Codable {
@@ -7112,6 +7504,38 @@ extension ThrottledClientExceptionBody: Swift.Decodable {
     }
 }
 
+extension ChimeSDKMediaPipelinesClientTypes {
+    public enum TileOrder: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case joinsequence
+        case speakersequence
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TileOrder] {
+            return [
+                .joinsequence,
+                .speakersequence,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .joinsequence: return "JoinSequence"
+            case .speakersequence: return "SpeakerSequence"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TileOrder(rawValue: rawValue) ?? TileOrder.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ChimeSDKMediaPipelinesClientTypes.TimestampRange: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endTimestamp = "EndTimestamp"
@@ -7619,6 +8043,103 @@ public struct UpdateMediaInsightsPipelineStatusOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension ChimeSDKMediaPipelinesClientTypes.VerticalLayoutConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tileAspectRatio = "TileAspectRatio"
+        case tileCount = "TileCount"
+        case tileOrder = "TileOrder"
+        case tilePosition = "TilePosition"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tileAspectRatio = self.tileAspectRatio {
+            try encodeContainer.encode(tileAspectRatio, forKey: .tileAspectRatio)
+        }
+        if let tileCount = self.tileCount {
+            try encodeContainer.encode(tileCount, forKey: .tileCount)
+        }
+        if let tileOrder = self.tileOrder {
+            try encodeContainer.encode(tileOrder.rawValue, forKey: .tileOrder)
+        }
+        if let tilePosition = self.tilePosition {
+            try encodeContainer.encode(tilePosition.rawValue, forKey: .tilePosition)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tileOrderDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.TileOrder.self, forKey: .tileOrder)
+        tileOrder = tileOrderDecoded
+        let tilePositionDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.VerticalTilePosition.self, forKey: .tilePosition)
+        tilePosition = tilePositionDecoded
+        let tileCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .tileCount)
+        tileCount = tileCountDecoded
+        let tileAspectRatioDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tileAspectRatio)
+        tileAspectRatio = tileAspectRatioDecoded
+    }
+}
+
+extension ChimeSDKMediaPipelinesClientTypes {
+    /// Defines the configuration settings for a vertial layout.
+    public struct VerticalLayoutConfiguration: Swift.Equatable {
+        /// Sets the aspect ratio of the video tiles, such as 16:9.
+        public var tileAspectRatio: Swift.String?
+        /// The maximum number of tiles to display.
+        public var tileCount: Swift.Int?
+        /// Sets the automatic ordering of the video tiles.
+        public var tileOrder: ChimeSDKMediaPipelinesClientTypes.TileOrder?
+        /// Sets the position of vertical tiles.
+        public var tilePosition: ChimeSDKMediaPipelinesClientTypes.VerticalTilePosition?
+
+        public init(
+            tileAspectRatio: Swift.String? = nil,
+            tileCount: Swift.Int? = nil,
+            tileOrder: ChimeSDKMediaPipelinesClientTypes.TileOrder? = nil,
+            tilePosition: ChimeSDKMediaPipelinesClientTypes.VerticalTilePosition? = nil
+        )
+        {
+            self.tileAspectRatio = tileAspectRatio
+            self.tileCount = tileCount
+            self.tileOrder = tileOrder
+            self.tilePosition = tilePosition
+        }
+    }
+
+}
+
+extension ChimeSDKMediaPipelinesClientTypes {
+    public enum VerticalTilePosition: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case `left`
+        case `right`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VerticalTilePosition] {
+            return [
+                .left,
+                .right,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .left: return "Left"
+            case .right: return "Right"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = VerticalTilePosition(rawValue: rawValue) ?? VerticalTilePosition.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ChimeSDKMediaPipelinesClientTypes.VideoArtifactsConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case muxType = "MuxType"
@@ -7660,6 +8181,71 @@ extension ChimeSDKMediaPipelinesClientTypes {
         {
             self.muxType = muxType
             self.state = state
+        }
+    }
+
+}
+
+extension ChimeSDKMediaPipelinesClientTypes.VideoAttribute: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case borderColor = "BorderColor"
+        case borderThickness = "BorderThickness"
+        case cornerRadius = "CornerRadius"
+        case highlightColor = "HighlightColor"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let borderColor = self.borderColor {
+            try encodeContainer.encode(borderColor.rawValue, forKey: .borderColor)
+        }
+        if let borderThickness = self.borderThickness {
+            try encodeContainer.encode(borderThickness, forKey: .borderThickness)
+        }
+        if let cornerRadius = self.cornerRadius {
+            try encodeContainer.encode(cornerRadius, forKey: .cornerRadius)
+        }
+        if let highlightColor = self.highlightColor {
+            try encodeContainer.encode(highlightColor.rawValue, forKey: .highlightColor)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let cornerRadiusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cornerRadius)
+        cornerRadius = cornerRadiusDecoded
+        let borderColorDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.BorderColor.self, forKey: .borderColor)
+        borderColor = borderColorDecoded
+        let highlightColorDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.HighlightColor.self, forKey: .highlightColor)
+        highlightColor = highlightColorDecoded
+        let borderThicknessDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .borderThickness)
+        borderThickness = borderThicknessDecoded
+    }
+}
+
+extension ChimeSDKMediaPipelinesClientTypes {
+    /// Defines the settings for a video tile.
+    public struct VideoAttribute: Swift.Equatable {
+        /// Defines the border color of all video tiles.
+        public var borderColor: ChimeSDKMediaPipelinesClientTypes.BorderColor?
+        /// Defines the border thickness for all video tiles.
+        public var borderThickness: Swift.Int?
+        /// Sets the corner radius of all video tiles.
+        public var cornerRadius: Swift.Int?
+        /// Defines the highlight color for the active video tile.
+        public var highlightColor: ChimeSDKMediaPipelinesClientTypes.HighlightColor?
+
+        public init(
+            borderColor: ChimeSDKMediaPipelinesClientTypes.BorderColor? = nil,
+            borderThickness: Swift.Int? = nil,
+            cornerRadius: Swift.Int? = nil,
+            highlightColor: ChimeSDKMediaPipelinesClientTypes.HighlightColor? = nil
+        )
+        {
+            self.borderColor = borderColor
+            self.borderThickness = borderThickness
+            self.cornerRadius = cornerRadius
+            self.highlightColor = highlightColor
         }
     }
 

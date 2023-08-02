@@ -18,7 +18,7 @@ public protocol EMRServerlessClientProtocol {
     func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutputResponse
     /// Displays detailed information about a specified application.
     func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutputResponse
-    /// Returns a URL to access the job run dashboard. The generated URL is valid for one hour, after which you must invoke the API again to generate a new URL.
+    /// Creates and returns a URL that you can use to access the application UIs for a job run. For jobs in a running state, the application UI is a live user interface such as the Spark or Tez web UI. For completed jobs, the application UI is a persistent application user interface such as the Spark History Server or persistent Tez UI. The URL is valid for one hour after you generate it. To access the application UI after that hour elapses, you must invoke the API again to generate a new URL.
     func getDashboardForJobRun(input: GetDashboardForJobRunInput) async throws -> GetDashboardForJobRunOutputResponse
     /// Displays detailed information about a job run.
     func getJobRun(input: GetJobRunInput) async throws -> GetJobRunOutputResponse

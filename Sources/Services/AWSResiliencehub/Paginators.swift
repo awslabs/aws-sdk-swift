@@ -25,6 +25,28 @@ extension ListAlarmRecommendationsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ResiliencehubClient {
+    /// Paginate over `[ListAppAssessmentComplianceDriftsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAppAssessmentComplianceDriftsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAppAssessmentComplianceDriftsOutputResponse`
+    public func listAppAssessmentComplianceDriftsPaginated(input: ListAppAssessmentComplianceDriftsInput) -> ClientRuntime.PaginatorSequence<ListAppAssessmentComplianceDriftsInput, ListAppAssessmentComplianceDriftsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListAppAssessmentComplianceDriftsInput, ListAppAssessmentComplianceDriftsOutputResponse>(input: input, inputKey: \ListAppAssessmentComplianceDriftsInput.nextToken, outputKey: \ListAppAssessmentComplianceDriftsOutputResponse.nextToken, paginationFunction: self.listAppAssessmentComplianceDrifts(input:))
+    }
+}
+
+extension ListAppAssessmentComplianceDriftsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAppAssessmentComplianceDriftsInput {
+        return ListAppAssessmentComplianceDriftsInput(
+            assessmentArn: self.assessmentArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+extension ResiliencehubClient {
     /// Paginate over `[ListAppAssessmentsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -229,8 +251,10 @@ extension ListAppVersionsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListAppVersionsInput {
         return ListAppVersionsInput(
             appArn: self.appArn,
+            endTime: self.endTime,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            startTime: self.startTime
         )}
 }
 extension ResiliencehubClient {

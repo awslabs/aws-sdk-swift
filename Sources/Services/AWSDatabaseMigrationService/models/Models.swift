@@ -3609,6 +3609,38 @@ extension DatabaseMigrationClientTypes {
 
 }
 
+extension DatabaseMigrationClientTypes {
+    public enum DatabaseMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case babelfish
+        case `default`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DatabaseMode] {
+            return [
+                .babelfish,
+                .default,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .babelfish: return "babelfish"
+            case .default: return "default"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DatabaseMode(rawValue: rawValue) ?? DatabaseMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension DatabaseMigrationClientTypes.DatabaseResponse: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case collectors = "Collectors"
@@ -6000,6 +6032,134 @@ extension DescribeEndpointsOutputResponseBody: Swift.Decodable {
             }
         }
         endpoints = endpointsDecoded0
+    }
+}
+
+extension DescribeEngineVersionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let marker = self.marker {
+            try encodeContainer.encode(marker, forKey: .marker)
+        }
+        if let maxRecords = self.maxRecords {
+            try encodeContainer.encode(maxRecords, forKey: .maxRecords)
+        }
+    }
+}
+
+extension DescribeEngineVersionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeEngineVersionsInput: Swift.Equatable {
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
+    public var maxRecords: Swift.Int?
+
+    public init(
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil
+    )
+    {
+        self.marker = marker
+        self.maxRecords = maxRecords
+    }
+}
+
+struct DescribeEngineVersionsInputBody: Swift.Equatable {
+    let maxRecords: Swift.Int?
+    let marker: Swift.String?
+}
+
+extension DescribeEngineVersionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRecords)
+        maxRecords = maxRecordsDecoded
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+    }
+}
+
+public enum DescribeEngineVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeEngineVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeEngineVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.engineVersions = output.engineVersions
+            self.marker = output.marker
+        } else {
+            self.engineVersions = nil
+            self.marker = nil
+        }
+    }
+}
+
+public struct DescribeEngineVersionsOutputResponse: Swift.Equatable {
+    /// Returned EngineVersion objects that describe the replication instance engine versions used in the project.
+    public var engineVersions: [DatabaseMigrationClientTypes.EngineVersion]?
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+
+    public init(
+        engineVersions: [DatabaseMigrationClientTypes.EngineVersion]? = nil,
+        marker: Swift.String? = nil
+    )
+    {
+        self.engineVersions = engineVersions
+        self.marker = marker
+    }
+}
+
+struct DescribeEngineVersionsOutputResponseBody: Swift.Equatable {
+    let engineVersions: [DatabaseMigrationClientTypes.EngineVersion]?
+    let marker: Swift.String?
+}
+
+extension DescribeEngineVersionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case engineVersions = "EngineVersions"
+        case marker = "Marker"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let engineVersionsContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.EngineVersion?].self, forKey: .engineVersions)
+        var engineVersionsDecoded0:[DatabaseMigrationClientTypes.EngineVersion]? = nil
+        if let engineVersionsContainer = engineVersionsContainer {
+            engineVersionsDecoded0 = [DatabaseMigrationClientTypes.EngineVersion]()
+            for structure0 in engineVersionsContainer {
+                if let structure0 = structure0 {
+                    engineVersionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        engineVersions = engineVersionsDecoded0
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
     }
 }
 
@@ -10923,6 +11083,123 @@ extension DatabaseMigrationClientTypes {
             self = EndpointSettingTypeValue(rawValue: rawValue) ?? EndpointSettingTypeValue.sdkUnknown(rawValue)
         }
     }
+}
+
+extension DatabaseMigrationClientTypes.EngineVersion: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoUpgradeDate = "AutoUpgradeDate"
+        case availableUpgrades = "AvailableUpgrades"
+        case deprecationDate = "DeprecationDate"
+        case forceUpgradeDate = "ForceUpgradeDate"
+        case launchDate = "LaunchDate"
+        case lifecycle = "Lifecycle"
+        case releaseStatus = "ReleaseStatus"
+        case version = "Version"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let autoUpgradeDate = self.autoUpgradeDate {
+            try encodeContainer.encodeTimestamp(autoUpgradeDate, format: .epochSeconds, forKey: .autoUpgradeDate)
+        }
+        if let availableUpgrades = availableUpgrades {
+            var availableUpgradesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availableUpgrades)
+            for string0 in availableUpgrades {
+                try availableUpgradesContainer.encode(string0)
+            }
+        }
+        if let deprecationDate = self.deprecationDate {
+            try encodeContainer.encodeTimestamp(deprecationDate, format: .epochSeconds, forKey: .deprecationDate)
+        }
+        if let forceUpgradeDate = self.forceUpgradeDate {
+            try encodeContainer.encodeTimestamp(forceUpgradeDate, format: .epochSeconds, forKey: .forceUpgradeDate)
+        }
+        if let launchDate = self.launchDate {
+            try encodeContainer.encodeTimestamp(launchDate, format: .epochSeconds, forKey: .launchDate)
+        }
+        if let lifecycle = self.lifecycle {
+            try encodeContainer.encode(lifecycle, forKey: .lifecycle)
+        }
+        if let releaseStatus = self.releaseStatus {
+            try encodeContainer.encode(releaseStatus.rawValue, forKey: .releaseStatus)
+        }
+        if let version = self.version {
+            try encodeContainer.encode(version, forKey: .version)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+        let lifecycleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lifecycle)
+        lifecycle = lifecycleDecoded
+        let releaseStatusDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.ReleaseStatusValues.self, forKey: .releaseStatus)
+        releaseStatus = releaseStatusDecoded
+        let launchDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .launchDate)
+        launchDate = launchDateDecoded
+        let autoUpgradeDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .autoUpgradeDate)
+        autoUpgradeDate = autoUpgradeDateDecoded
+        let deprecationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .deprecationDate)
+        deprecationDate = deprecationDateDecoded
+        let forceUpgradeDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .forceUpgradeDate)
+        forceUpgradeDate = forceUpgradeDateDecoded
+        let availableUpgradesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .availableUpgrades)
+        var availableUpgradesDecoded0:[Swift.String]? = nil
+        if let availableUpgradesContainer = availableUpgradesContainer {
+            availableUpgradesDecoded0 = [Swift.String]()
+            for string0 in availableUpgradesContainer {
+                if let string0 = string0 {
+                    availableUpgradesDecoded0?.append(string0)
+                }
+            }
+        }
+        availableUpgrades = availableUpgradesDecoded0
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides information about a replication instance version.
+    public struct EngineVersion: Swift.Equatable {
+        /// The date when the replication instance will be automatically upgraded. This setting only applies if the auto-minor-version setting is enabled.
+        public var autoUpgradeDate: ClientRuntime.Date?
+        /// The list of valid replication instance versions that you can upgrade to.
+        public var availableUpgrades: [Swift.String]?
+        /// The date when the replication instance version will be deprecated and can no longer be requested.
+        public var deprecationDate: ClientRuntime.Date?
+        /// The date when the replication instance will have a version upgrade forced.
+        public var forceUpgradeDate: ClientRuntime.Date?
+        /// The date when the replication instance version became publicly available.
+        public var launchDate: ClientRuntime.Date?
+        /// The lifecycle status of the replication instance version. Valid values are DEPRECATED, DEFAULT_VERSION, and ACTIVE.
+        public var lifecycle: Swift.String?
+        /// The release status of the replication instance version.
+        public var releaseStatus: DatabaseMigrationClientTypes.ReleaseStatusValues?
+        /// The version number of the replication instance.
+        public var version: Swift.String?
+
+        public init(
+            autoUpgradeDate: ClientRuntime.Date? = nil,
+            availableUpgrades: [Swift.String]? = nil,
+            deprecationDate: ClientRuntime.Date? = nil,
+            forceUpgradeDate: ClientRuntime.Date? = nil,
+            launchDate: ClientRuntime.Date? = nil,
+            lifecycle: Swift.String? = nil,
+            releaseStatus: DatabaseMigrationClientTypes.ReleaseStatusValues? = nil,
+            version: Swift.String? = nil
+        )
+        {
+            self.autoUpgradeDate = autoUpgradeDate
+            self.availableUpgrades = availableUpgrades
+            self.deprecationDate = deprecationDate
+            self.forceUpgradeDate = forceUpgradeDate
+            self.launchDate = launchDate
+            self.lifecycle = lifecycle
+            self.releaseStatus = releaseStatus
+            self.version = version
+        }
+    }
+
 }
 
 extension DatabaseMigrationClientTypes.Event: Swift.Codable {
@@ -16399,7 +16676,9 @@ extension DatabaseMigrationClientTypes {
 extension DatabaseMigrationClientTypes.PostgreSQLSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case afterConnectScript = "AfterConnectScript"
+        case babelfishDatabaseName = "BabelfishDatabaseName"
         case captureDdls = "CaptureDdls"
+        case databaseMode = "DatabaseMode"
         case databaseName = "DatabaseName"
         case ddlArtifactsSchema = "DdlArtifactsSchema"
         case executeTimeout = "ExecuteTimeout"
@@ -16427,8 +16706,14 @@ extension DatabaseMigrationClientTypes.PostgreSQLSettings: Swift.Codable {
         if let afterConnectScript = self.afterConnectScript {
             try encodeContainer.encode(afterConnectScript, forKey: .afterConnectScript)
         }
+        if let babelfishDatabaseName = self.babelfishDatabaseName {
+            try encodeContainer.encode(babelfishDatabaseName, forKey: .babelfishDatabaseName)
+        }
         if let captureDdls = self.captureDdls {
             try encodeContainer.encode(captureDdls, forKey: .captureDdls)
+        }
+        if let databaseMode = self.databaseMode {
+            try encodeContainer.encode(databaseMode.rawValue, forKey: .databaseMode)
         }
         if let databaseName = self.databaseName {
             try encodeContainer.encode(databaseName, forKey: .databaseName)
@@ -16538,12 +16823,16 @@ extension DatabaseMigrationClientTypes.PostgreSQLSettings: Swift.Codable {
         mapJsonbAsClob = mapJsonbAsClobDecoded
         let mapLongVarcharAsDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.LongVarcharMappingType.self, forKey: .mapLongVarcharAs)
         mapLongVarcharAs = mapLongVarcharAsDecoded
+        let databaseModeDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.DatabaseMode.self, forKey: .databaseMode)
+        databaseMode = databaseModeDecoded
+        let babelfishDatabaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .babelfishDatabaseName)
+        babelfishDatabaseName = babelfishDatabaseNameDecoded
     }
 }
 
 extension DatabaseMigrationClientTypes.PostgreSQLSettings: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PostgreSQLSettings(afterConnectScript: \(Swift.String(describing: afterConnectScript)), captureDdls: \(Swift.String(describing: captureDdls)), databaseName: \(Swift.String(describing: databaseName)), ddlArtifactsSchema: \(Swift.String(describing: ddlArtifactsSchema)), executeTimeout: \(Swift.String(describing: executeTimeout)), failTasksOnLobTruncation: \(Swift.String(describing: failTasksOnLobTruncation)), heartbeatEnable: \(Swift.String(describing: heartbeatEnable)), heartbeatFrequency: \(Swift.String(describing: heartbeatFrequency)), heartbeatSchema: \(Swift.String(describing: heartbeatSchema)), mapBooleanAsBoolean: \(Swift.String(describing: mapBooleanAsBoolean)), mapJsonbAsClob: \(Swift.String(describing: mapJsonbAsClob)), mapLongVarcharAs: \(Swift.String(describing: mapLongVarcharAs)), maxFileSize: \(Swift.String(describing: maxFileSize)), pluginName: \(Swift.String(describing: pluginName)), port: \(Swift.String(describing: port)), secretsManagerAccessRoleArn: \(Swift.String(describing: secretsManagerAccessRoleArn)), secretsManagerSecretId: \(Swift.String(describing: secretsManagerSecretId)), serverName: \(Swift.String(describing: serverName)), slotName: \(Swift.String(describing: slotName)), trimSpaceInChar: \(Swift.String(describing: trimSpaceInChar)), username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
+        "PostgreSQLSettings(afterConnectScript: \(Swift.String(describing: afterConnectScript)), babelfishDatabaseName: \(Swift.String(describing: babelfishDatabaseName)), captureDdls: \(Swift.String(describing: captureDdls)), databaseMode: \(Swift.String(describing: databaseMode)), databaseName: \(Swift.String(describing: databaseName)), ddlArtifactsSchema: \(Swift.String(describing: ddlArtifactsSchema)), executeTimeout: \(Swift.String(describing: executeTimeout)), failTasksOnLobTruncation: \(Swift.String(describing: failTasksOnLobTruncation)), heartbeatEnable: \(Swift.String(describing: heartbeatEnable)), heartbeatFrequency: \(Swift.String(describing: heartbeatFrequency)), heartbeatSchema: \(Swift.String(describing: heartbeatSchema)), mapBooleanAsBoolean: \(Swift.String(describing: mapBooleanAsBoolean)), mapJsonbAsClob: \(Swift.String(describing: mapJsonbAsClob)), mapLongVarcharAs: \(Swift.String(describing: mapLongVarcharAs)), maxFileSize: \(Swift.String(describing: maxFileSize)), pluginName: \(Swift.String(describing: pluginName)), port: \(Swift.String(describing: port)), secretsManagerAccessRoleArn: \(Swift.String(describing: secretsManagerAccessRoleArn)), secretsManagerSecretId: \(Swift.String(describing: secretsManagerSecretId)), serverName: \(Swift.String(describing: serverName)), slotName: \(Swift.String(describing: slotName)), trimSpaceInChar: \(Swift.String(describing: trimSpaceInChar)), username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
 }
 
 extension DatabaseMigrationClientTypes {
@@ -16551,8 +16840,12 @@ extension DatabaseMigrationClientTypes {
     public struct PostgreSQLSettings: Swift.Equatable {
         /// For use with change data capture (CDC) only, this attribute has DMS bypass foreign keys and user triggers to reduce the time it takes to bulk load data. Example: afterConnectScript=SET session_replication_role='replica'
         public var afterConnectScript: Swift.String?
+        /// The Babelfish for Aurora PostgreSQL database name for the endpoint.
+        public var babelfishDatabaseName: Swift.String?
         /// To capture DDL events, DMS creates various artifacts in the PostgreSQL database when the task starts. You can later remove these artifacts. If this value is set to N, you don't have to create tables or triggers on the source database.
         public var captureDdls: Swift.Bool?
+        /// Specifies the default behavior of the replication's handling of PostgreSQL- compatible endpoints that require some additional configuration, such as Babelfish endpoints.
+        public var databaseMode: DatabaseMigrationClientTypes.DatabaseMode?
         /// Database name for the endpoint.
         public var databaseName: Swift.String?
         /// The schema in which the operational DDL database artifacts are created. Example: ddlArtifactsSchema=xyzddlschema;
@@ -16596,7 +16889,9 @@ extension DatabaseMigrationClientTypes {
 
         public init(
             afterConnectScript: Swift.String? = nil,
+            babelfishDatabaseName: Swift.String? = nil,
             captureDdls: Swift.Bool? = nil,
+            databaseMode: DatabaseMigrationClientTypes.DatabaseMode? = nil,
             databaseName: Swift.String? = nil,
             ddlArtifactsSchema: Swift.String? = nil,
             executeTimeout: Swift.Int? = nil,
@@ -16620,7 +16915,9 @@ extension DatabaseMigrationClientTypes {
         )
         {
             self.afterConnectScript = afterConnectScript
+            self.babelfishDatabaseName = babelfishDatabaseName
             self.captureDdls = captureDdls
+            self.databaseMode = databaseMode
             self.databaseName = databaseName
             self.ddlArtifactsSchema = ddlArtifactsSchema
             self.executeTimeout = executeTimeout

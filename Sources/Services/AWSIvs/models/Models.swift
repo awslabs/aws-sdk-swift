@@ -586,6 +586,9 @@ public enum BatchStartViewerSessionRevocationOutputError: ClientRuntime.HttpResp
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PendingVerification": return try await PendingVerification(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -1412,6 +1415,7 @@ extension CreateRecordingConfigurationInput: Swift.Encodable {
         case destinationConfiguration
         case name
         case recordingReconnectWindowSeconds
+        case renditionConfiguration
         case tags
         case thumbnailConfiguration
     }
@@ -1426,6 +1430,9 @@ extension CreateRecordingConfigurationInput: Swift.Encodable {
         }
         if recordingReconnectWindowSeconds != 0 {
             try encodeContainer.encode(recordingReconnectWindowSeconds, forKey: .recordingReconnectWindowSeconds)
+        }
+        if let renditionConfiguration = self.renditionConfiguration {
+            try encodeContainer.encode(renditionConfiguration, forKey: .renditionConfiguration)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
@@ -1453,6 +1460,8 @@ public struct CreateRecordingConfigurationInput: Swift.Equatable {
     public var name: Swift.String?
     /// If a broadcast disconnects and then reconnects within the specified interval, the multiple streams will be considered a single broadcast and merged together. Default: 0.
     public var recordingReconnectWindowSeconds: Swift.Int
+    /// Object that describes which renditions should be recorded for a stream.
+    public var renditionConfiguration: IvsClientTypes.RenditionConfiguration?
     /// Array of 1-50 maps, each of the form string:string (key:value). See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
     public var tags: [Swift.String:Swift.String]?
     /// A complex type that allows you to enable/disable the recording of thumbnails for a live session and modify the interval at which thumbnails are generated for the live session.
@@ -1462,6 +1471,7 @@ public struct CreateRecordingConfigurationInput: Swift.Equatable {
         destinationConfiguration: IvsClientTypes.DestinationConfiguration? = nil,
         name: Swift.String? = nil,
         recordingReconnectWindowSeconds: Swift.Int = 0,
+        renditionConfiguration: IvsClientTypes.RenditionConfiguration? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         thumbnailConfiguration: IvsClientTypes.ThumbnailConfiguration? = nil
     )
@@ -1469,6 +1479,7 @@ public struct CreateRecordingConfigurationInput: Swift.Equatable {
         self.destinationConfiguration = destinationConfiguration
         self.name = name
         self.recordingReconnectWindowSeconds = recordingReconnectWindowSeconds
+        self.renditionConfiguration = renditionConfiguration
         self.tags = tags
         self.thumbnailConfiguration = thumbnailConfiguration
     }
@@ -1480,6 +1491,7 @@ struct CreateRecordingConfigurationInputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
     let thumbnailConfiguration: IvsClientTypes.ThumbnailConfiguration?
     let recordingReconnectWindowSeconds: Swift.Int
+    let renditionConfiguration: IvsClientTypes.RenditionConfiguration?
 }
 
 extension CreateRecordingConfigurationInputBody: Swift.Decodable {
@@ -1487,6 +1499,7 @@ extension CreateRecordingConfigurationInputBody: Swift.Decodable {
         case destinationConfiguration
         case name
         case recordingReconnectWindowSeconds
+        case renditionConfiguration
         case tags
         case thumbnailConfiguration
     }
@@ -1512,6 +1525,8 @@ extension CreateRecordingConfigurationInputBody: Swift.Decodable {
         thumbnailConfiguration = thumbnailConfigurationDecoded
         let recordingReconnectWindowSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .recordingReconnectWindowSeconds) ?? 0
         recordingReconnectWindowSeconds = recordingReconnectWindowSecondsDecoded
+        let renditionConfigurationDecoded = try containerValues.decodeIfPresent(IvsClientTypes.RenditionConfiguration.self, forKey: .renditionConfiguration)
+        renditionConfiguration = renditionConfigurationDecoded
     }
 }
 
@@ -4126,6 +4141,7 @@ extension IvsClientTypes.RecordingConfiguration: Swift.Codable {
         case destinationConfiguration
         case name
         case recordingReconnectWindowSeconds
+        case renditionConfiguration
         case state
         case tags
         case thumbnailConfiguration
@@ -4144,6 +4160,9 @@ extension IvsClientTypes.RecordingConfiguration: Swift.Codable {
         }
         if recordingReconnectWindowSeconds != 0 {
             try encodeContainer.encode(recordingReconnectWindowSeconds, forKey: .recordingReconnectWindowSeconds)
+        }
+        if let renditionConfiguration = self.renditionConfiguration {
+            try encodeContainer.encode(renditionConfiguration, forKey: .renditionConfiguration)
         }
         if let state = self.state {
             try encodeContainer.encode(state.rawValue, forKey: .state)
@@ -4184,6 +4203,8 @@ extension IvsClientTypes.RecordingConfiguration: Swift.Codable {
         thumbnailConfiguration = thumbnailConfigurationDecoded
         let recordingReconnectWindowSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .recordingReconnectWindowSeconds) ?? 0
         recordingReconnectWindowSeconds = recordingReconnectWindowSecondsDecoded
+        let renditionConfigurationDecoded = try containerValues.decodeIfPresent(IvsClientTypes.RenditionConfiguration.self, forKey: .renditionConfiguration)
+        renditionConfiguration = renditionConfigurationDecoded
     }
 }
 
@@ -4200,6 +4221,8 @@ extension IvsClientTypes {
         public var name: Swift.String?
         /// If a broadcast disconnects and then reconnects within the specified interval, the multiple streams will be considered a single broadcast and merged together. Default: 0.
         public var recordingReconnectWindowSeconds: Swift.Int
+        /// Object that describes which renditions should be recorded for a stream.
+        public var renditionConfiguration: IvsClientTypes.RenditionConfiguration?
         /// Indicates the current state of the recording configuration. When the state is ACTIVE, the configuration is ready for recording a channel stream.
         /// This member is required.
         public var state: IvsClientTypes.RecordingConfigurationState?
@@ -4213,6 +4236,7 @@ extension IvsClientTypes {
             destinationConfiguration: IvsClientTypes.DestinationConfiguration? = nil,
             name: Swift.String? = nil,
             recordingReconnectWindowSeconds: Swift.Int = 0,
+            renditionConfiguration: IvsClientTypes.RenditionConfiguration? = nil,
             state: IvsClientTypes.RecordingConfigurationState? = nil,
             tags: [Swift.String:Swift.String]? = nil,
             thumbnailConfiguration: IvsClientTypes.ThumbnailConfiguration? = nil
@@ -4222,6 +4246,7 @@ extension IvsClientTypes {
             self.destinationConfiguration = destinationConfiguration
             self.name = name
             self.recordingReconnectWindowSeconds = recordingReconnectWindowSeconds
+            self.renditionConfiguration = renditionConfiguration
             self.state = state
             self.tags = tags
             self.thumbnailConfiguration = thumbnailConfiguration
@@ -4383,6 +4408,136 @@ extension IvsClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = RecordingMode(rawValue: rawValue) ?? RecordingMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension IvsClientTypes.RenditionConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case renditionSelection
+        case renditions
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let renditionSelection = self.renditionSelection {
+            try encodeContainer.encode(renditionSelection.rawValue, forKey: .renditionSelection)
+        }
+        if let renditions = renditions {
+            var renditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .renditions)
+            for renditionconfigurationrendition0 in renditions {
+                try renditionsContainer.encode(renditionconfigurationrendition0.rawValue)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let renditionSelectionDecoded = try containerValues.decodeIfPresent(IvsClientTypes.RenditionConfigurationRenditionSelection.self, forKey: .renditionSelection)
+        renditionSelection = renditionSelectionDecoded
+        let renditionsContainer = try containerValues.decodeIfPresent([IvsClientTypes.RenditionConfigurationRendition?].self, forKey: .renditions)
+        var renditionsDecoded0:[IvsClientTypes.RenditionConfigurationRendition]? = nil
+        if let renditionsContainer = renditionsContainer {
+            renditionsDecoded0 = [IvsClientTypes.RenditionConfigurationRendition]()
+            for string0 in renditionsContainer {
+                if let string0 = string0 {
+                    renditionsDecoded0?.append(string0)
+                }
+            }
+        }
+        renditions = renditionsDecoded0
+    }
+}
+
+extension IvsClientTypes {
+    /// Object that describes which renditions should be recorded for a stream.
+    public struct RenditionConfiguration: Swift.Equatable {
+        /// Indicates which set of renditions are recorded for a stream. For BASIC channels, the CUSTOM value has no effect. If CUSTOM is specified, a set of renditions must be specified in the renditions field. Default: ALL.
+        public var renditionSelection: IvsClientTypes.RenditionConfigurationRenditionSelection?
+        /// Indicates which renditions are recorded for a stream, if renditionSelection is CUSTOM; otherwise, this field is irrelevant. The selected renditions are recorded if they are available during the stream. If a selected rendition is unavailable, the best available rendition is recorded. For details on the resolution dimensions of each rendition, see [Auto-Record to Amazon S3](https://docs.aws.amazon.com/ivs/latest/userguide/record-to-s3.html).
+        public var renditions: [IvsClientTypes.RenditionConfigurationRendition]?
+
+        public init(
+            renditionSelection: IvsClientTypes.RenditionConfigurationRenditionSelection? = nil,
+            renditions: [IvsClientTypes.RenditionConfigurationRendition]? = nil
+        )
+        {
+            self.renditionSelection = renditionSelection
+            self.renditions = renditions
+        }
+    }
+
+}
+
+extension IvsClientTypes {
+    public enum RenditionConfigurationRendition: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case fullHd
+        case hd
+        case lowestResolution
+        case sd
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RenditionConfigurationRendition] {
+            return [
+                .fullHd,
+                .hd,
+                .lowestResolution,
+                .sd,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .fullHd: return "FULL_HD"
+            case .hd: return "HD"
+            case .lowestResolution: return "LOWEST_RESOLUTION"
+            case .sd: return "SD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RenditionConfigurationRendition(rawValue: rawValue) ?? RenditionConfigurationRendition.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension IvsClientTypes {
+    public enum RenditionConfigurationRenditionSelection: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case all
+        case custom
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RenditionConfigurationRenditionSelection] {
+            return [
+                .all,
+                .custom,
+                .none,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .custom: return "CUSTOM"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RenditionConfigurationRenditionSelection(rawValue: rawValue) ?? RenditionConfigurationRenditionSelection.sdkUnknown(rawValue)
         }
     }
 }
@@ -4615,6 +4770,8 @@ public enum StartViewerSessionRevocationOutputError: ClientRuntime.HttpResponseE
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PendingVerification": return try await PendingVerification(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -5569,6 +5726,8 @@ extension ThrottlingExceptionBody: Swift.Decodable {
 extension IvsClientTypes.ThumbnailConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case recordingMode
+        case resolution
+        case storage
         case targetIntervalSeconds
     }
 
@@ -5576,6 +5735,15 @@ extension IvsClientTypes.ThumbnailConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let recordingMode = self.recordingMode {
             try encodeContainer.encode(recordingMode.rawValue, forKey: .recordingMode)
+        }
+        if let resolution = self.resolution {
+            try encodeContainer.encode(resolution.rawValue, forKey: .resolution)
+        }
+        if let storage = storage {
+            var storageContainer = encodeContainer.nestedUnkeyedContainer(forKey: .storage)
+            for thumbnailconfigurationstorage0 in storage {
+                try storageContainer.encode(thumbnailconfigurationstorage0.rawValue)
+            }
         }
         if targetIntervalSeconds != 0 {
             try encodeContainer.encode(targetIntervalSeconds, forKey: .targetIntervalSeconds)
@@ -5588,6 +5756,19 @@ extension IvsClientTypes.ThumbnailConfiguration: Swift.Codable {
         recordingMode = recordingModeDecoded
         let targetIntervalSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .targetIntervalSeconds) ?? 0
         targetIntervalSeconds = targetIntervalSecondsDecoded
+        let resolutionDecoded = try containerValues.decodeIfPresent(IvsClientTypes.ThumbnailConfigurationResolution.self, forKey: .resolution)
+        resolution = resolutionDecoded
+        let storageContainer = try containerValues.decodeIfPresent([IvsClientTypes.ThumbnailConfigurationStorage?].self, forKey: .storage)
+        var storageDecoded0:[IvsClientTypes.ThumbnailConfigurationStorage]? = nil
+        if let storageContainer = storageContainer {
+            storageDecoded0 = [IvsClientTypes.ThumbnailConfigurationStorage]()
+            for string0 in storageContainer {
+                if let string0 = string0 {
+                    storageDecoded0?.append(string0)
+                }
+            }
+        }
+        storage = storageDecoded0
     }
 }
 
@@ -5596,19 +5777,97 @@ extension IvsClientTypes {
     public struct ThumbnailConfiguration: Swift.Equatable {
         /// Thumbnail recording mode. Default: INTERVAL.
         public var recordingMode: IvsClientTypes.RecordingMode?
-        /// The targeted thumbnail-generation interval in seconds. This is configurable (and required) only if recordingMode is INTERVAL. Default: 60. Important: Setting a value for targetIntervalSeconds does not guarantee that thumbnails are generated at the specified interval. For thumbnails to be generated at the targetIntervalSeconds interval, the IDR/Keyframe value for the input video must be less than the targetIntervalSeconds value. See [ Amazon IVS Streaming Configuration](https://docs.aws.amazon.com/ivs/latest/userguide/streaming-config.html) for information on setting IDR/Keyframe to the recommended value in video-encoder settings.
+        /// Indicates the desired resolution of recorded thumbnails. Thumbnails are recorded at the selected resolution if the corresponding rendition is available during the stream; otherwise, they are recorded at source resolution. For more information about resolution values and their corresponding height and width dimensions, see [Auto-Record to Amazon S3](https://docs.aws.amazon.com/ivs/latest/userguide/record-to-s3.html). Default: Null (source resolution is returned).
+        public var resolution: IvsClientTypes.ThumbnailConfigurationResolution?
+        /// Indicates the format in which thumbnails are recorded. SEQUENTIAL records all generated thumbnails in a serial manner, to the media/thumbnails directory. LATEST saves the latest thumbnail in media/latest_thumbnail/thumb.jpg and overwrites it at the interval specified by targetIntervalSeconds. You can enable both SEQUENTIAL and LATEST. Default: SEQUENTIAL.
+        public var storage: [IvsClientTypes.ThumbnailConfigurationStorage]?
+        /// The targeted thumbnail-generation interval in seconds. This is configurable (and required) only if recordingMode is INTERVAL. Default: 60. Important: For the BASIC channel type, setting a value for targetIntervalSeconds does not guarantee that thumbnails are generated at the specified interval. For thumbnails to be generated at the targetIntervalSeconds interval, the IDR/Keyframe value for the input video must be less than the targetIntervalSeconds value. See [ Amazon IVS Streaming Configuration](https://docs.aws.amazon.com/ivs/latest/userguide/streaming-config.html) for information on setting IDR/Keyframe to the recommended value in video-encoder settings.
         public var targetIntervalSeconds: Swift.Int
 
         public init(
             recordingMode: IvsClientTypes.RecordingMode? = nil,
+            resolution: IvsClientTypes.ThumbnailConfigurationResolution? = nil,
+            storage: [IvsClientTypes.ThumbnailConfigurationStorage]? = nil,
             targetIntervalSeconds: Swift.Int = 0
         )
         {
             self.recordingMode = recordingMode
+            self.resolution = resolution
+            self.storage = storage
             self.targetIntervalSeconds = targetIntervalSeconds
         }
     }
 
+}
+
+extension IvsClientTypes {
+    public enum ThumbnailConfigurationResolution: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case fullHd
+        case hd
+        case lowestResolution
+        case sd
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ThumbnailConfigurationResolution] {
+            return [
+                .fullHd,
+                .hd,
+                .lowestResolution,
+                .sd,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .fullHd: return "FULL_HD"
+            case .hd: return "HD"
+            case .lowestResolution: return "LOWEST_RESOLUTION"
+            case .sd: return "SD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ThumbnailConfigurationResolution(rawValue: rawValue) ?? ThumbnailConfigurationResolution.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension IvsClientTypes {
+    public enum ThumbnailConfigurationStorage: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case latest
+        case sequential
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ThumbnailConfigurationStorage] {
+            return [
+                .latest,
+                .sequential,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .latest: return "LATEST"
+            case .sequential: return "SEQUENTIAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ThumbnailConfigurationStorage(rawValue: rawValue) ?? ThumbnailConfigurationStorage.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension IvsClientTypes {

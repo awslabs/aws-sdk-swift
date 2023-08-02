@@ -118,7 +118,7 @@ extension BatchClient: BatchClientProtocol {
     ///
     /// * Either don't set the service role (serviceRole) parameter or set it to the AWSBatchServiceRole service-linked role.
     ///
-    /// * Set the allocation strategy (allocationStrategy) parameter to BEST_FIT_PROGRESSIVE or SPOT_CAPACITY_OPTIMIZED.
+    /// * Set the allocation strategy (allocationStrategy) parameter to BEST_FIT_PROGRESSIVE, SPOT_CAPACITY_OPTIMIZED, or SPOT_PRICE_CAPACITY_OPTIMIZED.
     ///
     /// * Set the update to latest image version (updateToLatestImageVersion) parameter to true. The updateToLatestImageVersion parameter is used when you update a compute environment. This parameter is ignored when you create a compute environment.
     ///

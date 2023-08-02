@@ -28,6 +28,8 @@ public protocol KafkaClientProtocol {
     func describeCluster(input: DescribeClusterInput) async throws -> DescribeClusterOutputResponse
     /// Returns a description of the cluster operation specified by the ARN.
     func describeClusterOperation(input: DescribeClusterOperationInput) async throws -> DescribeClusterOperationOutputResponse
+    /// Returns a description of the cluster operation specified by the ARN.
+    func describeClusterOperationV2(input: DescribeClusterOperationV2Input) async throws -> DescribeClusterOperationV2OutputResponse
     /// Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
     func describeClusterV2(input: DescribeClusterV2Input) async throws -> DescribeClusterV2OutputResponse
     /// Returns a description of this MSK configuration.
@@ -46,6 +48,8 @@ public protocol KafkaClientProtocol {
     func listClientVpcConnections(input: ListClientVpcConnectionsInput) async throws -> ListClientVpcConnectionsOutputResponse
     /// Returns a list of all the operations that have been performed on the specified MSK cluster.
     func listClusterOperations(input: ListClusterOperationsInput) async throws -> ListClusterOperationsOutputResponse
+    /// Returns a list of all the operations that have been performed on the specified MSK cluster.
+    func listClusterOperationsV2(input: ListClusterOperationsV2Input) async throws -> ListClusterOperationsV2OutputResponse
     /// Returns a list of all the MSK clusters in the current Region.
     func listClusters(input: ListClustersInput) async throws -> ListClustersOutputResponse
     /// Returns a list of all the MSK clusters in the current Region.

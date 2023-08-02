@@ -273,7 +273,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
             switch error {
             case EndpointError.unresolved(let message):
-                XCTAssertEqual("DualStack cannot be combined with a Host override (PrivateLink)", message)
+                XCTAssertEqual("Cannot set dual-stack in combination with a custom endpoint.", message)
             default:
                 XCTFail()
             }
@@ -2270,7 +2270,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// non-bucket endpoint with FIPS: TODO(descriptive)
+    /// non-bucket endpoint override with FIPS = error
     func testResolve80() throws {
         let endpointParams = EndpointParams(
             endpoint: "http://beta.example.com:1234/path",
@@ -2280,27 +2280,17 @@ class EndpointResolverTest: XCTestCase {
         )
         let resolver = try DefaultEndpointResolver()
 
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingName": "s3",
-                        "signingRegion": "us-west-2",
-                        "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "http://beta.example.com:1234/path", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("A custom endpoint cannot be combined with FIPS", message)
+            default:
+                XCTFail()
+            }
+        }
     }
 
-    /// FIPS + dualstack + custom endpoint TODO(descriptive)
+    /// FIPS + dualstack + custom endpoint
     func testResolve81() throws {
         let endpointParams = EndpointParams(
             endpoint: "http://beta.example.com:1234/path",
@@ -2310,27 +2300,17 @@ class EndpointResolverTest: XCTestCase {
         )
         let resolver = try DefaultEndpointResolver()
 
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingName": "s3",
-                        "signingRegion": "us-west-2",
-                        "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "http://beta.example.com:1234/path", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Cannot set dual-stack in combination with a custom endpoint.", message)
+            default:
+                XCTFail()
+            }
+        }
     }
 
-    /// dualstack + custom endpoint TODO(descriptive)
+    /// dualstack + custom endpoint
     func testResolve82() throws {
         let endpointParams = EndpointParams(
             endpoint: "http://beta.example.com:1234/path",
@@ -2340,24 +2320,14 @@ class EndpointResolverTest: XCTestCase {
         )
         let resolver = try DefaultEndpointResolver()
 
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingName": "s3",
-                        "signingRegion": "us-west-2",
-                        "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "http://beta.example.com:1234/path", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Cannot set dual-stack in combination with a custom endpoint.", message)
+            default:
+                XCTFail()
+            }
+        }
     }
 
     /// custom endpoint without FIPS/dualstack
@@ -2693,24 +2663,14 @@ class EndpointResolverTest: XCTestCase {
         )
         let resolver = try DefaultEndpointResolver()
 
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true,
-                        "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "http://foo.com/bucket%21", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("A custom endpoint cannot be combined with FIPS", message)
+            default:
+                XCTFail()
+            }
+        }
     }
 
     /// endpoint override + non-dns bucket + FIPS (BUG)
@@ -2724,24 +2684,14 @@ class EndpointResolverTest: XCTestCase {
         )
         let resolver = try DefaultEndpointResolver()
 
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true,
-                        "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "http://foo.com/bucket%21", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("A custom endpoint cannot be combined with FIPS", message)
+            default:
+                XCTFail()
+            }
+        }
     }
 
     /// FIPS + bucket endpoint + force path style
@@ -2851,24 +2801,14 @@ class EndpointResolverTest: XCTestCase {
         )
         let resolver = try DefaultEndpointResolver()
 
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true,
-                        "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://foo.com/bucket%21", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("A custom endpoint cannot be combined with FIPS", message)
+            default:
+                XCTFail()
+            }
+        }
     }
 
     /// FIPS + path based endpoint
@@ -3014,24 +2954,14 @@ class EndpointResolverTest: XCTestCase {
         )
         let resolver = try DefaultEndpointResolver()
 
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true,
-                        "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "http://foo.com/bucket%21", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("A custom endpoint cannot be combined with FIPS", message)
+            default:
+                XCTFail()
+            }
+        }
     }
 
     /// FIPS + Dualstack + global endpoint + non-dns bucket
@@ -3066,7 +2996,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// endpoint override + FIPS + dualstack (this is wrong—it's a bug in the UseGlobalEndpoint branch)
+    /// endpoint override + FIPS + dualstack
     func testResolve106() throws {
         let endpointParams = EndpointParams(
             endpoint: "http://foo.com",
@@ -3077,24 +3007,14 @@ class EndpointResolverTest: XCTestCase {
         )
         let resolver = try DefaultEndpointResolver()
 
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true,
-                        "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "http://foo.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Cannot set dual-stack in combination with a custom endpoint.", message)
+            default:
+                XCTFail()
+            }
+        }
     }
 
     /// non-bucket endpoint override + dualstack + global endpoint
@@ -3108,24 +3028,14 @@ class EndpointResolverTest: XCTestCase {
         )
         let resolver = try DefaultEndpointResolver()
 
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true,
-                        "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "http://foo.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Cannot set dual-stack in combination with a custom endpoint.", message)
+            default:
+                XCTFail()
+            }
+        }
     }
 
     /// Endpoint override + UseGlobalEndpoint + us-east-1
@@ -3139,30 +3049,19 @@ class EndpointResolverTest: XCTestCase {
         )
         let resolver = try DefaultEndpointResolver()
 
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true,
-                        "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "http://foo.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("A custom endpoint cannot be combined with FIPS", message)
+            default:
+                XCTFail()
+            }
+        }
     }
 
     /// non-FIPS partition with FIPS set + custom endpoint
     func testResolve109() throws {
         let endpointParams = EndpointParams(
-            endpoint: "http://foo.com",
             region: "cn-north-1",
             useDualStack: false,
             useFIPS: true,
@@ -3302,7 +3201,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// aws-global + fips + custom endpoint (TODO: should be an error)
+    /// aws-global + fips + custom endpoint
     func testResolve114() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
@@ -3314,24 +3213,14 @@ class EndpointResolverTest: XCTestCase {
         )
         let resolver = try DefaultEndpointResolver()
 
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "http://foo.com/bucket%21", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("A custom endpoint cannot be combined with FIPS", message)
+            default:
+                XCTFail()
+            }
+        }
     }
 
     /// aws-global, endpoint override & path only-bucket
@@ -3366,7 +3255,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// aws-global + dualstack + custom endpoint (TODO: should be an error)
+    /// aws-global + dualstack + custom endpoint
     func testResolve116() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
@@ -3377,24 +3266,14 @@ class EndpointResolverTest: XCTestCase {
         )
         let resolver = try DefaultEndpointResolver()
 
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "http://foo.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Cannot set dual-stack in combination with a custom endpoint.", message)
+            default:
+                XCTFail()
+            }
+        }
     }
 
     /// accelerate, dualstack + aws-global
@@ -3428,7 +3307,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// FIPS + aws-global + path only bucket. TODO: this should be an error
+    /// FIPS + aws-global + path only bucket. This is not supported by S3 but we allow garbage in garbage out
     func testResolve118() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
@@ -3460,7 +3339,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// aws-global + FIPS + endpoint override. TODO: should this be an error?
+    /// aws-global + FIPS + endpoint override.
     func testResolve119() throws {
         let endpointParams = EndpointParams(
             endpoint: "http://foo.com",
@@ -3469,27 +3348,17 @@ class EndpointResolverTest: XCTestCase {
         )
         let resolver = try DefaultEndpointResolver()
 
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "http://foo.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("A custom endpoint cannot be combined with FIPS", message)
+            default:
+                XCTFail()
+            }
+        }
     }
 
-    /// force path style, aws-global & endpoint override
+    /// force path style, FIPS, aws-global & endpoint override
     func testResolve120() throws {
         let endpointParams = EndpointParams(
             bucket: "bucket!",
@@ -3500,24 +3369,14 @@ class EndpointResolverTest: XCTestCase {
         )
         let resolver = try DefaultEndpointResolver()
 
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "http://foo.com/bucket%21", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("A custom endpoint cannot be combined with FIPS", message)
+            default:
+                XCTFail()
+            }
+        }
     }
 
     /// ip address causes path style to be forced
@@ -3559,24 +3418,14 @@ class EndpointResolverTest: XCTestCase {
         )
         let resolver = try DefaultEndpointResolver()
 
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "http://foo.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Cannot set dual-stack in combination with a custom endpoint.", message)
+            default:
+                XCTFail()
+            }
+        }
     }
 
     /// FIPS + path-only (TODO: consider making this an error)
@@ -4828,24 +4677,14 @@ class EndpointResolverTest: XCTestCase {
         )
         let resolver = try DefaultEndpointResolver()
 
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "signingName": "s3",
-                        "signingRegion": "cn-north-1",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-fips.cn-north-1.amazonaws.com.cn/bucket-name", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Partition does not support FIPS", message)
+            default:
+                XCTFail()
+            }
+        }
     }
 
     /// path style + accelerate = error@cn-north-1
@@ -5272,7 +5111,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
             switch error {
             case EndpointError.unresolved(let message):
-                XCTAssertEqual("Host override cannot be combined with Dualstack, FIPS, or S3 Accelerate", message)
+                XCTAssertEqual("A custom endpoint cannot be combined with FIPS", message)
             default:
                 XCTFail()
             }
@@ -5295,7 +5134,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
             switch error {
             case EndpointError.unresolved(let message):
-                XCTAssertEqual("Host override cannot be combined with Dualstack, FIPS, or S3 Accelerate", message)
+                XCTAssertEqual("Cannot set dual-stack in combination with a custom endpoint.", message)
             default:
                 XCTFail()
             }
@@ -5318,7 +5157,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
             switch error {
             case EndpointError.unresolved(let message):
-                XCTAssertEqual("Host override cannot be combined with Dualstack, FIPS, or S3 Accelerate", message)
+                XCTAssertEqual("A custom endpoint cannot be combined with S3 Accelerate", message)
             default:
                 XCTFail()
             }
@@ -5424,12 +5263,11 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// SDK::Host + FIPS@cn-north-1
+    /// FIPS@cn-north-1
     func testResolve191() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
-            endpoint: "https://control.vpce-1a2b3c4d-5e6f.s3.us-west-2.vpce.amazonaws.com",
             forcePathStyle: false,
             region: "cn-north-1",
             useDualStack: false,
@@ -5463,7 +5301,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
             switch error {
             case EndpointError.unresolved(let message):
-                XCTAssertEqual("Host override cannot be combined with Dualstack, FIPS, or S3 Accelerate", message)
+                XCTAssertEqual("Cannot set dual-stack in combination with a custom endpoint.", message)
             default:
                 XCTFail()
             }
@@ -5486,7 +5324,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
             switch error {
             case EndpointError.unresolved(let message):
-                XCTAssertEqual("S3 Accelerate cannot be used in this region", message)
+                XCTAssertEqual("A custom endpoint cannot be combined with S3 Accelerate", message)
             default:
                 XCTFail()
             }
@@ -5608,7 +5446,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
             switch error {
             case EndpointError.unresolved(let message):
-                XCTAssertEqual("Host override cannot be combined with Dualstack, FIPS, or S3 Accelerate", message)
+                XCTAssertEqual("A custom endpoint cannot be combined with FIPS", message)
             default:
                 XCTFail()
             }
@@ -5631,7 +5469,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
             switch error {
             case EndpointError.unresolved(let message):
-                XCTAssertEqual("Host override cannot be combined with Dualstack, FIPS, or S3 Accelerate", message)
+                XCTAssertEqual("Cannot set dual-stack in combination with a custom endpoint.", message)
             default:
                 XCTFail()
             }
@@ -5654,7 +5492,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
             switch error {
             case EndpointError.unresolved(let message):
-                XCTAssertEqual("Host override cannot be combined with Dualstack, FIPS, or S3 Accelerate", message)
+                XCTAssertEqual("A custom endpoint cannot be combined with S3 Accelerate", message)
             default:
                 XCTFail()
             }
@@ -7224,7 +7062,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// S3 Outposts Abba Real Outpost Prod us-west-1
+    /// S3 Outposts bucketAlias Real Outpost Prod us-west-1
     func testResolve259() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
@@ -7255,7 +7093,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// S3 Outposts Abba Real Outpost Prod ap-east-1
+    /// S3 Outposts bucketAlias Real Outpost Prod ap-east-1
     func testResolve260() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
@@ -7286,7 +7124,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// S3 Outposts Abba Ec2 Outpost Prod us-east-1
+    /// S3 Outposts bucketAlias Ec2 Outpost Prod us-east-1
     func testResolve261() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
@@ -7317,7 +7155,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// S3 Outposts Abba Ec2 Outpost Prod me-south-1
+    /// S3 Outposts bucketAlias Ec2 Outpost Prod me-south-1
     func testResolve262() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
@@ -7348,7 +7186,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// S3 Outposts Abba Real Outpost Beta
+    /// S3 Outposts bucketAlias Real Outpost Beta
     func testResolve263() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
@@ -7380,7 +7218,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// S3 Outposts Abba Ec2 Outpost Beta
+    /// S3 Outposts bucketAlias Ec2 Outpost Beta
     func testResolve264() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
@@ -7412,7 +7250,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// S3 Outposts Abba - No endpoint set for beta
+    /// S3 Outposts bucketAlias - No endpoint set for beta
     func testResolve265() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
@@ -7433,7 +7271,7 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
-    /// S3 Outposts Abba Invalid hardware type
+    /// S3 Outposts bucketAlias Invalid hardware type
     func testResolve266() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
@@ -7454,7 +7292,7 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
-    /// S3 Outposts Abba Special character in Outpost Arn
+    /// S3 Outposts bucketAlias Special character in Outpost Arn
     func testResolve267() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
@@ -7475,7 +7313,7 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
-    /// S3 Outposts Abba - No endpoint set for beta
+    /// S3 Outposts bucketAlias - No endpoint set for beta
     func testResolve268() throws {
         let endpointParams = EndpointParams(
             accelerate: false,

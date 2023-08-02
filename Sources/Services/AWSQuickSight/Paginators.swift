@@ -221,6 +221,137 @@ extension PaginatorSequence where Input == ListDataSourcesInput, Output == ListD
     }
 }
 extension QuickSightClient {
+    /// Paginate over `[ListGroupMembershipsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListGroupMembershipsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListGroupMembershipsOutputResponse`
+    public func listGroupMembershipsPaginated(input: ListGroupMembershipsInput) -> ClientRuntime.PaginatorSequence<ListGroupMembershipsInput, ListGroupMembershipsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListGroupMembershipsInput, ListGroupMembershipsOutputResponse>(input: input, inputKey: \ListGroupMembershipsInput.nextToken, outputKey: \ListGroupMembershipsOutputResponse.nextToken, paginationFunction: self.listGroupMemberships(input:))
+    }
+}
+
+extension ListGroupMembershipsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListGroupMembershipsInput {
+        return ListGroupMembershipsInput(
+            awsAccountId: self.awsAccountId,
+            groupName: self.groupName,
+            maxResults: self.maxResults,
+            namespace: self.namespace,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == ListGroupMembershipsInput, Output == ListGroupMembershipsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listGroupMembershipsPaginated`
+    /// to access the nested member `[QuickSightClientTypes.GroupMember]`
+    /// - Returns: `[QuickSightClientTypes.GroupMember]`
+    public func groupMemberList() async throws -> [QuickSightClientTypes.GroupMember] {
+        return try await self.asyncCompactMap { item in item.groupMemberList }
+    }
+}
+extension QuickSightClient {
+    /// Paginate over `[ListGroupsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListGroupsOutputResponse`
+    public func listGroupsPaginated(input: ListGroupsInput) -> ClientRuntime.PaginatorSequence<ListGroupsInput, ListGroupsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListGroupsInput, ListGroupsOutputResponse>(input: input, inputKey: \ListGroupsInput.nextToken, outputKey: \ListGroupsOutputResponse.nextToken, paginationFunction: self.listGroups(input:))
+    }
+}
+
+extension ListGroupsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListGroupsInput {
+        return ListGroupsInput(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            namespace: self.namespace,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == ListGroupsInput, Output == ListGroupsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listGroupsPaginated`
+    /// to access the nested member `[QuickSightClientTypes.Group]`
+    /// - Returns: `[QuickSightClientTypes.Group]`
+    public func groupList() async throws -> [QuickSightClientTypes.Group] {
+        return try await self.asyncCompactMap { item in item.groupList }
+    }
+}
+extension QuickSightClient {
+    /// Paginate over `[ListIAMPolicyAssignmentsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListIAMPolicyAssignmentsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListIAMPolicyAssignmentsOutputResponse`
+    public func listIAMPolicyAssignmentsPaginated(input: ListIAMPolicyAssignmentsInput) -> ClientRuntime.PaginatorSequence<ListIAMPolicyAssignmentsInput, ListIAMPolicyAssignmentsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListIAMPolicyAssignmentsInput, ListIAMPolicyAssignmentsOutputResponse>(input: input, inputKey: \ListIAMPolicyAssignmentsInput.nextToken, outputKey: \ListIAMPolicyAssignmentsOutputResponse.nextToken, paginationFunction: self.listIAMPolicyAssignments(input:))
+    }
+}
+
+extension ListIAMPolicyAssignmentsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListIAMPolicyAssignmentsInput {
+        return ListIAMPolicyAssignmentsInput(
+            assignmentStatus: self.assignmentStatus,
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            namespace: self.namespace,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == ListIAMPolicyAssignmentsInput, Output == ListIAMPolicyAssignmentsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listIAMPolicyAssignmentsPaginated`
+    /// to access the nested member `[QuickSightClientTypes.IAMPolicyAssignmentSummary]`
+    /// - Returns: `[QuickSightClientTypes.IAMPolicyAssignmentSummary]`
+    public func iamPolicyAssignments() async throws -> [QuickSightClientTypes.IAMPolicyAssignmentSummary] {
+        return try await self.asyncCompactMap { item in item.iamPolicyAssignments }
+    }
+}
+extension QuickSightClient {
+    /// Paginate over `[ListIAMPolicyAssignmentsForUserOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListIAMPolicyAssignmentsForUserInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListIAMPolicyAssignmentsForUserOutputResponse`
+    public func listIAMPolicyAssignmentsForUserPaginated(input: ListIAMPolicyAssignmentsForUserInput) -> ClientRuntime.PaginatorSequence<ListIAMPolicyAssignmentsForUserInput, ListIAMPolicyAssignmentsForUserOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListIAMPolicyAssignmentsForUserInput, ListIAMPolicyAssignmentsForUserOutputResponse>(input: input, inputKey: \ListIAMPolicyAssignmentsForUserInput.nextToken, outputKey: \ListIAMPolicyAssignmentsForUserOutputResponse.nextToken, paginationFunction: self.listIAMPolicyAssignmentsForUser(input:))
+    }
+}
+
+extension ListIAMPolicyAssignmentsForUserInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListIAMPolicyAssignmentsForUserInput {
+        return ListIAMPolicyAssignmentsForUserInput(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            namespace: self.namespace,
+            nextToken: token,
+            userName: self.userName
+        )}
+}
+
+extension PaginatorSequence where Input == ListIAMPolicyAssignmentsForUserInput, Output == ListIAMPolicyAssignmentsForUserOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listIAMPolicyAssignmentsForUserPaginated`
+    /// to access the nested member `[QuickSightClientTypes.ActiveIAMPolicyAssignment]`
+    /// - Returns: `[QuickSightClientTypes.ActiveIAMPolicyAssignment]`
+    public func activeAssignments() async throws -> [QuickSightClientTypes.ActiveIAMPolicyAssignment] {
+        return try await self.asyncCompactMap { item in item.activeAssignments }
+    }
+}
+extension QuickSightClient {
     /// Paginate over `[ListIngestionsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -465,6 +596,71 @@ extension ListTopicsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension QuickSightClient {
+    /// Paginate over `[ListUserGroupsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListUserGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListUserGroupsOutputResponse`
+    public func listUserGroupsPaginated(input: ListUserGroupsInput) -> ClientRuntime.PaginatorSequence<ListUserGroupsInput, ListUserGroupsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListUserGroupsInput, ListUserGroupsOutputResponse>(input: input, inputKey: \ListUserGroupsInput.nextToken, outputKey: \ListUserGroupsOutputResponse.nextToken, paginationFunction: self.listUserGroups(input:))
+    }
+}
+
+extension ListUserGroupsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListUserGroupsInput {
+        return ListUserGroupsInput(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            namespace: self.namespace,
+            nextToken: token,
+            userName: self.userName
+        )}
+}
+
+extension PaginatorSequence where Input == ListUserGroupsInput, Output == ListUserGroupsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listUserGroupsPaginated`
+    /// to access the nested member `[QuickSightClientTypes.Group]`
+    /// - Returns: `[QuickSightClientTypes.Group]`
+    public func groupList() async throws -> [QuickSightClientTypes.Group] {
+        return try await self.asyncCompactMap { item in item.groupList }
+    }
+}
+extension QuickSightClient {
+    /// Paginate over `[ListUsersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListUsersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListUsersOutputResponse`
+    public func listUsersPaginated(input: ListUsersInput) -> ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutputResponse>(input: input, inputKey: \ListUsersInput.nextToken, outputKey: \ListUsersOutputResponse.nextToken, paginationFunction: self.listUsers(input:))
+    }
+}
+
+extension ListUsersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListUsersInput {
+        return ListUsersInput(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            namespace: self.namespace,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == ListUsersInput, Output == ListUsersOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listUsersPaginated`
+    /// to access the nested member `[QuickSightClientTypes.User]`
+    /// - Returns: `[QuickSightClientTypes.User]`
+    public func userList() async throws -> [QuickSightClientTypes.User] {
+        return try await self.asyncCompactMap { item in item.userList }
+    }
+}
+extension QuickSightClient {
     /// Paginate over `[ListVPCConnectionsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -612,5 +808,38 @@ extension PaginatorSequence where Input == SearchDataSourcesInput, Output == Sea
     /// - Returns: `[QuickSightClientTypes.DataSourceSummary]`
     public func dataSourceSummaries() async throws -> [QuickSightClientTypes.DataSourceSummary] {
         return try await self.asyncCompactMap { item in item.dataSourceSummaries }
+    }
+}
+extension QuickSightClient {
+    /// Paginate over `[SearchGroupsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchGroupsOutputResponse`
+    public func searchGroupsPaginated(input: SearchGroupsInput) -> ClientRuntime.PaginatorSequence<SearchGroupsInput, SearchGroupsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<SearchGroupsInput, SearchGroupsOutputResponse>(input: input, inputKey: \SearchGroupsInput.nextToken, outputKey: \SearchGroupsOutputResponse.nextToken, paginationFunction: self.searchGroups(input:))
+    }
+}
+
+extension SearchGroupsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> SearchGroupsInput {
+        return SearchGroupsInput(
+            awsAccountId: self.awsAccountId,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            namespace: self.namespace,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == SearchGroupsInput, Output == SearchGroupsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `searchGroupsPaginated`
+    /// to access the nested member `[QuickSightClientTypes.Group]`
+    /// - Returns: `[QuickSightClientTypes.Group]`
+    public func groupList() async throws -> [QuickSightClientTypes.Group] {
+        return try await self.asyncCompactMap { item in item.groupList }
     }
 }

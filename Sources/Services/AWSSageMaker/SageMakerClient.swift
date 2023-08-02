@@ -6432,6 +6432,43 @@ extension SageMakerClient: SageMakerClientProtocol {
         return result
     }
 
+    /// Starts an Amazon SageMaker Inference Recommender autoscaling recommendation job. Returns recommendations for autoscaling policies that you can apply to your SageMaker endpoint.
+    public func getScalingConfigurationRecommendation(input: GetScalingConfigurationRecommendationInput) async throws -> GetScalingConfigurationRecommendationOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getScalingConfigurationRecommendation")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "sagemaker")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetScalingConfigurationRecommendationInput, GetScalingConfigurationRecommendationOutputResponse, GetScalingConfigurationRecommendationOutputError>(id: "getScalingConfigurationRecommendation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetScalingConfigurationRecommendationInput, GetScalingConfigurationRecommendationOutputResponse, GetScalingConfigurationRecommendationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetScalingConfigurationRecommendationInput, GetScalingConfigurationRecommendationOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetScalingConfigurationRecommendationOutputResponse, GetScalingConfigurationRecommendationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetScalingConfigurationRecommendationInput, GetScalingConfigurationRecommendationOutputResponse>(xAmzTarget: "SageMaker.GetScalingConfigurationRecommendation"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetScalingConfigurationRecommendationInput, GetScalingConfigurationRecommendationOutputResponse>(xmlName: "GetScalingConfigurationRecommendationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetScalingConfigurationRecommendationInput, GetScalingConfigurationRecommendationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetScalingConfigurationRecommendationOutputResponse, GetScalingConfigurationRecommendationOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetScalingConfigurationRecommendationOutputResponse, GetScalingConfigurationRecommendationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetScalingConfigurationRecommendationOutputResponse, GetScalingConfigurationRecommendationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetScalingConfigurationRecommendationOutputResponse, GetScalingConfigurationRecommendationOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// An auto-complete API for the search functionality in the SageMaker console. It returns suggestions of possible matches for the property name to use in Search queries. Provides suggestions for HyperParameters, Tags, and Metrics.
     public func getSearchSuggestions(input: GetSearchSuggestionsInput) async throws -> GetSearchSuggestionsOutputResponse
     {
@@ -8652,6 +8689,43 @@ extension SageMakerClient: SageMakerClientProtocol {
         return result
     }
 
+    /// Lists Amazon SageMaker Catalogs based on given filters and orders. The maximum number of ResourceCatalogs viewable is 1000.
+    public func listResourceCatalogs(input: ListResourceCatalogsInput) async throws -> ListResourceCatalogsOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listResourceCatalogs")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "sagemaker")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListResourceCatalogsInput, ListResourceCatalogsOutputResponse, ListResourceCatalogsOutputError>(id: "listResourceCatalogs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourceCatalogsInput, ListResourceCatalogsOutputResponse, ListResourceCatalogsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourceCatalogsInput, ListResourceCatalogsOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListResourceCatalogsOutputResponse, ListResourceCatalogsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListResourceCatalogsInput, ListResourceCatalogsOutputResponse>(xAmzTarget: "SageMaker.ListResourceCatalogs"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListResourceCatalogsInput, ListResourceCatalogsOutputResponse>(xmlName: "ListResourceCatalogsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListResourceCatalogsInput, ListResourceCatalogsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListResourceCatalogsOutputResponse, ListResourceCatalogsOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResourceCatalogsOutputResponse, ListResourceCatalogsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourceCatalogsOutputResponse, ListResourceCatalogsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListResourceCatalogsOutputResponse, ListResourceCatalogsOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Lists spaces.
     public func listSpaces(input: ListSpacesInput) async throws -> ListSpacesOutputResponse
     {
@@ -10585,7 +10659,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         return result
     }
 
-    /// Updates the feature group.
+    /// Updates the feature group by either adding features or updating the online store configuration. Use one of the following request parameters at a time while using the UpdateFeatureGroup API. You can add features for your feature group using the FeatureAdditions request parameter. Features cannot be removed from a feature group. You can update the online store configuration by using the OnlineStoreConfig request parameter. If a TtlDuration is specified, the default TtlDuration applies for all records added to the feature group after the feature group is updated. If a record level TtlDuration exists from using the PutRecord API, the record level TtlDuration applies to that record instead of the default TtlDuration.
     public func updateFeatureGroup(input: UpdateFeatureGroupInput) async throws -> UpdateFeatureGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

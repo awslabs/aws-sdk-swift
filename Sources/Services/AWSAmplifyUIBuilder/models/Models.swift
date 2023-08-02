@@ -129,6 +129,63 @@ extension AmplifyUIBuilderClientTypes {
 
 }
 
+extension AmplifyUIBuilderClientTypes.ApiConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case datastoreconfig = "dataStoreConfig"
+        case graphqlconfig = "graphQLConfig"
+        case noapiconfig = "noApiConfig"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .datastoreconfig(datastoreconfig):
+                try container.encode(datastoreconfig, forKey: .datastoreconfig)
+            case let .graphqlconfig(graphqlconfig):
+                try container.encode(graphqlconfig, forKey: .graphqlconfig)
+            case let .noapiconfig(noapiconfig):
+                try container.encode(noapiconfig, forKey: .noapiconfig)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let graphqlconfigDecoded = try values.decodeIfPresent(AmplifyUIBuilderClientTypes.GraphQLRenderConfig.self, forKey: .graphqlconfig)
+        if let graphqlconfig = graphqlconfigDecoded {
+            self = .graphqlconfig(graphqlconfig)
+            return
+        }
+        let datastoreconfigDecoded = try values.decodeIfPresent(AmplifyUIBuilderClientTypes.DataStoreRenderConfig.self, forKey: .datastoreconfig)
+        if let datastoreconfig = datastoreconfigDecoded {
+            self = .datastoreconfig(datastoreconfig)
+            return
+        }
+        let noapiconfigDecoded = try values.decodeIfPresent(AmplifyUIBuilderClientTypes.NoApiRenderConfig.self, forKey: .noapiconfig)
+        if let noapiconfig = noapiconfigDecoded {
+            self = .noapiconfig(noapiconfig)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension AmplifyUIBuilderClientTypes {
+    /// Describes the API configuration for a code generation job.
+    public enum ApiConfiguration: Swift.Equatable {
+        /// The configuration for an application using GraphQL APIs.
+        case graphqlconfig(AmplifyUIBuilderClientTypes.GraphQLRenderConfig)
+        /// The configuration for an application using DataStore APIs.
+        case datastoreconfig(AmplifyUIBuilderClientTypes.DataStoreRenderConfig)
+        /// The configuration for an application with no API being used.
+        case noapiconfig(AmplifyUIBuilderClientTypes.NoApiRenderConfig)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
 extension AmplifyUIBuilderClientTypes.CodegenFeatureFlags: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isNonModelSupported
@@ -786,7 +843,7 @@ extension AmplifyUIBuilderClientTypes {
         public var id: Swift.String?
         /// The time that the code generation job was modified.
         public var modifiedAt: ClientRuntime.Date?
-        /// Describes the configuration information for rendering the UI component associated the code generation job.
+        /// Describes the configuration information for rendering the UI component associated with the code generation job.
         public var renderConfig: AmplifyUIBuilderClientTypes.CodegenJobRenderConfig?
         /// The status of the code generation job.
         public var status: AmplifyUIBuilderClientTypes.CodegenJobStatus?
@@ -1026,7 +1083,7 @@ extension AmplifyUIBuilderClientTypes.CodegenJobRenderConfig: Swift.Codable {
 }
 
 extension AmplifyUIBuilderClientTypes {
-    /// Describes the configuration information for rendering the UI component associated the code generation job.
+    /// Describes the configuration information for rendering the UI component associated with the code generation job.
     public enum CodegenJobRenderConfig: Swift.Equatable {
         /// The name of the ReactStartCodegenJobData object.
         case react(AmplifyUIBuilderClientTypes.ReactStartCodegenJobData)
@@ -3441,6 +3498,26 @@ extension CreateThemeOutputResponseBody: Swift.Decodable {
         let entityDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.Theme.self, forKey: .entity)
         entity = entityDecoded
     }
+}
+
+extension AmplifyUIBuilderClientTypes.DataStoreRenderConfig: Swift.Codable {
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode([String:String]())
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension AmplifyUIBuilderClientTypes {
+    /// Describes the DataStore configuration for an API for a code generation job.
+    public struct DataStoreRenderConfig: Swift.Equatable {
+
+        public init() { }
+    }
+
 }
 
 extension DeleteComponentInput: ClientRuntime.URLPathProvider {
@@ -6255,6 +6332,86 @@ extension GetThemeOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension AmplifyUIBuilderClientTypes.GraphQLRenderConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fragmentsFilePath
+        case mutationsFilePath
+        case queriesFilePath
+        case subscriptionsFilePath
+        case typesFilePath
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fragmentsFilePath = self.fragmentsFilePath {
+            try encodeContainer.encode(fragmentsFilePath, forKey: .fragmentsFilePath)
+        }
+        if let mutationsFilePath = self.mutationsFilePath {
+            try encodeContainer.encode(mutationsFilePath, forKey: .mutationsFilePath)
+        }
+        if let queriesFilePath = self.queriesFilePath {
+            try encodeContainer.encode(queriesFilePath, forKey: .queriesFilePath)
+        }
+        if let subscriptionsFilePath = self.subscriptionsFilePath {
+            try encodeContainer.encode(subscriptionsFilePath, forKey: .subscriptionsFilePath)
+        }
+        if let typesFilePath = self.typesFilePath {
+            try encodeContainer.encode(typesFilePath, forKey: .typesFilePath)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typesFilePathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .typesFilePath)
+        typesFilePath = typesFilePathDecoded
+        let queriesFilePathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queriesFilePath)
+        queriesFilePath = queriesFilePathDecoded
+        let mutationsFilePathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mutationsFilePath)
+        mutationsFilePath = mutationsFilePathDecoded
+        let subscriptionsFilePathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriptionsFilePath)
+        subscriptionsFilePath = subscriptionsFilePathDecoded
+        let fragmentsFilePathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fragmentsFilePath)
+        fragmentsFilePath = fragmentsFilePathDecoded
+    }
+}
+
+extension AmplifyUIBuilderClientTypes {
+    /// Describes the GraphQL configuration for an API for a code generation job.
+    public struct GraphQLRenderConfig: Swift.Equatable {
+        /// The path to the GraphQL fragments file, relative to the component output directory.
+        /// This member is required.
+        public var fragmentsFilePath: Swift.String?
+        /// The path to the GraphQL mutations file, relative to the component output directory.
+        /// This member is required.
+        public var mutationsFilePath: Swift.String?
+        /// The path to the GraphQL queries file, relative to the component output directory.
+        /// This member is required.
+        public var queriesFilePath: Swift.String?
+        /// The path to the GraphQL subscriptions file, relative to the component output directory.
+        /// This member is required.
+        public var subscriptionsFilePath: Swift.String?
+        /// The path to the GraphQL types file, relative to the component output directory.
+        /// This member is required.
+        public var typesFilePath: Swift.String?
+
+        public init(
+            fragmentsFilePath: Swift.String? = nil,
+            mutationsFilePath: Swift.String? = nil,
+            queriesFilePath: Swift.String? = nil,
+            subscriptionsFilePath: Swift.String? = nil,
+            typesFilePath: Swift.String? = nil
+        )
+        {
+            self.fragmentsFilePath = fragmentsFilePath
+            self.mutationsFilePath = mutationsFilePath
+            self.queriesFilePath = queriesFilePath
+            self.subscriptionsFilePath = subscriptionsFilePath
+            self.typesFilePath = typesFilePath
+        }
+    }
+
+}
+
 extension InternalServerException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -7102,6 +7259,26 @@ extension AmplifyUIBuilderClientTypes {
 
 }
 
+extension AmplifyUIBuilderClientTypes.NoApiRenderConfig: Swift.Codable {
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode([String:String]())
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension AmplifyUIBuilderClientTypes {
+    /// Describes the configuration for an application with no API being used.
+    public struct NoApiRenderConfig: Swift.Equatable {
+
+        public init() { }
+    }
+
+}
+
 extension AmplifyUIBuilderClientTypes.Predicate: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case and
@@ -7381,6 +7558,7 @@ public struct PutMetadataFlagOutputResponse: Swift.Equatable {
 
 extension AmplifyUIBuilderClientTypes.ReactStartCodegenJobData: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apiConfiguration
         case inlineSourceMap
         case module
         case renderTypeDeclarations
@@ -7390,6 +7568,9 @@ extension AmplifyUIBuilderClientTypes.ReactStartCodegenJobData: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let apiConfiguration = self.apiConfiguration {
+            try encodeContainer.encode(apiConfiguration, forKey: .apiConfiguration)
+        }
         if inlineSourceMap != false {
             try encodeContainer.encode(inlineSourceMap, forKey: .inlineSourceMap)
         }
@@ -7419,12 +7600,16 @@ extension AmplifyUIBuilderClientTypes.ReactStartCodegenJobData: Swift.Codable {
         renderTypeDeclarations = renderTypeDeclarationsDecoded
         let inlineSourceMapDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .inlineSourceMap) ?? false
         inlineSourceMap = inlineSourceMapDecoded
+        let apiConfigurationDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.ApiConfiguration.self, forKey: .apiConfiguration)
+        apiConfiguration = apiConfigurationDecoded
     }
 }
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the code generation job configuration for a React project.
     public struct ReactStartCodegenJobData: Swift.Equatable {
+        /// The API configuration for the code generation job.
+        public var apiConfiguration: AmplifyUIBuilderClientTypes.ApiConfiguration?
         /// Specifies whether the code generation job should render inline source maps.
         public var inlineSourceMap: Swift.Bool
         /// The JavaScript module type.
@@ -7437,6 +7622,7 @@ extension AmplifyUIBuilderClientTypes {
         public var target: AmplifyUIBuilderClientTypes.JSTarget?
 
         public init(
+            apiConfiguration: AmplifyUIBuilderClientTypes.ApiConfiguration? = nil,
             inlineSourceMap: Swift.Bool = false,
             module: AmplifyUIBuilderClientTypes.JSModule? = nil,
             renderTypeDeclarations: Swift.Bool = false,
@@ -7444,6 +7630,7 @@ extension AmplifyUIBuilderClientTypes {
             target: AmplifyUIBuilderClientTypes.JSTarget? = nil
         )
         {
+            self.apiConfiguration = apiConfiguration
             self.inlineSourceMap = inlineSourceMap
             self.module = module
             self.renderTypeDeclarations = renderTypeDeclarations

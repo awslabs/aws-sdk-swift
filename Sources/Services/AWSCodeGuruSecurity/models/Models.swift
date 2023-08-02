@@ -633,7 +633,7 @@ extension CreateScanInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateScanInput: Swift.Equatable {
-    /// The type of analysis you want CodeGuru Security to perform in the scan, either Security or All. The Secuirty type only generates findings related to security. The All type generates both security findings and quality findings. Defaults to Security type if missing.
+    /// The type of analysis you want CodeGuru Security to perform in the scan, either Security or All. The Security type only generates findings related to security. The All type generates both security findings and quality findings. Defaults to Security type if missing.
     public var analysisType: CodeGuruSecurityClientTypes.AnalysisType?
     /// The idempotency token for the request. Amazon CodeGuru Security uses this value to prevent the accidental creation of duplicate scans if there are failures and retries.
     public var clientToken: Swift.String?

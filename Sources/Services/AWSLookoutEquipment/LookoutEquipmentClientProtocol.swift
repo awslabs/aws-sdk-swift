@@ -4,7 +4,7 @@ import ClientRuntime
 
 /// Amazon Lookout for Equipment is a machine learning service that uses advanced analytics to identify anomalies in machines from sensor data for use in predictive maintenance.
 public protocol LookoutEquipmentClientProtocol {
-    /// Creates a container for a collection of data being ingested for analysis. The dataset contains the metadata describing where the data is and what the data actually looks like. In other words, it contains the location of the data source, the data schema, and other information. A dataset also contains any tags associated with the ingested data.
+    /// Creates a container for a collection of data being ingested for analysis. The dataset contains the metadata describing where the data is and what the data actually looks like. For example, it contains the location of the data source, the data schema, and other information. A dataset also contains any tags associated with the ingested data.
     func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutputResponse
     /// Creates a scheduled inference. Scheduling an inference is setting up a continuous real-time inference plan to analyze new measurement data. When setting up the schedule, you provide an S3 bucket location for the input data, assign it a delimiter between separate entries in the data, set an offset delay if desired, and set the frequency of inferencing. You must also provide an S3 bucket location for the output data.
     func createInferenceScheduler(input: CreateInferenceSchedulerInput) async throws -> CreateInferenceSchedulerOutputResponse
@@ -24,6 +24,8 @@ public protocol LookoutEquipmentClientProtocol {
     func deleteLabelGroup(input: DeleteLabelGroupInput) async throws -> DeleteLabelGroupOutputResponse
     /// Deletes an ML model currently available for Amazon Lookout for Equipment. This will prevent it from being used with an inference scheduler, even one that is already set up.
     func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutputResponse
+    /// Deletes the resource policy attached to the resource.
+    func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutputResponse
     /// Provides information on a specific data ingestion job such as creation time, dataset ARN, and status.
     func describeDataIngestionJob(input: DescribeDataIngestionJobInput) async throws -> DescribeDataIngestionJobOutputResponse
     /// Provides a JSON description of the data in each time series dataset, including names, column names, and data types.
@@ -36,6 +38,14 @@ public protocol LookoutEquipmentClientProtocol {
     func describeLabelGroup(input: DescribeLabelGroupInput) async throws -> DescribeLabelGroupOutputResponse
     /// Provides a JSON containing the overall information about a specific ML model, including model name and ARN, dataset, training and evaluation information, status, and so on.
     func describeModel(input: DescribeModelInput) async throws -> DescribeModelOutputResponse
+    /// Retrieves information about a specific machine learning model version.
+    func describeModelVersion(input: DescribeModelVersionInput) async throws -> DescribeModelVersionOutputResponse
+    /// Provides the details of a resource policy attached to a resource.
+    func describeResourcePolicy(input: DescribeResourcePolicyInput) async throws -> DescribeResourcePolicyOutputResponse
+    /// Imports a dataset.
+    func importDataset(input: ImportDatasetInput) async throws -> ImportDatasetOutputResponse
+    /// Imports a model that has been trained successfully.
+    func importModelVersion(input: ImportModelVersionInput) async throws -> ImportModelVersionOutputResponse
     /// Provides a list of all data ingestion jobs, including dataset name and ARN, S3 location of the input data, status, and so on.
     func listDataIngestionJobs(input: ListDataIngestionJobsInput) async throws -> ListDataIngestionJobsOutputResponse
     /// Lists all datasets currently available in your account, filtering on the dataset name.
@@ -52,10 +62,14 @@ public protocol LookoutEquipmentClientProtocol {
     func listLabels(input: ListLabelsInput) async throws -> ListLabelsOutputResponse
     /// Generates a list of all models in the account, including model name and ARN, dataset, and status.
     func listModels(input: ListModelsInput) async throws -> ListModelsOutputResponse
+    /// Generates a list of all model versions for a given model, including the model version, model version ARN, and status. To list a subset of versions, use the MaxModelVersion and MinModelVersion fields.
+    func listModelVersions(input: ListModelVersionsInput) async throws -> ListModelVersionsOutputResponse
     /// Lists statistics about the data collected for each of the sensors that have been successfully ingested in the particular dataset. Can also be used to retreive Sensor Statistics for a previous ingestion job.
     func listSensorStatistics(input: ListSensorStatisticsInput) async throws -> ListSensorStatisticsOutputResponse
     /// Lists all the tags for a specified resource, including key and value.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    /// Creates a resource control policy for a given resource.
+    func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutputResponse
     /// Starts a data ingestion job. Amazon Lookout for Equipment returns the job status.
     func startDataIngestionJob(input: StartDataIngestionJobInput) async throws -> StartDataIngestionJobOutputResponse
     /// Starts an inference scheduler.
@@ -66,6 +80,8 @@ public protocol LookoutEquipmentClientProtocol {
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes a specific tag from a given resource. The tag is specified by its key.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    /// Sets the active model version for a given machine learning model.
+    func updateActiveModelVersion(input: UpdateActiveModelVersionInput) async throws -> UpdateActiveModelVersionOutputResponse
     /// Updates an inference scheduler.
     func updateInferenceScheduler(input: UpdateInferenceSchedulerInput) async throws -> UpdateInferenceSchedulerOutputResponse
     /// Updates the label group.

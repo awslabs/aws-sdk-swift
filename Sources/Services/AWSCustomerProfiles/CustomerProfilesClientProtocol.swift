@@ -73,6 +73,8 @@ public protocol CustomerProfilesClientProtocol {
     func getProfileObjectType(input: GetProfileObjectTypeInput) async throws -> GetProfileObjectTypeOutputResponse
     /// Returns the template information for a specific object type. A template is a predefined ProfileObjectType, such as “Salesforce-Account” or “Salesforce-Contact.” When a user sends a ProfileObject, using the PutProfileObject API, with an ObjectTypeName that matches one of the TemplateIds, it uses the mappings from the template.
     func getProfileObjectTypeTemplate(input: GetProfileObjectTypeTemplateInput) async throws -> GetProfileObjectTypeTemplateOutputResponse
+    /// Returns a set of profiles that belong to the same matching group using the matchId or profileId. You can also specify the type of matching that you want for finding similar profiles using either RULE_BASED_MATCHING or ML_BASED_MATCHING.
+    func getSimilarProfiles(input: GetSimilarProfilesInput) async throws -> GetSimilarProfilesOutputResponse
     /// Get details of specified workflow.
     func getWorkflow(input: GetWorkflowInput) async throws -> GetWorkflowOutputResponse
     /// Get granular list of steps in workflow.
@@ -97,6 +99,8 @@ public protocol CustomerProfilesClientProtocol {
     func listProfileObjectTypes(input: ListProfileObjectTypesInput) async throws -> ListProfileObjectTypesOutputResponse
     /// Lists all of the template information for object types.
     func listProfileObjectTypeTemplates(input: ListProfileObjectTypeTemplatesInput) async throws -> ListProfileObjectTypeTemplatesOutputResponse
+    /// Returns a set of MatchIds that belong to the given domain.
+    func listRuleBasedMatches(input: ListRuleBasedMatchesInput) async throws -> ListRuleBasedMatchesOutputResponse
     /// Displays the tags associated with an Amazon Connect Customer Profiles resource. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Query to list all workflows.
