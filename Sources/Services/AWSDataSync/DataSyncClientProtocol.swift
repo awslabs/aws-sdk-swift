@@ -2,14 +2,23 @@
 
 import ClientRuntime
 
-/// DataSync DataSync is a managed data transfer service that makes it simpler for you to automate moving data between on-premises storage and Amazon Web Services storage services. You also can use DataSync to transfer data between other cloud providers and Amazon Web Services storage services. This API interface reference includes documentation for using DataSync programmatically. For complete information, see the [DataSync User Guide](https://docs.aws.amazon.com/datasync/latest/userguide/what-is-datasync.html) .
+/// DataSync DataSync is an online data movement and discovery service that simplifies data migration and helps you quickly, easily, and securely transfer your file or object data to, from, and between Amazon Web Services storage services. This API interface reference includes documentation for using DataSync programmatically. For complete information, see the [DataSync User Guide](https://docs.aws.amazon.com/datasync/latest/userguide/what-is-datasync.html) .
 public protocol DataSyncClientProtocol {
     /// Creates an Amazon Web Services resource for an on-premises storage system that you want DataSync Discovery to collect information about.
     func addStorageSystem(input: AddStorageSystemInput) async throws -> AddStorageSystemOutputResponse
     /// Stops an DataSync task execution that's in progress. The transfer of some files are abruptly interrupted. File contents that're transferred to the destination might be incomplete or inconsistent with the source files. However, if you start a new task execution using the same task and allow it to finish, file content on the destination will be complete and consistent. This applies to other unexpected failures that interrupt a task execution. In all of these cases, DataSync successfully completes the transfer when you start the next task execution.
     func cancelTaskExecution(input: CancelTaskExecutionInput) async throws -> CancelTaskExecutionOutputResponse
-    /// Activates an DataSync agent that you have deployed in your storage environment. The activation process associates your agent with your account. In the activation process, you specify information such as the Amazon Web Services Region that you want to activate the agent in. You activate the agent in the Amazon Web Services Region where your target locations (in Amazon S3 or Amazon EFS) reside. Your tasks are created in this Amazon Web Services Region. You can activate the agent in a VPC (virtual private cloud) or provide the agent access to a VPC endpoint so you can run tasks without going over the public internet. You can use an agent for more than one location. If a task uses multiple agents, all of them need to have status AVAILABLE for the task to run. If you use multiple agents for a source location, the status of all the agents must be AVAILABLE for the task to run. Agents are automatically updated by Amazon Web Services on a regular basis, using a mechanism that ensures minimal interruption to your tasks.
+    /// Activates an DataSync agent that you've deployed in your storage environment. The activation process associates the agent with your Amazon Web Services account. If you haven't deployed an agent yet, see the following topics to learn more:
+    ///
+    /// * [Agent requirements](https://docs.aws.amazon.com/datasync/latest/userguide/agent-requirements.html)
+    ///
+    /// * [Create an agent](https://docs.aws.amazon.com/datasync/latest/userguide/configure-agent.html)
+    ///
+    ///
+    /// If you're transferring between Amazon Web Services storage services, you don't need a DataSync agent.
     func createAgent(input: CreateAgentInput) async throws -> CreateAgentOutputResponse
+    /// Creates an endpoint for a Microsoft Azure Blob Storage container that DataSync can use as a transfer source or destination. Before you begin, make sure you know [how DataSync accesses Azure Blob Storage](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access) and works with [access tiers](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access-tiers) and [blob types](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#blob-types). You also need a [DataSync agent](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-creating-agent) that can connect to your container.
+    func createLocationAzureBlob(input: CreateLocationAzureBlobInput) async throws -> CreateLocationAzureBlobOutputResponse
     /// Creates an endpoint for an Amazon EFS file system that DataSync can access for a transfer. For more information, see [Creating a location for Amazon EFS](https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html).
     func createLocationEfs(input: CreateLocationEfsInput) async throws -> CreateLocationEfsOutputResponse
     /// Creates an endpoint for an Amazon FSx for Lustre file system.
@@ -22,7 +31,7 @@ public protocol DataSyncClientProtocol {
     func createLocationFsxWindows(input: CreateLocationFsxWindowsInput) async throws -> CreateLocationFsxWindowsOutputResponse
     /// Creates an endpoint for a Hadoop Distributed File System (HDFS).
     func createLocationHdfs(input: CreateLocationHdfsInput) async throws -> CreateLocationHdfsOutputResponse
-    /// Defines a file system on a Network File System (NFS) server that can be read from or written to.
+    /// Creates an endpoint for an Network File System (NFS) file server that DataSync can use for a data transfer.
     func createLocationNfs(input: CreateLocationNfsInput) async throws -> CreateLocationNfsOutputResponse
     /// Creates an endpoint for an object storage system that DataSync can access for a transfer. For more information, see [Creating a location for object storage](https://docs.aws.amazon.com/datasync/latest/userguide/create-object-location.html).
     func createLocationObjectStorage(input: CreateLocationObjectStorageInput) async throws -> CreateLocationObjectStorageOutputResponse
@@ -35,7 +44,7 @@ public protocol DataSyncClientProtocol {
     ///
     /// For more information, see [Creating an Amazon S3 location](https://docs.aws.amazon.com/datasync/latest/userguide/create-locations-cli.html#create-location-s3-cli).
     func createLocationS3(input: CreateLocationS3Input) async throws -> CreateLocationS3OutputResponse
-    /// Creates an endpoint for a Server Message Block (SMB) file server that DataSync can access for a transfer. For more information, see [Creating an SMB location](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html).
+    /// Creates an endpoint for a Server Message Block (SMB) file server that DataSync can use for a data transfer. Before you begin, make sure that you understand how DataSync [accesses an SMB file server](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html).
     func createLocationSmb(input: CreateLocationSmbInput) async throws -> CreateLocationSmbOutputResponse
     /// Configures a task, which defines where and how DataSync transfers your data. A task includes a source location, a destination location, and the preferences for how and when you want to transfer your data (such as bandwidth limits, scheduling, among other options). If you're planning to transfer data to or from an Amazon S3 location, review [how DataSync can affect your S3 request charges](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-s3-requests) and the [DataSync pricing page](http://aws.amazon.com/datasync/pricing/) before you begin.
     func createTask(input: CreateTaskInput) async throws -> CreateTaskOutputResponse
@@ -49,6 +58,8 @@ public protocol DataSyncClientProtocol {
     func describeAgent(input: DescribeAgentInput) async throws -> DescribeAgentOutputResponse
     /// Returns information about a DataSync discovery job.
     func describeDiscoveryJob(input: DescribeDiscoveryJobInput) async throws -> DescribeDiscoveryJobOutputResponse
+    /// Provides details about how an DataSync transfer location for Microsoft Azure Blob Storage is configured.
+    func describeLocationAzureBlob(input: DescribeLocationAzureBlobInput) async throws -> DescribeLocationAzureBlobOutputResponse
     /// Returns metadata about your DataSync location for an Amazon EFS file system.
     func describeLocationEfs(input: DescribeLocationEfsInput) async throws -> DescribeLocationEfsOutputResponse
     /// Provides details about how an DataSync location for an Amazon FSx for Lustre file system is configured.
@@ -75,9 +86,9 @@ public protocol DataSyncClientProtocol {
     func describeStorageSystemResourceMetrics(input: DescribeStorageSystemResourceMetricsInput) async throws -> DescribeStorageSystemResourceMetricsOutputResponse
     /// Returns information that DataSync Discovery collects about resources in your on-premises storage system.
     func describeStorageSystemResources(input: DescribeStorageSystemResourcesInput) async throws -> DescribeStorageSystemResourcesOutputResponse
-    /// Returns metadata about a task.
+    /// Provides information about an DataSync transfer task.
     func describeTask(input: DescribeTaskInput) async throws -> DescribeTaskOutputResponse
-    /// Returns detailed metadata about a task that is being executed.
+    /// Provides information about an DataSync transfer task that's running.
     func describeTaskExecution(input: DescribeTaskExecutionInput) async throws -> DescribeTaskExecutionOutputResponse
     /// Creates recommendations about where to migrate your data to in Amazon Web Services. Recommendations are generated based on information that DataSync Discovery collects about your on-premises storage system's resources. For more information, see [Recommendations provided by DataSync Discovery](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html). Once generated, you can view your recommendations by using the [DescribeStorageSystemResources](https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeStorageSystemResources.html) operation. If your [discovery job completes successfully](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-job-statuses.html#discovery-job-statuses-table), you don't need to use this operation. DataSync Discovery generates the recommendations for you automatically.
     func generateRecommendations(input: GenerateRecommendationsInput) async throws -> GenerateRecommendationsOutputResponse
@@ -111,6 +122,8 @@ public protocol DataSyncClientProtocol {
     func updateAgent(input: UpdateAgentInput) async throws -> UpdateAgentOutputResponse
     /// Edits a DataSync discovery job configuration.
     func updateDiscoveryJob(input: UpdateDiscoveryJobInput) async throws -> UpdateDiscoveryJobOutputResponse
+    /// Modifies some configurations of the Microsoft Azure Blob Storage transfer location that you're using with DataSync.
+    func updateLocationAzureBlob(input: UpdateLocationAzureBlobInput) async throws -> UpdateLocationAzureBlobOutputResponse
     /// Updates some parameters of a previously created location for a Hadoop Distributed File System cluster.
     func updateLocationHdfs(input: UpdateLocationHdfsInput) async throws -> UpdateLocationHdfsOutputResponse
     /// Updates some of the parameters of a previously created location for Network File System (NFS) access. For information about creating an NFS location, see [Creating a location for NFS](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html).

@@ -374,7 +374,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         return result
     }
 
-    /// Deletes a domain.
+    /// Deletes a Cases domain. After deleting your domain you must disassociate the deleted domain from your Amazon Connect instance with another API call before being able to use Cases again with this Amazon Connect instance. See [DeleteIntegrationAssociation](https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteIntegrationAssociation.html).
     public func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

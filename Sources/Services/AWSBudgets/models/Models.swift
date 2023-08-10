@@ -158,7 +158,7 @@ extension BudgetsClientTypes {
         /// This specifies if the action needs manual or automatic approval.
         /// This member is required.
         public var approvalModel: BudgetsClientTypes.ApprovalModel?
-        /// A string that represents the budget name. The ":" and "\" characters aren't allowed.
+        /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
         /// This member is required.
         public var budgetName: Swift.String?
         /// Where you specify all of the type-specific parameters.
@@ -731,7 +731,7 @@ extension BudgetsClientTypes {
         public var autoAdjustData: BudgetsClientTypes.AutoAdjustData?
         /// The total amount of cost, usage, RI utilization, RI coverage, Savings Plans utilization, or Savings Plans coverage that you want to track with your budget. BudgetLimit is required for cost or usage budgets, but optional for RI or Savings Plans utilization or coverage budgets. RI and Savings Plans utilization or coverage budgets default to 100. This is the only valid value for RI or Savings Plans utilization or coverage budgets. You can't use BudgetLimit with PlannedBudgetLimits for CreateBudget and UpdateBudget actions.
         public var budgetLimit: BudgetsClientTypes.Spend?
-        /// The name of a budget. The name must be unique within an account. The : and \ characters aren't allowed in BudgetName.
+        /// The name of a budget. The name must be unique within an account. The : and \ characters, and the "/action/" substring, aren't allowed in BudgetName.
         /// This member is required.
         public var budgetName: Swift.String?
         /// Specifies whether this budget tracks costs, usage, RI utilization, RI coverage, Savings Plans utilization, or Savings Plans coverage.
@@ -833,7 +833,7 @@ extension BudgetsClientTypes.BudgetNotificationsForAccount: Swift.Codable {
 extension BudgetsClientTypes {
     /// The budget name and associated notifications for an account.
     public struct BudgetNotificationsForAccount: Swift.Equatable {
-        /// A string that represents the budget name. The ":" and "\" characters aren't allowed.
+        /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
         public var budgetName: Swift.String?
         /// A list of notifications.
         public var notifications: [BudgetsClientTypes.Notification]?
@@ -936,7 +936,7 @@ extension BudgetsClientTypes.BudgetPerformanceHistory: Swift.Codable {
 extension BudgetsClientTypes {
     /// A history of the state of a budget at the end of the budget's specified time period.
     public struct BudgetPerformanceHistory: Swift.Equatable {
-        /// A string that represents the budget name. The ":" and "\" characters aren't allowed.
+        /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
         public var budgetName: Swift.String?
         /// The type of a budget. It must be one of the following types: COST, USAGE, RI_UTILIZATION, RI_COVERAGE, SAVINGS_PLANS_UTILIZATION, or SAVINGS_PLANS_COVERAGE.
         public var budgetType: BudgetsClientTypes.BudgetType?
@@ -1353,7 +1353,7 @@ public struct CreateBudgetActionInput: Swift.Equatable {
     /// This specifies if the action needs manual or automatic approval.
     /// This member is required.
     public var approvalModel: BudgetsClientTypes.ApprovalModel?
-    /// A string that represents the budget name. The ":" and "\" characters aren't allowed.
+    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
     /// This member is required.
     public var budgetName: Swift.String?
     /// Specifies all of the type-specific parameters.
@@ -1490,7 +1490,7 @@ public struct CreateBudgetActionOutputResponse: Swift.Equatable {
     /// A system-generated universally unique identifier (UUID) for the action.
     /// This member is required.
     public var actionId: Swift.String?
-    /// A string that represents the budget name. The ":" and "\" characters aren't allowed.
+    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
     /// This member is required.
     public var budgetName: Swift.String?
 
@@ -2032,7 +2032,7 @@ public struct DeleteBudgetActionInput: Swift.Equatable {
     /// A system-generated universally unique identifier (UUID) for the action.
     /// This member is required.
     public var actionId: Swift.String?
-    /// A string that represents the budget name. The ":" and "\" characters aren't allowed.
+    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
     /// This member is required.
     public var budgetName: Swift.String?
 
@@ -2111,7 +2111,7 @@ public struct DeleteBudgetActionOutputResponse: Swift.Equatable {
     /// A budget action resource.
     /// This member is required.
     public var action: BudgetsClientTypes.Action?
-    /// A string that represents the budget name. The ":" and "\" characters aren't allowed.
+    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
     /// This member is required.
     public var budgetName: Swift.String?
 
@@ -2500,7 +2500,7 @@ public struct DescribeBudgetActionHistoriesInput: Swift.Equatable {
     /// A system-generated universally unique identifier (UUID) for the action.
     /// This member is required.
     public var actionId: Swift.String?
-    /// A string that represents the budget name. The ":" and "\" characters aren't allowed.
+    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
     /// This member is required.
     public var budgetName: Swift.String?
     /// An integer that represents how many entries a paginated response contains. The maximum is 100.
@@ -2674,7 +2674,7 @@ public struct DescribeBudgetActionInput: Swift.Equatable {
     /// A system-generated universally unique identifier (UUID) for the action.
     /// This member is required.
     public var actionId: Swift.String?
-    /// A string that represents the budget name. The ":" and "\" characters aren't allowed.
+    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
     /// This member is required.
     public var budgetName: Swift.String?
 
@@ -2752,7 +2752,7 @@ public struct DescribeBudgetActionOutputResponse: Swift.Equatable {
     /// A budget action resource.
     /// This member is required.
     public var action: BudgetsClientTypes.Action?
-    /// A string that represents the budget name. The ":" and "\" characters aren't allowed.
+    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
     /// This member is required.
     public var budgetName: Swift.String?
 
@@ -2974,7 +2974,7 @@ public struct DescribeBudgetActionsForBudgetInput: Swift.Equatable {
     /// The account ID of the user. It's a 12-digit number.
     /// This member is required.
     public var accountId: Swift.String?
-    /// A string that represents the budget name. The ":" and "\" characters aren't allowed.
+    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
     /// This member is required.
     public var budgetName: Swift.String?
     /// An integer that represents how many entries a paginated response contains. The maximum is 100.
@@ -3405,7 +3405,7 @@ public struct DescribeBudgetPerformanceHistoryInput: Swift.Equatable {
     /// The account ID of the user. It's a 12-digit number.
     /// This member is required.
     public var accountId: Swift.String?
-    /// A string that represents the budget name. The ":" and "\" characters aren't allowed.
+    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
     /// This member is required.
     public var budgetName: Swift.String?
     /// An integer that represents how many entries a paginated response contains. The maximum is 100.
@@ -4154,7 +4154,7 @@ public struct ExecuteBudgetActionInput: Swift.Equatable {
     /// A system-generated universally unique identifier (UUID) for the action.
     /// This member is required.
     public var actionId: Swift.String?
-    /// A string that represents the budget name. The ":" and "\" characters aren't allowed.
+    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
     /// This member is required.
     public var budgetName: Swift.String?
     /// The type of execution.
@@ -4244,7 +4244,7 @@ public struct ExecuteBudgetActionOutputResponse: Swift.Equatable {
     /// A system-generated universally unique identifier (UUID) for the action.
     /// This member is required.
     public var actionId: Swift.String?
-    /// A string that represents the budget name. The ":" and "\" characters aren't allowed.
+    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
     /// This member is required.
     public var budgetName: Swift.String?
     /// The type of execution.
@@ -5540,7 +5540,7 @@ public struct UpdateBudgetActionInput: Swift.Equatable {
     public var actionThreshold: BudgetsClientTypes.ActionThreshold?
     /// This specifies if the action needs manual or automatic approval.
     public var approvalModel: BudgetsClientTypes.ApprovalModel?
-    /// A string that represents the budget name. The ":" and "\" characters aren't allowed.
+    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
     /// This member is required.
     public var budgetName: Swift.String?
     /// Specifies all of the type-specific parameters.
@@ -5671,7 +5671,7 @@ public struct UpdateBudgetActionOutputResponse: Swift.Equatable {
     /// The account ID of the user. It's a 12-digit number.
     /// This member is required.
     public var accountId: Swift.String?
-    /// A string that represents the budget name. The ":" and "\" characters aren't allowed.
+    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
     /// This member is required.
     public var budgetName: Swift.String?
     /// The updated action resource information.

@@ -1319,12 +1319,193 @@ extension CreateFirewallRuleOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateOutpostResolverInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creatorRequestId = "CreatorRequestId"
+        case instanceCount = "InstanceCount"
+        case name = "Name"
+        case outpostArn = "OutpostArn"
+        case preferredInstanceType = "PreferredInstanceType"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creatorRequestId = self.creatorRequestId {
+            try encodeContainer.encode(creatorRequestId, forKey: .creatorRequestId)
+        }
+        if let instanceCount = self.instanceCount {
+            try encodeContainer.encode(instanceCount, forKey: .instanceCount)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let outpostArn = self.outpostArn {
+            try encodeContainer.encode(outpostArn, forKey: .outpostArn)
+        }
+        if let preferredInstanceType = self.preferredInstanceType {
+            try encodeContainer.encode(preferredInstanceType, forKey: .preferredInstanceType)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension CreateOutpostResolverInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateOutpostResolverInput: Swift.Equatable {
+    /// A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
+    /// This member is required.
+    public var creatorRequestId: Swift.String?
+    /// Number of Amazon EC2 instances for the Resolver on Outpost. The default and minimal value is 4.
+    public var instanceCount: Swift.Int?
+    /// A friendly name that lets you easily find a configuration in the Resolver dashboard in the Route 53 console.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Amazon Resource Name (ARN) of the Outpost. If you specify this, you must also specify a value for the PreferredInstanceType.
+    /// This member is required.
+    public var outpostArn: Swift.String?
+    /// The Amazon EC2 instance type. If you specify this, you must also specify a value for the OutpostArn.
+    /// This member is required.
+    public var preferredInstanceType: Swift.String?
+    /// A string that helps identify the Route 53 Resolvers on Outpost.
+    public var tags: [Route53ResolverClientTypes.Tag]?
+
+    public init(
+        creatorRequestId: Swift.String? = nil,
+        instanceCount: Swift.Int? = nil,
+        name: Swift.String? = nil,
+        outpostArn: Swift.String? = nil,
+        preferredInstanceType: Swift.String? = nil,
+        tags: [Route53ResolverClientTypes.Tag]? = nil
+    )
+    {
+        self.creatorRequestId = creatorRequestId
+        self.instanceCount = instanceCount
+        self.name = name
+        self.outpostArn = outpostArn
+        self.preferredInstanceType = preferredInstanceType
+        self.tags = tags
+    }
+}
+
+struct CreateOutpostResolverInputBody: Swift.Equatable {
+    let creatorRequestId: Swift.String?
+    let name: Swift.String?
+    let instanceCount: Swift.Int?
+    let preferredInstanceType: Swift.String?
+    let outpostArn: Swift.String?
+    let tags: [Route53ResolverClientTypes.Tag]?
+}
+
+extension CreateOutpostResolverInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creatorRequestId = "CreatorRequestId"
+        case instanceCount = "InstanceCount"
+        case name = "Name"
+        case outpostArn = "OutpostArn"
+        case preferredInstanceType = "PreferredInstanceType"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let creatorRequestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creatorRequestId)
+        creatorRequestId = creatorRequestIdDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let instanceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .instanceCount)
+        instanceCount = instanceCountDecoded
+        let preferredInstanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredInstanceType)
+        preferredInstanceType = preferredInstanceTypeDecoded
+        let outpostArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outpostArn)
+        outpostArn = outpostArnDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Route53ResolverClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[Route53ResolverClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Route53ResolverClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+public enum CreateOutpostResolverOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateOutpostResolverOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateOutpostResolverOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.outpostResolver = output.outpostResolver
+        } else {
+            self.outpostResolver = nil
+        }
+    }
+}
+
+public struct CreateOutpostResolverOutputResponse: Swift.Equatable {
+    /// Information about the CreateOutpostResolver request, including the status of the request.
+    public var outpostResolver: Route53ResolverClientTypes.OutpostResolver?
+
+    public init(
+        outpostResolver: Route53ResolverClientTypes.OutpostResolver? = nil
+    )
+    {
+        self.outpostResolver = outpostResolver
+    }
+}
+
+struct CreateOutpostResolverOutputResponseBody: Swift.Equatable {
+    let outpostResolver: Route53ResolverClientTypes.OutpostResolver?
+}
+
+extension CreateOutpostResolverOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case outpostResolver = "OutpostResolver"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let outpostResolverDecoded = try containerValues.decodeIfPresent(Route53ResolverClientTypes.OutpostResolver.self, forKey: .outpostResolver)
+        outpostResolver = outpostResolverDecoded
+    }
+}
+
 extension CreateResolverEndpointInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case creatorRequestId = "CreatorRequestId"
         case direction = "Direction"
         case ipAddresses = "IpAddresses"
         case name = "Name"
+        case outpostArn = "OutpostArn"
+        case preferredInstanceType = "PreferredInstanceType"
         case resolverEndpointType = "ResolverEndpointType"
         case securityGroupIds = "SecurityGroupIds"
         case tags = "Tags"
@@ -1346,6 +1527,12 @@ extension CreateResolverEndpointInput: Swift.Encodable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let outpostArn = self.outpostArn {
+            try encodeContainer.encode(outpostArn, forKey: .outpostArn)
+        }
+        if let preferredInstanceType = self.preferredInstanceType {
+            try encodeContainer.encode(preferredInstanceType, forKey: .preferredInstanceType)
         }
         if let resolverEndpointType = self.resolverEndpointType {
             try encodeContainer.encode(resolverEndpointType.rawValue, forKey: .resolverEndpointType)
@@ -1387,7 +1574,11 @@ public struct CreateResolverEndpointInput: Swift.Equatable {
     public var ipAddresses: [Route53ResolverClientTypes.IpAddressRequest]?
     /// A friendly name that lets you easily find a configuration in the Resolver dashboard in the Route 53 console.
     public var name: Swift.String?
-    /// For the endpoint type you can choose either IPv4, IPv6. or dual-stack. A dual-stack endpoint means that it will resolve via both IPv4 and IPv6. This endpoint type is applied to all IP addresses.
+    /// The Amazon Resource Name (ARN) of the Outpost. If you specify this, you must also specify a value for the PreferredInstanceType.
+    public var outpostArn: Swift.String?
+    /// The instance type. If you specify this, you must also specify a value for the OutpostArn.
+    public var preferredInstanceType: Swift.String?
+    /// For the endpoint type you can choose either IPv4, IPv6, or dual-stack. A dual-stack endpoint means that it will resolve via both IPv4 and IPv6. This endpoint type is applied to all IP addresses.
     public var resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType?
     /// The ID of one or more security groups that you want to use to control access to this VPC. The security group that you specify must include one or more inbound rules (for inbound Resolver endpoints) or outbound rules (for outbound Resolver endpoints). Inbound and outbound rules must allow TCP and UDP access. For inbound access, open port 53. For outbound access, open the port that you're using for DNS queries on your network.
     /// This member is required.
@@ -1400,6 +1591,8 @@ public struct CreateResolverEndpointInput: Swift.Equatable {
         direction: Route53ResolverClientTypes.ResolverEndpointDirection? = nil,
         ipAddresses: [Route53ResolverClientTypes.IpAddressRequest]? = nil,
         name: Swift.String? = nil,
+        outpostArn: Swift.String? = nil,
+        preferredInstanceType: Swift.String? = nil,
         resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType? = nil,
         securityGroupIds: [Swift.String]? = nil,
         tags: [Route53ResolverClientTypes.Tag]? = nil
@@ -1409,6 +1602,8 @@ public struct CreateResolverEndpointInput: Swift.Equatable {
         self.direction = direction
         self.ipAddresses = ipAddresses
         self.name = name
+        self.outpostArn = outpostArn
+        self.preferredInstanceType = preferredInstanceType
         self.resolverEndpointType = resolverEndpointType
         self.securityGroupIds = securityGroupIds
         self.tags = tags
@@ -1423,6 +1618,8 @@ struct CreateResolverEndpointInputBody: Swift.Equatable {
     let ipAddresses: [Route53ResolverClientTypes.IpAddressRequest]?
     let tags: [Route53ResolverClientTypes.Tag]?
     let resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType?
+    let outpostArn: Swift.String?
+    let preferredInstanceType: Swift.String?
 }
 
 extension CreateResolverEndpointInputBody: Swift.Decodable {
@@ -1431,6 +1628,8 @@ extension CreateResolverEndpointInputBody: Swift.Decodable {
         case direction = "Direction"
         case ipAddresses = "IpAddresses"
         case name = "Name"
+        case outpostArn = "OutpostArn"
+        case preferredInstanceType = "PreferredInstanceType"
         case resolverEndpointType = "ResolverEndpointType"
         case securityGroupIds = "SecurityGroupIds"
         case tags = "Tags"
@@ -1479,6 +1678,10 @@ extension CreateResolverEndpointInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let resolverEndpointTypeDecoded = try containerValues.decodeIfPresent(Route53ResolverClientTypes.ResolverEndpointType.self, forKey: .resolverEndpointType)
         resolverEndpointType = resolverEndpointTypeDecoded
+        let outpostArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outpostArn)
+        outpostArn = outpostArnDecoded
+        let preferredInstanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredInstanceType)
+        preferredInstanceType = preferredInstanceTypeDecoded
     }
 }
 
@@ -1766,7 +1969,7 @@ public struct CreateResolverRuleInput: Swift.Equatable {
     public var ruleType: Route53ResolverClientTypes.RuleTypeOption?
     /// A list of the tag keys and values that you want to associate with the endpoint.
     public var tags: [Route53ResolverClientTypes.Tag]?
-    /// The IPs that you want Resolver to forward DNS queries to. You can specify only IPv4 addresses. Separate IP addresses with a space. TargetIps is available only when the value of Rule type is FORWARD.
+    /// The IPs that you want Resolver to forward DNS queries to. You can specify either Ipv4 or Ipv6 addresses but not both in the same rule. Separate IP addresses with a space. TargetIps is available only when the value of Rule type is FORWARD.
     public var targetIps: [Route53ResolverClientTypes.TargetAddress]?
 
     public init(
@@ -2224,6 +2427,110 @@ extension DeleteFirewallRuleOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let firewallRuleDecoded = try containerValues.decodeIfPresent(Route53ResolverClientTypes.FirewallRule.self, forKey: .firewallRule)
         firewallRule = firewallRuleDecoded
+    }
+}
+
+extension DeleteOutpostResolverInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id = "Id"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+    }
+}
+
+extension DeleteOutpostResolverInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteOutpostResolverInput: Swift.Equatable {
+    /// A unique string that identifies the Resolver on the Outpost.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    )
+    {
+        self.id = id
+    }
+}
+
+struct DeleteOutpostResolverInputBody: Swift.Equatable {
+    let id: Swift.String?
+}
+
+extension DeleteOutpostResolverInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id = "Id"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+    }
+}
+
+public enum DeleteOutpostResolverOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteOutpostResolverOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteOutpostResolverOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.outpostResolver = output.outpostResolver
+        } else {
+            self.outpostResolver = nil
+        }
+    }
+}
+
+public struct DeleteOutpostResolverOutputResponse: Swift.Equatable {
+    /// Information about the DeleteOutpostResolver request, including the status of the request.
+    public var outpostResolver: Route53ResolverClientTypes.OutpostResolver?
+
+    public init(
+        outpostResolver: Route53ResolverClientTypes.OutpostResolver? = nil
+    )
+    {
+        self.outpostResolver = outpostResolver
+    }
+}
+
+struct DeleteOutpostResolverOutputResponseBody: Swift.Equatable {
+    let outpostResolver: Route53ResolverClientTypes.OutpostResolver?
+}
+
+extension DeleteOutpostResolverOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case outpostResolver = "OutpostResolver"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let outpostResolverDecoded = try containerValues.decodeIfPresent(Route53ResolverClientTypes.OutpostResolver.self, forKey: .outpostResolver)
+        outpostResolver = outpostResolverDecoded
     }
 }
 
@@ -4662,6 +4969,109 @@ extension GetFirewallRuleGroupPolicyOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetOutpostResolverInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id = "Id"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+    }
+}
+
+extension GetOutpostResolverInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetOutpostResolverInput: Swift.Equatable {
+    /// The ID of the Resolver on the Outpost.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    )
+    {
+        self.id = id
+    }
+}
+
+struct GetOutpostResolverInputBody: Swift.Equatable {
+    let id: Swift.String?
+}
+
+extension GetOutpostResolverInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id = "Id"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+    }
+}
+
+public enum GetOutpostResolverOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetOutpostResolverOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetOutpostResolverOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.outpostResolver = output.outpostResolver
+        } else {
+            self.outpostResolver = nil
+        }
+    }
+}
+
+public struct GetOutpostResolverOutputResponse: Swift.Equatable {
+    /// Information about the GetOutpostResolver request, including the status of the request.
+    public var outpostResolver: Route53ResolverClientTypes.OutpostResolver?
+
+    public init(
+        outpostResolver: Route53ResolverClientTypes.OutpostResolver? = nil
+    )
+    {
+        self.outpostResolver = outpostResolver
+    }
+}
+
+struct GetOutpostResolverOutputResponseBody: Swift.Equatable {
+    let outpostResolver: Route53ResolverClientTypes.OutpostResolver?
+}
+
+extension GetOutpostResolverOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case outpostResolver = "OutpostResolver"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let outpostResolverDecoded = try containerValues.decodeIfPresent(Route53ResolverClientTypes.OutpostResolver.self, forKey: .outpostResolver)
+        outpostResolver = outpostResolverDecoded
+    }
+}
+
 extension GetResolverConfigInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceId = "ResourceId"
@@ -6264,6 +6674,7 @@ extension Route53ResolverClientTypes {
         case failedresourcegone
         case remapattaching
         case remapdetaching
+        case updatefailed
         case updating
         case sdkUnknown(Swift.String)
 
@@ -6279,6 +6690,7 @@ extension Route53ResolverClientTypes {
                 .failedresourcegone,
                 .remapattaching,
                 .remapdetaching,
+                .updatefailed,
                 .updating,
                 .sdkUnknown("")
             ]
@@ -6299,6 +6711,7 @@ extension Route53ResolverClientTypes {
             case .failedresourcegone: return "FAILED_RESOURCE_GONE"
             case .remapattaching: return "REMAP_ATTACHING"
             case .remapdetaching: return "REMAP_DETACHING"
+            case .updatefailed: return "UPDATE_FAILED"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
             }
@@ -7336,6 +7749,151 @@ extension ListFirewallRulesOutputResponseBody: Swift.Decodable {
             }
         }
         firewallRules = firewallRulesDecoded0
+    }
+}
+
+extension ListOutpostResolversInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case outpostArn = "OutpostArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let outpostArn = self.outpostArn {
+            try encodeContainer.encode(outpostArn, forKey: .outpostArn)
+        }
+    }
+}
+
+extension ListOutpostResolversInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListOutpostResolversInput: Swift.Equatable {
+    /// The maximum number of Resolvers on the Outpost that you want to return in the response to a ListOutpostResolver request. If you don't specify a value for MaxResults, the request returns up to 100 Resolvers.
+    public var maxResults: Swift.Int?
+    /// For the first ListOutpostResolver request, omit this value.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the Outpost.
+    public var outpostArn: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        outpostArn: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.outpostArn = outpostArn
+    }
+}
+
+struct ListOutpostResolversInputBody: Swift.Equatable {
+    let outpostArn: Swift.String?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListOutpostResolversInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case outpostArn = "OutpostArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let outpostArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outpostArn)
+        outpostArn = outpostArnDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+public enum ListOutpostResolversOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListOutpostResolversOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListOutpostResolversOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.outpostResolvers = output.outpostResolvers
+        } else {
+            self.nextToken = nil
+            self.outpostResolvers = nil
+        }
+    }
+}
+
+public struct ListOutpostResolversOutputResponse: Swift.Equatable {
+    /// If more than MaxResults Resolvers match the specified criteria, you can submit another ListOutpostResolver request to get the next group of results. In the next request, specify the value of NextToken from the previous response.
+    public var nextToken: Swift.String?
+    /// The Resolvers on Outposts that were created by using the current Amazon Web Services account, and that match the specified filters, if any.
+    public var outpostResolvers: [Route53ResolverClientTypes.OutpostResolver]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        outpostResolvers: [Route53ResolverClientTypes.OutpostResolver]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.outpostResolvers = outpostResolvers
+    }
+}
+
+struct ListOutpostResolversOutputResponseBody: Swift.Equatable {
+    let outpostResolvers: [Route53ResolverClientTypes.OutpostResolver]?
+    let nextToken: Swift.String?
+}
+
+extension ListOutpostResolversOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case outpostResolvers = "OutpostResolvers"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let outpostResolversContainer = try containerValues.decodeIfPresent([Route53ResolverClientTypes.OutpostResolver?].self, forKey: .outpostResolvers)
+        var outpostResolversDecoded0:[Route53ResolverClientTypes.OutpostResolver]? = nil
+        if let outpostResolversContainer = outpostResolversContainer {
+            outpostResolversDecoded0 = [Route53ResolverClientTypes.OutpostResolver]()
+            for structure0 in outpostResolversContainer {
+                if let structure0 = structure0 {
+                    outpostResolversDecoded0?.append(structure0)
+                }
+            }
+        }
+        outpostResolvers = outpostResolversDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
     }
 }
 
@@ -8935,6 +9493,188 @@ extension Route53ResolverClientTypes {
     }
 }
 
+extension Route53ResolverClientTypes.OutpostResolver: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case creationTime = "CreationTime"
+        case creatorRequestId = "CreatorRequestId"
+        case id = "Id"
+        case instanceCount = "InstanceCount"
+        case modificationTime = "ModificationTime"
+        case name = "Name"
+        case outpostArn = "OutpostArn"
+        case preferredInstanceType = "PreferredInstanceType"
+        case status = "Status"
+        case statusMessage = "StatusMessage"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let creationTime = self.creationTime {
+            try encodeContainer.encode(creationTime, forKey: .creationTime)
+        }
+        if let creatorRequestId = self.creatorRequestId {
+            try encodeContainer.encode(creatorRequestId, forKey: .creatorRequestId)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let instanceCount = self.instanceCount {
+            try encodeContainer.encode(instanceCount, forKey: .instanceCount)
+        }
+        if let modificationTime = self.modificationTime {
+            try encodeContainer.encode(modificationTime, forKey: .modificationTime)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let outpostArn = self.outpostArn {
+            try encodeContainer.encode(outpostArn, forKey: .outpostArn)
+        }
+        if let preferredInstanceType = self.preferredInstanceType {
+            try encodeContainer.encode(preferredInstanceType, forKey: .preferredInstanceType)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let statusMessage = self.statusMessage {
+            try encodeContainer.encode(statusMessage, forKey: .statusMessage)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let creationTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let modificationTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modificationTime)
+        modificationTime = modificationTimeDecoded
+        let creatorRequestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creatorRequestId)
+        creatorRequestId = creatorRequestIdDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let instanceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .instanceCount)
+        instanceCount = instanceCountDecoded
+        let preferredInstanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredInstanceType)
+        preferredInstanceType = preferredInstanceTypeDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Route53ResolverClientTypes.OutpostResolverStatus.self, forKey: .status)
+        status = statusDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
+        let outpostArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outpostArn)
+        outpostArn = outpostArnDecoded
+    }
+}
+
+extension Route53ResolverClientTypes {
+    /// A complex type that contains settings for an existing Resolver on an Outpost.
+    public struct OutpostResolver: Swift.Equatable {
+        /// The ARN (Amazon Resource Name) for the Resolver on an Outpost.
+        public var arn: Swift.String?
+        /// The date and time that the Outpost Resolver was created, in Unix time format and Coordinated Universal Time (UTC).
+        public var creationTime: Swift.String?
+        /// A unique string that identifies the request that created the Resolver endpoint. The CreatorRequestId allows failed requests to be retried without the risk of running the operation twice.
+        public var creatorRequestId: Swift.String?
+        /// The ID of the Resolver on Outpost.
+        public var id: Swift.String?
+        /// Amazon EC2 instance count for the Resolver on the Outpost.
+        public var instanceCount: Swift.Int?
+        /// The date and time that the Outpost Resolver was modified, in Unix time format and Coordinated Universal Time (UTC).
+        public var modificationTime: Swift.String?
+        /// Name of the Resolver.
+        public var name: Swift.String?
+        /// The ARN (Amazon Resource Name) for the Outpost.
+        public var outpostArn: Swift.String?
+        /// The Amazon EC2 instance type.
+        public var preferredInstanceType: Swift.String?
+        /// Status of the Resolver.
+        public var status: Route53ResolverClientTypes.OutpostResolverStatus?
+        /// A detailed description of the Resolver.
+        public var statusMessage: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            creationTime: Swift.String? = nil,
+            creatorRequestId: Swift.String? = nil,
+            id: Swift.String? = nil,
+            instanceCount: Swift.Int? = nil,
+            modificationTime: Swift.String? = nil,
+            name: Swift.String? = nil,
+            outpostArn: Swift.String? = nil,
+            preferredInstanceType: Swift.String? = nil,
+            status: Route53ResolverClientTypes.OutpostResolverStatus? = nil,
+            statusMessage: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.creatorRequestId = creatorRequestId
+            self.id = id
+            self.instanceCount = instanceCount
+            self.modificationTime = modificationTime
+            self.name = name
+            self.outpostArn = outpostArn
+            self.preferredInstanceType = preferredInstanceType
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+    }
+
+}
+
+extension Route53ResolverClientTypes {
+    public enum OutpostResolverStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case actionNeeded
+        case creating
+        case deleting
+        case failedCreation
+        case failedDeletion
+        case operational
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OutpostResolverStatus] {
+            return [
+                .actionNeeded,
+                .creating,
+                .deleting,
+                .failedCreation,
+                .failedDeletion,
+                .operational,
+                .updating,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .actionNeeded: return "ACTION_NEEDED"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failedCreation: return "FAILED_CREATION"
+            case .failedDeletion: return "FAILED_DELETION"
+            case .operational: return "OPERATIONAL"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = OutpostResolverStatus(rawValue: rawValue) ?? OutpostResolverStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension PutFirewallRuleGroupPolicyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
@@ -9083,8 +9823,6 @@ public struct PutResolverQueryLogConfigPolicyInput: Swift.Equatable {
     /// * route53resolver:AssociateResolverQueryLogConfig
     ///
     /// * route53resolver:DisassociateResolverQueryLogConfig
-    ///
-    /// * route53resolver:ListResolverQueryLogConfigAssociations
     ///
     /// * route53resolver:ListResolverQueryLogConfigs
     ///
@@ -9555,6 +10293,8 @@ extension Route53ResolverClientTypes.ResolverEndpoint: Swift.Codable {
         case ipAddressCount = "IpAddressCount"
         case modificationTime = "ModificationTime"
         case name = "Name"
+        case outpostArn = "OutpostArn"
+        case preferredInstanceType = "PreferredInstanceType"
         case resolverEndpointType = "ResolverEndpointType"
         case securityGroupIds = "SecurityGroupIds"
         case status = "Status"
@@ -9589,6 +10329,12 @@ extension Route53ResolverClientTypes.ResolverEndpoint: Swift.Codable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let outpostArn = self.outpostArn {
+            try encodeContainer.encode(outpostArn, forKey: .outpostArn)
+        }
+        if let preferredInstanceType = self.preferredInstanceType {
+            try encodeContainer.encode(preferredInstanceType, forKey: .preferredInstanceType)
         }
         if let resolverEndpointType = self.resolverEndpointType {
             try encodeContainer.encode(resolverEndpointType.rawValue, forKey: .resolverEndpointType)
@@ -9644,6 +10390,10 @@ extension Route53ResolverClientTypes.ResolverEndpoint: Swift.Codable {
         modificationTime = modificationTimeDecoded
         let resolverEndpointTypeDecoded = try containerValues.decodeIfPresent(Route53ResolverClientTypes.ResolverEndpointType.self, forKey: .resolverEndpointType)
         resolverEndpointType = resolverEndpointTypeDecoded
+        let outpostArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outpostArn)
+        outpostArn = outpostArnDecoded
+        let preferredInstanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredInstanceType)
+        preferredInstanceType = preferredInstanceTypeDecoded
     }
 }
 
@@ -9672,6 +10422,10 @@ extension Route53ResolverClientTypes {
         public var modificationTime: Swift.String?
         /// The name that you assigned to the Resolver endpoint when you submitted a [CreateResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_CreateResolverEndpoint.html) request.
         public var name: Swift.String?
+        /// The ARN (Amazon Resource Name) for the Outpost.
+        public var outpostArn: Swift.String?
+        /// The Amazon EC2 instance type.
+        public var preferredInstanceType: Swift.String?
         /// The Resolver endpoint IP address type.
         public var resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType?
         /// The ID of one or more security groups that control access to this VPC. The security group must include one or more inbound rules (for inbound endpoints) or outbound rules (for outbound endpoints). Inbound and outbound rules must allow TCP and UDP access. For inbound access, open port 53. For outbound access, open the port that you're using for DNS queries on your network.
@@ -9710,6 +10464,8 @@ extension Route53ResolverClientTypes {
             ipAddressCount: Swift.Int? = nil,
             modificationTime: Swift.String? = nil,
             name: Swift.String? = nil,
+            outpostArn: Swift.String? = nil,
+            preferredInstanceType: Swift.String? = nil,
             resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType? = nil,
             securityGroupIds: [Swift.String]? = nil,
             status: Route53ResolverClientTypes.ResolverEndpointStatus? = nil,
@@ -9725,6 +10481,8 @@ extension Route53ResolverClientTypes {
             self.ipAddressCount = ipAddressCount
             self.modificationTime = modificationTime
             self.name = name
+            self.outpostArn = outpostArn
+            self.preferredInstanceType = preferredInstanceType
             self.resolverEndpointType = resolverEndpointType
             self.securityGroupIds = securityGroupIds
             self.status = status
@@ -10347,7 +11105,7 @@ extension Route53ResolverClientTypes {
         public var status: Route53ResolverClientTypes.ResolverRuleStatus?
         /// A detailed description of the status of a Resolver rule.
         public var statusMessage: Swift.String?
-        /// An array that contains the IP addresses and ports that an outbound endpoint forwards DNS queries to. Typically, these are the IP addresses of DNS resolvers on your network. Specify IPv4 addresses. IPv6 is not supported.
+        /// An array that contains the IP addresses and ports that an outbound endpoint forwards DNS queries to. Typically, these are the IP addresses of DNS resolvers on your network.
         public var targetIps: [Route53ResolverClientTypes.TargetAddress]?
 
         public init(
@@ -10909,6 +11667,61 @@ extension Route53ResolverClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = RuleTypeOption(rawValue: rawValue) ?? RuleTypeOption.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension ServiceQuotaExceededException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// Fulfilling the request would cause one or more quotas to be exceeded.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -12121,6 +12934,147 @@ extension Route53ResolverClientTypes {
 
 }
 
+extension UpdateOutpostResolverInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id = "Id"
+        case instanceCount = "InstanceCount"
+        case name = "Name"
+        case preferredInstanceType = "PreferredInstanceType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let instanceCount = self.instanceCount {
+            try encodeContainer.encode(instanceCount, forKey: .instanceCount)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let preferredInstanceType = self.preferredInstanceType {
+            try encodeContainer.encode(preferredInstanceType, forKey: .preferredInstanceType)
+        }
+    }
+}
+
+extension UpdateOutpostResolverInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateOutpostResolverInput: Swift.Equatable {
+    /// A unique string that identifies Resolver on an Outpost.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The Amazon EC2 instance count for a Resolver on the Outpost.
+    public var instanceCount: Swift.Int?
+    /// Name of the Resolver on the Outpost.
+    public var name: Swift.String?
+    /// Amazon EC2 instance type.
+    public var preferredInstanceType: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        instanceCount: Swift.Int? = nil,
+        name: Swift.String? = nil,
+        preferredInstanceType: Swift.String? = nil
+    )
+    {
+        self.id = id
+        self.instanceCount = instanceCount
+        self.name = name
+        self.preferredInstanceType = preferredInstanceType
+    }
+}
+
+struct UpdateOutpostResolverInputBody: Swift.Equatable {
+    let id: Swift.String?
+    let name: Swift.String?
+    let instanceCount: Swift.Int?
+    let preferredInstanceType: Swift.String?
+}
+
+extension UpdateOutpostResolverInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id = "Id"
+        case instanceCount = "InstanceCount"
+        case name = "Name"
+        case preferredInstanceType = "PreferredInstanceType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let instanceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .instanceCount)
+        instanceCount = instanceCountDecoded
+        let preferredInstanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredInstanceType)
+        preferredInstanceType = preferredInstanceTypeDecoded
+    }
+}
+
+public enum UpdateOutpostResolverOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateOutpostResolverOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateOutpostResolverOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.outpostResolver = output.outpostResolver
+        } else {
+            self.outpostResolver = nil
+        }
+    }
+}
+
+public struct UpdateOutpostResolverOutputResponse: Swift.Equatable {
+    /// The response to an UpdateOutpostResolver request.
+    public var outpostResolver: Route53ResolverClientTypes.OutpostResolver?
+
+    public init(
+        outpostResolver: Route53ResolverClientTypes.OutpostResolver? = nil
+    )
+    {
+        self.outpostResolver = outpostResolver
+    }
+}
+
+struct UpdateOutpostResolverOutputResponseBody: Swift.Equatable {
+    let outpostResolver: Route53ResolverClientTypes.OutpostResolver?
+}
+
+extension UpdateOutpostResolverOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case outpostResolver = "OutpostResolver"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let outpostResolverDecoded = try containerValues.decodeIfPresent(Route53ResolverClientTypes.OutpostResolver.self, forKey: .outpostResolver)
+        outpostResolver = outpostResolverDecoded
+    }
+}
+
 extension UpdateResolverConfigInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autodefinedReverseFlag = "AutodefinedReverseFlag"
@@ -12398,9 +13352,9 @@ public struct UpdateResolverEndpointInput: Swift.Equatable {
     /// The ID of the Resolver endpoint that you want to update.
     /// This member is required.
     public var resolverEndpointId: Swift.String?
-    /// Specifies the endpoint type for what type of IP address the endpoint uses to forward DNS queries.
+    /// Specifies the endpoint type for what type of IP address the endpoint uses to forward DNS queries. Updating to IPV6 type isn't currently supported.
     public var resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType?
-    /// Updates the Resolver endpoint type to IpV4, Ipv6, or dual-stack.
+    /// Specifies the IPv6 address when you update the Resolver endpoint from IPv4 to dual-stack. If you don't specify an IPv6 address, one will be automatically chosen from your subnet.
     public var updateIpAddresses: [Route53ResolverClientTypes.UpdateIpAddress]?
 
     public init(

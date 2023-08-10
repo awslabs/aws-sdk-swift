@@ -248,6 +248,7 @@ extension DescribeDBClusterSnapshotsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> DescribeDBClusterSnapshotsInput {
         return DescribeDBClusterSnapshotsInput(
             dbClusterIdentifier: self.dbClusterIdentifier,
+            dbClusterResourceId: self.dbClusterResourceId,
             dbClusterSnapshotIdentifier: self.dbClusterSnapshotIdentifier,
             filters: self.filters,
             includePublic: self.includePublic,

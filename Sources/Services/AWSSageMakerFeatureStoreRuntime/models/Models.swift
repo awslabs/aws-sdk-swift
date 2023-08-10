@@ -184,7 +184,7 @@ extension SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordIdentifier: Swif
 extension SageMakerFeatureStoreRuntimeClientTypes {
     /// The identifier that identifies the batch of Records you are retrieving in a batch.
     public struct BatchGetRecordIdentifier: Swift.Equatable {
-        /// A FeatureGroupName containing Records you are retrieving in a batch.
+        /// The name or Amazon Resource Name (ARN) of the FeatureGroup containing the records you are retrieving in a batch.
         /// This member is required.
         public var featureGroupName: Swift.String?
         /// List of names of Features to be retrieved. If not specified, the latest value for all the Features are returned.
@@ -236,7 +236,7 @@ extension BatchGetRecordInput: ClientRuntime.URLPathProvider {
 public struct BatchGetRecordInput: Swift.Equatable {
     /// Parameter to request ExpiresAt in response. If Enabled, BatchGetRecord will return the value of ExpiresAt, if it is not null. If Disabled and null, BatchGetRecord will return null.
     public var expirationTimeResponse: SageMakerFeatureStoreRuntimeClientTypes.ExpirationTimeResponse?
-    /// A list of FeatureGroup names, with their corresponding RecordIdentifier value, and Feature name that have been requested to be retrieved in batch.
+    /// A list containing the name or Amazon Resource Name (ARN) of the FeatureGroup, the list of names of Features to be retrieved, and the corresponding RecordIdentifier values as strings.
     /// This member is required.
     public var identifiers: [SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordIdentifier]?
 
@@ -433,7 +433,7 @@ extension SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordResultDetail: Sw
 }
 
 extension SageMakerFeatureStoreRuntimeClientTypes {
-    /// The output of Records that have been retrieved in a batch.
+    /// The output of records that have been retrieved in a batch.
     public struct BatchGetRecordResultDetail: Swift.Equatable {
         /// The ExpiresAt ISO string of the requested record.
         public var expiresAt: Swift.String?
@@ -509,7 +509,7 @@ public struct DeleteRecordInput: Swift.Equatable {
     /// Timestamp indicating when the deletion event occurred. EventTime can be used to query data at a certain point in time.
     /// This member is required.
     public var eventTime: Swift.String?
-    /// The name of the feature group to delete the record from.
+    /// The name or Amazon Resource Name (ARN) of the feature group to delete the record from.
     /// This member is required.
     public var featureGroupName: Swift.String?
     /// The value for the RecordIdentifier that uniquely identifies the record, in string format.
@@ -713,9 +713,9 @@ extension GetRecordInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetRecordInput: Swift.Equatable {
-    /// Parameter to request ExpiresAt in response. If Enabled, BatchGetRecord will return the value of ExpiresAt, if it is not null. If Disabled and null, BatchGetRecord will return null.
+    /// Parameter to request ExpiresAt in response. If Enabled, GetRecord will return the value of ExpiresAt, if it is not null. If Disabled and null, GetRecord will return null.
     public var expirationTimeResponse: SageMakerFeatureStoreRuntimeClientTypes.ExpirationTimeResponse?
-    /// The name of the feature group from which you want to retrieve a record.
+    /// The name or Amazon Resource Name (ARN) of the feature group from which you want to retrieve a record.
     /// This member is required.
     public var featureGroupName: Swift.String?
     /// List of names of Features to be retrieved. If not specified, the latest value for all the Features are returned.
@@ -913,7 +913,7 @@ extension PutRecordInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutRecordInput: Swift.Equatable {
-    /// The name of the feature group that you want to insert the record into.
+    /// The name or Amazon Resource Name (ARN) of the feature group that you want to insert the record into.
     /// This member is required.
     public var featureGroupName: Swift.String?
     /// List of FeatureValues to be inserted. This will be a full over-write. If you only want to update few of the feature values, do the following:

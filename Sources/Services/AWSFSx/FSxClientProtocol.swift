@@ -195,6 +195,8 @@ public protocol FSxClientProtocol {
     ///
     /// * DataCompressionType
     ///
+    /// * LogConfiguration
+    ///
     /// * LustreRootSquashConfiguration
     ///
     /// * StorageCapacity

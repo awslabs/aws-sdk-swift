@@ -1317,6 +1317,133 @@ extension DatabaseMigrationClientTypes {
     }
 }
 
+extension DatabaseMigrationClientTypes.ComputeConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZone = "AvailabilityZone"
+        case dnsNameServers = "DnsNameServers"
+        case kmsKeyId = "KmsKeyId"
+        case maxCapacityUnits = "MaxCapacityUnits"
+        case minCapacityUnits = "MinCapacityUnits"
+        case multiAZ = "MultiAZ"
+        case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+        case replicationSubnetGroupId = "ReplicationSubnetGroupId"
+        case vpcSecurityGroupIds = "VpcSecurityGroupIds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let availabilityZone = self.availabilityZone {
+            try encodeContainer.encode(availabilityZone, forKey: .availabilityZone)
+        }
+        if let dnsNameServers = self.dnsNameServers {
+            try encodeContainer.encode(dnsNameServers, forKey: .dnsNameServers)
+        }
+        if let kmsKeyId = self.kmsKeyId {
+            try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
+        }
+        if let maxCapacityUnits = self.maxCapacityUnits {
+            try encodeContainer.encode(maxCapacityUnits, forKey: .maxCapacityUnits)
+        }
+        if let minCapacityUnits = self.minCapacityUnits {
+            try encodeContainer.encode(minCapacityUnits, forKey: .minCapacityUnits)
+        }
+        if let multiAZ = self.multiAZ {
+            try encodeContainer.encode(multiAZ, forKey: .multiAZ)
+        }
+        if let preferredMaintenanceWindow = self.preferredMaintenanceWindow {
+            try encodeContainer.encode(preferredMaintenanceWindow, forKey: .preferredMaintenanceWindow)
+        }
+        if let replicationSubnetGroupId = self.replicationSubnetGroupId {
+            try encodeContainer.encode(replicationSubnetGroupId, forKey: .replicationSubnetGroupId)
+        }
+        if let vpcSecurityGroupIds = vpcSecurityGroupIds {
+            var vpcSecurityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcSecurityGroupIds)
+            for string0 in vpcSecurityGroupIds {
+                try vpcSecurityGroupIdsContainer.encode(string0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let availabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZone)
+        availabilityZone = availabilityZoneDecoded
+        let dnsNameServersDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dnsNameServers)
+        dnsNameServers = dnsNameServersDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        let maxCapacityUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxCapacityUnits)
+        maxCapacityUnits = maxCapacityUnitsDecoded
+        let minCapacityUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minCapacityUnits)
+        minCapacityUnits = minCapacityUnitsDecoded
+        let multiAZDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZ)
+        multiAZ = multiAZDecoded
+        let preferredMaintenanceWindowDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredMaintenanceWindow)
+        preferredMaintenanceWindow = preferredMaintenanceWindowDecoded
+        let replicationSubnetGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationSubnetGroupId)
+        replicationSubnetGroupId = replicationSubnetGroupIdDecoded
+        let vpcSecurityGroupIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .vpcSecurityGroupIds)
+        var vpcSecurityGroupIdsDecoded0:[Swift.String]? = nil
+        if let vpcSecurityGroupIdsContainer = vpcSecurityGroupIdsContainer {
+            vpcSecurityGroupIdsDecoded0 = [Swift.String]()
+            for string0 in vpcSecurityGroupIdsContainer {
+                if let string0 = string0 {
+                    vpcSecurityGroupIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        vpcSecurityGroupIds = vpcSecurityGroupIdsDecoded0
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Configuration parameters for provisioning an DMS Serverless replication.
+    public struct ComputeConfig: Swift.Equatable {
+        /// The Availability Zone where the DMS Serverless replication using this configuration will run. The default value is a random, system-chosen Availability Zone in the configuration's Amazon Web Services Region, for example, "us-west-2". You can't set this parameter if the MultiAZ parameter is set to true.
+        public var availabilityZone: Swift.String?
+        /// A list of custom DNS name servers supported for the DMS Serverless replication to access your source or target database. This list overrides the default name servers supported by the DMS Serverless replication. You can specify a comma-separated list of internet addresses for up to four DNS name servers. For example: "1.1.1.1,2.2.2.2,3.3.3.3,4.4.4.4"
+        public var dnsNameServers: Swift.String?
+        /// An Key Management Service (KMS) key Amazon Resource Name (ARN) that is used to encrypt the data during DMS Serverless replication. If you don't specify a value for the KmsKeyId parameter, DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
+        public var kmsKeyId: Swift.String?
+        /// Specifies the maximum value of the DMS capacity units (DCUs) for which a given DMS Serverless replication can be provisioned. A single DCU is 2GB of RAM, with 2 DCUs as the minimum value allowed. The list of valid DCU values includes 2, 4, 8, 16, 32, 64, 128, 192, 256, and 384. So, the maximum value that you can specify for DMS Serverless is 384. The MaxCapacityUnits parameter is the only DCU parameter you are required to specify.
+        public var maxCapacityUnits: Swift.Int?
+        /// Specifies the minimum value of the DMS capacity units (DCUs) for which a given DMS Serverless replication can be provisioned. A single DCU is 2GB of RAM, with 2 DCUs as the minimum value allowed. The list of valid DCU values includes 2, 4, 8, 16, 32, 64, 128, 192, 256, and 384. So, the minimum DCU value that you can specify for DMS Serverless is 2. You don't have to specify a value for the MinCapacityUnits parameter. If you don't set this value, DMS scans the current activity of available source tables to identify an optimum setting for this parameter. If there is no current source activity or DMS can't otherwise identify a more appropriate value, it sets this parameter to the minimum DCU value allowed, 2.
+        public var minCapacityUnits: Swift.Int?
+        /// Specifies whether the DMS Serverless replication is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the MultiAZ parameter is set to true.
+        public var multiAZ: Swift.Bool?
+        /// The weekly time range during which system maintenance can occur for the DMS Serverless replication, in Universal Coordinated Time (UTC). The format is ddd:hh24:mi-ddd:hh24:mi. The default is a 30-minute window selected at random from an 8-hour block of time per Amazon Web Services Region. This maintenance occurs on a random day of the week. Valid values for days of the week include Mon, Tue, Wed, Thu, Fri, Sat, and Sun. Constraints include a minimum 30-minute window.
+        public var preferredMaintenanceWindow: Swift.String?
+        /// Specifies a subnet group identifier to associate with the DMS Serverless replication.
+        public var replicationSubnetGroupId: Swift.String?
+        /// Specifies the virtual private cloud (VPC) security group to use with the DMS Serverless replication. The VPC security group must work with the VPC containing the replication.
+        public var vpcSecurityGroupIds: [Swift.String]?
+
+        public init(
+            availabilityZone: Swift.String? = nil,
+            dnsNameServers: Swift.String? = nil,
+            kmsKeyId: Swift.String? = nil,
+            maxCapacityUnits: Swift.Int? = nil,
+            minCapacityUnits: Swift.Int? = nil,
+            multiAZ: Swift.Bool? = nil,
+            preferredMaintenanceWindow: Swift.String? = nil,
+            replicationSubnetGroupId: Swift.String? = nil,
+            vpcSecurityGroupIds: [Swift.String]? = nil
+        )
+        {
+            self.availabilityZone = availabilityZone
+            self.dnsNameServers = dnsNameServers
+            self.kmsKeyId = kmsKeyId
+            self.maxCapacityUnits = maxCapacityUnits
+            self.minCapacityUnits = minCapacityUnits
+            self.multiAZ = multiAZ
+            self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.replicationSubnetGroupId = replicationSubnetGroupId
+            self.vpcSecurityGroupIds = vpcSecurityGroupIds
+        }
+    }
+
+}
+
 extension DatabaseMigrationClientTypes.Connection: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endpointArn = "EndpointArn"
@@ -1412,7 +1539,7 @@ extension DatabaseMigrationClientTypes {
 
 extension CreateEndpointInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateEndpointInput(certificateArn: \(Swift.String(describing: certificateArn)), databaseName: \(Swift.String(describing: databaseName)), dmsTransferSettings: \(Swift.String(describing: dmsTransferSettings)), docDbSettings: \(Swift.String(describing: docDbSettings)), dynamoDbSettings: \(Swift.String(describing: dynamoDbSettings)), elasticsearchSettings: \(Swift.String(describing: elasticsearchSettings)), endpointIdentifier: \(Swift.String(describing: endpointIdentifier)), endpointType: \(Swift.String(describing: endpointType)), engineName: \(Swift.String(describing: engineName)), externalTableDefinition: \(Swift.String(describing: externalTableDefinition)), extraConnectionAttributes: \(Swift.String(describing: extraConnectionAttributes)), gcpMySQLSettings: \(Swift.String(describing: gcpMySQLSettings)), ibmDb2Settings: \(Swift.String(describing: ibmDb2Settings)), kafkaSettings: \(Swift.String(describing: kafkaSettings)), kinesisSettings: \(Swift.String(describing: kinesisSettings)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), microsoftSQLServerSettings: \(Swift.String(describing: microsoftSQLServerSettings)), mongoDbSettings: \(Swift.String(describing: mongoDbSettings)), mySQLSettings: \(Swift.String(describing: mySQLSettings)), neptuneSettings: \(Swift.String(describing: neptuneSettings)), oracleSettings: \(Swift.String(describing: oracleSettings)), port: \(Swift.String(describing: port)), postgreSQLSettings: \(Swift.String(describing: postgreSQLSettings)), redisSettings: \(Swift.String(describing: redisSettings)), redshiftSettings: \(Swift.String(describing: redshiftSettings)), resourceIdentifier: \(Swift.String(describing: resourceIdentifier)), s3Settings: \(Swift.String(describing: s3Settings)), serverName: \(Swift.String(describing: serverName)), serviceAccessRoleArn: \(Swift.String(describing: serviceAccessRoleArn)), sslMode: \(Swift.String(describing: sslMode)), sybaseSettings: \(Swift.String(describing: sybaseSettings)), tags: \(Swift.String(describing: tags)), username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
+        "CreateEndpointInput(certificateArn: \(Swift.String(describing: certificateArn)), databaseName: \(Swift.String(describing: databaseName)), dmsTransferSettings: \(Swift.String(describing: dmsTransferSettings)), docDbSettings: \(Swift.String(describing: docDbSettings)), dynamoDbSettings: \(Swift.String(describing: dynamoDbSettings)), elasticsearchSettings: \(Swift.String(describing: elasticsearchSettings)), endpointIdentifier: \(Swift.String(describing: endpointIdentifier)), endpointType: \(Swift.String(describing: endpointType)), engineName: \(Swift.String(describing: engineName)), externalTableDefinition: \(Swift.String(describing: externalTableDefinition)), extraConnectionAttributes: \(Swift.String(describing: extraConnectionAttributes)), gcpMySQLSettings: \(Swift.String(describing: gcpMySQLSettings)), ibmDb2Settings: \(Swift.String(describing: ibmDb2Settings)), kafkaSettings: \(Swift.String(describing: kafkaSettings)), kinesisSettings: \(Swift.String(describing: kinesisSettings)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), microsoftSQLServerSettings: \(Swift.String(describing: microsoftSQLServerSettings)), mongoDbSettings: \(Swift.String(describing: mongoDbSettings)), mySQLSettings: \(Swift.String(describing: mySQLSettings)), neptuneSettings: \(Swift.String(describing: neptuneSettings)), oracleSettings: \(Swift.String(describing: oracleSettings)), port: \(Swift.String(describing: port)), postgreSQLSettings: \(Swift.String(describing: postgreSQLSettings)), redisSettings: \(Swift.String(describing: redisSettings)), redshiftSettings: \(Swift.String(describing: redshiftSettings)), resourceIdentifier: \(Swift.String(describing: resourceIdentifier)), s3Settings: \(Swift.String(describing: s3Settings)), serverName: \(Swift.String(describing: serverName)), serviceAccessRoleArn: \(Swift.String(describing: serviceAccessRoleArn)), sslMode: \(Swift.String(describing: sslMode)), sybaseSettings: \(Swift.String(describing: sybaseSettings)), tags: \(Swift.String(describing: tags)), timestreamSettings: \(Swift.String(describing: timestreamSettings)), username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateEndpointInput: Swift.Encodable {
@@ -1450,6 +1577,7 @@ extension CreateEndpointInput: Swift.Encodable {
         case sslMode = "SslMode"
         case sybaseSettings = "SybaseSettings"
         case tags = "Tags"
+        case timestreamSettings = "TimestreamSettings"
         case username = "Username"
     }
 
@@ -1557,6 +1685,9 @@ extension CreateEndpointInput: Swift.Encodable {
                 try tagsContainer.encode(tag0)
             }
         }
+        if let timestreamSettings = self.timestreamSettings {
+            try encodeContainer.encode(timestreamSettings, forKey: .timestreamSettings)
+        }
         if let username = self.username {
             try encodeContainer.encode(username, forKey: .username)
         }
@@ -1647,6 +1778,8 @@ public struct CreateEndpointInput: Swift.Equatable {
     public var sybaseSettings: DatabaseMigrationClientTypes.SybaseSettings?
     /// One or more tags to be assigned to the endpoint.
     public var tags: [DatabaseMigrationClientTypes.Tag]?
+    /// Settings in JSON format for the target Amazon Timestream endpoint.
+    public var timestreamSettings: DatabaseMigrationClientTypes.TimestreamSettings?
     /// The user name to be used to log in to the endpoint database.
     public var username: Swift.String?
 
@@ -1684,6 +1817,7 @@ public struct CreateEndpointInput: Swift.Equatable {
         sslMode: DatabaseMigrationClientTypes.DmsSslModeValue? = nil,
         sybaseSettings: DatabaseMigrationClientTypes.SybaseSettings? = nil,
         tags: [DatabaseMigrationClientTypes.Tag]? = nil,
+        timestreamSettings: DatabaseMigrationClientTypes.TimestreamSettings? = nil,
         username: Swift.String? = nil
     )
     {
@@ -1720,6 +1854,7 @@ public struct CreateEndpointInput: Swift.Equatable {
         self.sslMode = sslMode
         self.sybaseSettings = sybaseSettings
         self.tags = tags
+        self.timestreamSettings = timestreamSettings
         self.username = username
     }
 }
@@ -1759,6 +1894,7 @@ struct CreateEndpointInputBody: Swift.Equatable {
     let docDbSettings: DatabaseMigrationClientTypes.DocDbSettings?
     let redisSettings: DatabaseMigrationClientTypes.RedisSettings?
     let gcpMySQLSettings: DatabaseMigrationClientTypes.GcpMySQLSettings?
+    let timestreamSettings: DatabaseMigrationClientTypes.TimestreamSettings?
 }
 
 extension CreateEndpointInputBody: Swift.Decodable {
@@ -1796,6 +1932,7 @@ extension CreateEndpointInputBody: Swift.Decodable {
         case sslMode = "SslMode"
         case sybaseSettings = "SybaseSettings"
         case tags = "Tags"
+        case timestreamSettings = "TimestreamSettings"
         case username = "Username"
     }
 
@@ -1878,6 +2015,8 @@ extension CreateEndpointInputBody: Swift.Decodable {
         redisSettings = redisSettingsDecoded
         let gcpMySQLSettingsDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.GcpMySQLSettings.self, forKey: .gcpMySQLSettings)
         gcpMySQLSettings = gcpMySQLSettingsDecoded
+        let timestreamSettingsDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.TimestreamSettings.self, forKey: .timestreamSettings)
+        timestreamSettings = timestreamSettingsDecoded
     }
 }
 
@@ -2339,6 +2478,245 @@ extension CreateFleetAdvisorCollectorOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateReplicationConfigInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case computeConfig = "ComputeConfig"
+        case replicationConfigIdentifier = "ReplicationConfigIdentifier"
+        case replicationSettings = "ReplicationSettings"
+        case replicationType = "ReplicationType"
+        case resourceIdentifier = "ResourceIdentifier"
+        case sourceEndpointArn = "SourceEndpointArn"
+        case supplementalSettings = "SupplementalSettings"
+        case tableMappings = "TableMappings"
+        case tags = "Tags"
+        case targetEndpointArn = "TargetEndpointArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let computeConfig = self.computeConfig {
+            try encodeContainer.encode(computeConfig, forKey: .computeConfig)
+        }
+        if let replicationConfigIdentifier = self.replicationConfigIdentifier {
+            try encodeContainer.encode(replicationConfigIdentifier, forKey: .replicationConfigIdentifier)
+        }
+        if let replicationSettings = self.replicationSettings {
+            try encodeContainer.encode(replicationSettings, forKey: .replicationSettings)
+        }
+        if let replicationType = self.replicationType {
+            try encodeContainer.encode(replicationType.rawValue, forKey: .replicationType)
+        }
+        if let resourceIdentifier = self.resourceIdentifier {
+            try encodeContainer.encode(resourceIdentifier, forKey: .resourceIdentifier)
+        }
+        if let sourceEndpointArn = self.sourceEndpointArn {
+            try encodeContainer.encode(sourceEndpointArn, forKey: .sourceEndpointArn)
+        }
+        if let supplementalSettings = self.supplementalSettings {
+            try encodeContainer.encode(supplementalSettings, forKey: .supplementalSettings)
+        }
+        if let tableMappings = self.tableMappings {
+            try encodeContainer.encode(tableMappings, forKey: .tableMappings)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+        if let targetEndpointArn = self.targetEndpointArn {
+            try encodeContainer.encode(targetEndpointArn, forKey: .targetEndpointArn)
+        }
+    }
+}
+
+extension CreateReplicationConfigInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+///
+public struct CreateReplicationConfigInput: Swift.Equatable {
+    /// Configuration parameters for provisioning an DMS Serverless replication.
+    /// This member is required.
+    public var computeConfig: DatabaseMigrationClientTypes.ComputeConfig?
+    /// A unique identifier that you want to use to create a ReplicationConfigArn that is returned as part of the output from this action. You can then pass this output ReplicationConfigArn as the value of the ReplicationConfigArn option for other actions to identify both DMS Serverless replications and replication configurations that you want those actions to operate on. For some actions, you can also use either this unique identifier or a corresponding ARN in action filters to identify the specific replication and replication configuration to operate on.
+    /// This member is required.
+    public var replicationConfigIdentifier: Swift.String?
+    /// Optional JSON settings for DMS Serverless replications that are provisioned using this replication configuration. For example, see [ Change processing tuning settings](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TaskSettings.ChangeProcessingTuning.html).
+    public var replicationSettings: Swift.String?
+    /// The type of DMS Serverless replication to provision using this replication configuration. Possible values:
+    ///
+    /// * "full-load"
+    ///
+    /// * "cdc"
+    ///
+    /// * "full-load-and-cdc"
+    /// This member is required.
+    public var replicationType: DatabaseMigrationClientTypes.MigrationTypeValue?
+    /// Optional unique value or name that you set for a given resource that can be used to construct an Amazon Resource Name (ARN) for that resource. For more information, see [ Fine-grained access control using resource names and tags](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#CHAP_Security.FineGrainedAccess).
+    public var resourceIdentifier: Swift.String?
+    /// The Amazon Resource Name (ARN) of the source endpoint for this DMS Serverless replication configuration.
+    /// This member is required.
+    public var sourceEndpointArn: Swift.String?
+    /// Optional JSON settings for specifying supplemental data. For more information, see [ Specifying supplemental data for task settings](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.TaskData.html).
+    public var supplementalSettings: Swift.String?
+    /// JSON table mappings for DMS Serverless replications that are provisioned using this replication configuration. For more information, see [ Specifying table selection and transformations rules using JSON](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.SelectionTransformation.html).
+    /// This member is required.
+    public var tableMappings: Swift.String?
+    /// One or more optional tags associated with resources used by the DMS Serverless replication. For more information, see [ Tagging resources in Database Migration Service](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tagging.html).
+    public var tags: [DatabaseMigrationClientTypes.Tag]?
+    /// The Amazon Resource Name (ARN) of the target endpoint for this DMS serverless replication configuration.
+    /// This member is required.
+    public var targetEndpointArn: Swift.String?
+
+    public init(
+        computeConfig: DatabaseMigrationClientTypes.ComputeConfig? = nil,
+        replicationConfigIdentifier: Swift.String? = nil,
+        replicationSettings: Swift.String? = nil,
+        replicationType: DatabaseMigrationClientTypes.MigrationTypeValue? = nil,
+        resourceIdentifier: Swift.String? = nil,
+        sourceEndpointArn: Swift.String? = nil,
+        supplementalSettings: Swift.String? = nil,
+        tableMappings: Swift.String? = nil,
+        tags: [DatabaseMigrationClientTypes.Tag]? = nil,
+        targetEndpointArn: Swift.String? = nil
+    )
+    {
+        self.computeConfig = computeConfig
+        self.replicationConfigIdentifier = replicationConfigIdentifier
+        self.replicationSettings = replicationSettings
+        self.replicationType = replicationType
+        self.resourceIdentifier = resourceIdentifier
+        self.sourceEndpointArn = sourceEndpointArn
+        self.supplementalSettings = supplementalSettings
+        self.tableMappings = tableMappings
+        self.tags = tags
+        self.targetEndpointArn = targetEndpointArn
+    }
+}
+
+struct CreateReplicationConfigInputBody: Swift.Equatable {
+    let replicationConfigIdentifier: Swift.String?
+    let sourceEndpointArn: Swift.String?
+    let targetEndpointArn: Swift.String?
+    let computeConfig: DatabaseMigrationClientTypes.ComputeConfig?
+    let replicationType: DatabaseMigrationClientTypes.MigrationTypeValue?
+    let tableMappings: Swift.String?
+    let replicationSettings: Swift.String?
+    let supplementalSettings: Swift.String?
+    let resourceIdentifier: Swift.String?
+    let tags: [DatabaseMigrationClientTypes.Tag]?
+}
+
+extension CreateReplicationConfigInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case computeConfig = "ComputeConfig"
+        case replicationConfigIdentifier = "ReplicationConfigIdentifier"
+        case replicationSettings = "ReplicationSettings"
+        case replicationType = "ReplicationType"
+        case resourceIdentifier = "ResourceIdentifier"
+        case sourceEndpointArn = "SourceEndpointArn"
+        case supplementalSettings = "SupplementalSettings"
+        case tableMappings = "TableMappings"
+        case tags = "Tags"
+        case targetEndpointArn = "TargetEndpointArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let replicationConfigIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationConfigIdentifier)
+        replicationConfigIdentifier = replicationConfigIdentifierDecoded
+        let sourceEndpointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceEndpointArn)
+        sourceEndpointArn = sourceEndpointArnDecoded
+        let targetEndpointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetEndpointArn)
+        targetEndpointArn = targetEndpointArnDecoded
+        let computeConfigDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.ComputeConfig.self, forKey: .computeConfig)
+        computeConfig = computeConfigDecoded
+        let replicationTypeDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.MigrationTypeValue.self, forKey: .replicationType)
+        replicationType = replicationTypeDecoded
+        let tableMappingsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableMappings)
+        tableMappings = tableMappingsDecoded
+        let replicationSettingsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationSettings)
+        replicationSettings = replicationSettingsDecoded
+        let supplementalSettingsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .supplementalSettings)
+        supplementalSettings = supplementalSettingsDecoded
+        let resourceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceIdentifier)
+        resourceIdentifier = resourceIdentifierDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[DatabaseMigrationClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [DatabaseMigrationClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+public enum CreateReplicationConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedFault": return try await AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateFault": return try await InvalidResourceStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSubnet": return try await InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSKeyNotAccessibleFault": return try await KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ReplicationSubnetGroupDoesNotCoverEnoughAZs": return try await ReplicationSubnetGroupDoesNotCoverEnoughAZs(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsFault": return try await ResourceAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceQuotaExceededFault": return try await ResourceQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateReplicationConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateReplicationConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.replicationConfig = output.replicationConfig
+        } else {
+            self.replicationConfig = nil
+        }
+    }
+}
+
+///
+public struct CreateReplicationConfigOutputResponse: Swift.Equatable {
+    /// Configuration parameters returned from the DMS Serverless replication after it is created.
+    public var replicationConfig: DatabaseMigrationClientTypes.ReplicationConfig?
+
+    public init(
+        replicationConfig: DatabaseMigrationClientTypes.ReplicationConfig? = nil
+    )
+    {
+        self.replicationConfig = replicationConfig
+    }
+}
+
+struct CreateReplicationConfigOutputResponseBody: Swift.Equatable {
+    let replicationConfig: DatabaseMigrationClientTypes.ReplicationConfig?
+}
+
+extension CreateReplicationConfigOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replicationConfig = "ReplicationConfig"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let replicationConfigDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.ReplicationConfig.self, forKey: .replicationConfig)
+        replicationConfig = replicationConfigDecoded
+    }
+}
+
 extension CreateReplicationInstanceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case allocatedStorage = "AllocatedStorage"
@@ -2430,7 +2808,7 @@ public struct CreateReplicationInstanceInput: Swift.Equatable {
     public var allocatedStorage: Swift.Int?
     /// A value that indicates whether minor engine upgrades are applied automatically to the replication instance during the maintenance window. This parameter defaults to true. Default: true When AutoMinorVersionUpgrade is enabled, DMS uses the current default engine version when you create a replication instance. For example, if you set EngineVersion to a lower version number than the current default version, DMS uses the default version. If AutoMinorVersionUpgrade isn’t enabled when you create a replication instance, DMS uses the engine version specified by the EngineVersion parameter.
     public var autoMinorVersionUpgrade: Swift.Bool?
-    /// The Availability Zone where the replication instance will be created. The default value is a random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region, for example: us-east-1d
+    /// The Availability Zone where the replication instance will be created. The default value is a random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region, for example: us-east-1d.
     public var availabilityZone: Swift.String?
     /// A list of custom DNS name servers supported for the replication instance to access your on-premise source or target database. This list overrides the default name servers supported by the replication instance. You can specify a comma-separated list of internet addresses for up to four on-premise DNS name servers. For example: "1.1.1.1,2.2.2.2,3.3.3.3,4.4.4.4"
     public var dnsNameServers: Swift.String?
@@ -2446,7 +2824,7 @@ public struct CreateReplicationInstanceInput: Swift.Equatable {
     public var preferredMaintenanceWindow: Swift.String?
     /// Specifies the accessibility options for the replication instance. A value of true represents an instance with a public IP address. A value of false represents an instance with a private IP address. The default value is true.
     public var publiclyAccessible: Swift.Bool?
-    /// The compute and memory capacity of the replication instance as defined for the specified replication instance class. For example to specify the instance class dms.c4.large, set this parameter to "dms.c4.large". For more information on the settings and capacities for the available replication instance classes, see [ Selecting the right DMS replication instance for your migration](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.html#CHAP_ReplicationInstance.InDepth).
+    /// The compute and memory capacity of the replication instance as defined for the specified replication instance class. For example to specify the instance class dms.c4.large, set this parameter to "dms.c4.large". For more information on the settings and capacities for the available replication instance classes, see [ Choosing the right DMS replication instance](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.Types.html); and, [Selecting the best size for a replication instance](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_BestPractices.SizingReplicationInstance.html).
     /// This member is required.
     public var replicationInstanceClass: Swift.String?
     /// The replication instance identifier. This parameter is stored as a lowercase string. Constraints:
@@ -3229,6 +3607,38 @@ extension DatabaseMigrationClientTypes {
         }
     }
 
+}
+
+extension DatabaseMigrationClientTypes {
+    public enum DatabaseMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case babelfish
+        case `default`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DatabaseMode] {
+            return [
+                .babelfish,
+                .default,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .babelfish: return "babelfish"
+            case .default: return "default"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DatabaseMode(rawValue: rawValue) ?? DatabaseMode.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension DatabaseMigrationClientTypes.DatabaseResponse: Swift.Codable {
@@ -4090,6 +4500,109 @@ extension DeleteFleetAdvisorDatabasesOutputResponseBody: Swift.Decodable {
             }
         }
         databaseIds = databaseIdsDecoded0
+    }
+}
+
+extension DeleteReplicationConfigInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replicationConfigArn = "ReplicationConfigArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let replicationConfigArn = self.replicationConfigArn {
+            try encodeContainer.encode(replicationConfigArn, forKey: .replicationConfigArn)
+        }
+    }
+}
+
+extension DeleteReplicationConfigInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+///
+public struct DeleteReplicationConfigInput: Swift.Equatable {
+    /// The replication config to delete.
+    /// This member is required.
+    public var replicationConfigArn: Swift.String?
+
+    public init(
+        replicationConfigArn: Swift.String? = nil
+    )
+    {
+        self.replicationConfigArn = replicationConfigArn
+    }
+}
+
+struct DeleteReplicationConfigInputBody: Swift.Equatable {
+    let replicationConfigArn: Swift.String?
+}
+
+extension DeleteReplicationConfigInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replicationConfigArn = "ReplicationConfigArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let replicationConfigArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationConfigArn)
+        replicationConfigArn = replicationConfigArnDecoded
+    }
+}
+
+public enum DeleteReplicationConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedFault": return try await AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateFault": return try await InvalidResourceStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteReplicationConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteReplicationConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.replicationConfig = output.replicationConfig
+        } else {
+            self.replicationConfig = nil
+        }
+    }
+}
+
+///
+public struct DeleteReplicationConfigOutputResponse: Swift.Equatable {
+    /// Configuration parameters returned for the DMS Serverless replication after it is deleted.
+    public var replicationConfig: DatabaseMigrationClientTypes.ReplicationConfig?
+
+    public init(
+        replicationConfig: DatabaseMigrationClientTypes.ReplicationConfig? = nil
+    )
+    {
+        self.replicationConfig = replicationConfig
+    }
+}
+
+struct DeleteReplicationConfigOutputResponseBody: Swift.Equatable {
+    let replicationConfig: DatabaseMigrationClientTypes.ReplicationConfig?
+}
+
+extension DeleteReplicationConfigOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replicationConfig = "ReplicationConfig"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let replicationConfigDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.ReplicationConfig.self, forKey: .replicationConfig)
+        replicationConfig = replicationConfigDecoded
     }
 }
 
@@ -5100,7 +5613,7 @@ extension DescribeEndpointSettingsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeEndpointSettingsInput: Swift.Equatable {
-    /// The databse engine used for your source or target endpoint.
+    /// The database engine used for your source or target endpoint.
     /// This member is required.
     public var engineName: Swift.String?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -5519,6 +6032,134 @@ extension DescribeEndpointsOutputResponseBody: Swift.Decodable {
             }
         }
         endpoints = endpointsDecoded0
+    }
+}
+
+extension DescribeEngineVersionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let marker = self.marker {
+            try encodeContainer.encode(marker, forKey: .marker)
+        }
+        if let maxRecords = self.maxRecords {
+            try encodeContainer.encode(maxRecords, forKey: .maxRecords)
+        }
+    }
+}
+
+extension DescribeEngineVersionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeEngineVersionsInput: Swift.Equatable {
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
+    public var maxRecords: Swift.Int?
+
+    public init(
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil
+    )
+    {
+        self.marker = marker
+        self.maxRecords = maxRecords
+    }
+}
+
+struct DescribeEngineVersionsInputBody: Swift.Equatable {
+    let maxRecords: Swift.Int?
+    let marker: Swift.String?
+}
+
+extension DescribeEngineVersionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRecords)
+        maxRecords = maxRecordsDecoded
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+    }
+}
+
+public enum DescribeEngineVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeEngineVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeEngineVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.engineVersions = output.engineVersions
+            self.marker = output.marker
+        } else {
+            self.engineVersions = nil
+            self.marker = nil
+        }
+    }
+}
+
+public struct DescribeEngineVersionsOutputResponse: Swift.Equatable {
+    /// Returned EngineVersion objects that describe the replication instance engine versions used in the project.
+    public var engineVersions: [DatabaseMigrationClientTypes.EngineVersion]?
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+
+    public init(
+        engineVersions: [DatabaseMigrationClientTypes.EngineVersion]? = nil,
+        marker: Swift.String? = nil
+    )
+    {
+        self.engineVersions = engineVersions
+        self.marker = marker
+    }
+}
+
+struct DescribeEngineVersionsOutputResponseBody: Swift.Equatable {
+    let engineVersions: [DatabaseMigrationClientTypes.EngineVersion]?
+    let marker: Swift.String?
+}
+
+extension DescribeEngineVersionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case engineVersions = "EngineVersions"
+        case marker = "Marker"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let engineVersionsContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.EngineVersion?].self, forKey: .engineVersions)
+        var engineVersionsDecoded0:[DatabaseMigrationClientTypes.EngineVersion]? = nil
+        if let engineVersionsContainer = engineVersionsContainer {
+            engineVersionsDecoded0 = [DatabaseMigrationClientTypes.EngineVersion]()
+            for structure0 in engineVersionsContainer {
+                if let structure0 = structure0 {
+                    engineVersionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        engineVersions = engineVersionsDecoded0
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
     }
 }
 
@@ -7555,6 +8196,161 @@ extension DescribeRefreshSchemasStatusOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DescribeReplicationConfigsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
+            }
+        }
+        if let marker = self.marker {
+            try encodeContainer.encode(marker, forKey: .marker)
+        }
+        if let maxRecords = self.maxRecords {
+            try encodeContainer.encode(maxRecords, forKey: .maxRecords)
+        }
+    }
+}
+
+extension DescribeReplicationConfigsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+///
+public struct DescribeReplicationConfigsInput: Swift.Equatable {
+    /// Filters applied to the replication configs.
+    public var filters: [DatabaseMigrationClientTypes.Filter]?
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
+    public var maxRecords: Swift.Int?
+
+    public init(
+        filters: [DatabaseMigrationClientTypes.Filter]? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil
+    )
+    {
+        self.filters = filters
+        self.marker = marker
+        self.maxRecords = maxRecords
+    }
+}
+
+struct DescribeReplicationConfigsInputBody: Swift.Equatable {
+    let filters: [DatabaseMigrationClientTypes.Filter]?
+    let maxRecords: Swift.Int?
+    let marker: Swift.String?
+}
+
+extension DescribeReplicationConfigsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filtersContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.Filter?].self, forKey: .filters)
+        var filtersDecoded0:[DatabaseMigrationClientTypes.Filter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [DatabaseMigrationClientTypes.Filter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let maxRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRecords)
+        maxRecords = maxRecordsDecoded
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+    }
+}
+
+public enum DescribeReplicationConfigsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeReplicationConfigsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeReplicationConfigsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.marker = output.marker
+            self.replicationConfigs = output.replicationConfigs
+        } else {
+            self.marker = nil
+            self.replicationConfigs = nil
+        }
+    }
+}
+
+///
+public struct DescribeReplicationConfigsOutputResponse: Swift.Equatable {
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+    /// Returned configuration parameters that describe each provisioned DMS Serverless replication.
+    public var replicationConfigs: [DatabaseMigrationClientTypes.ReplicationConfig]?
+
+    public init(
+        marker: Swift.String? = nil,
+        replicationConfigs: [DatabaseMigrationClientTypes.ReplicationConfig]? = nil
+    )
+    {
+        self.marker = marker
+        self.replicationConfigs = replicationConfigs
+    }
+}
+
+struct DescribeReplicationConfigsOutputResponseBody: Swift.Equatable {
+    let marker: Swift.String?
+    let replicationConfigs: [DatabaseMigrationClientTypes.ReplicationConfig]?
+}
+
+extension DescribeReplicationConfigsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case marker = "Marker"
+        case replicationConfigs = "ReplicationConfigs"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        let replicationConfigsContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.ReplicationConfig?].self, forKey: .replicationConfigs)
+        var replicationConfigsDecoded0:[DatabaseMigrationClientTypes.ReplicationConfig]? = nil
+        if let replicationConfigsContainer = replicationConfigsContainer {
+            replicationConfigsDecoded0 = [DatabaseMigrationClientTypes.ReplicationConfig]()
+            for structure0 in replicationConfigsContainer {
+                if let structure0 = structure0 {
+                    replicationConfigsDecoded0?.append(structure0)
+                }
+            }
+        }
+        replicationConfigs = replicationConfigsDecoded0
+    }
+}
+
 extension DescribeReplicationInstanceTaskLogsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case marker = "Marker"
@@ -8015,6 +8811,185 @@ extension DescribeReplicationSubnetGroupsOutputResponseBody: Swift.Decodable {
             }
         }
         replicationSubnetGroups = replicationSubnetGroupsDecoded0
+    }
+}
+
+extension DescribeReplicationTableStatisticsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+        case replicationConfigArn = "ReplicationConfigArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
+            }
+        }
+        if let marker = self.marker {
+            try encodeContainer.encode(marker, forKey: .marker)
+        }
+        if let maxRecords = self.maxRecords {
+            try encodeContainer.encode(maxRecords, forKey: .maxRecords)
+        }
+        if let replicationConfigArn = self.replicationConfigArn {
+            try encodeContainer.encode(replicationConfigArn, forKey: .replicationConfigArn)
+        }
+    }
+}
+
+extension DescribeReplicationTableStatisticsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+///
+public struct DescribeReplicationTableStatisticsInput: Swift.Equatable {
+    /// Filters applied to the replication table statistics.
+    public var filters: [DatabaseMigrationClientTypes.Filter]?
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
+    public var maxRecords: Swift.Int?
+    /// The replication config to describe.
+    /// This member is required.
+    public var replicationConfigArn: Swift.String?
+
+    public init(
+        filters: [DatabaseMigrationClientTypes.Filter]? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil,
+        replicationConfigArn: Swift.String? = nil
+    )
+    {
+        self.filters = filters
+        self.marker = marker
+        self.maxRecords = maxRecords
+        self.replicationConfigArn = replicationConfigArn
+    }
+}
+
+struct DescribeReplicationTableStatisticsInputBody: Swift.Equatable {
+    let replicationConfigArn: Swift.String?
+    let maxRecords: Swift.Int?
+    let marker: Swift.String?
+    let filters: [DatabaseMigrationClientTypes.Filter]?
+}
+
+extension DescribeReplicationTableStatisticsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+        case replicationConfigArn = "ReplicationConfigArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let replicationConfigArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationConfigArn)
+        replicationConfigArn = replicationConfigArnDecoded
+        let maxRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRecords)
+        maxRecords = maxRecordsDecoded
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        let filtersContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.Filter?].self, forKey: .filters)
+        var filtersDecoded0:[DatabaseMigrationClientTypes.Filter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [DatabaseMigrationClientTypes.Filter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+    }
+}
+
+public enum DescribeReplicationTableStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidResourceStateFault": return try await InvalidResourceStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeReplicationTableStatisticsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeReplicationTableStatisticsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.marker = output.marker
+            self.replicationConfigArn = output.replicationConfigArn
+            self.replicationTableStatistics = output.replicationTableStatistics
+        } else {
+            self.marker = nil
+            self.replicationConfigArn = nil
+            self.replicationTableStatistics = nil
+        }
+    }
+}
+
+///
+public struct DescribeReplicationTableStatisticsOutputResponse: Swift.Equatable {
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+    /// The Amazon Resource Name of the replication config.
+    public var replicationConfigArn: Swift.String?
+    /// Returns table statistics on the replication, including table name, rows inserted, rows updated, and rows deleted.
+    public var replicationTableStatistics: [DatabaseMigrationClientTypes.TableStatistics]?
+
+    public init(
+        marker: Swift.String? = nil,
+        replicationConfigArn: Swift.String? = nil,
+        replicationTableStatistics: [DatabaseMigrationClientTypes.TableStatistics]? = nil
+    )
+    {
+        self.marker = marker
+        self.replicationConfigArn = replicationConfigArn
+        self.replicationTableStatistics = replicationTableStatistics
+    }
+}
+
+struct DescribeReplicationTableStatisticsOutputResponseBody: Swift.Equatable {
+    let replicationConfigArn: Swift.String?
+    let marker: Swift.String?
+    let replicationTableStatistics: [DatabaseMigrationClientTypes.TableStatistics]?
+}
+
+extension DescribeReplicationTableStatisticsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case marker = "Marker"
+        case replicationConfigArn = "ReplicationConfigArn"
+        case replicationTableStatistics = "ReplicationTableStatistics"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let replicationConfigArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationConfigArn)
+        replicationConfigArn = replicationConfigArnDecoded
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        let replicationTableStatisticsContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.TableStatistics?].self, forKey: .replicationTableStatistics)
+        var replicationTableStatisticsDecoded0:[DatabaseMigrationClientTypes.TableStatistics]? = nil
+        if let replicationTableStatisticsContainer = replicationTableStatisticsContainer {
+            replicationTableStatisticsDecoded0 = [DatabaseMigrationClientTypes.TableStatistics]()
+            for structure0 in replicationTableStatisticsContainer {
+                if let structure0 = structure0 {
+                    replicationTableStatisticsDecoded0?.append(structure0)
+                }
+            }
+        }
+        replicationTableStatistics = replicationTableStatisticsDecoded0
     }
 }
 
@@ -8648,6 +9623,161 @@ extension DescribeReplicationTasksOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DescribeReplicationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
+            }
+        }
+        if let marker = self.marker {
+            try encodeContainer.encode(marker, forKey: .marker)
+        }
+        if let maxRecords = self.maxRecords {
+            try encodeContainer.encode(maxRecords, forKey: .maxRecords)
+        }
+    }
+}
+
+extension DescribeReplicationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+///
+public struct DescribeReplicationsInput: Swift.Equatable {
+    /// Filters applied to the replications.
+    public var filters: [DatabaseMigrationClientTypes.Filter]?
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
+    public var maxRecords: Swift.Int?
+
+    public init(
+        filters: [DatabaseMigrationClientTypes.Filter]? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil
+    )
+    {
+        self.filters = filters
+        self.marker = marker
+        self.maxRecords = maxRecords
+    }
+}
+
+struct DescribeReplicationsInputBody: Swift.Equatable {
+    let filters: [DatabaseMigrationClientTypes.Filter]?
+    let maxRecords: Swift.Int?
+    let marker: Swift.String?
+}
+
+extension DescribeReplicationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filtersContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.Filter?].self, forKey: .filters)
+        var filtersDecoded0:[DatabaseMigrationClientTypes.Filter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [DatabaseMigrationClientTypes.Filter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let maxRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRecords)
+        maxRecords = maxRecordsDecoded
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+    }
+}
+
+public enum DescribeReplicationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeReplicationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeReplicationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.marker = output.marker
+            self.replications = output.replications
+        } else {
+            self.marker = nil
+            self.replications = nil
+        }
+    }
+}
+
+///
+public struct DescribeReplicationsOutputResponse: Swift.Equatable {
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+    /// The replication descriptions.
+    public var replications: [DatabaseMigrationClientTypes.Replication]?
+
+    public init(
+        marker: Swift.String? = nil,
+        replications: [DatabaseMigrationClientTypes.Replication]? = nil
+    )
+    {
+        self.marker = marker
+        self.replications = replications
+    }
+}
+
+struct DescribeReplicationsOutputResponseBody: Swift.Equatable {
+    let marker: Swift.String?
+    let replications: [DatabaseMigrationClientTypes.Replication]?
+}
+
+extension DescribeReplicationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case marker = "Marker"
+        case replications = "Replications"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        let replicationsContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.Replication?].self, forKey: .replications)
+        var replicationsDecoded0:[DatabaseMigrationClientTypes.Replication]? = nil
+        if let replicationsContainer = replicationsContainer {
+            replicationsDecoded0 = [DatabaseMigrationClientTypes.Replication]()
+            for structure0 in replicationsContainer {
+                if let structure0 = structure0 {
+                    replicationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        replications = replicationsDecoded0
+    }
+}
+
 extension DescribeSchemasInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endpointArn = "EndpointArn"
@@ -9064,9 +10194,11 @@ extension DatabaseMigrationClientTypes.DocDbSettings: Swift.Codable {
         case nestingLevel = "NestingLevel"
         case password = "Password"
         case port = "Port"
+        case replicateShardCollections = "ReplicateShardCollections"
         case secretsManagerAccessRoleArn = "SecretsManagerAccessRoleArn"
         case secretsManagerSecretId = "SecretsManagerSecretId"
         case serverName = "ServerName"
+        case useUpdateLookUp = "UseUpdateLookUp"
         case username = "Username"
     }
 
@@ -9093,6 +10225,9 @@ extension DatabaseMigrationClientTypes.DocDbSettings: Swift.Codable {
         if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
+        if let replicateShardCollections = self.replicateShardCollections {
+            try encodeContainer.encode(replicateShardCollections, forKey: .replicateShardCollections)
+        }
         if let secretsManagerAccessRoleArn = self.secretsManagerAccessRoleArn {
             try encodeContainer.encode(secretsManagerAccessRoleArn, forKey: .secretsManagerAccessRoleArn)
         }
@@ -9101,6 +10236,9 @@ extension DatabaseMigrationClientTypes.DocDbSettings: Swift.Codable {
         }
         if let serverName = self.serverName {
             try encodeContainer.encode(serverName, forKey: .serverName)
+        }
+        if let useUpdateLookUp = self.useUpdateLookUp {
+            try encodeContainer.encode(useUpdateLookUp, forKey: .useUpdateLookUp)
         }
         if let username = self.username {
             try encodeContainer.encode(username, forKey: .username)
@@ -9131,12 +10269,16 @@ extension DatabaseMigrationClientTypes.DocDbSettings: Swift.Codable {
         secretsManagerAccessRoleArn = secretsManagerAccessRoleArnDecoded
         let secretsManagerSecretIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretsManagerSecretId)
         secretsManagerSecretId = secretsManagerSecretIdDecoded
+        let useUpdateLookUpDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useUpdateLookUp)
+        useUpdateLookUp = useUpdateLookUpDecoded
+        let replicateShardCollectionsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .replicateShardCollections)
+        replicateShardCollections = replicateShardCollectionsDecoded
     }
 }
 
 extension DatabaseMigrationClientTypes.DocDbSettings: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DocDbSettings(databaseName: \(Swift.String(describing: databaseName)), docsToInvestigate: \(Swift.String(describing: docsToInvestigate)), extractDocId: \(Swift.String(describing: extractDocId)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), nestingLevel: \(Swift.String(describing: nestingLevel)), port: \(Swift.String(describing: port)), secretsManagerAccessRoleArn: \(Swift.String(describing: secretsManagerAccessRoleArn)), secretsManagerSecretId: \(Swift.String(describing: secretsManagerSecretId)), serverName: \(Swift.String(describing: serverName)), username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
+        "DocDbSettings(databaseName: \(Swift.String(describing: databaseName)), docsToInvestigate: \(Swift.String(describing: docsToInvestigate)), extractDocId: \(Swift.String(describing: extractDocId)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), nestingLevel: \(Swift.String(describing: nestingLevel)), port: \(Swift.String(describing: port)), replicateShardCollections: \(Swift.String(describing: replicateShardCollections)), secretsManagerAccessRoleArn: \(Swift.String(describing: secretsManagerAccessRoleArn)), secretsManagerSecretId: \(Swift.String(describing: secretsManagerSecretId)), serverName: \(Swift.String(describing: serverName)), useUpdateLookUp: \(Swift.String(describing: useUpdateLookUp)), username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
 }
 
 extension DatabaseMigrationClientTypes {
@@ -9156,12 +10298,20 @@ extension DatabaseMigrationClientTypes {
         public var password: Swift.String?
         /// The port value for the DocumentDB source endpoint.
         public var port: Swift.Int?
+        /// If true, DMS replicates data to shard collections. DMS only uses this setting if the target endpoint is a DocumentDB elastic cluster. When this setting is true, note the following:
+        ///
+        /// * You must set TargetTablePrepMode to nothing.
+        ///
+        /// * DMS automatically sets useUpdateLookup to false.
+        public var replicateShardCollections: Swift.Bool?
         /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as the trusted entity and grants the required permissions to access the value in SecretsManagerSecret. The role must allow the iam:PassRole action. SecretsManagerSecret has the value of the Amazon Web Services Secrets Manager secret that allows access to the DocumentDB endpoint. You can specify one of two sets of values for these permissions. You can specify the values for this setting and SecretsManagerSecretId. Or you can specify clear-text values for UserName, Password, ServerName, and Port. You can't specify both. For more information on creating this SecretsManagerSecret and the SecretsManagerAccessRoleArn and SecretsManagerSecretId required to access it, see [Using secrets to access Database Migration Service resources](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager) in the Database Migration Service User Guide.
         public var secretsManagerAccessRoleArn: Swift.String?
         /// The full ARN, partial ARN, or friendly name of the SecretsManagerSecret that contains the DocumentDB endpoint connection details.
         public var secretsManagerSecretId: Swift.String?
         /// The name of the server on the DocumentDB source endpoint.
         public var serverName: Swift.String?
+        /// If true, DMS retrieves the entire document from the DocumentDB source during migration. This may cause a migration failure if the server response exceeds bandwidth limits. To fetch only updates and deletes during migration, set this parameter to false.
+        public var useUpdateLookUp: Swift.Bool?
         /// The user name you use to access the DocumentDB source endpoint.
         public var username: Swift.String?
 
@@ -9173,9 +10323,11 @@ extension DatabaseMigrationClientTypes {
             nestingLevel: DatabaseMigrationClientTypes.NestingLevelValue? = nil,
             password: Swift.String? = nil,
             port: Swift.Int? = nil,
+            replicateShardCollections: Swift.Bool? = nil,
             secretsManagerAccessRoleArn: Swift.String? = nil,
             secretsManagerSecretId: Swift.String? = nil,
             serverName: Swift.String? = nil,
+            useUpdateLookUp: Swift.Bool? = nil,
             username: Swift.String? = nil
         )
         {
@@ -9186,9 +10338,11 @@ extension DatabaseMigrationClientTypes {
             self.nestingLevel = nestingLevel
             self.password = password
             self.port = port
+            self.replicateShardCollections = replicateShardCollections
             self.secretsManagerAccessRoleArn = secretsManagerAccessRoleArn
             self.secretsManagerSecretId = secretsManagerSecretId
             self.serverName = serverName
+            self.useUpdateLookUp = useUpdateLookUp
             self.username = username
         }
     }
@@ -9411,6 +10565,7 @@ extension DatabaseMigrationClientTypes.Endpoint: Swift.Codable {
         case sslMode = "SslMode"
         case status = "Status"
         case sybaseSettings = "SybaseSettings"
+        case timestreamSettings = "TimestreamSettings"
         case username = "Username"
     }
 
@@ -9518,6 +10673,9 @@ extension DatabaseMigrationClientTypes.Endpoint: Swift.Codable {
         if let sybaseSettings = self.sybaseSettings {
             try encodeContainer.encode(sybaseSettings, forKey: .sybaseSettings)
         }
+        if let timestreamSettings = self.timestreamSettings {
+            try encodeContainer.encode(timestreamSettings, forKey: .timestreamSettings)
+        }
         if let username = self.username {
             try encodeContainer.encode(username, forKey: .username)
         }
@@ -9595,6 +10753,8 @@ extension DatabaseMigrationClientTypes.Endpoint: Swift.Codable {
         redisSettings = redisSettingsDecoded
         let gcpMySQLSettingsDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.GcpMySQLSettings.self, forKey: .gcpMySQLSettings)
         gcpMySQLSettings = gcpMySQLSettingsDecoded
+        let timestreamSettingsDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.TimestreamSettings.self, forKey: .timestreamSettings)
+        timestreamSettings = timestreamSettingsDecoded
     }
 }
 
@@ -9675,6 +10835,8 @@ extension DatabaseMigrationClientTypes {
         public var status: Swift.String?
         /// The settings for the SAP ASE source and target endpoint. For more information, see the SybaseSettings structure.
         public var sybaseSettings: DatabaseMigrationClientTypes.SybaseSettings?
+        /// The settings for the Amazon Timestream target endpoint. For more information, see the TimestreamSettings structure.
+        public var timestreamSettings: DatabaseMigrationClientTypes.TimestreamSettings?
         /// The user name used to connect to the endpoint.
         public var username: Swift.String?
 
@@ -9713,6 +10875,7 @@ extension DatabaseMigrationClientTypes {
             sslMode: DatabaseMigrationClientTypes.DmsSslModeValue? = nil,
             status: Swift.String? = nil,
             sybaseSettings: DatabaseMigrationClientTypes.SybaseSettings? = nil,
+            timestreamSettings: DatabaseMigrationClientTypes.TimestreamSettings? = nil,
             username: Swift.String? = nil
         )
         {
@@ -9750,6 +10913,7 @@ extension DatabaseMigrationClientTypes {
             self.sslMode = sslMode
             self.status = status
             self.sybaseSettings = sybaseSettings
+            self.timestreamSettings = timestreamSettings
             self.username = username
         }
     }
@@ -9919,6 +11083,123 @@ extension DatabaseMigrationClientTypes {
             self = EndpointSettingTypeValue(rawValue: rawValue) ?? EndpointSettingTypeValue.sdkUnknown(rawValue)
         }
     }
+}
+
+extension DatabaseMigrationClientTypes.EngineVersion: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoUpgradeDate = "AutoUpgradeDate"
+        case availableUpgrades = "AvailableUpgrades"
+        case deprecationDate = "DeprecationDate"
+        case forceUpgradeDate = "ForceUpgradeDate"
+        case launchDate = "LaunchDate"
+        case lifecycle = "Lifecycle"
+        case releaseStatus = "ReleaseStatus"
+        case version = "Version"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let autoUpgradeDate = self.autoUpgradeDate {
+            try encodeContainer.encodeTimestamp(autoUpgradeDate, format: .epochSeconds, forKey: .autoUpgradeDate)
+        }
+        if let availableUpgrades = availableUpgrades {
+            var availableUpgradesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availableUpgrades)
+            for string0 in availableUpgrades {
+                try availableUpgradesContainer.encode(string0)
+            }
+        }
+        if let deprecationDate = self.deprecationDate {
+            try encodeContainer.encodeTimestamp(deprecationDate, format: .epochSeconds, forKey: .deprecationDate)
+        }
+        if let forceUpgradeDate = self.forceUpgradeDate {
+            try encodeContainer.encodeTimestamp(forceUpgradeDate, format: .epochSeconds, forKey: .forceUpgradeDate)
+        }
+        if let launchDate = self.launchDate {
+            try encodeContainer.encodeTimestamp(launchDate, format: .epochSeconds, forKey: .launchDate)
+        }
+        if let lifecycle = self.lifecycle {
+            try encodeContainer.encode(lifecycle, forKey: .lifecycle)
+        }
+        if let releaseStatus = self.releaseStatus {
+            try encodeContainer.encode(releaseStatus.rawValue, forKey: .releaseStatus)
+        }
+        if let version = self.version {
+            try encodeContainer.encode(version, forKey: .version)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+        let lifecycleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lifecycle)
+        lifecycle = lifecycleDecoded
+        let releaseStatusDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.ReleaseStatusValues.self, forKey: .releaseStatus)
+        releaseStatus = releaseStatusDecoded
+        let launchDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .launchDate)
+        launchDate = launchDateDecoded
+        let autoUpgradeDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .autoUpgradeDate)
+        autoUpgradeDate = autoUpgradeDateDecoded
+        let deprecationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .deprecationDate)
+        deprecationDate = deprecationDateDecoded
+        let forceUpgradeDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .forceUpgradeDate)
+        forceUpgradeDate = forceUpgradeDateDecoded
+        let availableUpgradesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .availableUpgrades)
+        var availableUpgradesDecoded0:[Swift.String]? = nil
+        if let availableUpgradesContainer = availableUpgradesContainer {
+            availableUpgradesDecoded0 = [Swift.String]()
+            for string0 in availableUpgradesContainer {
+                if let string0 = string0 {
+                    availableUpgradesDecoded0?.append(string0)
+                }
+            }
+        }
+        availableUpgrades = availableUpgradesDecoded0
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides information about a replication instance version.
+    public struct EngineVersion: Swift.Equatable {
+        /// The date when the replication instance will be automatically upgraded. This setting only applies if the auto-minor-version setting is enabled.
+        public var autoUpgradeDate: ClientRuntime.Date?
+        /// The list of valid replication instance versions that you can upgrade to.
+        public var availableUpgrades: [Swift.String]?
+        /// The date when the replication instance version will be deprecated and can no longer be requested.
+        public var deprecationDate: ClientRuntime.Date?
+        /// The date when the replication instance will have a version upgrade forced.
+        public var forceUpgradeDate: ClientRuntime.Date?
+        /// The date when the replication instance version became publicly available.
+        public var launchDate: ClientRuntime.Date?
+        /// The lifecycle status of the replication instance version. Valid values are DEPRECATED, DEFAULT_VERSION, and ACTIVE.
+        public var lifecycle: Swift.String?
+        /// The release status of the replication instance version.
+        public var releaseStatus: DatabaseMigrationClientTypes.ReleaseStatusValues?
+        /// The version number of the replication instance.
+        public var version: Swift.String?
+
+        public init(
+            autoUpgradeDate: ClientRuntime.Date? = nil,
+            availableUpgrades: [Swift.String]? = nil,
+            deprecationDate: ClientRuntime.Date? = nil,
+            forceUpgradeDate: ClientRuntime.Date? = nil,
+            launchDate: ClientRuntime.Date? = nil,
+            lifecycle: Swift.String? = nil,
+            releaseStatus: DatabaseMigrationClientTypes.ReleaseStatusValues? = nil,
+            version: Swift.String? = nil
+        )
+        {
+            self.autoUpgradeDate = autoUpgradeDate
+            self.availableUpgrades = availableUpgrades
+            self.deprecationDate = deprecationDate
+            self.forceUpgradeDate = forceUpgradeDate
+            self.launchDate = launchDate
+            self.lifecycle = lifecycle
+            self.releaseStatus = releaseStatus
+            self.version = version
+        }
+    }
+
 }
 
 extension DatabaseMigrationClientTypes.Event: Swift.Codable {
@@ -11082,7 +12363,7 @@ extension InvalidSubnet {
     }
 }
 
-/// The subnet provided is invalid.
+/// The subnet provided isn't valid.
 public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -11644,6 +12925,7 @@ extension DatabaseMigrationClientTypes.KafkaSettings: Swift.Codable {
         case sslClientCertificateArn = "SslClientCertificateArn"
         case sslClientKeyArn = "SslClientKeyArn"
         case sslClientKeyPassword = "SslClientKeyPassword"
+        case sslEndpointIdentificationAlgorithm = "SslEndpointIdentificationAlgorithm"
         case topic = "Topic"
     }
 
@@ -11703,6 +12985,9 @@ extension DatabaseMigrationClientTypes.KafkaSettings: Swift.Codable {
         if let sslClientKeyPassword = self.sslClientKeyPassword {
             try encodeContainer.encode(sslClientKeyPassword, forKey: .sslClientKeyPassword)
         }
+        if let sslEndpointIdentificationAlgorithm = self.sslEndpointIdentificationAlgorithm {
+            try encodeContainer.encode(sslEndpointIdentificationAlgorithm.rawValue, forKey: .sslEndpointIdentificationAlgorithm)
+        }
         if let topic = self.topic {
             try encodeContainer.encode(topic, forKey: .topic)
         }
@@ -11748,12 +13033,14 @@ extension DatabaseMigrationClientTypes.KafkaSettings: Swift.Codable {
         noHexPrefix = noHexPrefixDecoded
         let saslMechanismDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.KafkaSaslMechanism.self, forKey: .saslMechanism)
         saslMechanism = saslMechanismDecoded
+        let sslEndpointIdentificationAlgorithmDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.KafkaSslEndpointIdentificationAlgorithm.self, forKey: .sslEndpointIdentificationAlgorithm)
+        sslEndpointIdentificationAlgorithm = sslEndpointIdentificationAlgorithmDecoded
     }
 }
 
 extension DatabaseMigrationClientTypes.KafkaSettings: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "KafkaSettings(broker: \(Swift.String(describing: broker)), includeControlDetails: \(Swift.String(describing: includeControlDetails)), includeNullAndEmpty: \(Swift.String(describing: includeNullAndEmpty)), includePartitionValue: \(Swift.String(describing: includePartitionValue)), includeTableAlterOperations: \(Swift.String(describing: includeTableAlterOperations)), includeTransactionDetails: \(Swift.String(describing: includeTransactionDetails)), messageFormat: \(Swift.String(describing: messageFormat)), messageMaxBytes: \(Swift.String(describing: messageMaxBytes)), noHexPrefix: \(Swift.String(describing: noHexPrefix)), partitionIncludeSchemaTable: \(Swift.String(describing: partitionIncludeSchemaTable)), saslMechanism: \(Swift.String(describing: saslMechanism)), saslUsername: \(Swift.String(describing: saslUsername)), securityProtocol: \(Swift.String(describing: securityProtocol)), sslCaCertificateArn: \(Swift.String(describing: sslCaCertificateArn)), sslClientCertificateArn: \(Swift.String(describing: sslClientCertificateArn)), sslClientKeyArn: \(Swift.String(describing: sslClientKeyArn)), topic: \(Swift.String(describing: topic)), saslPassword: \"CONTENT_REDACTED\", sslClientKeyPassword: \"CONTENT_REDACTED\")"}
+        "KafkaSettings(broker: \(Swift.String(describing: broker)), includeControlDetails: \(Swift.String(describing: includeControlDetails)), includeNullAndEmpty: \(Swift.String(describing: includeNullAndEmpty)), includePartitionValue: \(Swift.String(describing: includePartitionValue)), includeTableAlterOperations: \(Swift.String(describing: includeTableAlterOperations)), includeTransactionDetails: \(Swift.String(describing: includeTransactionDetails)), messageFormat: \(Swift.String(describing: messageFormat)), messageMaxBytes: \(Swift.String(describing: messageMaxBytes)), noHexPrefix: \(Swift.String(describing: noHexPrefix)), partitionIncludeSchemaTable: \(Swift.String(describing: partitionIncludeSchemaTable)), saslMechanism: \(Swift.String(describing: saslMechanism)), saslUsername: \(Swift.String(describing: saslUsername)), securityProtocol: \(Swift.String(describing: securityProtocol)), sslCaCertificateArn: \(Swift.String(describing: sslCaCertificateArn)), sslClientCertificateArn: \(Swift.String(describing: sslClientCertificateArn)), sslClientKeyArn: \(Swift.String(describing: sslClientKeyArn)), sslEndpointIdentificationAlgorithm: \(Swift.String(describing: sslEndpointIdentificationAlgorithm)), topic: \(Swift.String(describing: topic)), saslPassword: \"CONTENT_REDACTED\", sslClientKeyPassword: \"CONTENT_REDACTED\")"}
 }
 
 extension DatabaseMigrationClientTypes {
@@ -11795,6 +13082,8 @@ extension DatabaseMigrationClientTypes {
         public var sslClientKeyArn: Swift.String?
         /// The password for the client private key used to securely connect to a Kafka target endpoint.
         public var sslClientKeyPassword: Swift.String?
+        /// Sets hostname verification for the certificate. This setting is supported in DMS version 3.5.1 and later.
+        public var sslEndpointIdentificationAlgorithm: DatabaseMigrationClientTypes.KafkaSslEndpointIdentificationAlgorithm?
         /// The topic to which you migrate the data. If you don't specify a topic, DMS specifies "kafka-default-topic" as the migration topic.
         public var topic: Swift.String?
 
@@ -11817,6 +13106,7 @@ extension DatabaseMigrationClientTypes {
             sslClientCertificateArn: Swift.String? = nil,
             sslClientKeyArn: Swift.String? = nil,
             sslClientKeyPassword: Swift.String? = nil,
+            sslEndpointIdentificationAlgorithm: DatabaseMigrationClientTypes.KafkaSslEndpointIdentificationAlgorithm? = nil,
             topic: Swift.String? = nil
         )
         {
@@ -11838,10 +13128,43 @@ extension DatabaseMigrationClientTypes {
             self.sslClientCertificateArn = sslClientCertificateArn
             self.sslClientKeyArn = sslClientKeyArn
             self.sslClientKeyPassword = sslClientKeyPassword
+            self.sslEndpointIdentificationAlgorithm = sslEndpointIdentificationAlgorithm
             self.topic = topic
         }
     }
 
+}
+
+extension DatabaseMigrationClientTypes {
+    public enum KafkaSslEndpointIdentificationAlgorithm: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case https
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KafkaSslEndpointIdentificationAlgorithm] {
+            return [
+                .https,
+                .none,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .https: return "https"
+            case .none: return "none"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = KafkaSslEndpointIdentificationAlgorithm(rawValue: rawValue) ?? KafkaSslEndpointIdentificationAlgorithm.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension DatabaseMigrationClientTypes.KinesisSettings: Swift.Codable {
@@ -12188,6 +13511,41 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
 }
 
 extension DatabaseMigrationClientTypes {
+    public enum LongVarcharMappingType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case clob
+        case nclob
+        case wstring
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LongVarcharMappingType] {
+            return [
+                .clob,
+                .nclob,
+                .wstring,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .clob: return "clob"
+            case .nclob: return "nclob"
+            case .wstring: return "wstring"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LongVarcharMappingType(rawValue: rawValue) ?? LongVarcharMappingType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DatabaseMigrationClientTypes {
     public enum MessageFormatValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case json
         case jsonUnformatted
@@ -12456,7 +13814,7 @@ extension DatabaseMigrationClientTypes {
 
 extension ModifyEndpointInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ModifyEndpointInput(certificateArn: \(Swift.String(describing: certificateArn)), databaseName: \(Swift.String(describing: databaseName)), dmsTransferSettings: \(Swift.String(describing: dmsTransferSettings)), docDbSettings: \(Swift.String(describing: docDbSettings)), dynamoDbSettings: \(Swift.String(describing: dynamoDbSettings)), elasticsearchSettings: \(Swift.String(describing: elasticsearchSettings)), endpointArn: \(Swift.String(describing: endpointArn)), endpointIdentifier: \(Swift.String(describing: endpointIdentifier)), endpointType: \(Swift.String(describing: endpointType)), engineName: \(Swift.String(describing: engineName)), exactSettings: \(Swift.String(describing: exactSettings)), externalTableDefinition: \(Swift.String(describing: externalTableDefinition)), extraConnectionAttributes: \(Swift.String(describing: extraConnectionAttributes)), gcpMySQLSettings: \(Swift.String(describing: gcpMySQLSettings)), ibmDb2Settings: \(Swift.String(describing: ibmDb2Settings)), kafkaSettings: \(Swift.String(describing: kafkaSettings)), kinesisSettings: \(Swift.String(describing: kinesisSettings)), microsoftSQLServerSettings: \(Swift.String(describing: microsoftSQLServerSettings)), mongoDbSettings: \(Swift.String(describing: mongoDbSettings)), mySQLSettings: \(Swift.String(describing: mySQLSettings)), neptuneSettings: \(Swift.String(describing: neptuneSettings)), oracleSettings: \(Swift.String(describing: oracleSettings)), port: \(Swift.String(describing: port)), postgreSQLSettings: \(Swift.String(describing: postgreSQLSettings)), redisSettings: \(Swift.String(describing: redisSettings)), redshiftSettings: \(Swift.String(describing: redshiftSettings)), s3Settings: \(Swift.String(describing: s3Settings)), serverName: \(Swift.String(describing: serverName)), serviceAccessRoleArn: \(Swift.String(describing: serviceAccessRoleArn)), sslMode: \(Swift.String(describing: sslMode)), sybaseSettings: \(Swift.String(describing: sybaseSettings)), username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
+        "ModifyEndpointInput(certificateArn: \(Swift.String(describing: certificateArn)), databaseName: \(Swift.String(describing: databaseName)), dmsTransferSettings: \(Swift.String(describing: dmsTransferSettings)), docDbSettings: \(Swift.String(describing: docDbSettings)), dynamoDbSettings: \(Swift.String(describing: dynamoDbSettings)), elasticsearchSettings: \(Swift.String(describing: elasticsearchSettings)), endpointArn: \(Swift.String(describing: endpointArn)), endpointIdentifier: \(Swift.String(describing: endpointIdentifier)), endpointType: \(Swift.String(describing: endpointType)), engineName: \(Swift.String(describing: engineName)), exactSettings: \(Swift.String(describing: exactSettings)), externalTableDefinition: \(Swift.String(describing: externalTableDefinition)), extraConnectionAttributes: \(Swift.String(describing: extraConnectionAttributes)), gcpMySQLSettings: \(Swift.String(describing: gcpMySQLSettings)), ibmDb2Settings: \(Swift.String(describing: ibmDb2Settings)), kafkaSettings: \(Swift.String(describing: kafkaSettings)), kinesisSettings: \(Swift.String(describing: kinesisSettings)), microsoftSQLServerSettings: \(Swift.String(describing: microsoftSQLServerSettings)), mongoDbSettings: \(Swift.String(describing: mongoDbSettings)), mySQLSettings: \(Swift.String(describing: mySQLSettings)), neptuneSettings: \(Swift.String(describing: neptuneSettings)), oracleSettings: \(Swift.String(describing: oracleSettings)), port: \(Swift.String(describing: port)), postgreSQLSettings: \(Swift.String(describing: postgreSQLSettings)), redisSettings: \(Swift.String(describing: redisSettings)), redshiftSettings: \(Swift.String(describing: redshiftSettings)), s3Settings: \(Swift.String(describing: s3Settings)), serverName: \(Swift.String(describing: serverName)), serviceAccessRoleArn: \(Swift.String(describing: serviceAccessRoleArn)), sslMode: \(Swift.String(describing: sslMode)), sybaseSettings: \(Swift.String(describing: sybaseSettings)), timestreamSettings: \(Swift.String(describing: timestreamSettings)), username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
 }
 
 extension ModifyEndpointInput: Swift.Encodable {
@@ -12493,6 +13851,7 @@ extension ModifyEndpointInput: Swift.Encodable {
         case serviceAccessRoleArn = "ServiceAccessRoleArn"
         case sslMode = "SslMode"
         case sybaseSettings = "SybaseSettings"
+        case timestreamSettings = "TimestreamSettings"
         case username = "Username"
     }
 
@@ -12594,6 +13953,9 @@ extension ModifyEndpointInput: Swift.Encodable {
         if let sybaseSettings = self.sybaseSettings {
             try encodeContainer.encode(sybaseSettings, forKey: .sybaseSettings)
         }
+        if let timestreamSettings = self.timestreamSettings {
+            try encodeContainer.encode(timestreamSettings, forKey: .timestreamSettings)
+        }
         if let username = self.username {
             try encodeContainer.encode(username, forKey: .username)
         }
@@ -12687,6 +14049,8 @@ public struct ModifyEndpointInput: Swift.Equatable {
     public var sslMode: DatabaseMigrationClientTypes.DmsSslModeValue?
     /// Settings in JSON format for the source and target SAP ASE endpoint. For information about other available settings, see [Extra connection attributes when using SAP ASE as a source for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.SAP.html#CHAP_Source.SAP.ConnectionAttrib) and [Extra connection attributes when using SAP ASE as a target for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.SAP.html#CHAP_Target.SAP.ConnectionAttrib) in the Database Migration Service User Guide.
     public var sybaseSettings: DatabaseMigrationClientTypes.SybaseSettings?
+    /// Settings in JSON format for the target Amazon Timestream endpoint.
+    public var timestreamSettings: DatabaseMigrationClientTypes.TimestreamSettings?
     /// The user name to be used to login to the endpoint database.
     public var username: Swift.String?
 
@@ -12723,6 +14087,7 @@ public struct ModifyEndpointInput: Swift.Equatable {
         serviceAccessRoleArn: Swift.String? = nil,
         sslMode: DatabaseMigrationClientTypes.DmsSslModeValue? = nil,
         sybaseSettings: DatabaseMigrationClientTypes.SybaseSettings? = nil,
+        timestreamSettings: DatabaseMigrationClientTypes.TimestreamSettings? = nil,
         username: Swift.String? = nil
     )
     {
@@ -12758,6 +14123,7 @@ public struct ModifyEndpointInput: Swift.Equatable {
         self.serviceAccessRoleArn = serviceAccessRoleArn
         self.sslMode = sslMode
         self.sybaseSettings = sybaseSettings
+        self.timestreamSettings = timestreamSettings
         self.username = username
     }
 }
@@ -12796,6 +14162,7 @@ struct ModifyEndpointInputBody: Swift.Equatable {
     let redisSettings: DatabaseMigrationClientTypes.RedisSettings?
     let exactSettings: Swift.Bool?
     let gcpMySQLSettings: DatabaseMigrationClientTypes.GcpMySQLSettings?
+    let timestreamSettings: DatabaseMigrationClientTypes.TimestreamSettings?
 }
 
 extension ModifyEndpointInputBody: Swift.Decodable {
@@ -12832,6 +14199,7 @@ extension ModifyEndpointInputBody: Swift.Decodable {
         case serviceAccessRoleArn = "ServiceAccessRoleArn"
         case sslMode = "SslMode"
         case sybaseSettings = "SybaseSettings"
+        case timestreamSettings = "TimestreamSettings"
         case username = "Username"
     }
 
@@ -12903,6 +14271,8 @@ extension ModifyEndpointInputBody: Swift.Decodable {
         exactSettings = exactSettingsDecoded
         let gcpMySQLSettingsDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.GcpMySQLSettings.self, forKey: .gcpMySQLSettings)
         gcpMySQLSettings = gcpMySQLSettingsDecoded
+        let timestreamSettingsDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.TimestreamSettings.self, forKey: .timestreamSettings)
+        timestreamSettings = timestreamSettingsDecoded
     }
 }
 
@@ -13128,6 +14498,207 @@ extension ModifyEventSubscriptionOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventSubscriptionDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.EventSubscription.self, forKey: .eventSubscription)
         eventSubscription = eventSubscriptionDecoded
+    }
+}
+
+extension ModifyReplicationConfigInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case computeConfig = "ComputeConfig"
+        case replicationConfigArn = "ReplicationConfigArn"
+        case replicationConfigIdentifier = "ReplicationConfigIdentifier"
+        case replicationSettings = "ReplicationSettings"
+        case replicationType = "ReplicationType"
+        case sourceEndpointArn = "SourceEndpointArn"
+        case supplementalSettings = "SupplementalSettings"
+        case tableMappings = "TableMappings"
+        case targetEndpointArn = "TargetEndpointArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let computeConfig = self.computeConfig {
+            try encodeContainer.encode(computeConfig, forKey: .computeConfig)
+        }
+        if let replicationConfigArn = self.replicationConfigArn {
+            try encodeContainer.encode(replicationConfigArn, forKey: .replicationConfigArn)
+        }
+        if let replicationConfigIdentifier = self.replicationConfigIdentifier {
+            try encodeContainer.encode(replicationConfigIdentifier, forKey: .replicationConfigIdentifier)
+        }
+        if let replicationSettings = self.replicationSettings {
+            try encodeContainer.encode(replicationSettings, forKey: .replicationSettings)
+        }
+        if let replicationType = self.replicationType {
+            try encodeContainer.encode(replicationType.rawValue, forKey: .replicationType)
+        }
+        if let sourceEndpointArn = self.sourceEndpointArn {
+            try encodeContainer.encode(sourceEndpointArn, forKey: .sourceEndpointArn)
+        }
+        if let supplementalSettings = self.supplementalSettings {
+            try encodeContainer.encode(supplementalSettings, forKey: .supplementalSettings)
+        }
+        if let tableMappings = self.tableMappings {
+            try encodeContainer.encode(tableMappings, forKey: .tableMappings)
+        }
+        if let targetEndpointArn = self.targetEndpointArn {
+            try encodeContainer.encode(targetEndpointArn, forKey: .targetEndpointArn)
+        }
+    }
+}
+
+extension ModifyReplicationConfigInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+///
+public struct ModifyReplicationConfigInput: Swift.Equatable {
+    /// Configuration parameters for provisioning an DMS Serverless replication.
+    public var computeConfig: DatabaseMigrationClientTypes.ComputeConfig?
+    /// The Amazon Resource Name of the replication to modify.
+    /// This member is required.
+    public var replicationConfigArn: Swift.String?
+    /// The new replication config to apply to the replication.
+    public var replicationConfigIdentifier: Swift.String?
+    /// The settings for the replication.
+    public var replicationSettings: Swift.String?
+    /// The type of replication.
+    public var replicationType: DatabaseMigrationClientTypes.MigrationTypeValue?
+    /// The Amazon Resource Name (ARN) of the source endpoint for this DMS serverless replication configuration.
+    public var sourceEndpointArn: Swift.String?
+    /// Additional settings for the replication.
+    public var supplementalSettings: Swift.String?
+    /// Table mappings specified in the replication.
+    public var tableMappings: Swift.String?
+    /// The Amazon Resource Name (ARN) of the target endpoint for this DMS serverless replication configuration.
+    public var targetEndpointArn: Swift.String?
+
+    public init(
+        computeConfig: DatabaseMigrationClientTypes.ComputeConfig? = nil,
+        replicationConfigArn: Swift.String? = nil,
+        replicationConfigIdentifier: Swift.String? = nil,
+        replicationSettings: Swift.String? = nil,
+        replicationType: DatabaseMigrationClientTypes.MigrationTypeValue? = nil,
+        sourceEndpointArn: Swift.String? = nil,
+        supplementalSettings: Swift.String? = nil,
+        tableMappings: Swift.String? = nil,
+        targetEndpointArn: Swift.String? = nil
+    )
+    {
+        self.computeConfig = computeConfig
+        self.replicationConfigArn = replicationConfigArn
+        self.replicationConfigIdentifier = replicationConfigIdentifier
+        self.replicationSettings = replicationSettings
+        self.replicationType = replicationType
+        self.sourceEndpointArn = sourceEndpointArn
+        self.supplementalSettings = supplementalSettings
+        self.tableMappings = tableMappings
+        self.targetEndpointArn = targetEndpointArn
+    }
+}
+
+struct ModifyReplicationConfigInputBody: Swift.Equatable {
+    let replicationConfigArn: Swift.String?
+    let replicationConfigIdentifier: Swift.String?
+    let replicationType: DatabaseMigrationClientTypes.MigrationTypeValue?
+    let tableMappings: Swift.String?
+    let replicationSettings: Swift.String?
+    let supplementalSettings: Swift.String?
+    let computeConfig: DatabaseMigrationClientTypes.ComputeConfig?
+    let sourceEndpointArn: Swift.String?
+    let targetEndpointArn: Swift.String?
+}
+
+extension ModifyReplicationConfigInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case computeConfig = "ComputeConfig"
+        case replicationConfigArn = "ReplicationConfigArn"
+        case replicationConfigIdentifier = "ReplicationConfigIdentifier"
+        case replicationSettings = "ReplicationSettings"
+        case replicationType = "ReplicationType"
+        case sourceEndpointArn = "SourceEndpointArn"
+        case supplementalSettings = "SupplementalSettings"
+        case tableMappings = "TableMappings"
+        case targetEndpointArn = "TargetEndpointArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let replicationConfigArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationConfigArn)
+        replicationConfigArn = replicationConfigArnDecoded
+        let replicationConfigIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationConfigIdentifier)
+        replicationConfigIdentifier = replicationConfigIdentifierDecoded
+        let replicationTypeDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.MigrationTypeValue.self, forKey: .replicationType)
+        replicationType = replicationTypeDecoded
+        let tableMappingsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableMappings)
+        tableMappings = tableMappingsDecoded
+        let replicationSettingsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationSettings)
+        replicationSettings = replicationSettingsDecoded
+        let supplementalSettingsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .supplementalSettings)
+        supplementalSettings = supplementalSettingsDecoded
+        let computeConfigDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.ComputeConfig.self, forKey: .computeConfig)
+        computeConfig = computeConfigDecoded
+        let sourceEndpointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceEndpointArn)
+        sourceEndpointArn = sourceEndpointArnDecoded
+        let targetEndpointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetEndpointArn)
+        targetEndpointArn = targetEndpointArnDecoded
+    }
+}
+
+public enum ModifyReplicationConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedFault": return try await AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateFault": return try await InvalidResourceStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSubnet": return try await InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSKeyNotAccessibleFault": return try await KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ReplicationSubnetGroupDoesNotCoverEnoughAZs": return try await ReplicationSubnetGroupDoesNotCoverEnoughAZs(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ModifyReplicationConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ModifyReplicationConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.replicationConfig = output.replicationConfig
+        } else {
+            self.replicationConfig = nil
+        }
+    }
+}
+
+public struct ModifyReplicationConfigOutputResponse: Swift.Equatable {
+    /// Information about the serverless replication config that was modified.
+    public var replicationConfig: DatabaseMigrationClientTypes.ReplicationConfig?
+
+    public init(
+        replicationConfig: DatabaseMigrationClientTypes.ReplicationConfig? = nil
+    )
+    {
+        self.replicationConfig = replicationConfig
+    }
+}
+
+struct ModifyReplicationConfigOutputResponseBody: Swift.Equatable {
+    let replicationConfig: DatabaseMigrationClientTypes.ReplicationConfig?
+}
+
+extension ModifyReplicationConfigOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replicationConfig = "ReplicationConfig"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let replicationConfigDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.ReplicationConfig.self, forKey: .replicationConfig)
+        replicationConfig = replicationConfigDecoded
     }
 }
 
@@ -13752,9 +15323,11 @@ extension DatabaseMigrationClientTypes.MongoDbSettings: Swift.Codable {
         case nestingLevel = "NestingLevel"
         case password = "Password"
         case port = "Port"
+        case replicateShardCollections = "ReplicateShardCollections"
         case secretsManagerAccessRoleArn = "SecretsManagerAccessRoleArn"
         case secretsManagerSecretId = "SecretsManagerSecretId"
         case serverName = "ServerName"
+        case useUpdateLookUp = "UseUpdateLookUp"
         case username = "Username"
     }
 
@@ -13790,6 +15363,9 @@ extension DatabaseMigrationClientTypes.MongoDbSettings: Swift.Codable {
         if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
+        if let replicateShardCollections = self.replicateShardCollections {
+            try encodeContainer.encode(replicateShardCollections, forKey: .replicateShardCollections)
+        }
         if let secretsManagerAccessRoleArn = self.secretsManagerAccessRoleArn {
             try encodeContainer.encode(secretsManagerAccessRoleArn, forKey: .secretsManagerAccessRoleArn)
         }
@@ -13798,6 +15374,9 @@ extension DatabaseMigrationClientTypes.MongoDbSettings: Swift.Codable {
         }
         if let serverName = self.serverName {
             try encodeContainer.encode(serverName, forKey: .serverName)
+        }
+        if let useUpdateLookUp = self.useUpdateLookUp {
+            try encodeContainer.encode(useUpdateLookUp, forKey: .useUpdateLookUp)
         }
         if let username = self.username {
             try encodeContainer.encode(username, forKey: .username)
@@ -13834,12 +15413,16 @@ extension DatabaseMigrationClientTypes.MongoDbSettings: Swift.Codable {
         secretsManagerAccessRoleArn = secretsManagerAccessRoleArnDecoded
         let secretsManagerSecretIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretsManagerSecretId)
         secretsManagerSecretId = secretsManagerSecretIdDecoded
+        let useUpdateLookUpDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useUpdateLookUp)
+        useUpdateLookUp = useUpdateLookUpDecoded
+        let replicateShardCollectionsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .replicateShardCollections)
+        replicateShardCollections = replicateShardCollectionsDecoded
     }
 }
 
 extension DatabaseMigrationClientTypes.MongoDbSettings: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "MongoDbSettings(authMechanism: \(Swift.String(describing: authMechanism)), authSource: \(Swift.String(describing: authSource)), authType: \(Swift.String(describing: authType)), databaseName: \(Swift.String(describing: databaseName)), docsToInvestigate: \(Swift.String(describing: docsToInvestigate)), extractDocId: \(Swift.String(describing: extractDocId)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), nestingLevel: \(Swift.String(describing: nestingLevel)), port: \(Swift.String(describing: port)), secretsManagerAccessRoleArn: \(Swift.String(describing: secretsManagerAccessRoleArn)), secretsManagerSecretId: \(Swift.String(describing: secretsManagerSecretId)), serverName: \(Swift.String(describing: serverName)), username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
+        "MongoDbSettings(authMechanism: \(Swift.String(describing: authMechanism)), authSource: \(Swift.String(describing: authSource)), authType: \(Swift.String(describing: authType)), databaseName: \(Swift.String(describing: databaseName)), docsToInvestigate: \(Swift.String(describing: docsToInvestigate)), extractDocId: \(Swift.String(describing: extractDocId)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), nestingLevel: \(Swift.String(describing: nestingLevel)), port: \(Swift.String(describing: port)), replicateShardCollections: \(Swift.String(describing: replicateShardCollections)), secretsManagerAccessRoleArn: \(Swift.String(describing: secretsManagerAccessRoleArn)), secretsManagerSecretId: \(Swift.String(describing: secretsManagerSecretId)), serverName: \(Swift.String(describing: serverName)), useUpdateLookUp: \(Swift.String(describing: useUpdateLookUp)), username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
 }
 
 extension DatabaseMigrationClientTypes {
@@ -13865,12 +15448,20 @@ extension DatabaseMigrationClientTypes {
         public var password: Swift.String?
         /// The port value for the MongoDB source endpoint.
         public var port: Swift.Int?
+        /// If true, DMS replicates data to shard collections. DMS only uses this setting if the target endpoint is a DocumentDB elastic cluster. When this setting is true, note the following:
+        ///
+        /// * You must set TargetTablePrepMode to nothing.
+        ///
+        /// * DMS automatically sets useUpdateLookup to false.
+        public var replicateShardCollections: Swift.Bool?
         /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as the trusted entity and grants the required permissions to access the value in SecretsManagerSecret. The role must allow the iam:PassRole action. SecretsManagerSecret has the value of the Amazon Web Services Secrets Manager secret that allows access to the MongoDB endpoint. You can specify one of two sets of values for these permissions. You can specify the values for this setting and SecretsManagerSecretId. Or you can specify clear-text values for UserName, Password, ServerName, and Port. You can't specify both. For more information on creating this SecretsManagerSecret and the SecretsManagerAccessRoleArn and SecretsManagerSecretId required to access it, see [Using secrets to access Database Migration Service resources](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager) in the Database Migration Service User Guide.
         public var secretsManagerAccessRoleArn: Swift.String?
         /// The full ARN, partial ARN, or friendly name of the SecretsManagerSecret that contains the MongoDB endpoint connection details.
         public var secretsManagerSecretId: Swift.String?
         /// The name of the server on the MongoDB source endpoint.
         public var serverName: Swift.String?
+        /// If true, DMS retrieves the entire document from the MongoDB source during migration. This may cause a migration failure if the server response exceeds bandwidth limits. To fetch only updates and deletes during migration, set this parameter to false.
+        public var useUpdateLookUp: Swift.Bool?
         /// The user name you use to access the MongoDB source endpoint.
         public var username: Swift.String?
 
@@ -13885,9 +15476,11 @@ extension DatabaseMigrationClientTypes {
             nestingLevel: DatabaseMigrationClientTypes.NestingLevelValue? = nil,
             password: Swift.String? = nil,
             port: Swift.Int? = nil,
+            replicateShardCollections: Swift.Bool? = nil,
             secretsManagerAccessRoleArn: Swift.String? = nil,
             secretsManagerSecretId: Swift.String? = nil,
             serverName: Swift.String? = nil,
+            useUpdateLookUp: Swift.Bool? = nil,
             username: Swift.String? = nil
         )
         {
@@ -13901,9 +15494,11 @@ extension DatabaseMigrationClientTypes {
             self.nestingLevel = nestingLevel
             self.password = password
             self.port = port
+            self.replicateShardCollections = replicateShardCollections
             self.secretsManagerAccessRoleArn = secretsManagerAccessRoleArn
             self.secretsManagerSecretId = secretsManagerSecretId
             self.serverName = serverName
+            self.useUpdateLookUp = useUpdateLookUp
             self.username = username
         }
     }
@@ -14347,6 +15942,7 @@ extension DatabaseMigrationClientTypes.OracleSettings: Swift.Codable {
         case extraArchivedLogDestIds = "ExtraArchivedLogDestIds"
         case failTasksOnLobTruncation = "FailTasksOnLobTruncation"
         case numberDatatypeScale = "NumberDatatypeScale"
+        case openTransactionWindow = "OpenTransactionWindow"
         case oraclePathPrefix = "OraclePathPrefix"
         case parallelAsmReadThreads = "ParallelAsmReadThreads"
         case password = "Password"
@@ -14431,6 +16027,9 @@ extension DatabaseMigrationClientTypes.OracleSettings: Swift.Codable {
         }
         if let numberDatatypeScale = self.numberDatatypeScale {
             try encodeContainer.encode(numberDatatypeScale, forKey: .numberDatatypeScale)
+        }
+        if let openTransactionWindow = self.openTransactionWindow {
+            try encodeContainer.encode(openTransactionWindow, forKey: .openTransactionWindow)
         }
         if let oraclePathPrefix = self.oraclePathPrefix {
             try encodeContainer.encode(oraclePathPrefix, forKey: .oraclePathPrefix)
@@ -14601,12 +16200,14 @@ extension DatabaseMigrationClientTypes.OracleSettings: Swift.Codable {
         trimSpaceInChar = trimSpaceInCharDecoded
         let convertTimestampWithZoneToUTCDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .convertTimestampWithZoneToUTC)
         convertTimestampWithZoneToUTC = convertTimestampWithZoneToUTCDecoded
+        let openTransactionWindowDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .openTransactionWindow)
+        openTransactionWindow = openTransactionWindowDecoded
     }
 }
 
 extension DatabaseMigrationClientTypes.OracleSettings: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "OracleSettings(accessAlternateDirectly: \(Swift.String(describing: accessAlternateDirectly)), addSupplementalLogging: \(Swift.String(describing: addSupplementalLogging)), additionalArchivedLogDestId: \(Swift.String(describing: additionalArchivedLogDestId)), allowSelectNestedTables: \(Swift.String(describing: allowSelectNestedTables)), archivedLogDestId: \(Swift.String(describing: archivedLogDestId)), archivedLogsOnly: \(Swift.String(describing: archivedLogsOnly)), asmServer: \(Swift.String(describing: asmServer)), asmUser: \(Swift.String(describing: asmUser)), charLengthSemantics: \(Swift.String(describing: charLengthSemantics)), convertTimestampWithZoneToUTC: \(Swift.String(describing: convertTimestampWithZoneToUTC)), databaseName: \(Swift.String(describing: databaseName)), directPathNoLog: \(Swift.String(describing: directPathNoLog)), directPathParallelLoad: \(Swift.String(describing: directPathParallelLoad)), enableHomogenousTablespace: \(Swift.String(describing: enableHomogenousTablespace)), extraArchivedLogDestIds: \(Swift.String(describing: extraArchivedLogDestIds)), failTasksOnLobTruncation: \(Swift.String(describing: failTasksOnLobTruncation)), numberDatatypeScale: \(Swift.String(describing: numberDatatypeScale)), oraclePathPrefix: \(Swift.String(describing: oraclePathPrefix)), parallelAsmReadThreads: \(Swift.String(describing: parallelAsmReadThreads)), port: \(Swift.String(describing: port)), readAheadBlocks: \(Swift.String(describing: readAheadBlocks)), readTableSpaceName: \(Swift.String(describing: readTableSpaceName)), replacePathPrefix: \(Swift.String(describing: replacePathPrefix)), retryInterval: \(Swift.String(describing: retryInterval)), secretsManagerAccessRoleArn: \(Swift.String(describing: secretsManagerAccessRoleArn)), secretsManagerOracleAsmAccessRoleArn: \(Swift.String(describing: secretsManagerOracleAsmAccessRoleArn)), secretsManagerOracleAsmSecretId: \(Swift.String(describing: secretsManagerOracleAsmSecretId)), secretsManagerSecretId: \(Swift.String(describing: secretsManagerSecretId)), securityDbEncryptionName: \(Swift.String(describing: securityDbEncryptionName)), serverName: \(Swift.String(describing: serverName)), spatialDataOptionToGeoJsonFunctionName: \(Swift.String(describing: spatialDataOptionToGeoJsonFunctionName)), standbyDelayTime: \(Swift.String(describing: standbyDelayTime)), trimSpaceInChar: \(Swift.String(describing: trimSpaceInChar)), useAlternateFolderForOnline: \(Swift.String(describing: useAlternateFolderForOnline)), useBFile: \(Swift.String(describing: useBFile)), useDirectPathFullLoad: \(Swift.String(describing: useDirectPathFullLoad)), useLogminerReader: \(Swift.String(describing: useLogminerReader)), usePathPrefix: \(Swift.String(describing: usePathPrefix)), username: \(Swift.String(describing: username)), asmPassword: \"CONTENT_REDACTED\", password: \"CONTENT_REDACTED\", securityDbEncryption: \"CONTENT_REDACTED\")"}
+        "OracleSettings(accessAlternateDirectly: \(Swift.String(describing: accessAlternateDirectly)), addSupplementalLogging: \(Swift.String(describing: addSupplementalLogging)), additionalArchivedLogDestId: \(Swift.String(describing: additionalArchivedLogDestId)), allowSelectNestedTables: \(Swift.String(describing: allowSelectNestedTables)), archivedLogDestId: \(Swift.String(describing: archivedLogDestId)), archivedLogsOnly: \(Swift.String(describing: archivedLogsOnly)), asmServer: \(Swift.String(describing: asmServer)), asmUser: \(Swift.String(describing: asmUser)), charLengthSemantics: \(Swift.String(describing: charLengthSemantics)), convertTimestampWithZoneToUTC: \(Swift.String(describing: convertTimestampWithZoneToUTC)), databaseName: \(Swift.String(describing: databaseName)), directPathNoLog: \(Swift.String(describing: directPathNoLog)), directPathParallelLoad: \(Swift.String(describing: directPathParallelLoad)), enableHomogenousTablespace: \(Swift.String(describing: enableHomogenousTablespace)), extraArchivedLogDestIds: \(Swift.String(describing: extraArchivedLogDestIds)), failTasksOnLobTruncation: \(Swift.String(describing: failTasksOnLobTruncation)), numberDatatypeScale: \(Swift.String(describing: numberDatatypeScale)), openTransactionWindow: \(Swift.String(describing: openTransactionWindow)), oraclePathPrefix: \(Swift.String(describing: oraclePathPrefix)), parallelAsmReadThreads: \(Swift.String(describing: parallelAsmReadThreads)), port: \(Swift.String(describing: port)), readAheadBlocks: \(Swift.String(describing: readAheadBlocks)), readTableSpaceName: \(Swift.String(describing: readTableSpaceName)), replacePathPrefix: \(Swift.String(describing: replacePathPrefix)), retryInterval: \(Swift.String(describing: retryInterval)), secretsManagerAccessRoleArn: \(Swift.String(describing: secretsManagerAccessRoleArn)), secretsManagerOracleAsmAccessRoleArn: \(Swift.String(describing: secretsManagerOracleAsmAccessRoleArn)), secretsManagerOracleAsmSecretId: \(Swift.String(describing: secretsManagerOracleAsmSecretId)), secretsManagerSecretId: \(Swift.String(describing: secretsManagerSecretId)), securityDbEncryptionName: \(Swift.String(describing: securityDbEncryptionName)), serverName: \(Swift.String(describing: serverName)), spatialDataOptionToGeoJsonFunctionName: \(Swift.String(describing: spatialDataOptionToGeoJsonFunctionName)), standbyDelayTime: \(Swift.String(describing: standbyDelayTime)), trimSpaceInChar: \(Swift.String(describing: trimSpaceInChar)), useAlternateFolderForOnline: \(Swift.String(describing: useAlternateFolderForOnline)), useBFile: \(Swift.String(describing: useBFile)), useDirectPathFullLoad: \(Swift.String(describing: useDirectPathFullLoad)), useLogminerReader: \(Swift.String(describing: useLogminerReader)), usePathPrefix: \(Swift.String(describing: usePathPrefix)), username: \(Swift.String(describing: username)), asmPassword: \"CONTENT_REDACTED\", password: \"CONTENT_REDACTED\", securityDbEncryption: \"CONTENT_REDACTED\")"}
 }
 
 extension DatabaseMigrationClientTypes {
@@ -14648,6 +16249,8 @@ extension DatabaseMigrationClientTypes {
         public var failTasksOnLobTruncation: Swift.Bool?
         /// Specifies the number scale. You can select a scale up to 38, or you can select FLOAT. By default, the NUMBER data type is converted to precision 38, scale 10. Example: numberDataTypeScale=12
         public var numberDatatypeScale: Swift.Int?
+        /// The timeframe in minutes to check for open transactions for a CDC-only task. You can specify an integer value between 0 (the default) and 240 (the maximum). This parameter is only valid in DMS version 3.5.0 and later. DMS supports a window of up to 9.5 hours including the value for OpenTransactionWindow.
+        public var openTransactionWindow: Swift.Int?
         /// Set this string attribute to the required value in order to use the Binary Reader to capture change data for an Amazon RDS for Oracle as the source. This value specifies the default Oracle root used to access the redo logs.
         public var oraclePathPrefix: Swift.String?
         /// Set this attribute to change the number of threads that DMS configures to perform a change data capture (CDC) load using Oracle Automatic Storage Management (ASM). You can specify an integer value between 2 (the default) and 8 (the maximum). Use this attribute together with the readAheadBlocks attribute.
@@ -14716,6 +16319,7 @@ extension DatabaseMigrationClientTypes {
             extraArchivedLogDestIds: [Swift.Int]? = nil,
             failTasksOnLobTruncation: Swift.Bool? = nil,
             numberDatatypeScale: Swift.Int? = nil,
+            openTransactionWindow: Swift.Int? = nil,
             oraclePathPrefix: Swift.String? = nil,
             parallelAsmReadThreads: Swift.Int? = nil,
             password: Swift.String? = nil,
@@ -14760,6 +16364,7 @@ extension DatabaseMigrationClientTypes {
             self.extraArchivedLogDestIds = extraArchivedLogDestIds
             self.failTasksOnLobTruncation = failTasksOnLobTruncation
             self.numberDatatypeScale = numberDatatypeScale
+            self.openTransactionWindow = openTransactionWindow
             self.oraclePathPrefix = oraclePathPrefix
             self.parallelAsmReadThreads = parallelAsmReadThreads
             self.password = password
@@ -15071,7 +16676,9 @@ extension DatabaseMigrationClientTypes {
 extension DatabaseMigrationClientTypes.PostgreSQLSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case afterConnectScript = "AfterConnectScript"
+        case babelfishDatabaseName = "BabelfishDatabaseName"
         case captureDdls = "CaptureDdls"
+        case databaseMode = "DatabaseMode"
         case databaseName = "DatabaseName"
         case ddlArtifactsSchema = "DdlArtifactsSchema"
         case executeTimeout = "ExecuteTimeout"
@@ -15080,6 +16687,8 @@ extension DatabaseMigrationClientTypes.PostgreSQLSettings: Swift.Codable {
         case heartbeatFrequency = "HeartbeatFrequency"
         case heartbeatSchema = "HeartbeatSchema"
         case mapBooleanAsBoolean = "MapBooleanAsBoolean"
+        case mapJsonbAsClob = "MapJsonbAsClob"
+        case mapLongVarcharAs = "MapLongVarcharAs"
         case maxFileSize = "MaxFileSize"
         case password = "Password"
         case pluginName = "PluginName"
@@ -15097,8 +16706,14 @@ extension DatabaseMigrationClientTypes.PostgreSQLSettings: Swift.Codable {
         if let afterConnectScript = self.afterConnectScript {
             try encodeContainer.encode(afterConnectScript, forKey: .afterConnectScript)
         }
+        if let babelfishDatabaseName = self.babelfishDatabaseName {
+            try encodeContainer.encode(babelfishDatabaseName, forKey: .babelfishDatabaseName)
+        }
         if let captureDdls = self.captureDdls {
             try encodeContainer.encode(captureDdls, forKey: .captureDdls)
+        }
+        if let databaseMode = self.databaseMode {
+            try encodeContainer.encode(databaseMode.rawValue, forKey: .databaseMode)
         }
         if let databaseName = self.databaseName {
             try encodeContainer.encode(databaseName, forKey: .databaseName)
@@ -15123,6 +16738,12 @@ extension DatabaseMigrationClientTypes.PostgreSQLSettings: Swift.Codable {
         }
         if let mapBooleanAsBoolean = self.mapBooleanAsBoolean {
             try encodeContainer.encode(mapBooleanAsBoolean, forKey: .mapBooleanAsBoolean)
+        }
+        if let mapJsonbAsClob = self.mapJsonbAsClob {
+            try encodeContainer.encode(mapJsonbAsClob, forKey: .mapJsonbAsClob)
+        }
+        if let mapLongVarcharAs = self.mapLongVarcharAs {
+            try encodeContainer.encode(mapLongVarcharAs.rawValue, forKey: .mapLongVarcharAs)
         }
         if let maxFileSize = self.maxFileSize {
             try encodeContainer.encode(maxFileSize, forKey: .maxFileSize)
@@ -15198,12 +16819,20 @@ extension DatabaseMigrationClientTypes.PostgreSQLSettings: Swift.Codable {
         trimSpaceInChar = trimSpaceInCharDecoded
         let mapBooleanAsBooleanDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .mapBooleanAsBoolean)
         mapBooleanAsBoolean = mapBooleanAsBooleanDecoded
+        let mapJsonbAsClobDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .mapJsonbAsClob)
+        mapJsonbAsClob = mapJsonbAsClobDecoded
+        let mapLongVarcharAsDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.LongVarcharMappingType.self, forKey: .mapLongVarcharAs)
+        mapLongVarcharAs = mapLongVarcharAsDecoded
+        let databaseModeDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.DatabaseMode.self, forKey: .databaseMode)
+        databaseMode = databaseModeDecoded
+        let babelfishDatabaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .babelfishDatabaseName)
+        babelfishDatabaseName = babelfishDatabaseNameDecoded
     }
 }
 
 extension DatabaseMigrationClientTypes.PostgreSQLSettings: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PostgreSQLSettings(afterConnectScript: \(Swift.String(describing: afterConnectScript)), captureDdls: \(Swift.String(describing: captureDdls)), databaseName: \(Swift.String(describing: databaseName)), ddlArtifactsSchema: \(Swift.String(describing: ddlArtifactsSchema)), executeTimeout: \(Swift.String(describing: executeTimeout)), failTasksOnLobTruncation: \(Swift.String(describing: failTasksOnLobTruncation)), heartbeatEnable: \(Swift.String(describing: heartbeatEnable)), heartbeatFrequency: \(Swift.String(describing: heartbeatFrequency)), heartbeatSchema: \(Swift.String(describing: heartbeatSchema)), mapBooleanAsBoolean: \(Swift.String(describing: mapBooleanAsBoolean)), maxFileSize: \(Swift.String(describing: maxFileSize)), pluginName: \(Swift.String(describing: pluginName)), port: \(Swift.String(describing: port)), secretsManagerAccessRoleArn: \(Swift.String(describing: secretsManagerAccessRoleArn)), secretsManagerSecretId: \(Swift.String(describing: secretsManagerSecretId)), serverName: \(Swift.String(describing: serverName)), slotName: \(Swift.String(describing: slotName)), trimSpaceInChar: \(Swift.String(describing: trimSpaceInChar)), username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
+        "PostgreSQLSettings(afterConnectScript: \(Swift.String(describing: afterConnectScript)), babelfishDatabaseName: \(Swift.String(describing: babelfishDatabaseName)), captureDdls: \(Swift.String(describing: captureDdls)), databaseMode: \(Swift.String(describing: databaseMode)), databaseName: \(Swift.String(describing: databaseName)), ddlArtifactsSchema: \(Swift.String(describing: ddlArtifactsSchema)), executeTimeout: \(Swift.String(describing: executeTimeout)), failTasksOnLobTruncation: \(Swift.String(describing: failTasksOnLobTruncation)), heartbeatEnable: \(Swift.String(describing: heartbeatEnable)), heartbeatFrequency: \(Swift.String(describing: heartbeatFrequency)), heartbeatSchema: \(Swift.String(describing: heartbeatSchema)), mapBooleanAsBoolean: \(Swift.String(describing: mapBooleanAsBoolean)), mapJsonbAsClob: \(Swift.String(describing: mapJsonbAsClob)), mapLongVarcharAs: \(Swift.String(describing: mapLongVarcharAs)), maxFileSize: \(Swift.String(describing: maxFileSize)), pluginName: \(Swift.String(describing: pluginName)), port: \(Swift.String(describing: port)), secretsManagerAccessRoleArn: \(Swift.String(describing: secretsManagerAccessRoleArn)), secretsManagerSecretId: \(Swift.String(describing: secretsManagerSecretId)), serverName: \(Swift.String(describing: serverName)), slotName: \(Swift.String(describing: slotName)), trimSpaceInChar: \(Swift.String(describing: trimSpaceInChar)), username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
 }
 
 extension DatabaseMigrationClientTypes {
@@ -15211,8 +16840,12 @@ extension DatabaseMigrationClientTypes {
     public struct PostgreSQLSettings: Swift.Equatable {
         /// For use with change data capture (CDC) only, this attribute has DMS bypass foreign keys and user triggers to reduce the time it takes to bulk load data. Example: afterConnectScript=SET session_replication_role='replica'
         public var afterConnectScript: Swift.String?
+        /// The Babelfish for Aurora PostgreSQL database name for the endpoint.
+        public var babelfishDatabaseName: Swift.String?
         /// To capture DDL events, DMS creates various artifacts in the PostgreSQL database when the task starts. You can later remove these artifacts. If this value is set to N, you don't have to create tables or triggers on the source database.
         public var captureDdls: Swift.Bool?
+        /// Specifies the default behavior of the replication's handling of PostgreSQL- compatible endpoints that require some additional configuration, such as Babelfish endpoints.
+        public var databaseMode: DatabaseMigrationClientTypes.DatabaseMode?
         /// Database name for the endpoint.
         public var databaseName: Swift.String?
         /// The schema in which the operational DDL database artifacts are created. Example: ddlArtifactsSchema=xyzddlschema;
@@ -15229,6 +16862,10 @@ extension DatabaseMigrationClientTypes {
         public var heartbeatSchema: Swift.String?
         /// When true, lets PostgreSQL migrate the boolean type as boolean. By default, PostgreSQL migrates booleans as varchar(5).
         public var mapBooleanAsBoolean: Swift.Bool?
+        /// When true, DMS migrates JSONB values as CLOB.
+        public var mapJsonbAsClob: Swift.Bool?
+        /// When true, DMS migrates LONG values as VARCHAR.
+        public var mapLongVarcharAs: DatabaseMigrationClientTypes.LongVarcharMappingType?
         /// Specifies the maximum size (in KB) of any .csv file used to transfer data to PostgreSQL. Example: maxFileSize=512
         public var maxFileSize: Swift.Int?
         /// Endpoint connection password.
@@ -15243,7 +16880,7 @@ extension DatabaseMigrationClientTypes {
         public var secretsManagerSecretId: Swift.String?
         /// The host name of the endpoint database. For an Amazon RDS PostgreSQL instance, this is the output of [DescribeDBInstances](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBInstances.html), in the [Endpoint](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_Endpoint.html).Address field. For an Aurora PostgreSQL instance, this is the output of [DescribeDBClusters](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBClusters.html), in the Endpoint field.
         public var serverName: Swift.String?
-        /// Sets the name of a previously created logical replication slot for a change data capture (CDC) load of the PostgreSQL source instance. When used with the CdcStartPosition request parameter for the DMS API , this attribute also makes it possible to use native CDC start points. DMS verifies that the specified logical replication slot exists before starting the CDC load task. It also verifies that the task was created with a valid setting of CdcStartPosition. If the specified slot doesn't exist or the task doesn't have a valid CdcStartPosition setting, DMS raises an error. For more information about setting the CdcStartPosition request parameter, see [Determining a CDC native start point] in the Database Migration Service User Guide. For more information about using CdcStartPosition, see [CreateReplicationTask](https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateReplicationTask.html), [StartReplicationTask](https://docs.aws.amazon.com/dms/latest/APIReference/API_StartReplicationTask.html), and [ModifyReplicationTask](https://docs.aws.amazon.com/dms/latest/APIReference/API_ModifyReplicationTask.html).
+        /// Sets the name of a previously created logical replication slot for a change data capture (CDC) load of the PostgreSQL source instance. When used with the CdcStartPosition request parameter for the DMS API , this attribute also makes it possible to use native CDC start points. DMS verifies that the specified logical replication slot exists before starting the CDC load task. It also verifies that the task was created with a valid setting of CdcStartPosition. If the specified slot doesn't exist or the task doesn't have a valid CdcStartPosition setting, DMS raises an error. For more information about setting the CdcStartPosition request parameter, see [Determining a CDC native start point](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Task.CDC.html#CHAP_Task.CDC.StartPoint.Native) in the Database Migration Service User Guide. For more information about using CdcStartPosition, see [CreateReplicationTask](https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateReplicationTask.html), [StartReplicationTask](https://docs.aws.amazon.com/dms/latest/APIReference/API_StartReplicationTask.html), and [ModifyReplicationTask](https://docs.aws.amazon.com/dms/latest/APIReference/API_ModifyReplicationTask.html).
         public var slotName: Swift.String?
         /// Use the TrimSpaceInChar source endpoint setting to trim data on CHAR and NCHAR data types during migration. The default value is true.
         public var trimSpaceInChar: Swift.Bool?
@@ -15252,7 +16889,9 @@ extension DatabaseMigrationClientTypes {
 
         public init(
             afterConnectScript: Swift.String? = nil,
+            babelfishDatabaseName: Swift.String? = nil,
             captureDdls: Swift.Bool? = nil,
+            databaseMode: DatabaseMigrationClientTypes.DatabaseMode? = nil,
             databaseName: Swift.String? = nil,
             ddlArtifactsSchema: Swift.String? = nil,
             executeTimeout: Swift.Int? = nil,
@@ -15261,6 +16900,8 @@ extension DatabaseMigrationClientTypes {
             heartbeatFrequency: Swift.Int? = nil,
             heartbeatSchema: Swift.String? = nil,
             mapBooleanAsBoolean: Swift.Bool? = nil,
+            mapJsonbAsClob: Swift.Bool? = nil,
+            mapLongVarcharAs: DatabaseMigrationClientTypes.LongVarcharMappingType? = nil,
             maxFileSize: Swift.Int? = nil,
             password: Swift.String? = nil,
             pluginName: DatabaseMigrationClientTypes.PluginNameValue? = nil,
@@ -15274,7 +16915,9 @@ extension DatabaseMigrationClientTypes {
         )
         {
             self.afterConnectScript = afterConnectScript
+            self.babelfishDatabaseName = babelfishDatabaseName
             self.captureDdls = captureDdls
+            self.databaseMode = databaseMode
             self.databaseName = databaseName
             self.ddlArtifactsSchema = ddlArtifactsSchema
             self.executeTimeout = executeTimeout
@@ -15283,6 +16926,8 @@ extension DatabaseMigrationClientTypes {
             self.heartbeatFrequency = heartbeatFrequency
             self.heartbeatSchema = heartbeatSchema
             self.mapBooleanAsBoolean = mapBooleanAsBoolean
+            self.mapJsonbAsClob = mapJsonbAsClob
+            self.mapLongVarcharAs = mapLongVarcharAs
             self.maxFileSize = maxFileSize
             self.password = password
             self.pluginName = pluginName
@@ -15298,10 +16943,96 @@ extension DatabaseMigrationClientTypes {
 
 }
 
+extension DatabaseMigrationClientTypes.ProvisionData: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dateNewProvisioningDataAvailable = "DateNewProvisioningDataAvailable"
+        case dateProvisioned = "DateProvisioned"
+        case isNewProvisioningAvailable = "IsNewProvisioningAvailable"
+        case provisionState = "ProvisionState"
+        case provisionedCapacityUnits = "ProvisionedCapacityUnits"
+        case reasonForNewProvisioningData = "ReasonForNewProvisioningData"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dateNewProvisioningDataAvailable = self.dateNewProvisioningDataAvailable {
+            try encodeContainer.encodeTimestamp(dateNewProvisioningDataAvailable, format: .epochSeconds, forKey: .dateNewProvisioningDataAvailable)
+        }
+        if let dateProvisioned = self.dateProvisioned {
+            try encodeContainer.encodeTimestamp(dateProvisioned, format: .epochSeconds, forKey: .dateProvisioned)
+        }
+        if isNewProvisioningAvailable != false {
+            try encodeContainer.encode(isNewProvisioningAvailable, forKey: .isNewProvisioningAvailable)
+        }
+        if let provisionState = self.provisionState {
+            try encodeContainer.encode(provisionState, forKey: .provisionState)
+        }
+        if provisionedCapacityUnits != 0 {
+            try encodeContainer.encode(provisionedCapacityUnits, forKey: .provisionedCapacityUnits)
+        }
+        if let reasonForNewProvisioningData = self.reasonForNewProvisioningData {
+            try encodeContainer.encode(reasonForNewProvisioningData, forKey: .reasonForNewProvisioningData)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let provisionStateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .provisionState)
+        provisionState = provisionStateDecoded
+        let provisionedCapacityUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .provisionedCapacityUnits) ?? 0
+        provisionedCapacityUnits = provisionedCapacityUnitsDecoded
+        let dateProvisionedDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .dateProvisioned)
+        dateProvisioned = dateProvisionedDecoded
+        let isNewProvisioningAvailableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isNewProvisioningAvailable) ?? false
+        isNewProvisioningAvailable = isNewProvisioningAvailableDecoded
+        let dateNewProvisioningDataAvailableDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .dateNewProvisioningDataAvailable)
+        dateNewProvisioningDataAvailable = dateNewProvisioningDataAvailableDecoded
+        let reasonForNewProvisioningDataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reasonForNewProvisioningData)
+        reasonForNewProvisioningData = reasonForNewProvisioningDataDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Information about provisioning resources for an DMS serverless replication.
+    public struct ProvisionData: Swift.Equatable {
+        /// The timestamp when provisioning became available.
+        public var dateNewProvisioningDataAvailable: ClientRuntime.Date?
+        /// The timestamp when DMS provisioned replication resources.
+        public var dateProvisioned: ClientRuntime.Date?
+        /// Whether the new provisioning is available to the replication.
+        public var isNewProvisioningAvailable: Swift.Bool
+        /// The current provisioning state
+        public var provisionState: Swift.String?
+        /// The number of capacity units the replication is using.
+        public var provisionedCapacityUnits: Swift.Int
+        /// A message describing the reason that DMS provisioned new resources for the serverless replication.
+        public var reasonForNewProvisioningData: Swift.String?
+
+        public init(
+            dateNewProvisioningDataAvailable: ClientRuntime.Date? = nil,
+            dateProvisioned: ClientRuntime.Date? = nil,
+            isNewProvisioningAvailable: Swift.Bool = false,
+            provisionState: Swift.String? = nil,
+            provisionedCapacityUnits: Swift.Int = 0,
+            reasonForNewProvisioningData: Swift.String? = nil
+        )
+        {
+            self.dateNewProvisioningDataAvailable = dateNewProvisioningDataAvailable
+            self.dateProvisioned = dateProvisioned
+            self.isNewProvisioningAvailable = isNewProvisioningAvailable
+            self.provisionState = provisionState
+            self.provisionedCapacityUnits = provisionedCapacityUnits
+            self.reasonForNewProvisioningData = reasonForNewProvisioningData
+        }
+    }
+
+}
+
 extension DatabaseMigrationClientTypes.RdsConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deploymentOption = "DeploymentOption"
         case engineEdition = "EngineEdition"
+        case engineVersion = "EngineVersion"
         case instanceMemory = "InstanceMemory"
         case instanceType = "InstanceType"
         case instanceVcpu = "InstanceVcpu"
@@ -15317,6 +17048,9 @@ extension DatabaseMigrationClientTypes.RdsConfiguration: Swift.Codable {
         }
         if let engineEdition = self.engineEdition {
             try encodeContainer.encode(engineEdition, forKey: .engineEdition)
+        }
+        if let engineVersion = self.engineVersion {
+            try encodeContainer.encode(engineVersion, forKey: .engineVersion)
         }
         if let instanceMemory = self.instanceMemory {
             try encodeContainer.encode(instanceMemory, forKey: .instanceMemory)
@@ -15356,6 +17090,8 @@ extension DatabaseMigrationClientTypes.RdsConfiguration: Swift.Codable {
         storageIops = storageIopsDecoded
         let deploymentOptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentOption)
         deploymentOption = deploymentOptionDecoded
+        let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
+        engineVersion = engineVersionDecoded
     }
 }
 
@@ -15366,6 +17102,8 @@ extension DatabaseMigrationClientTypes {
         public var deploymentOption: Swift.String?
         /// Describes the recommended target Amazon RDS engine edition.
         public var engineEdition: Swift.String?
+        /// Describes the recommended target Amazon RDS engine version.
+        public var engineVersion: Swift.String?
         /// Describes the memory on the recommended Amazon RDS DB instance that meets your requirements.
         public var instanceMemory: Swift.Double?
         /// Describes the recommended target Amazon RDS instance type.
@@ -15382,6 +17120,7 @@ extension DatabaseMigrationClientTypes {
         public init(
             deploymentOption: Swift.String? = nil,
             engineEdition: Swift.String? = nil,
+            engineVersion: Swift.String? = nil,
             instanceMemory: Swift.Double? = nil,
             instanceType: Swift.String? = nil,
             instanceVcpu: Swift.Double? = nil,
@@ -15392,6 +17131,7 @@ extension DatabaseMigrationClientTypes {
         {
             self.deploymentOption = deploymentOption
             self.engineEdition = engineEdition
+            self.engineVersion = engineVersion
             self.instanceMemory = instanceMemory
             self.instanceType = instanceType
             self.instanceVcpu = instanceVcpu
@@ -15452,6 +17192,7 @@ extension DatabaseMigrationClientTypes.RdsRequirements: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deploymentOption = "DeploymentOption"
         case engineEdition = "EngineEdition"
+        case engineVersion = "EngineVersion"
         case instanceMemory = "InstanceMemory"
         case instanceVcpu = "InstanceVcpu"
         case storageIops = "StorageIops"
@@ -15465,6 +17206,9 @@ extension DatabaseMigrationClientTypes.RdsRequirements: Swift.Codable {
         }
         if let engineEdition = self.engineEdition {
             try encodeContainer.encode(engineEdition, forKey: .engineEdition)
+        }
+        if let engineVersion = self.engineVersion {
+            try encodeContainer.encode(engineVersion, forKey: .engineVersion)
         }
         if let instanceMemory = self.instanceMemory {
             try encodeContainer.encode(instanceMemory, forKey: .instanceMemory)
@@ -15494,6 +17238,8 @@ extension DatabaseMigrationClientTypes.RdsRequirements: Swift.Codable {
         storageIops = storageIopsDecoded
         let deploymentOptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentOption)
         deploymentOption = deploymentOptionDecoded
+        let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
+        engineVersion = engineVersionDecoded
     }
 }
 
@@ -15504,6 +17250,8 @@ extension DatabaseMigrationClientTypes {
         public var deploymentOption: Swift.String?
         /// The required target Amazon RDS engine edition.
         public var engineEdition: Swift.String?
+        /// The required target Amazon RDS engine version.
+        public var engineVersion: Swift.String?
         /// The required memory on the Amazon RDS DB instance.
         public var instanceMemory: Swift.Double?
         /// The required number of virtual CPUs (vCPU) on the Amazon RDS DB instance.
@@ -15516,6 +17264,7 @@ extension DatabaseMigrationClientTypes {
         public init(
             deploymentOption: Swift.String? = nil,
             engineEdition: Swift.String? = nil,
+            engineVersion: Swift.String? = nil,
             instanceMemory: Swift.Double? = nil,
             instanceVcpu: Swift.Double? = nil,
             storageIops: Swift.Int? = nil,
@@ -15524,6 +17273,7 @@ extension DatabaseMigrationClientTypes {
         {
             self.deploymentOption = deploymentOption
             self.engineEdition = engineEdition
+            self.engineVersion = engineVersion
             self.instanceMemory = instanceMemory
             self.instanceVcpu = instanceVcpu
             self.storageIops = storageIops
@@ -16602,6 +18352,145 @@ extension DatabaseMigrationClientTypes {
     }
 }
 
+extension ReloadReplicationTablesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reloadOption = "ReloadOption"
+        case replicationConfigArn = "ReplicationConfigArn"
+        case tablesToReload = "TablesToReload"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let reloadOption = self.reloadOption {
+            try encodeContainer.encode(reloadOption.rawValue, forKey: .reloadOption)
+        }
+        if let replicationConfigArn = self.replicationConfigArn {
+            try encodeContainer.encode(replicationConfigArn, forKey: .replicationConfigArn)
+        }
+        if let tablesToReload = tablesToReload {
+            var tablesToReloadContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tablesToReload)
+            for tabletoreload0 in tablesToReload {
+                try tablesToReloadContainer.encode(tabletoreload0)
+            }
+        }
+    }
+}
+
+extension ReloadReplicationTablesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+///
+public struct ReloadReplicationTablesInput: Swift.Equatable {
+    /// Options for reload. Specify data-reload to reload the data and re-validate it if validation is enabled. Specify validate-only to re-validate the table. This option applies only when validation is enabled for the replication.
+    public var reloadOption: DatabaseMigrationClientTypes.ReloadOptionValue?
+    /// The Amazon Resource Name of the replication config for which to reload tables.
+    /// This member is required.
+    public var replicationConfigArn: Swift.String?
+    /// The list of tables to reload.
+    /// This member is required.
+    public var tablesToReload: [DatabaseMigrationClientTypes.TableToReload]?
+
+    public init(
+        reloadOption: DatabaseMigrationClientTypes.ReloadOptionValue? = nil,
+        replicationConfigArn: Swift.String? = nil,
+        tablesToReload: [DatabaseMigrationClientTypes.TableToReload]? = nil
+    )
+    {
+        self.reloadOption = reloadOption
+        self.replicationConfigArn = replicationConfigArn
+        self.tablesToReload = tablesToReload
+    }
+}
+
+struct ReloadReplicationTablesInputBody: Swift.Equatable {
+    let replicationConfigArn: Swift.String?
+    let tablesToReload: [DatabaseMigrationClientTypes.TableToReload]?
+    let reloadOption: DatabaseMigrationClientTypes.ReloadOptionValue?
+}
+
+extension ReloadReplicationTablesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reloadOption = "ReloadOption"
+        case replicationConfigArn = "ReplicationConfigArn"
+        case tablesToReload = "TablesToReload"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let replicationConfigArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationConfigArn)
+        replicationConfigArn = replicationConfigArnDecoded
+        let tablesToReloadContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.TableToReload?].self, forKey: .tablesToReload)
+        var tablesToReloadDecoded0:[DatabaseMigrationClientTypes.TableToReload]? = nil
+        if let tablesToReloadContainer = tablesToReloadContainer {
+            tablesToReloadDecoded0 = [DatabaseMigrationClientTypes.TableToReload]()
+            for structure0 in tablesToReloadContainer {
+                if let structure0 = structure0 {
+                    tablesToReloadDecoded0?.append(structure0)
+                }
+            }
+        }
+        tablesToReload = tablesToReloadDecoded0
+        let reloadOptionDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.ReloadOptionValue.self, forKey: .reloadOption)
+        reloadOption = reloadOptionDecoded
+    }
+}
+
+public enum ReloadReplicationTablesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidResourceStateFault": return try await InvalidResourceStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ReloadReplicationTablesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ReloadReplicationTablesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.replicationConfigArn = output.replicationConfigArn
+        } else {
+            self.replicationConfigArn = nil
+        }
+    }
+}
+
+///
+public struct ReloadReplicationTablesOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name of the replication config for which to reload tables.
+    public var replicationConfigArn: Swift.String?
+
+    public init(
+        replicationConfigArn: Swift.String? = nil
+    )
+    {
+        self.replicationConfigArn = replicationConfigArn
+    }
+}
+
+struct ReloadReplicationTablesOutputResponseBody: Swift.Equatable {
+    let replicationConfigArn: Swift.String?
+}
+
+extension ReloadReplicationTablesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replicationConfigArn = "ReplicationConfigArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let replicationConfigArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationConfigArn)
+        replicationConfigArn = replicationConfigArnDecoded
+    }
+}
+
 extension ReloadTablesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case reloadOption = "ReloadOption"
@@ -16833,6 +18722,386 @@ extension RemoveTagsFromResourceOutputResponse: ClientRuntime.HttpResponseBindin
 public struct RemoveTagsFromResourceOutputResponse: Swift.Equatable {
 
     public init() { }
+}
+
+extension DatabaseMigrationClientTypes.Replication: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cdcStartPosition = "CdcStartPosition"
+        case cdcStartTime = "CdcStartTime"
+        case cdcStopPosition = "CdcStopPosition"
+        case failureMessages = "FailureMessages"
+        case provisionData = "ProvisionData"
+        case recoveryCheckpoint = "RecoveryCheckpoint"
+        case replicationConfigArn = "ReplicationConfigArn"
+        case replicationConfigIdentifier = "ReplicationConfigIdentifier"
+        case replicationCreateTime = "ReplicationCreateTime"
+        case replicationLastStopTime = "ReplicationLastStopTime"
+        case replicationStats = "ReplicationStats"
+        case replicationType = "ReplicationType"
+        case replicationUpdateTime = "ReplicationUpdateTime"
+        case sourceEndpointArn = "SourceEndpointArn"
+        case startReplicationType = "StartReplicationType"
+        case status = "Status"
+        case stopReason = "StopReason"
+        case targetEndpointArn = "TargetEndpointArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cdcStartPosition = self.cdcStartPosition {
+            try encodeContainer.encode(cdcStartPosition, forKey: .cdcStartPosition)
+        }
+        if let cdcStartTime = self.cdcStartTime {
+            try encodeContainer.encodeTimestamp(cdcStartTime, format: .epochSeconds, forKey: .cdcStartTime)
+        }
+        if let cdcStopPosition = self.cdcStopPosition {
+            try encodeContainer.encode(cdcStopPosition, forKey: .cdcStopPosition)
+        }
+        if let failureMessages = failureMessages {
+            var failureMessagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .failureMessages)
+            for string0 in failureMessages {
+                try failureMessagesContainer.encode(string0)
+            }
+        }
+        if let provisionData = self.provisionData {
+            try encodeContainer.encode(provisionData, forKey: .provisionData)
+        }
+        if let recoveryCheckpoint = self.recoveryCheckpoint {
+            try encodeContainer.encode(recoveryCheckpoint, forKey: .recoveryCheckpoint)
+        }
+        if let replicationConfigArn = self.replicationConfigArn {
+            try encodeContainer.encode(replicationConfigArn, forKey: .replicationConfigArn)
+        }
+        if let replicationConfigIdentifier = self.replicationConfigIdentifier {
+            try encodeContainer.encode(replicationConfigIdentifier, forKey: .replicationConfigIdentifier)
+        }
+        if let replicationCreateTime = self.replicationCreateTime {
+            try encodeContainer.encodeTimestamp(replicationCreateTime, format: .epochSeconds, forKey: .replicationCreateTime)
+        }
+        if let replicationLastStopTime = self.replicationLastStopTime {
+            try encodeContainer.encodeTimestamp(replicationLastStopTime, format: .epochSeconds, forKey: .replicationLastStopTime)
+        }
+        if let replicationStats = self.replicationStats {
+            try encodeContainer.encode(replicationStats, forKey: .replicationStats)
+        }
+        if let replicationType = self.replicationType {
+            try encodeContainer.encode(replicationType.rawValue, forKey: .replicationType)
+        }
+        if let replicationUpdateTime = self.replicationUpdateTime {
+            try encodeContainer.encodeTimestamp(replicationUpdateTime, format: .epochSeconds, forKey: .replicationUpdateTime)
+        }
+        if let sourceEndpointArn = self.sourceEndpointArn {
+            try encodeContainer.encode(sourceEndpointArn, forKey: .sourceEndpointArn)
+        }
+        if let startReplicationType = self.startReplicationType {
+            try encodeContainer.encode(startReplicationType, forKey: .startReplicationType)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+        if let stopReason = self.stopReason {
+            try encodeContainer.encode(stopReason, forKey: .stopReason)
+        }
+        if let targetEndpointArn = self.targetEndpointArn {
+            try encodeContainer.encode(targetEndpointArn, forKey: .targetEndpointArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let replicationConfigIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationConfigIdentifier)
+        replicationConfigIdentifier = replicationConfigIdentifierDecoded
+        let replicationConfigArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationConfigArn)
+        replicationConfigArn = replicationConfigArnDecoded
+        let sourceEndpointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceEndpointArn)
+        sourceEndpointArn = sourceEndpointArnDecoded
+        let targetEndpointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetEndpointArn)
+        targetEndpointArn = targetEndpointArnDecoded
+        let replicationTypeDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.MigrationTypeValue.self, forKey: .replicationType)
+        replicationType = replicationTypeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let provisionDataDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.ProvisionData.self, forKey: .provisionData)
+        provisionData = provisionDataDecoded
+        let stopReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stopReason)
+        stopReason = stopReasonDecoded
+        let failureMessagesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .failureMessages)
+        var failureMessagesDecoded0:[Swift.String]? = nil
+        if let failureMessagesContainer = failureMessagesContainer {
+            failureMessagesDecoded0 = [Swift.String]()
+            for string0 in failureMessagesContainer {
+                if let string0 = string0 {
+                    failureMessagesDecoded0?.append(string0)
+                }
+            }
+        }
+        failureMessages = failureMessagesDecoded0
+        let replicationStatsDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.ReplicationStats.self, forKey: .replicationStats)
+        replicationStats = replicationStatsDecoded
+        let startReplicationTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startReplicationType)
+        startReplicationType = startReplicationTypeDecoded
+        let cdcStartTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .cdcStartTime)
+        cdcStartTime = cdcStartTimeDecoded
+        let cdcStartPositionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cdcStartPosition)
+        cdcStartPosition = cdcStartPositionDecoded
+        let cdcStopPositionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cdcStopPosition)
+        cdcStopPosition = cdcStopPositionDecoded
+        let recoveryCheckpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recoveryCheckpoint)
+        recoveryCheckpoint = recoveryCheckpointDecoded
+        let replicationCreateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .replicationCreateTime)
+        replicationCreateTime = replicationCreateTimeDecoded
+        let replicationUpdateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .replicationUpdateTime)
+        replicationUpdateTime = replicationUpdateTimeDecoded
+        let replicationLastStopTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .replicationLastStopTime)
+        replicationLastStopTime = replicationLastStopTimeDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides information that describes a serverless replication created by the CreateReplication operation.
+    public struct Replication: Swift.Equatable {
+        /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error.
+        public var cdcStartPosition: Swift.String?
+        /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error.
+        public var cdcStartTime: ClientRuntime.Date?
+        /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time.
+        public var cdcStopPosition: Swift.String?
+        /// Error and other information about why a serverless replication failed.
+        public var failureMessages: [Swift.String]?
+        /// Information about provisioning resources for an DMS serverless replication.
+        public var provisionData: DatabaseMigrationClientTypes.ProvisionData?
+        /// Indicates the last checkpoint that occurred during a change data capture (CDC) operation. You can provide this value to the CdcStartPosition parameter to start a CDC operation that begins at that checkpoint.
+        public var recoveryCheckpoint: Swift.String?
+        /// The Amazon Resource Name for the ReplicationConfig associated with the replication.
+        public var replicationConfigArn: Swift.String?
+        /// The identifier for the ReplicationConfig associated with the replication.
+        public var replicationConfigIdentifier: Swift.String?
+        /// The time the serverless replication was created.
+        public var replicationCreateTime: ClientRuntime.Date?
+        /// The timestamp when replication was last stopped.
+        public var replicationLastStopTime: ClientRuntime.Date?
+        /// This object provides a collection of statistics about a serverless replication.
+        public var replicationStats: DatabaseMigrationClientTypes.ReplicationStats?
+        /// The type of the serverless replication.
+        public var replicationType: DatabaseMigrationClientTypes.MigrationTypeValue?
+        /// The time the serverless replication was updated.
+        public var replicationUpdateTime: ClientRuntime.Date?
+        /// The Amazon Resource Name for an existing Endpoint the serverless replication uses for its data source.
+        public var sourceEndpointArn: Swift.String?
+        /// The replication type.
+        public var startReplicationType: Swift.String?
+        /// The current status of the serverless replication.
+        public var status: Swift.String?
+        /// The reason the replication task was stopped. This response parameter can return one of the following values:
+        ///
+        /// * "Stop Reason NORMAL"
+        ///
+        /// * "Stop Reason RECOVERABLE_ERROR"
+        ///
+        /// * "Stop Reason FATAL_ERROR"
+        ///
+        /// * "Stop Reason FULL_LOAD_ONLY_FINISHED"
+        ///
+        /// * "Stop Reason STOPPED_AFTER_FULL_LOAD" – Full load completed, with cached changes not applied
+        ///
+        /// * "Stop Reason STOPPED_AFTER_CACHED_EVENTS" – Full load completed, with cached changes applied
+        ///
+        /// * "Stop Reason EXPRESS_LICENSE_LIMITS_REACHED"
+        ///
+        /// * "Stop Reason STOPPED_AFTER_DDL_APPLY" – User-defined stop task after DDL applied
+        ///
+        /// * "Stop Reason STOPPED_DUE_TO_LOW_MEMORY"
+        ///
+        /// * "Stop Reason STOPPED_DUE_TO_LOW_DISK"
+        ///
+        /// * "Stop Reason STOPPED_AT_SERVER_TIME" – User-defined server time for stopping task
+        ///
+        /// * "Stop Reason STOPPED_AT_COMMIT_TIME" – User-defined commit time for stopping task
+        ///
+        /// * "Stop Reason RECONFIGURATION_RESTART"
+        ///
+        /// * "Stop Reason RECYCLE_TASK"
+        public var stopReason: Swift.String?
+        /// The Amazon Resource Name for an existing Endpoint the serverless replication uses for its data target.
+        public var targetEndpointArn: Swift.String?
+
+        public init(
+            cdcStartPosition: Swift.String? = nil,
+            cdcStartTime: ClientRuntime.Date? = nil,
+            cdcStopPosition: Swift.String? = nil,
+            failureMessages: [Swift.String]? = nil,
+            provisionData: DatabaseMigrationClientTypes.ProvisionData? = nil,
+            recoveryCheckpoint: Swift.String? = nil,
+            replicationConfigArn: Swift.String? = nil,
+            replicationConfigIdentifier: Swift.String? = nil,
+            replicationCreateTime: ClientRuntime.Date? = nil,
+            replicationLastStopTime: ClientRuntime.Date? = nil,
+            replicationStats: DatabaseMigrationClientTypes.ReplicationStats? = nil,
+            replicationType: DatabaseMigrationClientTypes.MigrationTypeValue? = nil,
+            replicationUpdateTime: ClientRuntime.Date? = nil,
+            sourceEndpointArn: Swift.String? = nil,
+            startReplicationType: Swift.String? = nil,
+            status: Swift.String? = nil,
+            stopReason: Swift.String? = nil,
+            targetEndpointArn: Swift.String? = nil
+        )
+        {
+            self.cdcStartPosition = cdcStartPosition
+            self.cdcStartTime = cdcStartTime
+            self.cdcStopPosition = cdcStopPosition
+            self.failureMessages = failureMessages
+            self.provisionData = provisionData
+            self.recoveryCheckpoint = recoveryCheckpoint
+            self.replicationConfigArn = replicationConfigArn
+            self.replicationConfigIdentifier = replicationConfigIdentifier
+            self.replicationCreateTime = replicationCreateTime
+            self.replicationLastStopTime = replicationLastStopTime
+            self.replicationStats = replicationStats
+            self.replicationType = replicationType
+            self.replicationUpdateTime = replicationUpdateTime
+            self.sourceEndpointArn = sourceEndpointArn
+            self.startReplicationType = startReplicationType
+            self.status = status
+            self.stopReason = stopReason
+            self.targetEndpointArn = targetEndpointArn
+        }
+    }
+
+}
+
+extension DatabaseMigrationClientTypes.ReplicationConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case computeConfig = "ComputeConfig"
+        case replicationConfigArn = "ReplicationConfigArn"
+        case replicationConfigCreateTime = "ReplicationConfigCreateTime"
+        case replicationConfigIdentifier = "ReplicationConfigIdentifier"
+        case replicationConfigUpdateTime = "ReplicationConfigUpdateTime"
+        case replicationSettings = "ReplicationSettings"
+        case replicationType = "ReplicationType"
+        case sourceEndpointArn = "SourceEndpointArn"
+        case supplementalSettings = "SupplementalSettings"
+        case tableMappings = "TableMappings"
+        case targetEndpointArn = "TargetEndpointArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let computeConfig = self.computeConfig {
+            try encodeContainer.encode(computeConfig, forKey: .computeConfig)
+        }
+        if let replicationConfigArn = self.replicationConfigArn {
+            try encodeContainer.encode(replicationConfigArn, forKey: .replicationConfigArn)
+        }
+        if let replicationConfigCreateTime = self.replicationConfigCreateTime {
+            try encodeContainer.encodeTimestamp(replicationConfigCreateTime, format: .epochSeconds, forKey: .replicationConfigCreateTime)
+        }
+        if let replicationConfigIdentifier = self.replicationConfigIdentifier {
+            try encodeContainer.encode(replicationConfigIdentifier, forKey: .replicationConfigIdentifier)
+        }
+        if let replicationConfigUpdateTime = self.replicationConfigUpdateTime {
+            try encodeContainer.encodeTimestamp(replicationConfigUpdateTime, format: .epochSeconds, forKey: .replicationConfigUpdateTime)
+        }
+        if let replicationSettings = self.replicationSettings {
+            try encodeContainer.encode(replicationSettings, forKey: .replicationSettings)
+        }
+        if let replicationType = self.replicationType {
+            try encodeContainer.encode(replicationType.rawValue, forKey: .replicationType)
+        }
+        if let sourceEndpointArn = self.sourceEndpointArn {
+            try encodeContainer.encode(sourceEndpointArn, forKey: .sourceEndpointArn)
+        }
+        if let supplementalSettings = self.supplementalSettings {
+            try encodeContainer.encode(supplementalSettings, forKey: .supplementalSettings)
+        }
+        if let tableMappings = self.tableMappings {
+            try encodeContainer.encode(tableMappings, forKey: .tableMappings)
+        }
+        if let targetEndpointArn = self.targetEndpointArn {
+            try encodeContainer.encode(targetEndpointArn, forKey: .targetEndpointArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let replicationConfigIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationConfigIdentifier)
+        replicationConfigIdentifier = replicationConfigIdentifierDecoded
+        let replicationConfigArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationConfigArn)
+        replicationConfigArn = replicationConfigArnDecoded
+        let sourceEndpointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceEndpointArn)
+        sourceEndpointArn = sourceEndpointArnDecoded
+        let targetEndpointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetEndpointArn)
+        targetEndpointArn = targetEndpointArnDecoded
+        let replicationTypeDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.MigrationTypeValue.self, forKey: .replicationType)
+        replicationType = replicationTypeDecoded
+        let computeConfigDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.ComputeConfig.self, forKey: .computeConfig)
+        computeConfig = computeConfigDecoded
+        let replicationSettingsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationSettings)
+        replicationSettings = replicationSettingsDecoded
+        let supplementalSettingsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .supplementalSettings)
+        supplementalSettings = supplementalSettingsDecoded
+        let tableMappingsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableMappings)
+        tableMappings = tableMappingsDecoded
+        let replicationConfigCreateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .replicationConfigCreateTime)
+        replicationConfigCreateTime = replicationConfigCreateTimeDecoded
+        let replicationConfigUpdateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .replicationConfigUpdateTime)
+        replicationConfigUpdateTime = replicationConfigUpdateTimeDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// This object provides configuration information about a serverless replication.
+    public struct ReplicationConfig: Swift.Equatable {
+        /// Configuration parameters for provisioning an DMS serverless replication.
+        public var computeConfig: DatabaseMigrationClientTypes.ComputeConfig?
+        /// The Amazon Resource Name (ARN) of this DMS Serverless replication configuration.
+        public var replicationConfigArn: Swift.String?
+        /// The time the serverless replication config was created.
+        public var replicationConfigCreateTime: ClientRuntime.Date?
+        /// The identifier for the ReplicationConfig associated with the replication.
+        public var replicationConfigIdentifier: Swift.String?
+        /// The time the serverless replication config was updated.
+        public var replicationConfigUpdateTime: ClientRuntime.Date?
+        /// Configuration parameters for an DMS serverless replication.
+        public var replicationSettings: Swift.String?
+        /// The type of the replication.
+        public var replicationType: DatabaseMigrationClientTypes.MigrationTypeValue?
+        /// The Amazon Resource Name (ARN) of the source endpoint for this DMS serverless replication configuration.
+        public var sourceEndpointArn: Swift.String?
+        /// Additional parameters for an DMS serverless replication.
+        public var supplementalSettings: Swift.String?
+        /// Table mappings specified in the replication.
+        public var tableMappings: Swift.String?
+        /// The Amazon Resource Name (ARN) of the target endpoint for this DMS serverless replication configuration.
+        public var targetEndpointArn: Swift.String?
+
+        public init(
+            computeConfig: DatabaseMigrationClientTypes.ComputeConfig? = nil,
+            replicationConfigArn: Swift.String? = nil,
+            replicationConfigCreateTime: ClientRuntime.Date? = nil,
+            replicationConfigIdentifier: Swift.String? = nil,
+            replicationConfigUpdateTime: ClientRuntime.Date? = nil,
+            replicationSettings: Swift.String? = nil,
+            replicationType: DatabaseMigrationClientTypes.MigrationTypeValue? = nil,
+            sourceEndpointArn: Swift.String? = nil,
+            supplementalSettings: Swift.String? = nil,
+            tableMappings: Swift.String? = nil,
+            targetEndpointArn: Swift.String? = nil
+        )
+        {
+            self.computeConfig = computeConfig
+            self.replicationConfigArn = replicationConfigArn
+            self.replicationConfigCreateTime = replicationConfigCreateTime
+            self.replicationConfigIdentifier = replicationConfigIdentifier
+            self.replicationConfigUpdateTime = replicationConfigUpdateTime
+            self.replicationSettings = replicationSettings
+            self.replicationType = replicationType
+            self.sourceEndpointArn = sourceEndpointArn
+            self.supplementalSettings = supplementalSettings
+            self.tableMappings = tableMappings
+            self.targetEndpointArn = targetEndpointArn
+        }
+    }
+
 }
 
 extension DatabaseMigrationClientTypes {
@@ -17352,6 +19621,141 @@ extension DatabaseMigrationClientTypes {
             self.multiAZ = multiAZ
             self.networkType = networkType
             self.replicationInstanceClass = replicationInstanceClass
+        }
+    }
+
+}
+
+extension DatabaseMigrationClientTypes.ReplicationStats: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case elapsedTimeMillis = "ElapsedTimeMillis"
+        case freshStartDate = "FreshStartDate"
+        case fullLoadFinishDate = "FullLoadFinishDate"
+        case fullLoadProgressPercent = "FullLoadProgressPercent"
+        case fullLoadStartDate = "FullLoadStartDate"
+        case startDate = "StartDate"
+        case stopDate = "StopDate"
+        case tablesErrored = "TablesErrored"
+        case tablesLoaded = "TablesLoaded"
+        case tablesLoading = "TablesLoading"
+        case tablesQueued = "TablesQueued"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if elapsedTimeMillis != 0 {
+            try encodeContainer.encode(elapsedTimeMillis, forKey: .elapsedTimeMillis)
+        }
+        if let freshStartDate = self.freshStartDate {
+            try encodeContainer.encodeTimestamp(freshStartDate, format: .epochSeconds, forKey: .freshStartDate)
+        }
+        if let fullLoadFinishDate = self.fullLoadFinishDate {
+            try encodeContainer.encodeTimestamp(fullLoadFinishDate, format: .epochSeconds, forKey: .fullLoadFinishDate)
+        }
+        if fullLoadProgressPercent != 0 {
+            try encodeContainer.encode(fullLoadProgressPercent, forKey: .fullLoadProgressPercent)
+        }
+        if let fullLoadStartDate = self.fullLoadStartDate {
+            try encodeContainer.encodeTimestamp(fullLoadStartDate, format: .epochSeconds, forKey: .fullLoadStartDate)
+        }
+        if let startDate = self.startDate {
+            try encodeContainer.encodeTimestamp(startDate, format: .epochSeconds, forKey: .startDate)
+        }
+        if let stopDate = self.stopDate {
+            try encodeContainer.encodeTimestamp(stopDate, format: .epochSeconds, forKey: .stopDate)
+        }
+        if tablesErrored != 0 {
+            try encodeContainer.encode(tablesErrored, forKey: .tablesErrored)
+        }
+        if tablesLoaded != 0 {
+            try encodeContainer.encode(tablesLoaded, forKey: .tablesLoaded)
+        }
+        if tablesLoading != 0 {
+            try encodeContainer.encode(tablesLoading, forKey: .tablesLoading)
+        }
+        if tablesQueued != 0 {
+            try encodeContainer.encode(tablesQueued, forKey: .tablesQueued)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fullLoadProgressPercentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fullLoadProgressPercent) ?? 0
+        fullLoadProgressPercent = fullLoadProgressPercentDecoded
+        let elapsedTimeMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .elapsedTimeMillis) ?? 0
+        elapsedTimeMillis = elapsedTimeMillisDecoded
+        let tablesLoadedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .tablesLoaded) ?? 0
+        tablesLoaded = tablesLoadedDecoded
+        let tablesLoadingDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .tablesLoading) ?? 0
+        tablesLoading = tablesLoadingDecoded
+        let tablesQueuedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .tablesQueued) ?? 0
+        tablesQueued = tablesQueuedDecoded
+        let tablesErroredDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .tablesErrored) ?? 0
+        tablesErrored = tablesErroredDecoded
+        let freshStartDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .freshStartDate)
+        freshStartDate = freshStartDateDecoded
+        let startDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startDate)
+        startDate = startDateDecoded
+        let stopDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .stopDate)
+        stopDate = stopDateDecoded
+        let fullLoadStartDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .fullLoadStartDate)
+        fullLoadStartDate = fullLoadStartDateDecoded
+        let fullLoadFinishDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .fullLoadFinishDate)
+        fullLoadFinishDate = fullLoadFinishDateDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// This object provides a collection of statistics about a serverless replication.
+    public struct ReplicationStats: Swift.Equatable {
+        /// The elapsed time of the replication, in milliseconds.
+        public var elapsedTimeMillis: Swift.Int
+        /// The date the replication was started either with a fresh start or a target reload.
+        public var freshStartDate: ClientRuntime.Date?
+        /// The date the replication full load was finished.
+        public var fullLoadFinishDate: ClientRuntime.Date?
+        /// The percent complete for the full load serverless replication.
+        public var fullLoadProgressPercent: Swift.Int
+        /// The date the replication full load was started.
+        public var fullLoadStartDate: ClientRuntime.Date?
+        /// The date the replication is scheduled to start.
+        public var startDate: ClientRuntime.Date?
+        /// The date the replication was stopped.
+        public var stopDate: ClientRuntime.Date?
+        /// The number of errors that have occured for this replication.
+        public var tablesErrored: Swift.Int
+        /// The number of tables loaded for this replication.
+        public var tablesLoaded: Swift.Int
+        /// The number of tables currently loading for this replication.
+        public var tablesLoading: Swift.Int
+        /// The number of tables queued for this replication.
+        public var tablesQueued: Swift.Int
+
+        public init(
+            elapsedTimeMillis: Swift.Int = 0,
+            freshStartDate: ClientRuntime.Date? = nil,
+            fullLoadFinishDate: ClientRuntime.Date? = nil,
+            fullLoadProgressPercent: Swift.Int = 0,
+            fullLoadStartDate: ClientRuntime.Date? = nil,
+            startDate: ClientRuntime.Date? = nil,
+            stopDate: ClientRuntime.Date? = nil,
+            tablesErrored: Swift.Int = 0,
+            tablesLoaded: Swift.Int = 0,
+            tablesLoading: Swift.Int = 0,
+            tablesQueued: Swift.Int = 0
+        )
+        {
+            self.elapsedTimeMillis = elapsedTimeMillis
+            self.freshStartDate = freshStartDate
+            self.fullLoadFinishDate = fullLoadFinishDate
+            self.fullLoadProgressPercent = fullLoadProgressPercent
+            self.fullLoadStartDate = fullLoadStartDate
+            self.startDate = startDate
+            self.stopDate = stopDate
+            self.tablesErrored = tablesErrored
+            self.tablesLoaded = tablesLoaded
+            self.tablesLoading = tablesLoading
+            self.tablesQueued = tablesQueued
         }
     }
 
@@ -18345,6 +20749,7 @@ public struct ResourceAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientR
     public struct Properties {
         ///
         public internal(set) var message: Swift.String? = nil
+        ///
         public internal(set) var resourceArn: Swift.String? = nil
     }
 
@@ -19028,7 +21433,7 @@ extension DatabaseMigrationClientTypes {
         public var bucketName: Swift.String?
         /// A value that enables DMS to specify a predefined (canned) access control list for objects created in an Amazon S3 bucket as .csv or .parquet files. For more information about Amazon S3 canned ACLs, see [Canned ACL](http://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#canned-acl) in the Amazon S3 Developer Guide. The default value is NONE. Valid values include NONE, PRIVATE, PUBLIC_READ, PUBLIC_READ_WRITE, AUTHENTICATED_READ, AWS_EXEC_READ, BUCKET_OWNER_READ, and BUCKET_OWNER_FULL_CONTROL.
         public var cannedAclForObjects: DatabaseMigrationClientTypes.CannedAclForObjectsValue?
-        /// A value that enables a change data capture (CDC) load to write INSERT and UPDATE operations to .csv or .parquet (columnar storage) output files. The default setting is false, but when CdcInsertsAndUpdates is set to true or y, only INSERTs and UPDATEs from the source database are migrated to the .csv or .parquet file. For .csv file format only, how these INSERTs and UPDATEs are recorded depends on the value of the IncludeOpForFullLoad parameter. If IncludeOpForFullLoad is set to true, the first field of every CDC record is set to either I or U to indicate INSERT and UPDATE operations at the source. But if IncludeOpForFullLoad is set to false, CDC records are written without an indication of INSERT or UPDATE operations at the source. For more information about how these settings work together, see [Indicating Source DB Operations in Migrated S3 Data](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.S3.html#CHAP_Target.S3.Configuring.InsertOps) in the Database Migration Service User Guide.. DMS supports the use of the CdcInsertsAndUpdates parameter in versions 3.3.1 and later. CdcInsertsOnly and CdcInsertsAndUpdates can't both be set to true for the same endpoint. Set either CdcInsertsOnly or CdcInsertsAndUpdates to true for the same endpoint, but not both.
+        /// A value that enables a change data capture (CDC) load to write INSERT and UPDATE operations to .csv or .parquet (columnar storage) output files. The default setting is false, but when CdcInsertsAndUpdates is set to true or y, only INSERTs and UPDATEs from the source database are migrated to the .csv or .parquet file. DMS supports the use of the .parquet files in versions 3.4.7 and later. How these INSERTs and UPDATEs are recorded depends on the value of the IncludeOpForFullLoad parameter. If IncludeOpForFullLoad is set to true, the first field of every CDC record is set to either I or U to indicate INSERT and UPDATE operations at the source. But if IncludeOpForFullLoad is set to false, CDC records are written without an indication of INSERT or UPDATE operations at the source. For more information about how these settings work together, see [Indicating Source DB Operations in Migrated S3 Data](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.S3.html#CHAP_Target.S3.Configuring.InsertOps) in the Database Migration Service User Guide.. DMS supports the use of the CdcInsertsAndUpdates parameter in versions 3.3.1 and later. CdcInsertsOnly and CdcInsertsAndUpdates can't both be set to true for the same endpoint. Set either CdcInsertsOnly or CdcInsertsAndUpdates to true for the same endpoint, but not both.
         public var cdcInsertsAndUpdates: Swift.Bool?
         /// A value that enables a change data capture (CDC) load to write only INSERT operations to .csv or columnar storage (.parquet) output files. By default (the false setting), the first field in a .csv or .parquet record contains the letter I (INSERT), U (UPDATE), or D (DELETE). These values indicate whether the row was inserted, updated, or deleted at the source database for a CDC load to the target. If CdcInsertsOnly is set to true or y, only INSERTs from the source database are migrated to the .csv or .parquet file. For .csv format only, how these INSERTs are recorded depends on the value of IncludeOpForFullLoad. If IncludeOpForFullLoad is set to true, the first field of every CDC record is set to I to indicate the INSERT operation at the source. If IncludeOpForFullLoad is set to false, every CDC record is written without a first field to indicate the INSERT operation at the source. For more information about how these settings work together, see [Indicating Source DB Operations in Migrated S3 Data](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.S3.html#CHAP_Target.S3.Configuring.InsertOps) in the Database Migration Service User Guide.. DMS supports the interaction described preceding between the CdcInsertsOnly and IncludeOpForFullLoad parameters in versions 3.1.4 and later. CdcInsertsOnly and CdcInsertsAndUpdates can't both be set to true for the same endpoint. Set either CdcInsertsOnly or CdcInsertsAndUpdates to true for the same endpoint, but not both.
         public var cdcInsertsOnly: Swift.Bool?
@@ -19108,7 +21513,7 @@ extension DatabaseMigrationClientTypes {
         public var glueCatalogGeneration: Swift.Bool?
         /// When this value is set to 1, DMS ignores the first row header in a .csv file. A value of 1 turns on the feature; a value of 0 turns off the feature. The default is 0.
         public var ignoreHeaderRows: Swift.Int?
-        /// A value that enables a full load to write INSERT operations to the comma-separated value (.csv) output files only to indicate how the rows were added to the source database. DMS supports the IncludeOpForFullLoad parameter in versions 3.1.4 and later. For full load, records can only be inserted. By default (the false setting), no information is recorded in these output files for a full load to indicate that the rows were inserted at the source database. If IncludeOpForFullLoad is set to true or y, the INSERT is recorded as an I annotation in the first field of the .csv file. This allows the format of your target records from a full load to be consistent with the target records from a CDC load. This setting works together with the CdcInsertsOnly and the CdcInsertsAndUpdates parameters for output to .csv files only. For more information about how these settings work together, see [Indicating Source DB Operations in Migrated S3 Data](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.S3.html#CHAP_Target.S3.Configuring.InsertOps) in the Database Migration Service User Guide..
+        /// A value that enables a full load to write INSERT operations to the comma-separated value (.csv) or .parquet output files only to indicate how the rows were added to the source database. DMS supports the IncludeOpForFullLoad parameter in versions 3.1.4 and later. DMS supports the use of the .parquet files with the IncludeOpForFullLoad parameter in versions 3.4.7 and later. For full load, records can only be inserted. By default (the false setting), no information is recorded in these output files for a full load to indicate that the rows were inserted at the source database. If IncludeOpForFullLoad is set to true or y, the INSERT is recorded as an I annotation in the first field of the .csv file. This allows the format of your target records from a full load to be consistent with the target records from a CDC load. This setting works together with the CdcInsertsOnly and the CdcInsertsAndUpdates parameters for output to .csv files only. For more information about how these settings work together, see [Indicating Source DB Operations in Migrated S3 Data](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.S3.html#CHAP_Target.S3.Configuring.InsertOps) in the Database Migration Service User Guide..
         public var includeOpForFullLoad: Swift.Bool?
         /// A value that specifies the maximum size (in KB) of any .csv file to be created while migrating to an S3 target during full load. The default value is 1,048,576 KB (1 GB). Valid values include 1 to 1,048,576.
         public var maxFileSize: Swift.Int?
@@ -19807,6 +22212,158 @@ extension DatabaseMigrationClientTypes {
 
 }
 
+extension StartReplicationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cdcStartPosition = "CdcStartPosition"
+        case cdcStartTime = "CdcStartTime"
+        case cdcStopPosition = "CdcStopPosition"
+        case replicationConfigArn = "ReplicationConfigArn"
+        case startReplicationType = "StartReplicationType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cdcStartPosition = self.cdcStartPosition {
+            try encodeContainer.encode(cdcStartPosition, forKey: .cdcStartPosition)
+        }
+        if let cdcStartTime = self.cdcStartTime {
+            try encodeContainer.encodeTimestamp(cdcStartTime, format: .epochSeconds, forKey: .cdcStartTime)
+        }
+        if let cdcStopPosition = self.cdcStopPosition {
+            try encodeContainer.encode(cdcStopPosition, forKey: .cdcStopPosition)
+        }
+        if let replicationConfigArn = self.replicationConfigArn {
+            try encodeContainer.encode(replicationConfigArn, forKey: .replicationConfigArn)
+        }
+        if let startReplicationType = self.startReplicationType {
+            try encodeContainer.encode(startReplicationType, forKey: .startReplicationType)
+        }
+    }
+}
+
+extension StartReplicationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+///
+public struct StartReplicationInput: Swift.Equatable {
+    /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error. The value can be in date, checkpoint, or LSN/SCN format.
+    public var cdcStartPosition: Swift.String?
+    /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error.
+    public var cdcStartTime: ClientRuntime.Date?
+    /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time.
+    public var cdcStopPosition: Swift.String?
+    /// The Amazon Resource Name of the replication for which to start replication.
+    /// This member is required.
+    public var replicationConfigArn: Swift.String?
+    /// The replication type.
+    /// This member is required.
+    public var startReplicationType: Swift.String?
+
+    public init(
+        cdcStartPosition: Swift.String? = nil,
+        cdcStartTime: ClientRuntime.Date? = nil,
+        cdcStopPosition: Swift.String? = nil,
+        replicationConfigArn: Swift.String? = nil,
+        startReplicationType: Swift.String? = nil
+    )
+    {
+        self.cdcStartPosition = cdcStartPosition
+        self.cdcStartTime = cdcStartTime
+        self.cdcStopPosition = cdcStopPosition
+        self.replicationConfigArn = replicationConfigArn
+        self.startReplicationType = startReplicationType
+    }
+}
+
+struct StartReplicationInputBody: Swift.Equatable {
+    let replicationConfigArn: Swift.String?
+    let startReplicationType: Swift.String?
+    let cdcStartTime: ClientRuntime.Date?
+    let cdcStartPosition: Swift.String?
+    let cdcStopPosition: Swift.String?
+}
+
+extension StartReplicationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cdcStartPosition = "CdcStartPosition"
+        case cdcStartTime = "CdcStartTime"
+        case cdcStopPosition = "CdcStopPosition"
+        case replicationConfigArn = "ReplicationConfigArn"
+        case startReplicationType = "StartReplicationType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let replicationConfigArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationConfigArn)
+        replicationConfigArn = replicationConfigArnDecoded
+        let startReplicationTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startReplicationType)
+        startReplicationType = startReplicationTypeDecoded
+        let cdcStartTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .cdcStartTime)
+        cdcStartTime = cdcStartTimeDecoded
+        let cdcStartPositionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cdcStartPosition)
+        cdcStartPosition = cdcStartPositionDecoded
+        let cdcStopPositionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cdcStopPosition)
+        cdcStopPosition = cdcStopPositionDecoded
+    }
+}
+
+public enum StartReplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedFault": return try await AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateFault": return try await InvalidResourceStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StartReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartReplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.replication = output.replication
+        } else {
+            self.replication = nil
+        }
+    }
+}
+
+///
+public struct StartReplicationOutputResponse: Swift.Equatable {
+    /// The replication that DMS started.
+    public var replication: DatabaseMigrationClientTypes.Replication?
+
+    public init(
+        replication: DatabaseMigrationClientTypes.Replication? = nil
+    )
+    {
+        self.replication = replication
+    }
+}
+
+struct StartReplicationOutputResponseBody: Swift.Equatable {
+    let replication: DatabaseMigrationClientTypes.Replication?
+}
+
+extension StartReplicationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replication = "Replication"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let replicationDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.Replication.self, forKey: .replication)
+        replication = replicationDecoded
+    }
+}
+
 extension StartReplicationTaskAssessmentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case replicationTaskArn = "ReplicationTaskArn"
@@ -20332,6 +22889,108 @@ extension DatabaseMigrationClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = StartReplicationTaskTypeValue(rawValue: rawValue) ?? StartReplicationTaskTypeValue.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension StopReplicationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replicationConfigArn = "ReplicationConfigArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let replicationConfigArn = self.replicationConfigArn {
+            try encodeContainer.encode(replicationConfigArn, forKey: .replicationConfigArn)
+        }
+    }
+}
+
+extension StopReplicationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+///
+public struct StopReplicationInput: Swift.Equatable {
+    /// The Amazon Resource Name of the replication to stop.
+    /// This member is required.
+    public var replicationConfigArn: Swift.String?
+
+    public init(
+        replicationConfigArn: Swift.String? = nil
+    )
+    {
+        self.replicationConfigArn = replicationConfigArn
+    }
+}
+
+struct StopReplicationInputBody: Swift.Equatable {
+    let replicationConfigArn: Swift.String?
+}
+
+extension StopReplicationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replicationConfigArn = "ReplicationConfigArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let replicationConfigArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationConfigArn)
+        replicationConfigArn = replicationConfigArnDecoded
+    }
+}
+
+public enum StopReplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedFault": return try await AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateFault": return try await InvalidResourceStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StopReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StopReplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.replication = output.replication
+        } else {
+            self.replication = nil
+        }
+    }
+}
+
+public struct StopReplicationOutputResponse: Swift.Equatable {
+    /// The replication that DMS stopped.
+    public var replication: DatabaseMigrationClientTypes.Replication?
+
+    public init(
+        replication: DatabaseMigrationClientTypes.Replication? = nil
+    )
+    {
+        self.replication = replication
+    }
+}
+
+struct StopReplicationOutputResponseBody: Swift.Equatable {
+    let replication: DatabaseMigrationClientTypes.Replication?
+}
+
+extension StopReplicationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replication = "Replication"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let replicationDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.Replication.self, forKey: .replication)
+        replication = replicationDecoded
     }
 }
 
@@ -21312,6 +23971,84 @@ extension TestConnectionOutputResponseBody: Swift.Decodable {
         let connectionDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.Connection.self, forKey: .connection)
         connection = connectionDecoded
     }
+}
+
+extension DatabaseMigrationClientTypes.TimestreamSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cdcInsertsAndUpdates = "CdcInsertsAndUpdates"
+        case databaseName = "DatabaseName"
+        case enableMagneticStoreWrites = "EnableMagneticStoreWrites"
+        case magneticDuration = "MagneticDuration"
+        case memoryDuration = "MemoryDuration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cdcInsertsAndUpdates = self.cdcInsertsAndUpdates {
+            try encodeContainer.encode(cdcInsertsAndUpdates, forKey: .cdcInsertsAndUpdates)
+        }
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let enableMagneticStoreWrites = self.enableMagneticStoreWrites {
+            try encodeContainer.encode(enableMagneticStoreWrites, forKey: .enableMagneticStoreWrites)
+        }
+        if let magneticDuration = self.magneticDuration {
+            try encodeContainer.encode(magneticDuration, forKey: .magneticDuration)
+        }
+        if let memoryDuration = self.memoryDuration {
+            try encodeContainer.encode(memoryDuration, forKey: .memoryDuration)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let memoryDurationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .memoryDuration)
+        memoryDuration = memoryDurationDecoded
+        let magneticDurationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .magneticDuration)
+        magneticDuration = magneticDurationDecoded
+        let cdcInsertsAndUpdatesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .cdcInsertsAndUpdates)
+        cdcInsertsAndUpdates = cdcInsertsAndUpdatesDecoded
+        let enableMagneticStoreWritesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableMagneticStoreWrites)
+        enableMagneticStoreWrites = enableMagneticStoreWritesDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides information that defines an Amazon Timestream endpoint.
+    public struct TimestreamSettings: Swift.Equatable {
+        /// Set this attribute to true to specify that DMS only applies inserts and updates, and not deletes. Amazon Timestream does not allow deleting records, so if this value is false, DMS nulls out the corresponding record in the Timestream database rather than deleting it.
+        public var cdcInsertsAndUpdates: Swift.Bool?
+        /// Database name for the endpoint.
+        /// This member is required.
+        public var databaseName: Swift.String?
+        /// Set this attribute to true to enable memory store writes. When this value is false, DMS does not write records that are older in days than the value specified in MagneticDuration, because Amazon Timestream does not allow memory writes by default. For more information, see [Storage](https://docs.aws.amazon.com/timestream/latest/developerguide/storage.html) in the [Amazon Timestream Developer Guide](https://docs.aws.amazon.com/timestream/latest/developerguide/).
+        public var enableMagneticStoreWrites: Swift.Bool?
+        /// Set this attribute to specify the default magnetic duration applied to the Amazon Timestream tables in days. This is the number of days that records remain in magnetic store before being discarded. For more information, see [Storage](https://docs.aws.amazon.com/timestream/latest/developerguide/storage.html) in the [Amazon Timestream Developer Guide](https://docs.aws.amazon.com/timestream/latest/developerguide/).
+        /// This member is required.
+        public var magneticDuration: Swift.Int?
+        /// Set this attribute to specify the length of time to store all of the tables in memory that are migrated into Amazon Timestream from the source database. Time is measured in units of hours. When Timestream data comes in, it first resides in memory for the specified duration, which allows quick access to it.
+        /// This member is required.
+        public var memoryDuration: Swift.Int?
+
+        public init(
+            cdcInsertsAndUpdates: Swift.Bool? = nil,
+            databaseName: Swift.String? = nil,
+            enableMagneticStoreWrites: Swift.Bool? = nil,
+            magneticDuration: Swift.Int? = nil,
+            memoryDuration: Swift.Int? = nil
+        )
+        {
+            self.cdcInsertsAndUpdates = cdcInsertsAndUpdates
+            self.databaseName = databaseName
+            self.enableMagneticStoreWrites = enableMagneticStoreWrites
+            self.magneticDuration = magneticDuration
+            self.memoryDuration = memoryDuration
+        }
+    }
+
 }
 
 extension DatabaseMigrationClientTypes {

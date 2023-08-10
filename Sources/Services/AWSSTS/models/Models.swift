@@ -27,6 +27,18 @@ extension AssumeRoleInput: Swift.Encodable {
                 try policyArnsContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
+        if let providedContexts = providedContexts {
+            if !providedContexts.isEmpty {
+                var providedContextsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ProvidedContexts"))
+                for (index0, providedcontext0) in providedContexts.enumerated() {
+                    try providedContextsContainer.encode(providedcontext0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var providedContextsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ProvidedContexts"))
+                try providedContextsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
         if let roleArn = roleArn {
             try container.encode(roleArn, forKey: ClientRuntime.Key("RoleArn"))
         }
@@ -86,6 +98,8 @@ public struct AssumeRoleInput: Swift.Equatable {
     public var policy: Swift.String?
     /// The Amazon Resource Names (ARNs) of the IAM managed policies that you want to use as managed session policies. The policies must exist in the same account as the role. This parameter is optional. You can provide up to 10 managed policy ARNs. However, the plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit. Passing policies to this operation returns new temporary credentials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent Amazon Web Services API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide.
     public var policyArns: [STSClientTypes.PolicyDescriptorType]?
+    /// Reserved for future use.
+    public var providedContexts: [STSClientTypes.ProvidedContext]?
     /// The Amazon Resource Name (ARN) of the role to assume.
     /// This member is required.
     public var roleArn: Swift.String?
@@ -108,6 +122,7 @@ public struct AssumeRoleInput: Swift.Equatable {
         externalId: Swift.String? = nil,
         policy: Swift.String? = nil,
         policyArns: [STSClientTypes.PolicyDescriptorType]? = nil,
+        providedContexts: [STSClientTypes.ProvidedContext]? = nil,
         roleArn: Swift.String? = nil,
         roleSessionName: Swift.String? = nil,
         serialNumber: Swift.String? = nil,
@@ -121,6 +136,7 @@ public struct AssumeRoleInput: Swift.Equatable {
         self.externalId = externalId
         self.policy = policy
         self.policyArns = policyArns
+        self.providedContexts = providedContexts
         self.roleArn = roleArn
         self.roleSessionName = roleSessionName
         self.serialNumber = serialNumber
@@ -143,6 +159,7 @@ struct AssumeRoleInputBody: Swift.Equatable {
     let serialNumber: Swift.String?
     let tokenCode: Swift.String?
     let sourceIdentity: Swift.String?
+    let providedContexts: [STSClientTypes.ProvidedContext]?
 }
 
 extension AssumeRoleInputBody: Swift.Decodable {
@@ -151,6 +168,7 @@ extension AssumeRoleInputBody: Swift.Decodable {
         case externalId = "ExternalId"
         case policy = "Policy"
         case policyArns = "PolicyArns"
+        case providedContexts = "ProvidedContexts"
         case roleArn = "RoleArn"
         case roleSessionName = "RoleSessionName"
         case serialNumber = "SerialNumber"
@@ -235,6 +253,25 @@ extension AssumeRoleInputBody: Swift.Decodable {
         tokenCode = tokenCodeDecoded
         let sourceIdentityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceIdentity)
         sourceIdentity = sourceIdentityDecoded
+        if containerValues.contains(.providedContexts) {
+            struct KeyVal0{struct member{}}
+            let providedContextsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .providedContexts)
+            if let providedContextsWrappedContainer = providedContextsWrappedContainer {
+                let providedContextsContainer = try providedContextsWrappedContainer.decodeIfPresent([STSClientTypes.ProvidedContext].self, forKey: .member)
+                var providedContextsBuffer:[STSClientTypes.ProvidedContext]? = nil
+                if let providedContextsContainer = providedContextsContainer {
+                    providedContextsBuffer = [STSClientTypes.ProvidedContext]()
+                    for structureContainer0 in providedContextsContainer {
+                        providedContextsBuffer?.append(structureContainer0)
+                    }
+                }
+                providedContexts = providedContextsBuffer
+            } else {
+                providedContexts = []
+            }
+        } else {
+            providedContexts = nil
+        }
     }
 }
 
@@ -667,7 +704,7 @@ public struct AssumeRoleWithWebIdentityInput: Swift.Equatable {
     /// An identifier for the assumed role session. Typically, you pass the name or identifier that is associated with the user who is using your application. That way, the temporary security credentials that your application will use are associated with that user. This session name is included as part of the ARN and assumed role ID in the AssumedRoleUser response element. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
     /// This member is required.
     public var roleSessionName: Swift.String?
-    /// The OAuth 2.0 access token or OpenID Connect ID token that is provided by the identity provider. Your application must get this token by authenticating the user who is using your application with a web identity provider before the application makes an AssumeRoleWithWebIdentity call.
+    /// The OAuth 2.0 access token or OpenID Connect ID token that is provided by the identity provider. Your application must get this token by authenticating the user who is using your application with a web identity provider before the application makes an AssumeRoleWithWebIdentity call. Only tokens with RSA algorithms (RS256) are supported.
     /// This member is required.
     public var webIdentityToken: Swift.String?
 
@@ -2104,6 +2141,51 @@ extension STSClientTypes {
         )
         {
             self.arn = arn
+        }
+    }
+
+}
+
+extension STSClientTypes.ProvidedContext: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contextAssertion = "ContextAssertion"
+        case providerArn = "ProviderArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let contextAssertion = contextAssertion {
+            try container.encode(contextAssertion, forKey: ClientRuntime.Key("ContextAssertion"))
+        }
+        if let providerArn = providerArn {
+            try container.encode(providerArn, forKey: ClientRuntime.Key("ProviderArn"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let providerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .providerArn)
+        providerArn = providerArnDecoded
+        let contextAssertionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contextAssertion)
+        contextAssertion = contextAssertionDecoded
+    }
+}
+
+extension STSClientTypes {
+    /// Reserved for future use.
+    public struct ProvidedContext: Swift.Equatable {
+        /// Reserved for future use.
+        public var contextAssertion: Swift.String?
+        /// Reserved for future use.
+        public var providerArn: Swift.String?
+
+        public init(
+            contextAssertion: Swift.String? = nil,
+            providerArn: Swift.String? = nil
+        )
+        {
+            self.contextAssertion = contextAssertion
+            self.providerArn = providerArn
         }
     }
 

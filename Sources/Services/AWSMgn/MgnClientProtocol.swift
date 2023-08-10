@@ -72,6 +72,8 @@ public protocol MgnClientProtocol {
     func listImportErrors(input: ListImportErrorsInput) async throws -> ListImportErrorsOutputResponse
     /// List imports.
     func listImports(input: ListImportsInput) async throws -> ListImportsOutputResponse
+    /// List Managed Accounts.
+    func listManagedAccounts(input: ListManagedAccountsInput) async throws -> ListManagedAccountsOutputResponse
     /// List source server post migration custom actions.
     func listSourceServerActions(input: ListSourceServerActionsInput) async throws -> ListSourceServerActionsOutputResponse
     /// List all tags for your Application Migration Service resources.
@@ -82,6 +84,8 @@ public protocol MgnClientProtocol {
     func listWaves(input: ListWavesInput) async throws -> ListWavesOutputResponse
     /// Archives specific Source Servers by setting the SourceServer.isArchived property to true for specified SourceServers by ID. This command only works for SourceServers with a lifecycle. state which equals DISCONNECTED or CUTOVER.
     func markAsArchived(input: MarkAsArchivedInput) async throws -> MarkAsArchivedOutputResponse
+    /// Pause Replication.
+    func pauseReplication(input: PauseReplicationInput) async throws -> PauseReplicationOutputResponse
     /// Put source server post migration custom action.
     func putSourceServerAction(input: PutSourceServerActionInput) async throws -> PutSourceServerActionOutputResponse
     /// Put template post migration custom action.
@@ -90,6 +94,8 @@ public protocol MgnClientProtocol {
     func removeSourceServerAction(input: RemoveSourceServerActionInput) async throws -> RemoveSourceServerActionOutputResponse
     /// Remove template post migration custom action.
     func removeTemplateAction(input: RemoveTemplateActionInput) async throws -> RemoveTemplateActionOutputResponse
+    /// Resume Replication.
+    func resumeReplication(input: ResumeReplicationInput) async throws -> ResumeReplicationOutputResponse
     /// Causes the data replication initiation sequence to begin immediately upon next Handshake for specified SourceServer IDs, regardless of when the previous initiation started. This command will not work if the SourceServer is not stalled or is in a DISCONNECTED or STOPPED state.
     func retryDataReplication(input: RetryDataReplicationInput) async throws -> RetryDataReplicationOutputResponse
     /// Launches a Cutover Instance for specific Source Servers. This command starts a LAUNCH job whose initiatedBy property is StartCutover and changes the SourceServer.lifeCycle.state property to CUTTING_OVER.
@@ -102,6 +108,8 @@ public protocol MgnClientProtocol {
     func startReplication(input: StartReplicationInput) async throws -> StartReplicationOutputResponse
     /// Launches a Test Instance for specific Source Servers. This command starts a LAUNCH job whose initiatedBy property is StartTest and changes the SourceServer.lifeCycle.state property to TESTING.
     func startTest(input: StartTestInput) async throws -> StartTestOutputResponse
+    /// Stop Replication.
+    func stopReplication(input: StopReplicationInput) async throws -> StopReplicationOutputResponse
     /// Adds or overwrites only the specified tags for the specified Application Migration Service resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Starts a job that terminates specific launched EC2 Test and Cutover instances. This command will not work for any Source Server with a lifecycle.state of TESTING, CUTTING_OVER, or CUTOVER.

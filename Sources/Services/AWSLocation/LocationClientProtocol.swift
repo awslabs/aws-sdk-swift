@@ -39,7 +39,7 @@ public protocol LocationClientProtocol {
     func calculateRouteMatrix(input: CalculateRouteMatrixInput) async throws -> CalculateRouteMatrixOutputResponse
     /// Creates a geofence collection, which manages and stores geofences.
     func createGeofenceCollection(input: CreateGeofenceCollectionInput) async throws -> CreateGeofenceCollectionOutputResponse
-    /// Creates an API key resource in your Amazon Web Services account, which lets you grant geo:GetMap* actions for Amazon Location Map resources to the API key bearer. The API keys feature is in preview. We may add, change, or remove features before announcing general availability. For more information, see [Using API keys](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html).
+    /// Creates an API key resource in your Amazon Web Services account, which lets you grant actions for Amazon Location resources to the API key bearer. For more information, see [Using API keys](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html).
     func createKey(input: CreateKeyInput) async throws -> CreateKeyOutputResponse
     /// Creates a map resource in your Amazon Web Services account, which provides map tiles of different styles sourced from global location data providers. If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the [Amazon Web Services service terms](http://aws.amazon.com/service-terms) for more details.
     func createMap(input: CreateMapInput) async throws -> CreateMapOutputResponse
@@ -63,7 +63,7 @@ public protocol LocationClientProtocol {
     func deleteTracker(input: DeleteTrackerInput) async throws -> DeleteTrackerOutputResponse
     /// Retrieves the geofence collection details.
     func describeGeofenceCollection(input: DescribeGeofenceCollectionInput) async throws -> DescribeGeofenceCollectionOutputResponse
-    /// Retrieves the API key resource details. The API keys feature is in preview. We may add, change, or remove features before announcing general availability. For more information, see [Using API keys](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html).
+    /// Retrieves the API key resource details.
     func describeKey(input: DescribeKeyInput) async throws -> DescribeKeyOutputResponse
     /// Retrieves the map resource details.
     func describeMap(input: DescribeMapInput) async throws -> DescribeMapOutputResponse
@@ -103,7 +103,7 @@ public protocol LocationClientProtocol {
     func listGeofenceCollections(input: ListGeofenceCollectionsInput) async throws -> ListGeofenceCollectionsOutputResponse
     /// Lists geofences stored in a given geofence collection.
     func listGeofences(input: ListGeofencesInput) async throws -> ListGeofencesOutputResponse
-    /// Lists API key resources in your Amazon Web Services account. The API keys feature is in preview. We may add, change, or remove features before announcing general availability. For more information, see [Using API keys](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html).
+    /// Lists API key resources in your Amazon Web Services account.
     func listKeys(input: ListKeysInput) async throws -> ListKeysOutputResponse
     /// Lists map resources in your Amazon Web Services account.
     func listMaps(input: ListMapsInput) async throws -> ListMapsOutputResponse
@@ -131,7 +131,7 @@ public protocol LocationClientProtocol {
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates the specified properties of a given geofence collection.
     func updateGeofenceCollection(input: UpdateGeofenceCollectionInput) async throws -> UpdateGeofenceCollectionOutputResponse
-    /// Updates the specified properties of a given API key resource. The API keys feature is in preview. We may add, change, or remove features before announcing general availability. For more information, see [Using API keys](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html).
+    /// Updates the specified properties of a given API key resource.
     func updateKey(input: UpdateKeyInput) async throws -> UpdateKeyOutputResponse
     /// Updates the specified properties of a given map resource.
     func updateMap(input: UpdateMapInput) async throws -> UpdateMapOutputResponse

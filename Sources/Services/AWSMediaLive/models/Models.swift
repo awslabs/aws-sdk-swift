@@ -775,6 +775,41 @@ extension MediaLiveClientTypes {
     }
 }
 
+extension MediaLiveClientTypes.AccountConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kmsKeyId = "kmsKeyId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let kmsKeyId = self.kmsKeyId {
+            try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Placeholder documentation for AccountConfiguration
+    public struct AccountConfiguration: Swift.Equatable {
+        /// Specifies the KMS key to use for all features that use key encryption. Specify the ARN of a KMS key that you have created. Or leave blank to use the key that MediaLive creates and manages for you.
+        public var kmsKeyId: Swift.String?
+
+        public init(
+            kmsKeyId: Swift.String? = nil
+        )
+        {
+            self.kmsKeyId = kmsKeyId
+        }
+    }
+
+}
+
 extension MediaLiveClientTypes {
     /// Afd Signaling
     public enum AfdSignaling: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
@@ -8174,6 +8209,84 @@ public struct DeleteTagsOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension DescribeAccountConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/prod/accountConfiguration"
+    }
+}
+
+/// Placeholder documentation for DescribeAccountConfigurationRequest
+public struct DescribeAccountConfigurationInput: Swift.Equatable {
+
+    public init() { }
+}
+
+struct DescribeAccountConfigurationInputBody: Swift.Equatable {
+}
+
+extension DescribeAccountConfigurationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DescribeAccountConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeAccountConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeAccountConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.accountConfiguration = output.accountConfiguration
+        } else {
+            self.accountConfiguration = nil
+        }
+    }
+}
+
+/// Placeholder documentation for DescribeAccountConfigurationResponse
+public struct DescribeAccountConfigurationOutputResponse: Swift.Equatable {
+    /// Placeholder documentation for AccountConfiguration
+    public var accountConfiguration: MediaLiveClientTypes.AccountConfiguration?
+
+    public init(
+        accountConfiguration: MediaLiveClientTypes.AccountConfiguration? = nil
+    )
+    {
+        self.accountConfiguration = accountConfiguration
+    }
+}
+
+struct DescribeAccountConfigurationOutputResponseBody: Swift.Equatable {
+    let accountConfiguration: MediaLiveClientTypes.AccountConfiguration?
+}
+
+extension DescribeAccountConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountConfiguration = "accountConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountConfigurationDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.AccountConfiguration.self, forKey: .accountConfiguration)
+        accountConfiguration = accountConfigurationDecoded
+    }
+}
+
 extension DescribeChannelInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let channelId = channelId else {
@@ -8534,6 +8647,7 @@ extension DescribeInputDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: DescribeInputDeviceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
+            self.availabilityZone = output.availabilityZone
             self.connectionState = output.connectionState
             self.deviceSettingsSyncState = output.deviceSettingsSyncState
             self.deviceUpdateStatus = output.deviceUpdateStatus
@@ -8548,6 +8662,7 @@ extension DescribeInputDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
             self.uhdDeviceSettings = output.uhdDeviceSettings
         } else {
             self.arn = nil
+            self.availabilityZone = nil
             self.connectionState = nil
             self.deviceSettingsSyncState = nil
             self.deviceUpdateStatus = nil
@@ -8568,6 +8683,8 @@ extension DescribeInputDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DescribeInputDeviceOutputResponse: Swift.Equatable {
     /// The unique ARN of the input device.
     public var arn: Swift.String?
+    /// The Availability Zone associated with this input device.
+    public var availabilityZone: Swift.String?
     /// The state of the connection between the input device and AWS.
     public var connectionState: MediaLiveClientTypes.InputDeviceConnectionState?
     /// The status of the action to synchronize the device configuration. If you change the configuration of the input device (for example, the maximum bitrate), MediaLive sends the new data to the device. The device might not update itself immediately. SYNCED means the device has updated its configuration. SYNCING means that it has not updated its configuration.
@@ -8595,6 +8712,7 @@ public struct DescribeInputDeviceOutputResponse: Swift.Equatable {
 
     public init(
         arn: Swift.String? = nil,
+        availabilityZone: Swift.String? = nil,
         connectionState: MediaLiveClientTypes.InputDeviceConnectionState? = nil,
         deviceSettingsSyncState: MediaLiveClientTypes.DeviceSettingsSyncState? = nil,
         deviceUpdateStatus: MediaLiveClientTypes.DeviceUpdateStatus? = nil,
@@ -8610,6 +8728,7 @@ public struct DescribeInputDeviceOutputResponse: Swift.Equatable {
     )
     {
         self.arn = arn
+        self.availabilityZone = availabilityZone
         self.connectionState = connectionState
         self.deviceSettingsSyncState = deviceSettingsSyncState
         self.deviceUpdateStatus = deviceUpdateStatus
@@ -8639,11 +8758,13 @@ struct DescribeInputDeviceOutputResponseBody: Swift.Equatable {
     let type: MediaLiveClientTypes.InputDeviceType?
     let uhdDeviceSettings: MediaLiveClientTypes.InputDeviceUhdSettings?
     let tags: [Swift.String:Swift.String]?
+    let availabilityZone: Swift.String?
 }
 
 extension DescribeInputDeviceOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "arn"
+        case availabilityZone = "availabilityZone"
         case connectionState = "connectionState"
         case deviceSettingsSyncState = "deviceSettingsSyncState"
         case deviceUpdateStatus = "deviceUpdateStatus"
@@ -8695,6 +8816,8 @@ extension DescribeInputDeviceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let availabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZone)
+        availabilityZone = availabilityZoneDecoded
     }
 }
 
@@ -10273,6 +10396,137 @@ extension DescribeScheduleOutputResponseBody: Swift.Decodable {
             }
         }
         scheduleActions = scheduleActionsDecoded0
+    }
+}
+
+extension DescribeThumbnailsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let pipelineId = pipelineId else {
+                let message = "Creating a URL Query Item failed. pipelineId is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let pipelineIdQueryItem = ClientRuntime.URLQueryItem(name: "pipelineId".urlPercentEncoding(), value: Swift.String(pipelineId).urlPercentEncoding())
+            items.append(pipelineIdQueryItem)
+            guard let thumbnailType = thumbnailType else {
+                let message = "Creating a URL Query Item failed. thumbnailType is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let thumbnailTypeQueryItem = ClientRuntime.URLQueryItem(name: "thumbnailType".urlPercentEncoding(), value: Swift.String(thumbnailType).urlPercentEncoding())
+            items.append(thumbnailTypeQueryItem)
+            return items
+        }
+    }
+}
+
+extension DescribeThumbnailsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let channelId = channelId else {
+            return nil
+        }
+        return "/prod/channels/\(channelId.urlPercentEncoding())/thumbnails"
+    }
+}
+
+/// Placeholder documentation for DescribeThumbnailsRequest
+public struct DescribeThumbnailsInput: Swift.Equatable {
+    /// Unique ID of the channel
+    /// This member is required.
+    public var channelId: Swift.String?
+    /// Pipeline ID ("0" or "1")
+    /// This member is required.
+    public var pipelineId: Swift.String?
+    /// thumbnail type
+    /// This member is required.
+    public var thumbnailType: Swift.String?
+
+    public init(
+        channelId: Swift.String? = nil,
+        pipelineId: Swift.String? = nil,
+        thumbnailType: Swift.String? = nil
+    )
+    {
+        self.channelId = channelId
+        self.pipelineId = pipelineId
+        self.thumbnailType = thumbnailType
+    }
+}
+
+struct DescribeThumbnailsInputBody: Swift.Equatable {
+}
+
+extension DescribeThumbnailsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DescribeThumbnailsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeThumbnailsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeThumbnailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.thumbnailDetails = output.thumbnailDetails
+        } else {
+            self.thumbnailDetails = nil
+        }
+    }
+}
+
+/// Placeholder documentation for DescribeThumbnailsResponse
+public struct DescribeThumbnailsOutputResponse: Swift.Equatable {
+    /// Placeholder documentation for __listOfThumbnailDetail
+    public var thumbnailDetails: [MediaLiveClientTypes.ThumbnailDetail]?
+
+    public init(
+        thumbnailDetails: [MediaLiveClientTypes.ThumbnailDetail]? = nil
+    )
+    {
+        self.thumbnailDetails = thumbnailDetails
+    }
+}
+
+struct DescribeThumbnailsOutputResponseBody: Swift.Equatable {
+    let thumbnailDetails: [MediaLiveClientTypes.ThumbnailDetail]?
+}
+
+extension DescribeThumbnailsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case thumbnailDetails = "thumbnailDetails"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let thumbnailDetailsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.ThumbnailDetail?].self, forKey: .thumbnailDetails)
+        var thumbnailDetailsDecoded0:[MediaLiveClientTypes.ThumbnailDetail]? = nil
+        if let thumbnailDetailsContainer = thumbnailDetailsContainer {
+            thumbnailDetailsDecoded0 = [MediaLiveClientTypes.ThumbnailDetail]()
+            for structure0 in thumbnailDetailsContainer {
+                if let structure0 = structure0 {
+                    thumbnailDetailsDecoded0?.append(structure0)
+                }
+            }
+        }
+        thumbnailDetails = thumbnailDetailsDecoded0
     }
 }
 
@@ -12413,6 +12667,7 @@ extension MediaLiveClientTypes.EncoderSettings: Swift.Codable {
         case motionGraphicsConfiguration = "motionGraphicsConfiguration"
         case nielsenConfiguration = "nielsenConfiguration"
         case outputGroups = "outputGroups"
+        case thumbnailConfiguration = "thumbnailConfiguration"
         case timecodeConfig = "timecodeConfig"
         case videoDescriptions = "videoDescriptions"
     }
@@ -12457,6 +12712,9 @@ extension MediaLiveClientTypes.EncoderSettings: Swift.Codable {
             for outputgroup0 in outputGroups {
                 try outputGroupsContainer.encode(outputgroup0)
             }
+        }
+        if let thumbnailConfiguration = self.thumbnailConfiguration {
+            try encodeContainer.encode(thumbnailConfiguration, forKey: .thumbnailConfiguration)
         }
         if let timecodeConfig = self.timecodeConfig {
             try encodeContainer.encode(timecodeConfig, forKey: .timecodeConfig)
@@ -12531,6 +12789,8 @@ extension MediaLiveClientTypes.EncoderSettings: Swift.Codable {
             }
         }
         videoDescriptions = videoDescriptionsDecoded0
+        let thumbnailConfigurationDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.ThumbnailConfiguration.self, forKey: .thumbnailConfiguration)
+        thumbnailConfiguration = thumbnailConfigurationDecoded
     }
 }
 
@@ -12559,6 +12819,8 @@ extension MediaLiveClientTypes {
         /// Placeholder documentation for __listOfOutputGroup
         /// This member is required.
         public var outputGroups: [MediaLiveClientTypes.OutputGroup]?
+        /// Thumbnail configuration settings.
+        public var thumbnailConfiguration: MediaLiveClientTypes.ThumbnailConfiguration?
         /// Contains settings used to acquire and adjust timecode information from inputs.
         /// This member is required.
         public var timecodeConfig: MediaLiveClientTypes.TimecodeConfig?
@@ -12577,6 +12839,7 @@ extension MediaLiveClientTypes {
             motionGraphicsConfiguration: MediaLiveClientTypes.MotionGraphicsConfiguration? = nil,
             nielsenConfiguration: MediaLiveClientTypes.NielsenConfiguration? = nil,
             outputGroups: [MediaLiveClientTypes.OutputGroup]? = nil,
+            thumbnailConfiguration: MediaLiveClientTypes.ThumbnailConfiguration? = nil,
             timecodeConfig: MediaLiveClientTypes.TimecodeConfig? = nil,
             videoDescriptions: [MediaLiveClientTypes.VideoDescription]? = nil
         )
@@ -12591,6 +12854,7 @@ extension MediaLiveClientTypes {
             self.motionGraphicsConfiguration = motionGraphicsConfiguration
             self.nielsenConfiguration = nielsenConfiguration
             self.outputGroups = outputGroups
+            self.thumbnailConfiguration = thumbnailConfiguration
             self.timecodeConfig = timecodeConfig
             self.videoDescriptions = videoDescriptions
         }
@@ -19541,6 +19805,7 @@ extension MediaLiveClientTypes {
 extension MediaLiveClientTypes.InputDeviceSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "arn"
+        case availabilityZone = "availabilityZone"
         case connectionState = "connectionState"
         case deviceSettingsSyncState = "deviceSettingsSyncState"
         case deviceUpdateStatus = "deviceUpdateStatus"
@@ -19559,6 +19824,9 @@ extension MediaLiveClientTypes.InputDeviceSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let availabilityZone = self.availabilityZone {
+            try encodeContainer.encode(availabilityZone, forKey: .availabilityZone)
         }
         if let connectionState = self.connectionState {
             try encodeContainer.encode(connectionState.rawValue, forKey: .connectionState)
@@ -19638,6 +19906,8 @@ extension MediaLiveClientTypes.InputDeviceSummary: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let availabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZone)
+        availabilityZone = availabilityZoneDecoded
     }
 }
 
@@ -19646,6 +19916,8 @@ extension MediaLiveClientTypes {
     public struct InputDeviceSummary: Swift.Equatable {
         /// The unique ARN of the input device.
         public var arn: Swift.String?
+        /// The Availability Zone associated with this input device.
+        public var availabilityZone: Swift.String?
         /// The state of the connection between the input device and AWS.
         public var connectionState: MediaLiveClientTypes.InputDeviceConnectionState?
         /// The status of the action to synchronize the device configuration. If you change the configuration of the input device (for example, the maximum bitrate), MediaLive sends the new data to the device. The device might not update itself immediately. SYNCED means the device has updated its configuration. SYNCING means that it has not updated its configuration.
@@ -19673,6 +19945,7 @@ extension MediaLiveClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            availabilityZone: Swift.String? = nil,
             connectionState: MediaLiveClientTypes.InputDeviceConnectionState? = nil,
             deviceSettingsSyncState: MediaLiveClientTypes.DeviceSettingsSyncState? = nil,
             deviceUpdateStatus: MediaLiveClientTypes.DeviceUpdateStatus? = nil,
@@ -19688,6 +19961,7 @@ extension MediaLiveClientTypes {
         )
         {
             self.arn = arn
+            self.availabilityZone = availabilityZone
             self.connectionState = connectionState
             self.deviceSettingsSyncState = deviceSettingsSyncState
             self.deviceUpdateStatus = deviceUpdateStatus
@@ -33513,6 +33787,230 @@ extension MediaLiveClientTypes {
     }
 }
 
+extension MediaLiveClientTypes.Thumbnail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case body = "body"
+        case contentType = "contentType"
+        case thumbnailType = "thumbnailType"
+        case timeStamp = "timeStamp"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let body = self.body {
+            try encodeContainer.encode(body, forKey: .body)
+        }
+        if let contentType = self.contentType {
+            try encodeContainer.encode(contentType, forKey: .contentType)
+        }
+        if let thumbnailType = self.thumbnailType {
+            try encodeContainer.encode(thumbnailType.rawValue, forKey: .thumbnailType)
+        }
+        if let timeStamp = self.timeStamp {
+            try encodeContainer.encodeTimestamp(timeStamp, format: .dateTime, forKey: .timeStamp)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bodyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .body)
+        body = bodyDecoded
+        let contentTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contentType)
+        contentType = contentTypeDecoded
+        let thumbnailTypeDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.ThumbnailType.self, forKey: .thumbnailType)
+        thumbnailType = thumbnailTypeDecoded
+        let timeStampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .timeStamp)
+        timeStamp = timeStampDecoded
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Details of a single thumbnail
+    public struct Thumbnail: Swift.Equatable {
+        /// The binary data for the latest thumbnail.
+        public var body: Swift.String?
+        /// The content type for the latest thumbnail.
+        public var contentType: Swift.String?
+        /// Thumbnail Type
+        public var thumbnailType: MediaLiveClientTypes.ThumbnailType?
+        /// Time stamp for the latest thumbnail.
+        public var timeStamp: ClientRuntime.Date?
+
+        public init(
+            body: Swift.String? = nil,
+            contentType: Swift.String? = nil,
+            thumbnailType: MediaLiveClientTypes.ThumbnailType? = nil,
+            timeStamp: ClientRuntime.Date? = nil
+        )
+        {
+            self.body = body
+            self.contentType = contentType
+            self.thumbnailType = thumbnailType
+            self.timeStamp = timeStamp
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes.ThumbnailConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case state = "state"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stateDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.ThumbnailState.self, forKey: .state)
+        state = stateDecoded
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Thumbnail Configuration
+    public struct ThumbnailConfiguration: Swift.Equatable {
+        /// Whether Thumbnail is enabled.
+        /// This member is required.
+        public var state: MediaLiveClientTypes.ThumbnailState?
+
+        public init(
+            state: MediaLiveClientTypes.ThumbnailState? = nil
+        )
+        {
+            self.state = state
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes.ThumbnailDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pipelineId = "pipelineId"
+        case thumbnails = "thumbnails"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let pipelineId = self.pipelineId {
+            try encodeContainer.encode(pipelineId, forKey: .pipelineId)
+        }
+        if let thumbnails = thumbnails {
+            var thumbnailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .thumbnails)
+            for thumbnail0 in thumbnails {
+                try thumbnailsContainer.encode(thumbnail0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pipelineIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pipelineId)
+        pipelineId = pipelineIdDecoded
+        let thumbnailsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.Thumbnail?].self, forKey: .thumbnails)
+        var thumbnailsDecoded0:[MediaLiveClientTypes.Thumbnail]? = nil
+        if let thumbnailsContainer = thumbnailsContainer {
+            thumbnailsDecoded0 = [MediaLiveClientTypes.Thumbnail]()
+            for structure0 in thumbnailsContainer {
+                if let structure0 = structure0 {
+                    thumbnailsDecoded0?.append(structure0)
+                }
+            }
+        }
+        thumbnails = thumbnailsDecoded0
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Thumbnail details for one pipeline of a running channel.
+    public struct ThumbnailDetail: Swift.Equatable {
+        /// Pipeline ID
+        public var pipelineId: Swift.String?
+        /// thumbnails of a single pipeline
+        public var thumbnails: [MediaLiveClientTypes.Thumbnail]?
+
+        public init(
+            pipelineId: Swift.String? = nil,
+            thumbnails: [MediaLiveClientTypes.Thumbnail]? = nil
+        )
+        {
+            self.pipelineId = pipelineId
+            self.thumbnails = thumbnails
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+    /// Thumbnail State
+    public enum ThumbnailState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case auto
+        case disabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ThumbnailState] {
+            return [
+                .auto,
+                .disabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .disabled: return "DISABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ThumbnailState(rawValue: rawValue) ?? ThumbnailState.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Thumbnail type.
+    public enum ThumbnailType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case currentActive
+        case unspecified
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ThumbnailType] {
+            return [
+                .currentActive,
+                .unspecified,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .currentActive: return "CURRENT_ACTIVE"
+            case .unspecified: return "UNSPECIFIED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ThumbnailType(rawValue: rawValue) ?? ThumbnailType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension MediaLiveClientTypes {
     /// Timecode Burnin Font Size
     public enum TimecodeBurninFontSize: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
@@ -34312,6 +34810,112 @@ extension UnprocessableEntityExceptionBody: Swift.Decodable {
     }
 }
 
+extension UpdateAccountConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountConfiguration = "accountConfiguration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountConfiguration = self.accountConfiguration {
+            try encodeContainer.encode(accountConfiguration, forKey: .accountConfiguration)
+        }
+    }
+}
+
+extension UpdateAccountConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/prod/accountConfiguration"
+    }
+}
+
+/// List of account configuration parameters to update.
+public struct UpdateAccountConfigurationInput: Swift.Equatable {
+    /// Placeholder documentation for AccountConfiguration
+    public var accountConfiguration: MediaLiveClientTypes.AccountConfiguration?
+
+    public init(
+        accountConfiguration: MediaLiveClientTypes.AccountConfiguration? = nil
+    )
+    {
+        self.accountConfiguration = accountConfiguration
+    }
+}
+
+struct UpdateAccountConfigurationInputBody: Swift.Equatable {
+    let accountConfiguration: MediaLiveClientTypes.AccountConfiguration?
+}
+
+extension UpdateAccountConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountConfiguration = "accountConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountConfigurationDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.AccountConfiguration.self, forKey: .accountConfiguration)
+        accountConfiguration = accountConfigurationDecoded
+    }
+}
+
+public enum UpdateAccountConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateAccountConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateAccountConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.accountConfiguration = output.accountConfiguration
+        } else {
+            self.accountConfiguration = nil
+        }
+    }
+}
+
+/// Placeholder documentation for UpdateAccountConfigurationResponse
+public struct UpdateAccountConfigurationOutputResponse: Swift.Equatable {
+    /// Placeholder documentation for AccountConfiguration
+    public var accountConfiguration: MediaLiveClientTypes.AccountConfiguration?
+
+    public init(
+        accountConfiguration: MediaLiveClientTypes.AccountConfiguration? = nil
+    )
+    {
+        self.accountConfiguration = accountConfiguration
+    }
+}
+
+struct UpdateAccountConfigurationOutputResponseBody: Swift.Equatable {
+    let accountConfiguration: MediaLiveClientTypes.AccountConfiguration?
+}
+
+extension UpdateAccountConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountConfiguration = "accountConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountConfigurationDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.AccountConfiguration.self, forKey: .accountConfiguration)
+        accountConfiguration = accountConfigurationDecoded
+    }
+}
+
 extension UpdateChannelClassInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case channelClass = "channelClass"
@@ -34689,6 +35293,7 @@ extension UpdateChannelOutputResponseBody: Swift.Decodable {
 
 extension UpdateInputDeviceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZone = "availabilityZone"
         case hdDeviceSettings = "hdDeviceSettings"
         case name = "name"
         case uhdDeviceSettings = "uhdDeviceSettings"
@@ -34696,6 +35301,9 @@ extension UpdateInputDeviceInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let availabilityZone = self.availabilityZone {
+            try encodeContainer.encode(availabilityZone, forKey: .availabilityZone)
+        }
         if let hdDeviceSettings = self.hdDeviceSettings {
             try encodeContainer.encode(hdDeviceSettings, forKey: .hdDeviceSettings)
         }
@@ -34719,6 +35327,8 @@ extension UpdateInputDeviceInput: ClientRuntime.URLPathProvider {
 
 /// A request to update an input device.
 public struct UpdateInputDeviceInput: Swift.Equatable {
+    /// The Availability Zone you want associated with this input device.
+    public var availabilityZone: Swift.String?
     /// The settings that you want to apply to the HD input device.
     public var hdDeviceSettings: MediaLiveClientTypes.InputDeviceConfigurableSettings?
     /// The unique ID of the input device. For example, hd-123456789abcdef.
@@ -34730,12 +35340,14 @@ public struct UpdateInputDeviceInput: Swift.Equatable {
     public var uhdDeviceSettings: MediaLiveClientTypes.InputDeviceConfigurableSettings?
 
     public init(
+        availabilityZone: Swift.String? = nil,
         hdDeviceSettings: MediaLiveClientTypes.InputDeviceConfigurableSettings? = nil,
         inputDeviceId: Swift.String? = nil,
         name: Swift.String? = nil,
         uhdDeviceSettings: MediaLiveClientTypes.InputDeviceConfigurableSettings? = nil
     )
     {
+        self.availabilityZone = availabilityZone
         self.hdDeviceSettings = hdDeviceSettings
         self.inputDeviceId = inputDeviceId
         self.name = name
@@ -34747,10 +35359,12 @@ struct UpdateInputDeviceInputBody: Swift.Equatable {
     let hdDeviceSettings: MediaLiveClientTypes.InputDeviceConfigurableSettings?
     let name: Swift.String?
     let uhdDeviceSettings: MediaLiveClientTypes.InputDeviceConfigurableSettings?
+    let availabilityZone: Swift.String?
 }
 
 extension UpdateInputDeviceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZone = "availabilityZone"
         case hdDeviceSettings = "hdDeviceSettings"
         case name = "name"
         case uhdDeviceSettings = "uhdDeviceSettings"
@@ -34764,6 +35378,8 @@ extension UpdateInputDeviceInputBody: Swift.Decodable {
         name = nameDecoded
         let uhdDeviceSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputDeviceConfigurableSettings.self, forKey: .uhdDeviceSettings)
         uhdDeviceSettings = uhdDeviceSettingsDecoded
+        let availabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZone)
+        availabilityZone = availabilityZoneDecoded
     }
 }
 
@@ -34791,6 +35407,7 @@ extension UpdateInputDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: UpdateInputDeviceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
+            self.availabilityZone = output.availabilityZone
             self.connectionState = output.connectionState
             self.deviceSettingsSyncState = output.deviceSettingsSyncState
             self.deviceUpdateStatus = output.deviceUpdateStatus
@@ -34805,6 +35422,7 @@ extension UpdateInputDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
             self.uhdDeviceSettings = output.uhdDeviceSettings
         } else {
             self.arn = nil
+            self.availabilityZone = nil
             self.connectionState = nil
             self.deviceSettingsSyncState = nil
             self.deviceUpdateStatus = nil
@@ -34825,6 +35443,8 @@ extension UpdateInputDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct UpdateInputDeviceOutputResponse: Swift.Equatable {
     /// The unique ARN of the input device.
     public var arn: Swift.String?
+    /// The Availability Zone associated with this input device.
+    public var availabilityZone: Swift.String?
     /// The state of the connection between the input device and AWS.
     public var connectionState: MediaLiveClientTypes.InputDeviceConnectionState?
     /// The status of the action to synchronize the device configuration. If you change the configuration of the input device (for example, the maximum bitrate), MediaLive sends the new data to the device. The device might not update itself immediately. SYNCED means the device has updated its configuration. SYNCING means that it has not updated its configuration.
@@ -34852,6 +35472,7 @@ public struct UpdateInputDeviceOutputResponse: Swift.Equatable {
 
     public init(
         arn: Swift.String? = nil,
+        availabilityZone: Swift.String? = nil,
         connectionState: MediaLiveClientTypes.InputDeviceConnectionState? = nil,
         deviceSettingsSyncState: MediaLiveClientTypes.DeviceSettingsSyncState? = nil,
         deviceUpdateStatus: MediaLiveClientTypes.DeviceUpdateStatus? = nil,
@@ -34867,6 +35488,7 @@ public struct UpdateInputDeviceOutputResponse: Swift.Equatable {
     )
     {
         self.arn = arn
+        self.availabilityZone = availabilityZone
         self.connectionState = connectionState
         self.deviceSettingsSyncState = deviceSettingsSyncState
         self.deviceUpdateStatus = deviceUpdateStatus
@@ -34896,11 +35518,13 @@ struct UpdateInputDeviceOutputResponseBody: Swift.Equatable {
     let type: MediaLiveClientTypes.InputDeviceType?
     let uhdDeviceSettings: MediaLiveClientTypes.InputDeviceUhdSettings?
     let tags: [Swift.String:Swift.String]?
+    let availabilityZone: Swift.String?
 }
 
 extension UpdateInputDeviceOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "arn"
+        case availabilityZone = "availabilityZone"
         case connectionState = "connectionState"
         case deviceSettingsSyncState = "deviceSettingsSyncState"
         case deviceUpdateStatus = "deviceUpdateStatus"
@@ -34952,6 +35576,8 @@ extension UpdateInputDeviceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let availabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZone)
+        availabilityZone = availabilityZoneDecoded
     }
 }
 

@@ -1097,6 +1097,7 @@ extension CreateCustomKeyStoreOutputResponseBody: Swift.Decodable {
 extension CreateGrantInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case constraints = "Constraints"
+        case dryRun = "DryRun"
         case grantTokens = "GrantTokens"
         case granteePrincipal = "GranteePrincipal"
         case keyId = "KeyId"
@@ -1109,6 +1110,9 @@ extension CreateGrantInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let constraints = self.constraints {
             try encodeContainer.encode(constraints, forKey: .constraints)
+        }
+        if let dryRun = self.dryRun {
+            try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let grantTokens = grantTokens {
             var grantTokensContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantTokens)
@@ -1146,6 +1150,8 @@ extension CreateGrantInput: ClientRuntime.URLPathProvider {
 public struct CreateGrantInput: Swift.Equatable {
     /// Specifies a grant constraint. Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. KMS supports the EncryptionContextEquals and EncryptionContextSubset grant constraints, which allow the permissions in the grant only when the encryption context in the request matches (EncryptionContextEquals) or includes (EncryptionContextSubset) the encryption context specified in the constraint. The encryption context grant constraints are supported only on [grant operations](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#terms-grant-operations) that include an EncryptionContext parameter, such as cryptographic operations on symmetric encryption KMS keys. Grants with grant constraints can include the [DescribeKey] and [RetireGrant] operations, but the constraint doesn't apply to these operations. If a grant with a grant constraint includes the CreateGrant operation, the constraint requires that any grants created with the CreateGrant permission have an equally strict or stricter encryption context constraint. You cannot use an encryption context grant constraint for cryptographic operations with asymmetric KMS keys or HMAC KMS keys. Operations with these keys don't support an encryption context. Each constraint value can include up to 8 encryption context pairs. The encryption context value in each constraint cannot exceed 384 characters. For information about grant constraints, see [Using grant constraints](https://docs.aws.amazon.com/kms/latest/developerguide/create-grant-overview.html#grant-constraints) in the Key Management Service Developer Guide. For more information about encryption context, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Key Management Service Developer Guide .
     public var constraints: KMSClientTypes.GrantConstraints?
+    /// Checks if your request will succeed. DryRun is an optional parameter. To learn more about how to use this parameter, see [Testing your KMS API calls](https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html) in the Key Management Service Developer Guide.
+    public var dryRun: Swift.Bool?
     /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see [Grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant_token) and [Using a grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grant-manage.html#using-grant-token) in the Key Management Service Developer Guide.
     public var grantTokens: [Swift.String]?
     /// The identity that gets the permissions specified in the grant. To specify the grantee principal, use the Amazon Resource Name (ARN) of an Amazon Web Services principal. Valid principals include Amazon Web Services accounts, IAM users, IAM roles, federated users, and assumed role users. For help with the ARN syntax for a principal, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns) in the Identity and Access Management User Guide .
@@ -1171,6 +1177,7 @@ public struct CreateGrantInput: Swift.Equatable {
 
     public init(
         constraints: KMSClientTypes.GrantConstraints? = nil,
+        dryRun: Swift.Bool? = nil,
         grantTokens: [Swift.String]? = nil,
         granteePrincipal: Swift.String? = nil,
         keyId: Swift.String? = nil,
@@ -1180,6 +1187,7 @@ public struct CreateGrantInput: Swift.Equatable {
     )
     {
         self.constraints = constraints
+        self.dryRun = dryRun
         self.grantTokens = grantTokens
         self.granteePrincipal = granteePrincipal
         self.keyId = keyId
@@ -1197,11 +1205,13 @@ struct CreateGrantInputBody: Swift.Equatable {
     let constraints: KMSClientTypes.GrantConstraints?
     let grantTokens: [Swift.String]?
     let name: Swift.String?
+    let dryRun: Swift.Bool?
 }
 
 extension CreateGrantInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case constraints = "Constraints"
+        case dryRun = "DryRun"
         case grantTokens = "GrantTokens"
         case granteePrincipal = "GranteePrincipal"
         case keyId = "KeyId"
@@ -1244,6 +1254,8 @@ extension CreateGrantInputBody: Swift.Decodable {
         grantTokens = grantTokensDecoded0
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
+        dryRun = dryRunDecoded
     }
 }
 
@@ -1254,6 +1266,7 @@ public enum CreateGrantOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -2217,6 +2230,7 @@ extension KMSClientTypes {
 extension DecryptInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ciphertextBlob = "CiphertextBlob"
+        case dryRun = "DryRun"
         case encryptionAlgorithm = "EncryptionAlgorithm"
         case encryptionContext = "EncryptionContext"
         case grantTokens = "GrantTokens"
@@ -2228,6 +2242,9 @@ extension DecryptInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ciphertextBlob = self.ciphertextBlob {
             try encodeContainer.encode(ciphertextBlob.base64EncodedString(), forKey: .ciphertextBlob)
+        }
+        if let dryRun = self.dryRun {
+            try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let encryptionAlgorithm = self.encryptionAlgorithm {
             try encodeContainer.encode(encryptionAlgorithm.rawValue, forKey: .encryptionAlgorithm)
@@ -2263,6 +2280,8 @@ public struct DecryptInput: Swift.Equatable {
     /// Ciphertext to be decrypted. The blob includes metadata.
     /// This member is required.
     public var ciphertextBlob: ClientRuntime.Data?
+    /// Checks if your request will succeed. DryRun is an optional parameter. To learn more about how to use this parameter, see [Testing your KMS API calls](https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html) in the Key Management Service Developer Guide.
+    public var dryRun: Swift.Bool?
     /// Specifies the encryption algorithm that will be used to decrypt the ciphertext. Specify the same algorithm that was used to encrypt the data. If you specify a different algorithm, the Decrypt operation fails. This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key. The default value, SYMMETRIC_DEFAULT, represents the only supported algorithm that is valid for symmetric encryption KMS keys.
     public var encryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec?
     /// Specifies the encryption context to use when decrypting the data. An encryption context is valid only for [cryptographic operations](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#cryptographic-operations) with a symmetric encryption KMS key. The standard asymmetric encryption algorithms and HMAC algorithms that KMS uses do not support an encryption context. An encryption context is a collection of non-secret key-value pairs that represent additional authenticated data. When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is supported only on operations with symmetric encryption KMS keys. On operations with symmetric encryption KMS keys, an encryption context is optional, but it is strongly recommended. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Key Management Service Developer Guide.
@@ -2287,6 +2306,7 @@ public struct DecryptInput: Swift.Equatable {
 
     public init(
         ciphertextBlob: ClientRuntime.Data? = nil,
+        dryRun: Swift.Bool? = nil,
         encryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec? = nil,
         encryptionContext: [Swift.String:Swift.String]? = nil,
         grantTokens: [Swift.String]? = nil,
@@ -2295,6 +2315,7 @@ public struct DecryptInput: Swift.Equatable {
     )
     {
         self.ciphertextBlob = ciphertextBlob
+        self.dryRun = dryRun
         self.encryptionAlgorithm = encryptionAlgorithm
         self.encryptionContext = encryptionContext
         self.grantTokens = grantTokens
@@ -2310,11 +2331,13 @@ struct DecryptInputBody: Swift.Equatable {
     let keyId: Swift.String?
     let encryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec?
     let recipient: KMSClientTypes.RecipientInfo?
+    let dryRun: Swift.Bool?
 }
 
 extension DecryptInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ciphertextBlob = "CiphertextBlob"
+        case dryRun = "DryRun"
         case encryptionAlgorithm = "EncryptionAlgorithm"
         case encryptionContext = "EncryptionContext"
         case grantTokens = "GrantTokens"
@@ -2354,6 +2377,8 @@ extension DecryptInputBody: Swift.Decodable {
         encryptionAlgorithm = encryptionAlgorithmDecoded
         let recipientDecoded = try containerValues.decodeIfPresent(KMSClientTypes.RecipientInfo.self, forKey: .recipient)
         recipient = recipientDecoded
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
+        dryRun = dryRunDecoded
     }
 }
 
@@ -2364,6 +2389,7 @@ public enum DecryptOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "IncorrectKeyException": return try await IncorrectKeyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidCiphertext": return try await InvalidCiphertextException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -3322,6 +3348,61 @@ public struct DisconnectCustomKeyStoreOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension DryRunOperationException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DryRunOperationExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The request was rejected because the DryRun parameter was specified.
+public struct DryRunOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DryRunOperation" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct DryRunOperationExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension DryRunOperationExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension EnableKeyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyId = "KeyId"
@@ -3487,11 +3568,12 @@ public struct EnableKeyRotationOutputResponse: Swift.Equatable {
 
 extension EncryptInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "EncryptInput(encryptionAlgorithm: \(Swift.String(describing: encryptionAlgorithm)), encryptionContext: \(Swift.String(describing: encryptionContext)), grantTokens: \(Swift.String(describing: grantTokens)), keyId: \(Swift.String(describing: keyId)), plaintext: \"CONTENT_REDACTED\")"}
+        "EncryptInput(dryRun: \(Swift.String(describing: dryRun)), encryptionAlgorithm: \(Swift.String(describing: encryptionAlgorithm)), encryptionContext: \(Swift.String(describing: encryptionContext)), grantTokens: \(Swift.String(describing: grantTokens)), keyId: \(Swift.String(describing: keyId)), plaintext: \"CONTENT_REDACTED\")"}
 }
 
 extension EncryptInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dryRun = "DryRun"
         case encryptionAlgorithm = "EncryptionAlgorithm"
         case encryptionContext = "EncryptionContext"
         case grantTokens = "GrantTokens"
@@ -3501,6 +3583,9 @@ extension EncryptInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dryRun = self.dryRun {
+            try encodeContainer.encode(dryRun, forKey: .dryRun)
+        }
         if let encryptionAlgorithm = self.encryptionAlgorithm {
             try encodeContainer.encode(encryptionAlgorithm.rawValue, forKey: .encryptionAlgorithm)
         }
@@ -3532,6 +3617,8 @@ extension EncryptInput: ClientRuntime.URLPathProvider {
 }
 
 public struct EncryptInput: Swift.Equatable {
+    /// Checks if your request will succeed. DryRun is an optional parameter. To learn more about how to use this parameter, see [Testing your KMS API calls](https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html) in the Key Management Service Developer Guide.
+    public var dryRun: Swift.Bool?
     /// Specifies the encryption algorithm that KMS will use to encrypt the plaintext message. The algorithm must be compatible with the KMS key that you specify. This parameter is required only for asymmetric KMS keys. The default value, SYMMETRIC_DEFAULT, is the algorithm used for symmetric encryption KMS keys. If you are using an asymmetric KMS key, we recommend RSAES_OAEP_SHA_256. The SM2PKE algorithm is only available in China Regions.
     public var encryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec?
     /// Specifies the encryption context that will be used to encrypt the data. An encryption context is valid only for [cryptographic operations](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#cryptographic-operations) with a symmetric encryption KMS key. The standard asymmetric encryption algorithms and HMAC algorithms that KMS uses do not support an encryption context. Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. An encryption context is a collection of non-secret key-value pairs that represent additional authenticated data. When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is supported only on operations with symmetric encryption KMS keys. On operations with symmetric encryption KMS keys, an encryption context is optional, but it is strongly recommended. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Key Management Service Developer Guide.
@@ -3557,6 +3644,7 @@ public struct EncryptInput: Swift.Equatable {
     public var plaintext: ClientRuntime.Data?
 
     public init(
+        dryRun: Swift.Bool? = nil,
         encryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec? = nil,
         encryptionContext: [Swift.String:Swift.String]? = nil,
         grantTokens: [Swift.String]? = nil,
@@ -3564,6 +3652,7 @@ public struct EncryptInput: Swift.Equatable {
         plaintext: ClientRuntime.Data? = nil
     )
     {
+        self.dryRun = dryRun
         self.encryptionAlgorithm = encryptionAlgorithm
         self.encryptionContext = encryptionContext
         self.grantTokens = grantTokens
@@ -3578,10 +3667,12 @@ struct EncryptInputBody: Swift.Equatable {
     let encryptionContext: [Swift.String:Swift.String]?
     let grantTokens: [Swift.String]?
     let encryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec?
+    let dryRun: Swift.Bool?
 }
 
 extension EncryptInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dryRun = "DryRun"
         case encryptionAlgorithm = "EncryptionAlgorithm"
         case encryptionContext = "EncryptionContext"
         case grantTokens = "GrantTokens"
@@ -3619,6 +3710,8 @@ extension EncryptInputBody: Swift.Decodable {
         grantTokens = grantTokensDecoded0
         let encryptionAlgorithmDecoded = try containerValues.decodeIfPresent(KMSClientTypes.EncryptionAlgorithmSpec.self, forKey: .encryptionAlgorithm)
         encryptionAlgorithm = encryptionAlgorithmDecoded
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
+        dryRun = dryRunDecoded
     }
 }
 
@@ -3629,6 +3722,7 @@ public enum EncryptOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -3827,6 +3921,7 @@ extension ExpiredImportTokenExceptionBody: Swift.Decodable {
 
 extension GenerateDataKeyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dryRun = "DryRun"
         case encryptionContext = "EncryptionContext"
         case grantTokens = "GrantTokens"
         case keyId = "KeyId"
@@ -3837,6 +3932,9 @@ extension GenerateDataKeyInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dryRun = self.dryRun {
+            try encodeContainer.encode(dryRun, forKey: .dryRun)
+        }
         if let encryptionContext = encryptionContext {
             var encryptionContextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .encryptionContext)
             for (dictKey0, encryptionContextType0) in encryptionContext {
@@ -3871,6 +3969,8 @@ extension GenerateDataKeyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GenerateDataKeyInput: Swift.Equatable {
+    /// Checks if your request will succeed. DryRun is an optional parameter. To learn more about how to use this parameter, see [Testing your KMS API calls](https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html) in the Key Management Service Developer Guide.
+    public var dryRun: Swift.Bool?
     /// Specifies the encryption context that will be used when encrypting the data key. Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. An encryption context is a collection of non-secret key-value pairs that represent additional authenticated data. When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is supported only on operations with symmetric encryption KMS keys. On operations with symmetric encryption KMS keys, an encryption context is optional, but it is strongly recommended. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Key Management Service Developer Guide.
     public var encryptionContext: [Swift.String:Swift.String]?
     /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see [Grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant_token) and [Using a grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grant-manage.html#using-grant-token) in the Key Management Service Developer Guide.
@@ -3897,6 +3997,7 @@ public struct GenerateDataKeyInput: Swift.Equatable {
     public var recipient: KMSClientTypes.RecipientInfo?
 
     public init(
+        dryRun: Swift.Bool? = nil,
         encryptionContext: [Swift.String:Swift.String]? = nil,
         grantTokens: [Swift.String]? = nil,
         keyId: Swift.String? = nil,
@@ -3905,6 +4006,7 @@ public struct GenerateDataKeyInput: Swift.Equatable {
         recipient: KMSClientTypes.RecipientInfo? = nil
     )
     {
+        self.dryRun = dryRun
         self.encryptionContext = encryptionContext
         self.grantTokens = grantTokens
         self.keyId = keyId
@@ -3921,10 +4023,12 @@ struct GenerateDataKeyInputBody: Swift.Equatable {
     let keySpec: KMSClientTypes.DataKeySpec?
     let grantTokens: [Swift.String]?
     let recipient: KMSClientTypes.RecipientInfo?
+    let dryRun: Swift.Bool?
 }
 
 extension GenerateDataKeyInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dryRun = "DryRun"
         case encryptionContext = "EncryptionContext"
         case grantTokens = "GrantTokens"
         case keyId = "KeyId"
@@ -3965,6 +4069,8 @@ extension GenerateDataKeyInputBody: Swift.Decodable {
         grantTokens = grantTokensDecoded0
         let recipientDecoded = try containerValues.decodeIfPresent(KMSClientTypes.RecipientInfo.self, forKey: .recipient)
         recipient = recipientDecoded
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
+        dryRun = dryRunDecoded
     }
 }
 
@@ -3975,6 +4081,7 @@ public enum GenerateDataKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -4063,6 +4170,7 @@ extension GenerateDataKeyOutputResponseBody: Swift.Decodable {
 
 extension GenerateDataKeyPairInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dryRun = "DryRun"
         case encryptionContext = "EncryptionContext"
         case grantTokens = "GrantTokens"
         case keyId = "KeyId"
@@ -4072,6 +4180,9 @@ extension GenerateDataKeyPairInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dryRun = self.dryRun {
+            try encodeContainer.encode(dryRun, forKey: .dryRun)
+        }
         if let encryptionContext = encryptionContext {
             var encryptionContextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .encryptionContext)
             for (dictKey0, encryptionContextType0) in encryptionContext {
@@ -4103,6 +4214,8 @@ extension GenerateDataKeyPairInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GenerateDataKeyPairInput: Swift.Equatable {
+    /// Checks if your request will succeed. DryRun is an optional parameter. To learn more about how to use this parameter, see [Testing your KMS API calls](https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html) in the Key Management Service Developer Guide.
+    public var dryRun: Swift.Bool?
     /// Specifies the encryption context that will be used when encrypting the private key in the data key pair. Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. An encryption context is a collection of non-secret key-value pairs that represent additional authenticated data. When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is supported only on operations with symmetric encryption KMS keys. On operations with symmetric encryption KMS keys, an encryption context is optional, but it is strongly recommended. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Key Management Service Developer Guide.
     public var encryptionContext: [Swift.String:Swift.String]?
     /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see [Grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant_token) and [Using a grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grant-manage.html#using-grant-token) in the Key Management Service Developer Guide.
@@ -4128,6 +4241,7 @@ public struct GenerateDataKeyPairInput: Swift.Equatable {
     public var recipient: KMSClientTypes.RecipientInfo?
 
     public init(
+        dryRun: Swift.Bool? = nil,
         encryptionContext: [Swift.String:Swift.String]? = nil,
         grantTokens: [Swift.String]? = nil,
         keyId: Swift.String? = nil,
@@ -4135,6 +4249,7 @@ public struct GenerateDataKeyPairInput: Swift.Equatable {
         recipient: KMSClientTypes.RecipientInfo? = nil
     )
     {
+        self.dryRun = dryRun
         self.encryptionContext = encryptionContext
         self.grantTokens = grantTokens
         self.keyId = keyId
@@ -4149,10 +4264,12 @@ struct GenerateDataKeyPairInputBody: Swift.Equatable {
     let keyPairSpec: KMSClientTypes.DataKeyPairSpec?
     let grantTokens: [Swift.String]?
     let recipient: KMSClientTypes.RecipientInfo?
+    let dryRun: Swift.Bool?
 }
 
 extension GenerateDataKeyPairInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dryRun = "DryRun"
         case encryptionContext = "EncryptionContext"
         case grantTokens = "GrantTokens"
         case keyId = "KeyId"
@@ -4190,6 +4307,8 @@ extension GenerateDataKeyPairInputBody: Swift.Decodable {
         grantTokens = grantTokensDecoded0
         let recipientDecoded = try containerValues.decodeIfPresent(KMSClientTypes.RecipientInfo.self, forKey: .recipient)
         recipient = recipientDecoded
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
+        dryRun = dryRunDecoded
     }
 }
 
@@ -4200,6 +4319,7 @@ public enum GenerateDataKeyPairOutputError: ClientRuntime.HttpResponseErrorBindi
         switch restJSONError.errorType {
             case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -4309,6 +4429,7 @@ extension GenerateDataKeyPairOutputResponseBody: Swift.Decodable {
 
 extension GenerateDataKeyPairWithoutPlaintextInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dryRun = "DryRun"
         case encryptionContext = "EncryptionContext"
         case grantTokens = "GrantTokens"
         case keyId = "KeyId"
@@ -4317,6 +4438,9 @@ extension GenerateDataKeyPairWithoutPlaintextInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dryRun = self.dryRun {
+            try encodeContainer.encode(dryRun, forKey: .dryRun)
+        }
         if let encryptionContext = encryptionContext {
             var encryptionContextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .encryptionContext)
             for (dictKey0, encryptionContextType0) in encryptionContext {
@@ -4345,6 +4469,8 @@ extension GenerateDataKeyPairWithoutPlaintextInput: ClientRuntime.URLPathProvide
 }
 
 public struct GenerateDataKeyPairWithoutPlaintextInput: Swift.Equatable {
+    /// Checks if your request will succeed. DryRun is an optional parameter. To learn more about how to use this parameter, see [Testing your KMS API calls](https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html) in the Key Management Service Developer Guide.
+    public var dryRun: Swift.Bool?
     /// Specifies the encryption context that will be used when encrypting the private key in the data key pair. Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. An encryption context is a collection of non-secret key-value pairs that represent additional authenticated data. When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is supported only on operations with symmetric encryption KMS keys. On operations with symmetric encryption KMS keys, an encryption context is optional, but it is strongly recommended. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Key Management Service Developer Guide.
     public var encryptionContext: [Swift.String:Swift.String]?
     /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see [Grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant_token) and [Using a grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grant-manage.html#using-grant-token) in the Key Management Service Developer Guide.
@@ -4368,12 +4494,14 @@ public struct GenerateDataKeyPairWithoutPlaintextInput: Swift.Equatable {
     public var keyPairSpec: KMSClientTypes.DataKeyPairSpec?
 
     public init(
+        dryRun: Swift.Bool? = nil,
         encryptionContext: [Swift.String:Swift.String]? = nil,
         grantTokens: [Swift.String]? = nil,
         keyId: Swift.String? = nil,
         keyPairSpec: KMSClientTypes.DataKeyPairSpec? = nil
     )
     {
+        self.dryRun = dryRun
         self.encryptionContext = encryptionContext
         self.grantTokens = grantTokens
         self.keyId = keyId
@@ -4386,10 +4514,12 @@ struct GenerateDataKeyPairWithoutPlaintextInputBody: Swift.Equatable {
     let keyId: Swift.String?
     let keyPairSpec: KMSClientTypes.DataKeyPairSpec?
     let grantTokens: [Swift.String]?
+    let dryRun: Swift.Bool?
 }
 
 extension GenerateDataKeyPairWithoutPlaintextInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dryRun = "DryRun"
         case encryptionContext = "EncryptionContext"
         case grantTokens = "GrantTokens"
         case keyId = "KeyId"
@@ -4424,6 +4554,8 @@ extension GenerateDataKeyPairWithoutPlaintextInputBody: Swift.Decodable {
             }
         }
         grantTokens = grantTokensDecoded0
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
+        dryRun = dryRunDecoded
     }
 }
 
@@ -4434,6 +4566,7 @@ public enum GenerateDataKeyPairWithoutPlaintextOutputError: ClientRuntime.HttpRe
         switch restJSONError.errorType {
             case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -4518,6 +4651,7 @@ extension GenerateDataKeyPairWithoutPlaintextOutputResponseBody: Swift.Decodable
 
 extension GenerateDataKeyWithoutPlaintextInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dryRun = "DryRun"
         case encryptionContext = "EncryptionContext"
         case grantTokens = "GrantTokens"
         case keyId = "KeyId"
@@ -4527,6 +4661,9 @@ extension GenerateDataKeyWithoutPlaintextInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dryRun = self.dryRun {
+            try encodeContainer.encode(dryRun, forKey: .dryRun)
+        }
         if let encryptionContext = encryptionContext {
             var encryptionContextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .encryptionContext)
             for (dictKey0, encryptionContextType0) in encryptionContext {
@@ -4558,6 +4695,8 @@ extension GenerateDataKeyWithoutPlaintextInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GenerateDataKeyWithoutPlaintextInput: Swift.Equatable {
+    /// Checks if your request will succeed. DryRun is an optional parameter. To learn more about how to use this parameter, see [Testing your KMS API calls](https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html) in the Key Management Service Developer Guide.
+    public var dryRun: Swift.Bool?
     /// Specifies the encryption context that will be used when encrypting the data key. Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. An encryption context is a collection of non-secret key-value pairs that represent additional authenticated data. When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is supported only on operations with symmetric encryption KMS keys. On operations with symmetric encryption KMS keys, an encryption context is optional, but it is strongly recommended. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Key Management Service Developer Guide.
     public var encryptionContext: [Swift.String:Swift.String]?
     /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see [Grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant_token) and [Using a grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grant-manage.html#using-grant-token) in the Key Management Service Developer Guide.
@@ -4582,6 +4721,7 @@ public struct GenerateDataKeyWithoutPlaintextInput: Swift.Equatable {
     public var numberOfBytes: Swift.Int?
 
     public init(
+        dryRun: Swift.Bool? = nil,
         encryptionContext: [Swift.String:Swift.String]? = nil,
         grantTokens: [Swift.String]? = nil,
         keyId: Swift.String? = nil,
@@ -4589,6 +4729,7 @@ public struct GenerateDataKeyWithoutPlaintextInput: Swift.Equatable {
         numberOfBytes: Swift.Int? = nil
     )
     {
+        self.dryRun = dryRun
         self.encryptionContext = encryptionContext
         self.grantTokens = grantTokens
         self.keyId = keyId
@@ -4603,10 +4744,12 @@ struct GenerateDataKeyWithoutPlaintextInputBody: Swift.Equatable {
     let keySpec: KMSClientTypes.DataKeySpec?
     let numberOfBytes: Swift.Int?
     let grantTokens: [Swift.String]?
+    let dryRun: Swift.Bool?
 }
 
 extension GenerateDataKeyWithoutPlaintextInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dryRun = "DryRun"
         case encryptionContext = "EncryptionContext"
         case grantTokens = "GrantTokens"
         case keyId = "KeyId"
@@ -4644,6 +4787,8 @@ extension GenerateDataKeyWithoutPlaintextInputBody: Swift.Decodable {
             }
         }
         grantTokens = grantTokensDecoded0
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
+        dryRun = dryRunDecoded
     }
 }
 
@@ -4654,6 +4799,7 @@ public enum GenerateDataKeyWithoutPlaintextOutputError: ClientRuntime.HttpRespon
         switch restJSONError.errorType {
             case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -4717,11 +4863,12 @@ extension GenerateDataKeyWithoutPlaintextOutputResponseBody: Swift.Decodable {
 
 extension GenerateMacInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GenerateMacInput(grantTokens: \(Swift.String(describing: grantTokens)), keyId: \(Swift.String(describing: keyId)), macAlgorithm: \(Swift.String(describing: macAlgorithm)), message: \"CONTENT_REDACTED\")"}
+        "GenerateMacInput(dryRun: \(Swift.String(describing: dryRun)), grantTokens: \(Swift.String(describing: grantTokens)), keyId: \(Swift.String(describing: keyId)), macAlgorithm: \(Swift.String(describing: macAlgorithm)), message: \"CONTENT_REDACTED\")"}
 }
 
 extension GenerateMacInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dryRun = "DryRun"
         case grantTokens = "GrantTokens"
         case keyId = "KeyId"
         case macAlgorithm = "MacAlgorithm"
@@ -4730,6 +4877,9 @@ extension GenerateMacInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dryRun = self.dryRun {
+            try encodeContainer.encode(dryRun, forKey: .dryRun)
+        }
         if let grantTokens = grantTokens {
             var grantTokensContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantTokens)
             for granttokentype0 in grantTokens {
@@ -4755,6 +4905,8 @@ extension GenerateMacInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GenerateMacInput: Swift.Equatable {
+    /// Checks if your request will succeed. DryRun is an optional parameter. To learn more about how to use this parameter, see [Testing your KMS API calls](https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html) in the Key Management Service Developer Guide.
+    public var dryRun: Swift.Bool?
     /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see [Grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant_token) and [Using a grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grant-manage.html#using-grant-token) in the Key Management Service Developer Guide.
     public var grantTokens: [Swift.String]?
     /// The HMAC KMS key to use in the operation. The MAC algorithm computes the HMAC for the message and the key as described in [RFC 2104](https://datatracker.ietf.org/doc/html/rfc2104). To identify an HMAC KMS key, use the [DescribeKey] operation and see the KeySpec field in the response.
@@ -4768,12 +4920,14 @@ public struct GenerateMacInput: Swift.Equatable {
     public var message: ClientRuntime.Data?
 
     public init(
+        dryRun: Swift.Bool? = nil,
         grantTokens: [Swift.String]? = nil,
         keyId: Swift.String? = nil,
         macAlgorithm: KMSClientTypes.MacAlgorithmSpec? = nil,
         message: ClientRuntime.Data? = nil
     )
     {
+        self.dryRun = dryRun
         self.grantTokens = grantTokens
         self.keyId = keyId
         self.macAlgorithm = macAlgorithm
@@ -4786,10 +4940,12 @@ struct GenerateMacInputBody: Swift.Equatable {
     let keyId: Swift.String?
     let macAlgorithm: KMSClientTypes.MacAlgorithmSpec?
     let grantTokens: [Swift.String]?
+    let dryRun: Swift.Bool?
 }
 
 extension GenerateMacInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dryRun = "DryRun"
         case grantTokens = "GrantTokens"
         case keyId = "KeyId"
         case macAlgorithm = "MacAlgorithm"
@@ -4815,6 +4971,8 @@ extension GenerateMacInputBody: Swift.Decodable {
             }
         }
         grantTokens = grantTokensDecoded0
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
+        dryRun = dryRunDecoded
     }
 }
 
@@ -4824,6 +4982,7 @@ public enum GenerateMacOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -9068,6 +9227,7 @@ extension ReEncryptInput: Swift.Encodable {
         case destinationEncryptionAlgorithm = "DestinationEncryptionAlgorithm"
         case destinationEncryptionContext = "DestinationEncryptionContext"
         case destinationKeyId = "DestinationKeyId"
+        case dryRun = "DryRun"
         case grantTokens = "GrantTokens"
         case sourceEncryptionAlgorithm = "SourceEncryptionAlgorithm"
         case sourceEncryptionContext = "SourceEncryptionContext"
@@ -9090,6 +9250,9 @@ extension ReEncryptInput: Swift.Encodable {
         }
         if let destinationKeyId = self.destinationKeyId {
             try encodeContainer.encode(destinationKeyId, forKey: .destinationKeyId)
+        }
+        if let dryRun = self.dryRun {
+            try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let grantTokens = grantTokens {
             var grantTokensContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantTokens)
@@ -9140,6 +9303,8 @@ public struct ReEncryptInput: Swift.Equatable {
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey]. To get the alias name and alias ARN, use [ListAliases].
     /// This member is required.
     public var destinationKeyId: Swift.String?
+    /// Checks if your request will succeed. DryRun is an optional parameter. To learn more about how to use this parameter, see [Testing your KMS API calls](https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html) in the Key Management Service Developer Guide.
+    public var dryRun: Swift.Bool?
     /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see [Grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant_token) and [Using a grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grant-manage.html#using-grant-token) in the Key Management Service Developer Guide.
     public var grantTokens: [Swift.String]?
     /// Specifies the encryption algorithm that KMS will use to decrypt the ciphertext before it is reencrypted. The default value, SYMMETRIC_DEFAULT, represents the algorithm used for symmetric encryption KMS keys. Specify the same algorithm that was used to encrypt the ciphertext. If you specify a different algorithm, the decrypt attempt fails. This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key.
@@ -9165,6 +9330,7 @@ public struct ReEncryptInput: Swift.Equatable {
         destinationEncryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec? = nil,
         destinationEncryptionContext: [Swift.String:Swift.String]? = nil,
         destinationKeyId: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
         grantTokens: [Swift.String]? = nil,
         sourceEncryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec? = nil,
         sourceEncryptionContext: [Swift.String:Swift.String]? = nil,
@@ -9175,6 +9341,7 @@ public struct ReEncryptInput: Swift.Equatable {
         self.destinationEncryptionAlgorithm = destinationEncryptionAlgorithm
         self.destinationEncryptionContext = destinationEncryptionContext
         self.destinationKeyId = destinationKeyId
+        self.dryRun = dryRun
         self.grantTokens = grantTokens
         self.sourceEncryptionAlgorithm = sourceEncryptionAlgorithm
         self.sourceEncryptionContext = sourceEncryptionContext
@@ -9191,6 +9358,7 @@ struct ReEncryptInputBody: Swift.Equatable {
     let sourceEncryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec?
     let destinationEncryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec?
     let grantTokens: [Swift.String]?
+    let dryRun: Swift.Bool?
 }
 
 extension ReEncryptInputBody: Swift.Decodable {
@@ -9199,6 +9367,7 @@ extension ReEncryptInputBody: Swift.Decodable {
         case destinationEncryptionAlgorithm = "DestinationEncryptionAlgorithm"
         case destinationEncryptionContext = "DestinationEncryptionContext"
         case destinationKeyId = "DestinationKeyId"
+        case dryRun = "DryRun"
         case grantTokens = "GrantTokens"
         case sourceEncryptionAlgorithm = "SourceEncryptionAlgorithm"
         case sourceEncryptionContext = "SourceEncryptionContext"
@@ -9250,6 +9419,8 @@ extension ReEncryptInputBody: Swift.Decodable {
             }
         }
         grantTokens = grantTokensDecoded0
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
+        dryRun = dryRunDecoded
     }
 }
 
@@ -9260,6 +9431,7 @@ public enum ReEncryptOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "IncorrectKeyException": return try await IncorrectKeyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidCiphertext": return try await InvalidCiphertextException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -9633,6 +9805,7 @@ extension ReplicateKeyOutputResponseBody: Swift.Decodable {
 
 extension RetireGrantInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dryRun = "DryRun"
         case grantId = "GrantId"
         case grantToken = "GrantToken"
         case keyId = "KeyId"
@@ -9640,6 +9813,9 @@ extension RetireGrantInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dryRun = self.dryRun {
+            try encodeContainer.encode(dryRun, forKey: .dryRun)
+        }
         if let grantId = self.grantId {
             try encodeContainer.encode(grantId, forKey: .grantId)
         }
@@ -9659,6 +9835,8 @@ extension RetireGrantInput: ClientRuntime.URLPathProvider {
 }
 
 public struct RetireGrantInput: Swift.Equatable {
+    /// Checks if your request will succeed. DryRun is an optional parameter. To learn more about how to use this parameter, see [Testing your KMS API calls](https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html) in the Key Management Service Developer Guide.
+    public var dryRun: Swift.Bool?
     /// Identifies the grant to retire. To get the grant ID, use [CreateGrant], [ListGrants], or [ListRetirableGrants].
     ///
     /// * Grant ID Example - 0123456789012345678901234567890123456789012345678901234567890123
@@ -9669,11 +9847,13 @@ public struct RetireGrantInput: Swift.Equatable {
     public var keyId: Swift.String?
 
     public init(
+        dryRun: Swift.Bool? = nil,
         grantId: Swift.String? = nil,
         grantToken: Swift.String? = nil,
         keyId: Swift.String? = nil
     )
     {
+        self.dryRun = dryRun
         self.grantId = grantId
         self.grantToken = grantToken
         self.keyId = keyId
@@ -9684,10 +9864,12 @@ struct RetireGrantInputBody: Swift.Equatable {
     let grantToken: Swift.String?
     let keyId: Swift.String?
     let grantId: Swift.String?
+    let dryRun: Swift.Bool?
 }
 
 extension RetireGrantInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dryRun = "DryRun"
         case grantId = "GrantId"
         case grantToken = "GrantToken"
         case keyId = "KeyId"
@@ -9701,6 +9883,8 @@ extension RetireGrantInputBody: Swift.Decodable {
         keyId = keyIdDecoded
         let grantIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .grantId)
         grantId = grantIdDecoded
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
+        dryRun = dryRunDecoded
     }
 }
 
@@ -9710,6 +9894,7 @@ public enum RetireGrantOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidGrantId": return try await InvalidGrantIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -9733,12 +9918,16 @@ public struct RetireGrantOutputResponse: Swift.Equatable {
 
 extension RevokeGrantInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dryRun = "DryRun"
         case grantId = "GrantId"
         case keyId = "KeyId"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dryRun = self.dryRun {
+            try encodeContainer.encode(dryRun, forKey: .dryRun)
+        }
         if let grantId = self.grantId {
             try encodeContainer.encode(grantId, forKey: .grantId)
         }
@@ -9755,6 +9944,8 @@ extension RevokeGrantInput: ClientRuntime.URLPathProvider {
 }
 
 public struct RevokeGrantInput: Swift.Equatable {
+    /// Checks if your request will succeed. DryRun is an optional parameter. To learn more about how to use this parameter, see [Testing your KMS API calls](https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html) in the Key Management Service Developer Guide.
+    public var dryRun: Swift.Bool?
     /// Identifies the grant to revoke. To get the grant ID, use [CreateGrant], [ListGrants], or [ListRetirableGrants].
     /// This member is required.
     public var grantId: Swift.String?
@@ -9770,10 +9961,12 @@ public struct RevokeGrantInput: Swift.Equatable {
     public var keyId: Swift.String?
 
     public init(
+        dryRun: Swift.Bool? = nil,
         grantId: Swift.String? = nil,
         keyId: Swift.String? = nil
     )
     {
+        self.dryRun = dryRun
         self.grantId = grantId
         self.keyId = keyId
     }
@@ -9782,10 +9975,12 @@ public struct RevokeGrantInput: Swift.Equatable {
 struct RevokeGrantInputBody: Swift.Equatable {
     let keyId: Swift.String?
     let grantId: Swift.String?
+    let dryRun: Swift.Bool?
 }
 
 extension RevokeGrantInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dryRun = "DryRun"
         case grantId = "GrantId"
         case keyId = "KeyId"
     }
@@ -9796,6 +9991,8 @@ extension RevokeGrantInputBody: Swift.Decodable {
         keyId = keyIdDecoded
         let grantIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .grantId)
         grantId = grantIdDecoded
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
+        dryRun = dryRunDecoded
     }
 }
 
@@ -9805,6 +10002,7 @@ public enum RevokeGrantOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidGrantId": return try await InvalidGrantIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -9859,7 +10057,7 @@ public struct ScheduleKeyDeletionInput: Swift.Equatable {
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var keyId: Swift.String?
-    /// The waiting period, specified in number of days. After the waiting period ends, KMS deletes the KMS key. If the KMS key is a multi-Region primary key with replica keys, the waiting period begins when the last of its replica keys is deleted. Otherwise, the waiting period begins immediately. This value is optional. If you include a value, it must be between 7 and 30, inclusive. If you do not include a value, it defaults to 30. You can use the [kms:ScheduleKeyDeletionPendingWindowInDays](https://docs.aws.amazon.com/kms/latest/developerguide/conditions-kms.html#conditions-pending-deletion-window) condition key to further constrain the values that principals can specify in the PendingWindowInDays parameter.
+    /// The waiting period, specified in number of days. After the waiting period ends, KMS deletes the KMS key. If the KMS key is a multi-Region primary key with replica keys, the waiting period begins when the last of its replica keys is deleted. Otherwise, the waiting period begins immediately. This value is optional. If you include a value, it must be between 7 and 30, inclusive. If you do not include a value, it defaults to 30. You can use the [kms:ScheduleKeyDeletionPendingWindowInDays](https://docs.aws.amazon.com/kms/latest/developerguide/conditions-kms.html#conditions-kms-schedule-key-deletion-pending-window-in-days) condition key to further constrain the values that principals can specify in the PendingWindowInDays parameter.
     public var pendingWindowInDays: Swift.Int?
 
     public init(
@@ -9979,11 +10177,12 @@ extension ScheduleKeyDeletionOutputResponseBody: Swift.Decodable {
 
 extension SignInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SignInput(grantTokens: \(Swift.String(describing: grantTokens)), keyId: \(Swift.String(describing: keyId)), messageType: \(Swift.String(describing: messageType)), signingAlgorithm: \(Swift.String(describing: signingAlgorithm)), message: \"CONTENT_REDACTED\")"}
+        "SignInput(dryRun: \(Swift.String(describing: dryRun)), grantTokens: \(Swift.String(describing: grantTokens)), keyId: \(Swift.String(describing: keyId)), messageType: \(Swift.String(describing: messageType)), signingAlgorithm: \(Swift.String(describing: signingAlgorithm)), message: \"CONTENT_REDACTED\")"}
 }
 
 extension SignInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dryRun = "DryRun"
         case grantTokens = "GrantTokens"
         case keyId = "KeyId"
         case message = "Message"
@@ -9993,6 +10192,9 @@ extension SignInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dryRun = self.dryRun {
+            try encodeContainer.encode(dryRun, forKey: .dryRun)
+        }
         if let grantTokens = grantTokens {
             var grantTokensContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantTokens)
             for granttokentype0 in grantTokens {
@@ -10021,6 +10223,8 @@ extension SignInput: ClientRuntime.URLPathProvider {
 }
 
 public struct SignInput: Swift.Equatable {
+    /// Checks if your request will succeed. DryRun is an optional parameter. To learn more about how to use this parameter, see [Testing your KMS API calls](https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html) in the Key Management Service Developer Guide.
+    public var dryRun: Swift.Bool?
     /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see [Grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant_token) and [Using a grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grant-manage.html#using-grant-token) in the Key Management Service Developer Guide.
     public var grantTokens: [Swift.String]?
     /// Identifies an asymmetric KMS key. KMS uses the private key in the asymmetric KMS key to sign the message. The KeyUsage type of the KMS key must be SIGN_VERIFY. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:
@@ -10055,6 +10259,7 @@ public struct SignInput: Swift.Equatable {
     public var signingAlgorithm: KMSClientTypes.SigningAlgorithmSpec?
 
     public init(
+        dryRun: Swift.Bool? = nil,
         grantTokens: [Swift.String]? = nil,
         keyId: Swift.String? = nil,
         message: ClientRuntime.Data? = nil,
@@ -10062,6 +10267,7 @@ public struct SignInput: Swift.Equatable {
         signingAlgorithm: KMSClientTypes.SigningAlgorithmSpec? = nil
     )
     {
+        self.dryRun = dryRun
         self.grantTokens = grantTokens
         self.keyId = keyId
         self.message = message
@@ -10076,10 +10282,12 @@ struct SignInputBody: Swift.Equatable {
     let messageType: KMSClientTypes.MessageType?
     let grantTokens: [Swift.String]?
     let signingAlgorithm: KMSClientTypes.SigningAlgorithmSpec?
+    let dryRun: Swift.Bool?
 }
 
 extension SignInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dryRun = "DryRun"
         case grantTokens = "GrantTokens"
         case keyId = "KeyId"
         case message = "Message"
@@ -10108,6 +10316,8 @@ extension SignInputBody: Swift.Decodable {
         grantTokens = grantTokensDecoded0
         let signingAlgorithmDecoded = try containerValues.decodeIfPresent(KMSClientTypes.SigningAlgorithmSpec.self, forKey: .signingAlgorithm)
         signingAlgorithm = signingAlgorithmDecoded
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
+        dryRun = dryRunDecoded
     }
 }
 
@@ -10118,6 +10328,7 @@ public enum SignOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -11088,11 +11299,12 @@ public struct UpdatePrimaryRegionOutputResponse: Swift.Equatable {
 
 extension VerifyInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "VerifyInput(grantTokens: \(Swift.String(describing: grantTokens)), keyId: \(Swift.String(describing: keyId)), messageType: \(Swift.String(describing: messageType)), signature: \(Swift.String(describing: signature)), signingAlgorithm: \(Swift.String(describing: signingAlgorithm)), message: \"CONTENT_REDACTED\")"}
+        "VerifyInput(dryRun: \(Swift.String(describing: dryRun)), grantTokens: \(Swift.String(describing: grantTokens)), keyId: \(Swift.String(describing: keyId)), messageType: \(Swift.String(describing: messageType)), signature: \(Swift.String(describing: signature)), signingAlgorithm: \(Swift.String(describing: signingAlgorithm)), message: \"CONTENT_REDACTED\")"}
 }
 
 extension VerifyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dryRun = "DryRun"
         case grantTokens = "GrantTokens"
         case keyId = "KeyId"
         case message = "Message"
@@ -11103,6 +11315,9 @@ extension VerifyInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dryRun = self.dryRun {
+            try encodeContainer.encode(dryRun, forKey: .dryRun)
+        }
         if let grantTokens = grantTokens {
             var grantTokensContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantTokens)
             for granttokentype0 in grantTokens {
@@ -11134,6 +11349,8 @@ extension VerifyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct VerifyInput: Swift.Equatable {
+    /// Checks if your request will succeed. DryRun is an optional parameter. To learn more about how to use this parameter, see [Testing your KMS API calls](https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html) in the Key Management Service Developer Guide.
+    public var dryRun: Swift.Bool?
     /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see [Grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant_token) and [Using a grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grant-manage.html#using-grant-token) in the Key Management Service Developer Guide.
     public var grantTokens: [Swift.String]?
     /// Identifies the asymmetric KMS key that will be used to verify the signature. This must be the same KMS key that was used to generate the signature. If you specify a different KMS key, the signature verification fails. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:
@@ -11171,6 +11388,7 @@ public struct VerifyInput: Swift.Equatable {
     public var signingAlgorithm: KMSClientTypes.SigningAlgorithmSpec?
 
     public init(
+        dryRun: Swift.Bool? = nil,
         grantTokens: [Swift.String]? = nil,
         keyId: Swift.String? = nil,
         message: ClientRuntime.Data? = nil,
@@ -11179,6 +11397,7 @@ public struct VerifyInput: Swift.Equatable {
         signingAlgorithm: KMSClientTypes.SigningAlgorithmSpec? = nil
     )
     {
+        self.dryRun = dryRun
         self.grantTokens = grantTokens
         self.keyId = keyId
         self.message = message
@@ -11195,10 +11414,12 @@ struct VerifyInputBody: Swift.Equatable {
     let signature: ClientRuntime.Data?
     let signingAlgorithm: KMSClientTypes.SigningAlgorithmSpec?
     let grantTokens: [Swift.String]?
+    let dryRun: Swift.Bool?
 }
 
 extension VerifyInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dryRun = "DryRun"
         case grantTokens = "GrantTokens"
         case keyId = "KeyId"
         case message = "Message"
@@ -11230,16 +11451,19 @@ extension VerifyInputBody: Swift.Decodable {
             }
         }
         grantTokens = grantTokensDecoded0
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
+        dryRun = dryRunDecoded
     }
 }
 
 extension VerifyMacInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "VerifyMacInput(grantTokens: \(Swift.String(describing: grantTokens)), keyId: \(Swift.String(describing: keyId)), mac: \(Swift.String(describing: mac)), macAlgorithm: \(Swift.String(describing: macAlgorithm)), message: \"CONTENT_REDACTED\")"}
+        "VerifyMacInput(dryRun: \(Swift.String(describing: dryRun)), grantTokens: \(Swift.String(describing: grantTokens)), keyId: \(Swift.String(describing: keyId)), mac: \(Swift.String(describing: mac)), macAlgorithm: \(Swift.String(describing: macAlgorithm)), message: \"CONTENT_REDACTED\")"}
 }
 
 extension VerifyMacInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dryRun = "DryRun"
         case grantTokens = "GrantTokens"
         case keyId = "KeyId"
         case mac = "Mac"
@@ -11249,6 +11473,9 @@ extension VerifyMacInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dryRun = self.dryRun {
+            try encodeContainer.encode(dryRun, forKey: .dryRun)
+        }
         if let grantTokens = grantTokens {
             var grantTokensContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantTokens)
             for granttokentype0 in grantTokens {
@@ -11277,6 +11504,8 @@ extension VerifyMacInput: ClientRuntime.URLPathProvider {
 }
 
 public struct VerifyMacInput: Swift.Equatable {
+    /// Checks if your request will succeed. DryRun is an optional parameter. To learn more about how to use this parameter, see [Testing your KMS API calls](https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html) in the Key Management Service Developer Guide.
+    public var dryRun: Swift.Bool?
     /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see [Grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant_token) and [Using a grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grant-manage.html#using-grant-token) in the Key Management Service Developer Guide.
     public var grantTokens: [Swift.String]?
     /// The KMS key that will be used in the verification. Enter a key ID of the KMS key that was used to generate the HMAC. If you identify a different KMS key, the VerifyMac operation fails.
@@ -11293,6 +11522,7 @@ public struct VerifyMacInput: Swift.Equatable {
     public var message: ClientRuntime.Data?
 
     public init(
+        dryRun: Swift.Bool? = nil,
         grantTokens: [Swift.String]? = nil,
         keyId: Swift.String? = nil,
         mac: ClientRuntime.Data? = nil,
@@ -11300,6 +11530,7 @@ public struct VerifyMacInput: Swift.Equatable {
         message: ClientRuntime.Data? = nil
     )
     {
+        self.dryRun = dryRun
         self.grantTokens = grantTokens
         self.keyId = keyId
         self.mac = mac
@@ -11314,10 +11545,12 @@ struct VerifyMacInputBody: Swift.Equatable {
     let macAlgorithm: KMSClientTypes.MacAlgorithmSpec?
     let mac: ClientRuntime.Data?
     let grantTokens: [Swift.String]?
+    let dryRun: Swift.Bool?
 }
 
 extension VerifyMacInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dryRun = "DryRun"
         case grantTokens = "GrantTokens"
         case keyId = "KeyId"
         case mac = "Mac"
@@ -11346,6 +11579,8 @@ extension VerifyMacInputBody: Swift.Decodable {
             }
         }
         grantTokens = grantTokensDecoded0
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
+        dryRun = dryRunDecoded
     }
 }
 
@@ -11355,6 +11590,7 @@ public enum VerifyMacOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -11434,6 +11670,7 @@ public enum VerifyOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DryRunOperation": return try await DryRunOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidGrantToken": return try await InvalidGrantTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidKeyUsage": return try await InvalidKeyUsageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "KeyUnavailable": return try await KeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)

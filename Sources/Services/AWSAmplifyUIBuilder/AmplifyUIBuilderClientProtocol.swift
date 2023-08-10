@@ -6,7 +6,7 @@ import ClientRuntime
 public protocol AmplifyUIBuilderClientProtocol {
     /// Creates a new component for an Amplify app.
     func createComponent(input: CreateComponentInput) async throws -> CreateComponentOutputResponse
-    /// Creates a new form for an Amplify.
+    /// Creates a new form for an Amplify app.
     func createForm(input: CreateFormInput) async throws -> CreateFormOutputResponse
     /// Creates a theme to apply to the components in an Amplify app.
     func createTheme(input: CreateThemeInput) async throws -> CreateThemeOutputResponse
@@ -46,7 +46,7 @@ public protocol AmplifyUIBuilderClientProtocol {
     func putMetadataFlag(input: PutMetadataFlagInput) async throws -> PutMetadataFlagOutputResponse
     /// Refreshes a previously issued access token that might have expired.
     func refreshToken(input: RefreshTokenInput) async throws -> RefreshTokenOutputResponse
-    /// Starts a code generation job for for a specified Amplify app and backend environment.
+    /// Starts a code generation job for a specified Amplify app and backend environment.
     func startCodegenJob(input: StartCodegenJobInput) async throws -> StartCodegenJobOutputResponse
     /// Updates an existing component.
     func updateComponent(input: UpdateComponentInput) async throws -> UpdateComponentOutputResponse

@@ -3600,7 +3600,7 @@ public struct CreateSolutionInput: Swift.Equatable {
     public var performAutoML: Swift.Bool?
     /// Whether to perform hyperparameter optimization (HPO) on the specified or selected recipe. The default is false. When performing AutoML, this parameter is always true and you should not set it to false.
     public var performHPO: Swift.Bool?
-    /// The ARN of the recipe to use for model training. Only specified when performAutoML is false.
+    /// The ARN of the recipe to use for model training. This is required when performAutoML is false.
     public var recipeArn: Swift.String?
     /// The configuration to use with the solution. When performAutoML is set to true, Amazon Personalize only evaluates the autoMLConfig section of the solution configuration. Amazon Personalize doesn't support configuring the hpoObjective at this time.
     public var solutionConfig: PersonalizeClientTypes.SolutionConfig?
@@ -3932,6 +3932,7 @@ extension PersonalizeClientTypes.Dataset: Swift.Codable {
         case datasetGroupArn
         case datasetType
         case lastUpdatedDateTime
+        case latestDatasetUpdate
         case name
         case schemaArn
         case status
@@ -3953,6 +3954,9 @@ extension PersonalizeClientTypes.Dataset: Swift.Codable {
         }
         if let lastUpdatedDateTime = self.lastUpdatedDateTime {
             try encodeContainer.encodeTimestamp(lastUpdatedDateTime, format: .epochSeconds, forKey: .lastUpdatedDateTime)
+        }
+        if let latestDatasetUpdate = self.latestDatasetUpdate {
+            try encodeContainer.encode(latestDatasetUpdate, forKey: .latestDatasetUpdate)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -3983,6 +3987,8 @@ extension PersonalizeClientTypes.Dataset: Swift.Codable {
         creationDateTime = creationDateTimeDecoded
         let lastUpdatedDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedDateTime)
         lastUpdatedDateTime = lastUpdatedDateTimeDecoded
+        let latestDatasetUpdateDecoded = try containerValues.decodeIfPresent(PersonalizeClientTypes.DatasetUpdateSummary.self, forKey: .latestDatasetUpdate)
+        latestDatasetUpdate = latestDatasetUpdateDecoded
     }
 }
 
@@ -4005,6 +4011,8 @@ extension PersonalizeClientTypes {
         public var datasetType: Swift.String?
         /// A time stamp that shows when the dataset was updated.
         public var lastUpdatedDateTime: ClientRuntime.Date?
+        /// Describes the latest update to the dataset.
+        public var latestDatasetUpdate: PersonalizeClientTypes.DatasetUpdateSummary?
         /// The name of the dataset.
         public var name: Swift.String?
         /// The ARN of the associated schema.
@@ -4022,6 +4030,7 @@ extension PersonalizeClientTypes {
             datasetGroupArn: Swift.String? = nil,
             datasetType: Swift.String? = nil,
             lastUpdatedDateTime: ClientRuntime.Date? = nil,
+            latestDatasetUpdate: PersonalizeClientTypes.DatasetUpdateSummary? = nil,
             name: Swift.String? = nil,
             schemaArn: Swift.String? = nil,
             status: Swift.String? = nil
@@ -4032,6 +4041,7 @@ extension PersonalizeClientTypes {
             self.datasetGroupArn = datasetGroupArn
             self.datasetType = datasetType
             self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.latestDatasetUpdate = latestDatasetUpdate
             self.name = name
             self.schemaArn = schemaArn
             self.status = status
@@ -4997,6 +5007,81 @@ extension PersonalizeClientTypes {
             self.datasetType = datasetType
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.name = name
+            self.status = status
+        }
+    }
+
+}
+
+extension PersonalizeClientTypes.DatasetUpdateSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationDateTime
+        case failureReason
+        case lastUpdatedDateTime
+        case schemaArn
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationDateTime = self.creationDateTime {
+            try encodeContainer.encodeTimestamp(creationDateTime, format: .epochSeconds, forKey: .creationDateTime)
+        }
+        if let failureReason = self.failureReason {
+            try encodeContainer.encode(failureReason, forKey: .failureReason)
+        }
+        if let lastUpdatedDateTime = self.lastUpdatedDateTime {
+            try encodeContainer.encodeTimestamp(lastUpdatedDateTime, format: .epochSeconds, forKey: .lastUpdatedDateTime)
+        }
+        if let schemaArn = self.schemaArn {
+            try encodeContainer.encode(schemaArn, forKey: .schemaArn)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let schemaArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .schemaArn)
+        schemaArn = schemaArnDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let failureReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failureReason)
+        failureReason = failureReasonDecoded
+        let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
+        creationDateTime = creationDateTimeDecoded
+        let lastUpdatedDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedDateTime)
+        lastUpdatedDateTime = lastUpdatedDateTimeDecoded
+    }
+}
+
+extension PersonalizeClientTypes {
+    /// Describes an update to a dataset.
+    public struct DatasetUpdateSummary: Swift.Equatable {
+        /// The creation date and time (in Unix time) of the dataset update.
+        public var creationDateTime: ClientRuntime.Date?
+        /// If updating a dataset fails, provides the reason why.
+        public var failureReason: Swift.String?
+        /// The last update date and time (in Unix time) of the dataset.
+        public var lastUpdatedDateTime: ClientRuntime.Date?
+        /// The Amazon Resource Name (ARN) of the schema that replaced the previous schema of the dataset.
+        public var schemaArn: Swift.String?
+        /// The status of the dataset update.
+        public var status: Swift.String?
+
+        public init(
+            creationDateTime: ClientRuntime.Date? = nil,
+            failureReason: Swift.String? = nil,
+            lastUpdatedDateTime: ClientRuntime.Date? = nil,
+            schemaArn: Swift.String? = nil,
+            status: Swift.String? = nil
+        )
+        {
+            self.creationDateTime = creationDateTime
+            self.failureReason = failureReason
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.schemaArn = schemaArn
             self.status = status
         }
     }
@@ -12539,7 +12624,7 @@ extension PersonalizeClientTypes {
         public var performAutoML: Swift.Bool
         /// Whether to perform hyperparameter optimization (HPO) on the chosen recipe. The default is false.
         public var performHPO: Swift.Bool
-        /// The ARN of the recipe used to create the solution.
+        /// The ARN of the recipe used to create the solution. This is required when performAutoML is false.
         public var recipeArn: Swift.String?
         /// The ARN of the solution.
         public var solutionArn: Swift.String?
@@ -13963,6 +14048,120 @@ extension UpdateCampaignOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let campaignArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .campaignArn)
         campaignArn = campaignArnDecoded
+    }
+}
+
+extension UpdateDatasetInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case datasetArn
+        case schemaArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let datasetArn = self.datasetArn {
+            try encodeContainer.encode(datasetArn, forKey: .datasetArn)
+        }
+        if let schemaArn = self.schemaArn {
+            try encodeContainer.encode(schemaArn, forKey: .schemaArn)
+        }
+    }
+}
+
+extension UpdateDatasetInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateDatasetInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the dataset that you want to update.
+    /// This member is required.
+    public var datasetArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the new schema you want use.
+    /// This member is required.
+    public var schemaArn: Swift.String?
+
+    public init(
+        datasetArn: Swift.String? = nil,
+        schemaArn: Swift.String? = nil
+    )
+    {
+        self.datasetArn = datasetArn
+        self.schemaArn = schemaArn
+    }
+}
+
+struct UpdateDatasetInputBody: Swift.Equatable {
+    let datasetArn: Swift.String?
+    let schemaArn: Swift.String?
+}
+
+extension UpdateDatasetInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case datasetArn
+        case schemaArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let datasetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetArn)
+        datasetArn = datasetArnDecoded
+        let schemaArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .schemaArn)
+        schemaArn = schemaArnDecoded
+    }
+}
+
+public enum UpdateDatasetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateDatasetOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateDatasetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.datasetArn = output.datasetArn
+        } else {
+            self.datasetArn = nil
+        }
+    }
+}
+
+public struct UpdateDatasetOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the dataset you updated.
+    public var datasetArn: Swift.String?
+
+    public init(
+        datasetArn: Swift.String? = nil
+    )
+    {
+        self.datasetArn = datasetArn
+    }
+}
+
+struct UpdateDatasetOutputResponseBody: Swift.Equatable {
+    let datasetArn: Swift.String?
+}
+
+extension UpdateDatasetOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case datasetArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let datasetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetArn)
+        datasetArn = datasetArnDecoded
     }
 }
 

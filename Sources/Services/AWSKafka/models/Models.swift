@@ -1599,6 +1599,338 @@ extension KafkaClientTypes {
 
 }
 
+extension KafkaClientTypes.ClusterOperationV2: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clusterArn = "clusterArn"
+        case clusterType = "clusterType"
+        case endTime = "endTime"
+        case errorInfo = "errorInfo"
+        case operationArn = "operationArn"
+        case operationState = "operationState"
+        case operationType = "operationType"
+        case provisioned = "provisioned"
+        case serverless = "serverless"
+        case startTime = "startTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clusterArn = self.clusterArn {
+            try encodeContainer.encode(clusterArn, forKey: .clusterArn)
+        }
+        if let clusterType = self.clusterType {
+            try encodeContainer.encode(clusterType.rawValue, forKey: .clusterType)
+        }
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .dateTime, forKey: .endTime)
+        }
+        if let errorInfo = self.errorInfo {
+            try encodeContainer.encode(errorInfo, forKey: .errorInfo)
+        }
+        if let operationArn = self.operationArn {
+            try encodeContainer.encode(operationArn, forKey: .operationArn)
+        }
+        if let operationState = self.operationState {
+            try encodeContainer.encode(operationState, forKey: .operationState)
+        }
+        if let operationType = self.operationType {
+            try encodeContainer.encode(operationType, forKey: .operationType)
+        }
+        if let provisioned = self.provisioned {
+            try encodeContainer.encode(provisioned, forKey: .provisioned)
+        }
+        if let serverless = self.serverless {
+            try encodeContainer.encode(serverless, forKey: .serverless)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .dateTime, forKey: .startTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterArn)
+        clusterArn = clusterArnDecoded
+        let clusterTypeDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.ClusterType.self, forKey: .clusterType)
+        clusterType = clusterTypeDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .endTime)
+        endTime = endTimeDecoded
+        let errorInfoDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.ErrorInfo.self, forKey: .errorInfo)
+        errorInfo = errorInfoDecoded
+        let operationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationArn)
+        operationArn = operationArnDecoded
+        let operationStateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationState)
+        operationState = operationStateDecoded
+        let operationTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationType)
+        operationType = operationTypeDecoded
+        let provisionedDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.ClusterOperationV2Provisioned.self, forKey: .provisioned)
+        provisioned = provisionedDecoded
+        let serverlessDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.ClusterOperationV2Serverless.self, forKey: .serverless)
+        serverless = serverlessDecoded
+    }
+}
+
+extension KafkaClientTypes {
+    /// Returns information about a cluster operation.
+    public struct ClusterOperationV2: Swift.Equatable {
+        /// ARN of the cluster.
+        public var clusterArn: Swift.String?
+        /// Type of the backend cluster.
+        public var clusterType: KafkaClientTypes.ClusterType?
+        /// The time at which the operation finished.
+        public var endTime: ClientRuntime.Date?
+        /// If cluster operation failed from an error, it describes the error.
+        public var errorInfo: KafkaClientTypes.ErrorInfo?
+        /// ARN of the cluster operation.
+        public var operationArn: Swift.String?
+        /// State of the cluster operation.
+        public var operationState: Swift.String?
+        /// Type of the cluster operation.
+        public var operationType: Swift.String?
+        /// Properties of a provisioned cluster.
+        public var provisioned: KafkaClientTypes.ClusterOperationV2Provisioned?
+        /// Properties of a serverless cluster.
+        public var serverless: KafkaClientTypes.ClusterOperationV2Serverless?
+        /// The time at which operation was started.
+        public var startTime: ClientRuntime.Date?
+
+        public init(
+            clusterArn: Swift.String? = nil,
+            clusterType: KafkaClientTypes.ClusterType? = nil,
+            endTime: ClientRuntime.Date? = nil,
+            errorInfo: KafkaClientTypes.ErrorInfo? = nil,
+            operationArn: Swift.String? = nil,
+            operationState: Swift.String? = nil,
+            operationType: Swift.String? = nil,
+            provisioned: KafkaClientTypes.ClusterOperationV2Provisioned? = nil,
+            serverless: KafkaClientTypes.ClusterOperationV2Serverless? = nil,
+            startTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.clusterArn = clusterArn
+            self.clusterType = clusterType
+            self.endTime = endTime
+            self.errorInfo = errorInfo
+            self.operationArn = operationArn
+            self.operationState = operationState
+            self.operationType = operationType
+            self.provisioned = provisioned
+            self.serverless = serverless
+            self.startTime = startTime
+        }
+    }
+
+}
+
+extension KafkaClientTypes.ClusterOperationV2Provisioned: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case operationSteps = "operationSteps"
+        case sourceClusterInfo = "sourceClusterInfo"
+        case targetClusterInfo = "targetClusterInfo"
+        case vpcConnectionInfo = "vpcConnectionInfo"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let operationSteps = operationSteps {
+            var operationStepsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .operationSteps)
+            for clusteroperationstep0 in operationSteps {
+                try operationStepsContainer.encode(clusteroperationstep0)
+            }
+        }
+        if let sourceClusterInfo = self.sourceClusterInfo {
+            try encodeContainer.encode(sourceClusterInfo, forKey: .sourceClusterInfo)
+        }
+        if let targetClusterInfo = self.targetClusterInfo {
+            try encodeContainer.encode(targetClusterInfo, forKey: .targetClusterInfo)
+        }
+        if let vpcConnectionInfo = self.vpcConnectionInfo {
+            try encodeContainer.encode(vpcConnectionInfo, forKey: .vpcConnectionInfo)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let operationStepsContainer = try containerValues.decodeIfPresent([KafkaClientTypes.ClusterOperationStep?].self, forKey: .operationSteps)
+        var operationStepsDecoded0:[KafkaClientTypes.ClusterOperationStep]? = nil
+        if let operationStepsContainer = operationStepsContainer {
+            operationStepsDecoded0 = [KafkaClientTypes.ClusterOperationStep]()
+            for structure0 in operationStepsContainer {
+                if let structure0 = structure0 {
+                    operationStepsDecoded0?.append(structure0)
+                }
+            }
+        }
+        operationSteps = operationStepsDecoded0
+        let sourceClusterInfoDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.MutableClusterInfo.self, forKey: .sourceClusterInfo)
+        sourceClusterInfo = sourceClusterInfoDecoded
+        let targetClusterInfoDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.MutableClusterInfo.self, forKey: .targetClusterInfo)
+        targetClusterInfo = targetClusterInfoDecoded
+        let vpcConnectionInfoDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.VpcConnectionInfo.self, forKey: .vpcConnectionInfo)
+        vpcConnectionInfo = vpcConnectionInfoDecoded
+    }
+}
+
+extension KafkaClientTypes {
+    /// Returns information about a provisioned cluster operation.
+    public struct ClusterOperationV2Provisioned: Swift.Equatable {
+        /// Steps completed during the operation.
+        public var operationSteps: [KafkaClientTypes.ClusterOperationStep]?
+        /// Information about cluster attributes before a cluster is updated.
+        public var sourceClusterInfo: KafkaClientTypes.MutableClusterInfo?
+        /// Information about cluster attributes after a cluster is updated.
+        public var targetClusterInfo: KafkaClientTypes.MutableClusterInfo?
+        /// Description of the VPC connection for CreateVpcConnection and DeleteVpcConnection operations.
+        public var vpcConnectionInfo: KafkaClientTypes.VpcConnectionInfo?
+
+        public init(
+            operationSteps: [KafkaClientTypes.ClusterOperationStep]? = nil,
+            sourceClusterInfo: KafkaClientTypes.MutableClusterInfo? = nil,
+            targetClusterInfo: KafkaClientTypes.MutableClusterInfo? = nil,
+            vpcConnectionInfo: KafkaClientTypes.VpcConnectionInfo? = nil
+        )
+        {
+            self.operationSteps = operationSteps
+            self.sourceClusterInfo = sourceClusterInfo
+            self.targetClusterInfo = targetClusterInfo
+            self.vpcConnectionInfo = vpcConnectionInfo
+        }
+    }
+
+}
+
+extension KafkaClientTypes.ClusterOperationV2Serverless: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case vpcConnectionInfo = "vpcConnectionInfo"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let vpcConnectionInfo = self.vpcConnectionInfo {
+            try encodeContainer.encode(vpcConnectionInfo, forKey: .vpcConnectionInfo)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcConnectionInfoDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.VpcConnectionInfoServerless.self, forKey: .vpcConnectionInfo)
+        vpcConnectionInfo = vpcConnectionInfoDecoded
+    }
+}
+
+extension KafkaClientTypes {
+    /// Returns information about a serverless cluster operation.
+    public struct ClusterOperationV2Serverless: Swift.Equatable {
+        /// Description of the VPC connection for CreateVpcConnection and DeleteVpcConnection operations.
+        public var vpcConnectionInfo: KafkaClientTypes.VpcConnectionInfoServerless?
+
+        public init(
+            vpcConnectionInfo: KafkaClientTypes.VpcConnectionInfoServerless? = nil
+        )
+        {
+            self.vpcConnectionInfo = vpcConnectionInfo
+        }
+    }
+
+}
+
+extension KafkaClientTypes.ClusterOperationV2Summary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clusterArn = "clusterArn"
+        case clusterType = "clusterType"
+        case endTime = "endTime"
+        case operationArn = "operationArn"
+        case operationState = "operationState"
+        case operationType = "operationType"
+        case startTime = "startTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clusterArn = self.clusterArn {
+            try encodeContainer.encode(clusterArn, forKey: .clusterArn)
+        }
+        if let clusterType = self.clusterType {
+            try encodeContainer.encode(clusterType.rawValue, forKey: .clusterType)
+        }
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .dateTime, forKey: .endTime)
+        }
+        if let operationArn = self.operationArn {
+            try encodeContainer.encode(operationArn, forKey: .operationArn)
+        }
+        if let operationState = self.operationState {
+            try encodeContainer.encode(operationState, forKey: .operationState)
+        }
+        if let operationType = self.operationType {
+            try encodeContainer.encode(operationType, forKey: .operationType)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .dateTime, forKey: .startTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterArn)
+        clusterArn = clusterArnDecoded
+        let clusterTypeDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.ClusterType.self, forKey: .clusterType)
+        clusterType = clusterTypeDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .endTime)
+        endTime = endTimeDecoded
+        let operationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationArn)
+        operationArn = operationArnDecoded
+        let operationStateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationState)
+        operationState = operationStateDecoded
+        let operationTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationType)
+        operationType = operationTypeDecoded
+    }
+}
+
+extension KafkaClientTypes {
+    /// Returns information about a cluster operation.
+    public struct ClusterOperationV2Summary: Swift.Equatable {
+        /// ARN of the cluster.
+        public var clusterArn: Swift.String?
+        /// Type of the backend cluster.
+        public var clusterType: KafkaClientTypes.ClusterType?
+        /// The time at which the operation finished.
+        public var endTime: ClientRuntime.Date?
+        /// ARN of the cluster operation.
+        public var operationArn: Swift.String?
+        /// State of the cluster operation.
+        public var operationState: Swift.String?
+        /// Type of the cluster operation.
+        public var operationType: Swift.String?
+        /// The time at which operation was started.
+        public var startTime: ClientRuntime.Date?
+
+        public init(
+            clusterArn: Swift.String? = nil,
+            clusterType: KafkaClientTypes.ClusterType? = nil,
+            endTime: ClientRuntime.Date? = nil,
+            operationArn: Swift.String? = nil,
+            operationState: Swift.String? = nil,
+            operationType: Swift.String? = nil,
+            startTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.clusterArn = clusterArn
+            self.clusterType = clusterType
+            self.endTime = endTime
+            self.operationArn = operationArn
+            self.operationState = operationState
+            self.operationType = operationType
+            self.startTime = startTime
+        }
+    }
+
+}
+
 extension KafkaClientTypes {
     /// The state of the Apache Kafka cluster.
     public enum ClusterState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
@@ -3528,6 +3860,94 @@ extension DescribeClusterOperationOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DescribeClusterOperationV2Input: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let clusterOperationArn = clusterOperationArn else {
+            return nil
+        }
+        return "/api/v2/operations/\(clusterOperationArn.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeClusterOperationV2Input: Swift.Equatable {
+    /// ARN of the cluster operation to describe.
+    /// This member is required.
+    public var clusterOperationArn: Swift.String?
+
+    public init(
+        clusterOperationArn: Swift.String? = nil
+    )
+    {
+        self.clusterOperationArn = clusterOperationArn
+    }
+}
+
+struct DescribeClusterOperationV2InputBody: Swift.Equatable {
+}
+
+extension DescribeClusterOperationV2InputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DescribeClusterOperationV2OutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeClusterOperationV2OutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeClusterOperationV2OutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.clusterOperationInfo = output.clusterOperationInfo
+        } else {
+            self.clusterOperationInfo = nil
+        }
+    }
+}
+
+public struct DescribeClusterOperationV2OutputResponse: Swift.Equatable {
+    /// Cluster operation information
+    public var clusterOperationInfo: KafkaClientTypes.ClusterOperationV2?
+
+    public init(
+        clusterOperationInfo: KafkaClientTypes.ClusterOperationV2? = nil
+    )
+    {
+        self.clusterOperationInfo = clusterOperationInfo
+    }
+}
+
+struct DescribeClusterOperationV2OutputResponseBody: Swift.Equatable {
+    let clusterOperationInfo: KafkaClientTypes.ClusterOperationV2?
+}
+
+extension DescribeClusterOperationV2OutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clusterOperationInfo = "clusterOperationInfo"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterOperationInfoDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.ClusterOperationV2.self, forKey: .clusterOperationInfo)
+        clusterOperationInfo = clusterOperationInfoDecoded
+    }
+}
+
 public enum DescribeClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5389,6 +5809,138 @@ extension ListClusterOperationsOutputResponseBody: Swift.Decodable {
         var clusterOperationInfoListDecoded0:[KafkaClientTypes.ClusterOperationInfo]? = nil
         if let clusterOperationInfoListContainer = clusterOperationInfoListContainer {
             clusterOperationInfoListDecoded0 = [KafkaClientTypes.ClusterOperationInfo]()
+            for structure0 in clusterOperationInfoListContainer {
+                if let structure0 = structure0 {
+                    clusterOperationInfoListDecoded0?.append(structure0)
+                }
+            }
+        }
+        clusterOperationInfoList = clusterOperationInfoListDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListClusterOperationsV2Input: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListClusterOperationsV2Input: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let clusterArn = clusterArn else {
+            return nil
+        }
+        return "/api/v2/clusters/\(clusterArn.urlPercentEncoding())/operations"
+    }
+}
+
+public struct ListClusterOperationsV2Input: Swift.Equatable {
+    /// The arn of the cluster whose operations are being requested.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The maxResults of the query.
+    public var maxResults: Swift.Int?
+    /// The nextToken of the query.
+    public var nextToken: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.clusterArn = clusterArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListClusterOperationsV2InputBody: Swift.Equatable {
+}
+
+extension ListClusterOperationsV2InputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum ListClusterOperationsV2OutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListClusterOperationsV2OutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListClusterOperationsV2OutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.clusterOperationInfoList = output.clusterOperationInfoList
+            self.nextToken = output.nextToken
+        } else {
+            self.clusterOperationInfoList = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListClusterOperationsV2OutputResponse: Swift.Equatable {
+    /// An array of cluster operation information objects.
+    public var clusterOperationInfoList: [KafkaClientTypes.ClusterOperationV2Summary]?
+    /// If the response of ListClusterOperationsV2 is truncated, it returns a NextToken in the response. This NextToken should be sent in the subsequent request to ListClusterOperationsV2.
+    public var nextToken: Swift.String?
+
+    public init(
+        clusterOperationInfoList: [KafkaClientTypes.ClusterOperationV2Summary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.clusterOperationInfoList = clusterOperationInfoList
+        self.nextToken = nextToken
+    }
+}
+
+struct ListClusterOperationsV2OutputResponseBody: Swift.Equatable {
+    let clusterOperationInfoList: [KafkaClientTypes.ClusterOperationV2Summary]?
+    let nextToken: Swift.String?
+}
+
+extension ListClusterOperationsV2OutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clusterOperationInfoList = "clusterOperationInfoList"
+        case nextToken = "nextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterOperationInfoListContainer = try containerValues.decodeIfPresent([KafkaClientTypes.ClusterOperationV2Summary?].self, forKey: .clusterOperationInfoList)
+        var clusterOperationInfoListDecoded0:[KafkaClientTypes.ClusterOperationV2Summary]? = nil
+        if let clusterOperationInfoListContainer = clusterOperationInfoListContainer {
+            clusterOperationInfoListDecoded0 = [KafkaClientTypes.ClusterOperationV2Summary]()
             for structure0 in clusterOperationInfoListContainer {
                 if let structure0 = structure0 {
                     clusterOperationInfoListDecoded0?.append(structure0)
@@ -10459,6 +11011,71 @@ extension KafkaClientTypes.VpcConnectionInfo: Swift.Codable {
 extension KafkaClientTypes {
     /// Description of the VPC connection.
     public struct VpcConnectionInfo: Swift.Equatable {
+        /// The time when Amazon MSK creates the VPC Connnection.
+        public var creationTime: ClientRuntime.Date?
+        /// The owner of the VPC Connection.
+        public var owner: Swift.String?
+        /// Description of the requester that calls the API operation.
+        public var userIdentity: KafkaClientTypes.UserIdentity?
+        /// The Amazon Resource Name (ARN) of the VPC connection.
+        public var vpcConnectionArn: Swift.String?
+
+        public init(
+            creationTime: ClientRuntime.Date? = nil,
+            owner: Swift.String? = nil,
+            userIdentity: KafkaClientTypes.UserIdentity? = nil,
+            vpcConnectionArn: Swift.String? = nil
+        )
+        {
+            self.creationTime = creationTime
+            self.owner = owner
+            self.userIdentity = userIdentity
+            self.vpcConnectionArn = vpcConnectionArn
+        }
+    }
+
+}
+
+extension KafkaClientTypes.VpcConnectionInfoServerless: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "creationTime"
+        case owner = "owner"
+        case userIdentity = "userIdentity"
+        case vpcConnectionArn = "vpcConnectionArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .dateTime, forKey: .creationTime)
+        }
+        if let owner = self.owner {
+            try encodeContainer.encode(owner, forKey: .owner)
+        }
+        if let userIdentity = self.userIdentity {
+            try encodeContainer.encode(userIdentity, forKey: .userIdentity)
+        }
+        if let vpcConnectionArn = self.vpcConnectionArn {
+            try encodeContainer.encode(vpcConnectionArn, forKey: .vpcConnectionArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let ownerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .owner)
+        owner = ownerDecoded
+        let userIdentityDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.UserIdentity.self, forKey: .userIdentity)
+        userIdentity = userIdentityDecoded
+        let vpcConnectionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcConnectionArn)
+        vpcConnectionArn = vpcConnectionArnDecoded
+    }
+}
+
+extension KafkaClientTypes {
+    /// Description of the VPC connection.
+    public struct VpcConnectionInfoServerless: Swift.Equatable {
         /// The time when Amazon MSK creates the VPC Connnection.
         public var creationTime: ClientRuntime.Date?
         /// The owner of the VPC Connection.

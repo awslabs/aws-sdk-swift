@@ -496,6 +496,67 @@ extension AutoScalingClientTypes {
 
 }
 
+extension AutoScalingClientTypes.AlarmSpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case alarms = "Alarms"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let alarms = alarms {
+            if !alarms.isEmpty {
+                var alarmsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Alarms"))
+                for (index0, xmlstringmaxlen2550) in alarms.enumerated() {
+                    try alarmsContainer.encode(xmlstringmaxlen2550, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var alarmsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Alarms"))
+                try alarmsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        if containerValues.contains(.alarms) {
+            struct KeyVal0{struct member{}}
+            let alarmsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .alarms)
+            if let alarmsWrappedContainer = alarmsWrappedContainer {
+                let alarmsContainer = try alarmsWrappedContainer.decodeIfPresent([Swift.String].self, forKey: .member)
+                var alarmsBuffer:[Swift.String]? = nil
+                if let alarmsContainer = alarmsContainer {
+                    alarmsBuffer = [Swift.String]()
+                    for stringContainer0 in alarmsContainer {
+                        alarmsBuffer?.append(stringContainer0)
+                    }
+                }
+                alarms = alarmsBuffer
+            } else {
+                alarms = []
+            }
+        } else {
+            alarms = nil
+        }
+    }
+}
+
+extension AutoScalingClientTypes {
+    /// Specifies the CloudWatch alarm specification to use in an instance refresh.
+    public struct AlarmSpecification: Swift.Equatable {
+        /// The names of one or more CloudWatch alarms to monitor for the instance refresh.
+        public var alarms: [Swift.String]?
+
+        public init(
+            alarms: [Swift.String]? = nil
+        )
+        {
+            self.alarms = alarms
+        }
+    }
+
+}
+
 extension AlreadyExistsFault {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -13776,7 +13837,7 @@ public struct PutScalingPolicyInput: Swift.Equatable {
     public var policyType: Swift.String?
     /// A predictive scaling policy. Provides support for predefined and custom metrics. Predefined metrics include CPU utilization, network in/out, and the Application Load Balancer request count. For more information, see [PredictiveScalingConfiguration](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_PredictiveScalingConfiguration.html) in the Amazon EC2 Auto Scaling API Reference. Required if the policy type is PredictiveScaling.
     public var predictiveScalingConfiguration: AutoScalingClientTypes.PredictiveScalingConfiguration?
-    /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current capacity while a negative number removes from the current capacity. For exact capacity, you must specify a positive value. Required if the policy type is SimpleScaling. (Not used with any other policy type.)
+    /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current capacity while a negative number removes from the current capacity. For exact capacity, you must specify a non-negative value. Required if the policy type is SimpleScaling. (Not used with any other policy type.)
     public var scalingAdjustment: Swift.Int?
     /// A set of adjustments that enable you to scale based on the size of the alarm breach. Required if the policy type is StepScaling. (Not used with any other policy type.)
     public var stepAdjustments: [AutoScalingClientTypes.StepAdjustment]?
@@ -14375,6 +14436,7 @@ public struct RecordLifecycleActionHeartbeatOutputResponse: Swift.Equatable {
 
 extension AutoScalingClientTypes.RefreshPreferences: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case alarmSpecification = "AlarmSpecification"
         case autoRollback = "AutoRollback"
         case checkpointDelay = "CheckpointDelay"
         case checkpointPercentages = "CheckpointPercentages"
@@ -14387,6 +14449,9 @@ extension AutoScalingClientTypes.RefreshPreferences: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let alarmSpecification = alarmSpecification {
+            try container.encode(alarmSpecification, forKey: ClientRuntime.Key("AlarmSpecification"))
+        }
         if let autoRollback = autoRollback {
             try container.encode(autoRollback, forKey: ClientRuntime.Key("AutoRollback"))
         }
@@ -14457,19 +14522,26 @@ extension AutoScalingClientTypes.RefreshPreferences: Swift.Codable {
         scaleInProtectedInstances = scaleInProtectedInstancesDecoded
         let standbyInstancesDecoded = try containerValues.decodeIfPresent(AutoScalingClientTypes.StandbyInstances.self, forKey: .standbyInstances)
         standbyInstances = standbyInstancesDecoded
+        let alarmSpecificationDecoded = try containerValues.decodeIfPresent(AutoScalingClientTypes.AlarmSpecification.self, forKey: .alarmSpecification)
+        alarmSpecification = alarmSpecificationDecoded
     }
 }
 
 extension AutoScalingClientTypes {
     /// Describes the preferences for an instance refresh.
     public struct RefreshPreferences: Swift.Equatable {
-        /// (Optional) Indicates whether to roll back the Auto Scaling group to its previous configuration if the instance refresh fails. The default is false. A rollback is not supported in the following situations:
+        /// (Optional) The CloudWatch alarm specification. CloudWatch alarms can be used to identify any issues and fail the operation if an alarm threshold is met.
+        public var alarmSpecification: AutoScalingClientTypes.AlarmSpecification?
+        /// (Optional) Indicates whether to roll back the Auto Scaling group to its previous configuration if the instance refresh fails or a CloudWatch alarm threshold is met. The default is false. A rollback is not supported in the following situations:
         ///
         /// * There is no desired configuration specified for the instance refresh.
         ///
         /// * The Auto Scaling group has a launch template that uses an Amazon Web Services Systems Manager parameter instead of an AMI ID for the ImageId property.
         ///
         /// * The Auto Scaling group uses the launch template's $Latest or $Default version.
+        ///
+        ///
+        /// For more information, see [Undo changes with a rollback](https://docs.aws.amazon.com/autoscaling/ec2/userguide/instance-refresh-rollback.html) in the Amazon EC2 Auto Scaling User Guide.
         public var autoRollback: Swift.Bool?
         /// (Optional) The amount of time, in seconds, to wait after a checkpoint before continuing. This property is optional, but if you specify a value for it, you must also specify a value for CheckpointPercentages. If you specify a value for CheckpointPercentages and not for CheckpointDelay, the CheckpointDelay defaults to 3600 (1 hour).
         public var checkpointDelay: Swift.Int?
@@ -14487,6 +14559,7 @@ extension AutoScalingClientTypes {
         public var standbyInstances: AutoScalingClientTypes.StandbyInstances?
 
         public init(
+            alarmSpecification: AutoScalingClientTypes.AlarmSpecification? = nil,
             autoRollback: Swift.Bool? = nil,
             checkpointDelay: Swift.Int? = nil,
             checkpointPercentages: [Swift.Int]? = nil,
@@ -14497,6 +14570,7 @@ extension AutoScalingClientTypes {
             standbyInstances: AutoScalingClientTypes.StandbyInstances? = nil
         )
         {
+            self.alarmSpecification = alarmSpecification
             self.autoRollback = autoRollback
             self.checkpointDelay = checkpointDelay
             self.checkpointPercentages = checkpointPercentages
@@ -14868,6 +14942,7 @@ extension RollbackInstanceRefreshInput: ClientRuntime.URLPathProvider {
 
 public struct RollbackInstanceRefreshInput: Swift.Equatable {
     /// The name of the Auto Scaling group.
+    /// This member is required.
     public var autoScalingGroupName: Swift.String?
 
     public init(
@@ -16016,6 +16091,8 @@ public struct StartInstanceRefreshInput: Swift.Equatable {
     ///
     /// * Checkpoints
     ///
+    /// * CloudWatch alarms
+    ///
     /// * Skip matching
     public var preferences: AutoScalingClientTypes.RefreshPreferences?
     /// The strategy to use for the instance refresh. The only valid value is Rolling.
@@ -16172,7 +16249,7 @@ extension AutoScalingClientTypes {
         public var metricIntervalLowerBound: Swift.Double?
         /// The upper bound for the difference between the alarm threshold and the CloudWatch metric. If the metric value is above the breach threshold, the upper bound is exclusive (the metric must be less than the threshold plus the upper bound). Otherwise, it is inclusive (the metric must be less than or equal to the threshold plus the upper bound). A null value indicates positive infinity. The upper bound must be greater than the lower bound.
         public var metricIntervalUpperBound: Swift.Double?
-        /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current capacity while a negative number removes from the current capacity. The amount by which to scale. The adjustment is based on the value that you specified in the AdjustmentType property (either an absolute number or a percentage). A positive value adds to the current capacity and a negative number subtracts from the current capacity.
+        /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current capacity while a negative number removes from the current capacity. For exact capacity, you must specify a non-negative value.
         /// This member is required.
         public var scalingAdjustment: Swift.Int?
 

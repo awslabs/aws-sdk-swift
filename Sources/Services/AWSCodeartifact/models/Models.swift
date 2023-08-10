@@ -6671,7 +6671,7 @@ public struct PublishPackageVersionInput: Swift.Equatable {
     public var domain: Swift.String?
     /// The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
     public var domainOwner: Swift.String?
-    /// A format that specifies the type of the package version with the requested asset file.
+    /// A format that specifies the type of the package version with the requested asset file. The only supported value is generic.
     /// This member is required.
     public var format: CodeartifactClientTypes.PackageFormat?
     /// The namespace of the package version to publish.

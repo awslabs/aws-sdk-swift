@@ -107,11 +107,11 @@ extension CodeStarconnectionsClientTypes.Connection: Swift.Codable {
 }
 
 extension CodeStarconnectionsClientTypes {
-    /// A resource that is used to connect third-party source providers with services like AWS CodePipeline. Note: A connection created through CloudFormation, the CLI, or the SDK is in `PENDING` status by default. You can make its status `AVAILABLE` by updating the connection in the console.
+    /// A resource that is used to connect third-party source providers with services like CodePipeline. Note: A connection created through CloudFormation, the CLI, or the SDK is in `PENDING` status by default. You can make its status `AVAILABLE` by updating the connection in the console.
     public struct Connection: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the connection. The ARN is used as the connection reference when the connection is shared between AWS services. The ARN is never reused if the connection is deleted.
+        /// The Amazon Resource Name (ARN) of the connection. The ARN is used as the connection reference when the connection is shared between Amazon Web Services. The ARN is never reused if the connection is deleted.
         public var connectionArn: Swift.String?
-        /// The name of the connection. Connection names must be unique in an AWS user account.
+        /// The name of the connection. Connection names must be unique in an Amazon Web Services account.
         public var connectionName: Swift.String?
         /// The current status of the connection.
         public var connectionStatus: CodeStarconnectionsClientTypes.ConnectionStatus?
@@ -212,7 +212,7 @@ extension CreateConnectionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateConnectionInput: Swift.Equatable {
-    /// The name of the connection to be created. The name must be unique in the calling AWS account.
+    /// The name of the connection to be created.
     /// This member is required.
     public var connectionName: Swift.String?
     /// The Amazon Resource Name (ARN) of the host associated with the connection to be created.
@@ -301,7 +301,7 @@ extension CreateConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateConnectionOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the connection to be created. The ARN is used as the connection reference when the connection is shared between AWS services. The ARN is never reused if the connection is deleted.
+    /// The Amazon Resource Name (ARN) of the connection to be created. The ARN is used as the connection reference when the connection is shared between Amazon Web Services services. The ARN is never reused if the connection is deleted.
     /// This member is required.
     public var connectionArn: Swift.String?
     /// Specifies the tags applied to the resource.
@@ -385,7 +385,7 @@ extension CreateHostInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateHostInput: Swift.Equatable {
-    /// The name of the host to be created. The name must be unique in the calling AWS account.
+    /// The name of the host to be created.
     /// This member is required.
     public var name: Swift.String?
     /// The endpoint of the infrastructure to be represented by the host after it is created.
@@ -1066,7 +1066,7 @@ extension ListConnectionsInput: Swift.Encodable {
         if let hostArnFilter = self.hostArnFilter {
             try encodeContainer.encode(hostArnFilter, forKey: .hostArnFilter)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -1088,7 +1088,7 @@ public struct ListConnectionsInput: Swift.Equatable {
     /// Filters the list of connections to those associated with a specified host.
     public var hostArnFilter: Swift.String?
     /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token that was returned from the previous ListConnections call, which can be used to return the next set of connections in the list.
     public var nextToken: Swift.String?
     /// Filters the list of connections to those associated with a specified provider, such as Bitbucket.
@@ -1096,7 +1096,7 @@ public struct ListConnectionsInput: Swift.Equatable {
 
     public init(
         hostArnFilter: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         providerTypeFilter: CodeStarconnectionsClientTypes.ProviderType? = nil
     )
@@ -1111,7 +1111,7 @@ public struct ListConnectionsInput: Swift.Equatable {
 struct ListConnectionsInputBody: Swift.Equatable {
     let providerTypeFilter: CodeStarconnectionsClientTypes.ProviderType?
     let hostArnFilter: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -1129,7 +1129,7 @@ extension ListConnectionsInputBody: Swift.Decodable {
         providerTypeFilter = providerTypeFilterDecoded
         let hostArnFilterDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostArnFilter)
         hostArnFilter = hostArnFilterDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -1141,6 +1141,7 @@ public enum ListConnectionsOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -1213,7 +1214,7 @@ extension ListHostsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -1230,12 +1231,12 @@ extension ListHostsInput: ClientRuntime.URLPathProvider {
 
 public struct ListHostsInput: Swift.Equatable {
     /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token that was returned from the previous ListHosts call, which can be used to return the next set of hosts in the list.
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -1245,7 +1246,7 @@ public struct ListHostsInput: Swift.Equatable {
 }
 
 struct ListHostsInputBody: Swift.Equatable {
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -1257,7 +1258,7 @@ extension ListHostsInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -1446,6 +1447,7 @@ extension CodeStarconnectionsClientTypes {
         case bitbucket
         case github
         case githubEnterpriseServer
+        case gitlab
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ProviderType] {
@@ -1453,6 +1455,7 @@ extension CodeStarconnectionsClientTypes {
                 .bitbucket,
                 .github,
                 .githubEnterpriseServer,
+                .gitlab,
                 .sdkUnknown("")
             ]
         }
@@ -1465,6 +1468,7 @@ extension CodeStarconnectionsClientTypes {
             case .bitbucket: return "Bitbucket"
             case .github: return "GitHub"
             case .githubEnterpriseServer: return "GitHubEnterpriseServer"
+            case .gitlab: return "GitLab"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1612,7 +1616,7 @@ extension CodeStarconnectionsClientTypes.Tag: Swift.Codable {
 }
 
 extension CodeStarconnectionsClientTypes {
-    /// A tag is a key-value pair that is used to manage the resource. This tag is available for use by AWS services that support tags.
+    /// A tag is a key-value pair that is used to manage the resource. This tag is available for use by Amazon Web Services services that support tags.
     public struct Tag: Swift.Equatable {
         /// The tag's key.
         /// This member is required.

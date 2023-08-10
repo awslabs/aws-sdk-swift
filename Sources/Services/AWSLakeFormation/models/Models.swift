@@ -1661,7 +1661,7 @@ extension LakeFormationClientTypes.DataCellsFilter: Swift.Codable {
 extension LakeFormationClientTypes {
     /// A structure that describes certain columns on certain rows.
     public struct DataCellsFilter: Swift.Equatable {
-        /// A list of column names.
+        /// A list of column names and/or nested column attributes. When specifying nested attributes, use a qualified dot (.) delimited format such as "address"."zip". Nested attributes within this list may not exceed a depth of 5.
         public var columnNames: [Swift.String]?
         /// A wildcard with exclusions. You must specify either a ColumnNames list or the ColumnWildCard.
         public var columnWildcard: LakeFormationClientTypes.ColumnWildcard?
@@ -1859,12 +1859,14 @@ extension LakeFormationClientTypes {
 extension LakeFormationClientTypes.DataLakeSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case allowExternalDataFiltering = "AllowExternalDataFiltering"
+        case allowFullTableExternalDataAccess = "AllowFullTableExternalDataAccess"
         case authorizedSessionTagValueList = "AuthorizedSessionTagValueList"
         case createDatabaseDefaultPermissions = "CreateDatabaseDefaultPermissions"
         case createTableDefaultPermissions = "CreateTableDefaultPermissions"
         case dataLakeAdmins = "DataLakeAdmins"
         case externalDataFilteringAllowList = "ExternalDataFilteringAllowList"
         case parameters = "Parameters"
+        case readOnlyAdmins = "ReadOnlyAdmins"
         case trustedResourceOwners = "TrustedResourceOwners"
     }
 
@@ -1872,6 +1874,9 @@ extension LakeFormationClientTypes.DataLakeSettings: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let allowExternalDataFiltering = self.allowExternalDataFiltering {
             try encodeContainer.encode(allowExternalDataFiltering, forKey: .allowExternalDataFiltering)
+        }
+        if let allowFullTableExternalDataAccess = self.allowFullTableExternalDataAccess {
+            try encodeContainer.encode(allowFullTableExternalDataAccess, forKey: .allowFullTableExternalDataAccess)
         }
         if let authorizedSessionTagValueList = authorizedSessionTagValueList {
             var authorizedSessionTagValueListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .authorizedSessionTagValueList)
@@ -1909,6 +1914,12 @@ extension LakeFormationClientTypes.DataLakeSettings: Swift.Codable {
                 try parametersContainer.encode(parametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
+        if let readOnlyAdmins = readOnlyAdmins {
+            var readOnlyAdminsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .readOnlyAdmins)
+            for datalakeprincipal0 in readOnlyAdmins {
+                try readOnlyAdminsContainer.encode(datalakeprincipal0)
+            }
+        }
         if let trustedResourceOwners = trustedResourceOwners {
             var trustedResourceOwnersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .trustedResourceOwners)
             for catalogidstring0 in trustedResourceOwners {
@@ -1930,6 +1941,17 @@ extension LakeFormationClientTypes.DataLakeSettings: Swift.Codable {
             }
         }
         dataLakeAdmins = dataLakeAdminsDecoded0
+        let readOnlyAdminsContainer = try containerValues.decodeIfPresent([LakeFormationClientTypes.DataLakePrincipal?].self, forKey: .readOnlyAdmins)
+        var readOnlyAdminsDecoded0:[LakeFormationClientTypes.DataLakePrincipal]? = nil
+        if let readOnlyAdminsContainer = readOnlyAdminsContainer {
+            readOnlyAdminsDecoded0 = [LakeFormationClientTypes.DataLakePrincipal]()
+            for structure0 in readOnlyAdminsContainer {
+                if let structure0 = structure0 {
+                    readOnlyAdminsDecoded0?.append(structure0)
+                }
+            }
+        }
+        readOnlyAdmins = readOnlyAdminsDecoded0
         let createDatabaseDefaultPermissionsContainer = try containerValues.decodeIfPresent([LakeFormationClientTypes.PrincipalPermissions?].self, forKey: .createDatabaseDefaultPermissions)
         var createDatabaseDefaultPermissionsDecoded0:[LakeFormationClientTypes.PrincipalPermissions]? = nil
         if let createDatabaseDefaultPermissionsContainer = createDatabaseDefaultPermissionsContainer {
@@ -1976,6 +1998,8 @@ extension LakeFormationClientTypes.DataLakeSettings: Swift.Codable {
         trustedResourceOwners = trustedResourceOwnersDecoded0
         let allowExternalDataFilteringDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowExternalDataFiltering)
         allowExternalDataFiltering = allowExternalDataFilteringDecoded
+        let allowFullTableExternalDataAccessDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowFullTableExternalDataAccess)
+        allowFullTableExternalDataAccess = allowFullTableExternalDataAccessDecoded
         let externalDataFilteringAllowListContainer = try containerValues.decodeIfPresent([LakeFormationClientTypes.DataLakePrincipal?].self, forKey: .externalDataFilteringAllowList)
         var externalDataFilteringAllowListDecoded0:[LakeFormationClientTypes.DataLakePrincipal]? = nil
         if let externalDataFilteringAllowListContainer = externalDataFilteringAllowListContainer {
@@ -2004,8 +2028,10 @@ extension LakeFormationClientTypes.DataLakeSettings: Swift.Codable {
 extension LakeFormationClientTypes {
     /// A structure representing a list of Lake Formation principals designated as data lake administrators and lists of principal permission entries for default create database and default create table permissions.
     public struct DataLakeSettings: Swift.Equatable {
-        /// Whether to allow Amazon EMR clusters to access data managed by Lake Formation. If true, you allow Amazon EMR clusters to access data in Amazon S3 locations that are registered with Lake Formation. If false or null, no Amazon EMR clusters will be able to access data in Amazon S3 locations that are registered with Lake Formation. For more information, see [(Optional) Allow Data Filtering on Amazon EMR](https://docs-aws.amazon.com/lake-formation/latest/dg/getting-started-setup.html#emr-switch).
+        /// Whether to allow Amazon EMR clusters to access data managed by Lake Formation. If true, you allow Amazon EMR clusters to access data in Amazon S3 locations that are registered with Lake Formation. If false or null, no Amazon EMR clusters will be able to access data in Amazon S3 locations that are registered with Lake Formation. For more information, see [(Optional) Allow external data filtering](https://docs.aws.amazon.com/lake-formation/latest/dg/initial-LF-setup.html#external-data-filter).
         public var allowExternalDataFiltering: Swift.Bool?
+        /// Whether to allow a third-party query engine to get data access credentials without session tags when a caller has full data access permissions.
+        public var allowFullTableExternalDataAccess: Swift.Bool?
         /// Lake Formation relies on a privileged process secured by Amazon EMR or the third party integrator to tag the user's role while assuming it. Lake Formation will publish the acceptable key-value pair, for example key = "LakeFormationTrustedCaller" and value = "TRUE" and the third party integrator must properly tag the temporary security credentials that will be used to call Lake Formation's administrative APIs.
         public var authorizedSessionTagValueList: [Swift.String]?
         /// Specifies whether access control on newly created database is managed by Lake Formation permissions or exclusively by IAM permissions. A null value indicates access control by Lake Formation permissions. A value that assigns ALL to IAM_ALLOWED_PRINCIPALS indicates access control by IAM permissions. This is referred to as the setting "Use only IAM access control," and is for backward compatibility with the Glue permission model implemented by IAM permissions. The only permitted values are an empty array or an array that contains a single JSON object that grants ALL to IAM_ALLOWED_PRINCIPALS. For more information, see [Changing the Default Security Settings for Your Data Lake](https://docs.aws.amazon.com/lake-formation/latest/dg/change-settings.html).
@@ -2018,27 +2044,33 @@ extension LakeFormationClientTypes {
         public var externalDataFilteringAllowList: [LakeFormationClientTypes.DataLakePrincipal]?
         /// A key-value map that provides an additional configuration on your data lake. CrossAccountVersion is the key you can configure in the Parameters field. Accepted values for the CrossAccountVersion key are 1, 2, and 3.
         public var parameters: [Swift.String:Swift.String]?
+        /// A list of Lake Formation principals with only view access to the resources, without the ability to make changes. Supported principals are IAM users or IAM roles.
+        public var readOnlyAdmins: [LakeFormationClientTypes.DataLakePrincipal]?
         /// A list of the resource-owning account IDs that the caller's account can use to share their user access details (user ARNs). The user ARNs can be logged in the resource owner's CloudTrail log. You may want to specify this property when you are in a high-trust boundary, such as the same team or company.
         public var trustedResourceOwners: [Swift.String]?
 
         public init(
             allowExternalDataFiltering: Swift.Bool? = nil,
+            allowFullTableExternalDataAccess: Swift.Bool? = nil,
             authorizedSessionTagValueList: [Swift.String]? = nil,
             createDatabaseDefaultPermissions: [LakeFormationClientTypes.PrincipalPermissions]? = nil,
             createTableDefaultPermissions: [LakeFormationClientTypes.PrincipalPermissions]? = nil,
             dataLakeAdmins: [LakeFormationClientTypes.DataLakePrincipal]? = nil,
             externalDataFilteringAllowList: [LakeFormationClientTypes.DataLakePrincipal]? = nil,
             parameters: [Swift.String:Swift.String]? = nil,
+            readOnlyAdmins: [LakeFormationClientTypes.DataLakePrincipal]? = nil,
             trustedResourceOwners: [Swift.String]? = nil
         )
         {
             self.allowExternalDataFiltering = allowExternalDataFiltering
+            self.allowFullTableExternalDataAccess = allowFullTableExternalDataAccess
             self.authorizedSessionTagValueList = authorizedSessionTagValueList
             self.createDatabaseDefaultPermissions = createDatabaseDefaultPermissions
             self.createTableDefaultPermissions = createTableDefaultPermissions
             self.dataLakeAdmins = dataLakeAdmins
             self.externalDataFilteringAllowList = externalDataFilteringAllowList
             self.parameters = parameters
+            self.readOnlyAdmins = readOnlyAdmins
             self.trustedResourceOwners = trustedResourceOwners
         }
     }
@@ -4482,7 +4514,6 @@ public struct GetTemporaryGluePartitionCredentialsInput: Swift.Equatable {
     /// Filters the request based on the user having been granted a list of specified permissions on the requested resource(s).
     public var permissions: [LakeFormationClientTypes.Permission]?
     /// A list of supported permission types for the partition. Valid values are COLUMN_PERMISSION and CELL_FILTER_PERMISSION.
-    /// This member is required.
     public var supportedPermissionTypes: [LakeFormationClientTypes.PermissionType]?
     /// The ARN of the partitions' table.
     /// This member is required.
@@ -4695,7 +4726,6 @@ public struct GetTemporaryGlueTableCredentialsInput: Swift.Equatable {
     /// Filters the request based on the user having been granted a list of specified permissions on the requested resource(s).
     public var permissions: [LakeFormationClientTypes.Permission]?
     /// A list of supported permission types for the table. Valid values are COLUMN_PERMISSION and CELL_FILTER_PERMISSION.
-    /// This member is required.
     public var supportedPermissionTypes: [LakeFormationClientTypes.PermissionType]?
     /// The ARN identifying a table in the Data Catalog for the temporary credentials request.
     /// This member is required.
@@ -6970,12 +7000,13 @@ extension LakeFormationClientTypes {
         case alter
         case associate
         case createDatabase
+        case createLfTag
         case createTable
-        case createTag
         case dataLocationAccess
         case delete
         case describe
         case drop
+        case grantWithLfTagExpression
         case insert
         case select
         case sdkUnknown(Swift.String)
@@ -6986,12 +7017,13 @@ extension LakeFormationClientTypes {
                 .alter,
                 .associate,
                 .createDatabase,
+                .createLfTag,
                 .createTable,
-                .createTag,
                 .dataLocationAccess,
                 .delete,
                 .describe,
                 .drop,
+                .grantWithLfTagExpression,
                 .insert,
                 .select,
                 .sdkUnknown("")
@@ -7007,12 +7039,13 @@ extension LakeFormationClientTypes {
             case .alter: return "ALTER"
             case .associate: return "ASSOCIATE"
             case .createDatabase: return "CREATE_DATABASE"
+            case .createLfTag: return "CREATE_LF_TAG"
             case .createTable: return "CREATE_TABLE"
-            case .createTag: return "CREATE_TAG"
             case .dataLocationAccess: return "DATA_LOCATION_ACCESS"
             case .delete: return "DELETE"
             case .describe: return "DESCRIBE"
             case .drop: return "DROP"
+            case .grantWithLfTagExpression: return "GRANT_WITH_LF_TAG_EXPRESSION"
             case .insert: return "INSERT"
             case .select: return "SELECT"
             case let .sdkUnknown(s): return s
@@ -7030,12 +7063,16 @@ extension LakeFormationClientTypes {
     public enum PermissionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case cellFilterPermission
         case columnPermission
+        case nestedCellPermission
+        case nestedPermission
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PermissionType] {
             return [
                 .cellFilterPermission,
                 .columnPermission,
+                .nestedCellPermission,
+                .nestedPermission,
                 .sdkUnknown("")
             ]
         }
@@ -7047,6 +7084,8 @@ extension LakeFormationClientTypes {
             switch self {
             case .cellFilterPermission: return "CELL_FILTER_PERMISSION"
             case .columnPermission: return "COLUMN_PERMISSION"
+            case .nestedCellPermission: return "NESTED_CELL_PERMISSION"
+            case .nestedPermission: return "NESTED_PERMISSION"
             case let .sdkUnknown(s): return s
             }
         }

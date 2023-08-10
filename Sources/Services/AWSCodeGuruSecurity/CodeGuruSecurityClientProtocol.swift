@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-/// This section provides documentation for the [Amazon CodeGuru Security](https://docs.aws.amazon.com/https:/docs.aws.amazon.com/codeguru/latest/security-ug/what-is-codeguru-security.html) API operations. CodeGuru Security is a service that uses program analysis and machine learning to detect security policy violations and vulnerabilities, and recommends ways to address these security risks. By proactively detecting and providing recommendations for addressing security risks, CodeGuru Security improves the overall security of your application code. For more information about CodeGuru Security, see the [Amazon CodeGuru Security User Guide](https://docs.aws.amazon.com/codeguru/latest/security-ug/what-is-codeguru-security.html).
+/// Amazon CodeGuru Security is in preview release and is subject to change. This section provides documentation for the Amazon CodeGuru Security API operations. CodeGuru Security is a service that uses program analysis and machine learning to detect security policy violations and vulnerabilities, and recommends ways to address these security risks. By proactively detecting and providing recommendations for addressing security risks, CodeGuru Security improves the overall security of your application code. For more information about CodeGuru Security, see the [Amazon CodeGuru Security User Guide](https://docs.aws.amazon.com/codeguru/latest/security-ug/what-is-codeguru-security.html).
 public protocol CodeGuruSecurityClientProtocol {
     /// Returns a list of all requested findings.
     func batchGetFindings(input: BatchGetFindingsInput) async throws -> BatchGetFindingsOutputResponse
@@ -20,7 +20,7 @@ public protocol CodeGuruSecurityClientProtocol {
     func getScan(input: GetScanInput) async throws -> GetScanOutputResponse
     /// Returns metrics about all findings in an account within a specified time range.
     func listFindingsMetrics(input: ListFindingsMetricsInput) async throws -> ListFindingsMetricsOutputResponse
-    /// Returns a list of all the scans in an account.
+    /// Returns a list of all the standard scans in an account. Does not return express scans.
     func listScans(input: ListScansInput) async throws -> ListScansOutputResponse
     /// Returns a list of all tags associated with a scan.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse

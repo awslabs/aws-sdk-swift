@@ -191,6 +191,37 @@ extension PaginatorSequence where Input == ListFirewallRulesInput, Output == Lis
     }
 }
 extension Route53ResolverClient {
+    /// Paginate over `[ListOutpostResolversOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListOutpostResolversInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListOutpostResolversOutputResponse`
+    public func listOutpostResolversPaginated(input: ListOutpostResolversInput) -> ClientRuntime.PaginatorSequence<ListOutpostResolversInput, ListOutpostResolversOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListOutpostResolversInput, ListOutpostResolversOutputResponse>(input: input, inputKey: \ListOutpostResolversInput.nextToken, outputKey: \ListOutpostResolversOutputResponse.nextToken, paginationFunction: self.listOutpostResolvers(input:))
+    }
+}
+
+extension ListOutpostResolversInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListOutpostResolversInput {
+        return ListOutpostResolversInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            outpostArn: self.outpostArn
+        )}
+}
+
+extension PaginatorSequence where Input == ListOutpostResolversInput, Output == ListOutpostResolversOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listOutpostResolversPaginated`
+    /// to access the nested member `[Route53ResolverClientTypes.OutpostResolver]`
+    /// - Returns: `[Route53ResolverClientTypes.OutpostResolver]`
+    public func outpostResolvers() async throws -> [Route53ResolverClientTypes.OutpostResolver] {
+        return try await self.asyncCompactMap { item in item.outpostResolvers }
+    }
+}
+extension Route53ResolverClient {
     /// Paginate over `[ListResolverConfigsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

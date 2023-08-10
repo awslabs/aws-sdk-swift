@@ -426,6 +426,8 @@ public protocol SageMakerClientProtocol {
     func getModelPackageGroupPolicy(input: GetModelPackageGroupPolicyInput) async throws -> GetModelPackageGroupPolicyOutputResponse
     /// Gets the status of Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects.
     func getSagemakerServicecatalogPortfolioStatus(input: GetSagemakerServicecatalogPortfolioStatusInput) async throws -> GetSagemakerServicecatalogPortfolioStatusOutputResponse
+    /// Starts an Amazon SageMaker Inference Recommender autoscaling recommendation job. Returns recommendations for autoscaling policies that you can apply to your SageMaker endpoint.
+    func getScalingConfigurationRecommendation(input: GetScalingConfigurationRecommendationInput) async throws -> GetScalingConfigurationRecommendationOutputResponse
     /// An auto-complete API for the search functionality in the SageMaker console. It returns suggestions of possible matches for the property name to use in Search queries. Provides suggestions for HyperParameters, Tags, and Metrics.
     func getSearchSuggestions(input: GetSearchSuggestionsInput) async throws -> GetSearchSuggestionsOutputResponse
     /// Import hub content. Hub APIs are only callable through SageMaker Studio.
@@ -546,6 +548,8 @@ public protocol SageMakerClientProtocol {
     func listProcessingJobs(input: ListProcessingJobsInput) async throws -> ListProcessingJobsOutputResponse
     /// Gets a list of the projects in an Amazon Web Services account.
     func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutputResponse
+    /// Lists Amazon SageMaker Catalogs based on given filters and orders. The maximum number of ResourceCatalogs viewable is 1000.
+    func listResourceCatalogs(input: ListResourceCatalogsInput) async throws -> ListResourceCatalogsOutputResponse
     /// Lists spaces.
     func listSpaces(input: ListSpacesInput) async throws -> ListSpacesOutputResponse
     /// Lists devices allocated to the stage, containing detailed device information and deployment status.
@@ -654,7 +658,7 @@ public protocol SageMakerClientProtocol {
     func updateEndpointWeightsAndCapacities(input: UpdateEndpointWeightsAndCapacitiesInput) async throws -> UpdateEndpointWeightsAndCapacitiesOutputResponse
     /// Adds, updates, or removes the description of an experiment. Updates the display name of an experiment.
     func updateExperiment(input: UpdateExperimentInput) async throws -> UpdateExperimentOutputResponse
-    /// Updates the feature group.
+    /// Updates the feature group by either adding features or updating the online store configuration. Use one of the following request parameters at a time while using the UpdateFeatureGroup API. You can add features for your feature group using the FeatureAdditions request parameter. Features cannot be removed from a feature group. You can update the online store configuration by using the OnlineStoreConfig request parameter. If a TtlDuration is specified, the default TtlDuration applies for all records added to the feature group after the feature group is updated. If a record level TtlDuration exists from using the PutRecord API, the record level TtlDuration applies to that record instead of the default TtlDuration.
     func updateFeatureGroup(input: UpdateFeatureGroupInput) async throws -> UpdateFeatureGroupOutputResponse
     /// Updates the description and parameters of the feature group.
     func updateFeatureMetadata(input: UpdateFeatureMetadataInput) async throws -> UpdateFeatureMetadataOutputResponse

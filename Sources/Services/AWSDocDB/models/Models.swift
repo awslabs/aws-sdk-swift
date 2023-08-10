@@ -11623,6 +11623,9 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
 extension ModifyDBClusterInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if allowMajorVersionUpgrade != false {
+            try container.encode(allowMajorVersionUpgrade, forKey: ClientRuntime.Key("AllowMajorVersionUpgrade"))
+        }
         if applyImmediately != false {
             try container.encode(applyImmediately, forKey: ClientRuntime.Key("ApplyImmediately"))
         }
@@ -11684,6 +11687,8 @@ extension ModifyDBClusterInput: ClientRuntime.URLPathProvider {
 
 /// Represents the input to [ModifyDBCluster].
 public struct ModifyDBClusterInput: Swift.Equatable {
+    /// A value that indicates whether major version upgrades are allowed. Constraints: You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the DB cluster's current version.
+    public var allowMajorVersionUpgrade: Swift.Bool
     /// A value that specifies whether the changes in this request and any pending changes are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cluster. If this parameter is set to false, changes to the cluster are applied during the next maintenance window. The ApplyImmediately parameter affects only the NewDBClusterIdentifier and MasterUserPassword values. If you set this parameter value to false, the changes to the NewDBClusterIdentifier and MasterUserPassword values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false
     public var applyImmediately: Swift.Bool
     /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:
@@ -11701,7 +11706,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
     public var dbClusterParameterGroupName: Swift.String?
     /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
     public var deletionProtection: Swift.Bool?
-    /// The version number of the database engine to which you want to upgrade. Modifying engine version is not supported on Amazon DocumentDB.
+    /// The version number of the database engine to which you want to upgrade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless ApplyImmediately is enabled. To list all of the available engine versions for Amazon DocumentDB use the following command: aws docdb describe-db-engine-versions --engine docdb --query "DBEngineVersions[].EngineVersion"
     public var engineVersion: Swift.String?
     /// The password for the master database user. This password can contain any printable ASCII character except forward slash (/), double quote ("), or the "at" symbol (@). Constraints: Must contain from 8 to 100 characters.
     public var masterUserPassword: Swift.String?
@@ -11734,6 +11739,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
     public var vpcSecurityGroupIds: [Swift.String]?
 
     public init(
+        allowMajorVersionUpgrade: Swift.Bool = false,
         applyImmediately: Swift.Bool = false,
         backupRetentionPeriod: Swift.Int? = nil,
         cloudwatchLogsExportConfiguration: DocDBClientTypes.CloudwatchLogsExportConfiguration? = nil,
@@ -11749,6 +11755,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
         vpcSecurityGroupIds: [Swift.String]? = nil
     )
     {
+        self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
         self.applyImmediately = applyImmediately
         self.backupRetentionPeriod = backupRetentionPeriod
         self.cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfiguration
@@ -11778,11 +11785,13 @@ struct ModifyDBClusterInputBody: Swift.Equatable {
     let preferredMaintenanceWindow: Swift.String?
     let cloudwatchLogsExportConfiguration: DocDBClientTypes.CloudwatchLogsExportConfiguration?
     let engineVersion: Swift.String?
+    let allowMajorVersionUpgrade: Swift.Bool
     let deletionProtection: Swift.Bool?
 }
 
 extension ModifyDBClusterInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowMajorVersionUpgrade = "AllowMajorVersionUpgrade"
         case applyImmediately = "ApplyImmediately"
         case backupRetentionPeriod = "BackupRetentionPeriod"
         case cloudwatchLogsExportConfiguration = "CloudwatchLogsExportConfiguration"
@@ -11841,6 +11850,8 @@ extension ModifyDBClusterInputBody: Swift.Decodable {
         cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfigurationDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
+        let allowMajorVersionUpgradeDecoded = try containerValues.decode(Swift.Bool.self, forKey: .allowMajorVersionUpgrade)
+        allowMajorVersionUpgrade = allowMajorVersionUpgradeDecoded
         let deletionProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtection)
         deletionProtection = deletionProtectionDecoded
     }

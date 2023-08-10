@@ -112,7 +112,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
         return result
     }
 
-    /// Creates a new form for an Amplify.
+    /// Creates a new form for an Amplify app.
     public func createForm(input: CreateFormInput) async throws -> CreateFormOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -812,7 +812,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
         return result
     }
 
-    /// Starts a code generation job for for a specified Amplify app and backend environment.
+    /// Starts a code generation job for a specified Amplify app and backend environment.
     public func startCodegenJob(input: StartCodegenJobInput) async throws -> StartCodegenJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

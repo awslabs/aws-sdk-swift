@@ -84,7 +84,7 @@ extension AddDraftAppVersionResourceMappingsInput: ClientRuntime.URLPathProvider
 }
 
 public struct AddDraftAppVersionResourceMappingsInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Mappings used to map logical resources from the template to physical resources. You can use the mapping type CFN_STACK if the application template uses a logical stack name. Or you can map individual resources by using the mapping type RESOURCE. We recommend using the mapping type CFN_STACK if the application is backed by a CloudFormation stack.
@@ -163,13 +163,13 @@ extension AddDraftAppVersionResourceMappingsOutputResponse: ClientRuntime.HttpRe
 }
 
 public struct AddDraftAppVersionResourceMappingsOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
     /// This member is required.
     public var appVersion: Swift.String?
-    /// Mappings used to map logical resources from the template to physical resources. You can use the mapping type CFN_STACK if the application template uses a logical stack name. Or you can map individual resources by using the mapping type RESOURCE. We recommend using the mapping type CFN_STACK if the application is backed by a CloudFormation stack.
+    /// List of sources that are used to map a logical resource from the template to a physical resource. You can use sources such as CloudFormation, Terraform state files, AppRegistry applications, or Amazon EKS.
     /// This member is required.
     public var resourceMappings: [ResiliencehubClientTypes.ResourceMapping]?
 
@@ -221,6 +221,7 @@ extension AddDraftAppVersionResourceMappingsOutputResponseBody: Swift.Decodable 
 extension ResiliencehubClientTypes.AlarmRecommendation: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appComponentName
+        case appComponentNames
         case description
         case items
         case name
@@ -234,6 +235,12 @@ extension ResiliencehubClientTypes.AlarmRecommendation: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let appComponentName = self.appComponentName {
             try encodeContainer.encode(appComponentName, forKey: .appComponentName)
+        }
+        if let appComponentNames = appComponentNames {
+            var appComponentNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .appComponentNames)
+            for string2550 in appComponentNames {
+                try appComponentNamesContainer.encode(string2550)
+            }
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
@@ -288,35 +295,50 @@ extension ResiliencehubClientTypes.AlarmRecommendation: Swift.Codable {
         items = itemsDecoded0
         let prerequisiteDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .prerequisite)
         prerequisite = prerequisiteDecoded
+        let appComponentNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .appComponentNames)
+        var appComponentNamesDecoded0:[Swift.String]? = nil
+        if let appComponentNamesContainer = appComponentNamesContainer {
+            appComponentNamesDecoded0 = [Swift.String]()
+            for string0 in appComponentNamesContainer {
+                if let string0 = string0 {
+                    appComponentNamesDecoded0?.append(string0)
+                }
+            }
+        }
+        appComponentNames = appComponentNamesDecoded0
     }
 }
 
 extension ResiliencehubClientTypes {
     /// Defines a recommendation for a CloudWatch alarm.
     public struct AlarmRecommendation: Swift.Equatable {
-        /// The Application Component for the CloudWatch alarm recommendation.
+        /// Application Component name for the CloudWatch alarm recommendation. This name is saved as the first item in the appComponentNames list.
+        @available(*, deprecated, message: "An alarm recommendation can be attached to multiple Application Components, hence this property will be replaced by the new property 'appComponentNames'.")
         public var appComponentName: Swift.String?
-        /// The description of the recommendation.
+        /// List of Application Component names for the CloudWatch alarm recommendation.
+        public var appComponentNames: [Swift.String]?
+        /// Description of the alarm recommendation.
         public var description: Swift.String?
-        /// The list of CloudWatch alarm recommendations.
+        /// List of CloudWatch alarm recommendations.
         public var items: [ResiliencehubClientTypes.RecommendationItem]?
-        /// The name of the alarm recommendation.
+        /// Name of the alarm recommendation.
         /// This member is required.
         public var name: Swift.String?
         /// The prerequisite for the alarm recommendation.
         public var prerequisite: Swift.String?
-        /// The identifier of the alarm recommendation.
+        /// Identifier of the alarm recommendation.
         /// This member is required.
         public var recommendationId: Swift.String?
-        /// The reference identifier of the alarm recommendation.
+        /// Reference identifier of the alarm recommendation.
         /// This member is required.
         public var referenceId: Swift.String?
-        /// The type of alarm recommendation.
+        /// Type of alarm recommendation.
         /// This member is required.
         public var type: ResiliencehubClientTypes.AlarmType?
 
         public init(
             appComponentName: Swift.String? = nil,
+            appComponentNames: [Swift.String]? = nil,
             description: Swift.String? = nil,
             items: [ResiliencehubClientTypes.RecommendationItem]? = nil,
             name: Swift.String? = nil,
@@ -327,6 +349,7 @@ extension ResiliencehubClientTypes {
         )
         {
             self.appComponentName = appComponentName
+            self.appComponentNames = appComponentNames
             self.description = description
             self.items = items
             self.name = name
@@ -387,9 +410,13 @@ extension ResiliencehubClientTypes.App: Swift.Codable {
         case complianceStatus
         case creationTime
         case description
+        case driftStatus
+        case eventSubscriptions
         case lastAppComplianceEvaluationTime
+        case lastDriftEvaluationTime
         case lastResiliencyScoreEvaluationTime
         case name
+        case permissionModel
         case policyArn
         case resiliencyScore
         case status
@@ -413,14 +440,29 @@ extension ResiliencehubClientTypes.App: Swift.Codable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
+        if let driftStatus = self.driftStatus {
+            try encodeContainer.encode(driftStatus.rawValue, forKey: .driftStatus)
+        }
+        if let eventSubscriptions = eventSubscriptions {
+            var eventSubscriptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventSubscriptions)
+            for eventsubscription0 in eventSubscriptions {
+                try eventSubscriptionsContainer.encode(eventsubscription0)
+            }
+        }
         if let lastAppComplianceEvaluationTime = self.lastAppComplianceEvaluationTime {
             try encodeContainer.encodeTimestamp(lastAppComplianceEvaluationTime, format: .epochSeconds, forKey: .lastAppComplianceEvaluationTime)
+        }
+        if let lastDriftEvaluationTime = self.lastDriftEvaluationTime {
+            try encodeContainer.encodeTimestamp(lastDriftEvaluationTime, format: .epochSeconds, forKey: .lastDriftEvaluationTime)
         }
         if let lastResiliencyScoreEvaluationTime = self.lastResiliencyScoreEvaluationTime {
             try encodeContainer.encodeTimestamp(lastResiliencyScoreEvaluationTime, format: .epochSeconds, forKey: .lastResiliencyScoreEvaluationTime)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let permissionModel = self.permissionModel {
+            try encodeContainer.encode(permissionModel, forKey: .permissionModel)
         }
         if let policyArn = self.policyArn {
             try encodeContainer.encode(policyArn, forKey: .policyArn)
@@ -474,43 +516,68 @@ extension ResiliencehubClientTypes.App: Swift.Codable {
         tags = tagsDecoded0
         let assessmentScheduleDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.AppAssessmentScheduleType.self, forKey: .assessmentSchedule)
         assessmentSchedule = assessmentScheduleDecoded
+        let permissionModelDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.PermissionModel.self, forKey: .permissionModel)
+        permissionModel = permissionModelDecoded
+        let eventSubscriptionsContainer = try containerValues.decodeIfPresent([ResiliencehubClientTypes.EventSubscription?].self, forKey: .eventSubscriptions)
+        var eventSubscriptionsDecoded0:[ResiliencehubClientTypes.EventSubscription]? = nil
+        if let eventSubscriptionsContainer = eventSubscriptionsContainer {
+            eventSubscriptionsDecoded0 = [ResiliencehubClientTypes.EventSubscription]()
+            for structure0 in eventSubscriptionsContainer {
+                if let structure0 = structure0 {
+                    eventSubscriptionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        eventSubscriptions = eventSubscriptionsDecoded0
+        let driftStatusDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.AppDriftStatusType.self, forKey: .driftStatus)
+        driftStatus = driftStatusDecoded
+        let lastDriftEvaluationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastDriftEvaluationTime)
+        lastDriftEvaluationTime = lastDriftEvaluationTimeDecoded
     }
 }
 
 extension ResiliencehubClientTypes.App: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "App(appArn: \(Swift.String(describing: appArn)), assessmentSchedule: \(Swift.String(describing: assessmentSchedule)), complianceStatus: \(Swift.String(describing: complianceStatus)), creationTime: \(Swift.String(describing: creationTime)), description: \(Swift.String(describing: description)), lastAppComplianceEvaluationTime: \(Swift.String(describing: lastAppComplianceEvaluationTime)), lastResiliencyScoreEvaluationTime: \(Swift.String(describing: lastResiliencyScoreEvaluationTime)), name: \(Swift.String(describing: name)), policyArn: \(Swift.String(describing: policyArn)), resiliencyScore: \(Swift.String(describing: resiliencyScore)), status: \(Swift.String(describing: status)), tags: \"CONTENT_REDACTED\")"}
+        "App(appArn: \(Swift.String(describing: appArn)), assessmentSchedule: \(Swift.String(describing: assessmentSchedule)), complianceStatus: \(Swift.String(describing: complianceStatus)), creationTime: \(Swift.String(describing: creationTime)), description: \(Swift.String(describing: description)), driftStatus: \(Swift.String(describing: driftStatus)), eventSubscriptions: \(Swift.String(describing: eventSubscriptions)), lastAppComplianceEvaluationTime: \(Swift.String(describing: lastAppComplianceEvaluationTime)), lastDriftEvaluationTime: \(Swift.String(describing: lastDriftEvaluationTime)), lastResiliencyScoreEvaluationTime: \(Swift.String(describing: lastResiliencyScoreEvaluationTime)), name: \(Swift.String(describing: name)), permissionModel: \(Swift.String(describing: permissionModel)), policyArn: \(Swift.String(describing: policyArn)), resiliencyScore: \(Swift.String(describing: resiliencyScore)), status: \(Swift.String(describing: status)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension ResiliencehubClientTypes {
     /// Defines an Resilience Hub application.
     public struct App: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
         /// This member is required.
         public var appArn: Swift.String?
         /// Assessment execution schedule with 'Daily' or 'Disabled' values.
         public var assessmentSchedule: ResiliencehubClientTypes.AppAssessmentScheduleType?
-        /// The current status of compliance for the resiliency policy.
+        /// Current status of compliance for the resiliency policy.
         public var complianceStatus: ResiliencehubClientTypes.AppComplianceStatusType?
-        /// The timestamp for when the app was created.
+        /// Timestamp for when the app was created.
         /// This member is required.
         public var creationTime: ClientRuntime.Date?
-        /// The optional description for an app.
+        /// Optional description for an application.
         public var description: Swift.String?
-        /// The timestamp for the most recent compliance evaluation.
+        /// Indicates if compliance drifts (deviations) were detected while running an assessment for your application.
+        public var driftStatus: ResiliencehubClientTypes.AppDriftStatusType?
+        /// The list of events you would like to subscribe and get notification for. Currently, Resilience Hub supports notifications only for Drift detected and Scheduled assessment failure events.
+        public var eventSubscriptions: [ResiliencehubClientTypes.EventSubscription]?
+        /// Timestamp for the most recent compliance evaluation.
         public var lastAppComplianceEvaluationTime: ClientRuntime.Date?
-        /// The timestamp for the most recent resiliency score evaluation.
+        /// Indicates the last time that a drift was evaluated.
+        public var lastDriftEvaluationTime: ClientRuntime.Date?
+        /// Timestamp for the most recent resiliency score evaluation.
         public var lastResiliencyScoreEvaluationTime: ClientRuntime.Date?
-        /// The name for the application.
+        /// Name for the application.
         /// This member is required.
         public var name: Swift.String?
-        /// The Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// Defines the roles and credentials that Resilience Hub would use while creating the application, importing its resources, and running an assessment.
+        public var permissionModel: ResiliencehubClientTypes.PermissionModel?
+        /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
         public var policyArn: Swift.String?
-        /// The current resiliency score for the application.
+        /// Current resiliency score for the application.
         public var resiliencyScore: Swift.Double
-        /// The status of the application.
+        /// Status of the application.
         public var status: ResiliencehubClientTypes.AppStatusType?
-        /// The tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair.
+        /// Tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair.
         public var tags: [Swift.String:Swift.String]?
 
         public init(
@@ -519,9 +586,13 @@ extension ResiliencehubClientTypes {
             complianceStatus: ResiliencehubClientTypes.AppComplianceStatusType? = nil,
             creationTime: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
+            driftStatus: ResiliencehubClientTypes.AppDriftStatusType? = nil,
+            eventSubscriptions: [ResiliencehubClientTypes.EventSubscription]? = nil,
             lastAppComplianceEvaluationTime: ClientRuntime.Date? = nil,
+            lastDriftEvaluationTime: ClientRuntime.Date? = nil,
             lastResiliencyScoreEvaluationTime: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
+            permissionModel: ResiliencehubClientTypes.PermissionModel? = nil,
             policyArn: Swift.String? = nil,
             resiliencyScore: Swift.Double = 0.0,
             status: ResiliencehubClientTypes.AppStatusType? = nil,
@@ -533,9 +604,13 @@ extension ResiliencehubClientTypes {
             self.complianceStatus = complianceStatus
             self.creationTime = creationTime
             self.description = description
+            self.driftStatus = driftStatus
+            self.eventSubscriptions = eventSubscriptions
             self.lastAppComplianceEvaluationTime = lastAppComplianceEvaluationTime
+            self.lastDriftEvaluationTime = lastDriftEvaluationTime
             self.lastResiliencyScoreEvaluationTime = lastResiliencyScoreEvaluationTime
             self.name = name
+            self.permissionModel = permissionModel
             self.policyArn = policyArn
             self.resiliencyScore = resiliencyScore
             self.status = status
@@ -555,6 +630,7 @@ extension ResiliencehubClientTypes.AppAssessment: Swift.Codable {
         case compliance
         case complianceStatus
         case cost
+        case driftStatus
         case endTime
         case invoker
         case message
@@ -563,6 +639,7 @@ extension ResiliencehubClientTypes.AppAssessment: Swift.Codable {
         case resourceErrorsDetails
         case startTime
         case tags
+        case versionName
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -594,6 +671,9 @@ extension ResiliencehubClientTypes.AppAssessment: Swift.Codable {
         if let cost = self.cost {
             try encodeContainer.encode(cost, forKey: .cost)
         }
+        if let driftStatus = self.driftStatus {
+            try encodeContainer.encode(driftStatus.rawValue, forKey: .driftStatus)
+        }
         if let endTime = self.endTime {
             try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
         }
@@ -620,6 +700,9 @@ extension ResiliencehubClientTypes.AppAssessment: Swift.Codable {
             for (dictKey0, tagMap0) in tags {
                 try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
+        }
+        if let versionName = self.versionName {
+            try encodeContainer.encode(versionName, forKey: .versionName)
         }
     }
 
@@ -675,52 +758,60 @@ extension ResiliencehubClientTypes.AppAssessment: Swift.Codable {
         tags = tagsDecoded0
         let resourceErrorsDetailsDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.ResourceErrorsDetails.self, forKey: .resourceErrorsDetails)
         resourceErrorsDetails = resourceErrorsDetailsDecoded
+        let versionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionName)
+        versionName = versionNameDecoded
+        let driftStatusDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.DriftStatus.self, forKey: .driftStatus)
+        driftStatus = driftStatusDecoded
     }
 }
 
 extension ResiliencehubClientTypes.AppAssessment: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AppAssessment(appArn: \(Swift.String(describing: appArn)), appVersion: \(Swift.String(describing: appVersion)), assessmentArn: \(Swift.String(describing: assessmentArn)), assessmentName: \(Swift.String(describing: assessmentName)), assessmentStatus: \(Swift.String(describing: assessmentStatus)), compliance: \(Swift.String(describing: compliance)), complianceStatus: \(Swift.String(describing: complianceStatus)), cost: \(Swift.String(describing: cost)), endTime: \(Swift.String(describing: endTime)), invoker: \(Swift.String(describing: invoker)), message: \(Swift.String(describing: message)), policy: \(Swift.String(describing: policy)), resiliencyScore: \(Swift.String(describing: resiliencyScore)), resourceErrorsDetails: \(Swift.String(describing: resourceErrorsDetails)), startTime: \(Swift.String(describing: startTime)), tags: \"CONTENT_REDACTED\")"}
+        "AppAssessment(appArn: \(Swift.String(describing: appArn)), appVersion: \(Swift.String(describing: appVersion)), assessmentArn: \(Swift.String(describing: assessmentArn)), assessmentName: \(Swift.String(describing: assessmentName)), assessmentStatus: \(Swift.String(describing: assessmentStatus)), compliance: \(Swift.String(describing: compliance)), complianceStatus: \(Swift.String(describing: complianceStatus)), cost: \(Swift.String(describing: cost)), driftStatus: \(Swift.String(describing: driftStatus)), endTime: \(Swift.String(describing: endTime)), invoker: \(Swift.String(describing: invoker)), message: \(Swift.String(describing: message)), policy: \(Swift.String(describing: policy)), resiliencyScore: \(Swift.String(describing: resiliencyScore)), resourceErrorsDetails: \(Swift.String(describing: resourceErrorsDetails)), startTime: \(Swift.String(describing: startTime)), versionName: \(Swift.String(describing: versionName)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension ResiliencehubClientTypes {
     /// Defines an application assessment.
     public struct AppAssessment: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
         public var appArn: Swift.String?
-        /// The version of the application.
+        /// Version of an application.
         public var appVersion: Swift.String?
-        /// The Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
         /// This member is required.
         public var assessmentArn: Swift.String?
-        /// The name of the assessment.
+        /// Name of the assessment.
         public var assessmentName: Swift.String?
-        /// The current status of the assessment for the resiliency policy.
+        /// Current status of the assessment for the resiliency policy.
         /// This member is required.
         public var assessmentStatus: ResiliencehubClientTypes.AssessmentStatus?
-        /// The application compliance against the resiliency policy.
+        /// Application compliance against the resiliency policy.
         public var compliance: [Swift.String:ResiliencehubClientTypes.DisruptionCompliance]?
-        /// The current status of the compliance for the resiliency policy.
+        /// Current status of the compliance for the resiliency policy.
         public var complianceStatus: ResiliencehubClientTypes.ComplianceStatus?
-        /// The cost for the application.
+        /// Cost for the application.
         public var cost: ResiliencehubClientTypes.Cost?
-        /// The end time for the action.
+        /// Indicates if compliance drifts (deviations) were detected while running an assessment for your application.
+        public var driftStatus: ResiliencehubClientTypes.DriftStatus?
+        /// End time for the action.
         public var endTime: ClientRuntime.Date?
         /// The entity that invoked the assessment.
         /// This member is required.
         public var invoker: ResiliencehubClientTypes.AssessmentInvoker?
         /// Error or warning message from the assessment execution
         public var message: Swift.String?
-        /// The resiliency policy.
+        /// Resiliency policy of an application.
         public var policy: ResiliencehubClientTypes.ResiliencyPolicy?
-        /// The current resiliency score for the application.
+        /// Current resiliency score for an application.
         public var resiliencyScore: ResiliencehubClientTypes.ResiliencyScore?
         /// A resource error object containing a list of errors retrieving an application's resources.
         public var resourceErrorsDetails: ResiliencehubClientTypes.ResourceErrorsDetails?
-        /// The starting time for the action.
+        /// Starting time for the action.
         public var startTime: ClientRuntime.Date?
-        /// The tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair.
+        /// Tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair.
         public var tags: [Swift.String:Swift.String]?
+        /// Version name of the published application.
+        public var versionName: Swift.String?
 
         public init(
             appArn: Swift.String? = nil,
@@ -731,6 +822,7 @@ extension ResiliencehubClientTypes {
             compliance: [Swift.String:ResiliencehubClientTypes.DisruptionCompliance]? = nil,
             complianceStatus: ResiliencehubClientTypes.ComplianceStatus? = nil,
             cost: ResiliencehubClientTypes.Cost? = nil,
+            driftStatus: ResiliencehubClientTypes.DriftStatus? = nil,
             endTime: ClientRuntime.Date? = nil,
             invoker: ResiliencehubClientTypes.AssessmentInvoker? = nil,
             message: Swift.String? = nil,
@@ -738,7 +830,8 @@ extension ResiliencehubClientTypes {
             resiliencyScore: ResiliencehubClientTypes.ResiliencyScore? = nil,
             resourceErrorsDetails: ResiliencehubClientTypes.ResourceErrorsDetails? = nil,
             startTime: ClientRuntime.Date? = nil,
-            tags: [Swift.String:Swift.String]? = nil
+            tags: [Swift.String:Swift.String]? = nil,
+            versionName: Swift.String? = nil
         )
         {
             self.appArn = appArn
@@ -749,6 +842,7 @@ extension ResiliencehubClientTypes {
             self.compliance = compliance
             self.complianceStatus = complianceStatus
             self.cost = cost
+            self.driftStatus = driftStatus
             self.endTime = endTime
             self.invoker = invoker
             self.message = message
@@ -757,6 +851,7 @@ extension ResiliencehubClientTypes {
             self.resourceErrorsDetails = resourceErrorsDetails
             self.startTime = startTime
             self.tags = tags
+            self.versionName = versionName
         }
     }
 
@@ -803,11 +898,13 @@ extension ResiliencehubClientTypes.AppAssessmentSummary: Swift.Codable {
         case assessmentStatus
         case complianceStatus
         case cost
+        case driftStatus
         case endTime
         case invoker
         case message
         case resiliencyScore
         case startTime
+        case versionName
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -833,6 +930,9 @@ extension ResiliencehubClientTypes.AppAssessmentSummary: Swift.Codable {
         if let cost = self.cost {
             try encodeContainer.encode(cost, forKey: .cost)
         }
+        if let driftStatus = self.driftStatus {
+            try encodeContainer.encode(driftStatus.rawValue, forKey: .driftStatus)
+        }
         if let endTime = self.endTime {
             try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
         }
@@ -847,6 +947,9 @@ extension ResiliencehubClientTypes.AppAssessmentSummary: Swift.Codable {
         }
         if let startTime = self.startTime {
             try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+        if let versionName = self.versionName {
+            try encodeContainer.encode(versionName, forKey: .versionName)
         }
     }
 
@@ -876,38 +979,46 @@ extension ResiliencehubClientTypes.AppAssessmentSummary: Swift.Codable {
         cost = costDecoded
         let resiliencyScoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .resiliencyScore) ?? 0.0
         resiliencyScore = resiliencyScoreDecoded
+        let versionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionName)
+        versionName = versionNameDecoded
+        let driftStatusDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.DriftStatus.self, forKey: .driftStatus)
+        driftStatus = driftStatusDecoded
     }
 }
 
 extension ResiliencehubClientTypes {
     /// Defines an application assessment summary.
     public struct AppAssessmentSummary: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
         public var appArn: Swift.String?
-        /// The version of the application.
+        /// Version of an application.
         public var appVersion: Swift.String?
-        /// The Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
         /// This member is required.
         public var assessmentArn: Swift.String?
-        /// The name of the assessment.
+        /// Name of the assessment.
         public var assessmentName: Swift.String?
-        /// The current status of the assessment for the resiliency policy.
+        /// Current status of the assessment for the resiliency policy.
         /// This member is required.
         public var assessmentStatus: ResiliencehubClientTypes.AssessmentStatus?
-        /// The current status of compliance for the resiliency policy.
+        /// TCurrent status of compliance for the resiliency policy.
         public var complianceStatus: ResiliencehubClientTypes.ComplianceStatus?
-        /// The cost for the application.
+        /// Cost for an application.
         public var cost: ResiliencehubClientTypes.Cost?
-        /// The end time for the action.
+        /// Indicates if compliance drifts (deviations) were detected while running an assessment for your application.
+        public var driftStatus: ResiliencehubClientTypes.DriftStatus?
+        /// End time for the action.
         public var endTime: ClientRuntime.Date?
-        /// The entity that invoked the assessment.
+        /// Entity that invoked the assessment.
         public var invoker: ResiliencehubClientTypes.AssessmentInvoker?
-        /// The message from the assessment run.
+        /// Message from the assessment run.
         public var message: Swift.String?
-        /// The current resiliency score for the application.
+        /// Current resiliency score for the application.
         public var resiliencyScore: Swift.Double
-        /// The starting time for the action.
+        /// Starting time for the action.
         public var startTime: ClientRuntime.Date?
+        /// Name of an application version.
+        public var versionName: Swift.String?
 
         public init(
             appArn: Swift.String? = nil,
@@ -917,11 +1028,13 @@ extension ResiliencehubClientTypes {
             assessmentStatus: ResiliencehubClientTypes.AssessmentStatus? = nil,
             complianceStatus: ResiliencehubClientTypes.ComplianceStatus? = nil,
             cost: ResiliencehubClientTypes.Cost? = nil,
+            driftStatus: ResiliencehubClientTypes.DriftStatus? = nil,
             endTime: ClientRuntime.Date? = nil,
             invoker: ResiliencehubClientTypes.AssessmentInvoker? = nil,
             message: Swift.String? = nil,
             resiliencyScore: Swift.Double = 0.0,
-            startTime: ClientRuntime.Date? = nil
+            startTime: ClientRuntime.Date? = nil,
+            versionName: Swift.String? = nil
         )
         {
             self.appArn = appArn
@@ -931,11 +1044,13 @@ extension ResiliencehubClientTypes {
             self.assessmentStatus = assessmentStatus
             self.complianceStatus = complianceStatus
             self.cost = cost
+            self.driftStatus = driftStatus
             self.endTime = endTime
             self.invoker = invoker
             self.message = message
             self.resiliencyScore = resiliencyScore
             self.startTime = startTime
+            self.versionName = versionName
         }
     }
 
@@ -1043,9 +1158,9 @@ extension ResiliencehubClientTypes {
     public struct AppComponent: Swift.Equatable {
         /// Additional configuration parameters for an Resilience Hub application. If you want to implement additionalInfo through the Resilience Hub console rather than using an API call, see [Configure the application configuration parameters](https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html). Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"<REGION>", "accounts":[{"id":"<ACCOUNT_ID>"}]}]"
         public var additionalInfo: [Swift.String:[Swift.String]]?
-        /// Unique identifier of the Application Component.
+        /// Identifier of the Application Component.
         public var id: Swift.String?
-        /// The name of the Application Component.
+        /// Name of the Application Component.
         /// This member is required.
         public var name: Swift.String?
         /// The type of Application Component.
@@ -1132,7 +1247,7 @@ extension ResiliencehubClientTypes.AppComponentCompliance: Swift.Codable {
 extension ResiliencehubClientTypes {
     /// Defines the compliance of an Application Component against the resiliency policy.
     public struct AppComponentCompliance: Swift.Equatable {
-        /// The name of the Application Component.
+        /// Name of the Application Component.
         public var appComponentName: Swift.String?
         /// The compliance of the Application Component against the resiliency policy.
         public var compliance: [Swift.String:ResiliencehubClientTypes.DisruptionCompliance]?
@@ -1142,7 +1257,7 @@ extension ResiliencehubClientTypes {
         public var message: Swift.String?
         /// The current resiliency score for the application.
         public var resiliencyScore: ResiliencehubClientTypes.ResiliencyScore?
-        /// The status of the action.
+        /// Status of the action.
         public var status: ResiliencehubClientTypes.ComplianceStatus?
 
         public init(
@@ -1163,6 +1278,41 @@ extension ResiliencehubClientTypes {
         }
     }
 
+}
+
+extension ResiliencehubClientTypes {
+    public enum AppDriftStatusType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case detected
+        case notChecked
+        case notDetected
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AppDriftStatusType] {
+            return [
+                .detected,
+                .notChecked,
+                .notDetected,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .detected: return "Detected"
+            case .notChecked: return "NotChecked"
+            case .notDetected: return "NotDetected"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AppDriftStatusType(rawValue: rawValue) ?? AppDriftStatusType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ResiliencehubClientTypes.AppInputSource: Swift.Codable {
@@ -1290,6 +1440,7 @@ extension ResiliencehubClientTypes.AppSummary: Swift.Codable {
         case complianceStatus
         case creationTime
         case description
+        case driftStatus
         case name
         case resiliencyScore
         case status
@@ -1311,6 +1462,9 @@ extension ResiliencehubClientTypes.AppSummary: Swift.Codable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let driftStatus = self.driftStatus {
+            try encodeContainer.encode(driftStatus.rawValue, forKey: .driftStatus)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -1341,13 +1495,15 @@ extension ResiliencehubClientTypes.AppSummary: Swift.Codable {
         assessmentSchedule = assessmentScheduleDecoded
         let statusDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.AppStatusType.self, forKey: .status)
         status = statusDecoded
+        let driftStatusDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.AppDriftStatusType.self, forKey: .driftStatus)
+        driftStatus = driftStatusDecoded
     }
 }
 
 extension ResiliencehubClientTypes {
     /// Defines an application summary.
     public struct AppSummary: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
         /// This member is required.
         public var appArn: Swift.String?
         /// Assessment execution schedule with 'Daily' or 'Disabled' values.
@@ -1359,12 +1515,14 @@ extension ResiliencehubClientTypes {
         public var creationTime: ClientRuntime.Date?
         /// The optional description for an app.
         public var description: Swift.String?
+        /// Indicates if compliance drifts (deviations) were detected while running an assessment for your application.
+        public var driftStatus: ResiliencehubClientTypes.AppDriftStatusType?
         /// The name of the application.
         /// This member is required.
         public var name: Swift.String?
         /// The current resiliency score for the application.
         public var resiliencyScore: Swift.Double
-        /// The status of the application.
+        /// Status of the application.
         public var status: ResiliencehubClientTypes.AppStatusType?
 
         public init(
@@ -1373,6 +1531,7 @@ extension ResiliencehubClientTypes {
             complianceStatus: ResiliencehubClientTypes.AppComplianceStatusType? = nil,
             creationTime: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
+            driftStatus: ResiliencehubClientTypes.AppDriftStatusType? = nil,
             name: Swift.String? = nil,
             resiliencyScore: Swift.Double = 0.0,
             status: ResiliencehubClientTypes.AppStatusType? = nil
@@ -1383,6 +1542,7 @@ extension ResiliencehubClientTypes {
             self.complianceStatus = complianceStatus
             self.creationTime = creationTime
             self.description = description
+            self.driftStatus = driftStatus
             self.name = name
             self.resiliencyScore = resiliencyScore
             self.status = status
@@ -1394,6 +1554,9 @@ extension ResiliencehubClientTypes {
 extension ResiliencehubClientTypes.AppVersionSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appVersion
+        case creationTime
+        case identifier
+        case versionName
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1401,27 +1564,54 @@ extension ResiliencehubClientTypes.AppVersionSummary: Swift.Codable {
         if let appVersion = self.appVersion {
             try encodeContainer.encode(appVersion, forKey: .appVersion)
         }
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
+        }
+        if let identifier = self.identifier {
+            try encodeContainer.encode(identifier, forKey: .identifier)
+        }
+        if let versionName = self.versionName {
+            try encodeContainer.encode(versionName, forKey: .versionName)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appVersion)
         appVersion = appVersionDecoded
+        let identifierDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .identifier)
+        identifier = identifierDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let versionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionName)
+        versionName = versionNameDecoded
     }
 }
 
 extension ResiliencehubClientTypes {
-    /// The version of the application.
+    /// Version of an application.
     public struct AppVersionSummary: Swift.Equatable {
-        /// The version of the application.
+        /// Version of an application.
         /// This member is required.
         public var appVersion: Swift.String?
+        /// Creation time of the application version.
+        public var creationTime: ClientRuntime.Date?
+        /// Identifier of the application version.
+        public var identifier: Swift.Int?
+        /// Name of the application version.
+        public var versionName: Swift.String?
 
         public init(
-            appVersion: Swift.String? = nil
+            appVersion: Swift.String? = nil,
+            creationTime: ClientRuntime.Date? = nil,
+            identifier: Swift.Int? = nil,
+            versionName: Swift.String? = nil
         )
         {
             self.appVersion = appVersion
+            self.creationTime = creationTime
+            self.identifier = identifier
+            self.versionName = versionName
         }
     }
 
@@ -1495,6 +1685,450 @@ extension ResiliencehubClientTypes {
             self = AssessmentStatus(rawValue: rawValue) ?? AssessmentStatus.sdkUnknown(rawValue)
         }
     }
+}
+
+extension ResiliencehubClientTypes.BatchUpdateRecommendationStatusFailedEntry: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case entryId
+        case errorMessage
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let entryId = self.entryId {
+            try encodeContainer.encode(entryId, forKey: .entryId)
+        }
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let entryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .entryId)
+        entryId = entryIdDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+    }
+}
+
+extension ResiliencehubClientTypes {
+    /// List of operational recommendations that did not get included or excluded.
+    public struct BatchUpdateRecommendationStatusFailedEntry: Swift.Equatable {
+        /// An identifier of an entry in this batch that is used to communicate the result. The entryIds of a batch request need to be unique within a request.
+        /// This member is required.
+        public var entryId: Swift.String?
+        /// Indicates the error that occurred while excluding an operational recommendation.
+        /// This member is required.
+        public var errorMessage: Swift.String?
+
+        public init(
+            entryId: Swift.String? = nil,
+            errorMessage: Swift.String? = nil
+        )
+        {
+            self.entryId = entryId
+            self.errorMessage = errorMessage
+        }
+    }
+
+}
+
+extension BatchUpdateRecommendationStatusInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appArn
+        case requestEntries
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let appArn = self.appArn {
+            try encodeContainer.encode(appArn, forKey: .appArn)
+        }
+        if let requestEntries = requestEntries {
+            var requestEntriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .requestEntries)
+            for updaterecommendationstatusrequestentry0 in requestEntries {
+                try requestEntriesContainer.encode(updaterecommendationstatusrequestentry0)
+            }
+        }
+    }
+}
+
+extension BatchUpdateRecommendationStatusInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/batch-update-recommendation-status"
+    }
+}
+
+public struct BatchUpdateRecommendationStatusInput: Swift.Equatable {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// This member is required.
+    public var appArn: Swift.String?
+    /// Defines the list of operational recommendations that need to be included or excluded.
+    /// This member is required.
+    public var requestEntries: [ResiliencehubClientTypes.UpdateRecommendationStatusRequestEntry]?
+
+    public init(
+        appArn: Swift.String? = nil,
+        requestEntries: [ResiliencehubClientTypes.UpdateRecommendationStatusRequestEntry]? = nil
+    )
+    {
+        self.appArn = appArn
+        self.requestEntries = requestEntries
+    }
+}
+
+struct BatchUpdateRecommendationStatusInputBody: Swift.Equatable {
+    let appArn: Swift.String?
+    let requestEntries: [ResiliencehubClientTypes.UpdateRecommendationStatusRequestEntry]?
+}
+
+extension BatchUpdateRecommendationStatusInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appArn
+        case requestEntries
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let appArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appArn)
+        appArn = appArnDecoded
+        let requestEntriesContainer = try containerValues.decodeIfPresent([ResiliencehubClientTypes.UpdateRecommendationStatusRequestEntry?].self, forKey: .requestEntries)
+        var requestEntriesDecoded0:[ResiliencehubClientTypes.UpdateRecommendationStatusRequestEntry]? = nil
+        if let requestEntriesContainer = requestEntriesContainer {
+            requestEntriesDecoded0 = [ResiliencehubClientTypes.UpdateRecommendationStatusRequestEntry]()
+            for structure0 in requestEntriesContainer {
+                if let structure0 = structure0 {
+                    requestEntriesDecoded0?.append(structure0)
+                }
+            }
+        }
+        requestEntries = requestEntriesDecoded0
+    }
+}
+
+public enum BatchUpdateRecommendationStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension BatchUpdateRecommendationStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchUpdateRecommendationStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.appArn = output.appArn
+            self.failedEntries = output.failedEntries
+            self.successfulEntries = output.successfulEntries
+        } else {
+            self.appArn = nil
+            self.failedEntries = nil
+            self.successfulEntries = nil
+        }
+    }
+}
+
+public struct BatchUpdateRecommendationStatusOutputResponse: Swift.Equatable {
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// This member is required.
+    public var appArn: Swift.String?
+    /// A list of items with error details about each item, which could not be included or excluded.
+    /// This member is required.
+    public var failedEntries: [ResiliencehubClientTypes.BatchUpdateRecommendationStatusFailedEntry]?
+    /// A list of items that were included or excluded.
+    /// This member is required.
+    public var successfulEntries: [ResiliencehubClientTypes.BatchUpdateRecommendationStatusSuccessfulEntry]?
+
+    public init(
+        appArn: Swift.String? = nil,
+        failedEntries: [ResiliencehubClientTypes.BatchUpdateRecommendationStatusFailedEntry]? = nil,
+        successfulEntries: [ResiliencehubClientTypes.BatchUpdateRecommendationStatusSuccessfulEntry]? = nil
+    )
+    {
+        self.appArn = appArn
+        self.failedEntries = failedEntries
+        self.successfulEntries = successfulEntries
+    }
+}
+
+struct BatchUpdateRecommendationStatusOutputResponseBody: Swift.Equatable {
+    let appArn: Swift.String?
+    let successfulEntries: [ResiliencehubClientTypes.BatchUpdateRecommendationStatusSuccessfulEntry]?
+    let failedEntries: [ResiliencehubClientTypes.BatchUpdateRecommendationStatusFailedEntry]?
+}
+
+extension BatchUpdateRecommendationStatusOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appArn
+        case failedEntries
+        case successfulEntries
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let appArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appArn)
+        appArn = appArnDecoded
+        let successfulEntriesContainer = try containerValues.decodeIfPresent([ResiliencehubClientTypes.BatchUpdateRecommendationStatusSuccessfulEntry?].self, forKey: .successfulEntries)
+        var successfulEntriesDecoded0:[ResiliencehubClientTypes.BatchUpdateRecommendationStatusSuccessfulEntry]? = nil
+        if let successfulEntriesContainer = successfulEntriesContainer {
+            successfulEntriesDecoded0 = [ResiliencehubClientTypes.BatchUpdateRecommendationStatusSuccessfulEntry]()
+            for structure0 in successfulEntriesContainer {
+                if let structure0 = structure0 {
+                    successfulEntriesDecoded0?.append(structure0)
+                }
+            }
+        }
+        successfulEntries = successfulEntriesDecoded0
+        let failedEntriesContainer = try containerValues.decodeIfPresent([ResiliencehubClientTypes.BatchUpdateRecommendationStatusFailedEntry?].self, forKey: .failedEntries)
+        var failedEntriesDecoded0:[ResiliencehubClientTypes.BatchUpdateRecommendationStatusFailedEntry]? = nil
+        if let failedEntriesContainer = failedEntriesContainer {
+            failedEntriesDecoded0 = [ResiliencehubClientTypes.BatchUpdateRecommendationStatusFailedEntry]()
+            for structure0 in failedEntriesContainer {
+                if let structure0 = structure0 {
+                    failedEntriesDecoded0?.append(structure0)
+                }
+            }
+        }
+        failedEntries = failedEntriesDecoded0
+    }
+}
+
+extension ResiliencehubClientTypes.BatchUpdateRecommendationStatusSuccessfulEntry: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case entryId
+        case excludeReason
+        case excluded
+        case item
+        case referenceId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let entryId = self.entryId {
+            try encodeContainer.encode(entryId, forKey: .entryId)
+        }
+        if let excludeReason = self.excludeReason {
+            try encodeContainer.encode(excludeReason.rawValue, forKey: .excludeReason)
+        }
+        if let excluded = self.excluded {
+            try encodeContainer.encode(excluded, forKey: .excluded)
+        }
+        if let item = self.item {
+            try encodeContainer.encode(item, forKey: .item)
+        }
+        if let referenceId = self.referenceId {
+            try encodeContainer.encode(referenceId, forKey: .referenceId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let entryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .entryId)
+        entryId = entryIdDecoded
+        let referenceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .referenceId)
+        referenceId = referenceIdDecoded
+        let itemDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.UpdateRecommendationStatusItem.self, forKey: .item)
+        item = itemDecoded
+        let excludedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .excluded)
+        excluded = excludedDecoded
+        let excludeReasonDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.ExcludeRecommendationReason.self, forKey: .excludeReason)
+        excludeReason = excludeReasonDecoded
+    }
+}
+
+extension ResiliencehubClientTypes {
+    /// List of operational recommendations that were successfully included or excluded.
+    public struct BatchUpdateRecommendationStatusSuccessfulEntry: Swift.Equatable {
+        /// An identifier for an entry in this batch that is used to communicate the result. The entryIds of a batch request need to be unique within a request.
+        /// This member is required.
+        public var entryId: Swift.String?
+        /// Indicates the reason for excluding an operational recommendation.
+        public var excludeReason: ResiliencehubClientTypes.ExcludeRecommendationReason?
+        /// Indicates if the operational recommendation was successfully excluded.
+        /// This member is required.
+        public var excluded: Swift.Bool?
+        /// The operational recommendation item.
+        /// This member is required.
+        public var item: ResiliencehubClientTypes.UpdateRecommendationStatusItem?
+        /// Reference identifier of the operational recommendation.
+        /// This member is required.
+        public var referenceId: Swift.String?
+
+        public init(
+            entryId: Swift.String? = nil,
+            excludeReason: ResiliencehubClientTypes.ExcludeRecommendationReason? = nil,
+            excluded: Swift.Bool? = nil,
+            item: ResiliencehubClientTypes.UpdateRecommendationStatusItem? = nil,
+            referenceId: Swift.String? = nil
+        )
+        {
+            self.entryId = entryId
+            self.excludeReason = excludeReason
+            self.excluded = excluded
+            self.item = item
+            self.referenceId = referenceId
+        }
+    }
+
+}
+
+extension ResiliencehubClientTypes.ComplianceDrift: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actualReferenceId
+        case actualValue
+        case appId
+        case appVersion
+        case diffType
+        case driftType
+        case entityId
+        case entityType
+        case expectedReferenceId
+        case expectedValue
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actualReferenceId = self.actualReferenceId {
+            try encodeContainer.encode(actualReferenceId, forKey: .actualReferenceId)
+        }
+        if let actualValue = actualValue {
+            var actualValueContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .actualValue)
+            for (dictKey0, assessmentCompliance0) in actualValue {
+                try actualValueContainer.encode(assessmentCompliance0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let appId = self.appId {
+            try encodeContainer.encode(appId, forKey: .appId)
+        }
+        if let appVersion = self.appVersion {
+            try encodeContainer.encode(appVersion, forKey: .appVersion)
+        }
+        if let diffType = self.diffType {
+            try encodeContainer.encode(diffType.rawValue, forKey: .diffType)
+        }
+        if let driftType = self.driftType {
+            try encodeContainer.encode(driftType.rawValue, forKey: .driftType)
+        }
+        if let entityId = self.entityId {
+            try encodeContainer.encode(entityId, forKey: .entityId)
+        }
+        if let entityType = self.entityType {
+            try encodeContainer.encode(entityType, forKey: .entityType)
+        }
+        if let expectedReferenceId = self.expectedReferenceId {
+            try encodeContainer.encode(expectedReferenceId, forKey: .expectedReferenceId)
+        }
+        if let expectedValue = expectedValue {
+            var expectedValueContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .expectedValue)
+            for (dictKey0, assessmentCompliance0) in expectedValue {
+                try expectedValueContainer.encode(assessmentCompliance0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let entityIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .entityId)
+        entityId = entityIdDecoded
+        let entityTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .entityType)
+        entityType = entityTypeDecoded
+        let driftTypeDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.DriftType.self, forKey: .driftType)
+        driftType = driftTypeDecoded
+        let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
+        appId = appIdDecoded
+        let appVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appVersion)
+        appVersion = appVersionDecoded
+        let expectedReferenceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .expectedReferenceId)
+        expectedReferenceId = expectedReferenceIdDecoded
+        let expectedValueContainer = try containerValues.decodeIfPresent([Swift.String: ResiliencehubClientTypes.DisruptionCompliance?].self, forKey: .expectedValue)
+        var expectedValueDecoded0: [Swift.String:ResiliencehubClientTypes.DisruptionCompliance]? = nil
+        if let expectedValueContainer = expectedValueContainer {
+            expectedValueDecoded0 = [Swift.String:ResiliencehubClientTypes.DisruptionCompliance]()
+            for (key0, disruptioncompliance0) in expectedValueContainer {
+                if let disruptioncompliance0 = disruptioncompliance0 {
+                    expectedValueDecoded0?[key0] = disruptioncompliance0
+                }
+            }
+        }
+        expectedValue = expectedValueDecoded0
+        let actualReferenceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actualReferenceId)
+        actualReferenceId = actualReferenceIdDecoded
+        let actualValueContainer = try containerValues.decodeIfPresent([Swift.String: ResiliencehubClientTypes.DisruptionCompliance?].self, forKey: .actualValue)
+        var actualValueDecoded0: [Swift.String:ResiliencehubClientTypes.DisruptionCompliance]? = nil
+        if let actualValueContainer = actualValueContainer {
+            actualValueDecoded0 = [Swift.String:ResiliencehubClientTypes.DisruptionCompliance]()
+            for (key0, disruptioncompliance0) in actualValueContainer {
+                if let disruptioncompliance0 = disruptioncompliance0 {
+                    actualValueDecoded0?[key0] = disruptioncompliance0
+                }
+            }
+        }
+        actualValue = actualValueDecoded0
+        let diffTypeDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.DifferenceType.self, forKey: .diffType)
+        diffType = diffTypeDecoded
+    }
+}
+
+extension ResiliencehubClientTypes {
+    /// Indicates the compliance drifts (recovery time objective (RTO) and recovery point objective (RPO)) that were detected for an assessed entity.
+    public struct ComplianceDrift: Swift.Equatable {
+        /// Assessment identifier that is associated with this drift item.
+        public var actualReferenceId: Swift.String?
+        /// Actual compliance value of the entity.
+        public var actualValue: [Swift.String:ResiliencehubClientTypes.DisruptionCompliance]?
+        /// Identifier of your application.
+        public var appId: Swift.String?
+        /// Published version of your application on which drift was detected.
+        public var appVersion: Swift.String?
+        /// Difference type between actual and expected recovery point objective (RPO) and recovery time objective (RTO) values. Currently, Resilience Hub supports only NotEqual difference type.
+        public var diffType: ResiliencehubClientTypes.DifferenceType?
+        /// The type of drift detected. Currently, Resilience Hub supports only ApplicationCompliance drift type.
+        public var driftType: ResiliencehubClientTypes.DriftType?
+        /// Identifier of an entity in which drift was detected. For compliance drift, the entity ID can be either application ID or the AppComponent ID.
+        public var entityId: Swift.String?
+        /// The type of entity in which drift was detected. For compliance drifts, Resilience Hub supports AWS::ResilienceHub::AppComponent and AWS::ResilienceHub::Application.
+        public var entityType: Swift.String?
+        /// Assessment identifier of a previous assessment of the same application version. Resilience Hub uses the previous assessment (associated with the reference identifier) to compare the compliance with the current assessment to identify drifts.
+        public var expectedReferenceId: Swift.String?
+        /// The expected compliance value of an entity.
+        public var expectedValue: [Swift.String:ResiliencehubClientTypes.DisruptionCompliance]?
+
+        public init(
+            actualReferenceId: Swift.String? = nil,
+            actualValue: [Swift.String:ResiliencehubClientTypes.DisruptionCompliance]? = nil,
+            appId: Swift.String? = nil,
+            appVersion: Swift.String? = nil,
+            diffType: ResiliencehubClientTypes.DifferenceType? = nil,
+            driftType: ResiliencehubClientTypes.DriftType? = nil,
+            entityId: Swift.String? = nil,
+            entityType: Swift.String? = nil,
+            expectedReferenceId: Swift.String? = nil,
+            expectedValue: [Swift.String:ResiliencehubClientTypes.DisruptionCompliance]? = nil
+        )
+        {
+            self.actualReferenceId = actualReferenceId
+            self.actualValue = actualValue
+            self.appId = appId
+            self.appVersion = appVersion
+            self.diffType = diffType
+            self.driftType = driftType
+            self.entityId = entityId
+            self.entityType = entityType
+            self.expectedReferenceId = expectedReferenceId
+            self.expectedValue = expectedValue
+        }
+    }
+
 }
 
 extension ResiliencehubClientTypes {
@@ -1575,13 +2209,13 @@ extension ResiliencehubClientTypes.ComponentRecommendation: Swift.Codable {
 extension ResiliencehubClientTypes {
     /// Defines recommendations for an Resilience Hub Application Component, returned as an object. This object contains component names, configuration recommendations, and recommendation statuses.
     public struct ComponentRecommendation: Swift.Equatable {
-        /// The name of the Application Component.
+        /// Name of the Application Component.
         /// This member is required.
         public var appComponentName: Swift.String?
-        /// The list of recommendations.
+        /// List of recommendations.
         /// This member is required.
         public var configRecommendations: [ResiliencehubClientTypes.ConfigRecommendation]?
-        /// The recommendation status.
+        /// Status of the recommendation.
         /// This member is required.
         public var recommendationStatus: ResiliencehubClientTypes.RecommendationComplianceStatus?
 
@@ -1709,9 +2343,9 @@ extension ResiliencehubClientTypes.ConfigRecommendation: Swift.Codable {
 }
 
 extension ResiliencehubClientTypes {
-    /// Defines a configuration recommendation.
+    /// Defines a recommendation configuration.
     public struct ConfigRecommendation: Swift.Equatable {
-        /// The name of the Application Component.
+        /// Name of the Application Component.
         public var appComponentName: Swift.String?
         /// The current compliance against the resiliency policy before applying the configuration change.
         public var compliance: [Swift.String:ResiliencehubClientTypes.DisruptionCompliance]?
@@ -1729,7 +2363,7 @@ extension ResiliencehubClientTypes {
         public var optimizationType: ResiliencehubClientTypes.ConfigRecommendationOptimizationType?
         /// The expected compliance against the resiliency policy after applying the configuration change.
         public var recommendationCompliance: [Swift.String:ResiliencehubClientTypes.RecommendationDisruptionCompliance]?
-        /// The reference identifier for the recommendation configuration.
+        /// Reference identifier for the recommendation configuration.
         /// This member is required.
         public var referenceId: Swift.String?
         /// List of the suggested configuration changes.
@@ -1980,7 +2614,7 @@ extension ResiliencehubClientTypes {
 
 extension CreateAppInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAppInput(assessmentSchedule: \(Swift.String(describing: assessmentSchedule)), clientToken: \(Swift.String(describing: clientToken)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), policyArn: \(Swift.String(describing: policyArn)), tags: \"CONTENT_REDACTED\")"}
+        "CreateAppInput(assessmentSchedule: \(Swift.String(describing: assessmentSchedule)), clientToken: \(Swift.String(describing: clientToken)), description: \(Swift.String(describing: description)), eventSubscriptions: \(Swift.String(describing: eventSubscriptions)), name: \(Swift.String(describing: name)), permissionModel: \(Swift.String(describing: permissionModel)), policyArn: \(Swift.String(describing: policyArn)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateAppInput: Swift.Encodable {
@@ -1988,7 +2622,9 @@ extension CreateAppInput: Swift.Encodable {
         case assessmentSchedule
         case clientToken
         case description
+        case eventSubscriptions
         case name
+        case permissionModel
         case policyArn
         case tags
     }
@@ -2004,8 +2640,17 @@ extension CreateAppInput: Swift.Encodable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
+        if let eventSubscriptions = eventSubscriptions {
+            var eventSubscriptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventSubscriptions)
+            for eventsubscription0 in eventSubscriptions {
+                try eventSubscriptionsContainer.encode(eventsubscription0)
+            }
+        }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let permissionModel = self.permissionModel {
+            try encodeContainer.encode(permissionModel, forKey: .permissionModel)
         }
         if let policyArn = self.policyArn {
             try encodeContainer.encode(policyArn, forKey: .policyArn)
@@ -2032,19 +2677,25 @@ public struct CreateAppInput: Swift.Equatable {
     public var clientToken: Swift.String?
     /// The optional description for an app.
     public var description: Swift.String?
-    /// The name for the application.
+    /// The list of events you would like to subscribe and get notification for. Currently, Resilience Hub supports only Drift detected and Scheduled assessment failure events notification.
+    public var eventSubscriptions: [ResiliencehubClientTypes.EventSubscription]?
+    /// Name of the application.
     /// This member is required.
     public var name: Swift.String?
-    /// The Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Defines the roles and credentials that Resilience Hub would use while creating the application, importing its resources, and running an assessment.
+    public var permissionModel: ResiliencehubClientTypes.PermissionModel?
+    /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     public var policyArn: Swift.String?
-    /// The tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair.
+    /// Tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair.
     public var tags: [Swift.String:Swift.String]?
 
     public init(
         assessmentSchedule: ResiliencehubClientTypes.AppAssessmentScheduleType? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
+        eventSubscriptions: [ResiliencehubClientTypes.EventSubscription]? = nil,
         name: Swift.String? = nil,
+        permissionModel: ResiliencehubClientTypes.PermissionModel? = nil,
         policyArn: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
@@ -2052,7 +2703,9 @@ public struct CreateAppInput: Swift.Equatable {
         self.assessmentSchedule = assessmentSchedule
         self.clientToken = clientToken
         self.description = description
+        self.eventSubscriptions = eventSubscriptions
         self.name = name
+        self.permissionModel = permissionModel
         self.policyArn = policyArn
         self.tags = tags
     }
@@ -2065,6 +2718,8 @@ struct CreateAppInputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
     let clientToken: Swift.String?
     let assessmentSchedule: ResiliencehubClientTypes.AppAssessmentScheduleType?
+    let permissionModel: ResiliencehubClientTypes.PermissionModel?
+    let eventSubscriptions: [ResiliencehubClientTypes.EventSubscription]?
 }
 
 extension CreateAppInputBody: Swift.Decodable {
@@ -2072,7 +2727,9 @@ extension CreateAppInputBody: Swift.Decodable {
         case assessmentSchedule
         case clientToken
         case description
+        case eventSubscriptions
         case name
+        case permissionModel
         case policyArn
         case tags
     }
@@ -2100,6 +2757,19 @@ extension CreateAppInputBody: Swift.Decodable {
         clientToken = clientTokenDecoded
         let assessmentScheduleDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.AppAssessmentScheduleType.self, forKey: .assessmentSchedule)
         assessmentSchedule = assessmentScheduleDecoded
+        let permissionModelDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.PermissionModel.self, forKey: .permissionModel)
+        permissionModel = permissionModelDecoded
+        let eventSubscriptionsContainer = try containerValues.decodeIfPresent([ResiliencehubClientTypes.EventSubscription?].self, forKey: .eventSubscriptions)
+        var eventSubscriptionsDecoded0:[ResiliencehubClientTypes.EventSubscription]? = nil
+        if let eventSubscriptionsContainer = eventSubscriptionsContainer {
+            eventSubscriptionsDecoded0 = [ResiliencehubClientTypes.EventSubscription]()
+            for structure0 in eventSubscriptionsContainer {
+                if let structure0 = structure0 {
+                    eventSubscriptionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        eventSubscriptions = eventSubscriptionsDecoded0
     }
 }
 
@@ -2209,17 +2879,17 @@ extension CreateAppVersionAppComponentInput: ClientRuntime.URLPathProvider {
 public struct CreateAppVersionAppComponentInput: Swift.Equatable {
     /// Currently, there is no supported additional information for Application Components.
     public var additionalInfo: [Swift.String:[Swift.String]]?
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests.
     public var clientToken: Swift.String?
-    /// The identifier of the Application Component.
+    /// Identifier of the Application Component.
     public var id: Swift.String?
-    /// The name of the Application Component.
+    /// Name of the Application Component.
     /// This member is required.
     public var name: Swift.String?
-    /// The type of Application Component. For more information about the types of Application Component, see [Grouping resources in an AppComponent](https://docs.aws.amazon.com/resilience-hub/latest/userguide/AppComponent.grouping.html).
+    /// Type of Application Component. For more information about the types of Application Component, see [Grouping resources in an AppComponent](https://docs.aws.amazon.com/resilience-hub/latest/userguide/AppComponent.grouping.html).
     /// This member is required.
     public var type: Swift.String?
 
@@ -2327,12 +2997,12 @@ extension CreateAppVersionAppComponentOutputResponse: ClientRuntime.HttpResponse
 }
 
 public struct CreateAppVersionAppComponentOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The list of Application Components that belong to this resource.
+    /// List of Application Components that belong to this resource.
     public var appComponent: ResiliencehubClientTypes.AppComponent?
-    /// The Resilience Hub application version.
+    /// Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
 
@@ -2439,27 +3109,27 @@ extension CreateAppVersionResourceInput: ClientRuntime.URLPathProvider {
 public struct CreateAppVersionResourceInput: Swift.Equatable {
     /// Currently, there is no supported additional information for resources.
     public var additionalInfo: [Swift.String:[Swift.String]]?
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The list of Application Components that this resource belongs to. If an Application Component is not part of the Resilience Hub application, it will be added.
+    /// List of Application Components that this resource belongs to. If an Application Component is not part of the Resilience Hub application, it will be added.
     /// This member is required.
     public var appComponents: [Swift.String]?
-    /// The Amazon Web Services account that owns the physical resource.
+    /// Amazon Web Services account that owns the physical resource.
     public var awsAccountId: Swift.String?
-    /// The Amazon Web Services region that owns the physical resource.
+    /// Amazon Web Services region that owns the physical resource.
     public var awsRegion: Swift.String?
     /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests.
     public var clientToken: Swift.String?
-    /// The logical identifier of the resource.
+    /// Logical identifier of the resource.
     /// This member is required.
     public var logicalResourceId: ResiliencehubClientTypes.LogicalResourceId?
-    /// The physical identifier of the resource.
+    /// Physical identifier of the resource.
     /// This member is required.
     public var physicalResourceId: Swift.String?
-    /// The name of the resource.
+    /// Name of the resource.
     public var resourceName: Swift.String?
-    /// The type of resource.
+    /// Type of resource.
     /// This member is required.
     public var resourceType: Swift.String?
 
@@ -2600,10 +3270,10 @@ extension CreateAppVersionResourceOutputResponse: ClientRuntime.HttpResponseBind
 }
 
 public struct CreateAppVersionResourceOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The Resilience Hub application version.
+    /// Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
     /// Defines a physical resource. A physical resource is a resource that exists in your account. It can be identified using an Amazon Resource Name (ARN) or a Resilience Hub-native identifier.
@@ -2707,7 +3377,7 @@ extension CreateRecommendationTemplateInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateRecommendationTemplateInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var assessmentArn: Swift.String?
     /// The name of the Amazon S3 bucket that will contain the recommendation template.
@@ -2723,7 +3393,7 @@ public struct CreateRecommendationTemplateInput: Swift.Equatable {
     public var recommendationIds: [Swift.String]?
     /// An array of strings that specify the recommendation template type or types. Alarm The template is an [AlarmRecommendation] template. Sop The template is a [SopRecommendation] template. Test The template is a [TestRecommendation] template.
     public var recommendationTypes: [ResiliencehubClientTypes.RenderRecommendationType]?
-    /// The tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair.
+    /// Tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair.
     public var tags: [Swift.String:Swift.String]?
 
     public init(
@@ -2943,7 +3613,7 @@ public struct CreateResiliencyPolicyInput: Swift.Equatable {
     /// The name of the policy
     /// This member is required.
     public var policyName: Swift.String?
-    /// The tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair.
+    /// Tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair.
     public var tags: [Swift.String:Swift.String]?
     /// The tier for this resiliency policy, ranging from the highest severity (MissionCritical) to lowest (NonCritical).
     /// This member is required.
@@ -3143,7 +3813,7 @@ extension DeleteAppAssessmentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteAppAssessmentInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var assessmentArn: Swift.String?
     /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests.
@@ -3210,7 +3880,7 @@ extension DeleteAppAssessmentOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DeleteAppAssessmentOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var assessmentArn: Swift.String?
     /// The current status of the assessment for the resiliency policy.
@@ -3275,7 +3945,7 @@ extension DeleteAppInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteAppInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests.
@@ -3355,7 +4025,7 @@ extension DeleteAppInputSourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteAppInputSourceInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests.
@@ -3446,9 +4116,9 @@ extension DeleteAppInputSourceOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 public struct DeleteAppInputSourceOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     public var appArn: Swift.String?
-    /// The name of the input source from where the application resource is imported from.
+    /// Name of the input source from where the application resource is imported from.
     public var appInputSource: ResiliencehubClientTypes.AppInputSource?
 
     public init(
@@ -3509,7 +4179,7 @@ extension DeleteAppOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DeleteAppOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
 
@@ -3565,12 +4235,12 @@ extension DeleteAppVersionAppComponentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteAppVersionAppComponentInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests.
     public var clientToken: Swift.String?
-    /// The identifier of the Application Component.
+    /// Identifier of the Application Component.
     /// This member is required.
     public var id: Swift.String?
 
@@ -3643,12 +4313,12 @@ extension DeleteAppVersionAppComponentOutputResponse: ClientRuntime.HttpResponse
 }
 
 public struct DeleteAppVersionAppComponentOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The list of Application Components that belong to this resource.
+    /// List of Application Components that belong to this resource.
     public var appComponent: ResiliencehubClientTypes.AppComponent?
-    /// The Resilience Hub application version.
+    /// Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
 
@@ -3732,20 +4402,20 @@ extension DeleteAppVersionResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteAppVersionResourceInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The Amazon Web Services account that owns the physical resource.
+    /// Amazon Web Services account that owns the physical resource.
     public var awsAccountId: Swift.String?
-    /// The Amazon Web Services region that owns the physical resource.
+    /// Amazon Web Services region that owns the physical resource.
     public var awsRegion: Swift.String?
     /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests.
     public var clientToken: Swift.String?
-    /// The logical identifier of the resource.
+    /// Logical identifier of the resource.
     public var logicalResourceId: ResiliencehubClientTypes.LogicalResourceId?
-    /// The physical identifier of the resource.
+    /// Physical identifier of the resource.
     public var physicalResourceId: Swift.String?
-    /// The name of the resource.
+    /// Name of the resource.
     public var resourceName: Swift.String?
 
     public init(
@@ -3841,10 +4511,10 @@ extension DeleteAppVersionResourceOutputResponse: ClientRuntime.HttpResponseBind
 }
 
 public struct DeleteAppVersionResourceOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The Resilience Hub application version.
+    /// Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
     /// Defines a physical resource. A physical resource is a resource that exists in your account. It can be identified using an Amazon Resource Name (ARN) or a Resilience Hub-native identifier.
@@ -3979,7 +4649,7 @@ public struct DeleteRecommendationTemplateOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) for a recommendation template.
     /// This member is required.
     public var recommendationTemplateArn: Swift.String?
-    /// The status of the action.
+    /// Status of the action.
     /// This member is required.
     public var status: ResiliencehubClientTypes.RecommendationTemplateStatus?
 
@@ -4039,7 +4709,7 @@ extension DeleteResiliencyPolicyInput: ClientRuntime.URLPathProvider {
 public struct DeleteResiliencyPolicyInput: Swift.Equatable {
     /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests.
     public var clientToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var policyArn: Swift.String?
 
@@ -4102,7 +4772,7 @@ extension DeleteResiliencyPolicyOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 public struct DeleteResiliencyPolicyOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var policyArn: Swift.String?
 
@@ -4150,7 +4820,7 @@ extension DescribeAppAssessmentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeAppAssessmentInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var assessmentArn: Swift.String?
 
@@ -4254,7 +4924,7 @@ extension DescribeAppInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeAppInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
 
@@ -4366,13 +5036,13 @@ extension DescribeAppVersionAppComponentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeAppVersionAppComponentInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The Resilience Hub application version.
+    /// Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
-    /// The identifier of the Application Component.
+    /// Identifier of the Application Component.
     /// This member is required.
     public var id: Swift.String?
 
@@ -4445,12 +5115,12 @@ extension DescribeAppVersionAppComponentOutputResponse: ClientRuntime.HttpRespon
 }
 
 public struct DescribeAppVersionAppComponentOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The list of Application Components that belong to this resource.
+    /// List of Application Components that belong to this resource.
     public var appComponent: ResiliencehubClientTypes.AppComponent?
-    /// The Resilience Hub application version.
+    /// Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
 
@@ -4514,10 +5184,10 @@ extension DescribeAppVersionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeAppVersionInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The Resilience Hub application version.
+    /// Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
 
@@ -4585,10 +5255,10 @@ extension DescribeAppVersionOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DescribeAppVersionOutputResponse: Swift.Equatable {
     /// Additional configuration parameters for an Resilience Hub application. If you want to implement additionalInfo through the Resilience Hub console rather than using an API call, see [Configure the application configuration parameters](https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html). Currently, this parameter supports only failover region and account.
     public var additionalInfo: [Swift.String:[Swift.String]]?
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The Resilience Hub application version.
+    /// Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
 
@@ -4688,21 +5358,21 @@ extension DescribeAppVersionResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeAppVersionResourceInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The Resilience Hub application version.
+    /// Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
-    /// The Amazon Web Services account that owns the physical resource.
+    /// Amazon Web Services account that owns the physical resource.
     public var awsAccountId: Swift.String?
-    /// The Amazon Web Services region that owns the physical resource.
+    /// Amazon Web Services region that owns the physical resource.
     public var awsRegion: Swift.String?
-    /// The logical identifier of the resource.
+    /// Logical identifier of the resource.
     public var logicalResourceId: ResiliencehubClientTypes.LogicalResourceId?
-    /// The physical identifier of the resource.
+    /// Physical identifier of the resource.
     public var physicalResourceId: Swift.String?
-    /// The name of the resource.
+    /// Name of the resource.
     public var resourceName: Swift.String?
 
     public init(
@@ -4798,10 +5468,10 @@ extension DescribeAppVersionResourceOutputResponse: ClientRuntime.HttpResponseBi
 }
 
 public struct DescribeAppVersionResourceOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The Resilience Hub application version.
+    /// Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
     /// Defines a physical resource. A physical resource is a resource that exists in your account. It can be identified using an Amazon Resource Name (ARN) or a Resilience Hub-native identifier.
@@ -4871,7 +5541,7 @@ extension DescribeAppVersionResourcesResolutionStatusInput: ClientRuntime.URLPat
 }
 
 public struct DescribeAppVersionResourcesResolutionStatusInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -4952,7 +5622,7 @@ extension DescribeAppVersionResourcesResolutionStatusOutputResponse: ClientRunti
 }
 
 public struct DescribeAppVersionResourcesResolutionStatusOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -4963,7 +5633,7 @@ public struct DescribeAppVersionResourcesResolutionStatusOutputResponse: Swift.E
     /// The identifier for a specific resolution.
     /// This member is required.
     public var resolutionId: Swift.String?
-    /// The status of the action.
+    /// Status of the action.
     /// This member is required.
     public var status: ResiliencehubClientTypes.ResourceResolutionStatusType?
 
@@ -5039,7 +5709,7 @@ extension DescribeAppVersionTemplateInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeAppVersionTemplateInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -5108,16 +5778,16 @@ extension DescribeAppVersionTemplateOutputResponse: ClientRuntime.HttpResponseBi
 }
 
 public struct DescribeAppVersionTemplateOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// A JSON string that provides information about your application structure. To learn more about the appTemplateBody template, see the sample template provided in the Examples section. The appTemplateBody JSON string has the following structure:
     ///
     /// * resources The list of logical resources that must be included in the Resilience Hub application. Type: Array Don't add the resources that you want to exclude. Each resources array item includes the following fields:
     ///
-    /// * logicalResourceId The logical identifier of the resource. Type: Object Each logicalResourceId object includes the following fields:
+    /// * logicalResourceId Logical identifier of the resource. Type: Object Each logicalResourceId object includes the following fields:
     ///
-    /// * identifier The identifier of the resource. Type: String
+    /// * identifier Identifier of the resource. Type: String
     ///
     /// * logicalStackName The name of the CloudFormation stack this resource belongs to. Type: String
     ///
@@ -5125,7 +5795,7 @@ public struct DescribeAppVersionTemplateOutputResponse: Swift.Equatable {
     ///
     /// * terraformSourceName The name of the Terraform S3 state file this resource belongs to. Type: String
     ///
-    /// * eksSourceName The name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs to. This parameter accepts values in "eks-cluster/namespace" format. Type: String
+    /// * eksSourceName Name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs to. This parameter accepts values in "eks-cluster/namespace" format. Type: String
     ///
     ///
     ///
@@ -5139,11 +5809,11 @@ public struct DescribeAppVersionTemplateOutputResponse: Swift.Equatable {
     ///
     ///
     ///
-    /// * appComponents The list of Application Components that this resource belongs to. If an Application Component is not part of the Resilience Hub application, it will be added. Type: Array Each appComponents array item includes the following fields:
+    /// * appComponents List of Application Components that this resource belongs to. If an Application Component is not part of the Resilience Hub application, it will be added. Type: Array Each appComponents array item includes the following fields:
     ///
-    /// * name The name of the Application Component. Type: String
+    /// * name Name of the Application Component. Type: String
     ///
-    /// * type The type of Application Component. For more information about the types of Application Component, see [Grouping resources in an AppComponent](https://docs.aws.amazon.com/resilience-hub/latest/userguide/AppComponent.grouping.html). Type: String
+    /// * type Type of Application Component. For more information about the types of Application Component, see [Grouping resources in an AppComponent](https://docs.aws.amazon.com/resilience-hub/latest/userguide/AppComponent.grouping.html). Type: String
     ///
     /// * resourceNames The list of included resources that are assigned to the Application Component. Type: Array of strings
     ///
@@ -5154,7 +5824,7 @@ public struct DescribeAppVersionTemplateOutputResponse: Swift.Equatable {
     ///
     /// * excludedResources The list of logical resource identifiers to be excluded from the application. Type: Array Don't add the resources that you want to include. Each excludedResources array item includes the following fields:
     ///
-    /// * logicalResourceIds The logical identifier of the resource. Type: Object You can configure only one of the following fields:
+    /// * logicalResourceIds Logical identifier of the resource. Type: Object You can configure only one of the following fields:
     ///
     /// * logicalStackName
     ///
@@ -5167,7 +5837,7 @@ public struct DescribeAppVersionTemplateOutputResponse: Swift.Equatable {
     ///
     /// Each logicalResourceIds object includes the following fields:
     ///
-    /// * identifier The identifier of the resource. Type: String
+    /// * identifier Identifier of the resource. Type: String
     ///
     /// * logicalStackName The name of the CloudFormation stack this resource belongs to. Type: String
     ///
@@ -5175,7 +5845,7 @@ public struct DescribeAppVersionTemplateOutputResponse: Swift.Equatable {
     ///
     /// * terraformSourceName The name of the Terraform S3 state file this resource belongs to. Type: String
     ///
-    /// * eksSourceName The name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs to. This parameter accepts values in "eks-cluster/namespace" format. Type: String
+    /// * eksSourceName Name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs to. This parameter accepts values in "eks-cluster/namespace" format. Type: String
     ///
     ///
     ///
@@ -5183,7 +5853,7 @@ public struct DescribeAppVersionTemplateOutputResponse: Swift.Equatable {
     ///
     ///
     ///
-    /// * version The Resilience Hub application version.
+    /// * version Resilience Hub application version.
     ///
     /// * additionalInfo Additional configuration parameters for an Resilience Hub application. If you want to implement additionalInfo through the Resilience Hub console rather than using an API call, see [Configure the application configuration parameters](https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html). Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"<REGION>", "accounts":[{"id":"<ACCOUNT_ID>"}]}]"
     /// This member is required.
@@ -5248,7 +5918,7 @@ extension DescribeDraftAppVersionResourcesImportStatusInput: ClientRuntime.URLPa
 }
 
 public struct DescribeDraftAppVersionResourcesImportStatusInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
 
@@ -5312,7 +5982,7 @@ extension DescribeDraftAppVersionResourcesImportStatusOutputResponse: ClientRunt
 }
 
 public struct DescribeDraftAppVersionResourcesImportStatusOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -5320,7 +5990,7 @@ public struct DescribeDraftAppVersionResourcesImportStatusOutputResponse: Swift.
     public var appVersion: Swift.String?
     /// The returned error message for the request.
     public var errorMessage: Swift.String?
-    /// The status of the action.
+    /// Status of the action.
     /// This member is required.
     public var status: ResiliencehubClientTypes.ResourceImportStatusType?
     /// The timestamp for when the status last changed.
@@ -5395,7 +6065,7 @@ extension DescribeResiliencyPolicyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeResiliencyPolicyInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var policyArn: Swift.String?
 
@@ -5476,6 +6146,35 @@ extension DescribeResiliencyPolicyOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.ResiliencyPolicy.self, forKey: .policy)
         policy = policyDecoded
+    }
+}
+
+extension ResiliencehubClientTypes {
+    public enum DifferenceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case notEqual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DifferenceType] {
+            return [
+                .notEqual,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .notEqual: return "NotEqual"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DifferenceType(rawValue: rawValue) ?? DifferenceType.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -5570,11 +6269,11 @@ extension ResiliencehubClientTypes {
         public var message: Swift.String?
         /// The RPO description.
         public var rpoDescription: Swift.String?
-        /// The RPO reference identifier.
+        /// Reference identifier of the RPO .
         public var rpoReferenceId: Swift.String?
         /// The RTO description.
         public var rtoDescription: Swift.String?
-        /// The RTO reference identifier.
+        /// Reference identifier of the RTO.
         public var rtoReferenceId: Swift.String?
 
         public init(
@@ -5643,6 +6342,70 @@ extension ResiliencehubClientTypes {
     }
 }
 
+extension ResiliencehubClientTypes {
+    public enum DriftStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case detected
+        case notChecked
+        case notDetected
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DriftStatus] {
+            return [
+                .detected,
+                .notChecked,
+                .notDetected,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .detected: return "Detected"
+            case .notChecked: return "NotChecked"
+            case .notDetected: return "NotDetected"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DriftStatus(rawValue: rawValue) ?? DriftStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ResiliencehubClientTypes {
+    public enum DriftType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case applicationCompliance
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DriftType] {
+            return [
+                .applicationCompliance,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .applicationCompliance: return "ApplicationCompliance"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DriftType(rawValue: rawValue) ?? DriftType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ResiliencehubClientTypes.EksSource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case eksClusterArn
@@ -5683,7 +6446,7 @@ extension ResiliencehubClientTypes.EksSource: Swift.Codable {
 extension ResiliencehubClientTypes {
     /// The input source of the Amazon Elastic Kubernetes Service cluster.
     public struct EksSource: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the Amazon Elastic Kubernetes Service cluster. The format for this ARN is: arn:aws:eks:region:account-id:cluster/cluster-name. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// Amazon Resource Name (ARN) of the Amazon Elastic Kubernetes Service cluster. The format for this ARN is: arn:aws:eks:region:account-id:cluster/cluster-name. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
         /// This member is required.
         public var eksClusterArn: Swift.String?
         /// The list of namespaces located on your Amazon Elastic Kubernetes Service cluster.
@@ -5730,7 +6493,7 @@ extension ResiliencehubClientTypes.EksSourceClusterNamespace: Swift.Codable {
 extension ResiliencehubClientTypes {
     /// The input source of the namespace that is located on your Amazon Elastic Kubernetes Service cluster.
     public struct EksSourceClusterNamespace: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the Amazon Elastic Kubernetes Service cluster. The format for this ARN is: arn:aws:eks:region:account-id:cluster/cluster-name. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// Amazon Resource Name (ARN) of the Amazon Elastic Kubernetes Service cluster. The format for this ARN is: arn:aws:eks:region:account-id:cluster/cluster-name. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
         /// This member is required.
         public var eksClusterArn: Swift.String?
         /// Name of the namespace that is located on your Amazon Elastic Kubernetes Service cluster.
@@ -5783,6 +6546,130 @@ extension ResiliencehubClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = EstimatedCostTier(rawValue: rawValue) ?? EstimatedCostTier.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ResiliencehubClientTypes.EventSubscription: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventType
+        case name
+        case snsTopicArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let eventType = self.eventType {
+            try encodeContainer.encode(eventType.rawValue, forKey: .eventType)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let snsTopicArn = self.snsTopicArn {
+            try encodeContainer.encode(snsTopicArn, forKey: .snsTopicArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let eventTypeDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.EventType.self, forKey: .eventType)
+        eventType = eventTypeDecoded
+        let snsTopicArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snsTopicArn)
+        snsTopicArn = snsTopicArnDecoded
+    }
+}
+
+extension ResiliencehubClientTypes {
+    /// Indicates an event you would like to subscribe and get notification for. Currently, Resilience Hub supports notifications only for Drift detected and Scheduled assessment failure events.
+    public struct EventSubscription: Swift.Equatable {
+        /// The type of event you would like to subscribe and get notification for. Currently, Resilience Hub supports notifications only for Drift detected (DriftDetected) and Scheduled assessment failure (ScheduledAssessmentFailure) events.
+        /// This member is required.
+        public var eventType: ResiliencehubClientTypes.EventType?
+        /// Unique name to identify an event subscription.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Amazon Resource Name (ARN) of the Amazon Simple Notification Service topic. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        public var snsTopicArn: Swift.String?
+
+        public init(
+            eventType: ResiliencehubClientTypes.EventType? = nil,
+            name: Swift.String? = nil,
+            snsTopicArn: Swift.String? = nil
+        )
+        {
+            self.eventType = eventType
+            self.name = name
+            self.snsTopicArn = snsTopicArn
+        }
+    }
+
+}
+
+extension ResiliencehubClientTypes {
+    public enum EventType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case driftDetected
+        case scheduledAssessmentFailure
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventType] {
+            return [
+                .driftDetected,
+                .scheduledAssessmentFailure,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .driftDetected: return "DriftDetected"
+            case .scheduledAssessmentFailure: return "ScheduledAssessmentFailure"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EventType(rawValue: rawValue) ?? EventType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ResiliencehubClientTypes {
+    public enum ExcludeRecommendationReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case alreadyImplemented
+        case complexityOfImplementation
+        case notRelevant
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExcludeRecommendationReason] {
+            return [
+                .alreadyImplemented,
+                .complexityOfImplementation,
+                .notRelevant,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .alreadyImplemented: return "AlreadyImplemented"
+            case .complexityOfImplementation: return "ComplexityOfImplementation"
+            case .notRelevant: return "NotRelevant"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ExcludeRecommendationReason(rawValue: rawValue) ?? ExcludeRecommendationReason.sdkUnknown(rawValue)
         }
     }
 }
@@ -5920,7 +6807,7 @@ extension ImportResourcesToDraftAppVersionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ImportResourcesToDraftAppVersionInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The input sources of the Amazon Elastic Kubernetes Service resources you need to import.
@@ -6016,6 +6903,7 @@ public enum ImportResourcesToDraftAppVersionOutputError: ClientRuntime.HttpRespo
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -6046,7 +6934,7 @@ extension ImportResourcesToDraftAppVersionOutputResponse: ClientRuntime.HttpResp
 }
 
 public struct ImportResourcesToDraftAppVersionOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -6056,7 +6944,7 @@ public struct ImportResourcesToDraftAppVersionOutputResponse: Swift.Equatable {
     public var eksSources: [ResiliencehubClientTypes.EksSource]?
     /// The Amazon Resource Names (ARNs) for the resources you have imported.
     public var sourceArns: [Swift.String]?
-    /// The status of the action.
+    /// Status of the action.
     /// This member is required.
     public var status: ResiliencehubClientTypes.ResourceImportStatusType?
     /// A list of terraform file s3 URLs you have imported.
@@ -6226,10 +7114,10 @@ extension ListAlarmRecommendationsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAlarmRecommendationsInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var assessmentArn: Swift.String?
-    /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+    /// Maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
     /// Null, or the token from a previous call to get the next set of results.
     public var nextToken: Swift.String?
@@ -6303,7 +7191,7 @@ public struct ListAlarmRecommendationsOutputResponse: Swift.Equatable {
     /// The alarm recommendations for an Resilience Hub application, returned as an object. This object includes Application Component names, descriptions, information about whether a recommendation has already been implemented or not, prerequisites, and more.
     /// This member is required.
     public var alarmRecommendations: [ResiliencehubClientTypes.AlarmRecommendation]?
-    /// The token for the next set of results, or null if there are no more results.
+    /// Token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
 
     public init(
@@ -6340,6 +7228,152 @@ extension ListAlarmRecommendationsOutputResponseBody: Swift.Decodable {
             }
         }
         alarmRecommendations = alarmRecommendationsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListAppAssessmentComplianceDriftsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case assessmentArn
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let assessmentArn = self.assessmentArn {
+            try encodeContainer.encode(assessmentArn, forKey: .assessmentArn)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListAppAssessmentComplianceDriftsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/list-app-assessment-compliance-drifts"
+    }
+}
+
+public struct ListAppAssessmentComplianceDriftsInput: Swift.Equatable {
+    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// This member is required.
+    public var assessmentArn: Swift.String?
+    /// Indicates the maximum number of applications requested.
+    public var maxResults: Swift.Int?
+    /// Indicates the unique token number of the next application to be checked for compliance and regulatory requirements from the list of applications.
+    public var nextToken: Swift.String?
+
+    public init(
+        assessmentArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.assessmentArn = assessmentArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListAppAssessmentComplianceDriftsInputBody: Swift.Equatable {
+    let assessmentArn: Swift.String?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListAppAssessmentComplianceDriftsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case assessmentArn
+        case maxResults
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let assessmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .assessmentArn)
+        assessmentArn = assessmentArnDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+public enum ListAppAssessmentComplianceDriftsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListAppAssessmentComplianceDriftsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListAppAssessmentComplianceDriftsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.complianceDrifts = output.complianceDrifts
+            self.nextToken = output.nextToken
+        } else {
+            self.complianceDrifts = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListAppAssessmentComplianceDriftsOutputResponse: Swift.Equatable {
+    /// Indicates compliance drifts (recovery time objective (RTO) and recovery point objective (RPO)) detected for an assessed entity.
+    /// This member is required.
+    public var complianceDrifts: [ResiliencehubClientTypes.ComplianceDrift]?
+    /// Token number of the next application to be checked for compliance and regulatory requirements from the list of applications.
+    public var nextToken: Swift.String?
+
+    public init(
+        complianceDrifts: [ResiliencehubClientTypes.ComplianceDrift]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.complianceDrifts = complianceDrifts
+        self.nextToken = nextToken
+    }
+}
+
+struct ListAppAssessmentComplianceDriftsOutputResponseBody: Swift.Equatable {
+    let complianceDrifts: [ResiliencehubClientTypes.ComplianceDrift]?
+    let nextToken: Swift.String?
+}
+
+extension ListAppAssessmentComplianceDriftsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case complianceDrifts
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let complianceDriftsContainer = try containerValues.decodeIfPresent([ResiliencehubClientTypes.ComplianceDrift?].self, forKey: .complianceDrifts)
+        var complianceDriftsDecoded0:[ResiliencehubClientTypes.ComplianceDrift]? = nil
+        if let complianceDriftsContainer = complianceDriftsContainer {
+            complianceDriftsDecoded0 = [ResiliencehubClientTypes.ComplianceDrift]()
+            for structure0 in complianceDriftsContainer {
+                if let structure0 = structure0 {
+                    complianceDriftsDecoded0?.append(structure0)
+                }
+            }
+        }
+        complianceDrifts = complianceDriftsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
@@ -6395,7 +7429,7 @@ extension ListAppAssessmentsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAppAssessmentsInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     public var appArn: Swift.String?
     /// The name for the assessment.
     public var assessmentName: Swift.String?
@@ -6405,7 +7439,7 @@ public struct ListAppAssessmentsInput: Swift.Equatable {
     public var complianceStatus: ResiliencehubClientTypes.ComplianceStatus?
     /// Specifies the entity that invoked a specific assessment, either a User or the System.
     public var invoker: ResiliencehubClientTypes.AssessmentInvoker?
-    /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+    /// Maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
     /// Null, or the token from a previous call to get the next set of results.
     public var nextToken: Swift.String?
@@ -6476,7 +7510,7 @@ public struct ListAppAssessmentsOutputResponse: Swift.Equatable {
     /// The summaries for the specified assessments, returned as an object. This object includes application versions, associated Amazon Resource Numbers (ARNs), cost, messages, resiliency scores, and more.
     /// This member is required.
     public var assessmentSummaries: [ResiliencehubClientTypes.AppAssessmentSummary]?
-    /// The token for the next set of results, or null if there are no more results.
+    /// Token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
 
     public init(
@@ -6546,10 +7580,10 @@ extension ListAppComponentCompliancesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAppComponentCompliancesInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var assessmentArn: Swift.String?
-    /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+    /// Maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
     /// Null, or the token from a previous call to get the next set of results.
     public var nextToken: Swift.String?
@@ -6623,7 +7657,7 @@ public struct ListAppComponentCompliancesOutputResponse: Swift.Equatable {
     /// The compliances for an Resilience Hub Application Component, returned as an object. This object contains the names of the Application Components, compliances, costs, resiliency scores, outage scores, and more.
     /// This member is required.
     public var componentCompliances: [ResiliencehubClientTypes.AppComponentCompliance]?
-    /// The token for the next set of results, or null if there are no more results.
+    /// Token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
 
     public init(
@@ -6693,10 +7727,10 @@ extension ListAppComponentRecommendationsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAppComponentRecommendationsInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var assessmentArn: Swift.String?
-    /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+    /// Maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
     /// Null, or the token from a previous call to get the next set of results.
     public var nextToken: Swift.String?
@@ -6770,7 +7804,7 @@ public struct ListAppComponentRecommendationsOutputResponse: Swift.Equatable {
     /// The recommendations for an Resilience Hub Application Component, returned as an object. This object contains the names of the Application Components, configuration recommendations, and recommendation statuses.
     /// This member is required.
     public var componentRecommendations: [ResiliencehubClientTypes.ComponentRecommendation]?
-    /// The token for the next set of results, or null if there are no more results.
+    /// Token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
 
     public init(
@@ -6844,10 +7878,10 @@ extension ListAppInputSourcesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAppInputSourcesInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The Resilience Hub application version.
+    /// Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
     /// Maximum number of input sources to be displayed per Resilience Hub application.
@@ -6930,7 +7964,7 @@ public struct ListAppInputSourcesOutputResponse: Swift.Equatable {
     /// The list of Resilience Hub application input sources.
     /// This member is required.
     public var appInputSources: [ResiliencehubClientTypes.AppInputSource]?
-    /// The token for the next set of results, or null if there are no more results.
+    /// Token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
 
     public init(
@@ -7004,10 +8038,10 @@ extension ListAppVersionAppComponentsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAppVersionAppComponentsInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The version of the Application Component.
+    /// Version of the Application Component.
     /// This member is required.
     public var appVersion: Swift.String?
     /// Maximum number of Application Components to be displayed per Resilience Hub application version.
@@ -7092,15 +8126,15 @@ extension ListAppVersionAppComponentsOutputResponse: ClientRuntime.HttpResponseB
 }
 
 public struct ListAppVersionAppComponentsOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Defines an Application Component.
     public var appComponents: [ResiliencehubClientTypes.AppComponent]?
-    /// The Resilience Hub application version.
+    /// Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
-    /// The token for the next set of results, or null if there are no more results.
+    /// Token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
 
     public init(
@@ -7186,13 +8220,13 @@ extension ListAppVersionResourceMappingsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAppVersionResourceMappingsInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
     /// This member is required.
     public var appVersion: Swift.String?
-    /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+    /// Maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
     /// Null, or the token from a previous call to get the next set of results.
     public var nextToken: Swift.String?
@@ -7269,7 +8303,7 @@ extension ListAppVersionResourceMappingsOutputResponse: ClientRuntime.HttpRespon
 }
 
 public struct ListAppVersionResourceMappingsOutputResponse: Swift.Equatable {
-    /// The token for the next set of results, or null if there are no more results.
+    /// Token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// Mappings used to map logical resources from the template to physical resources. You can use the mapping type CFN_STACK if the application template uses a logical stack name. Or you can map individual resources by using the mapping type RESOURCE. We recommend using the mapping type CFN_STACK if the application is backed by a CloudFormation stack.
     /// This member is required.
@@ -7350,13 +8384,13 @@ extension ListAppVersionResourcesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAppVersionResourcesInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
     /// This member is required.
     public var appVersion: Swift.String?
-    /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+    /// Maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
     /// Null, or the token from a previous call to get the next set of results.
     public var nextToken: Swift.String?
@@ -7444,7 +8478,7 @@ extension ListAppVersionResourcesOutputResponse: ClientRuntime.HttpResponseBindi
 }
 
 public struct ListAppVersionResourcesOutputResponse: Swift.Equatable {
-    /// The token for the next set of results, or null if there are no more results.
+    /// Token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// The physical resources in the application version.
     /// This member is required.
@@ -7501,8 +8535,10 @@ extension ListAppVersionResourcesOutputResponseBody: Swift.Decodable {
 extension ListAppVersionsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
+        case endTime
         case maxResults
         case nextToken
+        case startTime
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -7510,11 +8546,17 @@ extension ListAppVersionsInput: Swift.Encodable {
         if let appArn = self.appArn {
             try encodeContainer.encode(appArn, forKey: .appArn)
         }
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
         if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
         }
     }
 }
@@ -7526,23 +8568,31 @@ extension ListAppVersionsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAppVersionsInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+    /// Upper limit of the time range to filter the application versions.
+    public var endTime: ClientRuntime.Date?
+    /// Maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
     /// Null, or the token from a previous call to get the next set of results.
     public var nextToken: Swift.String?
+    /// Lower limit of the time range to filter the application versions.
+    public var startTime: ClientRuntime.Date?
 
     public init(
         appArn: Swift.String? = nil,
+        endTime: ClientRuntime.Date? = nil,
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        startTime: ClientRuntime.Date? = nil
     )
     {
         self.appArn = appArn
+        self.endTime = endTime
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.startTime = startTime
     }
 }
 
@@ -7550,13 +8600,17 @@ struct ListAppVersionsInputBody: Swift.Equatable {
     let appArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
+    let startTime: ClientRuntime.Date?
+    let endTime: ClientRuntime.Date?
 }
 
 extension ListAppVersionsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
+        case endTime
         case maxResults
         case nextToken
+        case startTime
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -7567,6 +8621,10 @@ extension ListAppVersionsInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
     }
 }
 
@@ -7602,7 +8660,7 @@ public struct ListAppVersionsOutputResponse: Swift.Equatable {
     /// The version of the application.
     /// This member is required.
     public var appVersions: [ResiliencehubClientTypes.AppVersionSummary]?
-    /// The token for the next set of results, or null if there are no more results.
+    /// Token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
 
     public init(
@@ -7676,9 +8734,9 @@ extension ListAppsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAppsInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     public var appArn: Swift.String?
-    /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+    /// Maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
     /// The name for the one of the listed applications.
     public var name: Swift.String?
@@ -7740,7 +8798,7 @@ public struct ListAppsOutputResponse: Swift.Equatable {
     /// Summaries for the Resilience Hub application.
     /// This member is required.
     public var appSummaries: [ResiliencehubClientTypes.AppSummary]?
-    /// The token for the next set of results, or null if there are no more results.
+    /// Token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
 
     public init(
@@ -7830,10 +8888,10 @@ extension ListRecommendationTemplatesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListRecommendationTemplatesInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var assessmentArn: Swift.String?
-    /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+    /// Maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
     /// The name for one of the listed recommendation templates.
     public var name: Swift.String?
@@ -7843,7 +8901,7 @@ public struct ListRecommendationTemplatesInput: Swift.Equatable {
     public var recommendationTemplateArn: Swift.String?
     /// The default is to sort by ascending startTime. To sort by descending startTime, set reverseOrder to true.
     public var reverseOrder: Swift.Bool?
-    /// The status of the action.
+    /// Status of the action.
     public var status: [ResiliencehubClientTypes.RecommendationTemplateStatus]?
 
     public init(
@@ -7904,7 +8962,7 @@ extension ListRecommendationTemplatesOutputResponse: ClientRuntime.HttpResponseB
 }
 
 public struct ListRecommendationTemplatesOutputResponse: Swift.Equatable {
-    /// The token for the next set of results, or null if there are no more results.
+    /// Token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// The recommendation templates for the Resilience Hub applications.
     public var recommendationTemplates: [ResiliencehubClientTypes.RecommendationTemplate]?
@@ -7976,7 +9034,7 @@ extension ListResiliencyPoliciesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListResiliencyPoliciesInput: Swift.Equatable {
-    /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+    /// Maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
     /// Null, or the token from a previous call to get the next set of results.
     public var nextToken: Swift.String?
@@ -8034,7 +9092,7 @@ extension ListResiliencyPoliciesOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 public struct ListResiliencyPoliciesOutputResponse: Swift.Equatable {
-    /// The token for the next set of results, or null if there are no more results.
+    /// Token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// The resiliency policies for the Resilience Hub applications.
     /// This member is required.
@@ -8107,10 +9165,10 @@ extension ListSopRecommendationsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListSopRecommendationsInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var assessmentArn: Swift.String?
-    /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+    /// Maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
     /// Null, or the token from a previous call to get the next set of results.
     public var nextToken: Swift.String?
@@ -8182,7 +9240,7 @@ extension ListSopRecommendationsOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 public struct ListSopRecommendationsOutputResponse: Swift.Equatable {
-    /// The token for the next set of results, or null if there are no more results.
+    /// Token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// The standard operating procedure (SOP) recommendations for the Resilience Hub applications.
     /// This member is required.
@@ -8251,7 +9309,7 @@ extension ListSuggestedResiliencyPoliciesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListSuggestedResiliencyPoliciesInput: Swift.Equatable {
-    /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+    /// Maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
     /// Null, or the token from a previous call to get the next set of results.
     public var nextToken: Swift.String?
@@ -8305,7 +9363,7 @@ extension ListSuggestedResiliencyPoliciesOutputResponse: ClientRuntime.HttpRespo
 }
 
 public struct ListSuggestedResiliencyPoliciesOutputResponse: Swift.Equatable {
-    /// The token for the next set of results, or null if there are no more results.
+    /// Token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// The suggested resiliency policies for the Resilience Hub applications.
     /// This member is required.
@@ -8414,7 +9472,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListTagsForResourceOutputResponse: Swift.Equatable {
-    /// The tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair.
+    /// Tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair.
     public var tags: [Swift.String:Swift.String]?
 
     public init(
@@ -8478,10 +9536,10 @@ extension ListTestRecommendationsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListTestRecommendationsInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var assessmentArn: Swift.String?
-    /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+    /// Maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
     /// Null, or the token from a previous call to get the next set of results.
     public var nextToken: Swift.String?
@@ -8553,7 +9611,7 @@ extension ListTestRecommendationsOutputResponse: ClientRuntime.HttpResponseBindi
 }
 
 public struct ListTestRecommendationsOutputResponse: Swift.Equatable {
-    /// The token for the next set of results, or null if there are no more results.
+    /// Token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// The test recommendations for the Resilience Hub application.
     /// This member is required.
@@ -8634,13 +9692,13 @@ extension ListUnsupportedAppVersionResourcesInput: ClientRuntime.URLPathProvider
 }
 
 public struct ListUnsupportedAppVersionResourcesInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
     /// This member is required.
     public var appVersion: Swift.String?
-    /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+    /// Maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
     /// Null, or the token from a previous call to get the next set of results.
     public var nextToken: Swift.String?
@@ -8728,7 +9786,7 @@ extension ListUnsupportedAppVersionResourcesOutputResponse: ClientRuntime.HttpRe
 }
 
 public struct ListUnsupportedAppVersionResourcesOutputResponse: Swift.Equatable {
-    /// The token for the next set of results, or null if there are no more results.
+    /// Token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// The identifier for a specific resolution.
     /// This member is required.
@@ -8828,9 +9886,9 @@ extension ResiliencehubClientTypes.LogicalResourceId: Swift.Codable {
 extension ResiliencehubClientTypes {
     /// Defines a logical resource identifier.
     public struct LogicalResourceId: Swift.Equatable {
-        /// The name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs to. This parameter accepts values in "eks-cluster/namespace" format.
+        /// Name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs to. This parameter accepts values in "eks-cluster/namespace" format.
         public var eksSourceName: Swift.String?
-        /// The identifier of the resource.
+        /// Identifier of the resource.
         /// This member is required.
         public var identifier: Swift.String?
         /// The name of the CloudFormation stack this resource belongs to.
@@ -8856,6 +9914,110 @@ extension ResiliencehubClientTypes {
         }
     }
 
+}
+
+extension ResiliencehubClientTypes.PermissionModel: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case crossAccountRoleArns
+        case invokerRoleName
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let crossAccountRoleArns = crossAccountRoleArns {
+            var crossAccountRoleArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .crossAccountRoleArns)
+            for iamrolearn0 in crossAccountRoleArns {
+                try crossAccountRoleArnsContainer.encode(iamrolearn0)
+            }
+        }
+        if let invokerRoleName = self.invokerRoleName {
+            try encodeContainer.encode(invokerRoleName, forKey: .invokerRoleName)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.PermissionModelType.self, forKey: .type)
+        type = typeDecoded
+        let invokerRoleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .invokerRoleName)
+        invokerRoleName = invokerRoleNameDecoded
+        let crossAccountRoleArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .crossAccountRoleArns)
+        var crossAccountRoleArnsDecoded0:[Swift.String]? = nil
+        if let crossAccountRoleArnsContainer = crossAccountRoleArnsContainer {
+            crossAccountRoleArnsDecoded0 = [Swift.String]()
+            for string0 in crossAccountRoleArnsContainer {
+                if let string0 = string0 {
+                    crossAccountRoleArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        crossAccountRoleArns = crossAccountRoleArnsDecoded0
+    }
+}
+
+extension ResiliencehubClientTypes {
+    /// Defines the roles and credentials that Resilience Hub would use while creating the application, importing its resources, and running an assessment.
+    public struct PermissionModel: Swift.Equatable {
+        /// Defines a list of role Amazon Resource Names (ARNs) to be used in other accounts. These ARNs are used for querying purposes while importing resources and assessing your application.
+        ///
+        /// * These ARNs are required only when your resources are in other accounts and you have different role name in these accounts. Else, the invoker role name will be used in the other accounts.
+        ///
+        /// * These roles must have a trust policy with iam:AssumeRole permission to the invoker role in the primary account.
+        public var crossAccountRoleArns: [Swift.String]?
+        /// Existing Amazon Web Services IAM role name in the primary Amazon Web Services account that will be assumed by Resilience Hub Service Principle to obtain a read-only access to your application resources while running an assessment. You must have iam:passRole permission for this role while creating or updating the application.
+        public var invokerRoleName: Swift.String?
+        /// Defines how Resilience Hub scans your resources. It can scan for the resources by using a pre-existing role in your Amazon Web Services account, or by using the credentials of the current IAM user.
+        /// This member is required.
+        public var type: ResiliencehubClientTypes.PermissionModelType?
+
+        public init(
+            crossAccountRoleArns: [Swift.String]? = nil,
+            invokerRoleName: Swift.String? = nil,
+            type: ResiliencehubClientTypes.PermissionModelType? = nil
+        )
+        {
+            self.crossAccountRoleArns = crossAccountRoleArns
+            self.invokerRoleName = invokerRoleName
+            self.type = type
+        }
+    }
+
+}
+
+extension ResiliencehubClientTypes {
+    public enum PermissionModelType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case legacyIamUser
+        case roleBased
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PermissionModelType] {
+            return [
+                .legacyIamUser,
+                .roleBased,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .legacyIamUser: return "LegacyIAMUser"
+            case .roleBased: return "RoleBased"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PermissionModelType(rawValue: rawValue) ?? PermissionModelType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ResiliencehubClientTypes {
@@ -9000,12 +10162,12 @@ extension ResiliencehubClientTypes {
         public var appComponents: [ResiliencehubClientTypes.AppComponent]?
         /// Indicates if a resource is included or excluded from the assessment.
         public var excluded: Swift.Bool?
-        /// The logical identifier of the resource.
+        /// Logical identifier of the resource.
         /// This member is required.
         public var logicalResourceId: ResiliencehubClientTypes.LogicalResourceId?
-        /// The name of the parent resource.
+        /// Name of the parent resource.
         public var parentResourceName: Swift.String?
-        /// The physical identifier of the resource.
+        /// Identifier of the physical resource.
         /// This member is required.
         public var physicalResourceId: ResiliencehubClientTypes.PhysicalResourceId?
         /// The name of the resource.
@@ -9013,7 +10175,7 @@ extension ResiliencehubClientTypes {
         /// The type of resource.
         /// This member is required.
         public var resourceType: Swift.String?
-        /// The type of input source.
+        /// Type of input source.
         public var sourceType: ResiliencehubClientTypes.ResourceSourceType?
 
         public init(
@@ -9086,10 +10248,61 @@ extension ResiliencehubClientTypes {
         public var awsAccountId: Swift.String?
         /// The Amazon Web Services Region that the physical resource is located in.
         public var awsRegion: Swift.String?
-        /// The identifier of the physical resource.
+        /// Identifier of the physical resource.
         /// This member is required.
         public var identifier: Swift.String?
-        /// Specifies the type of physical resource identifier. Arn The resource identifier is an Amazon Resource Name (ARN) . Native The resource identifier is an Resilience Hub-native identifier.
+        /// Specifies the type of physical resource identifier. Arn The resource identifier is an Amazon Resource Name (ARN) and it can identify the following list of resources:
+        ///
+        /// * AWS::ECS::Service
+        ///
+        /// * AWS::EFS::FileSystem
+        ///
+        /// * AWS::ElasticLoadBalancingV2::LoadBalancer
+        ///
+        /// * AWS::Lambda::Function
+        ///
+        /// * AWS::SNS::Topic
+        ///
+        ///
+        /// Native The resource identifier is an Resilience Hub-native identifier and it can identify the following list of resources:
+        ///
+        /// * AWS::ApiGateway::RestApi
+        ///
+        /// * AWS::ApiGatewayV2::Api
+        ///
+        /// * AWS::AutoScaling::AutoScalingGroup
+        ///
+        /// * AWS::DocDB::DBCluster
+        ///
+        /// * AWS::DocDB::DBGlobalCluster
+        ///
+        /// * AWS::DocDB::DBInstance
+        ///
+        /// * AWS::DynamoDB::GlobalTable
+        ///
+        /// * AWS::DynamoDB::Table
+        ///
+        /// * AWS::EC2::EC2Fleet
+        ///
+        /// * AWS::EC2::Instance
+        ///
+        /// * AWS::EC2::NatGateway
+        ///
+        /// * AWS::EC2::Volume
+        ///
+        /// * AWS::ElasticLoadBalancing::LoadBalancer
+        ///
+        /// * AWS::RDS::DBCluster
+        ///
+        /// * AWS::RDS::DBInstance
+        ///
+        /// * AWS::RDS::GlobalCluster
+        ///
+        /// * AWS::Route53::RecordSet
+        ///
+        /// * AWS::S3::Bucket
+        ///
+        /// * AWS::SQS::Queue
         /// This member is required.
         public var type: ResiliencehubClientTypes.PhysicalIdentifierType?
 
@@ -9112,12 +10325,16 @@ extension ResiliencehubClientTypes {
 extension PublishAppVersionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
+        case versionName
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let appArn = self.appArn {
             try encodeContainer.encode(appArn, forKey: .appArn)
+        }
+        if let versionName = self.versionName {
+            try encodeContainer.encode(versionName, forKey: .versionName)
         }
     }
 }
@@ -9129,31 +10346,39 @@ extension PublishAppVersionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PublishAppVersionInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
+    /// Name of the application version.
+    public var versionName: Swift.String?
 
     public init(
-        appArn: Swift.String? = nil
+        appArn: Swift.String? = nil,
+        versionName: Swift.String? = nil
     )
     {
         self.appArn = appArn
+        self.versionName = versionName
     }
 }
 
 struct PublishAppVersionInputBody: Swift.Equatable {
     let appArn: Swift.String?
+    let versionName: Swift.String?
 }
 
 extension PublishAppVersionInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
+        case versionName
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appArn)
         appArn = appArnDecoded
+        let versionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionName)
+        versionName = versionNameDecoded
     }
 }
 
@@ -9180,39 +10405,55 @@ extension PublishAppVersionOutputResponse: ClientRuntime.HttpResponseBinding {
             let output: PublishAppVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appVersion = output.appVersion
+            self.identifier = output.identifier
+            self.versionName = output.versionName
         } else {
             self.appArn = nil
             self.appVersion = nil
+            self.identifier = nil
+            self.versionName = nil
         }
     }
 }
 
 public struct PublishAppVersionOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
     public var appVersion: Swift.String?
+    /// Identifier of the application version.
+    public var identifier: Swift.Int?
+    /// Name of the application version.
+    public var versionName: Swift.String?
 
     public init(
         appArn: Swift.String? = nil,
-        appVersion: Swift.String? = nil
+        appVersion: Swift.String? = nil,
+        identifier: Swift.Int? = nil,
+        versionName: Swift.String? = nil
     )
     {
         self.appArn = appArn
         self.appVersion = appVersion
+        self.identifier = identifier
+        self.versionName = versionName
     }
 }
 
 struct PublishAppVersionOutputResponseBody: Swift.Equatable {
     let appArn: Swift.String?
     let appVersion: Swift.String?
+    let identifier: Swift.Int?
+    let versionName: Swift.String?
 }
 
 extension PublishAppVersionOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
         case appVersion
+        case identifier
+        case versionName
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -9221,6 +10462,10 @@ extension PublishAppVersionOutputResponseBody: Swift.Decodable {
         appArn = appArnDecoded
         let appVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appVersion)
         appVersion = appVersionDecoded
+        let identifierDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .identifier)
+        identifier = identifierDecoded
+        let versionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionName)
+        versionName = versionNameDecoded
     }
 }
 
@@ -9248,16 +10493,16 @@ extension PutDraftAppVersionTemplateInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutDraftAppVersionTemplateInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// A JSON string that provides information about your application structure. To learn more about the appTemplateBody template, see the sample template provided in the Examples section. The appTemplateBody JSON string has the following structure:
     ///
     /// * resources The list of logical resources that must be included in the Resilience Hub application. Type: Array Don't add the resources that you want to exclude. Each resources array item includes the following fields:
     ///
-    /// * logicalResourceId The logical identifier of the resource. Type: Object Each logicalResourceId object includes the following fields:
+    /// * logicalResourceId Logical identifier of the resource. Type: Object Each logicalResourceId object includes the following fields:
     ///
-    /// * identifier The identifier of the resource. Type: String
+    /// * identifier Identifier of the resource. Type: String
     ///
     /// * logicalStackName The name of the CloudFormation stack this resource belongs to. Type: String
     ///
@@ -9265,7 +10510,7 @@ public struct PutDraftAppVersionTemplateInput: Swift.Equatable {
     ///
     /// * terraformSourceName The name of the Terraform S3 state file this resource belongs to. Type: String
     ///
-    /// * eksSourceName The name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs to. This parameter accepts values in "eks-cluster/namespace" format. Type: String
+    /// * eksSourceName Name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs to. This parameter accepts values in "eks-cluster/namespace" format. Type: String
     ///
     ///
     ///
@@ -9279,11 +10524,11 @@ public struct PutDraftAppVersionTemplateInput: Swift.Equatable {
     ///
     ///
     ///
-    /// * appComponents The list of Application Components that this resource belongs to. If an Application Component is not part of the Resilience Hub application, it will be added. Type: Array Each appComponents array item includes the following fields:
+    /// * appComponents List of Application Components that this resource belongs to. If an Application Component is not part of the Resilience Hub application, it will be added. Type: Array Each appComponents array item includes the following fields:
     ///
-    /// * name The name of the Application Component. Type: String
+    /// * name Name of the Application Component. Type: String
     ///
-    /// * type The type of Application Component. For more information about the types of Application Component, see [Grouping resources in an AppComponent](https://docs.aws.amazon.com/resilience-hub/latest/userguide/AppComponent.grouping.html). Type: String
+    /// * type Type of Application Component. For more information about the types of Application Component, see [Grouping resources in an AppComponent](https://docs.aws.amazon.com/resilience-hub/latest/userguide/AppComponent.grouping.html). Type: String
     ///
     /// * resourceNames The list of included resources that are assigned to the Application Component. Type: Array of strings
     ///
@@ -9294,7 +10539,7 @@ public struct PutDraftAppVersionTemplateInput: Swift.Equatable {
     ///
     /// * excludedResources The list of logical resource identifiers to be excluded from the application. Type: Array Don't add the resources that you want to include. Each excludedResources array item includes the following fields:
     ///
-    /// * logicalResourceIds The logical identifier of the resource. Type: Object You can configure only one of the following fields:
+    /// * logicalResourceIds Logical identifier of the resource. Type: Object You can configure only one of the following fields:
     ///
     /// * logicalStackName
     ///
@@ -9307,7 +10552,7 @@ public struct PutDraftAppVersionTemplateInput: Swift.Equatable {
     ///
     /// Each logicalResourceIds object includes the following fields:
     ///
-    /// * identifier The identifier of the resource. Type: String
+    /// * identifier Identifier of the resource. Type: String
     ///
     /// * logicalStackName The name of the CloudFormation stack this resource belongs to. Type: String
     ///
@@ -9315,7 +10560,7 @@ public struct PutDraftAppVersionTemplateInput: Swift.Equatable {
     ///
     /// * terraformSourceName The name of the Terraform S3 state file this resource belongs to. Type: String
     ///
-    /// * eksSourceName The name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs to. This parameter accepts values in "eks-cluster/namespace" format. Type: String
+    /// * eksSourceName Name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs to. This parameter accepts values in "eks-cluster/namespace" format. Type: String
     ///
     ///
     ///
@@ -9323,7 +10568,7 @@ public struct PutDraftAppVersionTemplateInput: Swift.Equatable {
     ///
     ///
     ///
-    /// * version The Resilience Hub application version.
+    /// * version Resilience Hub application version.
     ///
     /// * additionalInfo Additional configuration parameters for an Resilience Hub application. If you want to implement additionalInfo through the Resilience Hub console rather than using an API call, see [Configure the application configuration parameters](https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html). Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"<REGION>", "accounts":[{"id":"<ACCOUNT_ID>"}]}]"
     /// This member is required.
@@ -9390,7 +10635,7 @@ extension PutDraftAppVersionTemplateOutputResponse: ClientRuntime.HttpResponseBi
 }
 
 public struct PutDraftAppVersionTemplateOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     public var appArn: Swift.String?
     /// The version of the application.
     public var appVersion: Swift.String?
@@ -9539,6 +10784,8 @@ extension ResiliencehubClientTypes {
 extension ResiliencehubClientTypes.RecommendationItem: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case alreadyImplemented
+        case excludeReason
+        case excluded
         case resourceId
         case targetAccountId
         case targetRegion
@@ -9548,6 +10795,12 @@ extension ResiliencehubClientTypes.RecommendationItem: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let alreadyImplemented = self.alreadyImplemented {
             try encodeContainer.encode(alreadyImplemented, forKey: .alreadyImplemented)
+        }
+        if let excludeReason = self.excludeReason {
+            try encodeContainer.encode(excludeReason.rawValue, forKey: .excludeReason)
+        }
+        if let excluded = self.excluded {
+            try encodeContainer.encode(excluded, forKey: .excluded)
         }
         if let resourceId = self.resourceId {
             try encodeContainer.encode(resourceId, forKey: .resourceId)
@@ -9570,6 +10823,10 @@ extension ResiliencehubClientTypes.RecommendationItem: Swift.Codable {
         targetRegion = targetRegionDecoded
         let alreadyImplementedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .alreadyImplemented)
         alreadyImplemented = alreadyImplementedDecoded
+        let excludedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .excluded)
+        excluded = excludedDecoded
+        let excludeReasonDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.ExcludeRecommendationReason.self, forKey: .excludeReason)
+        excludeReason = excludeReasonDecoded
     }
 }
 
@@ -9578,21 +10835,29 @@ extension ResiliencehubClientTypes {
     public struct RecommendationItem: Swift.Equatable {
         /// Specifies if the recommendation has already been implemented.
         public var alreadyImplemented: Swift.Bool?
-        /// The resource identifier.
+        /// Indicates the reason for excluding an operational recommendation.
+        public var excludeReason: ResiliencehubClientTypes.ExcludeRecommendationReason?
+        /// Indicates if an operational recommendation item is excluded.
+        public var excluded: Swift.Bool?
+        /// Identifier of the resource.
         public var resourceId: Swift.String?
-        /// The target account identifier.
+        /// Identifier of the target account.
         public var targetAccountId: Swift.String?
         /// The target region.
         public var targetRegion: Swift.String?
 
         public init(
             alreadyImplemented: Swift.Bool? = nil,
+            excludeReason: ResiliencehubClientTypes.ExcludeRecommendationReason? = nil,
+            excluded: Swift.Bool? = nil,
             resourceId: Swift.String? = nil,
             targetAccountId: Swift.String? = nil,
             targetRegion: Swift.String? = nil
         )
         {
             self.alreadyImplemented = alreadyImplemented
+            self.excludeReason = excludeReason
+            self.excluded = excluded
             self.resourceId = resourceId
             self.targetAccountId = targetAccountId
             self.targetRegion = targetRegion
@@ -9742,26 +11007,26 @@ extension ResiliencehubClientTypes.RecommendationTemplate: Swift.CustomDebugStri
 extension ResiliencehubClientTypes {
     /// Defines a recommendation template created with the [CreateRecommendationTemplate] action.
     public struct RecommendationTemplate: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
         public var appArn: Swift.String?
-        /// The Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
         /// This member is required.
         public var assessmentArn: Swift.String?
         /// The end time for the action.
         public var endTime: ClientRuntime.Date?
-        /// The format of the recommendation template. CfnJson The template is CloudFormation JSON. CfnYaml The template is CloudFormation YAML.
+        /// Format of the recommendation template. CfnJson The template is CloudFormation JSON. CfnYaml The template is CloudFormation YAML.
         /// This member is required.
         public var format: ResiliencehubClientTypes.TemplateFormat?
-        /// The message for the recommendation template.
+        /// Message for the recommendation template.
         public var message: Swift.String?
-        /// The name for the recommendation template.
+        /// Name for the recommendation template.
         /// This member is required.
         public var name: Swift.String?
         /// Indicates if replacements are needed.
         public var needsReplacements: Swift.Bool?
         /// Identifiers for the recommendations used in the recommendation template.
         public var recommendationIds: [Swift.String]?
-        /// The Amazon Resource Name (ARN) for the recommendation template.
+        /// Amazon Resource Name (ARN) for the recommendation template.
         /// This member is required.
         public var recommendationTemplateArn: Swift.String?
         /// An array of strings that specify the recommendation template type or types. Alarm The template is an [AlarmRecommendation] template. Sop The template is a [SopRecommendation] template. Test The template is a [TestRecommendation] template.
@@ -9769,10 +11034,10 @@ extension ResiliencehubClientTypes {
         public var recommendationTypes: [ResiliencehubClientTypes.RenderRecommendationType]?
         /// The start time for the action.
         public var startTime: ClientRuntime.Date?
-        /// The status of the action.
+        /// Status of the action.
         /// This member is required.
         public var status: ResiliencehubClientTypes.RecommendationTemplateStatus?
-        /// The tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair.
+        /// Tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair.
         public var tags: [Swift.String:Swift.String]?
         /// The file location of the template.
         public var templatesLocation: ResiliencehubClientTypes.S3Location?
@@ -9913,7 +11178,7 @@ extension RemoveDraftAppVersionResourceMappingsInput: ClientRuntime.URLPathProvi
 }
 
 public struct RemoveDraftAppVersionResourceMappingsInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The names of the registered applications you want to remove from the resource mappings.
@@ -10074,7 +11339,7 @@ extension RemoveDraftAppVersionResourceMappingsOutputResponse: ClientRuntime.Htt
 }
 
 public struct RemoveDraftAppVersionResourceMappingsOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     public var appArn: Swift.String?
     /// The version of the application.
     public var appVersion: Swift.String?
@@ -10251,13 +11516,13 @@ extension ResiliencehubClientTypes {
         public var estimatedCostTier: ResiliencehubClientTypes.EstimatedCostTier?
         /// The resiliency policy.
         public var policy: [Swift.String:ResiliencehubClientTypes.FailurePolicy]?
-        /// The Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
         public var policyArn: Swift.String?
         /// The description for the policy.
         public var policyDescription: Swift.String?
         /// The name of the policy
         public var policyName: Swift.String?
-        /// The tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair.
+        /// Tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair.
         public var tags: [Swift.String:Swift.String]?
         /// The tier for this resiliency policy, ranging from the highest severity (MissionCritical) to lowest (NonCritical).
         public var tier: ResiliencehubClientTypes.ResiliencyPolicyTier?
@@ -10295,6 +11560,7 @@ extension ResiliencehubClientTypes {
         case important
         case missionCritical
         case nonCritical
+        case notApplicable
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResiliencyPolicyTier] {
@@ -10304,6 +11570,7 @@ extension ResiliencehubClientTypes {
                 .important,
                 .missionCritical,
                 .nonCritical,
+                .notApplicable,
                 .sdkUnknown("")
             ]
         }
@@ -10318,6 +11585,7 @@ extension ResiliencehubClientTypes {
             case .important: return "Important"
             case .missionCritical: return "MissionCritical"
             case .nonCritical: return "NonCritical"
+            case .notApplicable: return "NotApplicable"
             case let .sdkUnknown(s): return s
             }
         }
@@ -10412,7 +11680,7 @@ extension ResolveAppVersionResourcesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ResolveAppVersionResourcesInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -10484,7 +11752,7 @@ extension ResolveAppVersionResourcesOutputResponse: ClientRuntime.HttpResponseBi
 }
 
 public struct ResolveAppVersionResourcesOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -10493,7 +11761,7 @@ public struct ResolveAppVersionResourcesOutputResponse: Swift.Equatable {
     /// The identifier for a specific resolution.
     /// This member is required.
     public var resolutionId: Swift.String?
-    /// The status of the action.
+    /// Status of the action.
     /// This member is required.
     public var status: ResiliencehubClientTypes.ResourceResolutionStatusType?
 
@@ -10573,9 +11841,9 @@ extension ResiliencehubClientTypes.ResourceError: Swift.Codable {
 extension ResiliencehubClientTypes {
     /// Defines application resource errors.
     public struct ResourceError: Swift.Equatable {
-        /// This is the identifier of the resource.
+        /// Identifier of the logical resource.
         public var logicalResourceId: Swift.String?
-        /// This is the identifier of the physical resource.
+        /// Identifier of the physical resource.
         public var physicalResourceId: Swift.String?
         /// This is the error message.
         public var reason: Swift.String?
@@ -10787,19 +12055,19 @@ extension ResiliencehubClientTypes {
     public struct ResourceMapping: Swift.Equatable {
         /// The name of the application this resource is mapped to.
         public var appRegistryAppName: Swift.String?
-        /// The name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs to. This parameter accepts values in "eks-cluster/namespace" format.
+        /// Name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs to. This parameter accepts values in "eks-cluster/namespace" format.
         public var eksSourceName: Swift.String?
         /// The name of the CloudFormation stack this resource is mapped to.
         public var logicalStackName: Swift.String?
         /// Specifies the type of resource mapping. AppRegistryApp The resource is mapped to another application. The name of the application is contained in the appRegistryAppName property. CfnStack The resource is mapped to a CloudFormation stack. The name of the CloudFormation stack is contained in the logicalStackName property. Resource The resource is mapped to another resource. The name of the resource is contained in the resourceName property. ResourceGroup The resource is mapped to Resource Groups. The name of the resource group is contained in the resourceGroupName property.
         /// This member is required.
         public var mappingType: ResiliencehubClientTypes.ResourceMappingType?
-        /// The identifier of this resource.
+        /// Identifier of the physical resource.
         /// This member is required.
         public var physicalResourceId: ResiliencehubClientTypes.PhysicalResourceId?
-        /// The name of the resource group this resource is mapped to.
+        /// Name of the resource group that the resource is mapped to.
         public var resourceGroupName: Swift.String?
-        /// The name of the resource this resource is mapped to.
+        /// Name of the resource that the resource is mapped to.
         public var resourceName: Swift.String?
         /// The short name of the Terraform source.
         public var terraformSourceName: Swift.String?
@@ -11193,20 +12461,20 @@ extension ResiliencehubClientTypes.SopRecommendation: Swift.Codable {
 extension ResiliencehubClientTypes {
     /// Defines a standard operating procedure (SOP) recommendation.
     public struct SopRecommendation: Swift.Equatable {
-        /// The name of the Application Component.
+        /// Name of the Application Component.
         public var appComponentName: Swift.String?
-        /// The description of the SOP recommendation.
+        /// Description of the SOP recommendation.
         public var description: Swift.String?
         /// The recommendation items.
         public var items: [ResiliencehubClientTypes.RecommendationItem]?
-        /// The name of the SOP recommendation.
+        /// Name of the SOP recommendation.
         public var name: Swift.String?
-        /// The prerequisite for the SOP recommendation.
+        /// Prerequisite for the SOP recommendation.
         public var prerequisite: Swift.String?
         /// Identifier for the SOP recommendation.
         /// This member is required.
         public var recommendationId: Swift.String?
-        /// The reference identifier for the SOP recommendation.
+        /// Reference identifier for the SOP recommendation.
         /// This member is required.
         public var referenceId: Swift.String?
         /// The service type.
@@ -11310,7 +12578,7 @@ extension StartAppAssessmentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartAppAssessmentInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -11321,7 +12589,7 @@ public struct StartAppAssessmentInput: Swift.Equatable {
     public var assessmentName: Swift.String?
     /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests.
     public var clientToken: Swift.String?
-    /// The tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair.
+    /// Tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair.
     public var tags: [Swift.String:Swift.String]?
 
     public init(
@@ -11470,7 +12738,7 @@ extension TagResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct TagResourceInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the resource.
+    /// Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// The tags to assign to the resource. Each tag consists of a key/value pair.
@@ -11711,28 +12979,28 @@ extension ResiliencehubClientTypes.TestRecommendation: Swift.Codable {
 extension ResiliencehubClientTypes {
     /// Defines a test recommendation.
     public struct TestRecommendation: Swift.Equatable {
-        /// The name of the Application Component.
+        /// Name of the Application Component.
         public var appComponentName: Swift.String?
         /// A list of recommended alarms that are used in the test and must be exported before or with the test.
         public var dependsOnAlarms: [Swift.String]?
-        /// The description for the test recommendation.
+        /// Description for the test recommendation.
         public var description: Swift.String?
-        /// The intent of the test recommendation.
+        /// Intent of the test recommendation.
         public var intent: Swift.String?
         /// The test recommendation items.
         public var items: [ResiliencehubClientTypes.RecommendationItem]?
-        /// The name of the test recommendation.
+        /// Name of the test recommendation.
         public var name: Swift.String?
-        /// The prerequisite of the test recommendation.
+        /// Prerequisite of the test recommendation.
         public var prerequisite: Swift.String?
         /// Identifier for the test recommendation.
         public var recommendationId: Swift.String?
-        /// The reference identifier for the test recommendation.
+        /// Reference identifier for the test recommendation.
         /// This member is required.
         public var referenceId: Swift.String?
-        /// The level of risk for this test recommendation.
+        /// Level of risk for this test recommendation.
         public var risk: ResiliencehubClientTypes.TestRisk?
-        /// The type of test recommendation.
+        /// Type of test recommendation.
         public var type: ResiliencehubClientTypes.TestType?
 
         public init(
@@ -11943,10 +13211,10 @@ extension ResiliencehubClientTypes.UnsupportedResource: Swift.Codable {
 extension ResiliencehubClientTypes {
     /// Defines a resource that is not supported by Resilience Hub.
     public struct UnsupportedResource: Swift.Equatable {
-        /// The logical resource identifier for the unsupported resource.
+        /// Logical resource identifier for the unsupported resource.
         /// This member is required.
         public var logicalResourceId: ResiliencehubClientTypes.LogicalResourceId?
-        /// The physical resource identifier for the unsupported resource.
+        /// Physical resource identifier for the unsupported resource.
         /// This member is required.
         public var physicalResourceId: ResiliencehubClientTypes.PhysicalResourceId?
         /// The type of resource.
@@ -12003,7 +13271,7 @@ extension UntagResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UntagResourceInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the resource.
+    /// Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// The keys of the tags you want to remove.
@@ -12060,6 +13328,8 @@ extension UpdateAppInput: Swift.Encodable {
         case assessmentSchedule
         case clearResiliencyPolicyArn
         case description
+        case eventSubscriptions
+        case permissionModel
         case policyArn
     }
 
@@ -12077,6 +13347,15 @@ extension UpdateAppInput: Swift.Encodable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
+        if let eventSubscriptions = eventSubscriptions {
+            var eventSubscriptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventSubscriptions)
+            for eventsubscription0 in eventSubscriptions {
+                try eventSubscriptionsContainer.encode(eventsubscription0)
+            }
+        }
+        if let permissionModel = self.permissionModel {
+            try encodeContainer.encode(permissionModel, forKey: .permissionModel)
+        }
         if let policyArn = self.policyArn {
             try encodeContainer.encode(policyArn, forKey: .policyArn)
         }
@@ -12090,7 +13369,7 @@ extension UpdateAppInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateAppInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Assessment execution schedule with 'Daily' or 'Disabled' values.
@@ -12099,7 +13378,11 @@ public struct UpdateAppInput: Swift.Equatable {
     public var clearResiliencyPolicyArn: Swift.Bool?
     /// The optional description for an app.
     public var description: Swift.String?
-    /// The Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The list of events you would like to subscribe and get notification for. Currently, Resilience Hub supports notifications only for Drift detected and Scheduled assessment failure events.
+    public var eventSubscriptions: [ResiliencehubClientTypes.EventSubscription]?
+    /// Defines the roles and credentials that Resilience Hub would use while creating an application, importing its resources, and running an assessment.
+    public var permissionModel: ResiliencehubClientTypes.PermissionModel?
+    /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     public var policyArn: Swift.String?
 
     public init(
@@ -12107,6 +13390,8 @@ public struct UpdateAppInput: Swift.Equatable {
         assessmentSchedule: ResiliencehubClientTypes.AppAssessmentScheduleType? = nil,
         clearResiliencyPolicyArn: Swift.Bool? = nil,
         description: Swift.String? = nil,
+        eventSubscriptions: [ResiliencehubClientTypes.EventSubscription]? = nil,
+        permissionModel: ResiliencehubClientTypes.PermissionModel? = nil,
         policyArn: Swift.String? = nil
     )
     {
@@ -12114,6 +13399,8 @@ public struct UpdateAppInput: Swift.Equatable {
         self.assessmentSchedule = assessmentSchedule
         self.clearResiliencyPolicyArn = clearResiliencyPolicyArn
         self.description = description
+        self.eventSubscriptions = eventSubscriptions
+        self.permissionModel = permissionModel
         self.policyArn = policyArn
     }
 }
@@ -12124,6 +13411,8 @@ struct UpdateAppInputBody: Swift.Equatable {
     let policyArn: Swift.String?
     let clearResiliencyPolicyArn: Swift.Bool?
     let assessmentSchedule: ResiliencehubClientTypes.AppAssessmentScheduleType?
+    let permissionModel: ResiliencehubClientTypes.PermissionModel?
+    let eventSubscriptions: [ResiliencehubClientTypes.EventSubscription]?
 }
 
 extension UpdateAppInputBody: Swift.Decodable {
@@ -12132,6 +13421,8 @@ extension UpdateAppInputBody: Swift.Decodable {
         case assessmentSchedule
         case clearResiliencyPolicyArn
         case description
+        case eventSubscriptions
+        case permissionModel
         case policyArn
     }
 
@@ -12147,6 +13438,19 @@ extension UpdateAppInputBody: Swift.Decodable {
         clearResiliencyPolicyArn = clearResiliencyPolicyArnDecoded
         let assessmentScheduleDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.AppAssessmentScheduleType.self, forKey: .assessmentSchedule)
         assessmentSchedule = assessmentScheduleDecoded
+        let permissionModelDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.PermissionModel.self, forKey: .permissionModel)
+        permissionModel = permissionModelDecoded
+        let eventSubscriptionsContainer = try containerValues.decodeIfPresent([ResiliencehubClientTypes.EventSubscription?].self, forKey: .eventSubscriptions)
+        var eventSubscriptionsDecoded0:[ResiliencehubClientTypes.EventSubscription]? = nil
+        if let eventSubscriptionsContainer = eventSubscriptionsContainer {
+            eventSubscriptionsDecoded0 = [ResiliencehubClientTypes.EventSubscription]()
+            for structure0 in eventSubscriptionsContainer {
+                if let structure0 = structure0 {
+                    eventSubscriptionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        eventSubscriptions = eventSubscriptionsDecoded0
     }
 }
 
@@ -12251,15 +13555,15 @@ extension UpdateAppVersionAppComponentInput: ClientRuntime.URLPathProvider {
 public struct UpdateAppVersionAppComponentInput: Swift.Equatable {
     /// Currently, there is no supported additional information for Application Components.
     public var additionalInfo: [Swift.String:[Swift.String]]?
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The identifier of the Application Component.
+    /// Identifier of the Application Component.
     /// This member is required.
     public var id: Swift.String?
-    /// The name of the Application Component.
+    /// Name of the Application Component.
     public var name: Swift.String?
-    /// The type of Application Component. For more information about the types of Application Component, see [Grouping resources in an AppComponent](https://docs.aws.amazon.com/resilience-hub/latest/userguide/AppComponent.grouping.html).
+    /// Type of Application Component. For more information about the types of Application Component, see [Grouping resources in an AppComponent](https://docs.aws.amazon.com/resilience-hub/latest/userguide/AppComponent.grouping.html).
     public var type: Swift.String?
 
     public init(
@@ -12359,12 +13663,12 @@ extension UpdateAppVersionAppComponentOutputResponse: ClientRuntime.HttpResponse
 }
 
 public struct UpdateAppVersionAppComponentOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The list of Application Components that belong to this resource.
+    /// List of Application Components that belong to this resource.
     public var appComponent: ResiliencehubClientTypes.AppComponent?
-    /// The Resilience Hub application version.
+    /// Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
 
@@ -12436,7 +13740,7 @@ extension UpdateAppVersionInput: ClientRuntime.URLPathProvider {
 public struct UpdateAppVersionInput: Swift.Equatable {
     /// Additional configuration parameters for an Resilience Hub application. If you want to implement additionalInfo through the Resilience Hub console rather than using an API call, see [Configure the application configuration parameters](https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html). Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"<REGION>", "accounts":[{"id":"<ACCOUNT_ID>"}]}]"
     public var additionalInfo: [Swift.String:[Swift.String]]?
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
 
@@ -12521,10 +13825,10 @@ extension UpdateAppVersionOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct UpdateAppVersionOutputResponse: Swift.Equatable {
     /// Additional configuration parameters for an Resilience Hub application. If you want to implement additionalInfo through the Resilience Hub console rather than using an API call, see [Configure the application configuration parameters](https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html). Currently, this parameter supports only failover region and account.
     public var additionalInfo: [Swift.String:[Swift.String]]?
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The Resilience Hub application version.
+    /// Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
 
@@ -12647,24 +13951,24 @@ extension UpdateAppVersionResourceInput: ClientRuntime.URLPathProvider {
 public struct UpdateAppVersionResourceInput: Swift.Equatable {
     /// Currently, there is no supported additional information for resources.
     public var additionalInfo: [Swift.String:[Swift.String]]?
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The list of Application Components that this resource belongs to. If an Application Component is not part of the Resilience Hub application, it will be added.
+    /// List of Application Components that this resource belongs to. If an Application Component is not part of the Resilience Hub application, it will be added.
     public var appComponents: [Swift.String]?
-    /// The Amazon Web Services account that owns the physical resource.
+    /// Amazon Web Services account that owns the physical resource.
     public var awsAccountId: Swift.String?
-    /// The Amazon Web Services region that owns the physical resource.
+    /// Amazon Web Services region that owns the physical resource.
     public var awsRegion: Swift.String?
     /// Indicates if a resource is excluded from an Resilience Hub application. You can exclude only imported resources from an Resilience Hub application.
     public var excluded: Swift.Bool?
-    /// The logical identifier of the resource.
+    /// Logical identifier of the resource.
     public var logicalResourceId: ResiliencehubClientTypes.LogicalResourceId?
-    /// The physical identifier of the resource.
+    /// Physical identifier of the resource.
     public var physicalResourceId: Swift.String?
-    /// The name of the resource.
+    /// Name of the resource.
     public var resourceName: Swift.String?
-    /// The type of resource.
+    /// Type of resource.
     public var resourceType: Swift.String?
 
     public init(
@@ -12804,10 +14108,10 @@ extension UpdateAppVersionResourceOutputResponse: ClientRuntime.HttpResponseBind
 }
 
 public struct UpdateAppVersionResourceOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The Resilience Hub application version.
+    /// Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
     /// Defines a physical resource. A physical resource is a resource that exists in your account. It can be identified using an Amazon Resource Name (ARN) or a Resilience Hub-native identifier.
@@ -12847,6 +14151,140 @@ extension UpdateAppVersionResourceOutputResponseBody: Swift.Decodable {
         let physicalResourceDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.PhysicalResource.self, forKey: .physicalResource)
         physicalResource = physicalResourceDecoded
     }
+}
+
+extension ResiliencehubClientTypes.UpdateRecommendationStatusItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceId
+        case targetAccountId
+        case targetRegion
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceId = self.resourceId {
+            try encodeContainer.encode(resourceId, forKey: .resourceId)
+        }
+        if let targetAccountId = self.targetAccountId {
+            try encodeContainer.encode(targetAccountId, forKey: .targetAccountId)
+        }
+        if let targetRegion = self.targetRegion {
+            try encodeContainer.encode(targetRegion, forKey: .targetRegion)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
+        resourceId = resourceIdDecoded
+        let targetAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetAccountId)
+        targetAccountId = targetAccountIdDecoded
+        let targetRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetRegion)
+        targetRegion = targetRegionDecoded
+    }
+}
+
+extension ResiliencehubClientTypes {
+    /// Defines the operational recommendation item that needs a status update.
+    public struct UpdateRecommendationStatusItem: Swift.Equatable {
+        /// Resource identifier of the operational recommendation item.
+        public var resourceId: Swift.String?
+        /// Identifier of the target Amazon Web Services account.
+        public var targetAccountId: Swift.String?
+        /// Identifier of the target Amazon Web Services Region.
+        public var targetRegion: Swift.String?
+
+        public init(
+            resourceId: Swift.String? = nil,
+            targetAccountId: Swift.String? = nil,
+            targetRegion: Swift.String? = nil
+        )
+        {
+            self.resourceId = resourceId
+            self.targetAccountId = targetAccountId
+            self.targetRegion = targetRegion
+        }
+    }
+
+}
+
+extension ResiliencehubClientTypes.UpdateRecommendationStatusRequestEntry: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case entryId
+        case excludeReason
+        case excluded
+        case item
+        case referenceId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let entryId = self.entryId {
+            try encodeContainer.encode(entryId, forKey: .entryId)
+        }
+        if let excludeReason = self.excludeReason {
+            try encodeContainer.encode(excludeReason.rawValue, forKey: .excludeReason)
+        }
+        if let excluded = self.excluded {
+            try encodeContainer.encode(excluded, forKey: .excluded)
+        }
+        if let item = self.item {
+            try encodeContainer.encode(item, forKey: .item)
+        }
+        if let referenceId = self.referenceId {
+            try encodeContainer.encode(referenceId, forKey: .referenceId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let entryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .entryId)
+        entryId = entryIdDecoded
+        let referenceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .referenceId)
+        referenceId = referenceIdDecoded
+        let itemDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.UpdateRecommendationStatusItem.self, forKey: .item)
+        item = itemDecoded
+        let excludedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .excluded)
+        excluded = excludedDecoded
+        let excludeReasonDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.ExcludeRecommendationReason.self, forKey: .excludeReason)
+        excludeReason = excludeReasonDecoded
+    }
+}
+
+extension ResiliencehubClientTypes {
+    /// Defines the operational recommendation item that is to be included or excluded.
+    public struct UpdateRecommendationStatusRequestEntry: Swift.Equatable {
+        /// An identifier for an entry in this batch that is used to communicate the result. The entryIds of a batch request need to be unique within a request.
+        /// This member is required.
+        public var entryId: Swift.String?
+        /// Indicates the reason for excluding an operational recommendation.
+        public var excludeReason: ResiliencehubClientTypes.ExcludeRecommendationReason?
+        /// Indicates if the operational recommendation needs to be excluded. If set to True, the operational recommendation will be excluded.
+        /// This member is required.
+        public var excluded: Swift.Bool?
+        /// The operational recommendation item.
+        /// This member is required.
+        public var item: ResiliencehubClientTypes.UpdateRecommendationStatusItem?
+        /// Reference identifier of the operational recommendation item.
+        /// This member is required.
+        public var referenceId: Swift.String?
+
+        public init(
+            entryId: Swift.String? = nil,
+            excludeReason: ResiliencehubClientTypes.ExcludeRecommendationReason? = nil,
+            excluded: Swift.Bool? = nil,
+            item: ResiliencehubClientTypes.UpdateRecommendationStatusItem? = nil,
+            referenceId: Swift.String? = nil
+        )
+        {
+            self.entryId = entryId
+            self.excludeReason = excludeReason
+            self.excluded = excluded
+            self.item = item
+            self.referenceId = referenceId
+        }
+    }
+
 }
 
 extension UpdateResiliencyPolicyInput: Swift.Encodable {
@@ -12896,7 +14334,7 @@ public struct UpdateResiliencyPolicyInput: Swift.Equatable {
     public var dataLocationConstraint: ResiliencehubClientTypes.DataLocationConstraint?
     /// The type of resiliency policy to be created, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds.
     public var policy: [Swift.String:ResiliencehubClientTypes.FailurePolicy]?
-    /// The Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var policyArn: Swift.String?
     /// The description for the policy.

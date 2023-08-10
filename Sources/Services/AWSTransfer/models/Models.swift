@@ -157,7 +157,7 @@ extension TransferClientTypes.As2ConnectorConfig: Swift.Codable {
 }
 
 extension TransferClientTypes {
-    /// Contains the details for a connector object. The connector object is used for AS2 outbound processes, to connect the Transfer Family customer with the trading partner.
+    /// Contains the details for an AS2 connector object. The connector object is used for AS2 outbound processes, to connect the Transfer Family customer with the trading partner.
     public struct As2ConnectorConfig: Swift.Equatable {
         /// Provides Basic authentication support to the AS2 Connectors API. To use Basic authentication, you must provide the name or Amazon Resource Name (ARN) of a secret in Secrets Manager. The default value for this parameter is null, which indicates that Basic authentication is not enabled for the connector. If the connector should use Basic authentication, the secret needs to be in the following format: { "Username": "user-name", "Password": "user-password" } Replace user-name and user-password with the credentials for the actual user that is being authenticated. Note the following:
         ///
@@ -931,6 +931,7 @@ extension CreateConnectorInput: Swift.Encodable {
         case accessRole = "AccessRole"
         case as2Config = "As2Config"
         case loggingRole = "LoggingRole"
+        case sftpConfig = "SftpConfig"
         case tags = "Tags"
         case url = "Url"
     }
@@ -945,6 +946,9 @@ extension CreateConnectorInput: Swift.Encodable {
         }
         if let loggingRole = self.loggingRole {
             try encodeContainer.encode(loggingRole, forKey: .loggingRole)
+        }
+        if let sftpConfig = self.sftpConfig {
+            try encodeContainer.encode(sftpConfig, forKey: .sftpConfig)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
@@ -968,14 +972,15 @@ public struct CreateConnectorInput: Swift.Equatable {
     /// With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer. If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also needs the kms:Decrypt permission for that key.
     /// This member is required.
     public var accessRole: Swift.String?
-    /// A structure that contains the parameters for a connector object.
-    /// This member is required.
+    /// A structure that contains the parameters for an AS2 connector object.
     public var as2Config: TransferClientTypes.As2ConnectorConfig?
     /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When set, you can view connector activity in your CloudWatch logs.
     public var loggingRole: Swift.String?
+    /// A structure that contains the parameters for an SFTP connector object.
+    public var sftpConfig: TransferClientTypes.SftpConnectorConfig?
     /// Key-value pairs that can be used to group and search for connectors. Tags are metadata attached to connectors for any purpose.
     public var tags: [TransferClientTypes.Tag]?
-    /// The URL of the partner's AS2 endpoint.
+    /// The URL of the partner's AS2 or SFTP endpoint.
     /// This member is required.
     public var url: Swift.String?
 
@@ -983,6 +988,7 @@ public struct CreateConnectorInput: Swift.Equatable {
         accessRole: Swift.String? = nil,
         as2Config: TransferClientTypes.As2ConnectorConfig? = nil,
         loggingRole: Swift.String? = nil,
+        sftpConfig: TransferClientTypes.SftpConnectorConfig? = nil,
         tags: [TransferClientTypes.Tag]? = nil,
         url: Swift.String? = nil
     )
@@ -990,6 +996,7 @@ public struct CreateConnectorInput: Swift.Equatable {
         self.accessRole = accessRole
         self.as2Config = as2Config
         self.loggingRole = loggingRole
+        self.sftpConfig = sftpConfig
         self.tags = tags
         self.url = url
     }
@@ -1001,6 +1008,7 @@ struct CreateConnectorInputBody: Swift.Equatable {
     let accessRole: Swift.String?
     let loggingRole: Swift.String?
     let tags: [TransferClientTypes.Tag]?
+    let sftpConfig: TransferClientTypes.SftpConnectorConfig?
 }
 
 extension CreateConnectorInputBody: Swift.Decodable {
@@ -1008,6 +1016,7 @@ extension CreateConnectorInputBody: Swift.Decodable {
         case accessRole = "AccessRole"
         case as2Config = "As2Config"
         case loggingRole = "LoggingRole"
+        case sftpConfig = "SftpConfig"
         case tags = "Tags"
         case url = "Url"
     }
@@ -1033,6 +1042,8 @@ extension CreateConnectorInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let sftpConfigDecoded = try containerValues.decodeIfPresent(TransferClientTypes.SftpConnectorConfig.self, forKey: .sftpConfig)
+        sftpConfig = sftpConfigDecoded
     }
 }
 
@@ -1694,7 +1705,7 @@ extension CreateUserInput: ClientRuntime.URLPathProvider {
 public struct CreateUserInput: Swift.Equatable {
     /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
     public var homeDirectory: Swift.String?
-    /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM) role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example. [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ] In most cases, you can use this value instead of the session policy to lock your user down to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot. [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
+    /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM) role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example. [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ] In most cases, you can use this value instead of the session policy to lock your user down to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the value the user should see for their home directory when they log in. The following is an Entry and Target pair example for chroot. [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
     public var homeDirectoryMappings: [TransferClientTypes.HomeDirectoryMapEntry]?
     /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 or Amazon EFS paths visible to your users.
     public var homeDirectoryType: TransferClientTypes.HomeDirectoryType?
@@ -4782,6 +4793,7 @@ extension TransferClientTypes.DescribedConnector: Swift.Codable {
         case as2Config = "As2Config"
         case connectorId = "ConnectorId"
         case loggingRole = "LoggingRole"
+        case sftpConfig = "SftpConfig"
         case tags = "Tags"
         case url = "Url"
     }
@@ -4802,6 +4814,9 @@ extension TransferClientTypes.DescribedConnector: Swift.Codable {
         }
         if let loggingRole = self.loggingRole {
             try encodeContainer.encode(loggingRole, forKey: .loggingRole)
+        }
+        if let sftpConfig = self.sftpConfig {
+            try encodeContainer.encode(sftpConfig, forKey: .sftpConfig)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
@@ -4839,6 +4854,8 @@ extension TransferClientTypes.DescribedConnector: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let sftpConfigDecoded = try containerValues.decodeIfPresent(TransferClientTypes.SftpConnectorConfig.self, forKey: .sftpConfig)
+        sftpConfig = sftpConfigDecoded
     }
 }
 
@@ -4850,15 +4867,17 @@ extension TransferClientTypes {
         /// The unique Amazon Resource Name (ARN) for the connector.
         /// This member is required.
         public var arn: Swift.String?
-        /// A structure that contains the parameters for a connector object.
+        /// A structure that contains the parameters for an AS2 connector object.
         public var as2Config: TransferClientTypes.As2ConnectorConfig?
         /// The unique identifier for the connector.
         public var connectorId: Swift.String?
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When set, you can view connector activity in your CloudWatch logs.
         public var loggingRole: Swift.String?
+        /// A structure that contains the parameters for an SFTP connector object.
+        public var sftpConfig: TransferClientTypes.SftpConnectorConfig?
         /// Key-value pairs that can be used to group and search for connectors.
         public var tags: [TransferClientTypes.Tag]?
-        /// The URL of the partner's AS2 endpoint.
+        /// The URL of the partner's AS2 or SFTP endpoint.
         public var url: Swift.String?
 
         public init(
@@ -4867,6 +4886,7 @@ extension TransferClientTypes {
             as2Config: TransferClientTypes.As2ConnectorConfig? = nil,
             connectorId: Swift.String? = nil,
             loggingRole: Swift.String? = nil,
+            sftpConfig: TransferClientTypes.SftpConnectorConfig? = nil,
             tags: [TransferClientTypes.Tag]? = nil,
             url: Swift.String? = nil
         )
@@ -4876,6 +4896,7 @@ extension TransferClientTypes {
             self.as2Config = as2Config
             self.connectorId = connectorId
             self.loggingRole = loggingRole
+            self.sftpConfig = sftpConfig
             self.tags = tags
             self.url = url
         }
@@ -9542,7 +9563,7 @@ extension TransferClientTypes {
         public var arn: Swift.String?
         /// The unique identifier for the connector.
         public var connectorId: Swift.String?
-        /// The URL of the partner's AS2 endpoint.
+        /// The URL of the partner's AS2 or SFTP endpoint.
         public var url: Swift.String?
 
         public init(
@@ -10990,6 +11011,67 @@ extension TransferClientTypes {
     }
 }
 
+extension TransferClientTypes.SftpConnectorConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case trustedHostKeys = "TrustedHostKeys"
+        case userSecretId = "UserSecretId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let trustedHostKeys = trustedHostKeys {
+            var trustedHostKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .trustedHostKeys)
+            for sftpconnectortrustedhostkey0 in trustedHostKeys {
+                try trustedHostKeysContainer.encode(sftpconnectortrustedhostkey0)
+            }
+        }
+        if let userSecretId = self.userSecretId {
+            try encodeContainer.encode(userSecretId, forKey: .userSecretId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let userSecretIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userSecretId)
+        userSecretId = userSecretIdDecoded
+        let trustedHostKeysContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .trustedHostKeys)
+        var trustedHostKeysDecoded0:[Swift.String]? = nil
+        if let trustedHostKeysContainer = trustedHostKeysContainer {
+            trustedHostKeysDecoded0 = [Swift.String]()
+            for string0 in trustedHostKeysContainer {
+                if let string0 = string0 {
+                    trustedHostKeysDecoded0?.append(string0)
+                }
+            }
+        }
+        trustedHostKeys = trustedHostKeysDecoded0
+    }
+}
+
+extension TransferClientTypes {
+    /// Contains the details for an SFTP connector object. The connector object is used for transferring files to and from a partner's SFTP server.
+    public struct SftpConnectorConfig: Swift.Equatable {
+        /// The public portion of the host key, or keys, that are used to authenticate the user to the external server to which you are connecting. You can use the ssh-keyscan command against the SFTP server to retrieve the necessary key. The three standard SSH public key format elements are , , and an optional , with spaces between each element. For the trusted host key, Transfer Family accepts RSA and ECDSA keys.
+        ///
+        /// * For RSA keys, the key type is ssh-rsa.
+        ///
+        /// * For ECDSA keys, the key type is either ecdsa-sha2-nistp256, ecdsa-sha2-nistp384, or ecdsa-sha2-nistp521, depending on the size of the key you generated.
+        public var trustedHostKeys: [Swift.String]?
+        /// The identifiers for the secrets (in Amazon Web Services Secrets Manager) that contain the SFTP user's private keys or passwords.
+        public var userSecretId: Swift.String?
+
+        public init(
+            trustedHostKeys: [Swift.String]? = nil,
+            userSecretId: Swift.String? = nil
+        )
+        {
+            self.trustedHostKeys = trustedHostKeys
+            self.userSecretId = userSecretId
+        }
+    }
+
+}
+
 extension TransferClientTypes {
     public enum SigningAlg: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `none`
@@ -11092,6 +11174,9 @@ extension TransferClientTypes {
 extension StartFileTransferInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case connectorId = "ConnectorId"
+        case localDirectoryPath = "LocalDirectoryPath"
+        case remoteDirectoryPath = "RemoteDirectoryPath"
+        case retrieveFilePaths = "RetrieveFilePaths"
         case sendFilePaths = "SendFilePaths"
     }
 
@@ -11099,6 +11184,18 @@ extension StartFileTransferInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let connectorId = self.connectorId {
             try encodeContainer.encode(connectorId, forKey: .connectorId)
+        }
+        if let localDirectoryPath = self.localDirectoryPath {
+            try encodeContainer.encode(localDirectoryPath, forKey: .localDirectoryPath)
+        }
+        if let remoteDirectoryPath = self.remoteDirectoryPath {
+            try encodeContainer.encode(remoteDirectoryPath, forKey: .remoteDirectoryPath)
+        }
+        if let retrieveFilePaths = retrieveFilePaths {
+            var retrieveFilePathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .retrieveFilePaths)
+            for filepath0 in retrieveFilePaths {
+                try retrieveFilePathsContainer.encode(filepath0)
+            }
         }
         if let sendFilePaths = sendFilePaths {
             var sendFilePathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sendFilePaths)
@@ -11119,16 +11216,27 @@ public struct StartFileTransferInput: Swift.Equatable {
     /// The unique identifier for the connector.
     /// This member is required.
     public var connectorId: Swift.String?
-    /// An array of strings. Each string represents the absolute path for one outbound file transfer. For example,  DOC-EXAMPLE-BUCKET/myfile.txt .
-    /// This member is required.
+    /// For an inbound transfer, the LocaDirectoryPath specifies the destination for one or more files that are transferred from the partner's SFTP server.
+    public var localDirectoryPath: Swift.String?
+    /// For an outbound transfer, the RemoteDirectoryPath specifies the destination for one or more files that are transferred to the partner's SFTP server. If you don't specify a RemoteDirectoryPath, the destination for transferred files is the SFTP user's home directory.
+    public var remoteDirectoryPath: Swift.String?
+    /// One or more source paths for the partner's SFTP server. Each string represents a source file path for one inbound file transfer.
+    public var retrieveFilePaths: [Swift.String]?
+    /// One or more source paths for the Transfer Family server. Each string represents a source file path for one outbound file transfer. For example,  DOC-EXAMPLE-BUCKET/myfile.txt .
     public var sendFilePaths: [Swift.String]?
 
     public init(
         connectorId: Swift.String? = nil,
+        localDirectoryPath: Swift.String? = nil,
+        remoteDirectoryPath: Swift.String? = nil,
+        retrieveFilePaths: [Swift.String]? = nil,
         sendFilePaths: [Swift.String]? = nil
     )
     {
         self.connectorId = connectorId
+        self.localDirectoryPath = localDirectoryPath
+        self.remoteDirectoryPath = remoteDirectoryPath
+        self.retrieveFilePaths = retrieveFilePaths
         self.sendFilePaths = sendFilePaths
     }
 }
@@ -11136,11 +11244,17 @@ public struct StartFileTransferInput: Swift.Equatable {
 struct StartFileTransferInputBody: Swift.Equatable {
     let connectorId: Swift.String?
     let sendFilePaths: [Swift.String]?
+    let retrieveFilePaths: [Swift.String]?
+    let localDirectoryPath: Swift.String?
+    let remoteDirectoryPath: Swift.String?
 }
 
 extension StartFileTransferInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case connectorId = "ConnectorId"
+        case localDirectoryPath = "LocalDirectoryPath"
+        case remoteDirectoryPath = "RemoteDirectoryPath"
+        case retrieveFilePaths = "RetrieveFilePaths"
         case sendFilePaths = "SendFilePaths"
     }
 
@@ -11159,6 +11273,21 @@ extension StartFileTransferInputBody: Swift.Decodable {
             }
         }
         sendFilePaths = sendFilePathsDecoded0
+        let retrieveFilePathsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .retrieveFilePaths)
+        var retrieveFilePathsDecoded0:[Swift.String]? = nil
+        if let retrieveFilePathsContainer = retrieveFilePathsContainer {
+            retrieveFilePathsDecoded0 = [Swift.String]()
+            for string0 in retrieveFilePathsContainer {
+                if let string0 = string0 {
+                    retrieveFilePathsDecoded0?.append(string0)
+                }
+            }
+        }
+        retrieveFilePaths = retrieveFilePathsDecoded0
+        let localDirectoryPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .localDirectoryPath)
+        localDirectoryPath = localDirectoryPathDecoded
+        let remoteDirectoryPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .remoteDirectoryPath)
+        remoteDirectoryPath = remoteDirectoryPathDecoded
     }
 }
 
@@ -11190,7 +11319,7 @@ extension StartFileTransferOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct StartFileTransferOutputResponse: Swift.Equatable {
-    /// Returns the unique identifier for this file transfer.
+    /// Returns the unique identifier for the file transfer.
     /// This member is required.
     public var transferId: Swift.String?
 
@@ -11622,6 +11751,136 @@ extension TransferClientTypes {
         }
     }
 
+}
+
+extension TestConnectionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectorId = "ConnectorId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let connectorId = self.connectorId {
+            try encodeContainer.encode(connectorId, forKey: .connectorId)
+        }
+    }
+}
+
+extension TestConnectionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct TestConnectionInput: Swift.Equatable {
+    /// The unique identifier for the connector.
+    /// This member is required.
+    public var connectorId: Swift.String?
+
+    public init(
+        connectorId: Swift.String? = nil
+    )
+    {
+        self.connectorId = connectorId
+    }
+}
+
+struct TestConnectionInputBody: Swift.Equatable {
+    let connectorId: Swift.String?
+}
+
+extension TestConnectionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectorId = "ConnectorId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let connectorIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectorId)
+        connectorId = connectorIdDecoded
+    }
+}
+
+public enum TestConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailable": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension TestConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: TestConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.connectorId = output.connectorId
+            self.status = output.status
+            self.statusMessage = output.statusMessage
+        } else {
+            self.connectorId = nil
+            self.status = nil
+            self.statusMessage = nil
+        }
+    }
+}
+
+public struct TestConnectionOutputResponse: Swift.Equatable {
+    /// Returns the identifier of the connector object that you are testing.
+    public var connectorId: Swift.String?
+    /// Returns OK for successful test, or ERROR if the test fails.
+    public var status: Swift.String?
+    /// Returns Connection succeeded if the test is successful. Or, returns a descriptive error message if the test fails. The following list provides the details for some error messages and troubleshooting steps for each.
+    ///
+    /// * Unable to access secrets manager: Verify that your secret name aligns with the one in Transfer Role permissions.
+    ///
+    /// * Unknown Host/Connection failed: Verify the server URL in the connector configuration , and verify that the login credentials work successfully outside of the connector.
+    ///
+    /// * Private key not found: Verify that the secret exists and is formatted correctly.
+    ///
+    /// * Invalid trusted host keys: Verify that the trusted host key in the connector configuration matches the ssh-keyscan output.
+    public var statusMessage: Swift.String?
+
+    public init(
+        connectorId: Swift.String? = nil,
+        status: Swift.String? = nil,
+        statusMessage: Swift.String? = nil
+    )
+    {
+        self.connectorId = connectorId
+        self.status = status
+        self.statusMessage = statusMessage
+    }
+}
+
+struct TestConnectionOutputResponseBody: Swift.Equatable {
+    let connectorId: Swift.String?
+    let status: Swift.String?
+    let statusMessage: Swift.String?
+}
+
+extension TestConnectionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectorId = "ConnectorId"
+        case status = "Status"
+        case statusMessage = "StatusMessage"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let connectorIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectorId)
+        connectorId = connectorIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
+    }
 }
 
 extension TestIdentityProviderInput: Swift.CustomDebugStringConvertible {
@@ -12538,6 +12797,7 @@ extension UpdateConnectorInput: Swift.Encodable {
         case as2Config = "As2Config"
         case connectorId = "ConnectorId"
         case loggingRole = "LoggingRole"
+        case sftpConfig = "SftpConfig"
         case url = "Url"
     }
 
@@ -12555,6 +12815,9 @@ extension UpdateConnectorInput: Swift.Encodable {
         if let loggingRole = self.loggingRole {
             try encodeContainer.encode(loggingRole, forKey: .loggingRole)
         }
+        if let sftpConfig = self.sftpConfig {
+            try encodeContainer.encode(sftpConfig, forKey: .sftpConfig)
+        }
         if let url = self.url {
             try encodeContainer.encode(url, forKey: .url)
         }
@@ -12570,14 +12833,16 @@ extension UpdateConnectorInput: ClientRuntime.URLPathProvider {
 public struct UpdateConnectorInput: Swift.Equatable {
     /// With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer. If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also needs the kms:Decrypt permission for that key.
     public var accessRole: Swift.String?
-    /// A structure that contains the parameters for a connector object.
+    /// A structure that contains the parameters for an AS2 connector object.
     public var as2Config: TransferClientTypes.As2ConnectorConfig?
     /// The unique identifier for the connector.
     /// This member is required.
     public var connectorId: Swift.String?
     /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When set, you can view connector activity in your CloudWatch logs.
     public var loggingRole: Swift.String?
-    /// The URL of the partner's AS2 endpoint.
+    /// A structure that contains the parameters for an SFTP connector object.
+    public var sftpConfig: TransferClientTypes.SftpConnectorConfig?
+    /// The URL of the partner's AS2 or SFTP endpoint.
     public var url: Swift.String?
 
     public init(
@@ -12585,6 +12850,7 @@ public struct UpdateConnectorInput: Swift.Equatable {
         as2Config: TransferClientTypes.As2ConnectorConfig? = nil,
         connectorId: Swift.String? = nil,
         loggingRole: Swift.String? = nil,
+        sftpConfig: TransferClientTypes.SftpConnectorConfig? = nil,
         url: Swift.String? = nil
     )
     {
@@ -12592,6 +12858,7 @@ public struct UpdateConnectorInput: Swift.Equatable {
         self.as2Config = as2Config
         self.connectorId = connectorId
         self.loggingRole = loggingRole
+        self.sftpConfig = sftpConfig
         self.url = url
     }
 }
@@ -12602,6 +12869,7 @@ struct UpdateConnectorInputBody: Swift.Equatable {
     let as2Config: TransferClientTypes.As2ConnectorConfig?
     let accessRole: Swift.String?
     let loggingRole: Swift.String?
+    let sftpConfig: TransferClientTypes.SftpConnectorConfig?
 }
 
 extension UpdateConnectorInputBody: Swift.Decodable {
@@ -12610,6 +12878,7 @@ extension UpdateConnectorInputBody: Swift.Decodable {
         case as2Config = "As2Config"
         case connectorId = "ConnectorId"
         case loggingRole = "LoggingRole"
+        case sftpConfig = "SftpConfig"
         case url = "Url"
     }
 
@@ -12625,6 +12894,8 @@ extension UpdateConnectorInputBody: Swift.Decodable {
         accessRole = accessRoleDecoded
         let loggingRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .loggingRole)
         loggingRole = loggingRoleDecoded
+        let sftpConfigDecoded = try containerValues.decodeIfPresent(TransferClientTypes.SftpConnectorConfig.self, forKey: .sftpConfig)
+        sftpConfig = sftpConfigDecoded
     }
 }
 

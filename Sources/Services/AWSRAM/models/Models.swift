@@ -138,6 +138,7 @@ extension AssociateResourceShareInput: Swift.Encodable {
         case principals
         case resourceArns
         case resourceShareArn
+        case sources
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -159,6 +160,12 @@ extension AssociateResourceShareInput: Swift.Encodable {
         }
         if let resourceShareArn = self.resourceShareArn {
             try encodeContainer.encode(resourceShareArn, forKey: .resourceShareArn)
+        }
+        if let sources = sources {
+            var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
+            for string0 in sources {
+                try sourcesContainer.encode(string0)
+            }
         }
     }
 }
@@ -192,18 +199,22 @@ public struct AssociateResourceShareInput: Swift.Equatable {
     /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share that you want to add principals or resources to.
     /// This member is required.
     public var resourceShareArn: Swift.String?
+    /// Specifies from which source accounts the service principal has access to the resources in this resource share.
+    public var sources: [Swift.String]?
 
     public init(
         clientToken: Swift.String? = nil,
         principals: [Swift.String]? = nil,
         resourceArns: [Swift.String]? = nil,
-        resourceShareArn: Swift.String? = nil
+        resourceShareArn: Swift.String? = nil,
+        sources: [Swift.String]? = nil
     )
     {
         self.clientToken = clientToken
         self.principals = principals
         self.resourceArns = resourceArns
         self.resourceShareArn = resourceShareArn
+        self.sources = sources
     }
 }
 
@@ -212,6 +223,7 @@ struct AssociateResourceShareInputBody: Swift.Equatable {
     let resourceArns: [Swift.String]?
     let principals: [Swift.String]?
     let clientToken: Swift.String?
+    let sources: [Swift.String]?
 }
 
 extension AssociateResourceShareInputBody: Swift.Decodable {
@@ -220,6 +232,7 @@ extension AssociateResourceShareInputBody: Swift.Decodable {
         case principals
         case resourceArns
         case resourceShareArn
+        case sources
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -250,6 +263,17 @@ extension AssociateResourceShareInputBody: Swift.Decodable {
         principals = principalsDecoded0
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
+        let sourcesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .sources)
+        var sourcesDecoded0:[Swift.String]? = nil
+        if let sourcesContainer = sourcesContainer {
+            sourcesDecoded0 = [Swift.String]()
+            for string0 in sourcesContainer {
+                if let string0 = string0 {
+                    sourcesDecoded0?.append(string0)
+                }
+            }
+        }
+        sources = sourcesDecoded0
     }
 }
 
@@ -965,6 +989,7 @@ extension CreateResourceShareInput: Swift.Encodable {
         case permissionArns
         case principals
         case resourceArns
+        case sources
         case tags
     }
 
@@ -995,6 +1020,12 @@ extension CreateResourceShareInput: Swift.Encodable {
             var resourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceArns)
             for string0 in resourceArns {
                 try resourceArnsContainer.encode(string0)
+            }
+        }
+        if let sources = sources {
+            var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
+            for string0 in sources {
+                try sourcesContainer.encode(string0)
             }
         }
         if let tags = tags {
@@ -1039,6 +1070,8 @@ public struct CreateResourceShareInput: Swift.Equatable {
     public var principals: [Swift.String]?
     /// Specifies a list of one or more ARNs of the resources to associate with the resource share.
     public var resourceArns: [Swift.String]?
+    /// Specifies from which source accounts the service principal has access to the resources in this resource share.
+    public var sources: [Swift.String]?
     /// Specifies one or more tags to attach to the resource share itself. It doesn't attach the tags to the resources associated with the resource share.
     public var tags: [RAMClientTypes.Tag]?
 
@@ -1049,6 +1082,7 @@ public struct CreateResourceShareInput: Swift.Equatable {
         permissionArns: [Swift.String]? = nil,
         principals: [Swift.String]? = nil,
         resourceArns: [Swift.String]? = nil,
+        sources: [Swift.String]? = nil,
         tags: [RAMClientTypes.Tag]? = nil
     )
     {
@@ -1058,6 +1092,7 @@ public struct CreateResourceShareInput: Swift.Equatable {
         self.permissionArns = permissionArns
         self.principals = principals
         self.resourceArns = resourceArns
+        self.sources = sources
         self.tags = tags
     }
 }
@@ -1070,6 +1105,7 @@ struct CreateResourceShareInputBody: Swift.Equatable {
     let allowExternalPrincipals: Swift.Bool?
     let clientToken: Swift.String?
     let permissionArns: [Swift.String]?
+    let sources: [Swift.String]?
 }
 
 extension CreateResourceShareInputBody: Swift.Decodable {
@@ -1080,6 +1116,7 @@ extension CreateResourceShareInputBody: Swift.Decodable {
         case permissionArns
         case principals
         case resourceArns
+        case sources
         case tags
     }
 
@@ -1135,6 +1172,17 @@ extension CreateResourceShareInputBody: Swift.Decodable {
             }
         }
         permissionArns = permissionArnsDecoded0
+        let sourcesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .sources)
+        var sourcesDecoded0:[Swift.String]? = nil
+        if let sourcesContainer = sourcesContainer {
+            sourcesDecoded0 = [Swift.String]()
+            for string0 in sourcesContainer {
+                if let string0 = string0 {
+                    sourcesDecoded0?.append(string0)
+                }
+            }
+        }
+        sources = sourcesDecoded0
     }
 }
 
@@ -1152,6 +1200,7 @@ public enum CreateResourceShareOutputError: ClientRuntime.HttpResponseErrorBindi
             case "ResourceShareLimitExceeded": return try await ResourceShareLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalError": return try await ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "Unavailable": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TagLimitExceeded": return try await TagLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "TagPolicyViolation": return try await TagPolicyViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidResourceShareArn.NotFound": return try await UnknownResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -1603,6 +1652,7 @@ extension DisassociateResourceShareInput: Swift.Encodable {
         case principals
         case resourceArns
         case resourceShareArn
+        case sources
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1624,6 +1674,12 @@ extension DisassociateResourceShareInput: Swift.Encodable {
         }
         if let resourceShareArn = self.resourceShareArn {
             try encodeContainer.encode(resourceShareArn, forKey: .resourceShareArn)
+        }
+        if let sources = sources {
+            var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
+            for string0 in sources {
+                try sourcesContainer.encode(string0)
+            }
         }
     }
 }
@@ -1657,18 +1713,22 @@ public struct DisassociateResourceShareInput: Swift.Equatable {
     /// Specifies [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share that you want to remove resources or principals from.
     /// This member is required.
     public var resourceShareArn: Swift.String?
+    /// Specifies from which source accounts the service principal no longer has access to the resources in this resource share.
+    public var sources: [Swift.String]?
 
     public init(
         clientToken: Swift.String? = nil,
         principals: [Swift.String]? = nil,
         resourceArns: [Swift.String]? = nil,
-        resourceShareArn: Swift.String? = nil
+        resourceShareArn: Swift.String? = nil,
+        sources: [Swift.String]? = nil
     )
     {
         self.clientToken = clientToken
         self.principals = principals
         self.resourceArns = resourceArns
         self.resourceShareArn = resourceShareArn
+        self.sources = sources
     }
 }
 
@@ -1677,6 +1737,7 @@ struct DisassociateResourceShareInputBody: Swift.Equatable {
     let resourceArns: [Swift.String]?
     let principals: [Swift.String]?
     let clientToken: Swift.String?
+    let sources: [Swift.String]?
 }
 
 extension DisassociateResourceShareInputBody: Swift.Decodable {
@@ -1685,6 +1746,7 @@ extension DisassociateResourceShareInputBody: Swift.Decodable {
         case principals
         case resourceArns
         case resourceShareArn
+        case sources
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -1715,6 +1777,17 @@ extension DisassociateResourceShareInputBody: Swift.Decodable {
         principals = principalsDecoded0
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
+        let sourcesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .sources)
+        var sourcesDecoded0:[Swift.String]? = nil
+        if let sourcesContainer = sourcesContainer {
+            sourcesDecoded0 = [Swift.String]()
+            for string0 in sourcesContainer {
+                if let string0 = string0 {
+                    sourcesDecoded0?.append(string0)
+                }
+            }
+        }
+        sources = sourcesDecoded0
     }
 }
 
@@ -2358,7 +2431,7 @@ public struct GetResourceShareAssociationsInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     public var nextToken: Swift.String?
-    /// Specifies the ID of the principal whose resource shares you want to retrieve. This can be an Amazon Web Services account ID, an organization ID, an organizational unit ID, or the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of an individual IAM user or role. You cannot specify this parameter if the association type is RESOURCE.
+    /// Specifies the ID of the principal whose resource shares you want to retrieve. This can be an Amazon Web Services account ID, an organization ID, an organizational unit ID, or the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of an individual IAM role or user. You cannot specify this parameter if the association type is RESOURCE.
     public var principal: Swift.String?
     /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of a resource whose resource shares you want to retrieve. You cannot specify this parameter if the association type is PRINCIPAL.
     public var resourceArn: Swift.String?

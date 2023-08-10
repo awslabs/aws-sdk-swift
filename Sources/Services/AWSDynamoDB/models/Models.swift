@@ -1403,7 +1403,7 @@ extension BatchExecuteStatementOutputResponse: ClientRuntime.HttpResponseBinding
 public struct BatchExecuteStatementOutputResponse: Swift.Equatable {
     /// The capacity units consumed by the entire operation. The values of the list are ordered according to the ordering of the statements.
     public var consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]?
-    /// The response to each PartiQL statement in the batch.
+    /// The response to each PartiQL statement in the batch. The values of the list are ordered according to the ordering of the request statements.
     public var responses: [DynamoDBClientTypes.BatchStatementResponse]?
 
     public init(
@@ -18978,7 +18978,7 @@ extension DynamoDBClientTypes {
         /// The primary key of the item to be updated. Each element consists of an attribute name and a value for that attribute.
         /// This member is required.
         public var key: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-        /// Use ReturnValuesOnConditionCheckFailure to get the item attributes if the Update condition fails. For ReturnValuesOnConditionCheckFailure, the valid values are: NONE, ALL_OLD, UPDATED_OLD, ALL_NEW, UPDATED_NEW.
+        /// Use ReturnValuesOnConditionCheckFailure to get the item attributes if the Update condition fails. For ReturnValuesOnConditionCheckFailure, the valid values are: NONE and ALL_OLD.
         public var returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
         /// Name of the table for the UpdateItem request.
         /// This member is required.

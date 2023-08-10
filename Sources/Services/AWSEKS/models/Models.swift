@@ -3062,7 +3062,7 @@ extension DeleteAddonInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if preserve != false {
+            if let preserve = preserve {
                 let preserveQueryItem = ClientRuntime.URLQueryItem(name: "preserve".urlPercentEncoding(), value: Swift.String(preserve).urlPercentEncoding())
                 items.append(preserveQueryItem)
             }
@@ -3091,12 +3091,12 @@ public struct DeleteAddonInput: Swift.Equatable {
     /// This member is required.
     public var clusterName: Swift.String?
     /// Specifying this option preserves the add-on software on your cluster but Amazon EKS stops managing any settings for the add-on. If an IAM account is associated with the add-on, it isn't removed.
-    public var preserve: Swift.Bool
+    public var preserve: Swift.Bool?
 
     public init(
         addonName: Swift.String? = nil,
         clusterName: Swift.String? = nil,
-        preserve: Swift.Bool = false
+        preserve: Swift.Bool? = nil
     )
     {
         self.addonName = addonName
@@ -7036,47 +7036,75 @@ extension EKSClientTypes {
 extension EKSClientTypes {
     public enum NodegroupIssueCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case accessDenied
+        case amiIdNotFound
         case asgInstanceLaunchFailures
+        case autoScalingGroupInstanceRefreshActive
         case autoScalingGroupInvalidConfiguration
         case autoScalingGroupNotFound
+        case autoScalingGroupOptInRequired
+        case autoScalingGroupRateLimitExceeded
         case clusterUnreachable
+        case ec2LaunchTemplateDeletionFailure
+        case ec2LaunchTemplateInvalidConfiguration
+        case ec2LaunchTemplateMaxLimitExceeded
         case ec2LaunchTemplateNotFound
         case ec2LaunchTemplateVersionMismatch
         case ec2SecurityGroupDeletionFailure
         case ec2SecurityGroupNotFound
         case ec2SubnetInvalidConfiguration
+        case ec2SubnetListTooLong
         case ec2SubnetMissingIpv6Assignment
         case ec2SubnetNotFound
         case iamInstanceProfileNotFound
         case iamLimitExceeded
         case iamNodeRoleNotFound
+        case iamThrottling
         case instanceLimitExceeded
         case insufficientFreeAddresses
         case internalFailure
+        case limitExceeded
         case nodeCreationFailure
+        case nodeTerminationFailure
+        case podEvictionFailure
+        case sourceEc2LaunchTemplateNotFound
+        case unknown
         case sdkUnknown(Swift.String)
 
         public static var allCases: [NodegroupIssueCode] {
             return [
                 .accessDenied,
+                .amiIdNotFound,
                 .asgInstanceLaunchFailures,
+                .autoScalingGroupInstanceRefreshActive,
                 .autoScalingGroupInvalidConfiguration,
                 .autoScalingGroupNotFound,
+                .autoScalingGroupOptInRequired,
+                .autoScalingGroupRateLimitExceeded,
                 .clusterUnreachable,
+                .ec2LaunchTemplateDeletionFailure,
+                .ec2LaunchTemplateInvalidConfiguration,
+                .ec2LaunchTemplateMaxLimitExceeded,
                 .ec2LaunchTemplateNotFound,
                 .ec2LaunchTemplateVersionMismatch,
                 .ec2SecurityGroupDeletionFailure,
                 .ec2SecurityGroupNotFound,
                 .ec2SubnetInvalidConfiguration,
+                .ec2SubnetListTooLong,
                 .ec2SubnetMissingIpv6Assignment,
                 .ec2SubnetNotFound,
                 .iamInstanceProfileNotFound,
                 .iamLimitExceeded,
                 .iamNodeRoleNotFound,
+                .iamThrottling,
                 .instanceLimitExceeded,
                 .insufficientFreeAddresses,
                 .internalFailure,
+                .limitExceeded,
                 .nodeCreationFailure,
+                .nodeTerminationFailure,
+                .podEvictionFailure,
+                .sourceEc2LaunchTemplateNotFound,
+                .unknown,
                 .sdkUnknown("")
             ]
         }
@@ -7087,24 +7115,38 @@ extension EKSClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .accessDenied: return "AccessDenied"
+            case .amiIdNotFound: return "AmiIdNotFound"
             case .asgInstanceLaunchFailures: return "AsgInstanceLaunchFailures"
+            case .autoScalingGroupInstanceRefreshActive: return "AutoScalingGroupInstanceRefreshActive"
             case .autoScalingGroupInvalidConfiguration: return "AutoScalingGroupInvalidConfiguration"
             case .autoScalingGroupNotFound: return "AutoScalingGroupNotFound"
+            case .autoScalingGroupOptInRequired: return "AutoScalingGroupOptInRequired"
+            case .autoScalingGroupRateLimitExceeded: return "AutoScalingGroupRateLimitExceeded"
             case .clusterUnreachable: return "ClusterUnreachable"
+            case .ec2LaunchTemplateDeletionFailure: return "Ec2LaunchTemplateDeletionFailure"
+            case .ec2LaunchTemplateInvalidConfiguration: return "Ec2LaunchTemplateInvalidConfiguration"
+            case .ec2LaunchTemplateMaxLimitExceeded: return "Ec2LaunchTemplateMaxLimitExceeded"
             case .ec2LaunchTemplateNotFound: return "Ec2LaunchTemplateNotFound"
             case .ec2LaunchTemplateVersionMismatch: return "Ec2LaunchTemplateVersionMismatch"
             case .ec2SecurityGroupDeletionFailure: return "Ec2SecurityGroupDeletionFailure"
             case .ec2SecurityGroupNotFound: return "Ec2SecurityGroupNotFound"
             case .ec2SubnetInvalidConfiguration: return "Ec2SubnetInvalidConfiguration"
+            case .ec2SubnetListTooLong: return "Ec2SubnetListTooLong"
             case .ec2SubnetMissingIpv6Assignment: return "Ec2SubnetMissingIpv6Assignment"
             case .ec2SubnetNotFound: return "Ec2SubnetNotFound"
             case .iamInstanceProfileNotFound: return "IamInstanceProfileNotFound"
             case .iamLimitExceeded: return "IamLimitExceeded"
             case .iamNodeRoleNotFound: return "IamNodeRoleNotFound"
+            case .iamThrottling: return "IamThrottling"
             case .instanceLimitExceeded: return "InstanceLimitExceeded"
             case .insufficientFreeAddresses: return "InsufficientFreeAddresses"
             case .internalFailure: return "InternalFailure"
+            case .limitExceeded: return "LimitExceeded"
             case .nodeCreationFailure: return "NodeCreationFailure"
+            case .nodeTerminationFailure: return "NodeTerminationFailure"
+            case .podEvictionFailure: return "PodEvictionFailure"
+            case .sourceEc2LaunchTemplateNotFound: return "SourceEc2LaunchTemplateNotFound"
+            case .unknown: return "Unknown"
             case let .sdkUnknown(s): return s
             }
         }
@@ -9706,7 +9748,7 @@ extension UpdateNodegroupVersionInput: Swift.Encodable {
         if let clientRequestToken = self.clientRequestToken {
             try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
         }
-        if force != false {
+        if let force = self.force {
             try encodeContainer.encode(force, forKey: .force)
         }
         if let launchTemplate = self.launchTemplate {
@@ -9740,7 +9782,7 @@ public struct UpdateNodegroupVersionInput: Swift.Equatable {
     /// This member is required.
     public var clusterName: Swift.String?
     /// Force the update if the existing node group's pods are unable to be drained due to a pod disruption budget issue. If an update fails because pods could not be drained, you can force the update after it fails to terminate the old node whether or not any pods are running on the node.
-    public var force: Swift.Bool
+    public var force: Swift.Bool?
     /// An object representing a node group's launch template specification. You can only update a node group using a launch template if the node group was originally deployed with a launch template.
     public var launchTemplate: EKSClientTypes.LaunchTemplateSpecification?
     /// The name of the managed node group to update.
@@ -9754,7 +9796,7 @@ public struct UpdateNodegroupVersionInput: Swift.Equatable {
     public init(
         clientRequestToken: Swift.String? = nil,
         clusterName: Swift.String? = nil,
-        force: Swift.Bool = false,
+        force: Swift.Bool? = nil,
         launchTemplate: EKSClientTypes.LaunchTemplateSpecification? = nil,
         nodegroupName: Swift.String? = nil,
         releaseVersion: Swift.String? = nil,
@@ -9775,7 +9817,7 @@ struct UpdateNodegroupVersionInputBody: Swift.Equatable {
     let version: Swift.String?
     let releaseVersion: Swift.String?
     let launchTemplate: EKSClientTypes.LaunchTemplateSpecification?
-    let force: Swift.Bool
+    let force: Swift.Bool?
     let clientRequestToken: Swift.String?
 }
 
@@ -9796,7 +9838,7 @@ extension UpdateNodegroupVersionInputBody: Swift.Decodable {
         releaseVersion = releaseVersionDecoded
         let launchTemplateDecoded = try containerValues.decodeIfPresent(EKSClientTypes.LaunchTemplateSpecification.self, forKey: .launchTemplate)
         launchTemplate = launchTemplateDecoded
-        let forceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .force) ?? false
+        let forceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .force)
         force = forceDecoded
         let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
         clientRequestToken = clientRequestTokenDecoded

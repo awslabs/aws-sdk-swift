@@ -198,7 +198,7 @@ extension Route53Client: Route53ClientProtocol {
     /// * UPSERT: If a resource set exists Route 53 updates it with the values in the request.
     ///
     ///
-    /// Syntaxes for Creating, Updating, and Deleting Resource Record Sets The syntax for a request depends on the type of resource record set that you want to create, delete, or update, such as weighted, alias, or failover. The XML elements in your request must appear in the order listed in the syntax. For an example for each type of resource record set, see "Examples." Don't refer to the syntax in the "Parameter Syntax" section, which includes all of the elements for every kind of resource record set that you can create, delete, or update by using ChangeResourceRecordSets. Change Propagation to Route 53 DNS Servers When you submit a ChangeResourceRecordSets request, Route 53 propagates your changes to all of the Route 53 authoritative DNS servers. While your changes are propagating, GetChange returns a status of PENDING. When propagation is complete, GetChange returns a status of INSYNC. Changes generally propagate to all Route 53 name servers within 60 seconds. For more information, see [GetChange](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetChange.html). Limits on ChangeResourceRecordSets Requests For information about the limits on a ChangeResourceRecordSets request, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide.
+    /// Syntaxes for Creating, Updating, and Deleting Resource Record Sets The syntax for a request depends on the type of resource record set that you want to create, delete, or update, such as weighted, alias, or failover. The XML elements in your request must appear in the order listed in the syntax. For an example for each type of resource record set, see "Examples." Don't refer to the syntax in the "Parameter Syntax" section, which includes all of the elements for every kind of resource record set that you can create, delete, or update by using ChangeResourceRecordSets. Change Propagation to Route 53 DNS Servers When you submit a ChangeResourceRecordSets request, Route 53 propagates your changes to all of the Route 53 authoritative DNS servers managing the hosted zone. While your changes are propagating, GetChange returns a status of PENDING. When propagation is complete, GetChange returns a status of INSYNC. Changes generally propagate to all Route 53 name servers managing the hosted zone within 60 seconds. For more information, see [GetChange](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetChange.html). Limits on ChangeResourceRecordSets Requests For information about the limits on a ChangeResourceRecordSets request, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide.
     public func changeResourceRecordSets(input: ChangeResourceRecordSetsInput) async throws -> ChangeResourceRecordSetsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1224,9 +1224,9 @@ extension Route53Client: Route53ClientProtocol {
 
     /// Returns the current status of a change batch request. The status is one of the following values:
     ///
-    /// * PENDING indicates that the changes in this request have not propagated to all Amazon Route 53 DNS servers. This is the initial status of all change batch requests.
+    /// * PENDING indicates that the changes in this request have not propagated to all Amazon Route 53 DNS servers managing the hosted zone. This is the initial status of all change batch requests.
     ///
-    /// * INSYNC indicates that the changes have propagated to all Route 53 DNS servers.
+    /// * INSYNC indicates that the changes have propagated to all Route 53 DNS servers managing the hosted zone.
     public func getChange(input: GetChangeInput) async throws -> GetChangeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2463,7 +2463,7 @@ extension Route53Client: Route53ClientProtocol {
         return result
     }
 
-    /// Gets the value that Amazon Route 53 returns in response to a DNS request for a specified record name and type. You can optionally specify the IP address of a DNS resolver, an EDNS0 client subnet IP address, and a subnet mask. This call only supports querying public hosted zones.
+    /// Gets the value that Amazon Route 53 returns in response to a DNS request for a specified record name and type. You can optionally specify the IP address of a DNS resolver, an EDNS0 client subnet IP address, and a subnet mask. This call only supports querying public hosted zones. The TestDnsAnswer  returns information similar to what you would expect from the answer section of the dig command. Therefore, if you query for the name servers of a subdomain that point to the parent name servers, those will not be returned.
     public func testDNSAnswer(input: TestDNSAnswerInput) async throws -> TestDNSAnswerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

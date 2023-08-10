@@ -34,6 +34,8 @@ public protocol M2ClientProtocol {
     func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutputResponse
     /// Describes a specific runtime environment.
     func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutputResponse
+    /// Gets a single sign-on URL that can be used to connect to AWS Blu Insights.
+    func getSignedBluinsightsUrl(input: GetSignedBluinsightsUrlInput) async throws -> GetSignedBluinsightsUrlOutputResponse
     /// Lists the applications associated with a specific Amazon Web Services account. You can provide the unique identifier of a specific runtime environment in a query parameter to see all applications associated with that environment.
     func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutputResponse
     /// Returns a list of the application versions for a specific application.

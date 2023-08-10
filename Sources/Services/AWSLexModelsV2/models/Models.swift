@@ -527,6 +527,3134 @@ extension LexModelsV2ClientTypes {
 
 }
 
+extension LexModelsV2ClientTypes {
+    public enum AnalyticsBinByName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case conversationstarttime
+        case utterancetimestamp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyticsBinByName] {
+            return [
+                .conversationstarttime,
+                .utterancetimestamp,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .conversationstarttime: return "ConversationStartTime"
+            case .utterancetimestamp: return "UtteranceTimestamp"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnalyticsBinByName(rawValue: rawValue) ?? AnalyticsBinByName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.AnalyticsBinBySpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case interval
+        case name
+        case order
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let interval = self.interval {
+            try encodeContainer.encode(interval.rawValue, forKey: .interval)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let order = self.order {
+            try encodeContainer.encode(order.rawValue, forKey: .order)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsBinByName.self, forKey: .name)
+        name = nameDecoded
+        let intervalDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsInterval.self, forKey: .interval)
+        interval = intervalDecoded
+        let orderDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsSortOrder.self, forKey: .order)
+        order = orderDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains the time metric, interval, and method by which to bin the analytics data.
+    public struct AnalyticsBinBySpecification: Swift.Equatable {
+        /// Specifies the interval of time by which to bin the analytics data.
+        /// This member is required.
+        public var interval: LexModelsV2ClientTypes.AnalyticsInterval?
+        /// Specifies the time metric by which to bin the analytics data.
+        /// This member is required.
+        public var name: LexModelsV2ClientTypes.AnalyticsBinByName?
+        /// Specifies whether to bin the analytics data in ascending or descending order. If this field is left blank, the default order is by the key of the bin in descending order.
+        public var order: LexModelsV2ClientTypes.AnalyticsSortOrder?
+
+        public init(
+            interval: LexModelsV2ClientTypes.AnalyticsInterval? = nil,
+            name: LexModelsV2ClientTypes.AnalyticsBinByName? = nil,
+            order: LexModelsV2ClientTypes.AnalyticsSortOrder? = nil
+        )
+        {
+            self.interval = interval
+            self.name = name
+            self.order = order
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.AnalyticsBinKey: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsBinByName.self, forKey: .name)
+        name = nameDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// An object containing the criterion by which to bin the results and the value that defines that bin.
+    public struct AnalyticsBinKey: Swift.Equatable {
+        /// The criterion by which to bin the results.
+        public var name: LexModelsV2ClientTypes.AnalyticsBinByName?
+        /// The value of the criterion that defines the bin.
+        public var value: Swift.Int?
+
+        public init(
+            name: LexModelsV2ClientTypes.AnalyticsBinByName? = nil,
+            value: Swift.Int? = nil
+        )
+        {
+            self.name = name
+            self.value = value
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    public enum AnalyticsCommonFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case botaliasid
+        case botversion
+        case channel
+        case localeid
+        case modality
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyticsCommonFilterName] {
+            return [
+                .botaliasid,
+                .botversion,
+                .channel,
+                .localeid,
+                .modality,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .botaliasid: return "BotAliasId"
+            case .botversion: return "BotVersion"
+            case .channel: return "Channel"
+            case .localeid: return "LocaleId"
+            case .modality: return "Modality"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnalyticsCommonFilterName(rawValue: rawValue) ?? AnalyticsCommonFilterName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    public enum AnalyticsFilterOperator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case equals
+        case greaterthan
+        case lessthan
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyticsFilterOperator] {
+            return [
+                .equals,
+                .greaterthan,
+                .lessthan,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .equals: return "EQ"
+            case .greaterthan: return "GT"
+            case .lessthan: return "LT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnalyticsFilterOperator(rawValue: rawValue) ?? AnalyticsFilterOperator.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    public enum AnalyticsIntentField: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case intentendstate
+        case intentlevel
+        case intentname
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyticsIntentField] {
+            return [
+                .intentendstate,
+                .intentlevel,
+                .intentname,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .intentendstate: return "IntentEndState"
+            case .intentlevel: return "IntentLevel"
+            case .intentname: return "IntentName"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnalyticsIntentField(rawValue: rawValue) ?? AnalyticsIntentField.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.AnalyticsIntentFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case `operator` = "operator"
+        case values
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let `operator` = self.`operator` {
+            try encodeContainer.encode(`operator`.rawValue, forKey: .`operator`)
+        }
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for analyticsfiltervalue0 in values {
+                try valuesContainer.encode(analyticsfiltervalue0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsIntentFilterName.self, forKey: .name)
+        name = nameDecoded
+        let operatorDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsFilterOperator.self, forKey: .operator)
+        `operator` = operatorDecoded
+        let valuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .values)
+        var valuesDecoded0:[Swift.String]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [Swift.String]()
+            for string0 in valuesContainer {
+                if let string0 = string0 {
+                    valuesDecoded0?.append(string0)
+                }
+            }
+        }
+        values = valuesDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains fields describing a condition by which to filter the intents. The expression may be understood as name
+    ///     operator
+    ///
+    /// values. For example:
+    ///
+    /// * IntentName CO Book – The intent name contains the string "Book."
+    ///
+    /// * BotVersion EQ 2 – The bot version is equal to two.
+    ///
+    ///
+    /// The operators that each filter supports are listed below:
+    ///
+    /// * BotAlias – EQ.
+    ///
+    /// * BotVersion – EQ.
+    ///
+    /// * LocaleId – EQ.
+    ///
+    /// * Modality – EQ.
+    ///
+    /// * Channel – EQ.
+    ///
+    /// * SessionId – EQ.
+    ///
+    /// * OriginatingRequestId – EQ.
+    ///
+    /// * IntentName – EQ, CO.
+    ///
+    /// * IntentEndState – EQ, CO.
+    public struct AnalyticsIntentFilter: Swift.Equatable {
+        /// The category by which to filter the intents. The descriptions for each option are as follows:
+        ///
+        /// * BotAlias – The name of the bot alias.
+        ///
+        /// * BotVersion – The version of the bot.
+        ///
+        /// * LocaleId – The locale of the bot.
+        ///
+        /// * Modality – The modality of the session with the bot (audio, DTMF, or text).
+        ///
+        /// * Channel – The channel that the bot is integrated with.
+        ///
+        /// * SessionId – The identifier of the session with the bot.
+        ///
+        /// * OriginatingRequestId – The identifier of the first request in a session.
+        ///
+        /// * IntentName – The name of the intent.
+        ///
+        /// * IntentEndState – The final state of the intent.
+        /// This member is required.
+        public var name: LexModelsV2ClientTypes.AnalyticsIntentFilterName?
+        /// The operation by which to filter the category. The following operations are possible:
+        ///
+        /// * CO – Contains
+        ///
+        /// * EQ – Equals
+        ///
+        /// * GT – Greater than
+        ///
+        /// * LT – Less than
+        ///
+        ///
+        /// The operators that each filter supports are listed below:
+        ///
+        /// * BotAlias – EQ.
+        ///
+        /// * BotVersion – EQ.
+        ///
+        /// * LocaleId – EQ.
+        ///
+        /// * Modality – EQ.
+        ///
+        /// * Channel – EQ.
+        ///
+        /// * SessionId – EQ.
+        ///
+        /// * OriginatingRequestId – EQ.
+        ///
+        /// * IntentName – EQ, CO.
+        ///
+        /// * IntentEndState – EQ, CO.
+        /// This member is required.
+        public var `operator`: LexModelsV2ClientTypes.AnalyticsFilterOperator?
+        /// An array containing the values of the category by which to apply the operator to filter the results. You can provide multiple values if the operator is EQ or CO. If you provide multiple values, you filter for results that equal/contain any of the values. For example, if the name, operator, and values fields are Modality, EQ, and [Speech, Text], the operation filters for results where the modality was either Speech or Text.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: LexModelsV2ClientTypes.AnalyticsIntentFilterName? = nil,
+            `operator`: LexModelsV2ClientTypes.AnalyticsFilterOperator? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.name = name
+            self.`operator` = `operator`
+            self.values = values
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    public enum AnalyticsIntentFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case botaliasid
+        case botversion
+        case channel
+        case intentendstate
+        case intentname
+        case localeid
+        case modality
+        case originatingrequestid
+        case sessionid
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyticsIntentFilterName] {
+            return [
+                .botaliasid,
+                .botversion,
+                .channel,
+                .intentendstate,
+                .intentname,
+                .localeid,
+                .modality,
+                .originatingrequestid,
+                .sessionid,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .botaliasid: return "BotAliasId"
+            case .botversion: return "BotVersion"
+            case .channel: return "Channel"
+            case .intentendstate: return "IntentEndState"
+            case .intentname: return "IntentName"
+            case .localeid: return "LocaleId"
+            case .modality: return "Modality"
+            case .originatingrequestid: return "OriginatingRequestId"
+            case .sessionid: return "SessionId"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnalyticsIntentFilterName(rawValue: rawValue) ?? AnalyticsIntentFilterName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.AnalyticsIntentGroupByKey: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsIntentField.self, forKey: .name)
+        name = nameDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains the category by which the intent analytics were grouped and a member of that category.
+    public struct AnalyticsIntentGroupByKey: Swift.Equatable {
+        /// A category by which the intent analytics were grouped.
+        public var name: LexModelsV2ClientTypes.AnalyticsIntentField?
+        /// A member of the category by which the intent analytics were grouped.
+        public var value: Swift.String?
+
+        public init(
+            name: LexModelsV2ClientTypes.AnalyticsIntentField? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.value = value
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.AnalyticsIntentGroupBySpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsIntentField.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains the category by which to group the intents.
+    public struct AnalyticsIntentGroupBySpecification: Swift.Equatable {
+        /// Specifies whether to group the intent stages by their name or their end state.
+        /// This member is required.
+        public var name: LexModelsV2ClientTypes.AnalyticsIntentField?
+
+        public init(
+            name: LexModelsV2ClientTypes.AnalyticsIntentField? = nil
+        )
+        {
+            self.name = name
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.AnalyticsIntentMetric: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case order
+        case statistic
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let order = self.order {
+            try encodeContainer.encode(order.rawValue, forKey: .order)
+        }
+        if let statistic = self.statistic {
+            try encodeContainer.encode(statistic.rawValue, forKey: .statistic)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsIntentMetricName.self, forKey: .name)
+        name = nameDecoded
+        let statisticDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsMetricStatistic.self, forKey: .statistic)
+        statistic = statisticDecoded
+        let orderDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsSortOrder.self, forKey: .order)
+        order = orderDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains the metric and the summary statistic you want to calculate, and the order in which to sort the results, for the intents in the bot.
+    public struct AnalyticsIntentMetric: Swift.Equatable {
+        /// The metric for which you want to get intent summary statistics.
+        ///
+        /// * Count – The number of times the intent was invoked.
+        ///
+        /// * Success – The number of times the intent succeeded.
+        ///
+        /// * Failure – The number of times the intent failed.
+        ///
+        /// * Switched – The number of times there was a switch to a different intent.
+        ///
+        /// * Dropped – The number of times the user dropped the intent.
+        /// This member is required.
+        public var name: LexModelsV2ClientTypes.AnalyticsIntentMetricName?
+        /// Specifies whether to sort the results in ascending or descending order.
+        public var order: LexModelsV2ClientTypes.AnalyticsSortOrder?
+        /// The summary statistic to calculate.
+        ///
+        /// * Sum – The total count for the category you provide in name.
+        ///
+        /// * Average – The total count divided by the number of intents in the category you provide in name.
+        ///
+        /// * Max – The highest count in the category you provide in name.
+        /// This member is required.
+        public var statistic: LexModelsV2ClientTypes.AnalyticsMetricStatistic?
+
+        public init(
+            name: LexModelsV2ClientTypes.AnalyticsIntentMetricName? = nil,
+            order: LexModelsV2ClientTypes.AnalyticsSortOrder? = nil,
+            statistic: LexModelsV2ClientTypes.AnalyticsMetricStatistic? = nil
+        )
+        {
+            self.name = name
+            self.order = order
+            self.statistic = statistic
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    public enum AnalyticsIntentMetricName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case count
+        case dropped
+        case failure
+        case success
+        case switched
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyticsIntentMetricName] {
+            return [
+                .count,
+                .dropped,
+                .failure,
+                .success,
+                .switched,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .count: return "Count"
+            case .dropped: return "Dropped"
+            case .failure: return "Failure"
+            case .success: return "Success"
+            case .switched: return "Switched"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnalyticsIntentMetricName(rawValue: rawValue) ?? AnalyticsIntentMetricName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.AnalyticsIntentMetricResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case statistic
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let statistic = self.statistic {
+            try encodeContainer.encode(statistic.rawValue, forKey: .statistic)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsIntentMetricName.self, forKey: .name)
+        name = nameDecoded
+        let statisticDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsMetricStatistic.self, forKey: .statistic)
+        statistic = statisticDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// An object containing the results for the intent metric you requested.
+    public struct AnalyticsIntentMetricResult: Swift.Equatable {
+        /// The metric that you requested. See [Key definitions](https://docs.aws.amazon.com/lexv2/latest/dg/analytics-key-definitions.html) for more details about these metrics.
+        ///
+        /// * Count – The number of times the intent was invoked.
+        ///
+        /// * Success – The number of times the intent succeeded.
+        ///
+        /// * Failure – The number of times the intent failed.
+        ///
+        /// * Switched – The number of times there was a switch to a different intent.
+        ///
+        /// * Dropped – The number of times the user dropped the intent.
+        public var name: LexModelsV2ClientTypes.AnalyticsIntentMetricName?
+        /// The statistic that you requested to calculate.
+        ///
+        /// * Sum – The total count for the category you provide in name.
+        ///
+        /// * Average – The total count divided by the number of intents in the category you provide in name.
+        ///
+        /// * Max – The highest count in the category you provide in name.
+        public var statistic: LexModelsV2ClientTypes.AnalyticsMetricStatistic?
+        /// The value of the summary statistic for the metric that you requested.
+        public var value: Swift.Double?
+
+        public init(
+            name: LexModelsV2ClientTypes.AnalyticsIntentMetricName? = nil,
+            statistic: LexModelsV2ClientTypes.AnalyticsMetricStatistic? = nil,
+            value: Swift.Double? = nil
+        )
+        {
+            self.name = name
+            self.statistic = statistic
+            self.value = value
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.AnalyticsIntentNodeSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case intentCount
+        case intentLevel
+        case intentName
+        case intentPath
+        case nodeType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let intentCount = self.intentCount {
+            try encodeContainer.encode(intentCount, forKey: .intentCount)
+        }
+        if let intentLevel = self.intentLevel {
+            try encodeContainer.encode(intentLevel, forKey: .intentLevel)
+        }
+        if let intentName = self.intentName {
+            try encodeContainer.encode(intentName, forKey: .intentName)
+        }
+        if let intentPath = self.intentPath {
+            try encodeContainer.encode(intentPath, forKey: .intentPath)
+        }
+        if let nodeType = self.nodeType {
+            try encodeContainer.encode(nodeType.rawValue, forKey: .nodeType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let intentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .intentName)
+        intentName = intentNameDecoded
+        let intentPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .intentPath)
+        intentPath = intentPathDecoded
+        let intentCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .intentCount)
+        intentCount = intentCountDecoded
+        let intentLevelDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .intentLevel)
+        intentLevel = intentLevelDecoded
+        let nodeTypeDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsNodeType.self, forKey: .nodeType)
+        nodeType = nodeTypeDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// An object containing information about the requested path.
+    public struct AnalyticsIntentNodeSummary: Swift.Equatable {
+        /// The total number of sessions that follow the given path to the given intent.
+        public var intentCount: Swift.Int?
+        /// The number of intents up to and including the requested path.
+        public var intentLevel: Swift.Int?
+        /// The name of the intent at the end of the requested path.
+        public var intentName: Swift.String?
+        /// The path.
+        public var intentPath: Swift.String?
+        /// Specifies whether the node is the end of a path (Exit) or not (Inner).
+        public var nodeType: LexModelsV2ClientTypes.AnalyticsNodeType?
+
+        public init(
+            intentCount: Swift.Int? = nil,
+            intentLevel: Swift.Int? = nil,
+            intentName: Swift.String? = nil,
+            intentPath: Swift.String? = nil,
+            nodeType: LexModelsV2ClientTypes.AnalyticsNodeType? = nil
+        )
+        {
+            self.intentCount = intentCount
+            self.intentLevel = intentLevel
+            self.intentName = intentName
+            self.intentPath = intentPath
+            self.nodeType = nodeType
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.AnalyticsIntentResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case binKeys
+        case groupByKeys
+        case metricsResults
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let binKeys = binKeys {
+            var binKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .binKeys)
+            for analyticsbinkey0 in binKeys {
+                try binKeysContainer.encode(analyticsbinkey0)
+            }
+        }
+        if let groupByKeys = groupByKeys {
+            var groupByKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupByKeys)
+            for analyticsintentgroupbykey0 in groupByKeys {
+                try groupByKeysContainer.encode(analyticsintentgroupbykey0)
+            }
+        }
+        if let metricsResults = metricsResults {
+            var metricsResultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricsResults)
+            for analyticsintentmetricresult0 in metricsResults {
+                try metricsResultsContainer.encode(analyticsintentmetricresult0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let binKeysContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsBinKey?].self, forKey: .binKeys)
+        var binKeysDecoded0:[LexModelsV2ClientTypes.AnalyticsBinKey]? = nil
+        if let binKeysContainer = binKeysContainer {
+            binKeysDecoded0 = [LexModelsV2ClientTypes.AnalyticsBinKey]()
+            for structure0 in binKeysContainer {
+                if let structure0 = structure0 {
+                    binKeysDecoded0?.append(structure0)
+                }
+            }
+        }
+        binKeys = binKeysDecoded0
+        let groupByKeysContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsIntentGroupByKey?].self, forKey: .groupByKeys)
+        var groupByKeysDecoded0:[LexModelsV2ClientTypes.AnalyticsIntentGroupByKey]? = nil
+        if let groupByKeysContainer = groupByKeysContainer {
+            groupByKeysDecoded0 = [LexModelsV2ClientTypes.AnalyticsIntentGroupByKey]()
+            for structure0 in groupByKeysContainer {
+                if let structure0 = structure0 {
+                    groupByKeysDecoded0?.append(structure0)
+                }
+            }
+        }
+        groupByKeys = groupByKeysDecoded0
+        let metricsResultsContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsIntentMetricResult?].self, forKey: .metricsResults)
+        var metricsResultsDecoded0:[LexModelsV2ClientTypes.AnalyticsIntentMetricResult]? = nil
+        if let metricsResultsContainer = metricsResultsContainer {
+            metricsResultsDecoded0 = [LexModelsV2ClientTypes.AnalyticsIntentMetricResult]()
+            for structure0 in metricsResultsContainer {
+                if let structure0 = structure0 {
+                    metricsResultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        metricsResults = metricsResultsDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// An object containing the results for the intent metrics you requested and the bin and/or group(s) they refer to, if applicable.
+    public struct AnalyticsIntentResult: Swift.Equatable {
+        /// A list of objects containing the criteria you requested for binning results and the values of the bins.
+        public var binKeys: [LexModelsV2ClientTypes.AnalyticsBinKey]?
+        /// A list of objects containing the criteria you requested for grouping results and the values of the groups.
+        public var groupByKeys: [LexModelsV2ClientTypes.AnalyticsIntentGroupByKey]?
+        /// A list of objects, each of which contains a metric you want to list, the statistic for the metric you want to return, and the method by which to organize the results.
+        public var metricsResults: [LexModelsV2ClientTypes.AnalyticsIntentMetricResult]?
+
+        public init(
+            binKeys: [LexModelsV2ClientTypes.AnalyticsBinKey]? = nil,
+            groupByKeys: [LexModelsV2ClientTypes.AnalyticsIntentGroupByKey]? = nil,
+            metricsResults: [LexModelsV2ClientTypes.AnalyticsIntentMetricResult]? = nil
+        )
+        {
+            self.binKeys = binKeys
+            self.groupByKeys = groupByKeys
+            self.metricsResults = metricsResults
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    public enum AnalyticsIntentStageField: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case intentstagename
+        case switchedtointent
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyticsIntentStageField] {
+            return [
+                .intentstagename,
+                .switchedtointent,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .intentstagename: return "IntentStageName"
+            case .switchedtointent: return "SwitchedToIntent"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnalyticsIntentStageField(rawValue: rawValue) ?? AnalyticsIntentStageField.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.AnalyticsIntentStageFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case `operator` = "operator"
+        case values
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let `operator` = self.`operator` {
+            try encodeContainer.encode(`operator`.rawValue, forKey: .`operator`)
+        }
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for analyticsfiltervalue0 in values {
+                try valuesContainer.encode(analyticsfiltervalue0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsIntentStageFilterName.self, forKey: .name)
+        name = nameDecoded
+        let operatorDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsFilterOperator.self, forKey: .operator)
+        `operator` = operatorDecoded
+        let valuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .values)
+        var valuesDecoded0:[Swift.String]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [Swift.String]()
+            for string0 in valuesContainer {
+                if let string0 = string0 {
+                    valuesDecoded0?.append(string0)
+                }
+            }
+        }
+        values = valuesDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains fields describing a condition by which to filter the intent stages. The expression may be understood as name
+    ///     operator
+    ///
+    /// values. For example:
+    ///
+    /// * IntentName CO Book – The intent name contains the string "Book."
+    ///
+    /// * BotVersion EQ 2 – The bot version is equal to two.
+    ///
+    ///
+    /// The operators that each filter supports are listed below:
+    ///
+    /// * BotAlias – EQ.
+    ///
+    /// * BotVersion – EQ.
+    ///
+    /// * LocaleId – EQ.
+    ///
+    /// * Modality – EQ.
+    ///
+    /// * Channel – EQ.
+    ///
+    /// * SessionId – EQ.
+    ///
+    /// * OriginatingRequestId – EQ.
+    ///
+    /// * IntentName – EQ, CO.
+    ///
+    /// * IntentStageName – EQ, CO.
+    public struct AnalyticsIntentStageFilter: Swift.Equatable {
+        /// The category by which to filter the intent stages. The descriptions for each option are as follows:
+        ///
+        /// * BotAlias – The name of the bot alias.
+        ///
+        /// * BotVersion – The version of the bot.
+        ///
+        /// * LocaleId – The locale of the bot.
+        ///
+        /// * Modality – The modality of the session with the bot (audio, DTMF, or text).
+        ///
+        /// * Channel – The channel that the bot is integrated with.
+        ///
+        /// * SessionId – The identifier of the session with the bot.
+        ///
+        /// * OriginatingRequestId – The identifier of the first request in a session.
+        ///
+        /// * IntentName – The name of the intent.
+        ///
+        /// * IntentStageName – The stage in the intent.
+        /// This member is required.
+        public var name: LexModelsV2ClientTypes.AnalyticsIntentStageFilterName?
+        /// The operation by which to filter the category. The following operations are possible:
+        ///
+        /// * CO – Contains
+        ///
+        /// * EQ – Equals
+        ///
+        /// * GT – Greater than
+        ///
+        /// * LT – Less than
+        ///
+        ///
+        /// The operators that each filter supports are listed below:
+        ///
+        /// * BotAlias – EQ.
+        ///
+        /// * BotVersion – EQ.
+        ///
+        /// * LocaleId – EQ.
+        ///
+        /// * Modality – EQ.
+        ///
+        /// * Channel – EQ.
+        ///
+        /// * SessionId – EQ.
+        ///
+        /// * OriginatingRequestId – EQ.
+        ///
+        /// * IntentName – EQ, CO.
+        ///
+        /// * IntentStageName – EQ, CO.
+        /// This member is required.
+        public var `operator`: LexModelsV2ClientTypes.AnalyticsFilterOperator?
+        /// An array containing the values of the category by which to apply the operator to filter the results. You can provide multiple values if the operator is EQ or CO. If you provide multiple values, you filter for results that equal/contain any of the values. For example, if the name, operator, and values fields are Modality, EQ, and [Speech, Text], the operation filters for results where the modality was either Speech or Text.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: LexModelsV2ClientTypes.AnalyticsIntentStageFilterName? = nil,
+            `operator`: LexModelsV2ClientTypes.AnalyticsFilterOperator? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.name = name
+            self.`operator` = `operator`
+            self.values = values
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    public enum AnalyticsIntentStageFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case botaliasid
+        case botversion
+        case channel
+        case intentname
+        case intentstagename
+        case localeid
+        case modality
+        case originatingrequestid
+        case sessionid
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyticsIntentStageFilterName] {
+            return [
+                .botaliasid,
+                .botversion,
+                .channel,
+                .intentname,
+                .intentstagename,
+                .localeid,
+                .modality,
+                .originatingrequestid,
+                .sessionid,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .botaliasid: return "BotAliasId"
+            case .botversion: return "BotVersion"
+            case .channel: return "Channel"
+            case .intentname: return "IntentName"
+            case .intentstagename: return "IntentStageName"
+            case .localeid: return "LocaleId"
+            case .modality: return "Modality"
+            case .originatingrequestid: return "OriginatingRequestId"
+            case .sessionid: return "SessionId"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnalyticsIntentStageFilterName(rawValue: rawValue) ?? AnalyticsIntentStageFilterName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.AnalyticsIntentStageGroupByKey: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsIntentStageField.self, forKey: .name)
+        name = nameDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains the category by which the intent stage analytics and the values for that category were grouped.
+    public struct AnalyticsIntentStageGroupByKey: Swift.Equatable {
+        /// A category by which the intent stage analytics were grouped.
+        public var name: LexModelsV2ClientTypes.AnalyticsIntentStageField?
+        /// A member of the category by which the intent stage analytics were grouped.
+        public var value: Swift.String?
+
+        public init(
+            name: LexModelsV2ClientTypes.AnalyticsIntentStageField? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.value = value
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.AnalyticsIntentStageGroupBySpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsIntentStageField.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains the category by which to group the intent stages.
+    public struct AnalyticsIntentStageGroupBySpecification: Swift.Equatable {
+        /// Specifies whether to group the intent stages by their name or the intent to which the session was switched.
+        /// This member is required.
+        public var name: LexModelsV2ClientTypes.AnalyticsIntentStageField?
+
+        public init(
+            name: LexModelsV2ClientTypes.AnalyticsIntentStageField? = nil
+        )
+        {
+            self.name = name
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.AnalyticsIntentStageMetric: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case order
+        case statistic
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let order = self.order {
+            try encodeContainer.encode(order.rawValue, forKey: .order)
+        }
+        if let statistic = self.statistic {
+            try encodeContainer.encode(statistic.rawValue, forKey: .statistic)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsIntentStageMetricName.self, forKey: .name)
+        name = nameDecoded
+        let statisticDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsMetricStatistic.self, forKey: .statistic)
+        statistic = statisticDecoded
+        let orderDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsSortOrder.self, forKey: .order)
+        order = orderDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains the metric and the summary statistic you want to calculate, and the order in which to sort the results, for the intent stages across the user sessions with the bot.
+    public struct AnalyticsIntentStageMetric: Swift.Equatable {
+        /// The metric for which you want to get intent stage summary statistics. See [Key definitions](https://docs.aws.amazon.com/lexv2/latest/dg/analytics-key-definitions.html) for more details about these metrics.
+        ///
+        /// * Count – The number of times the intent stage occurred.
+        ///
+        /// * Success – The number of times the intent stage succeeded.
+        ///
+        /// * Failure – The number of times the intent stage failed.
+        ///
+        /// * Dropped – The number of times the user dropped the intent stage.
+        ///
+        /// * Retry – The number of times the bot tried to elicit a response from the user at this stage.
+        /// This member is required.
+        public var name: LexModelsV2ClientTypes.AnalyticsIntentStageMetricName?
+        /// Specifies whether to sort the results in ascending or descending order of the summary statistic (value in the response).
+        public var order: LexModelsV2ClientTypes.AnalyticsSortOrder?
+        /// The summary statistic to calculate.
+        ///
+        /// * Sum – The total count for the category you provide in name.
+        ///
+        /// * Average – The total count divided by the number of intent stages in the category you provide in name.
+        ///
+        /// * Max – The highest count in the category you provide in name.
+        /// This member is required.
+        public var statistic: LexModelsV2ClientTypes.AnalyticsMetricStatistic?
+
+        public init(
+            name: LexModelsV2ClientTypes.AnalyticsIntentStageMetricName? = nil,
+            order: LexModelsV2ClientTypes.AnalyticsSortOrder? = nil,
+            statistic: LexModelsV2ClientTypes.AnalyticsMetricStatistic? = nil
+        )
+        {
+            self.name = name
+            self.order = order
+            self.statistic = statistic
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    public enum AnalyticsIntentStageMetricName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case count
+        case dropped
+        case failed
+        case retry
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyticsIntentStageMetricName] {
+            return [
+                .count,
+                .dropped,
+                .failed,
+                .retry,
+                .success,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .count: return "Count"
+            case .dropped: return "Dropped"
+            case .failed: return "Failed"
+            case .retry: return "Retry"
+            case .success: return "Success"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnalyticsIntentStageMetricName(rawValue: rawValue) ?? AnalyticsIntentStageMetricName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.AnalyticsIntentStageMetricResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case statistic
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let statistic = self.statistic {
+            try encodeContainer.encode(statistic.rawValue, forKey: .statistic)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsIntentStageMetricName.self, forKey: .name)
+        name = nameDecoded
+        let statisticDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsMetricStatistic.self, forKey: .statistic)
+        statistic = statisticDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// An object containing the results for an intent stage metric you requested.
+    public struct AnalyticsIntentStageMetricResult: Swift.Equatable {
+        /// The metric that you requested.
+        ///
+        /// * Count – The number of times the intent stage occurred.
+        ///
+        /// * Success – The number of times the intent stage succeeded.
+        ///
+        /// * Failure – The number of times the intent stage failed.
+        ///
+        /// * Dropped – The number of times the user dropped the intent stage.
+        ///
+        /// * Retry – The number of times the bot tried to elicit a response from the user at this stage.
+        public var name: LexModelsV2ClientTypes.AnalyticsIntentStageMetricName?
+        /// The summary statistic that you requested to calculate.
+        ///
+        /// * Sum – The total count for the category you provide in name.
+        ///
+        /// * Average – The total count divided by the number of intent stages in the category you provide in name.
+        ///
+        /// * Max – The highest count in the category you provide in name.
+        public var statistic: LexModelsV2ClientTypes.AnalyticsMetricStatistic?
+        /// The value of the summary statistic for the metric that you requested.
+        public var value: Swift.Double?
+
+        public init(
+            name: LexModelsV2ClientTypes.AnalyticsIntentStageMetricName? = nil,
+            statistic: LexModelsV2ClientTypes.AnalyticsMetricStatistic? = nil,
+            value: Swift.Double? = nil
+        )
+        {
+            self.name = name
+            self.statistic = statistic
+            self.value = value
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.AnalyticsIntentStageResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case binKeys
+        case groupByKeys
+        case metricsResults
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let binKeys = binKeys {
+            var binKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .binKeys)
+            for analyticsbinkey0 in binKeys {
+                try binKeysContainer.encode(analyticsbinkey0)
+            }
+        }
+        if let groupByKeys = groupByKeys {
+            var groupByKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupByKeys)
+            for analyticsintentstagegroupbykey0 in groupByKeys {
+                try groupByKeysContainer.encode(analyticsintentstagegroupbykey0)
+            }
+        }
+        if let metricsResults = metricsResults {
+            var metricsResultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricsResults)
+            for analyticsintentstagemetricresult0 in metricsResults {
+                try metricsResultsContainer.encode(analyticsintentstagemetricresult0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let binKeysContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsBinKey?].self, forKey: .binKeys)
+        var binKeysDecoded0:[LexModelsV2ClientTypes.AnalyticsBinKey]? = nil
+        if let binKeysContainer = binKeysContainer {
+            binKeysDecoded0 = [LexModelsV2ClientTypes.AnalyticsBinKey]()
+            for structure0 in binKeysContainer {
+                if let structure0 = structure0 {
+                    binKeysDecoded0?.append(structure0)
+                }
+            }
+        }
+        binKeys = binKeysDecoded0
+        let groupByKeysContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsIntentStageGroupByKey?].self, forKey: .groupByKeys)
+        var groupByKeysDecoded0:[LexModelsV2ClientTypes.AnalyticsIntentStageGroupByKey]? = nil
+        if let groupByKeysContainer = groupByKeysContainer {
+            groupByKeysDecoded0 = [LexModelsV2ClientTypes.AnalyticsIntentStageGroupByKey]()
+            for structure0 in groupByKeysContainer {
+                if let structure0 = structure0 {
+                    groupByKeysDecoded0?.append(structure0)
+                }
+            }
+        }
+        groupByKeys = groupByKeysDecoded0
+        let metricsResultsContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsIntentStageMetricResult?].self, forKey: .metricsResults)
+        var metricsResultsDecoded0:[LexModelsV2ClientTypes.AnalyticsIntentStageMetricResult]? = nil
+        if let metricsResultsContainer = metricsResultsContainer {
+            metricsResultsDecoded0 = [LexModelsV2ClientTypes.AnalyticsIntentStageMetricResult]()
+            for structure0 in metricsResultsContainer {
+                if let structure0 = structure0 {
+                    metricsResultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        metricsResults = metricsResultsDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// An object containing the results for the intent stage metrics you requested and the bin and/or group they refer to, if applicable.
+    public struct AnalyticsIntentStageResult: Swift.Equatable {
+        /// A list of objects containing the criteria you requested for binning results and the values of the bins.
+        public var binKeys: [LexModelsV2ClientTypes.AnalyticsBinKey]?
+        /// A list of objects containing the criteria you requested for grouping results and the values of the bins.
+        public var groupByKeys: [LexModelsV2ClientTypes.AnalyticsIntentStageGroupByKey]?
+        /// A list of objects, each of which contains a metric you want to list, the statistic for the metric you want to return, and the method by which to organize the results.
+        public var metricsResults: [LexModelsV2ClientTypes.AnalyticsIntentStageMetricResult]?
+
+        public init(
+            binKeys: [LexModelsV2ClientTypes.AnalyticsBinKey]? = nil,
+            groupByKeys: [LexModelsV2ClientTypes.AnalyticsIntentStageGroupByKey]? = nil,
+            metricsResults: [LexModelsV2ClientTypes.AnalyticsIntentStageMetricResult]? = nil
+        )
+        {
+            self.binKeys = binKeys
+            self.groupByKeys = groupByKeys
+            self.metricsResults = metricsResults
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    public enum AnalyticsInterval: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case oneday
+        case onehour
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyticsInterval] {
+            return [
+                .oneday,
+                .onehour,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .oneday: return "OneDay"
+            case .onehour: return "OneHour"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnalyticsInterval(rawValue: rawValue) ?? AnalyticsInterval.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    public enum AnalyticsMetricStatistic: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case avg
+        case max
+        case sum
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyticsMetricStatistic] {
+            return [
+                .avg,
+                .max,
+                .sum,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .avg: return "Avg"
+            case .max: return "Max"
+            case .sum: return "Sum"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnalyticsMetricStatistic(rawValue: rawValue) ?? AnalyticsMetricStatistic.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    public enum AnalyticsModality: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case dtmf
+        case multimode
+        case speech
+        case text
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyticsModality] {
+            return [
+                .dtmf,
+                .multimode,
+                .speech,
+                .text,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .dtmf: return "DTMF"
+            case .multimode: return "MultiMode"
+            case .speech: return "Speech"
+            case .text: return "Text"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnalyticsModality(rawValue: rawValue) ?? AnalyticsModality.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    public enum AnalyticsNodeType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case exit
+        case inner
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyticsNodeType] {
+            return [
+                .exit,
+                .inner,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .exit: return "Exit"
+            case .inner: return "Inner"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnalyticsNodeType(rawValue: rawValue) ?? AnalyticsNodeType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.AnalyticsPathFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case `operator` = "operator"
+        case values
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let `operator` = self.`operator` {
+            try encodeContainer.encode(`operator`.rawValue, forKey: .`operator`)
+        }
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for analyticsfiltervalue0 in values {
+                try valuesContainer.encode(analyticsfiltervalue0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsCommonFilterName.self, forKey: .name)
+        name = nameDecoded
+        let operatorDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsFilterOperator.self, forKey: .operator)
+        `operator` = operatorDecoded
+        let valuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .values)
+        var valuesDecoded0:[Swift.String]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [Swift.String]()
+            for string0 in valuesContainer {
+                if let string0 = string0 {
+                    valuesDecoded0?.append(string0)
+                }
+            }
+        }
+        values = valuesDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains fields describing a condition by which to filter the paths. The expression may be understood as name
+    ///     operator
+    ///
+    /// values. For example:
+    ///
+    /// * LocaleId EQ en – The locale is "en".
+    ///
+    /// * BotVersion EQ 2 – The bot version is equal to two.
+    ///
+    ///
+    /// The operators that each filter supports are listed below:
+    ///
+    /// * BotAlias – EQ.
+    ///
+    /// * BotVersion – EQ.
+    ///
+    /// * LocaleId – EQ.
+    ///
+    /// * Modality – EQ.
+    ///
+    /// * Channel – EQ.
+    public struct AnalyticsPathFilter: Swift.Equatable {
+        /// The category by which to filter the intent paths. The descriptions for each option are as follows:
+        ///
+        /// * BotAlias – The name of the bot alias.
+        ///
+        /// * BotVersion – The version of the bot.
+        ///
+        /// * LocaleId – The locale of the bot.
+        ///
+        /// * Modality – The modality of the session with the bot (audio, DTMF, or text).
+        ///
+        /// * Channel – The channel that the bot is integrated with.
+        /// This member is required.
+        public var name: LexModelsV2ClientTypes.AnalyticsCommonFilterName?
+        /// The operation by which to filter the category. The following operations are possible:
+        ///
+        /// * CO – Contains
+        ///
+        /// * EQ – Equals
+        ///
+        /// * GT – Greater than
+        ///
+        /// * LT – Less than
+        ///
+        ///
+        /// The operators that each filter supports are listed below:
+        ///
+        /// * BotAlias – EQ.
+        ///
+        /// * BotVersion – EQ.
+        ///
+        /// * LocaleId – EQ.
+        ///
+        /// * Modality – EQ.
+        ///
+        /// * Channel – EQ.
+        /// This member is required.
+        public var `operator`: LexModelsV2ClientTypes.AnalyticsFilterOperator?
+        /// An array containing the values of the category by which to apply the operator to filter the results. You can provide multiple values if the operator is EQ or CO. If you provide multiple values, you filter for results that equal/contain any of the values. For example, if the name, operator, and values fields are Modality, EQ, and [Speech, Text], the operation filters for results where the modality was either Speech or Text.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: LexModelsV2ClientTypes.AnalyticsCommonFilterName? = nil,
+            `operator`: LexModelsV2ClientTypes.AnalyticsFilterOperator? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.name = name
+            self.`operator` = `operator`
+            self.values = values
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    public enum AnalyticsSessionField: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case conversationendstate
+        case localeid
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyticsSessionField] {
+            return [
+                .conversationendstate,
+                .localeid,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .conversationendstate: return "ConversationEndState"
+            case .localeid: return "LocaleId"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnalyticsSessionField(rawValue: rawValue) ?? AnalyticsSessionField.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.AnalyticsSessionFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case `operator` = "operator"
+        case values
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let `operator` = self.`operator` {
+            try encodeContainer.encode(`operator`.rawValue, forKey: .`operator`)
+        }
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for analyticsfiltervalue0 in values {
+                try valuesContainer.encode(analyticsfiltervalue0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsSessionFilterName.self, forKey: .name)
+        name = nameDecoded
+        let operatorDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsFilterOperator.self, forKey: .operator)
+        `operator` = operatorDecoded
+        let valuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .values)
+        var valuesDecoded0:[Swift.String]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [Swift.String]()
+            for string0 in valuesContainer {
+                if let string0 = string0 {
+                    valuesDecoded0?.append(string0)
+                }
+            }
+        }
+        values = valuesDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains fields describing a condition by which to filter the sessions. The expression may be understood as name
+    ///     operator
+    ///
+    /// values. For example:
+    ///
+    /// * LocaleId EQ en – The locale is "en".
+    ///
+    /// * Duration GT 200 – The duration is greater than 200 seconds.
+    ///
+    ///
+    /// The operators that each filter supports are listed below:
+    ///
+    /// * BotAlias – EQ.
+    ///
+    /// * BotVersion – EQ.
+    ///
+    /// * LocaleId – EQ.
+    ///
+    /// * Modality – EQ.
+    ///
+    /// * Channel – EQ.
+    ///
+    /// * Duration – EQ, GT, LT.
+    ///
+    /// * conversationEndState – EQ, CO.
+    ///
+    /// * SessionId – EQ.
+    ///
+    /// * OriginatingRequestId – EQ.
+    ///
+    /// * IntentPath – EQ.
+    public struct AnalyticsSessionFilter: Swift.Equatable {
+        /// The category by which to filter the sessions. The descriptions for each option are as follows:
+        ///
+        /// * BotAlias – The name of the bot alias.
+        ///
+        /// * BotVersion – The version of the bot.
+        ///
+        /// * LocaleId – The locale of the bot.
+        ///
+        /// * Modality – The modality of the session with the bot (audio, DTMF, or text).
+        ///
+        /// * Channel – The channel that the bot is integrated with.
+        ///
+        /// * Duration – The duration of the session.
+        ///
+        /// * conversationEndState – The final state of the session.
+        ///
+        /// * SessionId – The identifier of the session with the bot.
+        ///
+        /// * OriginatingRequestId – The identifier of the first request in a session.
+        ///
+        /// * IntentPath – The order of intents taken in a session.
+        /// This member is required.
+        public var name: LexModelsV2ClientTypes.AnalyticsSessionFilterName?
+        /// The operation by which to filter the category. The following operations are possible:
+        ///
+        /// * CO – Contains
+        ///
+        /// * EQ – Equals
+        ///
+        /// * GT – Greater than
+        ///
+        /// * LT – Less than
+        ///
+        ///
+        /// The operators that each filter supports are listed below:
+        ///
+        /// * BotAlias – EQ.
+        ///
+        /// * BotVersion – EQ.
+        ///
+        /// * LocaleId – EQ.
+        ///
+        /// * Modality – EQ.
+        ///
+        /// * Channel – EQ.
+        ///
+        /// * Duration – EQ, GT, LT.
+        ///
+        /// * conversationEndState – EQ, CO.
+        ///
+        /// * SessionId – EQ.
+        ///
+        /// * OriginatingRequestId – EQ.
+        ///
+        /// * IntentPath – EQ.
+        /// This member is required.
+        public var `operator`: LexModelsV2ClientTypes.AnalyticsFilterOperator?
+        /// An array containing the values of the category by which to apply the operator to filter the results. You can provide multiple values if the operator is EQ or CO. If you provide multiple values, you filter for results that equal/contain any of the values. For example, if the name, operator, and values fields are Modality, EQ, and [Speech, Text], the operation filters for results where the modality was either Speech or Text.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: LexModelsV2ClientTypes.AnalyticsSessionFilterName? = nil,
+            `operator`: LexModelsV2ClientTypes.AnalyticsFilterOperator? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.name = name
+            self.`operator` = `operator`
+            self.values = values
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    public enum AnalyticsSessionFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case botaliasid
+        case botversion
+        case channel
+        case conversationendstate
+        case duration
+        case intentpath
+        case localeid
+        case modality
+        case originatingrequestid
+        case sessionid
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyticsSessionFilterName] {
+            return [
+                .botaliasid,
+                .botversion,
+                .channel,
+                .conversationendstate,
+                .duration,
+                .intentpath,
+                .localeid,
+                .modality,
+                .originatingrequestid,
+                .sessionid,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .botaliasid: return "BotAliasId"
+            case .botversion: return "BotVersion"
+            case .channel: return "Channel"
+            case .conversationendstate: return "ConversationEndState"
+            case .duration: return "Duration"
+            case .intentpath: return "IntentPath"
+            case .localeid: return "LocaleId"
+            case .modality: return "Modality"
+            case .originatingrequestid: return "OriginatingRequestId"
+            case .sessionid: return "SessionId"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnalyticsSessionFilterName(rawValue: rawValue) ?? AnalyticsSessionFilterName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.AnalyticsSessionGroupByKey: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsSessionField.self, forKey: .name)
+        name = nameDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains the category by which the session analytics were grouped and a member of that category.
+    public struct AnalyticsSessionGroupByKey: Swift.Equatable {
+        /// The category by which the session analytics were grouped.
+        public var name: LexModelsV2ClientTypes.AnalyticsSessionField?
+        /// A member of the category by which the session analytics were grouped.
+        public var value: Swift.String?
+
+        public init(
+            name: LexModelsV2ClientTypes.AnalyticsSessionField? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.value = value
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.AnalyticsSessionGroupBySpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsSessionField.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains the category by which to group the sessions.
+    public struct AnalyticsSessionGroupBySpecification: Swift.Equatable {
+        /// Specifies whether to group the session by their end state or their locale.
+        /// This member is required.
+        public var name: LexModelsV2ClientTypes.AnalyticsSessionField?
+
+        public init(
+            name: LexModelsV2ClientTypes.AnalyticsSessionField? = nil
+        )
+        {
+            self.name = name
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.AnalyticsSessionMetric: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case order
+        case statistic
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let order = self.order {
+            try encodeContainer.encode(order.rawValue, forKey: .order)
+        }
+        if let statistic = self.statistic {
+            try encodeContainer.encode(statistic.rawValue, forKey: .statistic)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsSessionMetricName.self, forKey: .name)
+        name = nameDecoded
+        let statisticDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsMetricStatistic.self, forKey: .statistic)
+        statistic = statisticDecoded
+        let orderDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsSortOrder.self, forKey: .order)
+        order = orderDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains the metric and the summary statistic you want to calculate, and the order in which to sort the results, for the user sessions with the bot.
+    public struct AnalyticsSessionMetric: Swift.Equatable {
+        /// The metric for which you want to get session summary statistics.
+        ///
+        /// * Count – The number of sessions.
+        ///
+        /// * Success – The number of sessions that succeeded.
+        ///
+        /// * Failure – The number of sessions that failed.
+        ///
+        /// * Dropped – The number of sessions that the user dropped.
+        ///
+        /// * Duration – The duration of sessions.
+        ///
+        /// * TurnsPerSession – The number of turns in the sessions.
+        ///
+        /// * Concurrency – The number of sessions occurring in the same period of time.
+        /// This member is required.
+        public var name: LexModelsV2ClientTypes.AnalyticsSessionMetricName?
+        /// Specifies whether to sort the results in ascending or descending order.
+        public var order: LexModelsV2ClientTypes.AnalyticsSortOrder?
+        /// The summary statistic to calculate.
+        ///
+        /// * Sum – The total count for the category you provide in name.
+        ///
+        /// * Average – The total count divided by the number of sessions in the category you provide in name.
+        ///
+        /// * Max – The highest count in the category you provide in name.
+        /// This member is required.
+        public var statistic: LexModelsV2ClientTypes.AnalyticsMetricStatistic?
+
+        public init(
+            name: LexModelsV2ClientTypes.AnalyticsSessionMetricName? = nil,
+            order: LexModelsV2ClientTypes.AnalyticsSortOrder? = nil,
+            statistic: LexModelsV2ClientTypes.AnalyticsMetricStatistic? = nil
+        )
+        {
+            self.name = name
+            self.order = order
+            self.statistic = statistic
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    public enum AnalyticsSessionMetricName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case concurrency
+        case count
+        case dropped
+        case duration
+        case failure
+        case success
+        case turnsperconversation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyticsSessionMetricName] {
+            return [
+                .concurrency,
+                .count,
+                .dropped,
+                .duration,
+                .failure,
+                .success,
+                .turnsperconversation,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .concurrency: return "Concurrency"
+            case .count: return "Count"
+            case .dropped: return "Dropped"
+            case .duration: return "Duration"
+            case .failure: return "Failure"
+            case .success: return "Success"
+            case .turnsperconversation: return "TurnsPerConversation"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnalyticsSessionMetricName(rawValue: rawValue) ?? AnalyticsSessionMetricName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.AnalyticsSessionMetricResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case statistic
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let statistic = self.statistic {
+            try encodeContainer.encode(statistic.rawValue, forKey: .statistic)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsSessionMetricName.self, forKey: .name)
+        name = nameDecoded
+        let statisticDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsMetricStatistic.self, forKey: .statistic)
+        statistic = statisticDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// An object containing the results for a session metric you requested.
+    public struct AnalyticsSessionMetricResult: Swift.Equatable {
+        /// The metric that you requested.
+        ///
+        /// * Count – The number of sessions.
+        ///
+        /// * Success – The number of sessions that succeeded.
+        ///
+        /// * Failure – The number of sessions that failed.
+        ///
+        /// * Dropped – The number of sessions that the user dropped.
+        ///
+        /// * Duration – The duration of sessions.
+        ///
+        /// * TurnPersession – The number of turns in the sessions.
+        ///
+        /// * Concurrency – The number of sessions occurring in the same period of time.
+        public var name: LexModelsV2ClientTypes.AnalyticsSessionMetricName?
+        /// The summary statistic that you requested to calculate.
+        ///
+        /// * Sum – The total count for the category you provide in name.
+        ///
+        /// * Average – The total count divided by the number of sessions in the category you provide in name.
+        ///
+        /// * Max – The highest count in the category you provide in name.
+        public var statistic: LexModelsV2ClientTypes.AnalyticsMetricStatistic?
+        /// The value of the summary statistic for the metric that you requested.
+        public var value: Swift.Double?
+
+        public init(
+            name: LexModelsV2ClientTypes.AnalyticsSessionMetricName? = nil,
+            statistic: LexModelsV2ClientTypes.AnalyticsMetricStatistic? = nil,
+            value: Swift.Double? = nil
+        )
+        {
+            self.name = name
+            self.statistic = statistic
+            self.value = value
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.AnalyticsSessionResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case binKeys
+        case groupByKeys
+        case metricsResults
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let binKeys = binKeys {
+            var binKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .binKeys)
+            for analyticsbinkey0 in binKeys {
+                try binKeysContainer.encode(analyticsbinkey0)
+            }
+        }
+        if let groupByKeys = groupByKeys {
+            var groupByKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupByKeys)
+            for analyticssessiongroupbykey0 in groupByKeys {
+                try groupByKeysContainer.encode(analyticssessiongroupbykey0)
+            }
+        }
+        if let metricsResults = metricsResults {
+            var metricsResultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricsResults)
+            for analyticssessionmetricresult0 in metricsResults {
+                try metricsResultsContainer.encode(analyticssessionmetricresult0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let binKeysContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsBinKey?].self, forKey: .binKeys)
+        var binKeysDecoded0:[LexModelsV2ClientTypes.AnalyticsBinKey]? = nil
+        if let binKeysContainer = binKeysContainer {
+            binKeysDecoded0 = [LexModelsV2ClientTypes.AnalyticsBinKey]()
+            for structure0 in binKeysContainer {
+                if let structure0 = structure0 {
+                    binKeysDecoded0?.append(structure0)
+                }
+            }
+        }
+        binKeys = binKeysDecoded0
+        let groupByKeysContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsSessionGroupByKey?].self, forKey: .groupByKeys)
+        var groupByKeysDecoded0:[LexModelsV2ClientTypes.AnalyticsSessionGroupByKey]? = nil
+        if let groupByKeysContainer = groupByKeysContainer {
+            groupByKeysDecoded0 = [LexModelsV2ClientTypes.AnalyticsSessionGroupByKey]()
+            for structure0 in groupByKeysContainer {
+                if let structure0 = structure0 {
+                    groupByKeysDecoded0?.append(structure0)
+                }
+            }
+        }
+        groupByKeys = groupByKeysDecoded0
+        let metricsResultsContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsSessionMetricResult?].self, forKey: .metricsResults)
+        var metricsResultsDecoded0:[LexModelsV2ClientTypes.AnalyticsSessionMetricResult]? = nil
+        if let metricsResultsContainer = metricsResultsContainer {
+            metricsResultsDecoded0 = [LexModelsV2ClientTypes.AnalyticsSessionMetricResult]()
+            for structure0 in metricsResultsContainer {
+                if let structure0 = structure0 {
+                    metricsResultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        metricsResults = metricsResultsDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// An object containing the results for the session metrics you requested and the bin and/or group(s) they refer to, if applicable.
+    public struct AnalyticsSessionResult: Swift.Equatable {
+        /// A list of objects containing the criteria you requested for binning results and the values of the bins.
+        public var binKeys: [LexModelsV2ClientTypes.AnalyticsBinKey]?
+        /// A list of objects containing the criteria you requested for grouping results and the values of the bins.
+        public var groupByKeys: [LexModelsV2ClientTypes.AnalyticsSessionGroupByKey]?
+        /// A list of objects, each of which contains a metric you want to list, the statistic for the metric you want to return, and the method by which to organize the results.
+        public var metricsResults: [LexModelsV2ClientTypes.AnalyticsSessionMetricResult]?
+
+        public init(
+            binKeys: [LexModelsV2ClientTypes.AnalyticsBinKey]? = nil,
+            groupByKeys: [LexModelsV2ClientTypes.AnalyticsSessionGroupByKey]? = nil,
+            metricsResults: [LexModelsV2ClientTypes.AnalyticsSessionMetricResult]? = nil
+        )
+        {
+            self.binKeys = binKeys
+            self.groupByKeys = groupByKeys
+            self.metricsResults = metricsResults
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    public enum AnalyticsSessionSortByName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case conversationstarttime
+        case duration
+        case numberofturns
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyticsSessionSortByName] {
+            return [
+                .conversationstarttime,
+                .duration,
+                .numberofturns,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .conversationstarttime: return "ConversationStartTime"
+            case .duration: return "Duration"
+            case .numberofturns: return "NumberOfTurns"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnalyticsSessionSortByName(rawValue: rawValue) ?? AnalyticsSessionSortByName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    public enum AnalyticsSortOrder: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ascending
+        case descending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyticsSortOrder] {
+            return [
+                .ascending,
+                .descending,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .ascending: return "Ascending"
+            case .descending: return "Descending"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnalyticsSortOrder(rawValue: rawValue) ?? AnalyticsSortOrder.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.AnalyticsUtteranceAttribute: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsUtteranceAttributeName.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// An object that specifies the last used intent at the time of the utterance as an attribute to return.
+    public struct AnalyticsUtteranceAttribute: Swift.Equatable {
+        /// An attribute to return. The only available attribute is the intent that the bot mapped the utterance to.
+        /// This member is required.
+        public var name: LexModelsV2ClientTypes.AnalyticsUtteranceAttributeName?
+
+        public init(
+            name: LexModelsV2ClientTypes.AnalyticsUtteranceAttributeName? = nil
+        )
+        {
+            self.name = name
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    public enum AnalyticsUtteranceAttributeName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case lastusedintent
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyticsUtteranceAttributeName] {
+            return [
+                .lastusedintent,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .lastusedintent: return "LastUsedIntent"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnalyticsUtteranceAttributeName(rawValue: rawValue) ?? AnalyticsUtteranceAttributeName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.AnalyticsUtteranceAttributeResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lastUsedIntent
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lastUsedIntent = self.lastUsedIntent {
+            try encodeContainer.encode(lastUsedIntent, forKey: .lastUsedIntent)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lastUsedIntentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastUsedIntent)
+        lastUsedIntent = lastUsedIntentDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// An object containing the intent that the bot mapped the utterance to.
+    public struct AnalyticsUtteranceAttributeResult: Swift.Equatable {
+        /// The intent that the bot mapped the utterance to.
+        public var lastUsedIntent: Swift.String?
+
+        public init(
+            lastUsedIntent: Swift.String? = nil
+        )
+        {
+            self.lastUsedIntent = lastUsedIntent
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    public enum AnalyticsUtteranceField: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case utterancestate
+        case utterancetext
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyticsUtteranceField] {
+            return [
+                .utterancestate,
+                .utterancetext,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .utterancestate: return "UtteranceState"
+            case .utterancetext: return "UtteranceText"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnalyticsUtteranceField(rawValue: rawValue) ?? AnalyticsUtteranceField.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.AnalyticsUtteranceFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case `operator` = "operator"
+        case values
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let `operator` = self.`operator` {
+            try encodeContainer.encode(`operator`.rawValue, forKey: .`operator`)
+        }
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for analyticsfiltervalue0 in values {
+                try valuesContainer.encode(analyticsfiltervalue0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsUtteranceFilterName.self, forKey: .name)
+        name = nameDecoded
+        let operatorDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsFilterOperator.self, forKey: .operator)
+        `operator` = operatorDecoded
+        let valuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .values)
+        var valuesDecoded0:[Swift.String]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [Swift.String]()
+            for string0 in valuesContainer {
+                if let string0 = string0 {
+                    valuesDecoded0?.append(string0)
+                }
+            }
+        }
+        values = valuesDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains fields describing a condition by which to filter the utterances. The expression may be understood as name
+    ///     operator
+    ///
+    /// values. For example:
+    ///
+    /// * LocaleId EQ Book – The locale is the string "en".
+    ///
+    /// * UtteranceText CO help – The text of the utterance contains the string "help".
+    ///
+    ///
+    /// The operators that each filter supports are listed below:
+    ///
+    /// * BotAlias – EQ.
+    ///
+    /// * BotVersion – EQ.
+    ///
+    /// * LocaleId – EQ.
+    ///
+    /// * Modality – EQ.
+    ///
+    /// * Channel – EQ.
+    ///
+    /// * SessionId – EQ.
+    ///
+    /// * OriginatingRequestId – EQ.
+    ///
+    /// * UtteranceState – EQ.
+    ///
+    /// * UtteranceText – EQ, CO.
+    public struct AnalyticsUtteranceFilter: Swift.Equatable {
+        /// The category by which to filter the utterances. The descriptions for each option are as follows:
+        ///
+        /// * BotAlias – The name of the bot alias.
+        ///
+        /// * BotVersion – The version of the bot.
+        ///
+        /// * LocaleId – The locale of the bot.
+        ///
+        /// * Modality – The modality of the session with the bot (audio, DTMF, or text).
+        ///
+        /// * Channel – The channel that the bot is integrated with.
+        ///
+        /// * SessionId – The identifier of the session with the bot.
+        ///
+        /// * OriginatingRequestId – The identifier of the first request in a session.
+        ///
+        /// * UtteranceState – The state of the utterance.
+        ///
+        /// * UtteranceText – The text in the utterance.
+        /// This member is required.
+        public var name: LexModelsV2ClientTypes.AnalyticsUtteranceFilterName?
+        /// The operation by which to filter the category. The following operations are possible:
+        ///
+        /// * CO – Contains
+        ///
+        /// * EQ – Equals
+        ///
+        /// * GT – Greater than
+        ///
+        /// * LT – Less than
+        ///
+        ///
+        /// The operators that each filter supports are listed below:
+        ///
+        /// * BotAlias – EQ.
+        ///
+        /// * BotVersion – EQ.
+        ///
+        /// * LocaleId – EQ.
+        ///
+        /// * Modality – EQ.
+        ///
+        /// * Channel – EQ.
+        ///
+        /// * SessionId – EQ.
+        ///
+        /// * OriginatingRequestId – EQ.
+        ///
+        /// * UtteranceState – EQ.
+        ///
+        /// * UtteranceText – EQ, CO.
+        /// This member is required.
+        public var `operator`: LexModelsV2ClientTypes.AnalyticsFilterOperator?
+        /// An array containing the values of the category by which to apply the operator to filter the results. You can provide multiple values if the operator is EQ or CO. If you provide multiple values, you filter for results that equal/contain any of the values. For example, if the name, operator, and values fields are Modality, EQ, and [Speech, Text], the operation filters for results where the modality was either Speech or Text.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: LexModelsV2ClientTypes.AnalyticsUtteranceFilterName? = nil,
+            `operator`: LexModelsV2ClientTypes.AnalyticsFilterOperator? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.name = name
+            self.`operator` = `operator`
+            self.values = values
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    public enum AnalyticsUtteranceFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case botaliasid
+        case botversion
+        case channel
+        case localeid
+        case modality
+        case originatingrequestid
+        case sessionid
+        case utterancestate
+        case utterancetext
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyticsUtteranceFilterName] {
+            return [
+                .botaliasid,
+                .botversion,
+                .channel,
+                .localeid,
+                .modality,
+                .originatingrequestid,
+                .sessionid,
+                .utterancestate,
+                .utterancetext,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .botaliasid: return "BotAliasId"
+            case .botversion: return "BotVersion"
+            case .channel: return "Channel"
+            case .localeid: return "LocaleId"
+            case .modality: return "Modality"
+            case .originatingrequestid: return "OriginatingRequestId"
+            case .sessionid: return "SessionId"
+            case .utterancestate: return "UtteranceState"
+            case .utterancetext: return "UtteranceText"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnalyticsUtteranceFilterName(rawValue: rawValue) ?? AnalyticsUtteranceFilterName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.AnalyticsUtteranceGroupByKey: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsUtteranceField.self, forKey: .name)
+        name = nameDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains the category by which the utterance analytics were grouped and the values for that category.
+    public struct AnalyticsUtteranceGroupByKey: Swift.Equatable {
+        /// The category by which the utterance analytics were grouped.
+        public var name: LexModelsV2ClientTypes.AnalyticsUtteranceField?
+        /// A member of the category by which the utterance analytics were grouped.
+        public var value: Swift.String?
+
+        public init(
+            name: LexModelsV2ClientTypes.AnalyticsUtteranceField? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.value = value
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.AnalyticsUtteranceGroupBySpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsUtteranceField.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains the category by which to group the utterances.
+    public struct AnalyticsUtteranceGroupBySpecification: Swift.Equatable {
+        /// Specifies whether to group the utterances by their text or their state.
+        /// This member is required.
+        public var name: LexModelsV2ClientTypes.AnalyticsUtteranceField?
+
+        public init(
+            name: LexModelsV2ClientTypes.AnalyticsUtteranceField? = nil
+        )
+        {
+            self.name = name
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.AnalyticsUtteranceMetric: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case order
+        case statistic
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let order = self.order {
+            try encodeContainer.encode(order.rawValue, forKey: .order)
+        }
+        if let statistic = self.statistic {
+            try encodeContainer.encode(statistic.rawValue, forKey: .statistic)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsUtteranceMetricName.self, forKey: .name)
+        name = nameDecoded
+        let statisticDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsMetricStatistic.self, forKey: .statistic)
+        statistic = statisticDecoded
+        let orderDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsSortOrder.self, forKey: .order)
+        order = orderDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains the metric and the summary statistic you want to calculate, and the order in which to sort the results, for the utterances across the user sessions with the bot.
+    public struct AnalyticsUtteranceMetric: Swift.Equatable {
+        /// The metric for which you want to get utterance summary statistics.
+        ///
+        /// * Count – The number of utterances.
+        ///
+        /// * Missed – The number of utterances that Amazon Lex failed to recognize.
+        ///
+        /// * Detected – The number of utterances that Amazon Lex managed to detect.
+        ///
+        /// * UtteranceTimestamp – The date and time of the utterance.
+        /// This member is required.
+        public var name: LexModelsV2ClientTypes.AnalyticsUtteranceMetricName?
+        /// Specifies whether to sort the results in ascending or descending order.
+        public var order: LexModelsV2ClientTypes.AnalyticsSortOrder?
+        /// The summary statistic to calculate.
+        ///
+        /// * Sum – The total count for the category you provide in name.
+        ///
+        /// * Average – The total count divided by the number of utterances in the category you provide in name.
+        ///
+        /// * Max – The highest count in the category you provide in name.
+        /// This member is required.
+        public var statistic: LexModelsV2ClientTypes.AnalyticsMetricStatistic?
+
+        public init(
+            name: LexModelsV2ClientTypes.AnalyticsUtteranceMetricName? = nil,
+            order: LexModelsV2ClientTypes.AnalyticsSortOrder? = nil,
+            statistic: LexModelsV2ClientTypes.AnalyticsMetricStatistic? = nil
+        )
+        {
+            self.name = name
+            self.order = order
+            self.statistic = statistic
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    public enum AnalyticsUtteranceMetricName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case count
+        case detected
+        case missed
+        case utterancetimestamp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyticsUtteranceMetricName] {
+            return [
+                .count,
+                .detected,
+                .missed,
+                .utterancetimestamp,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .count: return "Count"
+            case .detected: return "Detected"
+            case .missed: return "Missed"
+            case .utterancetimestamp: return "UtteranceTimestamp"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnalyticsUtteranceMetricName(rawValue: rawValue) ?? AnalyticsUtteranceMetricName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.AnalyticsUtteranceMetricResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case statistic
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let statistic = self.statistic {
+            try encodeContainer.encode(statistic.rawValue, forKey: .statistic)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsUtteranceMetricName.self, forKey: .name)
+        name = nameDecoded
+        let statisticDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsMetricStatistic.self, forKey: .statistic)
+        statistic = statisticDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// An object containing the results for the utterance metric you requested.
+    public struct AnalyticsUtteranceMetricResult: Swift.Equatable {
+        /// The metric that you requested.
+        ///
+        /// * Count – The number of utterances.
+        ///
+        /// * Missed – The number of utterances that Amazon Lex failed to recognize.
+        ///
+        /// * Detected – The number of utterances that Amazon Lex managed to detect.
+        ///
+        /// * UtteranceTimestamp – The date and time of the utterance.
+        public var name: LexModelsV2ClientTypes.AnalyticsUtteranceMetricName?
+        /// The summary statistic that you requested to calculate.
+        ///
+        /// * Sum – The total count for the category you provide in name.
+        ///
+        /// * Average – The total count divided by the number of utterances in the category you provide in name.
+        ///
+        /// * Max – The highest count in the category you provide in name.
+        public var statistic: LexModelsV2ClientTypes.AnalyticsMetricStatistic?
+        /// The value of the summary statistic for the metric that you requested.
+        public var value: Swift.Double?
+
+        public init(
+            name: LexModelsV2ClientTypes.AnalyticsUtteranceMetricName? = nil,
+            statistic: LexModelsV2ClientTypes.AnalyticsMetricStatistic? = nil,
+            value: Swift.Double? = nil
+        )
+        {
+            self.name = name
+            self.statistic = statistic
+            self.value = value
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.AnalyticsUtteranceResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeResults
+        case binKeys
+        case groupByKeys
+        case metricsResults
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributeResults = attributeResults {
+            var attributeResultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeResults)
+            for analyticsutteranceattributeresult0 in attributeResults {
+                try attributeResultsContainer.encode(analyticsutteranceattributeresult0)
+            }
+        }
+        if let binKeys = binKeys {
+            var binKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .binKeys)
+            for analyticsbinkey0 in binKeys {
+                try binKeysContainer.encode(analyticsbinkey0)
+            }
+        }
+        if let groupByKeys = groupByKeys {
+            var groupByKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupByKeys)
+            for analyticsutterancegroupbykey0 in groupByKeys {
+                try groupByKeysContainer.encode(analyticsutterancegroupbykey0)
+            }
+        }
+        if let metricsResults = metricsResults {
+            var metricsResultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricsResults)
+            for analyticsutterancemetricresult0 in metricsResults {
+                try metricsResultsContainer.encode(analyticsutterancemetricresult0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let binKeysContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsBinKey?].self, forKey: .binKeys)
+        var binKeysDecoded0:[LexModelsV2ClientTypes.AnalyticsBinKey]? = nil
+        if let binKeysContainer = binKeysContainer {
+            binKeysDecoded0 = [LexModelsV2ClientTypes.AnalyticsBinKey]()
+            for structure0 in binKeysContainer {
+                if let structure0 = structure0 {
+                    binKeysDecoded0?.append(structure0)
+                }
+            }
+        }
+        binKeys = binKeysDecoded0
+        let groupByKeysContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsUtteranceGroupByKey?].self, forKey: .groupByKeys)
+        var groupByKeysDecoded0:[LexModelsV2ClientTypes.AnalyticsUtteranceGroupByKey]? = nil
+        if let groupByKeysContainer = groupByKeysContainer {
+            groupByKeysDecoded0 = [LexModelsV2ClientTypes.AnalyticsUtteranceGroupByKey]()
+            for structure0 in groupByKeysContainer {
+                if let structure0 = structure0 {
+                    groupByKeysDecoded0?.append(structure0)
+                }
+            }
+        }
+        groupByKeys = groupByKeysDecoded0
+        let metricsResultsContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsUtteranceMetricResult?].self, forKey: .metricsResults)
+        var metricsResultsDecoded0:[LexModelsV2ClientTypes.AnalyticsUtteranceMetricResult]? = nil
+        if let metricsResultsContainer = metricsResultsContainer {
+            metricsResultsDecoded0 = [LexModelsV2ClientTypes.AnalyticsUtteranceMetricResult]()
+            for structure0 in metricsResultsContainer {
+                if let structure0 = structure0 {
+                    metricsResultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        metricsResults = metricsResultsDecoded0
+        let attributeResultsContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsUtteranceAttributeResult?].self, forKey: .attributeResults)
+        var attributeResultsDecoded0:[LexModelsV2ClientTypes.AnalyticsUtteranceAttributeResult]? = nil
+        if let attributeResultsContainer = attributeResultsContainer {
+            attributeResultsDecoded0 = [LexModelsV2ClientTypes.AnalyticsUtteranceAttributeResult]()
+            for structure0 in attributeResultsContainer {
+                if let structure0 = structure0 {
+                    attributeResultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        attributeResults = attributeResultsDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// An object containing the results for the utterance metrics you requested and the bin and/or group(s) they refer to, if applicable.
+    public struct AnalyticsUtteranceResult: Swift.Equatable {
+        /// A list of objects containing information about the last used intent at the time of an utterance.
+        public var attributeResults: [LexModelsV2ClientTypes.AnalyticsUtteranceAttributeResult]?
+        /// A list of objects containing the criteria you requested for binning results and the values of the bins.
+        public var binKeys: [LexModelsV2ClientTypes.AnalyticsBinKey]?
+        /// A list of objects containing the criteria you requested for grouping results and the values of the bins.
+        public var groupByKeys: [LexModelsV2ClientTypes.AnalyticsUtteranceGroupByKey]?
+        /// A list of objects, each of which contains a metric you want to list, the statistic for the metric you want to return, and the method by which to organize the results.
+        public var metricsResults: [LexModelsV2ClientTypes.AnalyticsUtteranceMetricResult]?
+
+        public init(
+            attributeResults: [LexModelsV2ClientTypes.AnalyticsUtteranceAttributeResult]? = nil,
+            binKeys: [LexModelsV2ClientTypes.AnalyticsBinKey]? = nil,
+            groupByKeys: [LexModelsV2ClientTypes.AnalyticsUtteranceGroupByKey]? = nil,
+            metricsResults: [LexModelsV2ClientTypes.AnalyticsUtteranceMetricResult]? = nil
+        )
+        {
+            self.attributeResults = attributeResults
+            self.binKeys = binKeys
+            self.groupByKeys = groupByKeys
+            self.metricsResults = metricsResults
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    public enum AnalyticsUtteranceSortByName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case utterancetimestamp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyticsUtteranceSortByName] {
+            return [
+                .utterancetimestamp,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .utterancetimestamp: return "UtteranceTimestamp"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnalyticsUtteranceSortByName(rawValue: rawValue) ?? AnalyticsUtteranceSortByName.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension LexModelsV2ClientTypes.AssociatedTranscript: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case transcript
@@ -4111,6 +7239,41 @@ extension ConflictExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    public enum ConversationEndState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case dropped
+        case failure
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConversationEndState] {
+            return [
+                .dropped,
+                .failure,
+                .success,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .dropped: return "Dropped"
+            case .failure: return "Failure"
+            case .success: return "Success"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ConversationEndState(rawValue: rawValue) ?? ConversationEndState.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -16012,6 +19175,50 @@ extension LexModelsV2ClientTypes {
 
 }
 
+extension LexModelsV2ClientTypes {
+    public enum IntentState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case fulfilled
+        case fulfillmentinprogress
+        case inprogress
+        case readyforfulfillment
+        case waiting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IntentState] {
+            return [
+                .failed,
+                .fulfilled,
+                .fulfillmentinprogress,
+                .inprogress,
+                .readyforfulfillment,
+                .waiting,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "Failed"
+            case .fulfilled: return "Fulfilled"
+            case .fulfillmentinprogress: return "FulfillmentInProgress"
+            case .inprogress: return "InProgress"
+            case .readyforfulfillment: return "ReadyForFulfillment"
+            case .waiting: return "Waiting"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = IntentState(rawValue: rawValue) ?? IntentState.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension LexModelsV2ClientTypes.IntentStatistics: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case discoveredIntentCount
@@ -16219,6 +19426,41 @@ extension InternalServerExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension LexModelsV2ClientTypes.InvokedIntentSample: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case intentName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let intentName = self.intentName {
+            try encodeContainer.encode(intentName, forKey: .intentName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let intentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .intentName)
+        intentName = intentNameDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// An object containing the name of an intent that was invoked.
+    public struct InvokedIntentSample: Swift.Equatable {
+        /// The name of an intent that was invoked.
+        public var intentName: Swift.String?
+
+        public init(
+            intentName: Swift.String? = nil
+        )
+        {
+            self.intentName = intentName
+        }
+    }
+
 }
 
 extension LexModelsV2ClientTypes.KendraConfiguration: Swift.Codable {
@@ -18518,6 +21760,738 @@ extension ListImportsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListIntentMetricsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case binBy
+        case endDateTime
+        case filters
+        case groupBy
+        case maxResults
+        case metrics
+        case nextToken
+        case startDateTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let binBy = binBy {
+            var binByContainer = encodeContainer.nestedUnkeyedContainer(forKey: .binBy)
+            for analyticsbinbyspecification0 in binBy {
+                try binByContainer.encode(analyticsbinbyspecification0)
+            }
+        }
+        if let endDateTime = self.endDateTime {
+            try encodeContainer.encodeTimestamp(endDateTime, format: .epochSeconds, forKey: .endDateTime)
+        }
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for analyticsintentfilter0 in filters {
+                try filtersContainer.encode(analyticsintentfilter0)
+            }
+        }
+        if let groupBy = groupBy {
+            var groupByContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupBy)
+            for analyticsintentgroupbyspecification0 in groupBy {
+                try groupByContainer.encode(analyticsintentgroupbyspecification0)
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let metrics = metrics {
+            var metricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metrics)
+            for analyticsintentmetric0 in metrics {
+                try metricsContainer.encode(analyticsintentmetric0)
+            }
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let startDateTime = self.startDateTime {
+            try encodeContainer.encodeTimestamp(startDateTime, format: .epochSeconds, forKey: .startDateTime)
+        }
+    }
+}
+
+extension ListIntentMetricsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let botId = botId else {
+            return nil
+        }
+        return "/bots/\(botId.urlPercentEncoding())/analytics/intentmetrics"
+    }
+}
+
+public struct ListIntentMetricsInput: Swift.Equatable {
+    /// A list of objects, each of which contains specifications for organizing the results by time.
+    public var binBy: [LexModelsV2ClientTypes.AnalyticsBinBySpecification]?
+    /// The identifier for the bot for which you want to retrieve intent metrics.
+    /// This member is required.
+    public var botId: Swift.String?
+    /// The date and time that marks the end of the range of time for which you want to see intent metrics.
+    /// This member is required.
+    public var endDateTime: ClientRuntime.Date?
+    /// A list of objects, each of which describes a condition by which you want to filter the results.
+    public var filters: [LexModelsV2ClientTypes.AnalyticsIntentFilter]?
+    /// A list of objects, each of which specifies how to group the results. You can group by the following criteria:
+    ///
+    /// * IntentName – The name of the intent.
+    ///
+    /// * IntentEndState – The final state of the intent. The possible end states are detailed in [Key definitions](https://docs.aws.amazon.com/analytics-key-definitions-intents) in the user guide.
+    public var groupBy: [LexModelsV2ClientTypes.AnalyticsIntentGroupBySpecification]?
+    /// The maximum number of results to return in each page of results. If there are fewer results than the maximum page size, only the actual number of results are returned.
+    public var maxResults: Swift.Int?
+    /// A list of objects, each of which contains a metric you want to list, the statistic for the metric you want to return, and the order by which to organize the results.
+    /// This member is required.
+    public var metrics: [LexModelsV2ClientTypes.AnalyticsIntentMetric]?
+    /// If the response from the ListIntentMetrics operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListIntentMetrics request to return the next page of results. For a complete set of results, call the ListIntentMetrics operation until the nextToken returned in the response is null.
+    public var nextToken: Swift.String?
+    /// The timestamp that marks the beginning of the range of time for which you want to see intent metrics.
+    /// This member is required.
+    public var startDateTime: ClientRuntime.Date?
+
+    public init(
+        binBy: [LexModelsV2ClientTypes.AnalyticsBinBySpecification]? = nil,
+        botId: Swift.String? = nil,
+        endDateTime: ClientRuntime.Date? = nil,
+        filters: [LexModelsV2ClientTypes.AnalyticsIntentFilter]? = nil,
+        groupBy: [LexModelsV2ClientTypes.AnalyticsIntentGroupBySpecification]? = nil,
+        maxResults: Swift.Int? = nil,
+        metrics: [LexModelsV2ClientTypes.AnalyticsIntentMetric]? = nil,
+        nextToken: Swift.String? = nil,
+        startDateTime: ClientRuntime.Date? = nil
+    )
+    {
+        self.binBy = binBy
+        self.botId = botId
+        self.endDateTime = endDateTime
+        self.filters = filters
+        self.groupBy = groupBy
+        self.maxResults = maxResults
+        self.metrics = metrics
+        self.nextToken = nextToken
+        self.startDateTime = startDateTime
+    }
+}
+
+struct ListIntentMetricsInputBody: Swift.Equatable {
+    let startDateTime: ClientRuntime.Date?
+    let endDateTime: ClientRuntime.Date?
+    let metrics: [LexModelsV2ClientTypes.AnalyticsIntentMetric]?
+    let binBy: [LexModelsV2ClientTypes.AnalyticsBinBySpecification]?
+    let groupBy: [LexModelsV2ClientTypes.AnalyticsIntentGroupBySpecification]?
+    let filters: [LexModelsV2ClientTypes.AnalyticsIntentFilter]?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListIntentMetricsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case binBy
+        case endDateTime
+        case filters
+        case groupBy
+        case maxResults
+        case metrics
+        case nextToken
+        case startDateTime
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startDateTime)
+        startDateTime = startDateTimeDecoded
+        let endDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endDateTime)
+        endDateTime = endDateTimeDecoded
+        let metricsContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsIntentMetric?].self, forKey: .metrics)
+        var metricsDecoded0:[LexModelsV2ClientTypes.AnalyticsIntentMetric]? = nil
+        if let metricsContainer = metricsContainer {
+            metricsDecoded0 = [LexModelsV2ClientTypes.AnalyticsIntentMetric]()
+            for structure0 in metricsContainer {
+                if let structure0 = structure0 {
+                    metricsDecoded0?.append(structure0)
+                }
+            }
+        }
+        metrics = metricsDecoded0
+        let binByContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsBinBySpecification?].self, forKey: .binBy)
+        var binByDecoded0:[LexModelsV2ClientTypes.AnalyticsBinBySpecification]? = nil
+        if let binByContainer = binByContainer {
+            binByDecoded0 = [LexModelsV2ClientTypes.AnalyticsBinBySpecification]()
+            for structure0 in binByContainer {
+                if let structure0 = structure0 {
+                    binByDecoded0?.append(structure0)
+                }
+            }
+        }
+        binBy = binByDecoded0
+        let groupByContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsIntentGroupBySpecification?].self, forKey: .groupBy)
+        var groupByDecoded0:[LexModelsV2ClientTypes.AnalyticsIntentGroupBySpecification]? = nil
+        if let groupByContainer = groupByContainer {
+            groupByDecoded0 = [LexModelsV2ClientTypes.AnalyticsIntentGroupBySpecification]()
+            for structure0 in groupByContainer {
+                if let structure0 = structure0 {
+                    groupByDecoded0?.append(structure0)
+                }
+            }
+        }
+        groupBy = groupByDecoded0
+        let filtersContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsIntentFilter?].self, forKey: .filters)
+        var filtersDecoded0:[LexModelsV2ClientTypes.AnalyticsIntentFilter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [LexModelsV2ClientTypes.AnalyticsIntentFilter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+public enum ListIntentMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionFailedException": return try await PreconditionFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListIntentMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListIntentMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.botId = output.botId
+            self.nextToken = output.nextToken
+            self.results = output.results
+        } else {
+            self.botId = nil
+            self.nextToken = nil
+            self.results = nil
+        }
+    }
+}
+
+public struct ListIntentMetricsOutputResponse: Swift.Equatable {
+    /// The identifier for the bot for which you retrieved intent metrics.
+    public var botId: Swift.String?
+    /// If the response from the ListIntentMetrics operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListIntentMetrics request to return the next page of results. For a complete set of results, call the ListIntentMetrics operation until the nextToken returned in the response is null.
+    public var nextToken: Swift.String?
+    /// The results for the intent metrics.
+    public var results: [LexModelsV2ClientTypes.AnalyticsIntentResult]?
+
+    public init(
+        botId: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        results: [LexModelsV2ClientTypes.AnalyticsIntentResult]? = nil
+    )
+    {
+        self.botId = botId
+        self.nextToken = nextToken
+        self.results = results
+    }
+}
+
+struct ListIntentMetricsOutputResponseBody: Swift.Equatable {
+    let botId: Swift.String?
+    let results: [LexModelsV2ClientTypes.AnalyticsIntentResult]?
+    let nextToken: Swift.String?
+}
+
+extension ListIntentMetricsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botId
+        case nextToken
+        case results
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let botIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botId)
+        botId = botIdDecoded
+        let resultsContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsIntentResult?].self, forKey: .results)
+        var resultsDecoded0:[LexModelsV2ClientTypes.AnalyticsIntentResult]? = nil
+        if let resultsContainer = resultsContainer {
+            resultsDecoded0 = [LexModelsV2ClientTypes.AnalyticsIntentResult]()
+            for structure0 in resultsContainer {
+                if let structure0 = structure0 {
+                    resultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        results = resultsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListIntentPathsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endDateTime
+        case filters
+        case intentPath
+        case startDateTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endDateTime = self.endDateTime {
+            try encodeContainer.encodeTimestamp(endDateTime, format: .epochSeconds, forKey: .endDateTime)
+        }
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for analyticspathfilter0 in filters {
+                try filtersContainer.encode(analyticspathfilter0)
+            }
+        }
+        if let intentPath = self.intentPath {
+            try encodeContainer.encode(intentPath, forKey: .intentPath)
+        }
+        if let startDateTime = self.startDateTime {
+            try encodeContainer.encodeTimestamp(startDateTime, format: .epochSeconds, forKey: .startDateTime)
+        }
+    }
+}
+
+extension ListIntentPathsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let botId = botId else {
+            return nil
+        }
+        return "/bots/\(botId.urlPercentEncoding())/analytics/intentpaths"
+    }
+}
+
+public struct ListIntentPathsInput: Swift.Equatable {
+    /// The identifier for the bot for which you want to retrieve intent path metrics.
+    /// This member is required.
+    public var botId: Swift.String?
+    /// The date and time that marks the end of the range of time for which you want to see intent path metrics.
+    /// This member is required.
+    public var endDateTime: ClientRuntime.Date?
+    /// A list of objects, each describes a condition by which you want to filter the results.
+    public var filters: [LexModelsV2ClientTypes.AnalyticsPathFilter]?
+    /// The intent path for which you want to retrieve metrics. Use a forward slash to separate intents in the path. For example:
+    ///
+    /// * /BookCar
+    ///
+    /// * /BookCar/BookHotel
+    ///
+    /// * /BookHotel/BookCar
+    /// This member is required.
+    public var intentPath: Swift.String?
+    /// The date and time that marks the beginning of the range of time for which you want to see intent path metrics.
+    /// This member is required.
+    public var startDateTime: ClientRuntime.Date?
+
+    public init(
+        botId: Swift.String? = nil,
+        endDateTime: ClientRuntime.Date? = nil,
+        filters: [LexModelsV2ClientTypes.AnalyticsPathFilter]? = nil,
+        intentPath: Swift.String? = nil,
+        startDateTime: ClientRuntime.Date? = nil
+    )
+    {
+        self.botId = botId
+        self.endDateTime = endDateTime
+        self.filters = filters
+        self.intentPath = intentPath
+        self.startDateTime = startDateTime
+    }
+}
+
+struct ListIntentPathsInputBody: Swift.Equatable {
+    let startDateTime: ClientRuntime.Date?
+    let endDateTime: ClientRuntime.Date?
+    let intentPath: Swift.String?
+    let filters: [LexModelsV2ClientTypes.AnalyticsPathFilter]?
+}
+
+extension ListIntentPathsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endDateTime
+        case filters
+        case intentPath
+        case startDateTime
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startDateTime)
+        startDateTime = startDateTimeDecoded
+        let endDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endDateTime)
+        endDateTime = endDateTimeDecoded
+        let intentPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .intentPath)
+        intentPath = intentPathDecoded
+        let filtersContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsPathFilter?].self, forKey: .filters)
+        var filtersDecoded0:[LexModelsV2ClientTypes.AnalyticsPathFilter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [LexModelsV2ClientTypes.AnalyticsPathFilter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+    }
+}
+
+public enum ListIntentPathsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionFailedException": return try await PreconditionFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListIntentPathsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListIntentPathsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nodeSummaries = output.nodeSummaries
+        } else {
+            self.nodeSummaries = nil
+        }
+    }
+}
+
+public struct ListIntentPathsOutputResponse: Swift.Equatable {
+    /// A list of objects, each of which contains information about a node in the intent path for which you requested metrics.
+    public var nodeSummaries: [LexModelsV2ClientTypes.AnalyticsIntentNodeSummary]?
+
+    public init(
+        nodeSummaries: [LexModelsV2ClientTypes.AnalyticsIntentNodeSummary]? = nil
+    )
+    {
+        self.nodeSummaries = nodeSummaries
+    }
+}
+
+struct ListIntentPathsOutputResponseBody: Swift.Equatable {
+    let nodeSummaries: [LexModelsV2ClientTypes.AnalyticsIntentNodeSummary]?
+}
+
+extension ListIntentPathsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nodeSummaries
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nodeSummariesContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsIntentNodeSummary?].self, forKey: .nodeSummaries)
+        var nodeSummariesDecoded0:[LexModelsV2ClientTypes.AnalyticsIntentNodeSummary]? = nil
+        if let nodeSummariesContainer = nodeSummariesContainer {
+            nodeSummariesDecoded0 = [LexModelsV2ClientTypes.AnalyticsIntentNodeSummary]()
+            for structure0 in nodeSummariesContainer {
+                if let structure0 = structure0 {
+                    nodeSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        nodeSummaries = nodeSummariesDecoded0
+    }
+}
+
+extension ListIntentStageMetricsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case binBy
+        case endDateTime
+        case filters
+        case groupBy
+        case maxResults
+        case metrics
+        case nextToken
+        case startDateTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let binBy = binBy {
+            var binByContainer = encodeContainer.nestedUnkeyedContainer(forKey: .binBy)
+            for analyticsbinbyspecification0 in binBy {
+                try binByContainer.encode(analyticsbinbyspecification0)
+            }
+        }
+        if let endDateTime = self.endDateTime {
+            try encodeContainer.encodeTimestamp(endDateTime, format: .epochSeconds, forKey: .endDateTime)
+        }
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for analyticsintentstagefilter0 in filters {
+                try filtersContainer.encode(analyticsintentstagefilter0)
+            }
+        }
+        if let groupBy = groupBy {
+            var groupByContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupBy)
+            for analyticsintentstagegroupbyspecification0 in groupBy {
+                try groupByContainer.encode(analyticsintentstagegroupbyspecification0)
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let metrics = metrics {
+            var metricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metrics)
+            for analyticsintentstagemetric0 in metrics {
+                try metricsContainer.encode(analyticsintentstagemetric0)
+            }
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let startDateTime = self.startDateTime {
+            try encodeContainer.encodeTimestamp(startDateTime, format: .epochSeconds, forKey: .startDateTime)
+        }
+    }
+}
+
+extension ListIntentStageMetricsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let botId = botId else {
+            return nil
+        }
+        return "/bots/\(botId.urlPercentEncoding())/analytics/intentstagemetrics"
+    }
+}
+
+public struct ListIntentStageMetricsInput: Swift.Equatable {
+    /// A list of objects, each of which contains specifications for organizing the results by time.
+    public var binBy: [LexModelsV2ClientTypes.AnalyticsBinBySpecification]?
+    /// The identifier for the bot for which you want to retrieve intent stage metrics.
+    /// This member is required.
+    public var botId: Swift.String?
+    /// The date and time that marks the end of the range of time for which you want to see intent stage metrics.
+    /// This member is required.
+    public var endDateTime: ClientRuntime.Date?
+    /// A list of objects, each of which describes a condition by which you want to filter the results.
+    public var filters: [LexModelsV2ClientTypes.AnalyticsIntentStageFilter]?
+    /// A list of objects, each of which specifies how to group the results. You can group by the following criteria:
+    ///
+    /// * IntentStageName – The name of the intent stage.
+    ///
+    /// * SwitchedToIntent – The intent to which the conversation was switched (if any).
+    public var groupBy: [LexModelsV2ClientTypes.AnalyticsIntentStageGroupBySpecification]?
+    /// The maximum number of results to return in each page of results. If there are fewer results than the maximum page size, only the actual number of results are returned.
+    public var maxResults: Swift.Int?
+    /// A list of objects, each of which contains a metric you want to list, the statistic for the metric you want to return, and the method by which to organize the results.
+    /// This member is required.
+    public var metrics: [LexModelsV2ClientTypes.AnalyticsIntentStageMetric]?
+    /// If the response from the ListIntentStageMetrics operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListIntentStageMetrics request to return the next page of results. For a complete set of results, call the ListIntentStageMetrics operation until the nextToken returned in the response is null.
+    public var nextToken: Swift.String?
+    /// The date and time that marks the beginning of the range of time for which you want to see intent stage metrics.
+    /// This member is required.
+    public var startDateTime: ClientRuntime.Date?
+
+    public init(
+        binBy: [LexModelsV2ClientTypes.AnalyticsBinBySpecification]? = nil,
+        botId: Swift.String? = nil,
+        endDateTime: ClientRuntime.Date? = nil,
+        filters: [LexModelsV2ClientTypes.AnalyticsIntentStageFilter]? = nil,
+        groupBy: [LexModelsV2ClientTypes.AnalyticsIntentStageGroupBySpecification]? = nil,
+        maxResults: Swift.Int? = nil,
+        metrics: [LexModelsV2ClientTypes.AnalyticsIntentStageMetric]? = nil,
+        nextToken: Swift.String? = nil,
+        startDateTime: ClientRuntime.Date? = nil
+    )
+    {
+        self.binBy = binBy
+        self.botId = botId
+        self.endDateTime = endDateTime
+        self.filters = filters
+        self.groupBy = groupBy
+        self.maxResults = maxResults
+        self.metrics = metrics
+        self.nextToken = nextToken
+        self.startDateTime = startDateTime
+    }
+}
+
+struct ListIntentStageMetricsInputBody: Swift.Equatable {
+    let startDateTime: ClientRuntime.Date?
+    let endDateTime: ClientRuntime.Date?
+    let metrics: [LexModelsV2ClientTypes.AnalyticsIntentStageMetric]?
+    let binBy: [LexModelsV2ClientTypes.AnalyticsBinBySpecification]?
+    let groupBy: [LexModelsV2ClientTypes.AnalyticsIntentStageGroupBySpecification]?
+    let filters: [LexModelsV2ClientTypes.AnalyticsIntentStageFilter]?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListIntentStageMetricsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case binBy
+        case endDateTime
+        case filters
+        case groupBy
+        case maxResults
+        case metrics
+        case nextToken
+        case startDateTime
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startDateTime)
+        startDateTime = startDateTimeDecoded
+        let endDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endDateTime)
+        endDateTime = endDateTimeDecoded
+        let metricsContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsIntentStageMetric?].self, forKey: .metrics)
+        var metricsDecoded0:[LexModelsV2ClientTypes.AnalyticsIntentStageMetric]? = nil
+        if let metricsContainer = metricsContainer {
+            metricsDecoded0 = [LexModelsV2ClientTypes.AnalyticsIntentStageMetric]()
+            for structure0 in metricsContainer {
+                if let structure0 = structure0 {
+                    metricsDecoded0?.append(structure0)
+                }
+            }
+        }
+        metrics = metricsDecoded0
+        let binByContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsBinBySpecification?].self, forKey: .binBy)
+        var binByDecoded0:[LexModelsV2ClientTypes.AnalyticsBinBySpecification]? = nil
+        if let binByContainer = binByContainer {
+            binByDecoded0 = [LexModelsV2ClientTypes.AnalyticsBinBySpecification]()
+            for structure0 in binByContainer {
+                if let structure0 = structure0 {
+                    binByDecoded0?.append(structure0)
+                }
+            }
+        }
+        binBy = binByDecoded0
+        let groupByContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsIntentStageGroupBySpecification?].self, forKey: .groupBy)
+        var groupByDecoded0:[LexModelsV2ClientTypes.AnalyticsIntentStageGroupBySpecification]? = nil
+        if let groupByContainer = groupByContainer {
+            groupByDecoded0 = [LexModelsV2ClientTypes.AnalyticsIntentStageGroupBySpecification]()
+            for structure0 in groupByContainer {
+                if let structure0 = structure0 {
+                    groupByDecoded0?.append(structure0)
+                }
+            }
+        }
+        groupBy = groupByDecoded0
+        let filtersContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsIntentStageFilter?].self, forKey: .filters)
+        var filtersDecoded0:[LexModelsV2ClientTypes.AnalyticsIntentStageFilter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [LexModelsV2ClientTypes.AnalyticsIntentStageFilter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+public enum ListIntentStageMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionFailedException": return try await PreconditionFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListIntentStageMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListIntentStageMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.botId = output.botId
+            self.nextToken = output.nextToken
+            self.results = output.results
+        } else {
+            self.botId = nil
+            self.nextToken = nil
+            self.results = nil
+        }
+    }
+}
+
+public struct ListIntentStageMetricsOutputResponse: Swift.Equatable {
+    /// The identifier for the bot for which you retrieved intent stage metrics.
+    public var botId: Swift.String?
+    /// If the response from the ListIntentStageMetrics operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListIntentStageMetrics request to return the next page of results. For a complete set of results, call the ListIntentStageMetrics operation until the nextToken returned in the response is null.
+    public var nextToken: Swift.String?
+    /// The results for the intent stage metrics.
+    public var results: [LexModelsV2ClientTypes.AnalyticsIntentStageResult]?
+
+    public init(
+        botId: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        results: [LexModelsV2ClientTypes.AnalyticsIntentStageResult]? = nil
+    )
+    {
+        self.botId = botId
+        self.nextToken = nextToken
+        self.results = results
+    }
+}
+
+struct ListIntentStageMetricsOutputResponseBody: Swift.Equatable {
+    let botId: Swift.String?
+    let results: [LexModelsV2ClientTypes.AnalyticsIntentStageResult]?
+    let nextToken: Swift.String?
+}
+
+extension ListIntentStageMetricsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botId
+        case nextToken
+        case results
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let botIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botId)
+        botId = botIdDecoded
+        let resultsContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsIntentStageResult?].self, forKey: .results)
+        var resultsDecoded0:[LexModelsV2ClientTypes.AnalyticsIntentStageResult]? = nil
+        if let resultsContainer = resultsContainer {
+            resultsDecoded0 = [LexModelsV2ClientTypes.AnalyticsIntentStageResult]()
+            for structure0 in resultsContainer {
+                if let structure0 = structure0 {
+                    resultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        results = resultsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension ListIntentsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filters
@@ -18940,6 +22914,497 @@ extension ListRecommendedIntentsOutputResponseBody: Swift.Decodable {
             }
         }
         summaryList = summaryListDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListSessionAnalyticsDataInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endDateTime
+        case filters
+        case maxResults
+        case nextToken
+        case sortBy
+        case startDateTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endDateTime = self.endDateTime {
+            try encodeContainer.encodeTimestamp(endDateTime, format: .epochSeconds, forKey: .endDateTime)
+        }
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for analyticssessionfilter0 in filters {
+                try filtersContainer.encode(analyticssessionfilter0)
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let sortBy = self.sortBy {
+            try encodeContainer.encode(sortBy, forKey: .sortBy)
+        }
+        if let startDateTime = self.startDateTime {
+            try encodeContainer.encodeTimestamp(startDateTime, format: .epochSeconds, forKey: .startDateTime)
+        }
+    }
+}
+
+extension ListSessionAnalyticsDataInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let botId = botId else {
+            return nil
+        }
+        return "/bots/\(botId.urlPercentEncoding())/analytics/sessions"
+    }
+}
+
+public struct ListSessionAnalyticsDataInput: Swift.Equatable {
+    /// The identifier for the bot for which you want to retrieve session analytics.
+    /// This member is required.
+    public var botId: Swift.String?
+    /// The date and time that marks the end of the range of time for which you want to see session analytics.
+    /// This member is required.
+    public var endDateTime: ClientRuntime.Date?
+    /// A list of objects, each of which describes a condition by which you want to filter the results.
+    public var filters: [LexModelsV2ClientTypes.AnalyticsSessionFilter]?
+    /// The maximum number of results to return in each page of results. If there are fewer results than the maximum page size, only the actual number of results are returned.
+    public var maxResults: Swift.Int?
+    /// If the response from the ListSessionAnalyticsData operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListSessionAnalyticsData request to return the next page of results. For a complete set of results, call the ListSessionAnalyticsData operation until the nextToken returned in the response is null.
+    public var nextToken: Swift.String?
+    /// An object specifying the measure and method by which to sort the session analytics data.
+    public var sortBy: LexModelsV2ClientTypes.SessionDataSortBy?
+    /// The date and time that marks the beginning of the range of time for which you want to see session analytics.
+    /// This member is required.
+    public var startDateTime: ClientRuntime.Date?
+
+    public init(
+        botId: Swift.String? = nil,
+        endDateTime: ClientRuntime.Date? = nil,
+        filters: [LexModelsV2ClientTypes.AnalyticsSessionFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sortBy: LexModelsV2ClientTypes.SessionDataSortBy? = nil,
+        startDateTime: ClientRuntime.Date? = nil
+    )
+    {
+        self.botId = botId
+        self.endDateTime = endDateTime
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sortBy = sortBy
+        self.startDateTime = startDateTime
+    }
+}
+
+struct ListSessionAnalyticsDataInputBody: Swift.Equatable {
+    let startDateTime: ClientRuntime.Date?
+    let endDateTime: ClientRuntime.Date?
+    let sortBy: LexModelsV2ClientTypes.SessionDataSortBy?
+    let filters: [LexModelsV2ClientTypes.AnalyticsSessionFilter]?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListSessionAnalyticsDataInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endDateTime
+        case filters
+        case maxResults
+        case nextToken
+        case sortBy
+        case startDateTime
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startDateTime)
+        startDateTime = startDateTimeDecoded
+        let endDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endDateTime)
+        endDateTime = endDateTimeDecoded
+        let sortByDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.SessionDataSortBy.self, forKey: .sortBy)
+        sortBy = sortByDecoded
+        let filtersContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsSessionFilter?].self, forKey: .filters)
+        var filtersDecoded0:[LexModelsV2ClientTypes.AnalyticsSessionFilter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [LexModelsV2ClientTypes.AnalyticsSessionFilter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+public enum ListSessionAnalyticsDataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionFailedException": return try await PreconditionFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListSessionAnalyticsDataOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListSessionAnalyticsDataOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.botId = output.botId
+            self.nextToken = output.nextToken
+            self.sessions = output.sessions
+        } else {
+            self.botId = nil
+            self.nextToken = nil
+            self.sessions = nil
+        }
+    }
+}
+
+public struct ListSessionAnalyticsDataOutputResponse: Swift.Equatable {
+    /// The unique identifier of the bot that the sessions belong to.
+    public var botId: Swift.String?
+    /// If the response from the ListSessionAnalyticsData operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListSessionAnalyticsData request to return the next page of results. For a complete set of results, call the ListSessionAnalyticsData operation until the nextToken returned in the response is null.
+    public var nextToken: Swift.String?
+    /// A list of objects, each of which contains information about a session with the bot.
+    public var sessions: [LexModelsV2ClientTypes.SessionSpecification]?
+
+    public init(
+        botId: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        sessions: [LexModelsV2ClientTypes.SessionSpecification]? = nil
+    )
+    {
+        self.botId = botId
+        self.nextToken = nextToken
+        self.sessions = sessions
+    }
+}
+
+struct ListSessionAnalyticsDataOutputResponseBody: Swift.Equatable {
+    let botId: Swift.String?
+    let nextToken: Swift.String?
+    let sessions: [LexModelsV2ClientTypes.SessionSpecification]?
+}
+
+extension ListSessionAnalyticsDataOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botId
+        case nextToken
+        case sessions
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let botIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botId)
+        botId = botIdDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let sessionsContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.SessionSpecification?].self, forKey: .sessions)
+        var sessionsDecoded0:[LexModelsV2ClientTypes.SessionSpecification]? = nil
+        if let sessionsContainer = sessionsContainer {
+            sessionsDecoded0 = [LexModelsV2ClientTypes.SessionSpecification]()
+            for structure0 in sessionsContainer {
+                if let structure0 = structure0 {
+                    sessionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        sessions = sessionsDecoded0
+    }
+}
+
+extension ListSessionMetricsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case binBy
+        case endDateTime
+        case filters
+        case groupBy
+        case maxResults
+        case metrics
+        case nextToken
+        case startDateTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let binBy = binBy {
+            var binByContainer = encodeContainer.nestedUnkeyedContainer(forKey: .binBy)
+            for analyticsbinbyspecification0 in binBy {
+                try binByContainer.encode(analyticsbinbyspecification0)
+            }
+        }
+        if let endDateTime = self.endDateTime {
+            try encodeContainer.encodeTimestamp(endDateTime, format: .epochSeconds, forKey: .endDateTime)
+        }
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for analyticssessionfilter0 in filters {
+                try filtersContainer.encode(analyticssessionfilter0)
+            }
+        }
+        if let groupBy = groupBy {
+            var groupByContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupBy)
+            for analyticssessiongroupbyspecification0 in groupBy {
+                try groupByContainer.encode(analyticssessiongroupbyspecification0)
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let metrics = metrics {
+            var metricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metrics)
+            for analyticssessionmetric0 in metrics {
+                try metricsContainer.encode(analyticssessionmetric0)
+            }
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let startDateTime = self.startDateTime {
+            try encodeContainer.encodeTimestamp(startDateTime, format: .epochSeconds, forKey: .startDateTime)
+        }
+    }
+}
+
+extension ListSessionMetricsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let botId = botId else {
+            return nil
+        }
+        return "/bots/\(botId.urlPercentEncoding())/analytics/sessionmetrics"
+    }
+}
+
+public struct ListSessionMetricsInput: Swift.Equatable {
+    /// A list of objects, each of which contains specifications for organizing the results by time.
+    public var binBy: [LexModelsV2ClientTypes.AnalyticsBinBySpecification]?
+    /// The identifier for the bot for which you want to retrieve session metrics.
+    /// This member is required.
+    public var botId: Swift.String?
+    /// The date and time that marks the end of the range of time for which you want to see session metrics.
+    /// This member is required.
+    public var endDateTime: ClientRuntime.Date?
+    /// A list of objects, each of which describes a condition by which you want to filter the results.
+    public var filters: [LexModelsV2ClientTypes.AnalyticsSessionFilter]?
+    /// A list of objects, each of which specifies how to group the results. You can group by the following criteria:
+    ///
+    /// * ConversationEndState – The final state of the conversation. The possible end states are detailed in [Key definitions](https://docs.aws.amazon.com/analytics-key-definitions-conversations) in the user guide.
+    ///
+    /// * LocaleId – The unique identifier of the bot locale.
+    public var groupBy: [LexModelsV2ClientTypes.AnalyticsSessionGroupBySpecification]?
+    /// The maximum number of results to return in each page of results. If there are fewer results than the maximum page size, only the actual number of results are returned.
+    public var maxResults: Swift.Int?
+    /// A list of objects, each of which contains a metric you want to list, the statistic for the metric you want to return, and the method by which to organize the results.
+    /// This member is required.
+    public var metrics: [LexModelsV2ClientTypes.AnalyticsSessionMetric]?
+    /// If the response from the ListSessionMetrics operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListSessionMetrics request to return the next page of results. For a complete set of results, call the ListSessionMetrics operation until the nextToken returned in the response is null.
+    public var nextToken: Swift.String?
+    /// The date and time that marks the beginning of the range of time for which you want to see session metrics.
+    /// This member is required.
+    public var startDateTime: ClientRuntime.Date?
+
+    public init(
+        binBy: [LexModelsV2ClientTypes.AnalyticsBinBySpecification]? = nil,
+        botId: Swift.String? = nil,
+        endDateTime: ClientRuntime.Date? = nil,
+        filters: [LexModelsV2ClientTypes.AnalyticsSessionFilter]? = nil,
+        groupBy: [LexModelsV2ClientTypes.AnalyticsSessionGroupBySpecification]? = nil,
+        maxResults: Swift.Int? = nil,
+        metrics: [LexModelsV2ClientTypes.AnalyticsSessionMetric]? = nil,
+        nextToken: Swift.String? = nil,
+        startDateTime: ClientRuntime.Date? = nil
+    )
+    {
+        self.binBy = binBy
+        self.botId = botId
+        self.endDateTime = endDateTime
+        self.filters = filters
+        self.groupBy = groupBy
+        self.maxResults = maxResults
+        self.metrics = metrics
+        self.nextToken = nextToken
+        self.startDateTime = startDateTime
+    }
+}
+
+struct ListSessionMetricsInputBody: Swift.Equatable {
+    let startDateTime: ClientRuntime.Date?
+    let endDateTime: ClientRuntime.Date?
+    let metrics: [LexModelsV2ClientTypes.AnalyticsSessionMetric]?
+    let binBy: [LexModelsV2ClientTypes.AnalyticsBinBySpecification]?
+    let groupBy: [LexModelsV2ClientTypes.AnalyticsSessionGroupBySpecification]?
+    let filters: [LexModelsV2ClientTypes.AnalyticsSessionFilter]?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListSessionMetricsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case binBy
+        case endDateTime
+        case filters
+        case groupBy
+        case maxResults
+        case metrics
+        case nextToken
+        case startDateTime
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startDateTime)
+        startDateTime = startDateTimeDecoded
+        let endDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endDateTime)
+        endDateTime = endDateTimeDecoded
+        let metricsContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsSessionMetric?].self, forKey: .metrics)
+        var metricsDecoded0:[LexModelsV2ClientTypes.AnalyticsSessionMetric]? = nil
+        if let metricsContainer = metricsContainer {
+            metricsDecoded0 = [LexModelsV2ClientTypes.AnalyticsSessionMetric]()
+            for structure0 in metricsContainer {
+                if let structure0 = structure0 {
+                    metricsDecoded0?.append(structure0)
+                }
+            }
+        }
+        metrics = metricsDecoded0
+        let binByContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsBinBySpecification?].self, forKey: .binBy)
+        var binByDecoded0:[LexModelsV2ClientTypes.AnalyticsBinBySpecification]? = nil
+        if let binByContainer = binByContainer {
+            binByDecoded0 = [LexModelsV2ClientTypes.AnalyticsBinBySpecification]()
+            for structure0 in binByContainer {
+                if let structure0 = structure0 {
+                    binByDecoded0?.append(structure0)
+                }
+            }
+        }
+        binBy = binByDecoded0
+        let groupByContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsSessionGroupBySpecification?].self, forKey: .groupBy)
+        var groupByDecoded0:[LexModelsV2ClientTypes.AnalyticsSessionGroupBySpecification]? = nil
+        if let groupByContainer = groupByContainer {
+            groupByDecoded0 = [LexModelsV2ClientTypes.AnalyticsSessionGroupBySpecification]()
+            for structure0 in groupByContainer {
+                if let structure0 = structure0 {
+                    groupByDecoded0?.append(structure0)
+                }
+            }
+        }
+        groupBy = groupByDecoded0
+        let filtersContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsSessionFilter?].self, forKey: .filters)
+        var filtersDecoded0:[LexModelsV2ClientTypes.AnalyticsSessionFilter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [LexModelsV2ClientTypes.AnalyticsSessionFilter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+public enum ListSessionMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionFailedException": return try await PreconditionFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListSessionMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListSessionMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.botId = output.botId
+            self.nextToken = output.nextToken
+            self.results = output.results
+        } else {
+            self.botId = nil
+            self.nextToken = nil
+            self.results = nil
+        }
+    }
+}
+
+public struct ListSessionMetricsOutputResponse: Swift.Equatable {
+    /// The identifier for the bot for which you retrieved session metrics.
+    public var botId: Swift.String?
+    /// If the response from the ListSessionMetrics operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListSessionMetrics request to return the next page of results. For a complete set of results, call the ListSessionMetrics operation until the nextToken returned in the response is null.
+    public var nextToken: Swift.String?
+    /// The results for the session metrics.
+    public var results: [LexModelsV2ClientTypes.AnalyticsSessionResult]?
+
+    public init(
+        botId: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        results: [LexModelsV2ClientTypes.AnalyticsSessionResult]? = nil
+    )
+    {
+        self.botId = botId
+        self.nextToken = nextToken
+        self.results = results
+    }
+}
+
+struct ListSessionMetricsOutputResponseBody: Swift.Equatable {
+    let botId: Swift.String?
+    let results: [LexModelsV2ClientTypes.AnalyticsSessionResult]?
+    let nextToken: Swift.String?
+}
+
+extension ListSessionMetricsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botId
+        case nextToken
+        case results
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let botIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botId)
+        botId = botIdDecoded
+        let resultsContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsSessionResult?].self, forKey: .results)
+        var resultsDecoded0:[LexModelsV2ClientTypes.AnalyticsSessionResult]? = nil
+        if let resultsContainer = resultsContainer {
+            resultsDecoded0 = [LexModelsV2ClientTypes.AnalyticsSessionResult]()
+            for structure0 in resultsContainer {
+                if let structure0 = structure0 {
+                    resultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        results = resultsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
@@ -20070,6 +24535,523 @@ extension ListTestSetsOutputResponseBody: Swift.Decodable {
             }
         }
         testSets = testSetsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListUtteranceAnalyticsDataInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endDateTime
+        case filters
+        case maxResults
+        case nextToken
+        case sortBy
+        case startDateTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endDateTime = self.endDateTime {
+            try encodeContainer.encodeTimestamp(endDateTime, format: .epochSeconds, forKey: .endDateTime)
+        }
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for analyticsutterancefilter0 in filters {
+                try filtersContainer.encode(analyticsutterancefilter0)
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let sortBy = self.sortBy {
+            try encodeContainer.encode(sortBy, forKey: .sortBy)
+        }
+        if let startDateTime = self.startDateTime {
+            try encodeContainer.encodeTimestamp(startDateTime, format: .epochSeconds, forKey: .startDateTime)
+        }
+    }
+}
+
+extension ListUtteranceAnalyticsDataInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let botId = botId else {
+            return nil
+        }
+        return "/bots/\(botId.urlPercentEncoding())/analytics/utterances"
+    }
+}
+
+public struct ListUtteranceAnalyticsDataInput: Swift.Equatable {
+    /// The identifier for the bot for which you want to retrieve utterance analytics.
+    /// This member is required.
+    public var botId: Swift.String?
+    /// The date and time that marks the end of the range of time for which you want to see utterance analytics.
+    /// This member is required.
+    public var endDateTime: ClientRuntime.Date?
+    /// A list of objects, each of which describes a condition by which you want to filter the results.
+    public var filters: [LexModelsV2ClientTypes.AnalyticsUtteranceFilter]?
+    /// The maximum number of results to return in each page of results. If there are fewer results than the maximum page size, only the actual number of results are returned.
+    public var maxResults: Swift.Int?
+    /// If the response from the ListUtteranceAnalyticsData operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListUtteranceAnalyticsData request to return the next page of results. For a complete set of results, call the ListUtteranceAnalyticsData operation until the nextToken returned in the response is null.
+    public var nextToken: Swift.String?
+    /// An object specifying the measure and method by which to sort the utterance analytics data.
+    public var sortBy: LexModelsV2ClientTypes.UtteranceDataSortBy?
+    /// The date and time that marks the beginning of the range of time for which you want to see utterance analytics.
+    /// This member is required.
+    public var startDateTime: ClientRuntime.Date?
+
+    public init(
+        botId: Swift.String? = nil,
+        endDateTime: ClientRuntime.Date? = nil,
+        filters: [LexModelsV2ClientTypes.AnalyticsUtteranceFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sortBy: LexModelsV2ClientTypes.UtteranceDataSortBy? = nil,
+        startDateTime: ClientRuntime.Date? = nil
+    )
+    {
+        self.botId = botId
+        self.endDateTime = endDateTime
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sortBy = sortBy
+        self.startDateTime = startDateTime
+    }
+}
+
+struct ListUtteranceAnalyticsDataInputBody: Swift.Equatable {
+    let startDateTime: ClientRuntime.Date?
+    let endDateTime: ClientRuntime.Date?
+    let sortBy: LexModelsV2ClientTypes.UtteranceDataSortBy?
+    let filters: [LexModelsV2ClientTypes.AnalyticsUtteranceFilter]?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListUtteranceAnalyticsDataInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endDateTime
+        case filters
+        case maxResults
+        case nextToken
+        case sortBy
+        case startDateTime
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startDateTime)
+        startDateTime = startDateTimeDecoded
+        let endDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endDateTime)
+        endDateTime = endDateTimeDecoded
+        let sortByDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.UtteranceDataSortBy.self, forKey: .sortBy)
+        sortBy = sortByDecoded
+        let filtersContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsUtteranceFilter?].self, forKey: .filters)
+        var filtersDecoded0:[LexModelsV2ClientTypes.AnalyticsUtteranceFilter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [LexModelsV2ClientTypes.AnalyticsUtteranceFilter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+public enum ListUtteranceAnalyticsDataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionFailedException": return try await PreconditionFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListUtteranceAnalyticsDataOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListUtteranceAnalyticsDataOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.botId = output.botId
+            self.nextToken = output.nextToken
+            self.utterances = output.utterances
+        } else {
+            self.botId = nil
+            self.nextToken = nil
+            self.utterances = nil
+        }
+    }
+}
+
+public struct ListUtteranceAnalyticsDataOutputResponse: Swift.Equatable {
+    /// The unique identifier of the bot that the utterances belong to.
+    public var botId: Swift.String?
+    /// If the response from the ListUtteranceAnalyticsData operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListUtteranceAnalyticsData request to return the next page of results. For a complete set of results, call the ListUtteranceAnalyticsData operation until the nextToken returned in the response is null.
+    public var nextToken: Swift.String?
+    /// A list of objects, each of which contains information about an utterance in a user session with your bot.
+    public var utterances: [LexModelsV2ClientTypes.UtteranceSpecification]?
+
+    public init(
+        botId: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        utterances: [LexModelsV2ClientTypes.UtteranceSpecification]? = nil
+    )
+    {
+        self.botId = botId
+        self.nextToken = nextToken
+        self.utterances = utterances
+    }
+}
+
+struct ListUtteranceAnalyticsDataOutputResponseBody: Swift.Equatable {
+    let botId: Swift.String?
+    let nextToken: Swift.String?
+    let utterances: [LexModelsV2ClientTypes.UtteranceSpecification]?
+}
+
+extension ListUtteranceAnalyticsDataOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botId
+        case nextToken
+        case utterances
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let botIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botId)
+        botId = botIdDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let utterancesContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.UtteranceSpecification?].self, forKey: .utterances)
+        var utterancesDecoded0:[LexModelsV2ClientTypes.UtteranceSpecification]? = nil
+        if let utterancesContainer = utterancesContainer {
+            utterancesDecoded0 = [LexModelsV2ClientTypes.UtteranceSpecification]()
+            for structure0 in utterancesContainer {
+                if let structure0 = structure0 {
+                    utterancesDecoded0?.append(structure0)
+                }
+            }
+        }
+        utterances = utterancesDecoded0
+    }
+}
+
+extension ListUtteranceMetricsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributes
+        case binBy
+        case endDateTime
+        case filters
+        case groupBy
+        case maxResults
+        case metrics
+        case nextToken
+        case startDateTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributes = attributes {
+            var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
+            for analyticsutteranceattribute0 in attributes {
+                try attributesContainer.encode(analyticsutteranceattribute0)
+            }
+        }
+        if let binBy = binBy {
+            var binByContainer = encodeContainer.nestedUnkeyedContainer(forKey: .binBy)
+            for analyticsbinbyspecification0 in binBy {
+                try binByContainer.encode(analyticsbinbyspecification0)
+            }
+        }
+        if let endDateTime = self.endDateTime {
+            try encodeContainer.encodeTimestamp(endDateTime, format: .epochSeconds, forKey: .endDateTime)
+        }
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for analyticsutterancefilter0 in filters {
+                try filtersContainer.encode(analyticsutterancefilter0)
+            }
+        }
+        if let groupBy = groupBy {
+            var groupByContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupBy)
+            for analyticsutterancegroupbyspecification0 in groupBy {
+                try groupByContainer.encode(analyticsutterancegroupbyspecification0)
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let metrics = metrics {
+            var metricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metrics)
+            for analyticsutterancemetric0 in metrics {
+                try metricsContainer.encode(analyticsutterancemetric0)
+            }
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let startDateTime = self.startDateTime {
+            try encodeContainer.encodeTimestamp(startDateTime, format: .epochSeconds, forKey: .startDateTime)
+        }
+    }
+}
+
+extension ListUtteranceMetricsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let botId = botId else {
+            return nil
+        }
+        return "/bots/\(botId.urlPercentEncoding())/analytics/utterancemetrics"
+    }
+}
+
+public struct ListUtteranceMetricsInput: Swift.Equatable {
+    /// A list containing attributes related to the utterance that you want the response to return. The following attributes are possible:
+    ///
+    /// * LastUsedIntent – The last used intent at the time of the utterance.
+    public var attributes: [LexModelsV2ClientTypes.AnalyticsUtteranceAttribute]?
+    /// A list of objects, each of which contains specifications for organizing the results by time.
+    public var binBy: [LexModelsV2ClientTypes.AnalyticsBinBySpecification]?
+    /// The identifier for the bot for which you want to retrieve utterance metrics.
+    /// This member is required.
+    public var botId: Swift.String?
+    /// The date and time that marks the end of the range of time for which you want to see utterance metrics.
+    /// This member is required.
+    public var endDateTime: ClientRuntime.Date?
+    /// A list of objects, each of which describes a condition by which you want to filter the results.
+    public var filters: [LexModelsV2ClientTypes.AnalyticsUtteranceFilter]?
+    /// A list of objects, each of which specifies how to group the results. You can group by the following criteria:
+    ///
+    /// * UtteranceText – The transcription of the utterance.
+    ///
+    /// * UtteranceState – The state of the utterance. The possible states are detailed in [Key definitions](https://docs.aws.amazon.com/analytics-key-definitions-utterances) in the user guide.
+    public var groupBy: [LexModelsV2ClientTypes.AnalyticsUtteranceGroupBySpecification]?
+    /// The maximum number of results to return in each page of results. If there are fewer results than the maximum page size, only the actual number of results are returned.
+    public var maxResults: Swift.Int?
+    /// A list of objects, each of which contains a metric you want to list, the statistic for the metric you want to return, and the method by which to organize the results.
+    /// This member is required.
+    public var metrics: [LexModelsV2ClientTypes.AnalyticsUtteranceMetric]?
+    /// If the response from the ListUtteranceMetrics operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListUtteranceMetrics request to return the next page of results. For a complete set of results, call the ListUtteranceMetrics operation until the nextToken returned in the response is null.
+    public var nextToken: Swift.String?
+    /// The date and time that marks the beginning of the range of time for which you want to see utterance metrics.
+    /// This member is required.
+    public var startDateTime: ClientRuntime.Date?
+
+    public init(
+        attributes: [LexModelsV2ClientTypes.AnalyticsUtteranceAttribute]? = nil,
+        binBy: [LexModelsV2ClientTypes.AnalyticsBinBySpecification]? = nil,
+        botId: Swift.String? = nil,
+        endDateTime: ClientRuntime.Date? = nil,
+        filters: [LexModelsV2ClientTypes.AnalyticsUtteranceFilter]? = nil,
+        groupBy: [LexModelsV2ClientTypes.AnalyticsUtteranceGroupBySpecification]? = nil,
+        maxResults: Swift.Int? = nil,
+        metrics: [LexModelsV2ClientTypes.AnalyticsUtteranceMetric]? = nil,
+        nextToken: Swift.String? = nil,
+        startDateTime: ClientRuntime.Date? = nil
+    )
+    {
+        self.attributes = attributes
+        self.binBy = binBy
+        self.botId = botId
+        self.endDateTime = endDateTime
+        self.filters = filters
+        self.groupBy = groupBy
+        self.maxResults = maxResults
+        self.metrics = metrics
+        self.nextToken = nextToken
+        self.startDateTime = startDateTime
+    }
+}
+
+struct ListUtteranceMetricsInputBody: Swift.Equatable {
+    let startDateTime: ClientRuntime.Date?
+    let endDateTime: ClientRuntime.Date?
+    let metrics: [LexModelsV2ClientTypes.AnalyticsUtteranceMetric]?
+    let binBy: [LexModelsV2ClientTypes.AnalyticsBinBySpecification]?
+    let groupBy: [LexModelsV2ClientTypes.AnalyticsUtteranceGroupBySpecification]?
+    let attributes: [LexModelsV2ClientTypes.AnalyticsUtteranceAttribute]?
+    let filters: [LexModelsV2ClientTypes.AnalyticsUtteranceFilter]?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListUtteranceMetricsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributes
+        case binBy
+        case endDateTime
+        case filters
+        case groupBy
+        case maxResults
+        case metrics
+        case nextToken
+        case startDateTime
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startDateTime)
+        startDateTime = startDateTimeDecoded
+        let endDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endDateTime)
+        endDateTime = endDateTimeDecoded
+        let metricsContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsUtteranceMetric?].self, forKey: .metrics)
+        var metricsDecoded0:[LexModelsV2ClientTypes.AnalyticsUtteranceMetric]? = nil
+        if let metricsContainer = metricsContainer {
+            metricsDecoded0 = [LexModelsV2ClientTypes.AnalyticsUtteranceMetric]()
+            for structure0 in metricsContainer {
+                if let structure0 = structure0 {
+                    metricsDecoded0?.append(structure0)
+                }
+            }
+        }
+        metrics = metricsDecoded0
+        let binByContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsBinBySpecification?].self, forKey: .binBy)
+        var binByDecoded0:[LexModelsV2ClientTypes.AnalyticsBinBySpecification]? = nil
+        if let binByContainer = binByContainer {
+            binByDecoded0 = [LexModelsV2ClientTypes.AnalyticsBinBySpecification]()
+            for structure0 in binByContainer {
+                if let structure0 = structure0 {
+                    binByDecoded0?.append(structure0)
+                }
+            }
+        }
+        binBy = binByDecoded0
+        let groupByContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsUtteranceGroupBySpecification?].self, forKey: .groupBy)
+        var groupByDecoded0:[LexModelsV2ClientTypes.AnalyticsUtteranceGroupBySpecification]? = nil
+        if let groupByContainer = groupByContainer {
+            groupByDecoded0 = [LexModelsV2ClientTypes.AnalyticsUtteranceGroupBySpecification]()
+            for structure0 in groupByContainer {
+                if let structure0 = structure0 {
+                    groupByDecoded0?.append(structure0)
+                }
+            }
+        }
+        groupBy = groupByDecoded0
+        let attributesContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsUtteranceAttribute?].self, forKey: .attributes)
+        var attributesDecoded0:[LexModelsV2ClientTypes.AnalyticsUtteranceAttribute]? = nil
+        if let attributesContainer = attributesContainer {
+            attributesDecoded0 = [LexModelsV2ClientTypes.AnalyticsUtteranceAttribute]()
+            for structure0 in attributesContainer {
+                if let structure0 = structure0 {
+                    attributesDecoded0?.append(structure0)
+                }
+            }
+        }
+        attributes = attributesDecoded0
+        let filtersContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsUtteranceFilter?].self, forKey: .filters)
+        var filtersDecoded0:[LexModelsV2ClientTypes.AnalyticsUtteranceFilter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [LexModelsV2ClientTypes.AnalyticsUtteranceFilter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+public enum ListUtteranceMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionFailedException": return try await PreconditionFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListUtteranceMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListUtteranceMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.botId = output.botId
+            self.nextToken = output.nextToken
+            self.results = output.results
+        } else {
+            self.botId = nil
+            self.nextToken = nil
+            self.results = nil
+        }
+    }
+}
+
+public struct ListUtteranceMetricsOutputResponse: Swift.Equatable {
+    /// The identifier for the bot for which you retrieved utterance metrics.
+    public var botId: Swift.String?
+    /// If the response from the ListUtteranceMetrics operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListUtteranceMetrics request to return the next page of results. For a complete set of results, call the ListUtteranceMetrics operation until the nextToken returned in the response is null.
+    public var nextToken: Swift.String?
+    /// The results for the utterance metrics.
+    public var results: [LexModelsV2ClientTypes.AnalyticsUtteranceResult]?
+
+    public init(
+        botId: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        results: [LexModelsV2ClientTypes.AnalyticsUtteranceResult]? = nil
+    )
+    {
+        self.botId = botId
+        self.nextToken = nextToken
+        self.results = results
+    }
+}
+
+struct ListUtteranceMetricsOutputResponseBody: Swift.Equatable {
+    let botId: Swift.String?
+    let results: [LexModelsV2ClientTypes.AnalyticsUtteranceResult]?
+    let nextToken: Swift.String?
+}
+
+extension ListUtteranceMetricsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botId
+        case nextToken
+        case results
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let botIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botId)
+        botId = botIdDecoded
+        let resultsContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.AnalyticsUtteranceResult?].self, forKey: .results)
+        var resultsDecoded0:[LexModelsV2ClientTypes.AnalyticsUtteranceResult]? = nil
+        if let resultsContainer = resultsContainer {
+            resultsDecoded0 = [LexModelsV2ClientTypes.AnalyticsUtteranceResult]()
+            for structure0 in resultsContainer {
+                if let structure0 = structure0 {
+                    resultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        results = resultsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
@@ -22298,6 +27280,234 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension LexModelsV2ClientTypes.SessionDataSortBy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case order
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let order = self.order {
+            try encodeContainer.encode(order.rawValue, forKey: .order)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsSessionSortByName.self, forKey: .name)
+        name = nameDecoded
+        let orderDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsSortOrder.self, forKey: .order)
+        order = orderDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// An object specifying the measure and method by which to sort the session analytics data.
+    public struct SessionDataSortBy: Swift.Equatable {
+        /// The measure by which to sort the session analytics data.
+        ///
+        /// * conversationStartTime – The date and time when the conversation began. A conversation is defined as a unique combination of a sessionId and an originatingRequestId.
+        ///
+        /// * numberOfTurns – The number of turns that the session took.
+        ///
+        /// * conversationDurationSeconds – The duration of the conversation in seconds.
+        /// This member is required.
+        public var name: LexModelsV2ClientTypes.AnalyticsSessionSortByName?
+        /// Specifies whether to sort the results in ascending or descending order.
+        /// This member is required.
+        public var order: LexModelsV2ClientTypes.AnalyticsSortOrder?
+
+        public init(
+            name: LexModelsV2ClientTypes.AnalyticsSessionSortByName? = nil,
+            order: LexModelsV2ClientTypes.AnalyticsSortOrder? = nil
+        )
+        {
+            self.name = name
+            self.order = order
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.SessionSpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botAliasId
+        case botVersion
+        case channel
+        case conversationDurationSeconds
+        case conversationEndState
+        case conversationEndTime
+        case conversationStartTime
+        case invokedIntentSamples
+        case localeId
+        case mode
+        case numberOfTurns
+        case originatingRequestId
+        case sessionId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let botAliasId = self.botAliasId {
+            try encodeContainer.encode(botAliasId, forKey: .botAliasId)
+        }
+        if let botVersion = self.botVersion {
+            try encodeContainer.encode(botVersion, forKey: .botVersion)
+        }
+        if let channel = self.channel {
+            try encodeContainer.encode(channel, forKey: .channel)
+        }
+        if let conversationDurationSeconds = self.conversationDurationSeconds {
+            try encodeContainer.encode(conversationDurationSeconds, forKey: .conversationDurationSeconds)
+        }
+        if let conversationEndState = self.conversationEndState {
+            try encodeContainer.encode(conversationEndState.rawValue, forKey: .conversationEndState)
+        }
+        if let conversationEndTime = self.conversationEndTime {
+            try encodeContainer.encodeTimestamp(conversationEndTime, format: .epochSeconds, forKey: .conversationEndTime)
+        }
+        if let conversationStartTime = self.conversationStartTime {
+            try encodeContainer.encodeTimestamp(conversationStartTime, format: .epochSeconds, forKey: .conversationStartTime)
+        }
+        if let invokedIntentSamples = invokedIntentSamples {
+            var invokedIntentSamplesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .invokedIntentSamples)
+            for invokedintentsample0 in invokedIntentSamples {
+                try invokedIntentSamplesContainer.encode(invokedintentsample0)
+            }
+        }
+        if let localeId = self.localeId {
+            try encodeContainer.encode(localeId, forKey: .localeId)
+        }
+        if let mode = self.mode {
+            try encodeContainer.encode(mode.rawValue, forKey: .mode)
+        }
+        if let numberOfTurns = self.numberOfTurns {
+            try encodeContainer.encode(numberOfTurns, forKey: .numberOfTurns)
+        }
+        if let originatingRequestId = self.originatingRequestId {
+            try encodeContainer.encode(originatingRequestId, forKey: .originatingRequestId)
+        }
+        if let sessionId = self.sessionId {
+            try encodeContainer.encode(sessionId, forKey: .sessionId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let botAliasIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botAliasId)
+        botAliasId = botAliasIdDecoded
+        let botVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botVersion)
+        botVersion = botVersionDecoded
+        let localeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .localeId)
+        localeId = localeIdDecoded
+        let channelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .channel)
+        channel = channelDecoded
+        let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
+        sessionId = sessionIdDecoded
+        let conversationStartTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .conversationStartTime)
+        conversationStartTime = conversationStartTimeDecoded
+        let conversationEndTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .conversationEndTime)
+        conversationEndTime = conversationEndTimeDecoded
+        let conversationDurationSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .conversationDurationSeconds)
+        conversationDurationSeconds = conversationDurationSecondsDecoded
+        let conversationEndStateDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.ConversationEndState.self, forKey: .conversationEndState)
+        conversationEndState = conversationEndStateDecoded
+        let modeDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsModality.self, forKey: .mode)
+        mode = modeDecoded
+        let numberOfTurnsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfTurns)
+        numberOfTurns = numberOfTurnsDecoded
+        let invokedIntentSamplesContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.InvokedIntentSample?].self, forKey: .invokedIntentSamples)
+        var invokedIntentSamplesDecoded0:[LexModelsV2ClientTypes.InvokedIntentSample]? = nil
+        if let invokedIntentSamplesContainer = invokedIntentSamplesContainer {
+            invokedIntentSamplesDecoded0 = [LexModelsV2ClientTypes.InvokedIntentSample]()
+            for structure0 in invokedIntentSamplesContainer {
+                if let structure0 = structure0 {
+                    invokedIntentSamplesDecoded0?.append(structure0)
+                }
+            }
+        }
+        invokedIntentSamples = invokedIntentSamplesDecoded0
+        let originatingRequestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .originatingRequestId)
+        originatingRequestId = originatingRequestIdDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// An object containing information about a specific session.
+    public struct SessionSpecification: Swift.Equatable {
+        /// The identifier of the alias of the bot that the session was held with.
+        public var botAliasId: Swift.String?
+        /// The version of the bot that the session was held with.
+        public var botVersion: Swift.String?
+        /// The channel that is integrated with the bot that the session was held with.
+        public var channel: Swift.String?
+        /// The duration of the conversation in seconds. A conversation is defined as a unique combination of a sessionId and an originatingRequestId.
+        public var conversationDurationSeconds: Swift.Int?
+        /// The final state of the conversation. A conversation is defined as a unique combination of a sessionId and an originatingRequestId.
+        public var conversationEndState: LexModelsV2ClientTypes.ConversationEndState?
+        /// The date and time when the conversation ended. A conversation is defined as a unique combination of a sessionId and an originatingRequestId.
+        public var conversationEndTime: ClientRuntime.Date?
+        /// The date and time when the conversation began. A conversation is defined as a unique combination of a sessionId and an originatingRequestId.
+        public var conversationStartTime: ClientRuntime.Date?
+        /// A list of objects containing the name of an intent that was invoked.
+        public var invokedIntentSamples: [LexModelsV2ClientTypes.InvokedIntentSample]?
+        /// The locale of the bot that the session was held with.
+        public var localeId: Swift.String?
+        /// The mode of the session. The possible values are as follows:
+        ///
+        /// * Speech – The session was spoken.
+        ///
+        /// * Text – The session was written.
+        ///
+        /// * DTMF – The session used a touch-tone keypad (Dual Tone Multi-Frequency).
+        ///
+        /// * MultiMode – The session used multiple modes.
+        public var mode: LexModelsV2ClientTypes.AnalyticsModality?
+        /// The number of turns that the session took.
+        public var numberOfTurns: Swift.Int?
+        /// The identifier of the first request in a session.
+        public var originatingRequestId: Swift.String?
+        /// The identifier of the session.
+        public var sessionId: Swift.String?
+
+        public init(
+            botAliasId: Swift.String? = nil,
+            botVersion: Swift.String? = nil,
+            channel: Swift.String? = nil,
+            conversationDurationSeconds: Swift.Int? = nil,
+            conversationEndState: LexModelsV2ClientTypes.ConversationEndState? = nil,
+            conversationEndTime: ClientRuntime.Date? = nil,
+            conversationStartTime: ClientRuntime.Date? = nil,
+            invokedIntentSamples: [LexModelsV2ClientTypes.InvokedIntentSample]? = nil,
+            localeId: Swift.String? = nil,
+            mode: LexModelsV2ClientTypes.AnalyticsModality? = nil,
+            numberOfTurns: Swift.Int? = nil,
+            originatingRequestId: Swift.String? = nil,
+            sessionId: Swift.String? = nil
+        )
+        {
+            self.botAliasId = botAliasId
+            self.botVersion = botVersion
+            self.channel = channel
+            self.conversationDurationSeconds = conversationDurationSeconds
+            self.conversationEndState = conversationEndState
+            self.conversationEndTime = conversationEndTime
+            self.conversationStartTime = conversationStartTime
+            self.invokedIntentSamples = invokedIntentSamples
+            self.localeId = localeId
+            self.mode = mode
+            self.numberOfTurns = numberOfTurns
+            self.originatingRequestId = originatingRequestId
+            self.sessionId = sessionId
+        }
+    }
+
 }
 
 extension LexModelsV2ClientTypes.SlotCaptureSetting: Swift.Codable {
@@ -30620,6 +35830,158 @@ extension LexModelsV2ClientTypes {
 
 }
 
+extension LexModelsV2ClientTypes.UtteranceBotResponse: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case content
+        case contentType
+        case imageResponseCard
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let content = self.content {
+            try encodeContainer.encode(content, forKey: .content)
+        }
+        if let contentType = self.contentType {
+            try encodeContainer.encode(contentType.rawValue, forKey: .contentType)
+        }
+        if let imageResponseCard = self.imageResponseCard {
+            try encodeContainer.encode(imageResponseCard, forKey: .imageResponseCard)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let contentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .content)
+        content = contentDecoded
+        let contentTypeDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.UtteranceContentType.self, forKey: .contentType)
+        contentType = contentTypeDecoded
+        let imageResponseCardDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.ImageResponseCard.self, forKey: .imageResponseCard)
+        imageResponseCard = imageResponseCardDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// An object that contains a response to the utterance from the bot.
+    public struct UtteranceBotResponse: Swift.Equatable {
+        /// The text of the response to the utterance from the bot.
+        public var content: Swift.String?
+        /// The type of the response. The following values are possible:
+        ///
+        /// * PlainText – A plain text string.
+        ///
+        /// * CustomPayload – A response string that you can customize to include data or metadata for your application.
+        ///
+        /// * SSML – A string that includes Speech Synthesis Markup Language to customize the audio response.
+        ///
+        /// * ImageResponseCard – An image with buttons that the customer can select. See [ImageResponseCard](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_runtime_ImageResponseCard.html) for more information.
+        public var contentType: LexModelsV2ClientTypes.UtteranceContentType?
+        /// A card that is shown to the user by a messaging platform. You define the contents of the card, the card is displayed by the platform. When you use a response card, the response from the user is constrained to the text associated with a button on the card.
+        public var imageResponseCard: LexModelsV2ClientTypes.ImageResponseCard?
+
+        public init(
+            content: Swift.String? = nil,
+            contentType: LexModelsV2ClientTypes.UtteranceContentType? = nil,
+            imageResponseCard: LexModelsV2ClientTypes.ImageResponseCard? = nil
+        )
+        {
+            self.content = content
+            self.contentType = contentType
+            self.imageResponseCard = imageResponseCard
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    public enum UtteranceContentType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case custompayload
+        case imageresponsecard
+        case plaintext
+        case ssml
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UtteranceContentType] {
+            return [
+                .custompayload,
+                .imageresponsecard,
+                .plaintext,
+                .ssml,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .custompayload: return "CustomPayload"
+            case .imageresponsecard: return "ImageResponseCard"
+            case .plaintext: return "PlainText"
+            case .ssml: return "SSML"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = UtteranceContentType(rawValue: rawValue) ?? UtteranceContentType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.UtteranceDataSortBy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case order
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let order = self.order {
+            try encodeContainer.encode(order.rawValue, forKey: .order)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsUtteranceSortByName.self, forKey: .name)
+        name = nameDecoded
+        let orderDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsSortOrder.self, forKey: .order)
+        order = orderDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// An object specifying the measure and method by which to sort the utterance data.
+    public struct UtteranceDataSortBy: Swift.Equatable {
+        /// The measure by which to sort the utterance analytics data.
+        ///
+        /// * Count – The number of utterances.
+        ///
+        /// * UtteranceTimestamp – The date and time of the utterance.
+        /// This member is required.
+        public var name: LexModelsV2ClientTypes.AnalyticsUtteranceSortByName?
+        /// Specifies whether to sort the results in ascending or descending order.
+        /// This member is required.
+        public var order: LexModelsV2ClientTypes.AnalyticsSortOrder?
+
+        public init(
+            name: LexModelsV2ClientTypes.AnalyticsUtteranceSortByName? = nil,
+            order: LexModelsV2ClientTypes.AnalyticsSortOrder? = nil
+        )
+        {
+            self.name = name
+            self.order = order
+        }
+    }
+
+}
+
 extension LexModelsV2ClientTypes.UtteranceInputSpecification: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case audioInput
@@ -30765,6 +36127,303 @@ extension LexModelsV2ClientTypes {
         )
         {
             self.items = items
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.UtteranceSpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associatedIntentName
+        case associatedSlotName
+        case audioVoiceDurationMillis
+        case botAliasId
+        case botResponseAudioVoiceId
+        case botResponses
+        case botVersion
+        case channel
+        case conversationEndTime
+        case conversationStartTime
+        case dialogActionType
+        case inputType
+        case intentState
+        case localeId
+        case mode
+        case outputType
+        case sessionId
+        case slotsFilledInSession
+        case utterance
+        case utteranceRequestId
+        case utteranceTimestamp
+        case utteranceUnderstood
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let associatedIntentName = self.associatedIntentName {
+            try encodeContainer.encode(associatedIntentName, forKey: .associatedIntentName)
+        }
+        if let associatedSlotName = self.associatedSlotName {
+            try encodeContainer.encode(associatedSlotName, forKey: .associatedSlotName)
+        }
+        if let audioVoiceDurationMillis = self.audioVoiceDurationMillis {
+            try encodeContainer.encode(audioVoiceDurationMillis, forKey: .audioVoiceDurationMillis)
+        }
+        if let botAliasId = self.botAliasId {
+            try encodeContainer.encode(botAliasId, forKey: .botAliasId)
+        }
+        if let botResponseAudioVoiceId = self.botResponseAudioVoiceId {
+            try encodeContainer.encode(botResponseAudioVoiceId, forKey: .botResponseAudioVoiceId)
+        }
+        if let botResponses = botResponses {
+            var botResponsesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .botResponses)
+            for utterancebotresponse0 in botResponses {
+                try botResponsesContainer.encode(utterancebotresponse0)
+            }
+        }
+        if let botVersion = self.botVersion {
+            try encodeContainer.encode(botVersion, forKey: .botVersion)
+        }
+        if let channel = self.channel {
+            try encodeContainer.encode(channel, forKey: .channel)
+        }
+        if let conversationEndTime = self.conversationEndTime {
+            try encodeContainer.encodeTimestamp(conversationEndTime, format: .epochSeconds, forKey: .conversationEndTime)
+        }
+        if let conversationStartTime = self.conversationStartTime {
+            try encodeContainer.encodeTimestamp(conversationStartTime, format: .epochSeconds, forKey: .conversationStartTime)
+        }
+        if let dialogActionType = self.dialogActionType {
+            try encodeContainer.encode(dialogActionType, forKey: .dialogActionType)
+        }
+        if let inputType = self.inputType {
+            try encodeContainer.encode(inputType, forKey: .inputType)
+        }
+        if let intentState = self.intentState {
+            try encodeContainer.encode(intentState.rawValue, forKey: .intentState)
+        }
+        if let localeId = self.localeId {
+            try encodeContainer.encode(localeId, forKey: .localeId)
+        }
+        if let mode = self.mode {
+            try encodeContainer.encode(mode.rawValue, forKey: .mode)
+        }
+        if let outputType = self.outputType {
+            try encodeContainer.encode(outputType, forKey: .outputType)
+        }
+        if let sessionId = self.sessionId {
+            try encodeContainer.encode(sessionId, forKey: .sessionId)
+        }
+        if let slotsFilledInSession = self.slotsFilledInSession {
+            try encodeContainer.encode(slotsFilledInSession, forKey: .slotsFilledInSession)
+        }
+        if let utterance = self.utterance {
+            try encodeContainer.encode(utterance, forKey: .utterance)
+        }
+        if let utteranceRequestId = self.utteranceRequestId {
+            try encodeContainer.encode(utteranceRequestId, forKey: .utteranceRequestId)
+        }
+        if let utteranceTimestamp = self.utteranceTimestamp {
+            try encodeContainer.encodeTimestamp(utteranceTimestamp, format: .epochSeconds, forKey: .utteranceTimestamp)
+        }
+        if utteranceUnderstood != false {
+            try encodeContainer.encode(utteranceUnderstood, forKey: .utteranceUnderstood)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let botAliasIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botAliasId)
+        botAliasId = botAliasIdDecoded
+        let botVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botVersion)
+        botVersion = botVersionDecoded
+        let localeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .localeId)
+        localeId = localeIdDecoded
+        let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
+        sessionId = sessionIdDecoded
+        let channelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .channel)
+        channel = channelDecoded
+        let modeDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AnalyticsModality.self, forKey: .mode)
+        mode = modeDecoded
+        let conversationStartTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .conversationStartTime)
+        conversationStartTime = conversationStartTimeDecoded
+        let conversationEndTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .conversationEndTime)
+        conversationEndTime = conversationEndTimeDecoded
+        let utteranceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .utterance)
+        utterance = utteranceDecoded
+        let utteranceTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .utteranceTimestamp)
+        utteranceTimestamp = utteranceTimestampDecoded
+        let audioVoiceDurationMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .audioVoiceDurationMillis)
+        audioVoiceDurationMillis = audioVoiceDurationMillisDecoded
+        let utteranceUnderstoodDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .utteranceUnderstood) ?? false
+        utteranceUnderstood = utteranceUnderstoodDecoded
+        let inputTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .inputType)
+        inputType = inputTypeDecoded
+        let outputTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outputType)
+        outputType = outputTypeDecoded
+        let associatedIntentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .associatedIntentName)
+        associatedIntentName = associatedIntentNameDecoded
+        let associatedSlotNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .associatedSlotName)
+        associatedSlotName = associatedSlotNameDecoded
+        let intentStateDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.IntentState.self, forKey: .intentState)
+        intentState = intentStateDecoded
+        let dialogActionTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dialogActionType)
+        dialogActionType = dialogActionTypeDecoded
+        let botResponseAudioVoiceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botResponseAudioVoiceId)
+        botResponseAudioVoiceId = botResponseAudioVoiceIdDecoded
+        let slotsFilledInSessionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .slotsFilledInSession)
+        slotsFilledInSession = slotsFilledInSessionDecoded
+        let utteranceRequestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .utteranceRequestId)
+        utteranceRequestId = utteranceRequestIdDecoded
+        let botResponsesContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.UtteranceBotResponse?].self, forKey: .botResponses)
+        var botResponsesDecoded0:[LexModelsV2ClientTypes.UtteranceBotResponse]? = nil
+        if let botResponsesContainer = botResponsesContainer {
+            botResponsesDecoded0 = [LexModelsV2ClientTypes.UtteranceBotResponse]()
+            for structure0 in botResponsesContainer {
+                if let structure0 = structure0 {
+                    botResponsesDecoded0?.append(structure0)
+                }
+            }
+        }
+        botResponses = botResponsesDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// An object containing information about a specific utterance.
+    public struct UtteranceSpecification: Swift.Equatable {
+        /// The name of the intent that the utterance is associated to.
+        public var associatedIntentName: Swift.String?
+        /// The name of the slot that the utterance is associated to.
+        public var associatedSlotName: Swift.String?
+        /// The duration in milliseconds of the audio associated with the utterance.
+        public var audioVoiceDurationMillis: Swift.Int?
+        /// The identifier of the alias of the bot that the utterance was made to.
+        public var botAliasId: Swift.String?
+        /// The identifier for the audio of the bot response.
+        public var botResponseAudioVoiceId: Swift.String?
+        /// A list of objects containing information about the bot response to the utterance.
+        public var botResponses: [LexModelsV2ClientTypes.UtteranceBotResponse]?
+        /// The version of the bot that the utterance was made to.
+        public var botVersion: Swift.String?
+        /// The channel that is integrated with the bot that the utterance was made to.
+        public var channel: Swift.String?
+        /// The date and time when the conversation in which the utterance took place ended. A conversation is defined as a unique combination of a sessionId and an originatingRequestId.
+        public var conversationEndTime: ClientRuntime.Date?
+        /// The date and time when the conversation in which the utterance took place began. A conversation is defined as a unique combination of a sessionId and an originatingRequestId.
+        public var conversationStartTime: ClientRuntime.Date?
+        /// The type of dialog action that the utterance is associated to. See the type field in [DialogAction](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_runtime_DialogAction.html) for more information.
+        public var dialogActionType: Swift.String?
+        /// The input type of the utterance. The possible values are as follows:
+        ///
+        /// * PCM format: audio data must be in little-endian byte order.
+        ///
+        /// * audio/l16; rate=16000; channels=1
+        ///
+        /// * audio/x-l16; sample-rate=16000; channel-count=1
+        ///
+        /// * audio/lpcm; sample-rate=8000; sample-size-bits=16; channel-count=1; is-big-endian=false
+        ///
+        ///
+        ///
+        ///
+        /// * Opus format
+        ///
+        /// * audio/x-cbr-opus-with-preamble;preamble-size=0;bit-rate=256000;frame-size-milliseconds=4
+        ///
+        ///
+        ///
+        ///
+        /// * Text format
+        ///
+        /// * text/plain; charset=utf-8
+        public var inputType: Swift.String?
+        /// The state of the intent that the utterance is associated to.
+        public var intentState: LexModelsV2ClientTypes.IntentState?
+        /// The locale of the bot that the utterance was made to.
+        public var localeId: Swift.String?
+        /// The mode of the session. The possible values are as follows:
+        ///
+        /// * Speech – The session consisted of spoken dialogue.
+        ///
+        /// * Text – The session consisted of written dialogue.
+        ///
+        /// * DTMF – The session consisted of touch-tone keypad (Dual Tone Multi-Frequency) key presses.
+        ///
+        /// * MultiMode – The session consisted of multiple modes.
+        public var mode: LexModelsV2ClientTypes.AnalyticsModality?
+        /// The output type of the utterance. The possible values are as follows:
+        ///
+        /// * audio/mpeg
+        ///
+        /// * audio/ogg
+        ///
+        /// * audio/pcm (16 KHz)
+        ///
+        /// * audio/ (defaults to mpeg)
+        ///
+        /// * text/plain; charset=utf-8
+        public var outputType: Swift.String?
+        /// The identifier of the session that the utterance was made in.
+        public var sessionId: Swift.String?
+        /// The slots that have been filled in the session by the time of the utterance.
+        public var slotsFilledInSession: Swift.String?
+        /// The text of the utterance.
+        public var utterance: Swift.String?
+        /// The identifier of the request associated with the utterance.
+        public var utteranceRequestId: Swift.String?
+        /// The date and time when the utterance took place.
+        public var utteranceTimestamp: ClientRuntime.Date?
+        /// Specifies whether the bot understood the utterance or not.
+        public var utteranceUnderstood: Swift.Bool
+
+        public init(
+            associatedIntentName: Swift.String? = nil,
+            associatedSlotName: Swift.String? = nil,
+            audioVoiceDurationMillis: Swift.Int? = nil,
+            botAliasId: Swift.String? = nil,
+            botResponseAudioVoiceId: Swift.String? = nil,
+            botResponses: [LexModelsV2ClientTypes.UtteranceBotResponse]? = nil,
+            botVersion: Swift.String? = nil,
+            channel: Swift.String? = nil,
+            conversationEndTime: ClientRuntime.Date? = nil,
+            conversationStartTime: ClientRuntime.Date? = nil,
+            dialogActionType: Swift.String? = nil,
+            inputType: Swift.String? = nil,
+            intentState: LexModelsV2ClientTypes.IntentState? = nil,
+            localeId: Swift.String? = nil,
+            mode: LexModelsV2ClientTypes.AnalyticsModality? = nil,
+            outputType: Swift.String? = nil,
+            sessionId: Swift.String? = nil,
+            slotsFilledInSession: Swift.String? = nil,
+            utterance: Swift.String? = nil,
+            utteranceRequestId: Swift.String? = nil,
+            utteranceTimestamp: ClientRuntime.Date? = nil,
+            utteranceUnderstood: Swift.Bool = false
+        )
+        {
+            self.associatedIntentName = associatedIntentName
+            self.associatedSlotName = associatedSlotName
+            self.audioVoiceDurationMillis = audioVoiceDurationMillis
+            self.botAliasId = botAliasId
+            self.botResponseAudioVoiceId = botResponseAudioVoiceId
+            self.botResponses = botResponses
+            self.botVersion = botVersion
+            self.channel = channel
+            self.conversationEndTime = conversationEndTime
+            self.conversationStartTime = conversationStartTime
+            self.dialogActionType = dialogActionType
+            self.inputType = inputType
+            self.intentState = intentState
+            self.localeId = localeId
+            self.mode = mode
+            self.outputType = outputType
+            self.sessionId = sessionId
+            self.slotsFilledInSession = slotsFilledInSession
+            self.utterance = utterance
+            self.utteranceRequestId = utteranceRequestId
+            self.utteranceTimestamp = utteranceTimestamp
+            self.utteranceUnderstood = utteranceUnderstood
         }
     }
 

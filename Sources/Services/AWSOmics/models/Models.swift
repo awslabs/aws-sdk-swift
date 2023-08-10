@@ -3093,6 +3093,38 @@ extension CreateWorkflowOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension OmicsClientTypes {
+    public enum CreationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case `import`
+        case upload
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CreationType] {
+            return [
+                .import,
+                .upload,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .import: return "IMPORT"
+            case .upload: return "UPLOAD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CreationType(rawValue: rawValue) ?? CreationType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension DeleteAnnotationStoreInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -5229,6 +5261,7 @@ extension GetReadSetMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
             let output: GetReadSetMetadataOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTime = output.creationTime
+            self.creationType = output.creationType
             self.description = output.description
             self.fileType = output.fileType
             self.files = output.files
@@ -5244,6 +5277,7 @@ extension GetReadSetMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.arn = nil
             self.creationTime = nil
+            self.creationType = nil
             self.description = nil
             self.fileType = nil
             self.files = nil
@@ -5267,6 +5301,8 @@ public struct GetReadSetMetadataOutputResponse: Swift.Equatable {
     /// When the read set was created.
     /// This member is required.
     public var creationTime: ClientRuntime.Date?
+    /// The creation type of the read set.
+    public var creationType: OmicsClientTypes.CreationType?
     /// The read set's description.
     public var description: Swift.String?
     /// The read set's file type.
@@ -5299,6 +5335,7 @@ public struct GetReadSetMetadataOutputResponse: Swift.Equatable {
     public init(
         arn: Swift.String? = nil,
         creationTime: ClientRuntime.Date? = nil,
+        creationType: OmicsClientTypes.CreationType? = nil,
         description: Swift.String? = nil,
         fileType: OmicsClientTypes.FileType? = nil,
         files: OmicsClientTypes.ReadSetFiles? = nil,
@@ -5315,6 +5352,7 @@ public struct GetReadSetMetadataOutputResponse: Swift.Equatable {
     {
         self.arn = arn
         self.creationTime = creationTime
+        self.creationType = creationType
         self.description = description
         self.fileType = fileType
         self.files = files
@@ -5345,12 +5383,14 @@ struct GetReadSetMetadataOutputResponseBody: Swift.Equatable {
     let referenceArn: Swift.String?
     let files: OmicsClientTypes.ReadSetFiles?
     let statusMessage: Swift.String?
+    let creationType: OmicsClientTypes.CreationType?
 }
 
 extension GetReadSetMetadataOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case creationTime
+        case creationType
         case description
         case fileType
         case files
@@ -5395,6 +5435,8 @@ extension GetReadSetMetadataOutputResponseBody: Swift.Decodable {
         files = filesDecoded
         let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
         statusMessage = statusMessageDecoded
+        let creationTypeDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.CreationType.self, forKey: .creationType)
+        creationType = creationTypeDecoded
     }
 }
 
@@ -12111,6 +12153,7 @@ extension OmicsClientTypes.ReadSetFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdAfter
         case createdBefore
+        case creationType
         case generatedFrom
         case name
         case referenceArn
@@ -12126,6 +12169,9 @@ extension OmicsClientTypes.ReadSetFilter: Swift.Codable {
         }
         if let createdBefore = self.createdBefore {
             try encodeContainer.encodeTimestamp(createdBefore, format: .dateTime, forKey: .createdBefore)
+        }
+        if let creationType = self.creationType {
+            try encodeContainer.encode(creationType.rawValue, forKey: .creationType)
         }
         if let generatedFrom = self.generatedFrom {
             try encodeContainer.encode(generatedFrom, forKey: .generatedFrom)
@@ -12165,6 +12211,8 @@ extension OmicsClientTypes.ReadSetFilter: Swift.Codable {
         subjectId = subjectIdDecoded
         let generatedFromDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .generatedFrom)
         generatedFrom = generatedFromDecoded
+        let creationTypeDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.CreationType.self, forKey: .creationType)
+        creationType = creationTypeDecoded
     }
 }
 
@@ -12175,6 +12223,8 @@ extension OmicsClientTypes {
         public var createdAfter: ClientRuntime.Date?
         /// The filter's end date.
         public var createdBefore: ClientRuntime.Date?
+        /// The creation type of the read set.
+        public var creationType: OmicsClientTypes.CreationType?
         /// Where the source originated.
         public var generatedFrom: Swift.String?
         /// A name to filter on.
@@ -12191,6 +12241,7 @@ extension OmicsClientTypes {
         public init(
             createdAfter: ClientRuntime.Date? = nil,
             createdBefore: ClientRuntime.Date? = nil,
+            creationType: OmicsClientTypes.CreationType? = nil,
             generatedFrom: Swift.String? = nil,
             name: Swift.String? = nil,
             referenceArn: Swift.String? = nil,
@@ -12201,6 +12252,7 @@ extension OmicsClientTypes {
         {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
+            self.creationType = creationType
             self.generatedFrom = generatedFrom
             self.name = name
             self.referenceArn = referenceArn
@@ -12301,6 +12353,7 @@ extension OmicsClientTypes.ReadSetListItem: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case creationTime
+        case creationType
         case description
         case fileType
         case id
@@ -12321,6 +12374,9 @@ extension OmicsClientTypes.ReadSetListItem: Swift.Codable {
         }
         if let creationTime = self.creationTime {
             try encodeContainer.encodeTimestamp(creationTime, format: .dateTime, forKey: .creationTime)
+        }
+        if let creationType = self.creationType {
+            try encodeContainer.encode(creationType.rawValue, forKey: .creationType)
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
@@ -12385,6 +12441,8 @@ extension OmicsClientTypes.ReadSetListItem: Swift.Codable {
         creationTime = creationTimeDecoded
         let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
         statusMessage = statusMessageDecoded
+        let creationTypeDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.CreationType.self, forKey: .creationType)
+        creationType = creationTypeDecoded
     }
 }
 
@@ -12397,6 +12455,8 @@ extension OmicsClientTypes {
         /// When the read set was created.
         /// This member is required.
         public var creationTime: ClientRuntime.Date?
+        /// The creation type of the read set.
+        public var creationType: OmicsClientTypes.CreationType?
         /// The read set's description.
         public var description: Swift.String?
         /// The read set's file type.
@@ -12427,6 +12487,7 @@ extension OmicsClientTypes {
         public init(
             arn: Swift.String? = nil,
             creationTime: ClientRuntime.Date? = nil,
+            creationType: OmicsClientTypes.CreationType? = nil,
             description: Swift.String? = nil,
             fileType: OmicsClientTypes.FileType? = nil,
             id: Swift.String? = nil,
@@ -12442,6 +12503,7 @@ extension OmicsClientTypes {
         {
             self.arn = arn
             self.creationTime = creationTime
+            self.creationType = creationType
             self.description = description
             self.fileType = fileType
             self.id = id

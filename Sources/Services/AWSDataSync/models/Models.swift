@@ -56,7 +56,7 @@ extension AddStorageSystemInput: ClientRuntime.URLPathProvider {
 }
 
 public struct AddStorageSystemInput: Swift.Equatable {
-    /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that connects to and reads from your on-premises storage system's management interface.
+    /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that connects to and reads from your on-premises storage system's management interface. You can only specify one ARN.
     /// This member is required.
     public var agentArns: [Swift.String]?
     /// Specifies a client token to make sure requests with this API operation are idempotent. If you don't specify a client token, DataSync generates one for you automatically.
@@ -334,6 +334,140 @@ extension DataSyncClientTypes {
     }
 }
 
+extension DataSyncClientTypes {
+    public enum AzureAccessTier: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case archive
+        case cool
+        case hot
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AzureAccessTier] {
+            return [
+                .archive,
+                .cool,
+                .hot,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .archive: return "ARCHIVE"
+            case .cool: return "COOL"
+            case .hot: return "HOT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AzureAccessTier(rawValue: rawValue) ?? AzureAccessTier.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DataSyncClientTypes {
+    public enum AzureBlobAuthenticationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case sas
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AzureBlobAuthenticationType] {
+            return [
+                .sas,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .sas: return "SAS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AzureBlobAuthenticationType(rawValue: rawValue) ?? AzureBlobAuthenticationType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DataSyncClientTypes.AzureBlobSasConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case token = "Token"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let token = self.token {
+            try encodeContainer.encode(token, forKey: .token)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .token)
+        token = tokenDecoded
+    }
+}
+
+extension DataSyncClientTypes.AzureBlobSasConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AzureBlobSasConfiguration(token: \"CONTENT_REDACTED\")"}
+}
+
+extension DataSyncClientTypes {
+    /// The shared access signature (SAS) configuration that allows DataSync to access your Microsoft Azure Blob Storage. For more information, see [SAS tokens](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-sas-tokens) for accessing your Azure Blob Storage.
+    public struct AzureBlobSasConfiguration: Swift.Equatable {
+        /// Specifies a SAS token that provides permissions at the Azure storage account, container, or folder level. The token is part of the SAS URI string that comes after the storage resource URI and a question mark. A token looks something like this: sp=r&st=2023-12-20T14:54:52Z&se=2023-12-20T22:54:52Z&spr=https&sv=2021-06-08&sr=c&sig=aBBKDWQvyuVcTPH9EBp%2FXTI9E%2F%2Fmq171%2BZU178wcwqU%3D
+        /// This member is required.
+        public var token: Swift.String?
+
+        public init(
+            token: Swift.String? = nil
+        )
+        {
+            self.token = token
+        }
+    }
+
+}
+
+extension DataSyncClientTypes {
+    public enum AzureBlobType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case block
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AzureBlobType] {
+            return [
+                .block,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .block: return "BLOCK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AzureBlobType(rawValue: rawValue) ?? AzureBlobType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension CancelTaskExecutionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case taskExecutionArn = "TaskExecutionArn"
@@ -510,18 +644,18 @@ extension CreateAgentInput: ClientRuntime.URLPathProvider {
 
 /// CreateAgentRequest
 public struct CreateAgentInput: Swift.Equatable {
-    /// Your agent activation key. You can get the activation key either by sending an HTTP GET request with redirects that enable you to get the agent IP address (port 80). Alternatively, you can get it from the DataSync console. The redirect URL returned in the response provides you the activation key for your agent in the query string parameter activationKey. It might also include other activation-related parameters; however, these are merely defaults. The arguments you pass to this API call determine the actual configuration of your agent. For more information, see Activating an Agent in the DataSync User Guide.
+    /// Specifies your DataSync agent's activation key. If you don't have an activation key, see [Activate your agent](https://docs.aws.amazon.com/datasync/latest/userguide/activate-agent.html).
     /// This member is required.
     public var activationKey: Swift.String?
-    /// The name you configured for your agent. This value is a text reference that is used to identify the agent in the console.
+    /// Specifies a name for your agent. You can see this name in the DataSync console.
     public var agentName: Swift.String?
-    /// The ARNs of the security groups used to protect your data transfer task subnets. See [SecurityGroupArns](https://docs.aws.amazon.com/datasync/latest/userguide/API_Ec2Config.html#DataSync-Type-Ec2Config-SecurityGroupArns).
+    /// Specifies the Amazon Resource Name (ARN) of the security group that protects your task's [network interfaces](https://docs.aws.amazon.com/datasync/latest/userguide/datasync-network.html#required-network-interfaces) when [using a virtual private cloud (VPC) endpoint](https://docs.aws.amazon.com/datasync/latest/userguide/choose-service-endpoint.html#choose-service-endpoint-vpc). You can only specify one ARN.
     public var securityGroupArns: [Swift.String]?
-    /// The Amazon Resource Names (ARNs) of the subnets in which DataSync will create elastic network interfaces for each data transfer task. The agent that runs a task must be private. When you start a task that is associated with an agent created in a VPC, or one that has access to an IP address in a VPC, then the task is also private. In this case, DataSync creates four network interfaces for each task in your subnet. For a data transfer to work, the agent must be able to route to all these four network interfaces.
+    /// Specifies the ARN of the subnet where you want to run your DataSync task when using a VPC endpoint. This is the subnet where DataSync creates and manages the [network interfaces](https://docs.aws.amazon.com/datasync/latest/userguide/datasync-network.html#required-network-interfaces) for your transfer. You can only specify one ARN.
     public var subnetArns: [Swift.String]?
-    /// The key-value pair that represents the tag that you want to associate with the agent. The value can be an empty string. This value helps you manage, filter, and search for your agents. Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @.
+    /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least one tag for your agent.
     public var tags: [DataSyncClientTypes.TagListEntry]?
-    /// The ID of the VPC (virtual private cloud) endpoint that the agent has access to. This is the client-side VPC endpoint, also called a PrivateLink. If you don't have a PrivateLink VPC endpoint, see [Creating a VPC Endpoint Service Configuration](https://docs.aws.amazon.com/vpc/latest/userguide/endpoint-service.html#create-endpoint-service) in the Amazon VPC User Guide. VPC endpoint ID looks like this: vpce-01234d5aff67890e1.
+    /// Specifies the ID of the VPC endpoint that you want your agent to connect to. For example, a VPC endpoint ID looks like vpce-01234d5aff67890e1. The VPC endpoint you use must include the DataSync service name (for example, com.amazonaws.us-east-2.datasync).
     public var vpcEndpointId: Swift.String?
 
     public init(
@@ -631,7 +765,7 @@ extension CreateAgentOutputResponse: ClientRuntime.HttpResponseBinding {
 
 /// CreateAgentResponse
 public struct CreateAgentOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the agent. Use the ListAgents operation to return a list of agents for your account and Amazon Web Services Region.
+    /// The ARN of the agent that you just activated. Use the [ListAgents](https://docs.aws.amazon.com/datasync/latest/userguide/API_ListAgents.html) operation to return a list of agents in your Amazon Web Services account and Amazon Web Services Region.
     public var agentArn: Swift.String?
 
     public init(
@@ -655,6 +789,216 @@ extension CreateAgentOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let agentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .agentArn)
         agentArn = agentArnDecoded
+    }
+}
+
+extension CreateLocationAzureBlobInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accessTier = "AccessTier"
+        case agentArns = "AgentArns"
+        case authenticationType = "AuthenticationType"
+        case blobType = "BlobType"
+        case containerUrl = "ContainerUrl"
+        case sasConfiguration = "SasConfiguration"
+        case subdirectory = "Subdirectory"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accessTier = self.accessTier {
+            try encodeContainer.encode(accessTier.rawValue, forKey: .accessTier)
+        }
+        if let agentArns = agentArns {
+            var agentArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .agentArns)
+            for agentarn0 in agentArns {
+                try agentArnsContainer.encode(agentarn0)
+            }
+        }
+        if let authenticationType = self.authenticationType {
+            try encodeContainer.encode(authenticationType.rawValue, forKey: .authenticationType)
+        }
+        if let blobType = self.blobType {
+            try encodeContainer.encode(blobType.rawValue, forKey: .blobType)
+        }
+        if let containerUrl = self.containerUrl {
+            try encodeContainer.encode(containerUrl, forKey: .containerUrl)
+        }
+        if let sasConfiguration = self.sasConfiguration {
+            try encodeContainer.encode(sasConfiguration, forKey: .sasConfiguration)
+        }
+        if let subdirectory = self.subdirectory {
+            try encodeContainer.encode(subdirectory, forKey: .subdirectory)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for taglistentry0 in tags {
+                try tagsContainer.encode(taglistentry0)
+            }
+        }
+    }
+}
+
+extension CreateLocationAzureBlobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateLocationAzureBlobInput: Swift.Equatable {
+    /// Specifies the access tier that you want your objects or files transferred into. This only applies when using the location as a transfer destination. For more information, see [Access tiers](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access-tiers).
+    public var accessTier: DataSyncClientTypes.AzureAccessTier?
+    /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that can connect with your Azure Blob Storage container. You can specify more than one agent. For more information, see [Using multiple agents for your transfer](https://docs.aws.amazon.com/datasync/latest/userguide/multiple-agents.html).
+    /// This member is required.
+    public var agentArns: [Swift.String]?
+    /// Specifies the authentication method DataSync uses to access your Azure Blob Storage. DataSync can access blob storage using a shared access signature (SAS).
+    /// This member is required.
+    public var authenticationType: DataSyncClientTypes.AzureBlobAuthenticationType?
+    /// Specifies the type of blob that you want your objects or files to be when transferring them into Azure Blob Storage. Currently, DataSync only supports moving data into Azure Blob Storage as block blobs. For more information on blob types, see the [Azure Blob Storage documentation](https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs).
+    public var blobType: DataSyncClientTypes.AzureBlobType?
+    /// Specifies the URL of the Azure Blob Storage container involved in your transfer.
+    /// This member is required.
+    public var containerUrl: Swift.String?
+    /// Specifies the SAS configuration that allows DataSync to access your Azure Blob Storage.
+    public var sasConfiguration: DataSyncClientTypes.AzureBlobSasConfiguration?
+    /// Specifies path segments if you want to limit your transfer to a virtual directory in your container (for example, /my/images).
+    public var subdirectory: Swift.String?
+    /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your transfer location.
+    public var tags: [DataSyncClientTypes.TagListEntry]?
+
+    public init(
+        accessTier: DataSyncClientTypes.AzureAccessTier? = nil,
+        agentArns: [Swift.String]? = nil,
+        authenticationType: DataSyncClientTypes.AzureBlobAuthenticationType? = nil,
+        blobType: DataSyncClientTypes.AzureBlobType? = nil,
+        containerUrl: Swift.String? = nil,
+        sasConfiguration: DataSyncClientTypes.AzureBlobSasConfiguration? = nil,
+        subdirectory: Swift.String? = nil,
+        tags: [DataSyncClientTypes.TagListEntry]? = nil
+    )
+    {
+        self.accessTier = accessTier
+        self.agentArns = agentArns
+        self.authenticationType = authenticationType
+        self.blobType = blobType
+        self.containerUrl = containerUrl
+        self.sasConfiguration = sasConfiguration
+        self.subdirectory = subdirectory
+        self.tags = tags
+    }
+}
+
+struct CreateLocationAzureBlobInputBody: Swift.Equatable {
+    let containerUrl: Swift.String?
+    let authenticationType: DataSyncClientTypes.AzureBlobAuthenticationType?
+    let sasConfiguration: DataSyncClientTypes.AzureBlobSasConfiguration?
+    let blobType: DataSyncClientTypes.AzureBlobType?
+    let accessTier: DataSyncClientTypes.AzureAccessTier?
+    let subdirectory: Swift.String?
+    let agentArns: [Swift.String]?
+    let tags: [DataSyncClientTypes.TagListEntry]?
+}
+
+extension CreateLocationAzureBlobInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accessTier = "AccessTier"
+        case agentArns = "AgentArns"
+        case authenticationType = "AuthenticationType"
+        case blobType = "BlobType"
+        case containerUrl = "ContainerUrl"
+        case sasConfiguration = "SasConfiguration"
+        case subdirectory = "Subdirectory"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let containerUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .containerUrl)
+        containerUrl = containerUrlDecoded
+        let authenticationTypeDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.AzureBlobAuthenticationType.self, forKey: .authenticationType)
+        authenticationType = authenticationTypeDecoded
+        let sasConfigurationDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.AzureBlobSasConfiguration.self, forKey: .sasConfiguration)
+        sasConfiguration = sasConfigurationDecoded
+        let blobTypeDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.AzureBlobType.self, forKey: .blobType)
+        blobType = blobTypeDecoded
+        let accessTierDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.AzureAccessTier.self, forKey: .accessTier)
+        accessTier = accessTierDecoded
+        let subdirectoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subdirectory)
+        subdirectory = subdirectoryDecoded
+        let agentArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .agentArns)
+        var agentArnsDecoded0:[Swift.String]? = nil
+        if let agentArnsContainer = agentArnsContainer {
+            agentArnsDecoded0 = [Swift.String]()
+            for string0 in agentArnsContainer {
+                if let string0 = string0 {
+                    agentArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        agentArns = agentArnsDecoded0
+        let tagsContainer = try containerValues.decodeIfPresent([DataSyncClientTypes.TagListEntry?].self, forKey: .tags)
+        var tagsDecoded0:[DataSyncClientTypes.TagListEntry]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [DataSyncClientTypes.TagListEntry]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+public enum CreateLocationAzureBlobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateLocationAzureBlobOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateLocationAzureBlobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.locationArn = output.locationArn
+        } else {
+            self.locationArn = nil
+        }
+    }
+}
+
+public struct CreateLocationAzureBlobOutputResponse: Swift.Equatable {
+    /// The ARN of the Azure Blob Storage transfer location that you created.
+    public var locationArn: Swift.String?
+
+    public init(
+        locationArn: Swift.String? = nil
+    )
+    {
+        self.locationArn = locationArn
+    }
+}
+
+struct CreateLocationAzureBlobOutputResponseBody: Swift.Equatable {
+    let locationArn: Swift.String?
+}
+
+extension CreateLocationAzureBlobOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case locationArn = "LocationArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
+        locationArn = locationArnDecoded
     }
 }
 
@@ -1435,7 +1779,7 @@ public struct CreateLocationFsxWindowsInput: Swift.Equatable {
     public var subdirectory: Swift.String?
     /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location.
     public var tags: [DataSyncClientTypes.TagListEntry]?
-    /// Specifies the user who has the permissions to access files and folders in the file system. For information about choosing a user name that ensures sufficient permissions to files, folders, and metadata, see [user].
+    /// Specifies the user who has the permissions to access files, folders, and metadata in your file system. For information about choosing a user with sufficient permissions, see [Required permissions](https://docs.aws.amazon.com/datasync/latest/userguide/create-fsx-location.html#create-fsx-windows-location-permissions).
     /// This member is required.
     public var user: Swift.String?
 
@@ -1891,18 +2235,18 @@ extension CreateLocationNfsInput: ClientRuntime.URLPathProvider {
 
 /// CreateLocationNfsRequest
 public struct CreateLocationNfsInput: Swift.Equatable {
-    /// The NFS mount options that DataSync can use to mount your NFS share.
+    /// Specifies the mount options that DataSync can use to mount your NFS share.
     public var mountOptions: DataSyncClientTypes.NfsMountOptions?
-    /// Contains a list of Amazon Resource Names (ARNs) of agents that are used to connect to an NFS server. If you are copying data to or from your Snowcone device, see [NFS Server on Snowcone](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone) for more information.
+    /// Specifies the Amazon Resource Names (ARNs) of agents that DataSync uses to connect to your NFS file server. If you are copying data to or from your Snowcone device, see [NFS Server on Snowcone](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone) for more information.
     /// This member is required.
     public var onPremConfig: DataSyncClientTypes.OnPremConfig?
-    /// The name of the NFS server. This value is the IP address or Domain Name Service (DNS) name of the NFS server. An agent that is installed on-premises uses this hostname to mount the NFS server in a network. If you are copying data to or from your Snowcone device, see [NFS Server on Snowcone](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone) for more information. This name must either be DNS-compliant or must be an IP version 4 (IPv4) address.
+    /// Specifies the IP address or domain name of your NFS file server. An agent that is installed on-premises uses this hostname to mount the NFS server in a network. If you are copying data to or from your Snowcone device, see [NFS Server on Snowcone](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone) for more information. You must specify be an IP version 4 address or Domain Name System (DNS)-compliant name.
     /// This member is required.
     public var serverHostname: Swift.String?
-    /// The subdirectory in the NFS file system that is used to read data from the NFS source location or write data to the NFS destination. The NFS path should be a path that's exported by the NFS server, or a subdirectory of that path. The path should be such that it can be mounted by other NFS clients in your network. To see all the paths exported by your NFS server, run "showmount -e nfs-server-name" from an NFS client that has access to your server. You can specify any directory that appears in the results, and any subdirectory of that directory. Ensure that the NFS export is accessible without Kerberos authentication. To transfer all the data in the folder you specified, DataSync needs to have permissions to read all the data. To ensure this, either configure the NFS export with no_root_squash, or ensure that the permissions for all of the files that you want DataSync allow read access for all users. Doing either enables the agent to read the files. For the agent to access directories, you must additionally enable all execute access. If you are copying data to or from your Snowcone device, see [NFS Server on Snowcone](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone) for more information. For information about NFS export configuration, see 18.7. The /etc/exports Configuration File in the Red Hat Enterprise Linux documentation.
+    /// Specifies the subdirectory in the NFS file server that DataSync transfers to or from. The NFS path should be a path that's exported by the NFS server, or a subdirectory of that path. The path should be such that it can be mounted by other NFS clients in your network. To see all the paths exported by your NFS server, run "showmount -e nfs-server-name" from an NFS client that has access to your server. You can specify any directory that appears in the results, and any subdirectory of that directory. Ensure that the NFS export is accessible without Kerberos authentication. To transfer all the data in the folder you specified, DataSync needs to have permissions to read all the data. To ensure this, either configure the NFS export with no_root_squash, or ensure that the permissions for all of the files that you want DataSync allow read access for all users. Doing either enables the agent to read the files. For the agent to access directories, you must additionally enable all execute access. If you are copying data to or from your Snowcone device, see [NFS Server on Snowcone](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone) for more information.
     /// This member is required.
     public var subdirectory: Swift.String?
-    /// The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
+    /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location.
     public var tags: [DataSyncClientTypes.TagListEntry]?
 
     public init(
@@ -1988,7 +2332,7 @@ extension CreateLocationNfsOutputResponse: ClientRuntime.HttpResponseBinding {
 
 /// CreateLocationNfsResponse
 public struct CreateLocationNfsOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the source NFS file system location that is created.
+    /// The ARN of the transfer location that you created for your NFS file server.
     public var locationArn: Swift.String?
 
     public init(
@@ -2093,7 +2437,18 @@ public struct CreateLocationObjectStorageInput: Swift.Equatable {
     public var bucketName: Swift.String?
     /// Specifies the secret key (for example, a password) if credentials are required to authenticate with the object storage server.
     public var secretKey: Swift.String?
-    /// Specifies a certificate to authenticate with an object storage system that uses a private or self-signed certificate authority (CA). You must specify a Base64-encoded .pem file (for example, file:///home/user/.ssh/storage_sys_certificate.pem). The certificate can be up to 32768 bytes (before Base64 encoding). To use this parameter, configure ServerProtocol to HTTPS.
+    /// Specifies a file with the certificates that are used to sign the object storage server's certificate (for example, file:///home/user/.ssh/storage_sys_certificate.pem). The file you specify must include the following:
+    ///
+    /// * The certificate of the signing certificate authority (CA)
+    ///
+    /// * Any intermediate certificates
+    ///
+    /// * base64 encoding
+    ///
+    /// * A .pem extension
+    ///
+    ///
+    /// The file can be up to 32768 bytes (before base64 encoding). To use this parameter, configure ServerProtocol to HTTPS.
     public var serverCertificate: ClientRuntime.Data?
     /// Specifies the domain name or IP address of the object storage server. A DataSync agent uses this hostname to mount the object storage server in a network.
     /// This member is required.
@@ -3474,6 +3829,175 @@ extension DescribeDiscoveryJobOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DescribeLocationAzureBlobInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case locationArn = "LocationArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let locationArn = self.locationArn {
+            try encodeContainer.encode(locationArn, forKey: .locationArn)
+        }
+    }
+}
+
+extension DescribeLocationAzureBlobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeLocationAzureBlobInput: Swift.Equatable {
+    /// Specifies the Amazon Resource Name (ARN) of your Azure Blob Storage transfer location.
+    /// This member is required.
+    public var locationArn: Swift.String?
+
+    public init(
+        locationArn: Swift.String? = nil
+    )
+    {
+        self.locationArn = locationArn
+    }
+}
+
+struct DescribeLocationAzureBlobInputBody: Swift.Equatable {
+    let locationArn: Swift.String?
+}
+
+extension DescribeLocationAzureBlobInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case locationArn = "LocationArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
+        locationArn = locationArnDecoded
+    }
+}
+
+public enum DescribeLocationAzureBlobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeLocationAzureBlobOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeLocationAzureBlobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.accessTier = output.accessTier
+            self.agentArns = output.agentArns
+            self.authenticationType = output.authenticationType
+            self.blobType = output.blobType
+            self.creationTime = output.creationTime
+            self.locationArn = output.locationArn
+            self.locationUri = output.locationUri
+        } else {
+            self.accessTier = nil
+            self.agentArns = nil
+            self.authenticationType = nil
+            self.blobType = nil
+            self.creationTime = nil
+            self.locationArn = nil
+            self.locationUri = nil
+        }
+    }
+}
+
+public struct DescribeLocationAzureBlobOutputResponse: Swift.Equatable {
+    /// The access tier that you want your objects or files transferred into. This only applies when using the location as a transfer destination. For more information, see [Access tiers](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access-tiers).
+    public var accessTier: DataSyncClientTypes.AzureAccessTier?
+    /// The ARNs of the DataSync agents that can connect with your Azure Blob Storage container.
+    public var agentArns: [Swift.String]?
+    /// The authentication method DataSync uses to access your Azure Blob Storage. DataSync can access blob storage using a shared access signature (SAS).
+    public var authenticationType: DataSyncClientTypes.AzureBlobAuthenticationType?
+    /// The type of blob that you want your objects or files to be when transferring them into Azure Blob Storage. Currently, DataSync only supports moving data into Azure Blob Storage as block blobs. For more information on blob types, see the [Azure Blob Storage documentation](https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs).
+    public var blobType: DataSyncClientTypes.AzureBlobType?
+    /// The time that your Azure Blob Storage transfer location was created.
+    public var creationTime: ClientRuntime.Date?
+    /// The ARN of your Azure Blob Storage transfer location.
+    public var locationArn: Swift.String?
+    /// The URL of the Azure Blob Storage container involved in your transfer.
+    public var locationUri: Swift.String?
+
+    public init(
+        accessTier: DataSyncClientTypes.AzureAccessTier? = nil,
+        agentArns: [Swift.String]? = nil,
+        authenticationType: DataSyncClientTypes.AzureBlobAuthenticationType? = nil,
+        blobType: DataSyncClientTypes.AzureBlobType? = nil,
+        creationTime: ClientRuntime.Date? = nil,
+        locationArn: Swift.String? = nil,
+        locationUri: Swift.String? = nil
+    )
+    {
+        self.accessTier = accessTier
+        self.agentArns = agentArns
+        self.authenticationType = authenticationType
+        self.blobType = blobType
+        self.creationTime = creationTime
+        self.locationArn = locationArn
+        self.locationUri = locationUri
+    }
+}
+
+struct DescribeLocationAzureBlobOutputResponseBody: Swift.Equatable {
+    let locationArn: Swift.String?
+    let locationUri: Swift.String?
+    let authenticationType: DataSyncClientTypes.AzureBlobAuthenticationType?
+    let blobType: DataSyncClientTypes.AzureBlobType?
+    let accessTier: DataSyncClientTypes.AzureAccessTier?
+    let agentArns: [Swift.String]?
+    let creationTime: ClientRuntime.Date?
+}
+
+extension DescribeLocationAzureBlobOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accessTier = "AccessTier"
+        case agentArns = "AgentArns"
+        case authenticationType = "AuthenticationType"
+        case blobType = "BlobType"
+        case creationTime = "CreationTime"
+        case locationArn = "LocationArn"
+        case locationUri = "LocationUri"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
+        locationArn = locationArnDecoded
+        let locationUriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationUri)
+        locationUri = locationUriDecoded
+        let authenticationTypeDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.AzureBlobAuthenticationType.self, forKey: .authenticationType)
+        authenticationType = authenticationTypeDecoded
+        let blobTypeDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.AzureBlobType.self, forKey: .blobType)
+        blobType = blobTypeDecoded
+        let accessTierDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.AzureAccessTier.self, forKey: .accessTier)
+        accessTier = accessTierDecoded
+        let agentArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .agentArns)
+        var agentArnsDecoded0:[Swift.String]? = nil
+        if let agentArnsContainer = agentArnsContainer {
+            agentArnsDecoded0 = [Swift.String]()
+            for string0 in agentArnsContainer {
+                if let string0 = string0 {
+                    agentArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        agentArns = agentArnsDecoded0
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+    }
+}
+
 extension DescribeLocationEfsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case locationArn = "LocationArn"
@@ -4569,7 +5093,7 @@ public struct DescribeLocationNfsOutputResponse: Swift.Equatable {
     public var locationArn: Swift.String?
     /// The URL of the source NFS location that was described.
     public var locationUri: Swift.String?
-    /// The NFS mount options that DataSync used to mount your NFS share.
+    /// The mount options that DataSync uses to mount your NFS share.
     public var mountOptions: DataSyncClientTypes.NfsMountOptions?
     /// A list of Amazon Resource Names (ARNs) of agents to use for a Network File System (NFS) location.
     public var onPremConfig: DataSyncClientTypes.OnPremConfig?
@@ -5753,7 +6277,7 @@ extension DescribeTaskExecutionInput: ClientRuntime.URLPathProvider {
 
 /// DescribeTaskExecutionRequest
 public struct DescribeTaskExecutionInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the task that is being executed.
+    /// Specifies the Amazon Resource Name (ARN) of the transfer task that's running.
     /// This member is required.
     public var taskExecutionArn: Swift.String?
 
@@ -5993,7 +6517,7 @@ extension DescribeTaskInput: ClientRuntime.URLPathProvider {
 
 /// DescribeTaskRequest
 public struct DescribeTaskInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the task to describe.
+    /// Specifies the Amazon Resource Name (ARN) of the transfer task.
     /// This member is required.
     public var taskArn: Swift.String?
 
@@ -8783,6 +9307,7 @@ extension DataSyncClientTypes.NetAppONTAPCluster: Swift.Codable {
         case clusterBlockStorageSize = "ClusterBlockStorageSize"
         case clusterBlockStorageUsed = "ClusterBlockStorageUsed"
         case clusterName = "ClusterName"
+        case lunCount = "LunCount"
         case maxP95Performance = "MaxP95Performance"
         case nfsExportedVolumes = "NfsExportedVolumes"
         case recommendationStatus = "RecommendationStatus"
@@ -8806,6 +9331,9 @@ extension DataSyncClientTypes.NetAppONTAPCluster: Swift.Codable {
         }
         if let clusterName = self.clusterName {
             try encodeContainer.encode(clusterName, forKey: .clusterName)
+        }
+        if let lunCount = self.lunCount {
+            try encodeContainer.encode(lunCount, forKey: .lunCount)
         }
         if let maxP95Performance = self.maxP95Performance {
             try encodeContainer.encode(maxP95Performance, forKey: .maxP95Performance)
@@ -8858,6 +9386,8 @@ extension DataSyncClientTypes.NetAppONTAPCluster: Swift.Codable {
         recommendations = recommendationsDecoded0
         let recommendationStatusDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.RecommendationStatus.self, forKey: .recommendationStatus)
         recommendationStatus = recommendationStatusDecoded
+        let lunCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lunCount)
+        lunCount = lunCountDecoded
     }
 }
 
@@ -8874,6 +9404,8 @@ extension DataSyncClientTypes {
         public var clusterBlockStorageUsed: Swift.Int?
         /// The name of the cluster.
         public var clusterName: Swift.String?
+        /// The number of LUNs (logical unit numbers) in the cluster.
+        public var lunCount: Swift.Int?
         /// The performance data that DataSync Discovery collects about the cluster.
         public var maxP95Performance: DataSyncClientTypes.MaxP95Performance?
         /// The number of NFS volumes in the cluster.
@@ -8891,6 +9423,7 @@ extension DataSyncClientTypes {
             clusterBlockStorageSize: Swift.Int? = nil,
             clusterBlockStorageUsed: Swift.Int? = nil,
             clusterName: Swift.String? = nil,
+            lunCount: Swift.Int? = nil,
             maxP95Performance: DataSyncClientTypes.MaxP95Performance? = nil,
             nfsExportedVolumes: Swift.Int? = nil,
             recommendationStatus: DataSyncClientTypes.RecommendationStatus? = nil,
@@ -8903,6 +9436,7 @@ extension DataSyncClientTypes {
             self.clusterBlockStorageSize = clusterBlockStorageSize
             self.clusterBlockStorageUsed = clusterBlockStorageUsed
             self.clusterName = clusterName
+            self.lunCount = lunCount
             self.maxP95Performance = maxP95Performance
             self.nfsExportedVolumes = nfsExportedVolumes
             self.recommendationStatus = recommendationStatus
@@ -8918,6 +9452,7 @@ extension DataSyncClientTypes.NetAppONTAPSVM: Swift.Codable {
         case cifsShareCount = "CifsShareCount"
         case clusterUuid = "ClusterUuid"
         case enabledProtocols = "EnabledProtocols"
+        case lunCount = "LunCount"
         case maxP95Performance = "MaxP95Performance"
         case nfsExportedVolumes = "NfsExportedVolumes"
         case recommendationStatus = "RecommendationStatus"
@@ -8943,6 +9478,9 @@ extension DataSyncClientTypes.NetAppONTAPSVM: Swift.Codable {
             for ptolemystring0 in enabledProtocols {
                 try enabledProtocolsContainer.encode(ptolemystring0)
             }
+        }
+        if let lunCount = self.lunCount {
+            try encodeContainer.encode(lunCount, forKey: .lunCount)
         }
         if let maxP95Performance = self.maxP95Performance {
             try encodeContainer.encode(maxP95Performance, forKey: .maxP95Performance)
@@ -9025,6 +9563,8 @@ extension DataSyncClientTypes.NetAppONTAPSVM: Swift.Codable {
         recommendationStatus = recommendationStatusDecoded
         let totalSnapshotCapacityUsedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalSnapshotCapacityUsed)
         totalSnapshotCapacityUsed = totalSnapshotCapacityUsedDecoded
+        let lunCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lunCount)
+        lunCount = lunCountDecoded
     }
 }
 
@@ -9037,6 +9577,8 @@ extension DataSyncClientTypes {
         public var clusterUuid: Swift.String?
         /// The data transfer protocols (such as NFS) configured for the SVM.
         public var enabledProtocols: [Swift.String]?
+        /// The number of LUNs (logical unit numbers) in the SVM.
+        public var lunCount: Swift.Int?
         /// The performance data that DataSync Discovery collects about the SVM.
         public var maxP95Performance: DataSyncClientTypes.MaxP95Performance?
         /// The number of NFS volumes in the SVM.
@@ -9062,6 +9604,7 @@ extension DataSyncClientTypes {
             cifsShareCount: Swift.Int? = nil,
             clusterUuid: Swift.String? = nil,
             enabledProtocols: [Swift.String]? = nil,
+            lunCount: Swift.Int? = nil,
             maxP95Performance: DataSyncClientTypes.MaxP95Performance? = nil,
             nfsExportedVolumes: Swift.Int? = nil,
             recommendationStatus: DataSyncClientTypes.RecommendationStatus? = nil,
@@ -9077,6 +9620,7 @@ extension DataSyncClientTypes {
             self.cifsShareCount = cifsShareCount
             self.clusterUuid = clusterUuid
             self.enabledProtocols = enabledProtocols
+            self.lunCount = lunCount
             self.maxP95Performance = maxP95Performance
             self.nfsExportedVolumes = nfsExportedVolumes
             self.recommendationStatus = recommendationStatus
@@ -9098,6 +9642,7 @@ extension DataSyncClientTypes.NetAppONTAPVolume: Swift.Codable {
         case capacityUsed = "CapacityUsed"
         case cifsShareCount = "CifsShareCount"
         case logicalCapacityUsed = "LogicalCapacityUsed"
+        case lunCount = "LunCount"
         case maxP95Performance = "MaxP95Performance"
         case nfsExported = "NfsExported"
         case recommendationStatus = "RecommendationStatus"
@@ -9123,6 +9668,9 @@ extension DataSyncClientTypes.NetAppONTAPVolume: Swift.Codable {
         }
         if let logicalCapacityUsed = self.logicalCapacityUsed {
             try encodeContainer.encode(logicalCapacityUsed, forKey: .logicalCapacityUsed)
+        }
+        if let lunCount = self.lunCount {
+            try encodeContainer.encode(lunCount, forKey: .lunCount)
         }
         if let maxP95Performance = self.maxP95Performance {
             try encodeContainer.encode(maxP95Performance, forKey: .maxP95Performance)
@@ -9198,6 +9746,8 @@ extension DataSyncClientTypes.NetAppONTAPVolume: Swift.Codable {
         recommendations = recommendationsDecoded0
         let recommendationStatusDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.RecommendationStatus.self, forKey: .recommendationStatus)
         recommendationStatus = recommendationStatusDecoded
+        let lunCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lunCount)
+        lunCount = lunCountDecoded
     }
 }
 
@@ -9212,6 +9762,8 @@ extension DataSyncClientTypes {
         public var cifsShareCount: Swift.Int?
         /// The storage space that's being used in the volume without accounting for compression or deduplication.
         public var logicalCapacityUsed: Swift.Int?
+        /// The number of LUNs (logical unit numbers) in the volume.
+        public var lunCount: Swift.Int?
         /// The performance data that DataSync Discovery collects about the volume.
         public var maxP95Performance: DataSyncClientTypes.MaxP95Performance?
         /// The number of NFS volumes in the volume.
@@ -9238,6 +9790,7 @@ extension DataSyncClientTypes {
             capacityUsed: Swift.Int? = nil,
             cifsShareCount: Swift.Int? = nil,
             logicalCapacityUsed: Swift.Int? = nil,
+            lunCount: Swift.Int? = nil,
             maxP95Performance: DataSyncClientTypes.MaxP95Performance? = nil,
             nfsExported: Swift.Bool = false,
             recommendationStatus: DataSyncClientTypes.RecommendationStatus? = nil,
@@ -9254,6 +9807,7 @@ extension DataSyncClientTypes {
             self.capacityUsed = capacityUsed
             self.cifsShareCount = cifsShareCount
             self.logicalCapacityUsed = logicalCapacityUsed
+            self.lunCount = lunCount
             self.maxP95Performance = maxP95Performance
             self.nfsExported = nfsExported
             self.recommendationStatus = recommendationStatus
@@ -9665,7 +10219,7 @@ extension DataSyncClientTypes {
         ///
         /// NONE: None of the SMB security descriptor components are copied. Destination objects are owned by the user that was provided for accessing the destination location. DACLs and SACLs are set based on the destination server’s configuration.
         public var securityDescriptorCopyFlags: DataSyncClientTypes.SmbSecurityDescriptorCopyFlags?
-        /// Specifies whether tasks should be queued before executing the tasks. The default is ENABLED, which means the tasks will be queued. If you use the same agent to run multiple tasks, you can enable the tasks to run in series. For more information, see [Queueing task executions](https://docs.aws.amazon.com/datasync/latest/userguide/run-task.html#queue-task-execution).
+        /// Specifies whether your transfer tasks should be put into a queue during certain scenarios when [running multiple tasks](https://docs.aws.amazon.com/datasync/latest/userguide/run-task.html#running-multiple-tasks). This is ENABLED by default.
         public var taskQueueing: DataSyncClientTypes.TaskQueueing?
         /// Determines whether DataSync transfers only the data and metadata that differ between the source and the destination location or transfers all the content from the source (without comparing what's in the destination). CHANGED: DataSync copies only data or metadata that is new or different content from the source location to the destination location. ALL: DataSync copies all source location content to the destination (without comparing what's in the destination).
         public var transferMode: DataSyncClientTypes.TransferMode?
@@ -9992,15 +10546,15 @@ extension DataSyncClientTypes.PrivateLinkConfig: Swift.Codable {
 }
 
 extension DataSyncClientTypes {
-    /// The VPC endpoint, subnet, and security group that an agent uses to access IP addresses in a VPC (Virtual Private Cloud).
+    /// Specifies how your DataSync agent connects to Amazon Web Services using a virtual private cloud (VPC) service endpoint. An agent that uses a VPC endpoint isn't accessible over the public internet.
     public struct PrivateLinkConfig: Swift.Equatable {
-        /// The private endpoint that is configured for an agent that has access to IP addresses in a [PrivateLink](https://docs.aws.amazon.com/vpc/latest/userguide/endpoint-service.html). An agent that is configured with this endpoint will not be accessible over the public internet.
+        /// Specifies the VPC endpoint provided by [Amazon Web Services PrivateLink](https://docs.aws.amazon.com/vpc/latest/userguide/endpoint-service.html) that your agent connects to.
         public var privateLinkEndpoint: Swift.String?
-        /// The Amazon Resource Names (ARNs) of the security groups that are configured for the EC2 resource that hosts an agent activated in a VPC or an agent that has access to a VPC endpoint.
+        /// Specifies the Amazon Resource Names (ARN) of the security group that provides DataSync access to your VPC endpoint. You can only specify one ARN.
         public var securityGroupArns: [Swift.String]?
-        /// The Amazon Resource Names (ARNs) of the subnets that are configured for an agent activated in a VPC or an agent that has access to a VPC endpoint.
+        /// Specifies the ARN of the subnet where your VPC endpoint is located. You can only specify one ARN.
         public var subnetArns: [Swift.String]?
-        /// The ID of the VPC endpoint that is configured for an agent. An agent that is configured with a VPC endpoint will not be accessible over the public internet.
+        /// Specifies the ID of the VPC endpoint that your agent connects to.
         public var vpcEndpointId: Swift.String?
 
         public init(
@@ -12110,6 +12664,160 @@ public struct UpdateDiscoveryJobOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension UpdateLocationAzureBlobInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accessTier = "AccessTier"
+        case agentArns = "AgentArns"
+        case authenticationType = "AuthenticationType"
+        case blobType = "BlobType"
+        case locationArn = "LocationArn"
+        case sasConfiguration = "SasConfiguration"
+        case subdirectory = "Subdirectory"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accessTier = self.accessTier {
+            try encodeContainer.encode(accessTier.rawValue, forKey: .accessTier)
+        }
+        if let agentArns = agentArns {
+            var agentArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .agentArns)
+            for agentarn0 in agentArns {
+                try agentArnsContainer.encode(agentarn0)
+            }
+        }
+        if let authenticationType = self.authenticationType {
+            try encodeContainer.encode(authenticationType.rawValue, forKey: .authenticationType)
+        }
+        if let blobType = self.blobType {
+            try encodeContainer.encode(blobType.rawValue, forKey: .blobType)
+        }
+        if let locationArn = self.locationArn {
+            try encodeContainer.encode(locationArn, forKey: .locationArn)
+        }
+        if let sasConfiguration = self.sasConfiguration {
+            try encodeContainer.encode(sasConfiguration, forKey: .sasConfiguration)
+        }
+        if let subdirectory = self.subdirectory {
+            try encodeContainer.encode(subdirectory, forKey: .subdirectory)
+        }
+    }
+}
+
+extension UpdateLocationAzureBlobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateLocationAzureBlobInput: Swift.Equatable {
+    /// Specifies the access tier that you want your objects or files transferred into. This only applies when using the location as a transfer destination. For more information, see [Access tiers](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access-tiers).
+    public var accessTier: DataSyncClientTypes.AzureAccessTier?
+    /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that can connect with your Azure Blob Storage container. You can specify more than one agent. For more information, see [Using multiple agents for your transfer](https://docs.aws.amazon.com/datasync/latest/userguide/multiple-agents.html).
+    public var agentArns: [Swift.String]?
+    /// Specifies the authentication method DataSync uses to access your Azure Blob Storage. DataSync can access blob storage using a shared access signature (SAS).
+    public var authenticationType: DataSyncClientTypes.AzureBlobAuthenticationType?
+    /// Specifies the type of blob that you want your objects or files to be when transferring them into Azure Blob Storage. Currently, DataSync only supports moving data into Azure Blob Storage as block blobs. For more information on blob types, see the [Azure Blob Storage documentation](https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs).
+    public var blobType: DataSyncClientTypes.AzureBlobType?
+    /// Specifies the ARN of the Azure Blob Storage transfer location that you're updating.
+    /// This member is required.
+    public var locationArn: Swift.String?
+    /// Specifies the SAS configuration that allows DataSync to access your Azure Blob Storage.
+    public var sasConfiguration: DataSyncClientTypes.AzureBlobSasConfiguration?
+    /// Specifies path segments if you want to limit your transfer to a virtual directory in your container (for example, /my/images).
+    public var subdirectory: Swift.String?
+
+    public init(
+        accessTier: DataSyncClientTypes.AzureAccessTier? = nil,
+        agentArns: [Swift.String]? = nil,
+        authenticationType: DataSyncClientTypes.AzureBlobAuthenticationType? = nil,
+        blobType: DataSyncClientTypes.AzureBlobType? = nil,
+        locationArn: Swift.String? = nil,
+        sasConfiguration: DataSyncClientTypes.AzureBlobSasConfiguration? = nil,
+        subdirectory: Swift.String? = nil
+    )
+    {
+        self.accessTier = accessTier
+        self.agentArns = agentArns
+        self.authenticationType = authenticationType
+        self.blobType = blobType
+        self.locationArn = locationArn
+        self.sasConfiguration = sasConfiguration
+        self.subdirectory = subdirectory
+    }
+}
+
+struct UpdateLocationAzureBlobInputBody: Swift.Equatable {
+    let locationArn: Swift.String?
+    let subdirectory: Swift.String?
+    let authenticationType: DataSyncClientTypes.AzureBlobAuthenticationType?
+    let sasConfiguration: DataSyncClientTypes.AzureBlobSasConfiguration?
+    let blobType: DataSyncClientTypes.AzureBlobType?
+    let accessTier: DataSyncClientTypes.AzureAccessTier?
+    let agentArns: [Swift.String]?
+}
+
+extension UpdateLocationAzureBlobInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accessTier = "AccessTier"
+        case agentArns = "AgentArns"
+        case authenticationType = "AuthenticationType"
+        case blobType = "BlobType"
+        case locationArn = "LocationArn"
+        case sasConfiguration = "SasConfiguration"
+        case subdirectory = "Subdirectory"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
+        locationArn = locationArnDecoded
+        let subdirectoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subdirectory)
+        subdirectory = subdirectoryDecoded
+        let authenticationTypeDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.AzureBlobAuthenticationType.self, forKey: .authenticationType)
+        authenticationType = authenticationTypeDecoded
+        let sasConfigurationDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.AzureBlobSasConfiguration.self, forKey: .sasConfiguration)
+        sasConfiguration = sasConfigurationDecoded
+        let blobTypeDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.AzureBlobType.self, forKey: .blobType)
+        blobType = blobTypeDecoded
+        let accessTierDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.AzureAccessTier.self, forKey: .accessTier)
+        accessTier = accessTierDecoded
+        let agentArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .agentArns)
+        var agentArnsDecoded0:[Swift.String]? = nil
+        if let agentArnsContainer = agentArnsContainer {
+            agentArnsDecoded0 = [Swift.String]()
+            for string0 in agentArnsContainer {
+                if let string0 = string0 {
+                    agentArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        agentArns = agentArnsDecoded0
+    }
+}
+
+public enum UpdateLocationAzureBlobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateLocationAzureBlobOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateLocationAzureBlobOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
 extension UpdateLocationHdfsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case agentArns = "AgentArns"
@@ -12380,14 +13088,14 @@ extension UpdateLocationNfsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateLocationNfsInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the NFS location to update.
+    /// Specifies the Amazon Resource Name (ARN) of the NFS location that you want to update.
     /// This member is required.
     public var locationArn: Swift.String?
     /// Specifies how DataSync can access a location using the NFS protocol.
     public var mountOptions: DataSyncClientTypes.NfsMountOptions?
     /// A list of Amazon Resource Names (ARNs) of agents to use for a Network File System (NFS) location.
     public var onPremConfig: DataSyncClientTypes.OnPremConfig?
-    /// The subdirectory in the NFS file system that is used to read data from the NFS source location or write data to the NFS destination. The NFS path should be a path that's exported by the NFS server, or a subdirectory of that path. The path should be such that it can be mounted by other NFS clients in your network. To see all the paths exported by your NFS server, run "showmount -e nfs-server-name" from an NFS client that has access to your server. You can specify any directory that appears in the results, and any subdirectory of that directory. Ensure that the NFS export is accessible without Kerberos authentication. To transfer all the data in the folder that you specified, DataSync must have permissions to read all the data. To ensure this, either configure the NFS export with no_root_squash, or ensure that the files you want DataSync to access have permissions that allow read access for all users. Doing either option enables the agent to read the files. For the agent to access directories, you must additionally enable all execute access. If you are copying data to or from your Snowcone device, see [NFS Server on Snowcone](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone) for more information. For information about NFS export configuration, see 18.7. The /etc/exports Configuration File in the Red Hat Enterprise Linux documentation.
+    /// Specifies the subdirectory in your NFS file system that DataSync uses to read from or write to during a transfer. The NFS path should be exported by the NFS server, or a subdirectory of that path. The path should be such that it can be mounted by other NFS clients in your network. To see all the paths exported by your NFS server, run "showmount -e nfs-server-name" from an NFS client that has access to your server. You can specify any directory that appears in the results, and any subdirectory of that directory. Ensure that the NFS export is accessible without Kerberos authentication. To transfer all the data in the folder that you specified, DataSync must have permissions to read all the data. To ensure this, either configure the NFS export with no_root_squash, or ensure that the files you want DataSync to access have permissions that allow read access for all users. Doing either option enables the agent to read the files. For the agent to access directories, you must additionally enable all execute access. If you are copying data to or from your Snowcone device, see [NFS Server on Snowcone](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone) for more information.
     public var subdirectory: Swift.String?
 
     public init(
@@ -12834,7 +13542,7 @@ extension UpdateStorageSystemInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateStorageSystemInput: Swift.Equatable {
-    /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that connects to and reads your on-premises storage system.
+    /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that connects to and reads your on-premises storage system. You can only specify one ARN.
     public var agentArns: [Swift.String]?
     /// Specifies the ARN of the Amazon CloudWatch log group for monitoring and logging discovery job events.
     public var cloudWatchLogGroupArn: Swift.String?
