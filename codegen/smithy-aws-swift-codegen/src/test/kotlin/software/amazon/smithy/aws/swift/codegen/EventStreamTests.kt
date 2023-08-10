@@ -193,6 +193,9 @@ extension EventStreamTestClientTypes.TestStream: ClientRuntime.MessageUnmarshall
         val contents = getFileContents(context.manifest, "/Example/EventStreamTestClient.swift")
         var expected = """
 extension EventStreamTestClient: EventStreamTestClientProtocol {
+    /// This operation is cool.
+    ///
+    /// - Throws: SomeError if / when You don't have permission.
     public func testStreamOp(input: TestStreamOpInput) async throws -> TestStreamOpOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
