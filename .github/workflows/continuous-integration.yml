@@ -83,14 +83,14 @@ jobs:
           java-version: 17
       - name: Setup xcbeautify
         run: |
-        # use $USER variable to mimick userName/repoName structure
-        # this does not actually create any git repositories
-        # 1. create a new tap
-        brew tap-new $USER/local-xcbeautify
-        # 2. extract into local tap
-        brew extract --version=0.20.0 xcbeautify $USER/local-xcbeautify
-        # 3. run brew install@version as usual
-        HOMEBREW_NO_AUTO_UPDATE=1 brew install xcbeautify@0.20.0
+          # use $USER variable to mimick userName/repoName structure
+          # this does not actually create any git repositories
+          # 1. create a new tap
+          brew tap-new $USER/local-xcbeautify
+          # 2. extract into local tap
+          brew extract --version=0.20.0 xcbeautify $USER/local-xcbeautify
+          # 3. run brew install@version as usual
+          HOMEBREW_NO_AUTO_UPDATE=1 brew install xcbeautify@0.20.0
       - name: Tools Versions
         run: ./scripts/ci_steps/log_tool_versions.sh
       - name: Prepare Protocol & Unit Tests
