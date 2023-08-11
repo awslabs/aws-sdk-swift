@@ -81,8 +81,6 @@ jobs:
         with:
           distribution: corretto
           java-version: 17
-      - name: Setup xcbeautify
-        run: HOMEBREW_NO_AUTO_UPDATE=1 brew install xcbeautify
       - name: Tools Versions
         run: ./scripts/ci_steps/log_tool_versions.sh
       - name: Prepare Protocol & Unit Tests
@@ -95,7 +93,7 @@ jobs:
             -scheme aws-sdk-swift \
             -destination '${{ matrix.destination }}' \
             test 2>&1 \
-            | xcbeautify
+            | xcpretty
 
   linux:
     runs-on: ubuntu-latest
