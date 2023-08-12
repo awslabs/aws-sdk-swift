@@ -195,7 +195,14 @@ extension EventStreamTestClientTypes.TestStream: ClientRuntime.MessageUnmarshall
 extension EventStreamTestClient: EventStreamTestClientProtocol {
     /// This operation is cool.
     ///
-    /// - Throws: SomeError if / when You don't have permission.
+    /// - Parameter TestStreamOpInput : [no documentation found]
+    ///
+    /// - Returns: `TestStreamOpOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: `TestStreamOpError` : Wrapper object for possible exceptions listed below.
+    ///
+    /// __Possible Exceptions:__
+    /// - `SomeError` : You don't have permission.
     public func testStreamOp(input: TestStreamOpInput) async throws -> TestStreamOpOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
