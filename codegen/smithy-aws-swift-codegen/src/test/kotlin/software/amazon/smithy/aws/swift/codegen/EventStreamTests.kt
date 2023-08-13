@@ -196,7 +196,7 @@ extension EventStreamTestClient: EventStreamTestClientProtocol {
     /// This operation is cool.
     ///
     /// - Parameter TestStreamOpInput : [no documentation found]
-    ///s
+    ///
     /// - Returns: `TestStreamOpOutputResponse` : [no documentation found]
     ///
     /// - Throws: `TestStreamOpError` : Place-holder wrapper object for possible exceptions listed below.
