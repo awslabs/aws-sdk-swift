@@ -199,7 +199,7 @@ extension EventStreamTestClient: EventStreamTestClientProtocol {
     ///
     /// - Returns: `TestStreamOpOutputResponse` : [no documentation found]
     ///
-    /// - Throws: `TestStreamOpError` : Wrapper object for possible exceptions listed below.
+    /// - Throws: `TestStreamOpError` : Place-holder wrapper object for possible exceptions listed below.
     ///
     /// __Possible Exceptions:__
     /// - `SomeError` : You don't have permission.
