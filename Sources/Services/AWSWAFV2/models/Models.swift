@@ -1450,7 +1450,7 @@ extension WAFV2ClientTypes.CookieMatchPattern: Swift.Codable {
 }
 
 extension WAFV2ClientTypes {
-    /// The filter to use to identify the subset of cookies to inspect in a web request. You must specify exactly one setting: either All, IncludedCookies, or ExcludedCookies. Example JSON: "MatchPattern": { "IncludedCookies": {"KeyToInclude1", "KeyToInclude2", "KeyToInclude3"} }
+    /// The filter to use to identify the subset of cookies to inspect in a web request. You must specify exactly one setting: either All, IncludedCookies, or ExcludedCookies. Example JSON: "MatchPattern": { "IncludedCookies": [ "session-id-time", "session-id" ] }
     public struct CookieMatchPattern: Swift.Equatable {
         /// Inspect all cookies.
         public var all: WAFV2ClientTypes.All?
@@ -1507,7 +1507,7 @@ extension WAFV2ClientTypes.Cookies: Swift.Codable {
 extension WAFV2ClientTypes {
     /// Inspect the cookies in the web request. You can specify the parts of the cookies to inspect and you can narrow the set of cookies to inspect by including or excluding specific keys. This is used to indicate the web request component to inspect, in the [FieldToMatch] specification. Example JSON: "Cookies": { "MatchPattern": { "All": {} }, "MatchScope": "KEY", "OversizeHandling": "MATCH" }
     public struct Cookies: Swift.Equatable {
-        /// The filter to use to identify the subset of cookies to inspect in a web request. You must specify exactly one setting: either All, IncludedCookies, or ExcludedCookies. Example JSON: "MatchPattern": { "IncludedCookies": {"KeyToInclude1", "KeyToInclude2", "KeyToInclude3"} }
+        /// The filter to use to identify the subset of cookies to inspect in a web request. You must specify exactly one setting: either All, IncludedCookies, or ExcludedCookies. Example JSON: "MatchPattern": { "IncludedCookies": [ "session-id-time", "session-id" ] }
         /// This member is required.
         public var matchPattern: WAFV2ClientTypes.CookieMatchPattern?
         /// The parts of the cookies to inspect with the rule inspection criteria. If you specify All, WAF inspects both keys and values.
@@ -7627,7 +7627,7 @@ extension WAFV2ClientTypes.HeaderMatchPattern: Swift.Codable {
 }
 
 extension WAFV2ClientTypes {
-    /// The filter to use to identify the subset of headers to inspect in a web request. You must specify exactly one setting: either All, IncludedHeaders, or ExcludedHeaders. Example JSON: "MatchPattern": { "ExcludedHeaders": {"KeyToExclude1", "KeyToExclude2"} }
+    /// The filter to use to identify the subset of headers to inspect in a web request. You must specify exactly one setting: either All, IncludedHeaders, or ExcludedHeaders. Example JSON: "MatchPattern": { "ExcludedHeaders": [ "KeyToExclude1", "KeyToExclude2" ] }
     public struct HeaderMatchPattern: Swift.Equatable {
         /// Inspect all headers.
         public var all: WAFV2ClientTypes.All?
@@ -7726,7 +7726,7 @@ extension WAFV2ClientTypes.Headers: Swift.Codable {
 extension WAFV2ClientTypes {
     /// Inspect all headers in the web request. You can specify the parts of the headers to inspect and you can narrow the set of headers to inspect by including or excluding specific keys. This is used to indicate the web request component to inspect, in the [FieldToMatch] specification. If you want to inspect just the value of a single header, use the SingleHeaderFieldToMatch setting instead. Example JSON: "Headers": { "MatchPattern": { "All": {} }, "MatchScope": "KEY", "OversizeHandling": "MATCH" }
     public struct Headers: Swift.Equatable {
-        /// The filter to use to identify the subset of headers to inspect in a web request. You must specify exactly one setting: either All, IncludedHeaders, or ExcludedHeaders. Example JSON: "MatchPattern": { "ExcludedHeaders": {"KeyToExclude1", "KeyToExclude2"} }
+        /// The filter to use to identify the subset of headers to inspect in a web request. You must specify exactly one setting: either All, IncludedHeaders, or ExcludedHeaders. Example JSON: "MatchPattern": { "ExcludedHeaders": [ "KeyToExclude1", "KeyToExclude2" ] }
         /// This member is required.
         public var matchPattern: WAFV2ClientTypes.HeaderMatchPattern?
         /// The parts of the headers to match with the rule inspection criteria. If you specify All, WAF inspects both keys and values.
@@ -12593,6 +12593,7 @@ extension WAFV2ClientTypes.RateBasedStatementCustomKey: Swift.Codable {
         case labelNamespace = "LabelNamespace"
         case queryArgument = "QueryArgument"
         case queryString = "QueryString"
+        case uriPath = "UriPath"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -12621,6 +12622,9 @@ extension WAFV2ClientTypes.RateBasedStatementCustomKey: Swift.Codable {
         if let queryString = self.queryString {
             try encodeContainer.encode(queryString, forKey: .queryString)
         }
+        if let uriPath = self.uriPath {
+            try encodeContainer.encode(uriPath, forKey: .uriPath)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -12641,6 +12645,8 @@ extension WAFV2ClientTypes.RateBasedStatementCustomKey: Swift.Codable {
         ip = ipDecoded
         let labelNamespaceDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.RateLimitLabelNamespace.self, forKey: .labelNamespace)
         labelNamespace = labelNamespaceDecoded
+        let uriPathDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.RateLimitUriPath.self, forKey: .uriPath)
+        uriPath = uriPathDecoded
     }
 }
 
@@ -12663,6 +12669,8 @@ extension WAFV2ClientTypes {
         public var queryArgument: WAFV2ClientTypes.RateLimitQueryArgument?
         /// Use the request's query string as an aggregate key. Each distinct string contributes to the aggregation instance. If you use just the query string as your custom key, then each string fully defines an aggregation instance.
         public var queryString: WAFV2ClientTypes.RateLimitQueryString?
+        /// Use the request's URI path as an aggregate key. Each distinct URI path contributes to the aggregation instance. If you use just the URI path as your custom key, then each URI path fully defines an aggregation instance.
+        public var uriPath: WAFV2ClientTypes.RateLimitUriPath?
 
         public init(
             cookie: WAFV2ClientTypes.RateLimitCookie? = nil,
@@ -12672,7 +12680,8 @@ extension WAFV2ClientTypes {
             ip: WAFV2ClientTypes.RateLimitIP? = nil,
             labelNamespace: WAFV2ClientTypes.RateLimitLabelNamespace? = nil,
             queryArgument: WAFV2ClientTypes.RateLimitQueryArgument? = nil,
-            queryString: WAFV2ClientTypes.RateLimitQueryString? = nil
+            queryString: WAFV2ClientTypes.RateLimitQueryString? = nil,
+            uriPath: WAFV2ClientTypes.RateLimitUriPath? = nil
         )
         {
             self.cookie = cookie
@@ -12683,6 +12692,7 @@ extension WAFV2ClientTypes {
             self.labelNamespace = labelNamespace
             self.queryArgument = queryArgument
             self.queryString = queryString
+            self.uriPath = uriPath
         }
     }
 
@@ -13052,6 +13062,54 @@ extension WAFV2ClientTypes.RateLimitQueryString: Swift.Codable {
 extension WAFV2ClientTypes {
     /// Specifies the request's query string as an aggregate key for a rate-based rule. Each distinct string contributes to the aggregation instance. If you use just the query string as your custom key, then each string fully defines an aggregation instance.
     public struct RateLimitQueryString: Swift.Equatable {
+        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the component contents.
+        /// This member is required.
+        public var textTransformations: [WAFV2ClientTypes.TextTransformation]?
+
+        public init(
+            textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
+        )
+        {
+            self.textTransformations = textTransformations
+        }
+    }
+
+}
+
+extension WAFV2ClientTypes.RateLimitUriPath: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case textTransformations = "TextTransformations"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let textTransformations = textTransformations {
+            var textTransformationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .textTransformations)
+            for texttransformation0 in textTransformations {
+                try textTransformationsContainer.encode(texttransformation0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let textTransformationsContainer = try containerValues.decodeIfPresent([WAFV2ClientTypes.TextTransformation?].self, forKey: .textTransformations)
+        var textTransformationsDecoded0:[WAFV2ClientTypes.TextTransformation]? = nil
+        if let textTransformationsContainer = textTransformationsContainer {
+            textTransformationsDecoded0 = [WAFV2ClientTypes.TextTransformation]()
+            for structure0 in textTransformationsContainer {
+                if let structure0 = structure0 {
+                    textTransformationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        textTransformations = textTransformationsDecoded0
+    }
+}
+
+extension WAFV2ClientTypes {
+    /// Specifies the request's URI path as an aggregate key for a rate-based rule. Each distinct URI path contributes to the aggregation instance. If you use just the URI path as your custom key, then each URI path fully defines an aggregation instance.
+    public struct RateLimitUriPath: Swift.Equatable {
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the component contents.
         /// This member is required.
         public var textTransformations: [WAFV2ClientTypes.TextTransformation]?

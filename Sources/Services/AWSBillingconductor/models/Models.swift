@@ -130,11 +130,15 @@ extension BillingconductorClientTypes {
 
 extension BillingconductorClientTypes.AccountGrouping: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoAssociate = "AutoAssociate"
         case linkedAccountIds = "LinkedAccountIds"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let autoAssociate = self.autoAssociate {
+            try encodeContainer.encode(autoAssociate, forKey: .autoAssociate)
+        }
         if let linkedAccountIds = linkedAccountIds {
             var linkedAccountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .linkedAccountIds)
             for accountid0 in linkedAccountIds {
@@ -156,20 +160,26 @@ extension BillingconductorClientTypes.AccountGrouping: Swift.Codable {
             }
         }
         linkedAccountIds = linkedAccountIdsDecoded0
+        let autoAssociateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoAssociate)
+        autoAssociate = autoAssociateDecoded
     }
 }
 
 extension BillingconductorClientTypes {
-    /// The set of accounts that will be under the billing group. The set of accounts resemble the linked accounts in a consolidated family.
+    /// The set of accounts that will be under the billing group. The set of accounts resemble the linked accounts in a consolidated billing family.
     public struct AccountGrouping: Swift.Equatable {
+        /// Specifies if this billing group will automatically associate newly added Amazon Web Services accounts that join your consolidated billing family.
+        public var autoAssociate: Swift.Bool?
         /// The account IDs that make up the billing group. Account IDs must be a part of the consolidated billing family, and not associated with another billing group.
         /// This member is required.
         public var linkedAccountIds: [Swift.String]?
 
         public init(
+            autoAssociate: Swift.Bool? = nil,
             linkedAccountIds: [Swift.String]? = nil
         )
         {
+            self.autoAssociate = autoAssociate
             self.linkedAccountIds = linkedAccountIds
         }
     }
@@ -993,6 +1003,7 @@ extension BillingconductorClientTypes {
 
 extension BillingconductorClientTypes.BillingGroupListElement: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountGrouping = "AccountGrouping"
         case arn = "Arn"
         case computationPreference = "ComputationPreference"
         case creationTime = "CreationTime"
@@ -1007,6 +1018,9 @@ extension BillingconductorClientTypes.BillingGroupListElement: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountGrouping = self.accountGrouping {
+            try encodeContainer.encode(accountGrouping, forKey: .accountGrouping)
+        }
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
         }
@@ -1061,17 +1075,21 @@ extension BillingconductorClientTypes.BillingGroupListElement: Swift.Codable {
         status = statusDecoded
         let statusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusReason)
         statusReason = statusReasonDecoded
+        let accountGroupingDecoded = try containerValues.decodeIfPresent(BillingconductorClientTypes.ListBillingGroupAccountGrouping.self, forKey: .accountGrouping)
+        accountGrouping = accountGroupingDecoded
     }
 }
 
 extension BillingconductorClientTypes.BillingGroupListElement: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "BillingGroupListElement(arn: \(Swift.String(describing: arn)), computationPreference: \(Swift.String(describing: computationPreference)), creationTime: \(Swift.String(describing: creationTime)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), primaryAccountId: \(Swift.String(describing: primaryAccountId)), size: \(Swift.String(describing: size)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "BillingGroupListElement(accountGrouping: \(Swift.String(describing: accountGrouping)), arn: \(Swift.String(describing: arn)), computationPreference: \(Swift.String(describing: computationPreference)), creationTime: \(Swift.String(describing: creationTime)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), primaryAccountId: \(Swift.String(describing: primaryAccountId)), size: \(Swift.String(describing: size)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension BillingconductorClientTypes {
     /// A representation of a billing group.
     public struct BillingGroupListElement: Swift.Equatable {
+        /// Specifies if the billing group has automatic account association (AutoAssociate) enabled.
+        public var accountGrouping: BillingconductorClientTypes.ListBillingGroupAccountGrouping?
         /// The Amazon Resource Number (ARN) that can be used to uniquely identify the billing group.
         public var arn: Swift.String?
         /// The preferences and settings that will be used to compute the Amazon Web Services charges for a billing group.
@@ -1094,6 +1112,7 @@ extension BillingconductorClientTypes {
         public var statusReason: Swift.String?
 
         public init(
+            accountGrouping: BillingconductorClientTypes.ListBillingGroupAccountGrouping? = nil,
             arn: Swift.String? = nil,
             computationPreference: BillingconductorClientTypes.ComputationPreference? = nil,
             creationTime: Swift.Int = 0,
@@ -1106,6 +1125,7 @@ extension BillingconductorClientTypes {
             statusReason: Swift.String? = nil
         )
         {
+            self.accountGrouping = accountGrouping
             self.arn = arn
             self.computationPreference = computationPreference
             self.creationTime = creationTime
@@ -1376,7 +1396,7 @@ extension CreateBillingGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateBillingGroupInput: Swift.Equatable {
-    /// The set of accounts that will be under the billing group. The set of accounts resemble the linked accounts in a consolidated family.
+    /// The set of accounts that will be under the billing group. The set of accounts resemble the linked accounts in a consolidated billing family.
     /// This member is required.
     public var accountGrouping: BillingconductorClientTypes.AccountGrouping?
     /// The token that is needed to support idempotency. Idempotency isn't currently supported, but will be implemented in a future update.
@@ -3847,6 +3867,41 @@ extension ListAccountAssociationsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension BillingconductorClientTypes.ListBillingGroupAccountGrouping: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoAssociate = "AutoAssociate"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let autoAssociate = self.autoAssociate {
+            try encodeContainer.encode(autoAssociate, forKey: .autoAssociate)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let autoAssociateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoAssociate)
+        autoAssociate = autoAssociateDecoded
+    }
+}
+
+extension BillingconductorClientTypes {
+    /// Specifies if the billing group has the following features enabled.
+    public struct ListBillingGroupAccountGrouping: Swift.Equatable {
+        /// Specifies if this billing group will automatically associate newly added Amazon Web Services accounts that join your consolidated billing family.
+        public var autoAssociate: Swift.Bool?
+
+        public init(
+            autoAssociate: Swift.Bool? = nil
+        )
+        {
+            self.autoAssociate = autoAssociate
+        }
+    }
+
+}
+
 extension BillingconductorClientTypes.ListBillingGroupCostReportsFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case billingGroupArns = "BillingGroupArns"
@@ -4054,6 +4109,7 @@ extension ListBillingGroupCostReportsOutputResponseBody: Swift.Decodable {
 extension BillingconductorClientTypes.ListBillingGroupsFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arns = "Arns"
+        case autoAssociate = "AutoAssociate"
         case pricingPlan = "PricingPlan"
         case statuses = "Statuses"
     }
@@ -4065,6 +4121,9 @@ extension BillingconductorClientTypes.ListBillingGroupsFilter: Swift.Codable {
             for billinggrouparn0 in arns {
                 try arnsContainer.encode(billinggrouparn0)
             }
+        }
+        if let autoAssociate = self.autoAssociate {
+            try encodeContainer.encode(autoAssociate, forKey: .autoAssociate)
         }
         if let pricingPlan = self.pricingPlan {
             try encodeContainer.encode(pricingPlan, forKey: .pricingPlan)
@@ -4103,6 +4162,8 @@ extension BillingconductorClientTypes.ListBillingGroupsFilter: Swift.Codable {
             }
         }
         statuses = statusesDecoded0
+        let autoAssociateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoAssociate)
+        autoAssociate = autoAssociateDecoded
     }
 }
 
@@ -4111,6 +4172,8 @@ extension BillingconductorClientTypes {
     public struct ListBillingGroupsFilter: Swift.Equatable {
         /// The list of billing group Amazon Resource Names (ARNs) to retrieve information.
         public var arns: [Swift.String]?
+        /// Specifies if this billing group will automatically associate newly added Amazon Web Services accounts that join your consolidated billing family.
+        public var autoAssociate: Swift.Bool?
         /// The pricing plan Amazon Resource Names (ARNs) to retrieve information.
         public var pricingPlan: Swift.String?
         /// A list of billing groups to retrieve their current status for a specific time range
@@ -4118,11 +4181,13 @@ extension BillingconductorClientTypes {
 
         public init(
             arns: [Swift.String]? = nil,
+            autoAssociate: Swift.Bool? = nil,
             pricingPlan: Swift.String? = nil,
             statuses: [BillingconductorClientTypes.BillingGroupStatus]? = nil
         )
         {
             self.arns = arns
+            self.autoAssociate = autoAssociate
             self.pricingPlan = pricingPlan
             self.statuses = statuses
         }
@@ -6828,13 +6893,49 @@ public struct UntagResourceOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension BillingconductorClientTypes.UpdateBillingGroupAccountGrouping: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoAssociate = "AutoAssociate"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let autoAssociate = self.autoAssociate {
+            try encodeContainer.encode(autoAssociate, forKey: .autoAssociate)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let autoAssociateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoAssociate)
+        autoAssociate = autoAssociateDecoded
+    }
+}
+
+extension BillingconductorClientTypes {
+    /// Specifies if the billing group has the following features enabled.
+    public struct UpdateBillingGroupAccountGrouping: Swift.Equatable {
+        /// Specifies if this billing group will automatically associate newly added Amazon Web Services accounts that join your consolidated billing family.
+        public var autoAssociate: Swift.Bool?
+
+        public init(
+            autoAssociate: Swift.Bool? = nil
+        )
+        {
+            self.autoAssociate = autoAssociate
+        }
+    }
+
+}
+
 extension UpdateBillingGroupInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateBillingGroupInput(arn: \(Swift.String(describing: arn)), computationPreference: \(Swift.String(describing: computationPreference)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateBillingGroupInput(accountGrouping: \(Swift.String(describing: accountGrouping)), arn: \(Swift.String(describing: arn)), computationPreference: \(Swift.String(describing: computationPreference)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateBillingGroupInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountGrouping = "AccountGrouping"
         case arn = "Arn"
         case computationPreference = "ComputationPreference"
         case description = "Description"
@@ -6844,6 +6945,9 @@ extension UpdateBillingGroupInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountGrouping = self.accountGrouping {
+            try encodeContainer.encode(accountGrouping, forKey: .accountGrouping)
+        }
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
         }
@@ -6869,6 +6973,8 @@ extension UpdateBillingGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateBillingGroupInput: Swift.Equatable {
+    /// Specifies if the billing group has automatic account association (AutoAssociate) enabled.
+    public var accountGrouping: BillingconductorClientTypes.UpdateBillingGroupAccountGrouping?
     /// The Amazon Resource Name (ARN) of the billing group being updated.
     /// This member is required.
     public var arn: Swift.String?
@@ -6882,6 +6988,7 @@ public struct UpdateBillingGroupInput: Swift.Equatable {
     public var status: BillingconductorClientTypes.BillingGroupStatus?
 
     public init(
+        accountGrouping: BillingconductorClientTypes.UpdateBillingGroupAccountGrouping? = nil,
         arn: Swift.String? = nil,
         computationPreference: BillingconductorClientTypes.ComputationPreference? = nil,
         description: Swift.String? = nil,
@@ -6889,6 +6996,7 @@ public struct UpdateBillingGroupInput: Swift.Equatable {
         status: BillingconductorClientTypes.BillingGroupStatus? = nil
     )
     {
+        self.accountGrouping = accountGrouping
         self.arn = arn
         self.computationPreference = computationPreference
         self.description = description
@@ -6903,10 +7011,12 @@ struct UpdateBillingGroupInputBody: Swift.Equatable {
     let status: BillingconductorClientTypes.BillingGroupStatus?
     let computationPreference: BillingconductorClientTypes.ComputationPreference?
     let description: Swift.String?
+    let accountGrouping: BillingconductorClientTypes.UpdateBillingGroupAccountGrouping?
 }
 
 extension UpdateBillingGroupInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountGrouping = "AccountGrouping"
         case arn = "Arn"
         case computationPreference = "ComputationPreference"
         case description = "Description"
@@ -6926,6 +7036,8 @@ extension UpdateBillingGroupInputBody: Swift.Decodable {
         computationPreference = computationPreferenceDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
+        let accountGroupingDecoded = try containerValues.decodeIfPresent(BillingconductorClientTypes.UpdateBillingGroupAccountGrouping.self, forKey: .accountGrouping)
+        accountGrouping = accountGroupingDecoded
     }
 }
 
@@ -6947,7 +7059,7 @@ public enum UpdateBillingGroupOutputError: ClientRuntime.HttpResponseErrorBindin
 
 extension UpdateBillingGroupOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateBillingGroupOutputResponse(arn: \(Swift.String(describing: arn)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), pricingPlanArn: \(Swift.String(describing: pricingPlanArn)), primaryAccountId: \(Swift.String(describing: primaryAccountId)), size: \(Swift.String(describing: size)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateBillingGroupOutputResponse(accountGrouping: \(Swift.String(describing: accountGrouping)), arn: \(Swift.String(describing: arn)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), pricingPlanArn: \(Swift.String(describing: pricingPlanArn)), primaryAccountId: \(Swift.String(describing: primaryAccountId)), size: \(Swift.String(describing: size)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateBillingGroupOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6955,6 +7067,7 @@ extension UpdateBillingGroupOutputResponse: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateBillingGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.accountGrouping = output.accountGrouping
             self.arn = output.arn
             self.description = output.description
             self.lastModifiedTime = output.lastModifiedTime
@@ -6965,6 +7078,7 @@ extension UpdateBillingGroupOutputResponse: ClientRuntime.HttpResponseBinding {
             self.status = output.status
             self.statusReason = output.statusReason
         } else {
+            self.accountGrouping = nil
             self.arn = nil
             self.description = nil
             self.lastModifiedTime = 0
@@ -6979,6 +7093,8 @@ extension UpdateBillingGroupOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UpdateBillingGroupOutputResponse: Swift.Equatable {
+    /// Specifies if the billing group has automatic account association (AutoAssociate) enabled.
+    public var accountGrouping: BillingconductorClientTypes.UpdateBillingGroupAccountGrouping?
     /// The Amazon Resource Name (ARN) of the billing group that was updated.
     public var arn: Swift.String?
     /// A description of the billing group.
@@ -6999,6 +7115,7 @@ public struct UpdateBillingGroupOutputResponse: Swift.Equatable {
     public var statusReason: Swift.String?
 
     public init(
+        accountGrouping: BillingconductorClientTypes.UpdateBillingGroupAccountGrouping? = nil,
         arn: Swift.String? = nil,
         description: Swift.String? = nil,
         lastModifiedTime: Swift.Int = 0,
@@ -7010,6 +7127,7 @@ public struct UpdateBillingGroupOutputResponse: Swift.Equatable {
         statusReason: Swift.String? = nil
     )
     {
+        self.accountGrouping = accountGrouping
         self.arn = arn
         self.description = description
         self.lastModifiedTime = lastModifiedTime
@@ -7032,10 +7150,12 @@ struct UpdateBillingGroupOutputResponseBody: Swift.Equatable {
     let lastModifiedTime: Swift.Int
     let status: BillingconductorClientTypes.BillingGroupStatus?
     let statusReason: Swift.String?
+    let accountGrouping: BillingconductorClientTypes.UpdateBillingGroupAccountGrouping?
 }
 
 extension UpdateBillingGroupOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountGrouping = "AccountGrouping"
         case arn = "Arn"
         case description = "Description"
         case lastModifiedTime = "LastModifiedTime"
@@ -7067,6 +7187,8 @@ extension UpdateBillingGroupOutputResponseBody: Swift.Decodable {
         status = statusDecoded
         let statusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusReason)
         statusReason = statusReasonDecoded
+        let accountGroupingDecoded = try containerValues.decodeIfPresent(BillingconductorClientTypes.UpdateBillingGroupAccountGrouping.self, forKey: .accountGrouping)
+        accountGrouping = accountGroupingDecoded
     }
 }
 
@@ -7971,7 +8093,7 @@ extension ValidationException {
     }
 }
 
-/// The input doesn't match with the constraints specified by Amazon Web Services services.
+/// The input doesn't match with the constraints specified by Amazon Web Services.
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -8088,6 +8210,7 @@ extension BillingconductorClientTypes {
     public enum ValidationExceptionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case accountsAlreadyAssociated
         case accountsNotAssociated
+        case cannotDeleteAutoAssociateBillingGroup
         case cannotParse
         case customLineItemAssociationExists
         case duplicateAccount
@@ -8141,6 +8264,7 @@ extension BillingconductorClientTypes {
         case primaryCannotDisassociate
         case primaryNotAssociated
         case tooManyAccountsInRequest
+        case tooManyAutoAssociateBillingGroups
         case tooManyCustomlineitemsInRequest
         case unknownOperation
         case sdkUnknown(Swift.String)
@@ -8149,6 +8273,7 @@ extension BillingconductorClientTypes {
             return [
                 .accountsAlreadyAssociated,
                 .accountsNotAssociated,
+                .cannotDeleteAutoAssociateBillingGroup,
                 .cannotParse,
                 .customLineItemAssociationExists,
                 .duplicateAccount,
@@ -8202,6 +8327,7 @@ extension BillingconductorClientTypes {
                 .primaryCannotDisassociate,
                 .primaryNotAssociated,
                 .tooManyAccountsInRequest,
+                .tooManyAutoAssociateBillingGroups,
                 .tooManyCustomlineitemsInRequest,
                 .unknownOperation,
                 .sdkUnknown("")
@@ -8215,6 +8341,7 @@ extension BillingconductorClientTypes {
             switch self {
             case .accountsAlreadyAssociated: return "ACCOUNTS_ALREADY_ASSOCIATED"
             case .accountsNotAssociated: return "ACCOUNTS_NOT_ASSOCIATED"
+            case .cannotDeleteAutoAssociateBillingGroup: return "CANNOT_DELETE_AUTO_ASSOCIATE_BILLING_GROUP"
             case .cannotParse: return "CANNOT_PARSE"
             case .customLineItemAssociationExists: return "CUSTOM_LINE_ITEM_ASSOCIATION_EXISTS"
             case .duplicateAccount: return "DUPLICATE_ACCOUNT"
@@ -8268,6 +8395,7 @@ extension BillingconductorClientTypes {
             case .primaryCannotDisassociate: return "PRIMARY_CANNOT_DISASSOCIATE"
             case .primaryNotAssociated: return "PRIMARY_NOT_ASSOCIATED"
             case .tooManyAccountsInRequest: return "TOO_MANY_ACCOUNTS_IN_REQUEST"
+            case .tooManyAutoAssociateBillingGroups: return "TOO_MANY_AUTO_ASSOCIATE_BILLING_GROUPS"
             case .tooManyCustomlineitemsInRequest: return "TOO_MANY_CUSTOMLINEITEMS_IN_REQUEST"
             case .unknownOperation: return "UNKNOWN_OPERATION"
             case let .sdkUnknown(s): return s

@@ -284,6 +284,35 @@ extension CleanRoomsClientTypes {
 }
 
 extension CleanRoomsClientTypes {
+    public enum AnalysisFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case sql
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalysisFormat] {
+            return [
+                .sql,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .sql: return "SQL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnalysisFormat(rawValue: rawValue) ?? AnalysisFormat.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
     public enum AnalysisMethod: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case directQuery
         case sdkUnknown(Swift.String)
@@ -310,6 +339,69 @@ extension CleanRoomsClientTypes {
             self = AnalysisMethod(rawValue: rawValue) ?? AnalysisMethod.sdkUnknown(rawValue)
         }
     }
+}
+
+extension CleanRoomsClientTypes.AnalysisParameter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case defaultValue
+        case name
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let defaultValue = self.defaultValue {
+            try encodeContainer.encode(defaultValue, forKey: .defaultValue)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.ParameterType.self, forKey: .type)
+        type = typeDecoded
+        let defaultValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .defaultValue)
+        defaultValue = defaultValueDecoded
+    }
+}
+
+extension CleanRoomsClientTypes.AnalysisParameter: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// Optional. The member who can query can provide this placeholder for a literal data value in an analysis template.
+    public struct AnalysisParameter: Swift.Equatable {
+        /// Optional. The default value that is applied in the analysis template. The member who can query can override this value in the query editor.
+        public var defaultValue: Swift.String?
+        /// The name of the parameter. The name must use only alphanumeric, underscore (_), or hyphen (-) characters but cannot start or end with a hyphen.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The type of parameter.
+        /// This member is required.
+        public var type: CleanRoomsClientTypes.ParameterType?
+
+        public init(
+            defaultValue: Swift.String? = nil,
+            name: Swift.String? = nil,
+            type: CleanRoomsClientTypes.ParameterType? = nil
+        )
+        {
+            self.defaultValue = defaultValue
+            self.name = name
+            self.type = type
+        }
+    }
+
 }
 
 extension CleanRoomsClientTypes.AnalysisRule: Swift.Codable {
@@ -376,7 +468,7 @@ extension CleanRoomsClientTypes {
         /// A policy that describes the associated data usage limitations.
         /// This member is required.
         public var policy: CleanRoomsClientTypes.AnalysisRulePolicy?
-        /// The type of analysis rule. Valid values are `AGGREGATION` and `LIST`.
+        /// The type of analysis rule.
         /// This member is required.
         public var type: CleanRoomsClientTypes.AnalysisRuleType?
         /// The time the analysis rule was last updated.
@@ -406,6 +498,7 @@ extension CleanRoomsClientTypes {
 extension CleanRoomsClientTypes.AnalysisRuleAggregation: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case aggregateColumns
+        case allowedJoinOperators
         case dimensionColumns
         case joinColumns
         case joinRequired
@@ -419,6 +512,12 @@ extension CleanRoomsClientTypes.AnalysisRuleAggregation: Swift.Codable {
             var aggregateColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .aggregateColumns)
             for aggregatecolumn0 in aggregateColumns {
                 try aggregateColumnsContainer.encode(aggregatecolumn0)
+            }
+        }
+        if let allowedJoinOperators = allowedJoinOperators {
+            var allowedJoinOperatorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedJoinOperators)
+            for joinoperator0 in allowedJoinOperators {
+                try allowedJoinOperatorsContainer.encode(joinoperator0.rawValue)
             }
         }
         if let dimensionColumns = dimensionColumns {
@@ -476,6 +575,17 @@ extension CleanRoomsClientTypes.AnalysisRuleAggregation: Swift.Codable {
         joinColumns = joinColumnsDecoded0
         let joinRequiredDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.JoinRequiredOption.self, forKey: .joinRequired)
         joinRequired = joinRequiredDecoded
+        let allowedJoinOperatorsContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.JoinOperator?].self, forKey: .allowedJoinOperators)
+        var allowedJoinOperatorsDecoded0:[CleanRoomsClientTypes.JoinOperator]? = nil
+        if let allowedJoinOperatorsContainer = allowedJoinOperatorsContainer {
+            allowedJoinOperatorsDecoded0 = [CleanRoomsClientTypes.JoinOperator]()
+            for string0 in allowedJoinOperatorsContainer {
+                if let string0 = string0 {
+                    allowedJoinOperatorsDecoded0?.append(string0)
+                }
+            }
+        }
+        allowedJoinOperators = allowedJoinOperatorsDecoded0
         let dimensionColumnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .dimensionColumns)
         var dimensionColumnsDecoded0:[Swift.String]? = nil
         if let dimensionColumnsContainer = dimensionColumnsContainer {
@@ -513,18 +623,20 @@ extension CleanRoomsClientTypes.AnalysisRuleAggregation: Swift.Codable {
 }
 
 extension CleanRoomsClientTypes {
-    /// Enables query structure and specified queries that product aggregate statistics.
+    /// A type of analysis rule that enables query structure and specified queries that produce aggregate statistics.
     public struct AnalysisRuleAggregation: Swift.Equatable {
         /// The columns that query runners are allowed to use in aggregation queries.
         /// This member is required.
         public var aggregateColumns: [CleanRoomsClientTypes.AggregateColumn]?
+        /// Which logical operators (if any) are to be used in an INNER JOIN match condition. Default is AND.
+        public var allowedJoinOperators: [CleanRoomsClientTypes.JoinOperator]?
         /// The columns that query runners are allowed to select, group by, or filter by.
         /// This member is required.
         public var dimensionColumns: [Swift.String]?
         /// Columns in configured table that can be used in join statements and/or as aggregate columns. They can never be outputted directly.
         /// This member is required.
         public var joinColumns: [Swift.String]?
-        /// Control that requires member who runs query to do a join with their configured table and/or other configured table in query
+        /// Control that requires member who runs query to do a join with their configured table and/or other configured table in query.
         public var joinRequired: CleanRoomsClientTypes.JoinRequiredOption?
         /// Columns that must meet a specific threshold value (after an aggregation function is applied to it) for each output row to be returned.
         /// This member is required.
@@ -535,6 +647,7 @@ extension CleanRoomsClientTypes {
 
         public init(
             aggregateColumns: [CleanRoomsClientTypes.AggregateColumn]? = nil,
+            allowedJoinOperators: [CleanRoomsClientTypes.JoinOperator]? = nil,
             dimensionColumns: [Swift.String]? = nil,
             joinColumns: [Swift.String]? = nil,
             joinRequired: CleanRoomsClientTypes.JoinRequiredOption? = nil,
@@ -543,6 +656,7 @@ extension CleanRoomsClientTypes {
         )
         {
             self.aggregateColumns = aggregateColumns
+            self.allowedJoinOperators = allowedJoinOperators
             self.dimensionColumns = dimensionColumns
             self.joinColumns = joinColumns
             self.joinRequired = joinRequired
@@ -553,14 +667,91 @@ extension CleanRoomsClientTypes {
 
 }
 
+extension CleanRoomsClientTypes.AnalysisRuleCustom: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowedAnalyses
+        case allowedAnalysisProviders
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let allowedAnalyses = allowedAnalyses {
+            var allowedAnalysesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedAnalyses)
+            for analysistemplatearnorquerywildcard0 in allowedAnalyses {
+                try allowedAnalysesContainer.encode(analysistemplatearnorquerywildcard0)
+            }
+        }
+        if let allowedAnalysisProviders = allowedAnalysisProviders {
+            var allowedAnalysisProvidersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedAnalysisProviders)
+            for accountid0 in allowedAnalysisProviders {
+                try allowedAnalysisProvidersContainer.encode(accountid0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let allowedAnalysesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .allowedAnalyses)
+        var allowedAnalysesDecoded0:[Swift.String]? = nil
+        if let allowedAnalysesContainer = allowedAnalysesContainer {
+            allowedAnalysesDecoded0 = [Swift.String]()
+            for string0 in allowedAnalysesContainer {
+                if let string0 = string0 {
+                    allowedAnalysesDecoded0?.append(string0)
+                }
+            }
+        }
+        allowedAnalyses = allowedAnalysesDecoded0
+        let allowedAnalysisProvidersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .allowedAnalysisProviders)
+        var allowedAnalysisProvidersDecoded0:[Swift.String]? = nil
+        if let allowedAnalysisProvidersContainer = allowedAnalysisProvidersContainer {
+            allowedAnalysisProvidersDecoded0 = [Swift.String]()
+            for string0 in allowedAnalysisProvidersContainer {
+                if let string0 = string0 {
+                    allowedAnalysisProvidersDecoded0?.append(string0)
+                }
+            }
+        }
+        allowedAnalysisProviders = allowedAnalysisProvidersDecoded0
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// A type of analysis rule that enables the table owner to approve custom SQL queries on their configured tables.
+    public struct AnalysisRuleCustom: Swift.Equatable {
+        /// The analysis templates that are allowed by the custom analysis rule.
+        /// This member is required.
+        public var allowedAnalyses: [Swift.String]?
+        /// The Amazon Web Services accounts that are allowed to query by the custom analysis rule. Required when allowedAnalyses is ANY_QUERY.
+        public var allowedAnalysisProviders: [Swift.String]?
+
+        public init(
+            allowedAnalyses: [Swift.String]? = nil,
+            allowedAnalysisProviders: [Swift.String]? = nil
+        )
+        {
+            self.allowedAnalyses = allowedAnalyses
+            self.allowedAnalysisProviders = allowedAnalysisProviders
+        }
+    }
+
+}
+
 extension CleanRoomsClientTypes.AnalysisRuleList: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowedJoinOperators
         case joinColumns
         case listColumns
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let allowedJoinOperators = allowedJoinOperators {
+            var allowedJoinOperatorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedJoinOperators)
+            for joinoperator0 in allowedJoinOperators {
+                try allowedJoinOperatorsContainer.encode(joinoperator0.rawValue)
+            }
+        }
         if let joinColumns = joinColumns {
             var joinColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .joinColumns)
             for analysisrulecolumnname0 in joinColumns {
@@ -588,6 +779,17 @@ extension CleanRoomsClientTypes.AnalysisRuleList: Swift.Codable {
             }
         }
         joinColumns = joinColumnsDecoded0
+        let allowedJoinOperatorsContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.JoinOperator?].self, forKey: .allowedJoinOperators)
+        var allowedJoinOperatorsDecoded0:[CleanRoomsClientTypes.JoinOperator]? = nil
+        if let allowedJoinOperatorsContainer = allowedJoinOperatorsContainer {
+            allowedJoinOperatorsDecoded0 = [CleanRoomsClientTypes.JoinOperator]()
+            for string0 in allowedJoinOperatorsContainer {
+                if let string0 = string0 {
+                    allowedJoinOperatorsDecoded0?.append(string0)
+                }
+            }
+        }
+        allowedJoinOperators = allowedJoinOperatorsDecoded0
         let listColumnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .listColumns)
         var listColumnsDecoded0:[Swift.String]? = nil
         if let listColumnsContainer = listColumnsContainer {
@@ -605,7 +807,9 @@ extension CleanRoomsClientTypes.AnalysisRuleList: Swift.Codable {
 extension CleanRoomsClientTypes {
     /// A type of analysis rule that enables row-level analysis.
     public struct AnalysisRuleList: Swift.Equatable {
-        /// Columns that can be used to join a configured table with the table of the member who can query and another members' configured tables.
+        /// The logical operators (if any) that are to be used in an INNER JOIN match condition. Default is AND.
+        public var allowedJoinOperators: [CleanRoomsClientTypes.JoinOperator]?
+        /// Columns that can be used to join a configured table with the table of the member who can query and other members' configured tables.
         /// This member is required.
         public var joinColumns: [Swift.String]?
         /// Columns that can be listed in the output.
@@ -613,10 +817,12 @@ extension CleanRoomsClientTypes {
         public var listColumns: [Swift.String]?
 
         public init(
+            allowedJoinOperators: [CleanRoomsClientTypes.JoinOperator]? = nil,
             joinColumns: [Swift.String]? = nil,
             listColumns: [Swift.String]? = nil
         )
         {
+            self.allowedJoinOperators = allowedJoinOperators
             self.joinColumns = joinColumns
             self.listColumns = listColumns
         }
@@ -652,9 +858,9 @@ extension CleanRoomsClientTypes.AnalysisRulePolicy: Swift.Codable {
 }
 
 extension CleanRoomsClientTypes {
-    /// Controls on the query specifications that can be run on configured table..
+    /// Controls on the query specifications that can be run on configured table.
     public enum AnalysisRulePolicy: Swift.Equatable {
-        /// Controls on the query specifications that can be run on configured table..
+        /// Controls on the query specifications that can be run on configured table.
         case v1(CleanRoomsClientTypes.AnalysisRulePolicyV1)
         case sdkUnknown(Swift.String)
     }
@@ -664,6 +870,7 @@ extension CleanRoomsClientTypes {
 extension CleanRoomsClientTypes.AnalysisRulePolicyV1: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case aggregation
+        case custom
         case list
         case sdkUnknown
     }
@@ -673,6 +880,8 @@ extension CleanRoomsClientTypes.AnalysisRulePolicyV1: Swift.Codable {
         switch self {
             case let .aggregation(aggregation):
                 try container.encode(aggregation, forKey: .aggregation)
+            case let .custom(custom):
+                try container.encode(custom, forKey: .custom)
             case let .list(list):
                 try container.encode(list, forKey: .list)
             case let .sdkUnknown(sdkUnknown):
@@ -692,17 +901,24 @@ extension CleanRoomsClientTypes.AnalysisRulePolicyV1: Swift.Codable {
             self = .aggregation(aggregation)
             return
         }
+        let customDecoded = try values.decodeIfPresent(CleanRoomsClientTypes.AnalysisRuleCustom.self, forKey: .custom)
+        if let custom = customDecoded {
+            self = .custom(custom)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
 
 extension CleanRoomsClientTypes {
-    /// Controls on the query specifications that can be run on configured table..
+    /// Controls on the query specifications that can be run on configured table.
     public enum AnalysisRulePolicyV1: Swift.Equatable {
         /// Analysis rule type that enables only list queries on a configured table.
         case list(CleanRoomsClientTypes.AnalysisRuleList)
         /// Analysis rule type that enables only aggregation queries on a configured table.
         case aggregation(CleanRoomsClientTypes.AnalysisRuleAggregation)
+        /// Analysis rule type that enables custom SQL queries on a configured table.
+        case custom(CleanRoomsClientTypes.AnalysisRuleCustom)
         case sdkUnknown(Swift.String)
     }
 
@@ -711,12 +927,14 @@ extension CleanRoomsClientTypes {
 extension CleanRoomsClientTypes {
     public enum AnalysisRuleType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case aggregation
+        case custom
         case list
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AnalysisRuleType] {
             return [
                 .aggregation,
+                .custom,
                 .list,
                 .sdkUnknown("")
             ]
@@ -728,6 +946,7 @@ extension CleanRoomsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .aggregation: return "AGGREGATION"
+            case .custom: return "CUSTOM"
             case .list: return "LIST"
             case let .sdkUnknown(s): return s
             }
@@ -737,6 +956,629 @@ extension CleanRoomsClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = AnalysisRuleType(rawValue: rawValue) ?? AnalysisRuleType.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension CleanRoomsClientTypes.AnalysisSchema: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case referencedTables
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let referencedTables = referencedTables {
+            var referencedTablesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .referencedTables)
+            for tablealias0 in referencedTables {
+                try referencedTablesContainer.encode(tablealias0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let referencedTablesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .referencedTables)
+        var referencedTablesDecoded0:[Swift.String]? = nil
+        if let referencedTablesContainer = referencedTablesContainer {
+            referencedTablesDecoded0 = [Swift.String]()
+            for string0 in referencedTablesContainer {
+                if let string0 = string0 {
+                    referencedTablesDecoded0?.append(string0)
+                }
+            }
+        }
+        referencedTables = referencedTablesDecoded0
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// A relation within an analysis.
+    public struct AnalysisSchema: Swift.Equatable {
+        /// The tables referenced in the analysis schema.
+        public var referencedTables: [Swift.String]?
+
+        public init(
+            referencedTables: [Swift.String]? = nil
+        )
+        {
+            self.referencedTables = referencedTables
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.AnalysisSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sdkUnknown
+        case text
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .text(text):
+                try container.encode(text, forKey: .text)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let textDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .text)
+        if let text = textDecoded {
+            self = .text(text)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// The structure that defines the body of the analysis template.
+    public enum AnalysisSource: Swift.Equatable {
+        /// The query text.
+        case text(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension CleanRoomsClientTypes.AnalysisTemplate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analysisParameters
+        case arn
+        case collaborationArn
+        case collaborationId
+        case createTime
+        case description
+        case format
+        case id
+        case membershipArn
+        case membershipId
+        case name
+        case schema
+        case source
+        case updateTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let analysisParameters = analysisParameters {
+            var analysisParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .analysisParameters)
+            for analysisparameter0 in analysisParameters {
+                try analysisParametersContainer.encode(analysisparameter0)
+            }
+        }
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let collaborationArn = self.collaborationArn {
+            try encodeContainer.encode(collaborationArn, forKey: .collaborationArn)
+        }
+        if let collaborationId = self.collaborationId {
+            try encodeContainer.encode(collaborationId, forKey: .collaborationId)
+        }
+        if let createTime = self.createTime {
+            try encodeContainer.encodeTimestamp(createTime, format: .epochSeconds, forKey: .createTime)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let format = self.format {
+            try encodeContainer.encode(format.rawValue, forKey: .format)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let membershipArn = self.membershipArn {
+            try encodeContainer.encode(membershipArn, forKey: .membershipArn)
+        }
+        if let membershipId = self.membershipId {
+            try encodeContainer.encode(membershipId, forKey: .membershipId)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let schema = self.schema {
+            try encodeContainer.encode(schema, forKey: .schema)
+        }
+        if let source = self.source {
+            try encodeContainer.encode(source, forKey: .source)
+        }
+        if let updateTime = self.updateTime {
+            try encodeContainer.encodeTimestamp(updateTime, format: .epochSeconds, forKey: .updateTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let collaborationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collaborationId)
+        collaborationId = collaborationIdDecoded
+        let collaborationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collaborationArn)
+        collaborationArn = collaborationArnDecoded
+        let membershipIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .membershipId)
+        membershipId = membershipIdDecoded
+        let membershipArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .membershipArn)
+        membershipArn = membershipArnDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createTime)
+        createTime = createTimeDecoded
+        let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateTime)
+        updateTime = updateTimeDecoded
+        let schemaDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.AnalysisSchema.self, forKey: .schema)
+        schema = schemaDecoded
+        let formatDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.AnalysisFormat.self, forKey: .format)
+        format = formatDecoded
+        let sourceDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.AnalysisSource.self, forKey: .source)
+        source = sourceDecoded
+        let analysisParametersContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.AnalysisParameter?].self, forKey: .analysisParameters)
+        var analysisParametersDecoded0:[CleanRoomsClientTypes.AnalysisParameter]? = nil
+        if let analysisParametersContainer = analysisParametersContainer {
+            analysisParametersDecoded0 = [CleanRoomsClientTypes.AnalysisParameter]()
+            for structure0 in analysisParametersContainer {
+                if let structure0 = structure0 {
+                    analysisParametersDecoded0?.append(structure0)
+                }
+            }
+        }
+        analysisParameters = analysisParametersDecoded0
+    }
+}
+
+extension CleanRoomsClientTypes.AnalysisTemplate: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AnalysisTemplate(analysisParameters: \(Swift.String(describing: analysisParameters)), arn: \(Swift.String(describing: arn)), collaborationArn: \(Swift.String(describing: collaborationArn)), collaborationId: \(Swift.String(describing: collaborationId)), createTime: \(Swift.String(describing: createTime)), description: \(Swift.String(describing: description)), format: \(Swift.String(describing: format)), id: \(Swift.String(describing: id)), membershipArn: \(Swift.String(describing: membershipArn)), membershipId: \(Swift.String(describing: membershipId)), name: \(Swift.String(describing: name)), schema: \(Swift.String(describing: schema)), updateTime: \(Swift.String(describing: updateTime)), source: \"CONTENT_REDACTED\")"}
+}
+
+extension CleanRoomsClientTypes {
+    /// The analysis template.
+    public struct AnalysisTemplate: Swift.Equatable {
+        /// The parameters of the analysis template.
+        public var analysisParameters: [CleanRoomsClientTypes.AnalysisParameter]?
+        /// The Amazon Resource Name (ARN) of the analysis template.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The unique ARN for the analysis template’s associated collaboration.
+        /// This member is required.
+        public var collaborationArn: Swift.String?
+        /// The unique ID for the associated collaboration of the analysis template.
+        /// This member is required.
+        public var collaborationId: Swift.String?
+        /// The time that the analysis template was created.
+        /// This member is required.
+        public var createTime: ClientRuntime.Date?
+        /// The description of the analysis template.
+        public var description: Swift.String?
+        /// The format of the analysis template.
+        /// This member is required.
+        public var format: CleanRoomsClientTypes.AnalysisFormat?
+        /// The identifier for the analysis template.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The Amazon Resource Name (ARN) of the member who created the analysis template.
+        /// This member is required.
+        public var membershipArn: Swift.String?
+        /// The identifier of a member who created the analysis template.
+        /// This member is required.
+        public var membershipId: Swift.String?
+        /// The name of the analysis template.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The entire schema object.
+        /// This member is required.
+        public var schema: CleanRoomsClientTypes.AnalysisSchema?
+        /// The source of the analysis template.
+        /// This member is required.
+        public var source: CleanRoomsClientTypes.AnalysisSource?
+        /// The time that the analysis template was last updated.
+        /// This member is required.
+        public var updateTime: ClientRuntime.Date?
+
+        public init(
+            analysisParameters: [CleanRoomsClientTypes.AnalysisParameter]? = nil,
+            arn: Swift.String? = nil,
+            collaborationArn: Swift.String? = nil,
+            collaborationId: Swift.String? = nil,
+            createTime: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            format: CleanRoomsClientTypes.AnalysisFormat? = nil,
+            id: Swift.String? = nil,
+            membershipArn: Swift.String? = nil,
+            membershipId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            schema: CleanRoomsClientTypes.AnalysisSchema? = nil,
+            source: CleanRoomsClientTypes.AnalysisSource? = nil,
+            updateTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.analysisParameters = analysisParameters
+            self.arn = arn
+            self.collaborationArn = collaborationArn
+            self.collaborationId = collaborationId
+            self.createTime = createTime
+            self.description = description
+            self.format = format
+            self.id = id
+            self.membershipArn = membershipArn
+            self.membershipId = membershipId
+            self.name = name
+            self.schema = schema
+            self.source = source
+            self.updateTime = updateTime
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.AnalysisTemplateSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case collaborationArn
+        case collaborationId
+        case createTime
+        case description
+        case id
+        case membershipArn
+        case membershipId
+        case name
+        case updateTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let collaborationArn = self.collaborationArn {
+            try encodeContainer.encode(collaborationArn, forKey: .collaborationArn)
+        }
+        if let collaborationId = self.collaborationId {
+            try encodeContainer.encode(collaborationId, forKey: .collaborationId)
+        }
+        if let createTime = self.createTime {
+            try encodeContainer.encodeTimestamp(createTime, format: .epochSeconds, forKey: .createTime)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let membershipArn = self.membershipArn {
+            try encodeContainer.encode(membershipArn, forKey: .membershipArn)
+        }
+        if let membershipId = self.membershipId {
+            try encodeContainer.encode(membershipId, forKey: .membershipId)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let updateTime = self.updateTime {
+            try encodeContainer.encodeTimestamp(updateTime, format: .epochSeconds, forKey: .updateTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createTime)
+        createTime = createTimeDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateTime)
+        updateTime = updateTimeDecoded
+        let membershipArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .membershipArn)
+        membershipArn = membershipArnDecoded
+        let membershipIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .membershipId)
+        membershipId = membershipIdDecoded
+        let collaborationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collaborationArn)
+        collaborationArn = collaborationArnDecoded
+        let collaborationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collaborationId)
+        collaborationId = collaborationIdDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// The metadata of the analysis template.
+    public struct AnalysisTemplateSummary: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the analysis template.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The unique ARN for the analysis template summary’s associated collaboration.
+        /// This member is required.
+        public var collaborationArn: Swift.String?
+        /// A unique identifier for the collaboration that the analysis template summary belongs to. Currently accepts collaboration ID.
+        /// This member is required.
+        public var collaborationId: Swift.String?
+        /// The time that the analysis template summary was created.
+        /// This member is required.
+        public var createTime: ClientRuntime.Date?
+        /// The description of the analysis template.
+        public var description: Swift.String?
+        /// The identifier of the analysis template.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The Amazon Resource Name (ARN) of the member who created the analysis template.
+        /// This member is required.
+        public var membershipArn: Swift.String?
+        /// The identifier for a membership resource.
+        /// This member is required.
+        public var membershipId: Swift.String?
+        /// The name of the analysis template.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The time that the analysis template summary was last updated.
+        /// This member is required.
+        public var updateTime: ClientRuntime.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            collaborationArn: Swift.String? = nil,
+            collaborationId: Swift.String? = nil,
+            createTime: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            membershipArn: Swift.String? = nil,
+            membershipId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            updateTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.arn = arn
+            self.collaborationArn = collaborationArn
+            self.collaborationId = collaborationId
+            self.createTime = createTime
+            self.description = description
+            self.id = id
+            self.membershipArn = membershipArn
+            self.membershipId = membershipId
+            self.name = name
+            self.updateTime = updateTime
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.BatchGetCollaborationAnalysisTemplateError: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case code
+        case message
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// Details of errors thrown by the call to retrieve multiple analysis templates within a collaboration by their identifiers.
+    public struct BatchGetCollaborationAnalysisTemplateError: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the analysis template.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// An error code for the error.
+        /// This member is required.
+        public var code: Swift.String?
+        /// A description of why the call failed.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.code = code
+            self.message = message
+        }
+    }
+
+}
+
+extension BatchGetCollaborationAnalysisTemplateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analysisTemplateArns
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let analysisTemplateArns = analysisTemplateArns {
+            var analysisTemplateArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .analysisTemplateArns)
+            for analysistemplatearn0 in analysisTemplateArns {
+                try analysisTemplateArnsContainer.encode(analysistemplatearn0)
+            }
+        }
+    }
+}
+
+extension BatchGetCollaborationAnalysisTemplateInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let collaborationIdentifier = collaborationIdentifier else {
+            return nil
+        }
+        return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())/batch-analysistemplates"
+    }
+}
+
+public struct BatchGetCollaborationAnalysisTemplateInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) associated with the analysis template within a collaboration.
+    /// This member is required.
+    public var analysisTemplateArns: [Swift.String]?
+    /// A unique identifier for the collaboration that the analysis templates belong to. Currently accepts collaboration ID.
+    /// This member is required.
+    public var collaborationIdentifier: Swift.String?
+
+    public init(
+        analysisTemplateArns: [Swift.String]? = nil,
+        collaborationIdentifier: Swift.String? = nil
+    )
+    {
+        self.analysisTemplateArns = analysisTemplateArns
+        self.collaborationIdentifier = collaborationIdentifier
+    }
+}
+
+struct BatchGetCollaborationAnalysisTemplateInputBody: Swift.Equatable {
+    let analysisTemplateArns: [Swift.String]?
+}
+
+extension BatchGetCollaborationAnalysisTemplateInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analysisTemplateArns
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let analysisTemplateArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .analysisTemplateArns)
+        var analysisTemplateArnsDecoded0:[Swift.String]? = nil
+        if let analysisTemplateArnsContainer = analysisTemplateArnsContainer {
+            analysisTemplateArnsDecoded0 = [Swift.String]()
+            for string0 in analysisTemplateArnsContainer {
+                if let string0 = string0 {
+                    analysisTemplateArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        analysisTemplateArns = analysisTemplateArnsDecoded0
+    }
+}
+
+public enum BatchGetCollaborationAnalysisTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension BatchGetCollaborationAnalysisTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchGetCollaborationAnalysisTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.collaborationAnalysisTemplates = output.collaborationAnalysisTemplates
+            self.errors = output.errors
+        } else {
+            self.collaborationAnalysisTemplates = nil
+            self.errors = nil
+        }
+    }
+}
+
+public struct BatchGetCollaborationAnalysisTemplateOutputResponse: Swift.Equatable {
+    /// The retrieved list of analysis templates within a collaboration.
+    /// This member is required.
+    public var collaborationAnalysisTemplates: [CleanRoomsClientTypes.CollaborationAnalysisTemplate]?
+    /// Error reasons for collaboration analysis templates that could not be retrieved. One error is returned for every collaboration analysis template that could not be retrieved.
+    /// This member is required.
+    public var errors: [CleanRoomsClientTypes.BatchGetCollaborationAnalysisTemplateError]?
+
+    public init(
+        collaborationAnalysisTemplates: [CleanRoomsClientTypes.CollaborationAnalysisTemplate]? = nil,
+        errors: [CleanRoomsClientTypes.BatchGetCollaborationAnalysisTemplateError]? = nil
+    )
+    {
+        self.collaborationAnalysisTemplates = collaborationAnalysisTemplates
+        self.errors = errors
+    }
+}
+
+struct BatchGetCollaborationAnalysisTemplateOutputResponseBody: Swift.Equatable {
+    let collaborationAnalysisTemplates: [CleanRoomsClientTypes.CollaborationAnalysisTemplate]?
+    let errors: [CleanRoomsClientTypes.BatchGetCollaborationAnalysisTemplateError]?
+}
+
+extension BatchGetCollaborationAnalysisTemplateOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case collaborationAnalysisTemplates
+        case errors
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let collaborationAnalysisTemplatesContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.CollaborationAnalysisTemplate?].self, forKey: .collaborationAnalysisTemplates)
+        var collaborationAnalysisTemplatesDecoded0:[CleanRoomsClientTypes.CollaborationAnalysisTemplate]? = nil
+        if let collaborationAnalysisTemplatesContainer = collaborationAnalysisTemplatesContainer {
+            collaborationAnalysisTemplatesDecoded0 = [CleanRoomsClientTypes.CollaborationAnalysisTemplate]()
+            for structure0 in collaborationAnalysisTemplatesContainer {
+                if let structure0 = structure0 {
+                    collaborationAnalysisTemplatesDecoded0?.append(structure0)
+                }
+            }
+        }
+        collaborationAnalysisTemplates = collaborationAnalysisTemplatesDecoded0
+        let errorsContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.BatchGetCollaborationAnalysisTemplateError?].self, forKey: .errors)
+        var errorsDecoded0:[CleanRoomsClientTypes.BatchGetCollaborationAnalysisTemplateError]? = nil
+        if let errorsContainer = errorsContainer {
+            errorsDecoded0 = [CleanRoomsClientTypes.BatchGetCollaborationAnalysisTemplateError]()
+            for structure0 in errorsContainer {
+                if let structure0 = structure0 {
+                    errorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        errors = errorsDecoded0
     }
 }
 
@@ -1051,7 +1893,7 @@ extension CleanRoomsClientTypes {
         /// The time when the collaboration was created.
         /// This member is required.
         public var createTime: ClientRuntime.Date?
-        /// The identifier used to reference members of the collaboration. Currently only supports AWS account ID.
+        /// The identifier used to reference members of the collaboration. Currently only supports Amazon Web Services account ID.
         /// This member is required.
         public var creatorAccountId: Swift.String?
         /// A display name of the collaboration creator.
@@ -1109,6 +1951,312 @@ extension CleanRoomsClientTypes {
             self.membershipId = membershipId
             self.name = name
             self.queryLogStatus = queryLogStatus
+            self.updateTime = updateTime
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.CollaborationAnalysisTemplate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analysisParameters
+        case arn
+        case collaborationArn
+        case collaborationId
+        case createTime
+        case creatorAccountId
+        case description
+        case format
+        case id
+        case name
+        case schema
+        case source
+        case updateTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let analysisParameters = analysisParameters {
+            var analysisParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .analysisParameters)
+            for analysisparameter0 in analysisParameters {
+                try analysisParametersContainer.encode(analysisparameter0)
+            }
+        }
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let collaborationArn = self.collaborationArn {
+            try encodeContainer.encode(collaborationArn, forKey: .collaborationArn)
+        }
+        if let collaborationId = self.collaborationId {
+            try encodeContainer.encode(collaborationId, forKey: .collaborationId)
+        }
+        if let createTime = self.createTime {
+            try encodeContainer.encodeTimestamp(createTime, format: .epochSeconds, forKey: .createTime)
+        }
+        if let creatorAccountId = self.creatorAccountId {
+            try encodeContainer.encode(creatorAccountId, forKey: .creatorAccountId)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let format = self.format {
+            try encodeContainer.encode(format.rawValue, forKey: .format)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let schema = self.schema {
+            try encodeContainer.encode(schema, forKey: .schema)
+        }
+        if let source = self.source {
+            try encodeContainer.encode(source, forKey: .source)
+        }
+        if let updateTime = self.updateTime {
+            try encodeContainer.encodeTimestamp(updateTime, format: .epochSeconds, forKey: .updateTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let collaborationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collaborationId)
+        collaborationId = collaborationIdDecoded
+        let collaborationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collaborationArn)
+        collaborationArn = collaborationArnDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let creatorAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creatorAccountId)
+        creatorAccountId = creatorAccountIdDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createTime)
+        createTime = createTimeDecoded
+        let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateTime)
+        updateTime = updateTimeDecoded
+        let schemaDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.AnalysisSchema.self, forKey: .schema)
+        schema = schemaDecoded
+        let formatDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.AnalysisFormat.self, forKey: .format)
+        format = formatDecoded
+        let sourceDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.AnalysisSource.self, forKey: .source)
+        source = sourceDecoded
+        let analysisParametersContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.AnalysisParameter?].self, forKey: .analysisParameters)
+        var analysisParametersDecoded0:[CleanRoomsClientTypes.AnalysisParameter]? = nil
+        if let analysisParametersContainer = analysisParametersContainer {
+            analysisParametersDecoded0 = [CleanRoomsClientTypes.AnalysisParameter]()
+            for structure0 in analysisParametersContainer {
+                if let structure0 = structure0 {
+                    analysisParametersDecoded0?.append(structure0)
+                }
+            }
+        }
+        analysisParameters = analysisParametersDecoded0
+    }
+}
+
+extension CleanRoomsClientTypes.CollaborationAnalysisTemplate: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CollaborationAnalysisTemplate(analysisParameters: \(Swift.String(describing: analysisParameters)), arn: \(Swift.String(describing: arn)), collaborationArn: \(Swift.String(describing: collaborationArn)), collaborationId: \(Swift.String(describing: collaborationId)), createTime: \(Swift.String(describing: createTime)), creatorAccountId: \(Swift.String(describing: creatorAccountId)), description: \(Swift.String(describing: description)), format: \(Swift.String(describing: format)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), schema: \(Swift.String(describing: schema)), updateTime: \(Swift.String(describing: updateTime)), source: \"CONTENT_REDACTED\")"}
+}
+
+extension CleanRoomsClientTypes {
+    /// The analysis template within a collaboration.
+    public struct CollaborationAnalysisTemplate: Swift.Equatable {
+        /// The analysis parameters that have been specified in the analysis template.
+        public var analysisParameters: [CleanRoomsClientTypes.AnalysisParameter]?
+        /// The Amazon Resource Name (ARN) of the analysis template.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The unique ARN for the analysis template’s associated collaboration.
+        /// This member is required.
+        public var collaborationArn: Swift.String?
+        /// A unique identifier for the collaboration that the analysis templates belong to. Currently accepts collaboration ID.
+        /// This member is required.
+        public var collaborationId: Swift.String?
+        /// The time that the analysis template within a collaboration was created.
+        /// This member is required.
+        public var createTime: ClientRuntime.Date?
+        /// The identifier used to reference members of the collaboration. Currently only supports Amazon Web Services account ID.
+        /// This member is required.
+        public var creatorAccountId: Swift.String?
+        /// The description of the analysis template.
+        public var description: Swift.String?
+        /// The format of the analysis template in the collaboration.
+        /// This member is required.
+        public var format: CleanRoomsClientTypes.AnalysisFormat?
+        /// The identifier of the analysis template.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the analysis template.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The entire schema object.
+        /// This member is required.
+        public var schema: CleanRoomsClientTypes.AnalysisSchema?
+        /// The source of the analysis template within a collaboration.
+        /// This member is required.
+        public var source: CleanRoomsClientTypes.AnalysisSource?
+        /// The time that the analysis template in the collaboration was last updated.
+        /// This member is required.
+        public var updateTime: ClientRuntime.Date?
+
+        public init(
+            analysisParameters: [CleanRoomsClientTypes.AnalysisParameter]? = nil,
+            arn: Swift.String? = nil,
+            collaborationArn: Swift.String? = nil,
+            collaborationId: Swift.String? = nil,
+            createTime: ClientRuntime.Date? = nil,
+            creatorAccountId: Swift.String? = nil,
+            description: Swift.String? = nil,
+            format: CleanRoomsClientTypes.AnalysisFormat? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            schema: CleanRoomsClientTypes.AnalysisSchema? = nil,
+            source: CleanRoomsClientTypes.AnalysisSource? = nil,
+            updateTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.analysisParameters = analysisParameters
+            self.arn = arn
+            self.collaborationArn = collaborationArn
+            self.collaborationId = collaborationId
+            self.createTime = createTime
+            self.creatorAccountId = creatorAccountId
+            self.description = description
+            self.format = format
+            self.id = id
+            self.name = name
+            self.schema = schema
+            self.source = source
+            self.updateTime = updateTime
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.CollaborationAnalysisTemplateSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case collaborationArn
+        case collaborationId
+        case createTime
+        case creatorAccountId
+        case description
+        case id
+        case name
+        case updateTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let collaborationArn = self.collaborationArn {
+            try encodeContainer.encode(collaborationArn, forKey: .collaborationArn)
+        }
+        if let collaborationId = self.collaborationId {
+            try encodeContainer.encode(collaborationId, forKey: .collaborationId)
+        }
+        if let createTime = self.createTime {
+            try encodeContainer.encodeTimestamp(createTime, format: .epochSeconds, forKey: .createTime)
+        }
+        if let creatorAccountId = self.creatorAccountId {
+            try encodeContainer.encode(creatorAccountId, forKey: .creatorAccountId)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let updateTime = self.updateTime {
+            try encodeContainer.encodeTimestamp(updateTime, format: .epochSeconds, forKey: .updateTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createTime)
+        createTime = createTimeDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateTime)
+        updateTime = updateTimeDecoded
+        let collaborationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collaborationArn)
+        collaborationArn = collaborationArnDecoded
+        let collaborationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collaborationId)
+        collaborationId = collaborationIdDecoded
+        let creatorAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creatorAccountId)
+        creatorAccountId = creatorAccountIdDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// The metadata of the analysis template within a collaboration.
+    public struct CollaborationAnalysisTemplateSummary: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the analysis template.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The unique ARN for the analysis template’s associated collaboration.
+        /// This member is required.
+        public var collaborationArn: Swift.String?
+        /// A unique identifier for the collaboration that the analysis templates belong to. Currently accepts collaboration ID.
+        /// This member is required.
+        public var collaborationId: Swift.String?
+        /// The time that the summary of the analysis template in a collaboration was created.
+        /// This member is required.
+        public var createTime: ClientRuntime.Date?
+        /// The identifier used to reference members of the collaboration. Currently only supports Amazon Web Services account ID.
+        /// This member is required.
+        public var creatorAccountId: Swift.String?
+        /// The description of the analysis template.
+        public var description: Swift.String?
+        /// The identifier of the analysis template.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the analysis template.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The time that the summary of the analysis template in the collaboration was last updated.
+        /// This member is required.
+        public var updateTime: ClientRuntime.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            collaborationArn: Swift.String? = nil,
+            collaborationId: Swift.String? = nil,
+            createTime: ClientRuntime.Date? = nil,
+            creatorAccountId: Swift.String? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            updateTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.arn = arn
+            self.collaborationArn = collaborationArn
+            self.collaborationId = collaborationId
+            self.createTime = createTime
+            self.creatorAccountId = creatorAccountId
+            self.description = description
+            self.id = id
+            self.name = name
             self.updateTime = updateTime
         }
     }
@@ -1229,7 +2377,7 @@ extension CleanRoomsClientTypes {
         /// The time when the collaboration was created.
         /// This member is required.
         public var createTime: ClientRuntime.Date?
-        /// The identifier used to reference members of the collaboration. Currently only supports AWS Account ID.
+        /// The identifier used to reference members of the collaboration. Currently only supports Amazon Web Services account ID.
         /// This member is required.
         public var creatorAccountId: Swift.String?
         /// The display name of the collaboration creator.
@@ -1306,7 +2454,7 @@ extension CleanRoomsClientTypes.Column: Swift.Codable {
 }
 
 extension CleanRoomsClientTypes {
-    /// A column within a schema relation, derived from the underlying AWS Glue table.
+    /// A column within a schema relation, derived from the underlying Glue table.
     public struct Column: Swift.Equatable {
         /// The name of the column.
         /// This member is required.
@@ -1427,13 +2575,13 @@ extension CleanRoomsClientTypes.ConfiguredTable: Swift.Codable {
 extension CleanRoomsClientTypes {
     /// A table that has been configured for use in a collaboration.
     public struct ConfiguredTable: Swift.Equatable {
-        /// The columns within the underlying AWS Glue table that can be utilized within collaborations.
+        /// The columns within the underlying Glue table that can be utilized within collaborations.
         /// This member is required.
         public var allowedColumns: [Swift.String]?
         /// The analysis method for the configured table. The only valid value is currently `DIRECT_QUERY`.
         /// This member is required.
         public var analysisMethod: CleanRoomsClientTypes.AnalysisMethod?
-        /// The types of analysis rules associated with this configured table. Valid values are `AGGREGATION` and `LIST`. Currently, only one analysis rule may be associated with a configured table.
+        /// The types of analysis rules associated with this configured table. Currently, only one analysis rule may be associated with a configured table.
         /// This member is required.
         public var analysisRuleTypes: [CleanRoomsClientTypes.ConfiguredTableAnalysisRuleType]?
         /// The unique ARN for the configured table.
@@ -1450,7 +2598,7 @@ extension CleanRoomsClientTypes {
         /// A name for the configured table.
         /// This member is required.
         public var name: Swift.String?
-        /// The AWS Glue table that this configured table represents.
+        /// The Glue table that this configured table represents.
         /// This member is required.
         public var tableReference: CleanRoomsClientTypes.TableReference?
         /// The time the configured table was last updated
@@ -1549,7 +2697,7 @@ extension CleanRoomsClientTypes {
         /// The policy that controls SQL query rules.
         /// This member is required.
         public var policy: CleanRoomsClientTypes.ConfiguredTableAnalysisRulePolicy?
-        /// The type of configured table analysis rule. Valid values are `AGGREGATION` and `LIST`.
+        /// The type of configured table analysis rule.
         /// This member is required.
         public var type: CleanRoomsClientTypes.ConfiguredTableAnalysisRuleType?
         /// The time the configured table analysis rule was last updated.
@@ -1616,6 +2764,7 @@ extension CleanRoomsClientTypes {
 extension CleanRoomsClientTypes.ConfiguredTableAnalysisRulePolicyV1: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case aggregation
+        case custom
         case list
         case sdkUnknown
     }
@@ -1625,6 +2774,8 @@ extension CleanRoomsClientTypes.ConfiguredTableAnalysisRulePolicyV1: Swift.Codab
         switch self {
             case let .aggregation(aggregation):
                 try container.encode(aggregation, forKey: .aggregation)
+            case let .custom(custom):
+                try container.encode(custom, forKey: .custom)
             case let .list(list):
                 try container.encode(list, forKey: .list)
             case let .sdkUnknown(sdkUnknown):
@@ -1644,6 +2795,11 @@ extension CleanRoomsClientTypes.ConfiguredTableAnalysisRulePolicyV1: Swift.Codab
             self = .aggregation(aggregation)
             return
         }
+        let customDecoded = try values.decodeIfPresent(CleanRoomsClientTypes.AnalysisRuleCustom.self, forKey: .custom)
+        if let custom = customDecoded {
+            self = .custom(custom)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
@@ -1655,6 +2811,8 @@ extension CleanRoomsClientTypes {
         case list(CleanRoomsClientTypes.AnalysisRuleList)
         /// Analysis rule type that enables only aggregation queries on a configured table.
         case aggregation(CleanRoomsClientTypes.AnalysisRuleAggregation)
+        /// A type of analysis rule that enables the table owner to approve custom SQL queries on their configured tables.
+        case custom(CleanRoomsClientTypes.AnalysisRuleCustom)
         case sdkUnknown(Swift.String)
     }
 
@@ -1663,12 +2821,14 @@ extension CleanRoomsClientTypes {
 extension CleanRoomsClientTypes {
     public enum ConfiguredTableAnalysisRuleType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case aggregation
+        case custom
         case list
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ConfiguredTableAnalysisRuleType] {
             return [
                 .aggregation,
+                .custom,
                 .list,
                 .sdkUnknown("")
             ]
@@ -1680,6 +2840,7 @@ extension CleanRoomsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .aggregation: return "AGGREGATION"
+            case .custom: return "CUSTOM"
             case .list: return "LIST"
             case let .sdkUnknown(s): return s
             }
@@ -2184,6 +3345,211 @@ extension CleanRoomsClientTypes {
     }
 }
 
+extension CreateAnalysisTemplateInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateAnalysisTemplateInput(analysisParameters: \(Swift.String(describing: analysisParameters)), description: \(Swift.String(describing: description)), format: \(Swift.String(describing: format)), membershipIdentifier: \(Swift.String(describing: membershipIdentifier)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), source: \"CONTENT_REDACTED\")"}
+}
+
+extension CreateAnalysisTemplateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analysisParameters
+        case description
+        case format
+        case name
+        case source
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let analysisParameters = analysisParameters {
+            var analysisParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .analysisParameters)
+            for analysisparameter0 in analysisParameters {
+                try analysisParametersContainer.encode(analysisparameter0)
+            }
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let format = self.format {
+            try encodeContainer.encode(format.rawValue, forKey: .format)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let source = self.source {
+            try encodeContainer.encode(source, forKey: .source)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreateAnalysisTemplateInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let membershipIdentifier = membershipIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/analysistemplates"
+    }
+}
+
+public struct CreateAnalysisTemplateInput: Swift.Equatable {
+    /// The parameters of the analysis template.
+    public var analysisParameters: [CleanRoomsClientTypes.AnalysisParameter]?
+    /// The description of the analysis template.
+    public var description: Swift.String?
+    /// The format of the analysis template.
+    /// This member is required.
+    public var format: CleanRoomsClientTypes.AnalysisFormat?
+    /// The identifier for a membership resource.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+    /// The name of the analysis template.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The information in the analysis template. Currently supports text, the query text for the analysis template.
+    /// This member is required.
+    public var source: CleanRoomsClientTypes.AnalysisSource?
+    /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        analysisParameters: [CleanRoomsClientTypes.AnalysisParameter]? = nil,
+        description: Swift.String? = nil,
+        format: CleanRoomsClientTypes.AnalysisFormat? = nil,
+        membershipIdentifier: Swift.String? = nil,
+        name: Swift.String? = nil,
+        source: CleanRoomsClientTypes.AnalysisSource? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.analysisParameters = analysisParameters
+        self.description = description
+        self.format = format
+        self.membershipIdentifier = membershipIdentifier
+        self.name = name
+        self.source = source
+        self.tags = tags
+    }
+}
+
+struct CreateAnalysisTemplateInputBody: Swift.Equatable {
+    let description: Swift.String?
+    let name: Swift.String?
+    let format: CleanRoomsClientTypes.AnalysisFormat?
+    let source: CleanRoomsClientTypes.AnalysisSource?
+    let tags: [Swift.String:Swift.String]?
+    let analysisParameters: [CleanRoomsClientTypes.AnalysisParameter]?
+}
+
+extension CreateAnalysisTemplateInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analysisParameters
+        case description
+        case format
+        case name
+        case source
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let formatDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.AnalysisFormat.self, forKey: .format)
+        format = formatDecoded
+        let sourceDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.AnalysisSource.self, forKey: .source)
+        source = sourceDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let analysisParametersContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.AnalysisParameter?].self, forKey: .analysisParameters)
+        var analysisParametersDecoded0:[CleanRoomsClientTypes.AnalysisParameter]? = nil
+        if let analysisParametersContainer = analysisParametersContainer {
+            analysisParametersDecoded0 = [CleanRoomsClientTypes.AnalysisParameter]()
+            for structure0 in analysisParametersContainer {
+                if let structure0 = structure0 {
+                    analysisParametersDecoded0?.append(structure0)
+                }
+            }
+        }
+        analysisParameters = analysisParametersDecoded0
+    }
+}
+
+public enum CreateAnalysisTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateAnalysisTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateAnalysisTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.analysisTemplate = output.analysisTemplate
+        } else {
+            self.analysisTemplate = nil
+        }
+    }
+}
+
+public struct CreateAnalysisTemplateOutputResponse: Swift.Equatable {
+    /// The analysis template.
+    /// This member is required.
+    public var analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate?
+
+    public init(
+        analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate? = nil
+    )
+    {
+        self.analysisTemplate = analysisTemplate
+    }
+}
+
+struct CreateAnalysisTemplateOutputResponseBody: Swift.Equatable {
+    let analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate?
+}
+
+extension CreateAnalysisTemplateOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analysisTemplate
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let analysisTemplateDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.AnalysisTemplate.self, forKey: .analysisTemplate)
+        analysisTemplate = analysisTemplateDecoded
+    }
+}
+
 extension CreateCollaborationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case creatorDisplayName
@@ -2443,7 +3809,7 @@ public struct CreateConfiguredTableAnalysisRuleInput: Swift.Equatable {
     /// The entire created configured table analysis rule object.
     /// This member is required.
     public var analysisRulePolicy: CleanRoomsClientTypes.ConfiguredTableAnalysisRulePolicy?
-    /// The type of analysis rule. Valid values are AGGREGATION and LIST.
+    /// The type of analysis rule.
     /// This member is required.
     public var analysisRuleType: CleanRoomsClientTypes.ConfiguredTableAnalysisRuleType?
     /// The identifier for the configured table to create the analysis rule for. Currently accepts the configured table ID.
@@ -2772,7 +4138,7 @@ public struct CreateConfiguredTableInput: Swift.Equatable {
     /// The name of the configured table.
     /// This member is required.
     public var name: Swift.String?
-    /// A reference to the AWS Glue table being configured.
+    /// A reference to the Glue table being configured.
     /// This member is required.
     public var tableReference: CleanRoomsClientTypes.TableReference?
     /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
@@ -3118,6 +4484,70 @@ extension CleanRoomsClientTypes {
         }
     }
 
+}
+
+extension DeleteAnalysisTemplateInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let membershipIdentifier = membershipIdentifier else {
+            return nil
+        }
+        guard let analysisTemplateIdentifier = analysisTemplateIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/analysistemplates/\(analysisTemplateIdentifier.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteAnalysisTemplateInput: Swift.Equatable {
+    /// The identifier for the analysis template resource.
+    /// This member is required.
+    public var analysisTemplateIdentifier: Swift.String?
+    /// The identifier for a membership resource.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+
+    public init(
+        analysisTemplateIdentifier: Swift.String? = nil,
+        membershipIdentifier: Swift.String? = nil
+    )
+    {
+        self.analysisTemplateIdentifier = analysisTemplateIdentifier
+        self.membershipIdentifier = membershipIdentifier
+    }
+}
+
+struct DeleteAnalysisTemplateInputBody: Swift.Equatable {
+}
+
+extension DeleteAnalysisTemplateInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DeleteAnalysisTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteAnalysisTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteAnalysisTemplateOutputResponse: Swift.Equatable {
+
+    public init() { }
 }
 
 extension DeleteCollaborationInput: ClientRuntime.URLPathProvider {
@@ -3515,6 +4945,196 @@ extension CleanRoomsClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = FilterableMemberStatus(rawValue: rawValue) ?? FilterableMemberStatus.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension GetAnalysisTemplateInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let membershipIdentifier = membershipIdentifier else {
+            return nil
+        }
+        guard let analysisTemplateIdentifier = analysisTemplateIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/analysistemplates/\(analysisTemplateIdentifier.urlPercentEncoding())"
+    }
+}
+
+public struct GetAnalysisTemplateInput: Swift.Equatable {
+    /// The identifier for the analysis template resource.
+    /// This member is required.
+    public var analysisTemplateIdentifier: Swift.String?
+    /// The identifier for a membership resource.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+
+    public init(
+        analysisTemplateIdentifier: Swift.String? = nil,
+        membershipIdentifier: Swift.String? = nil
+    )
+    {
+        self.analysisTemplateIdentifier = analysisTemplateIdentifier
+        self.membershipIdentifier = membershipIdentifier
+    }
+}
+
+struct GetAnalysisTemplateInputBody: Swift.Equatable {
+}
+
+extension GetAnalysisTemplateInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetAnalysisTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetAnalysisTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetAnalysisTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.analysisTemplate = output.analysisTemplate
+        } else {
+            self.analysisTemplate = nil
+        }
+    }
+}
+
+public struct GetAnalysisTemplateOutputResponse: Swift.Equatable {
+    /// The analysis template.
+    /// This member is required.
+    public var analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate?
+
+    public init(
+        analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate? = nil
+    )
+    {
+        self.analysisTemplate = analysisTemplate
+    }
+}
+
+struct GetAnalysisTemplateOutputResponseBody: Swift.Equatable {
+    let analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate?
+}
+
+extension GetAnalysisTemplateOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analysisTemplate
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let analysisTemplateDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.AnalysisTemplate.self, forKey: .analysisTemplate)
+        analysisTemplate = analysisTemplateDecoded
+    }
+}
+
+extension GetCollaborationAnalysisTemplateInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let collaborationIdentifier = collaborationIdentifier else {
+            return nil
+        }
+        guard let analysisTemplateArn = analysisTemplateArn else {
+            return nil
+        }
+        return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())/analysistemplates/\(analysisTemplateArn.urlPercentEncoding())"
+    }
+}
+
+public struct GetCollaborationAnalysisTemplateInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) associated with the analysis template within a collaboration.
+    /// This member is required.
+    public var analysisTemplateArn: Swift.String?
+    /// A unique identifier for the collaboration that the analysis templates belong to. Currently accepts collaboration ID.
+    /// This member is required.
+    public var collaborationIdentifier: Swift.String?
+
+    public init(
+        analysisTemplateArn: Swift.String? = nil,
+        collaborationIdentifier: Swift.String? = nil
+    )
+    {
+        self.analysisTemplateArn = analysisTemplateArn
+        self.collaborationIdentifier = collaborationIdentifier
+    }
+}
+
+struct GetCollaborationAnalysisTemplateInputBody: Swift.Equatable {
+}
+
+extension GetCollaborationAnalysisTemplateInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetCollaborationAnalysisTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetCollaborationAnalysisTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetCollaborationAnalysisTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.collaborationAnalysisTemplate = output.collaborationAnalysisTemplate
+        } else {
+            self.collaborationAnalysisTemplate = nil
+        }
+    }
+}
+
+public struct GetCollaborationAnalysisTemplateOutputResponse: Swift.Equatable {
+    /// The analysis template within a collaboration.
+    /// This member is required.
+    public var collaborationAnalysisTemplate: CleanRoomsClientTypes.CollaborationAnalysisTemplate?
+
+    public init(
+        collaborationAnalysisTemplate: CleanRoomsClientTypes.CollaborationAnalysisTemplate? = nil
+    )
+    {
+        self.collaborationAnalysisTemplate = collaborationAnalysisTemplate
+    }
+}
+
+struct GetCollaborationAnalysisTemplateOutputResponseBody: Swift.Equatable {
+    let collaborationAnalysisTemplate: CleanRoomsClientTypes.CollaborationAnalysisTemplate?
+}
+
+extension GetCollaborationAnalysisTemplateOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case collaborationAnalysisTemplate
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let collaborationAnalysisTemplateDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.CollaborationAnalysisTemplate.self, forKey: .collaborationAnalysisTemplate)
+        collaborationAnalysisTemplate = collaborationAnalysisTemplateDecoded
     }
 }
 
@@ -4287,12 +5907,12 @@ extension CleanRoomsClientTypes.GlueTableReference: Swift.Codable {
 }
 
 extension CleanRoomsClientTypes {
-    /// A reference to a table within an AWS Glue data catalog.
+    /// A reference to a table within an Glue data catalog.
     public struct GlueTableReference: Swift.Equatable {
-        /// The name of the database the AWS Glue table belongs to.
+        /// The name of the database the Glue table belongs to.
         /// This member is required.
         public var databaseName: Swift.String?
-        /// The name of the AWS Glue table.
+        /// The name of the Glue table.
         /// This member is required.
         public var tableName: Swift.String?
 
@@ -4364,6 +5984,38 @@ extension InternalServerExceptionBody: Swift.Decodable {
 }
 
 extension CleanRoomsClientTypes {
+    public enum JoinOperator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case and
+        case or
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JoinOperator] {
+            return [
+                .and,
+                .or,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .and: return "AND"
+            case .or: return "OR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = JoinOperator(rawValue: rawValue) ?? JoinOperator.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
     public enum JoinRequiredOption: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case queryRunner
         case sdkUnknown(Swift.String)
@@ -4389,6 +6041,268 @@ extension CleanRoomsClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = JoinRequiredOption(rawValue: rawValue) ?? JoinRequiredOption.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension ListAnalysisTemplatesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListAnalysisTemplatesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let membershipIdentifier = membershipIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/analysistemplates"
+    }
+}
+
+public struct ListAnalysisTemplatesInput: Swift.Equatable {
+    /// The maximum size of the results that is returned per call.
+    public var maxResults: Swift.Int?
+    /// The identifier for a membership resource.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+    /// The token value retrieved from a previous call to access the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        membershipIdentifier: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.membershipIdentifier = membershipIdentifier
+        self.nextToken = nextToken
+    }
+}
+
+struct ListAnalysisTemplatesInputBody: Swift.Equatable {
+}
+
+extension ListAnalysisTemplatesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum ListAnalysisTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListAnalysisTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListAnalysisTemplatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.analysisTemplateSummaries = output.analysisTemplateSummaries
+            self.nextToken = output.nextToken
+        } else {
+            self.analysisTemplateSummaries = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListAnalysisTemplatesOutputResponse: Swift.Equatable {
+    /// Lists analysis template metadata.
+    /// This member is required.
+    public var analysisTemplateSummaries: [CleanRoomsClientTypes.AnalysisTemplateSummary]?
+    /// The token value retrieved from a previous call to access the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        analysisTemplateSummaries: [CleanRoomsClientTypes.AnalysisTemplateSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.analysisTemplateSummaries = analysisTemplateSummaries
+        self.nextToken = nextToken
+    }
+}
+
+struct ListAnalysisTemplatesOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let analysisTemplateSummaries: [CleanRoomsClientTypes.AnalysisTemplateSummary]?
+}
+
+extension ListAnalysisTemplatesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analysisTemplateSummaries
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let analysisTemplateSummariesContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.AnalysisTemplateSummary?].self, forKey: .analysisTemplateSummaries)
+        var analysisTemplateSummariesDecoded0:[CleanRoomsClientTypes.AnalysisTemplateSummary]? = nil
+        if let analysisTemplateSummariesContainer = analysisTemplateSummariesContainer {
+            analysisTemplateSummariesDecoded0 = [CleanRoomsClientTypes.AnalysisTemplateSummary]()
+            for structure0 in analysisTemplateSummariesContainer {
+                if let structure0 = structure0 {
+                    analysisTemplateSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        analysisTemplateSummaries = analysisTemplateSummariesDecoded0
+    }
+}
+
+extension ListCollaborationAnalysisTemplatesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListCollaborationAnalysisTemplatesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let collaborationIdentifier = collaborationIdentifier else {
+            return nil
+        }
+        return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())/analysistemplates"
+    }
+}
+
+public struct ListCollaborationAnalysisTemplatesInput: Swift.Equatable {
+    /// A unique identifier for the collaboration that the analysis templates belong to. Currently accepts collaboration ID.
+    /// This member is required.
+    public var collaborationIdentifier: Swift.String?
+    /// The maximum size of the results that is returned per call.
+    public var maxResults: Swift.Int?
+    /// The token value retrieved from a previous call to access the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        collaborationIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.collaborationIdentifier = collaborationIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCollaborationAnalysisTemplatesInputBody: Swift.Equatable {
+}
+
+extension ListCollaborationAnalysisTemplatesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum ListCollaborationAnalysisTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListCollaborationAnalysisTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListCollaborationAnalysisTemplatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.collaborationAnalysisTemplateSummaries = output.collaborationAnalysisTemplateSummaries
+            self.nextToken = output.nextToken
+        } else {
+            self.collaborationAnalysisTemplateSummaries = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListCollaborationAnalysisTemplatesOutputResponse: Swift.Equatable {
+    /// The metadata of the analysis template within a collaboration.
+    /// This member is required.
+    public var collaborationAnalysisTemplateSummaries: [CleanRoomsClientTypes.CollaborationAnalysisTemplateSummary]?
+    /// The token value retrieved from a previous call to access the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        collaborationAnalysisTemplateSummaries: [CleanRoomsClientTypes.CollaborationAnalysisTemplateSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.collaborationAnalysisTemplateSummaries = collaborationAnalysisTemplateSummaries
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCollaborationAnalysisTemplatesOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let collaborationAnalysisTemplateSummaries: [CleanRoomsClientTypes.CollaborationAnalysisTemplateSummary]?
+}
+
+extension ListCollaborationAnalysisTemplatesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case collaborationAnalysisTemplateSummaries
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let collaborationAnalysisTemplateSummariesContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.CollaborationAnalysisTemplateSummary?].self, forKey: .collaborationAnalysisTemplateSummaries)
+        var collaborationAnalysisTemplateSummariesDecoded0:[CleanRoomsClientTypes.CollaborationAnalysisTemplateSummary]? = nil
+        if let collaborationAnalysisTemplateSummariesContainer = collaborationAnalysisTemplateSummariesContainer {
+            collaborationAnalysisTemplateSummariesDecoded0 = [CleanRoomsClientTypes.CollaborationAnalysisTemplateSummary]()
+            for structure0 in collaborationAnalysisTemplateSummariesContainer {
+                if let structure0 = structure0 {
+                    collaborationAnalysisTemplateSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        collaborationAnalysisTemplateSummaries = collaborationAnalysisTemplateSummariesDecoded0
     }
 }
 
@@ -5485,7 +7399,7 @@ extension CleanRoomsClientTypes.MemberSpecification: Swift.Codable {
 extension CleanRoomsClientTypes {
     /// Basic metadata used to construct a new member.
     public struct MemberSpecification: Swift.Equatable {
-        /// The identifier used to reference members of the collaboration. Currently only supports AWS Account ID.
+        /// The identifier used to reference members of the collaboration. Currently only supports Amazon Web Services account ID.
         /// This member is required.
         public var accountId: Swift.String?
         /// The member's display name.
@@ -5626,7 +7540,7 @@ extension CleanRoomsClientTypes {
         /// The abilities granted to the collaboration member.
         /// This member is required.
         public var abilities: [CleanRoomsClientTypes.MemberAbility]?
-        /// The identifier used to reference members of the collaboration. Currently only supports AWS Account ID.
+        /// The identifier used to reference members of the collaboration. Currently only supports Amazon Web Services account ID.
         /// This member is required.
         public var accountId: Swift.String?
         /// The time when the member was created.
@@ -5776,7 +7690,7 @@ extension CleanRoomsClientTypes {
         /// The unique ARN for the membership's associated collaboration.
         /// This member is required.
         public var collaborationArn: Swift.String?
-        /// The identifier used to reference members of the collaboration. Currently only supports AWS account ID.
+        /// The identifier used to reference members of the collaboration. Currently only supports Amazon Web Services account ID.
         /// This member is required.
         public var collaborationCreatorAccountId: Swift.String?
         /// The display name of the collaboration creator.
@@ -6006,7 +7920,7 @@ extension CleanRoomsClientTypes {
         /// The unique ARN for the membership's associated collaboration.
         /// This member is required.
         public var collaborationArn: Swift.String?
-        /// The identifier of the AWS principal that created the collaboration. Currently only supports AWS account ID.
+        /// The identifier of the Amazon Web Services principal that created the collaboration. Currently only supports Amazon Web Services account ID.
         /// This member is required.
         public var collaborationCreatorAccountId: Swift.String?
         /// The display name of the collaboration creator.
@@ -6062,6 +7976,77 @@ extension CleanRoomsClientTypes {
         }
     }
 
+}
+
+extension CleanRoomsClientTypes {
+    public enum ParameterType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case bigint
+        case boolean
+        case char
+        case date
+        case decimal
+        case doublePrecision
+        case integer
+        case real
+        case smallint
+        case time
+        case timestamp
+        case timestamptz
+        case timetz
+        case varbyte
+        case varchar
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ParameterType] {
+            return [
+                .bigint,
+                .boolean,
+                .char,
+                .date,
+                .decimal,
+                .doublePrecision,
+                .integer,
+                .real,
+                .smallint,
+                .time,
+                .timestamp,
+                .timestamptz,
+                .timetz,
+                .varbyte,
+                .varchar,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .bigint: return "BIGINT"
+            case .boolean: return "BOOLEAN"
+            case .char: return "CHAR"
+            case .date: return "DATE"
+            case .decimal: return "DECIMAL"
+            case .doublePrecision: return "DOUBLE_PRECISION"
+            case .integer: return "INTEGER"
+            case .real: return "REAL"
+            case .smallint: return "SMALLINT"
+            case .time: return "TIME"
+            case .timestamp: return "TIMESTAMP"
+            case .timestamptz: return "TIMESTAMPTZ"
+            case .timetz: return "TIMETZ"
+            case .varbyte: return "VARBYTE"
+            case .varchar: return "VARCHAR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ParameterType(rawValue: rawValue) ?? ParameterType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension CleanRoomsClientTypes.ProtectedQuery: Swift.Codable {
@@ -6143,7 +8128,7 @@ extension CleanRoomsClientTypes.ProtectedQuery: Swift.CustomDebugStringConvertib
 }
 
 extension CleanRoomsClientTypes {
-    /// The parameters for an AWS Clean Rooms protected query.
+    /// The parameters for an Clean Rooms protected query.
     public struct ProtectedQuery: Swift.Equatable {
         /// The time at which the protected query was created.
         /// This member is required.
@@ -6489,11 +8474,22 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes.ProtectedQuerySQLParameters: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analysisTemplateArn
+        case parameters
         case queryString
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let analysisTemplateArn = self.analysisTemplateArn {
+            try encodeContainer.encode(analysisTemplateArn, forKey: .analysisTemplateArn)
+        }
+        if let parameters = parameters {
+            var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
+            for (dictKey0, parameterMap0) in parameters {
+                try parametersContainer.encode(parameterMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
         if let queryString = self.queryString {
             try encodeContainer.encode(queryString, forKey: .queryString)
         }
@@ -6503,6 +8499,19 @@ extension CleanRoomsClientTypes.ProtectedQuerySQLParameters: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queryStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryString)
         queryString = queryStringDecoded
+        let analysisTemplateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .analysisTemplateArn)
+        analysisTemplateArn = analysisTemplateArnDecoded
+        let parametersContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .parameters)
+        var parametersDecoded0: [Swift.String:Swift.String]? = nil
+        if let parametersContainer = parametersContainer {
+            parametersDecoded0 = [Swift.String:Swift.String]()
+            for (key0, parametervalue0) in parametersContainer {
+                if let parametervalue0 = parametervalue0 {
+                    parametersDecoded0?[key0] = parametervalue0
+                }
+            }
+        }
+        parameters = parametersDecoded0
     }
 }
 
@@ -6515,14 +8524,21 @@ extension CleanRoomsClientTypes.ProtectedQuerySQLParameters: Swift.CustomDebugSt
 extension CleanRoomsClientTypes {
     /// The parameters for the SQL type Protected Query.
     public struct ProtectedQuerySQLParameters: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) associated with the analysis template within a collaboration.
+        public var analysisTemplateArn: Swift.String?
+        /// The protected query SQL parameters.
+        public var parameters: [Swift.String:Swift.String]?
         /// The query string to be submitted.
-        /// This member is required.
         public var queryString: Swift.String?
 
         public init(
+            analysisTemplateArn: Swift.String? = nil,
+            parameters: [Swift.String:Swift.String]? = nil,
             queryString: Swift.String? = nil
         )
         {
+            self.analysisTemplateArn = analysisTemplateArn
+            self.parameters = parameters
             self.queryString = queryString
         }
     }
@@ -7059,7 +9075,7 @@ extension CleanRoomsClientTypes {
     public struct Schema: Swift.Equatable {
         /// The analysis method for the schema. The only valid value is currently DIRECT_QUERY.
         public var analysisMethod: CleanRoomsClientTypes.AnalysisMethod?
-        /// The analysis rule types associated with the schema. Valued values are LIST and AGGREGATION. Currently, only one entry is present.
+        /// The analysis rule types associated with the schema. Currently, only one entry is present.
         /// This member is required.
         public var analysisRuleTypes: [CleanRoomsClientTypes.AnalysisRuleType]?
         /// The unique ARN for the collaboration that the schema belongs to.
@@ -7074,7 +9090,7 @@ extension CleanRoomsClientTypes {
         /// The time the schema was created.
         /// This member is required.
         public var createTime: ClientRuntime.Date?
-        /// The unique account ID for the AWS account that owns the schema.
+        /// The unique account ID for the Amazon Web Services account that owns the schema.
         /// This member is required.
         public var creatorAccountId: Swift.String?
         /// A description for the schema.
@@ -7221,7 +9237,7 @@ extension CleanRoomsClientTypes {
         /// The time the schema object was created.
         /// This member is required.
         public var createTime: ClientRuntime.Date?
-        /// The unique account ID for the AWS account that owns the schema.
+        /// The unique account ID for the Amazon Web Services account that owns the schema.
         /// This member is required.
         public var creatorAccountId: Swift.String?
         /// The name for the schema object.
@@ -7539,9 +9555,9 @@ extension CleanRoomsClientTypes.TableReference: Swift.Codable {
 }
 
 extension CleanRoomsClientTypes {
-    /// A pointer to the dataset that underlies this table. Currently, this can only be an AWS Glue table.
+    /// A pointer to the dataset that underlies this table. Currently, this can only be an Glue table.
     public enum TableReference: Swift.Equatable {
-        /// If present, a reference to the AWS Glue table referred to by this table reference.
+        /// If present, a reference to the Glue table referred to by this table reference.
         case glue(CleanRoomsClientTypes.GlueTableReference)
         case sdkUnknown(Swift.String)
     }
@@ -7795,6 +9811,125 @@ extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct UntagResourceOutputResponse: Swift.Equatable {
 
     public init() { }
+}
+
+extension UpdateAnalysisTemplateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+    }
+}
+
+extension UpdateAnalysisTemplateInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let membershipIdentifier = membershipIdentifier else {
+            return nil
+        }
+        guard let analysisTemplateIdentifier = analysisTemplateIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/analysistemplates/\(analysisTemplateIdentifier.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateAnalysisTemplateInput: Swift.Equatable {
+    /// The identifier for the analysis template resource.
+    /// This member is required.
+    public var analysisTemplateIdentifier: Swift.String?
+    /// A new description for the analysis template.
+    public var description: Swift.String?
+    /// The identifier for a membership resource.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+
+    public init(
+        analysisTemplateIdentifier: Swift.String? = nil,
+        description: Swift.String? = nil,
+        membershipIdentifier: Swift.String? = nil
+    )
+    {
+        self.analysisTemplateIdentifier = analysisTemplateIdentifier
+        self.description = description
+        self.membershipIdentifier = membershipIdentifier
+    }
+}
+
+struct UpdateAnalysisTemplateInputBody: Swift.Equatable {
+    let description: Swift.String?
+}
+
+extension UpdateAnalysisTemplateInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+public enum UpdateAnalysisTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateAnalysisTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateAnalysisTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.analysisTemplate = output.analysisTemplate
+        } else {
+            self.analysisTemplate = nil
+        }
+    }
+}
+
+public struct UpdateAnalysisTemplateOutputResponse: Swift.Equatable {
+    /// The analysis template.
+    /// This member is required.
+    public var analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate?
+
+    public init(
+        analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate? = nil
+    )
+    {
+        self.analysisTemplate = analysisTemplate
+    }
+}
+
+struct UpdateAnalysisTemplateOutputResponseBody: Swift.Equatable {
+    let analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate?
+}
+
+extension UpdateAnalysisTemplateOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analysisTemplate
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let analysisTemplateDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.AnalysisTemplate.self, forKey: .analysisTemplate)
+        analysisTemplate = analysisTemplateDecoded
+    }
 }
 
 extension UpdateCollaborationInput: Swift.Encodable {
@@ -8663,6 +10798,7 @@ extension CleanRoomsClientTypes {
 extension CleanRoomsClientTypes {
     public enum ValidationExceptionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case fieldValidationFailed
+        case iamSynchronizationDelay
         case invalidConfiguration
         case invalidQuery
         case sdkUnknown(Swift.String)
@@ -8670,6 +10806,7 @@ extension CleanRoomsClientTypes {
         public static var allCases: [ValidationExceptionReason] {
             return [
                 .fieldValidationFailed,
+                .iamSynchronizationDelay,
                 .invalidConfiguration,
                 .invalidQuery,
                 .sdkUnknown("")
@@ -8682,6 +10819,7 @@ extension CleanRoomsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .fieldValidationFailed: return "FIELD_VALIDATION_FAILED"
+            case .iamSynchronizationDelay: return "IAM_SYNCHRONIZATION_DELAY"
             case .invalidConfiguration: return "INVALID_CONFIGURATION"
             case .invalidQuery: return "INVALID_QUERY"
             case let .sdkUnknown(s): return s

@@ -819,10 +819,12 @@ extension ProtonClientTypes.Component: Swift.Codable {
         case deploymentStatusMessage
         case description
         case environmentName
+        case lastAttemptedDeploymentId
         case lastClientRequestToken
         case lastDeploymentAttemptedAt
         case lastDeploymentSucceededAt
         case lastModifiedAt
+        case lastSucceededDeploymentId
         case name
         case serviceInstanceName
         case serviceName
@@ -849,6 +851,9 @@ extension ProtonClientTypes.Component: Swift.Codable {
         if let environmentName = self.environmentName {
             try encodeContainer.encode(environmentName, forKey: .environmentName)
         }
+        if let lastAttemptedDeploymentId = self.lastAttemptedDeploymentId {
+            try encodeContainer.encode(lastAttemptedDeploymentId, forKey: .lastAttemptedDeploymentId)
+        }
         if let lastClientRequestToken = self.lastClientRequestToken {
             try encodeContainer.encode(lastClientRequestToken, forKey: .lastClientRequestToken)
         }
@@ -860,6 +865,9 @@ extension ProtonClientTypes.Component: Swift.Codable {
         }
         if let lastModifiedAt = self.lastModifiedAt {
             try encodeContainer.encodeTimestamp(lastModifiedAt, format: .epochSeconds, forKey: .lastModifiedAt)
+        }
+        if let lastSucceededDeploymentId = self.lastSucceededDeploymentId {
+            try encodeContainer.encode(lastSucceededDeploymentId, forKey: .lastSucceededDeploymentId)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -905,12 +913,16 @@ extension ProtonClientTypes.Component: Swift.Codable {
         serviceSpec = serviceSpecDecoded
         let lastClientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastClientRequestToken)
         lastClientRequestToken = lastClientRequestTokenDecoded
+        let lastAttemptedDeploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastAttemptedDeploymentId)
+        lastAttemptedDeploymentId = lastAttemptedDeploymentIdDecoded
+        let lastSucceededDeploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastSucceededDeploymentId)
+        lastSucceededDeploymentId = lastSucceededDeploymentIdDecoded
     }
 }
 
 extension ProtonClientTypes.Component: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Component(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), deploymentStatus: \(Swift.String(describing: deploymentStatus)), environmentName: \(Swift.String(describing: environmentName)), lastClientRequestToken: \(Swift.String(describing: lastClientRequestToken)), lastDeploymentAttemptedAt: \(Swift.String(describing: lastDeploymentAttemptedAt)), lastDeploymentSucceededAt: \(Swift.String(describing: lastDeploymentSucceededAt)), lastModifiedAt: \(Swift.String(describing: lastModifiedAt)), name: \(Swift.String(describing: name)), serviceInstanceName: \(Swift.String(describing: serviceInstanceName)), serviceName: \(Swift.String(describing: serviceName)), deploymentStatusMessage: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", serviceSpec: \"CONTENT_REDACTED\")"}
+        "Component(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), deploymentStatus: \(Swift.String(describing: deploymentStatus)), environmentName: \(Swift.String(describing: environmentName)), lastAttemptedDeploymentId: \(Swift.String(describing: lastAttemptedDeploymentId)), lastClientRequestToken: \(Swift.String(describing: lastClientRequestToken)), lastDeploymentAttemptedAt: \(Swift.String(describing: lastDeploymentAttemptedAt)), lastDeploymentSucceededAt: \(Swift.String(describing: lastDeploymentSucceededAt)), lastModifiedAt: \(Swift.String(describing: lastModifiedAt)), lastSucceededDeploymentId: \(Swift.String(describing: lastSucceededDeploymentId)), name: \(Swift.String(describing: name)), serviceInstanceName: \(Swift.String(describing: serviceInstanceName)), serviceName: \(Swift.String(describing: serviceName)), deploymentStatusMessage: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", serviceSpec: \"CONTENT_REDACTED\")"}
 }
 
 extension ProtonClientTypes {
@@ -932,6 +944,8 @@ extension ProtonClientTypes {
         /// The name of the Proton environment that this component is associated with.
         /// This member is required.
         public var environmentName: Swift.String?
+        /// The ID of the last attempted deployment of this component.
+        public var lastAttemptedDeploymentId: Swift.String?
         /// The last token the client requested.
         public var lastClientRequestToken: Swift.String?
         /// The time when a deployment of the component was last attempted.
@@ -941,6 +955,8 @@ extension ProtonClientTypes {
         /// The time when the component was last modified.
         /// This member is required.
         public var lastModifiedAt: ClientRuntime.Date?
+        /// The ID of the last successful deployment of this component.
+        public var lastSucceededDeploymentId: Swift.String?
         /// The name of the component.
         /// This member is required.
         public var name: Swift.String?
@@ -958,10 +974,12 @@ extension ProtonClientTypes {
             deploymentStatusMessage: Swift.String? = nil,
             description: Swift.String? = nil,
             environmentName: Swift.String? = nil,
+            lastAttemptedDeploymentId: Swift.String? = nil,
             lastClientRequestToken: Swift.String? = nil,
             lastDeploymentAttemptedAt: ClientRuntime.Date? = nil,
             lastDeploymentSucceededAt: ClientRuntime.Date? = nil,
             lastModifiedAt: ClientRuntime.Date? = nil,
+            lastSucceededDeploymentId: Swift.String? = nil,
             name: Swift.String? = nil,
             serviceInstanceName: Swift.String? = nil,
             serviceName: Swift.String? = nil,
@@ -974,10 +992,12 @@ extension ProtonClientTypes {
             self.deploymentStatusMessage = deploymentStatusMessage
             self.description = description
             self.environmentName = environmentName
+            self.lastAttemptedDeploymentId = lastAttemptedDeploymentId
             self.lastClientRequestToken = lastClientRequestToken
             self.lastDeploymentAttemptedAt = lastDeploymentAttemptedAt
             self.lastDeploymentSucceededAt = lastDeploymentSucceededAt
             self.lastModifiedAt = lastModifiedAt
+            self.lastSucceededDeploymentId = lastSucceededDeploymentId
             self.name = name
             self.serviceInstanceName = serviceInstanceName
             self.serviceName = serviceName
@@ -1019,6 +1039,76 @@ extension ProtonClientTypes {
     }
 }
 
+extension ProtonClientTypes.ComponentState: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceInstanceName
+        case serviceName
+        case serviceSpec
+        case templateFile
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let serviceInstanceName = self.serviceInstanceName {
+            try encodeContainer.encode(serviceInstanceName, forKey: .serviceInstanceName)
+        }
+        if let serviceName = self.serviceName {
+            try encodeContainer.encode(serviceName, forKey: .serviceName)
+        }
+        if let serviceSpec = self.serviceSpec {
+            try encodeContainer.encode(serviceSpec, forKey: .serviceSpec)
+        }
+        if let templateFile = self.templateFile {
+            try encodeContainer.encode(templateFile, forKey: .templateFile)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceName)
+        serviceName = serviceNameDecoded
+        let serviceInstanceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceInstanceName)
+        serviceInstanceName = serviceInstanceNameDecoded
+        let serviceSpecDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceSpec)
+        serviceSpec = serviceSpecDecoded
+        let templateFileDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateFile)
+        templateFile = templateFileDecoded
+    }
+}
+
+extension ProtonClientTypes.ComponentState: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ComponentState(serviceInstanceName: \(Swift.String(describing: serviceInstanceName)), serviceName: \(Swift.String(describing: serviceName)), serviceSpec: \"CONTENT_REDACTED\", templateFile: \"CONTENT_REDACTED\")"}
+}
+
+extension ProtonClientTypes {
+    /// The detailed data about the current state of the component.
+    public struct ComponentState: Swift.Equatable {
+        /// The name of the service instance that this component is attached to. Provided when a component is attached to a service instance.
+        public var serviceInstanceName: Swift.String?
+        /// The name of the service that serviceInstanceName is associated with. Provided when a component is attached to a service instance.
+        public var serviceName: Swift.String?
+        /// The service spec that the component uses to access service inputs. Provided when a component is attached to a service instance.
+        public var serviceSpec: Swift.String?
+        /// The template file used.
+        public var templateFile: Swift.String?
+
+        public init(
+            serviceInstanceName: Swift.String? = nil,
+            serviceName: Swift.String? = nil,
+            serviceSpec: Swift.String? = nil,
+            templateFile: Swift.String? = nil
+        )
+        {
+            self.serviceInstanceName = serviceInstanceName
+            self.serviceName = serviceName
+            self.serviceSpec = serviceSpec
+            self.templateFile = templateFile
+        }
+    }
+
+}
+
 extension ProtonClientTypes.ComponentSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
@@ -1026,9 +1116,11 @@ extension ProtonClientTypes.ComponentSummary: Swift.Codable {
         case deploymentStatus
         case deploymentStatusMessage
         case environmentName
+        case lastAttemptedDeploymentId
         case lastDeploymentAttemptedAt
         case lastDeploymentSucceededAt
         case lastModifiedAt
+        case lastSucceededDeploymentId
         case name
         case serviceInstanceName
         case serviceName
@@ -1051,6 +1143,9 @@ extension ProtonClientTypes.ComponentSummary: Swift.Codable {
         if let environmentName = self.environmentName {
             try encodeContainer.encode(environmentName, forKey: .environmentName)
         }
+        if let lastAttemptedDeploymentId = self.lastAttemptedDeploymentId {
+            try encodeContainer.encode(lastAttemptedDeploymentId, forKey: .lastAttemptedDeploymentId)
+        }
         if let lastDeploymentAttemptedAt = self.lastDeploymentAttemptedAt {
             try encodeContainer.encodeTimestamp(lastDeploymentAttemptedAt, format: .epochSeconds, forKey: .lastDeploymentAttemptedAt)
         }
@@ -1059,6 +1154,9 @@ extension ProtonClientTypes.ComponentSummary: Swift.Codable {
         }
         if let lastModifiedAt = self.lastModifiedAt {
             try encodeContainer.encodeTimestamp(lastModifiedAt, format: .epochSeconds, forKey: .lastModifiedAt)
+        }
+        if let lastSucceededDeploymentId = self.lastSucceededDeploymentId {
+            try encodeContainer.encode(lastSucceededDeploymentId, forKey: .lastSucceededDeploymentId)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -1095,12 +1193,16 @@ extension ProtonClientTypes.ComponentSummary: Swift.Codable {
         deploymentStatus = deploymentStatusDecoded
         let deploymentStatusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentStatusMessage)
         deploymentStatusMessage = deploymentStatusMessageDecoded
+        let lastAttemptedDeploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastAttemptedDeploymentId)
+        lastAttemptedDeploymentId = lastAttemptedDeploymentIdDecoded
+        let lastSucceededDeploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastSucceededDeploymentId)
+        lastSucceededDeploymentId = lastSucceededDeploymentIdDecoded
     }
 }
 
 extension ProtonClientTypes.ComponentSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ComponentSummary(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), deploymentStatus: \(Swift.String(describing: deploymentStatus)), environmentName: \(Swift.String(describing: environmentName)), lastDeploymentAttemptedAt: \(Swift.String(describing: lastDeploymentAttemptedAt)), lastDeploymentSucceededAt: \(Swift.String(describing: lastDeploymentSucceededAt)), lastModifiedAt: \(Swift.String(describing: lastModifiedAt)), name: \(Swift.String(describing: name)), serviceInstanceName: \(Swift.String(describing: serviceInstanceName)), serviceName: \(Swift.String(describing: serviceName)), deploymentStatusMessage: \"CONTENT_REDACTED\")"}
+        "ComponentSummary(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), deploymentStatus: \(Swift.String(describing: deploymentStatus)), environmentName: \(Swift.String(describing: environmentName)), lastAttemptedDeploymentId: \(Swift.String(describing: lastAttemptedDeploymentId)), lastDeploymentAttemptedAt: \(Swift.String(describing: lastDeploymentAttemptedAt)), lastDeploymentSucceededAt: \(Swift.String(describing: lastDeploymentSucceededAt)), lastModifiedAt: \(Swift.String(describing: lastModifiedAt)), lastSucceededDeploymentId: \(Swift.String(describing: lastSucceededDeploymentId)), name: \(Swift.String(describing: name)), serviceInstanceName: \(Swift.String(describing: serviceInstanceName)), serviceName: \(Swift.String(describing: serviceName)), deploymentStatusMessage: \"CONTENT_REDACTED\")"}
 }
 
 extension ProtonClientTypes {
@@ -1120,6 +1222,8 @@ extension ProtonClientTypes {
         /// The name of the Proton environment that this component is associated with.
         /// This member is required.
         public var environmentName: Swift.String?
+        /// The ID of the last attempted deployment of this component.
+        public var lastAttemptedDeploymentId: Swift.String?
         /// The time when a deployment of the component was last attempted.
         public var lastDeploymentAttemptedAt: ClientRuntime.Date?
         /// The time when the component was last deployed successfully.
@@ -1127,6 +1231,8 @@ extension ProtonClientTypes {
         /// The time when the component was last modified.
         /// This member is required.
         public var lastModifiedAt: ClientRuntime.Date?
+        /// The ID of the last successful deployment of this component.
+        public var lastSucceededDeploymentId: Swift.String?
         /// The name of the component.
         /// This member is required.
         public var name: Swift.String?
@@ -1141,9 +1247,11 @@ extension ProtonClientTypes {
             deploymentStatus: ProtonClientTypes.DeploymentStatus? = nil,
             deploymentStatusMessage: Swift.String? = nil,
             environmentName: Swift.String? = nil,
+            lastAttemptedDeploymentId: Swift.String? = nil,
             lastDeploymentAttemptedAt: ClientRuntime.Date? = nil,
             lastDeploymentSucceededAt: ClientRuntime.Date? = nil,
             lastModifiedAt: ClientRuntime.Date? = nil,
+            lastSucceededDeploymentId: Swift.String? = nil,
             name: Swift.String? = nil,
             serviceInstanceName: Swift.String? = nil,
             serviceName: Swift.String? = nil
@@ -1154,9 +1262,11 @@ extension ProtonClientTypes {
             self.deploymentStatus = deploymentStatus
             self.deploymentStatusMessage = deploymentStatusMessage
             self.environmentName = environmentName
+            self.lastAttemptedDeploymentId = lastAttemptedDeploymentId
             self.lastDeploymentAttemptedAt = lastDeploymentAttemptedAt
             self.lastDeploymentSucceededAt = lastDeploymentSucceededAt
             self.lastModifiedAt = lastModifiedAt
+            self.lastSucceededDeploymentId = lastSucceededDeploymentId
             self.name = name
             self.serviceInstanceName = serviceInstanceName
             self.serviceName = serviceName
@@ -3808,6 +3918,109 @@ extension DeleteComponentOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DeleteDeploymentInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+    }
+}
+
+extension DeleteDeploymentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteDeploymentInput: Swift.Equatable {
+    /// The ID of the deployment to delete.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    )
+    {
+        self.id = id
+    }
+}
+
+struct DeleteDeploymentInputBody: Swift.Equatable {
+    let id: Swift.String?
+}
+
+extension DeleteDeploymentInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+    }
+}
+
+public enum DeleteDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.deployment = output.deployment
+        } else {
+            self.deployment = nil
+        }
+    }
+}
+
+public struct DeleteDeploymentOutputResponse: Swift.Equatable {
+    /// The detailed data of the deployment being deleted.
+    public var deployment: ProtonClientTypes.Deployment?
+
+    public init(
+        deployment: ProtonClientTypes.Deployment? = nil
+    )
+    {
+        self.deployment = deployment
+    }
+}
+
+struct DeleteDeploymentOutputResponseBody: Swift.Equatable {
+    let deployment: ProtonClientTypes.Deployment?
+}
+
+extension DeleteDeploymentOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deployment
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deploymentDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Deployment.self, forKey: .deployment)
+        deployment = deploymentDecoded
+    }
+}
+
 extension DeleteEnvironmentAccountConnectionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case id
@@ -4926,6 +5139,292 @@ extension DeleteTemplateSyncConfigOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ProtonClientTypes.Deployment: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case completedAt
+        case componentName
+        case createdAt
+        case deploymentStatus
+        case deploymentStatusMessage
+        case environmentName
+        case id
+        case initialState
+        case lastAttemptedDeploymentId
+        case lastModifiedAt
+        case lastSucceededDeploymentId
+        case serviceInstanceName
+        case serviceName
+        case targetArn
+        case targetResourceCreatedAt
+        case targetResourceType
+        case targetState
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let completedAt = self.completedAt {
+            try encodeContainer.encodeTimestamp(completedAt, format: .epochSeconds, forKey: .completedAt)
+        }
+        if let componentName = self.componentName {
+            try encodeContainer.encode(componentName, forKey: .componentName)
+        }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let deploymentStatus = self.deploymentStatus {
+            try encodeContainer.encode(deploymentStatus.rawValue, forKey: .deploymentStatus)
+        }
+        if let deploymentStatusMessage = self.deploymentStatusMessage {
+            try encodeContainer.encode(deploymentStatusMessage, forKey: .deploymentStatusMessage)
+        }
+        if let environmentName = self.environmentName {
+            try encodeContainer.encode(environmentName, forKey: .environmentName)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let initialState = self.initialState {
+            try encodeContainer.encode(initialState, forKey: .initialState)
+        }
+        if let lastAttemptedDeploymentId = self.lastAttemptedDeploymentId {
+            try encodeContainer.encode(lastAttemptedDeploymentId, forKey: .lastAttemptedDeploymentId)
+        }
+        if let lastModifiedAt = self.lastModifiedAt {
+            try encodeContainer.encodeTimestamp(lastModifiedAt, format: .epochSeconds, forKey: .lastModifiedAt)
+        }
+        if let lastSucceededDeploymentId = self.lastSucceededDeploymentId {
+            try encodeContainer.encode(lastSucceededDeploymentId, forKey: .lastSucceededDeploymentId)
+        }
+        if let serviceInstanceName = self.serviceInstanceName {
+            try encodeContainer.encode(serviceInstanceName, forKey: .serviceInstanceName)
+        }
+        if let serviceName = self.serviceName {
+            try encodeContainer.encode(serviceName, forKey: .serviceName)
+        }
+        if let targetArn = self.targetArn {
+            try encodeContainer.encode(targetArn, forKey: .targetArn)
+        }
+        if let targetResourceCreatedAt = self.targetResourceCreatedAt {
+            try encodeContainer.encodeTimestamp(targetResourceCreatedAt, format: .epochSeconds, forKey: .targetResourceCreatedAt)
+        }
+        if let targetResourceType = self.targetResourceType {
+            try encodeContainer.encode(targetResourceType.rawValue, forKey: .targetResourceType)
+        }
+        if let targetState = self.targetState {
+            try encodeContainer.encode(targetState, forKey: .targetState)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let targetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetArn)
+        targetArn = targetArnDecoded
+        let targetResourceCreatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .targetResourceCreatedAt)
+        targetResourceCreatedAt = targetResourceCreatedAtDecoded
+        let targetResourceTypeDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.DeploymentTargetResourceType.self, forKey: .targetResourceType)
+        targetResourceType = targetResourceTypeDecoded
+        let environmentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentName)
+        environmentName = environmentNameDecoded
+        let serviceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceName)
+        serviceName = serviceNameDecoded
+        let serviceInstanceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceInstanceName)
+        serviceInstanceName = serviceInstanceNameDecoded
+        let componentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentName)
+        componentName = componentNameDecoded
+        let deploymentStatusDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.DeploymentStatus.self, forKey: .deploymentStatus)
+        deploymentStatus = deploymentStatusDecoded
+        let deploymentStatusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentStatusMessage)
+        deploymentStatusMessage = deploymentStatusMessageDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let lastModifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedAt)
+        lastModifiedAt = lastModifiedAtDecoded
+        let completedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .completedAt)
+        completedAt = completedAtDecoded
+        let lastAttemptedDeploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastAttemptedDeploymentId)
+        lastAttemptedDeploymentId = lastAttemptedDeploymentIdDecoded
+        let lastSucceededDeploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastSucceededDeploymentId)
+        lastSucceededDeploymentId = lastSucceededDeploymentIdDecoded
+        let initialStateDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.DeploymentState.self, forKey: .initialState)
+        initialState = initialStateDecoded
+        let targetStateDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.DeploymentState.self, forKey: .targetState)
+        targetState = targetStateDecoded
+    }
+}
+
+extension ProtonClientTypes.Deployment: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Deployment(arn: \(Swift.String(describing: arn)), completedAt: \(Swift.String(describing: completedAt)), componentName: \(Swift.String(describing: componentName)), createdAt: \(Swift.String(describing: createdAt)), deploymentStatus: \(Swift.String(describing: deploymentStatus)), environmentName: \(Swift.String(describing: environmentName)), id: \(Swift.String(describing: id)), initialState: \(Swift.String(describing: initialState)), lastAttemptedDeploymentId: \(Swift.String(describing: lastAttemptedDeploymentId)), lastModifiedAt: \(Swift.String(describing: lastModifiedAt)), lastSucceededDeploymentId: \(Swift.String(describing: lastSucceededDeploymentId)), serviceInstanceName: \(Swift.String(describing: serviceInstanceName)), serviceName: \(Swift.String(describing: serviceName)), targetArn: \(Swift.String(describing: targetArn)), targetResourceCreatedAt: \(Swift.String(describing: targetResourceCreatedAt)), targetResourceType: \(Swift.String(describing: targetResourceType)), targetState: \(Swift.String(describing: targetState)), deploymentStatusMessage: \"CONTENT_REDACTED\")"}
+}
+
+extension ProtonClientTypes {
+    /// The detailed information about a deployment.
+    public struct Deployment: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the deployment.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The date and time the deployment was completed.
+        public var completedAt: ClientRuntime.Date?
+        /// The name of the component associated with this deployment.
+        public var componentName: Swift.String?
+        /// The date and time the deployment was created.
+        /// This member is required.
+        public var createdAt: ClientRuntime.Date?
+        /// The status of the deployment.
+        /// This member is required.
+        public var deploymentStatus: ProtonClientTypes.DeploymentStatus?
+        /// The deployment status message.
+        public var deploymentStatusMessage: Swift.String?
+        /// The name of the environment associated with this deployment.
+        /// This member is required.
+        public var environmentName: Swift.String?
+        /// The ID of the deployment.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The initial state of the target resource at the time of the deployment.
+        public var initialState: ProtonClientTypes.DeploymentState?
+        /// The ID of the last attempted deployment.
+        public var lastAttemptedDeploymentId: Swift.String?
+        /// The date and time the deployment was last modified.
+        /// This member is required.
+        public var lastModifiedAt: ClientRuntime.Date?
+        /// The ID of the last successful deployment.
+        public var lastSucceededDeploymentId: Swift.String?
+        /// The name of the deployment's service instance.
+        public var serviceInstanceName: Swift.String?
+        /// The name of the service in this deployment.
+        public var serviceName: Swift.String?
+        /// The Amazon Resource Name (ARN) of the target of the deployment.
+        /// This member is required.
+        public var targetArn: Swift.String?
+        /// The date and time the depoyment target was created.
+        /// This member is required.
+        public var targetResourceCreatedAt: ClientRuntime.Date?
+        /// The resource type of the deployment target. It can be an environment, service, service instance, or component.
+        /// This member is required.
+        public var targetResourceType: ProtonClientTypes.DeploymentTargetResourceType?
+        /// The target state of the target resource at the time of the deployment.
+        public var targetState: ProtonClientTypes.DeploymentState?
+
+        public init(
+            arn: Swift.String? = nil,
+            completedAt: ClientRuntime.Date? = nil,
+            componentName: Swift.String? = nil,
+            createdAt: ClientRuntime.Date? = nil,
+            deploymentStatus: ProtonClientTypes.DeploymentStatus? = nil,
+            deploymentStatusMessage: Swift.String? = nil,
+            environmentName: Swift.String? = nil,
+            id: Swift.String? = nil,
+            initialState: ProtonClientTypes.DeploymentState? = nil,
+            lastAttemptedDeploymentId: Swift.String? = nil,
+            lastModifiedAt: ClientRuntime.Date? = nil,
+            lastSucceededDeploymentId: Swift.String? = nil,
+            serviceInstanceName: Swift.String? = nil,
+            serviceName: Swift.String? = nil,
+            targetArn: Swift.String? = nil,
+            targetResourceCreatedAt: ClientRuntime.Date? = nil,
+            targetResourceType: ProtonClientTypes.DeploymentTargetResourceType? = nil,
+            targetState: ProtonClientTypes.DeploymentState? = nil
+        )
+        {
+            self.arn = arn
+            self.completedAt = completedAt
+            self.componentName = componentName
+            self.createdAt = createdAt
+            self.deploymentStatus = deploymentStatus
+            self.deploymentStatusMessage = deploymentStatusMessage
+            self.environmentName = environmentName
+            self.id = id
+            self.initialState = initialState
+            self.lastAttemptedDeploymentId = lastAttemptedDeploymentId
+            self.lastModifiedAt = lastModifiedAt
+            self.lastSucceededDeploymentId = lastSucceededDeploymentId
+            self.serviceInstanceName = serviceInstanceName
+            self.serviceName = serviceName
+            self.targetArn = targetArn
+            self.targetResourceCreatedAt = targetResourceCreatedAt
+            self.targetResourceType = targetResourceType
+            self.targetState = targetState
+        }
+    }
+
+}
+
+extension ProtonClientTypes.DeploymentState: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case component
+        case environment
+        case sdkUnknown
+        case serviceinstance = "serviceInstance"
+        case servicepipeline = "servicePipeline"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .component(component):
+                try container.encode(component, forKey: .component)
+            case let .environment(environment):
+                try container.encode(environment, forKey: .environment)
+            case let .serviceinstance(serviceinstance):
+                try container.encode(serviceinstance, forKey: .serviceinstance)
+            case let .servicepipeline(servicepipeline):
+                try container.encode(servicepipeline, forKey: .servicepipeline)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceinstanceDecoded = try values.decodeIfPresent(ProtonClientTypes.ServiceInstanceState.self, forKey: .serviceinstance)
+        if let serviceinstance = serviceinstanceDecoded {
+            self = .serviceinstance(serviceinstance)
+            return
+        }
+        let environmentDecoded = try values.decodeIfPresent(ProtonClientTypes.EnvironmentState.self, forKey: .environment)
+        if let environment = environmentDecoded {
+            self = .environment(environment)
+            return
+        }
+        let servicepipelineDecoded = try values.decodeIfPresent(ProtonClientTypes.ServicePipelineState.self, forKey: .servicepipeline)
+        if let servicepipeline = servicepipelineDecoded {
+            self = .servicepipeline(servicepipeline)
+            return
+        }
+        let componentDecoded = try values.decodeIfPresent(ProtonClientTypes.ComponentState.self, forKey: .component)
+        if let component = componentDecoded {
+            self = .component(component)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension ProtonClientTypes {
+    /// The detailed data about the current state of the deployment.
+    public enum DeploymentState: Swift.Equatable {
+        /// The state of the service instance associated with the deployment.
+        case serviceinstance(ProtonClientTypes.ServiceInstanceState)
+        /// The state of the environment associated with the deployment.
+        case environment(ProtonClientTypes.EnvironmentState)
+        /// The state of the service pipeline associated with the deployment.
+        case servicepipeline(ProtonClientTypes.ServicePipelineState)
+        /// The state of the component associated with the deployment.
+        case component(ProtonClientTypes.ComponentState)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
 extension ProtonClientTypes {
     public enum DeploymentStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case cancelled
@@ -4972,6 +5471,228 @@ extension ProtonClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = DeploymentStatus(rawValue: rawValue) ?? DeploymentStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ProtonClientTypes.DeploymentSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case completedAt
+        case componentName
+        case createdAt
+        case deploymentStatus
+        case environmentName
+        case id
+        case lastAttemptedDeploymentId
+        case lastModifiedAt
+        case lastSucceededDeploymentId
+        case serviceInstanceName
+        case serviceName
+        case targetArn
+        case targetResourceCreatedAt
+        case targetResourceType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let completedAt = self.completedAt {
+            try encodeContainer.encodeTimestamp(completedAt, format: .epochSeconds, forKey: .completedAt)
+        }
+        if let componentName = self.componentName {
+            try encodeContainer.encode(componentName, forKey: .componentName)
+        }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let deploymentStatus = self.deploymentStatus {
+            try encodeContainer.encode(deploymentStatus.rawValue, forKey: .deploymentStatus)
+        }
+        if let environmentName = self.environmentName {
+            try encodeContainer.encode(environmentName, forKey: .environmentName)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let lastAttemptedDeploymentId = self.lastAttemptedDeploymentId {
+            try encodeContainer.encode(lastAttemptedDeploymentId, forKey: .lastAttemptedDeploymentId)
+        }
+        if let lastModifiedAt = self.lastModifiedAt {
+            try encodeContainer.encodeTimestamp(lastModifiedAt, format: .epochSeconds, forKey: .lastModifiedAt)
+        }
+        if let lastSucceededDeploymentId = self.lastSucceededDeploymentId {
+            try encodeContainer.encode(lastSucceededDeploymentId, forKey: .lastSucceededDeploymentId)
+        }
+        if let serviceInstanceName = self.serviceInstanceName {
+            try encodeContainer.encode(serviceInstanceName, forKey: .serviceInstanceName)
+        }
+        if let serviceName = self.serviceName {
+            try encodeContainer.encode(serviceName, forKey: .serviceName)
+        }
+        if let targetArn = self.targetArn {
+            try encodeContainer.encode(targetArn, forKey: .targetArn)
+        }
+        if let targetResourceCreatedAt = self.targetResourceCreatedAt {
+            try encodeContainer.encodeTimestamp(targetResourceCreatedAt, format: .epochSeconds, forKey: .targetResourceCreatedAt)
+        }
+        if let targetResourceType = self.targetResourceType {
+            try encodeContainer.encode(targetResourceType.rawValue, forKey: .targetResourceType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let targetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetArn)
+        targetArn = targetArnDecoded
+        let targetResourceCreatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .targetResourceCreatedAt)
+        targetResourceCreatedAt = targetResourceCreatedAtDecoded
+        let targetResourceTypeDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.DeploymentTargetResourceType.self, forKey: .targetResourceType)
+        targetResourceType = targetResourceTypeDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let lastModifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedAt)
+        lastModifiedAt = lastModifiedAtDecoded
+        let completedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .completedAt)
+        completedAt = completedAtDecoded
+        let environmentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentName)
+        environmentName = environmentNameDecoded
+        let serviceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceName)
+        serviceName = serviceNameDecoded
+        let serviceInstanceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceInstanceName)
+        serviceInstanceName = serviceInstanceNameDecoded
+        let componentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentName)
+        componentName = componentNameDecoded
+        let lastAttemptedDeploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastAttemptedDeploymentId)
+        lastAttemptedDeploymentId = lastAttemptedDeploymentIdDecoded
+        let lastSucceededDeploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastSucceededDeploymentId)
+        lastSucceededDeploymentId = lastSucceededDeploymentIdDecoded
+        let deploymentStatusDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.DeploymentStatus.self, forKey: .deploymentStatus)
+        deploymentStatus = deploymentStatusDecoded
+    }
+}
+
+extension ProtonClientTypes {
+    /// Summary data of the deployment.
+    public struct DeploymentSummary: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the deployment.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The date and time the deployment was completed.
+        public var completedAt: ClientRuntime.Date?
+        /// The name of the component associated with the deployment.
+        public var componentName: Swift.String?
+        /// The date and time the deployment was created.
+        /// This member is required.
+        public var createdAt: ClientRuntime.Date?
+        /// The current status of the deployment.
+        /// This member is required.
+        public var deploymentStatus: ProtonClientTypes.DeploymentStatus?
+        /// The name of the environment associated with the deployment.
+        /// This member is required.
+        public var environmentName: Swift.String?
+        /// The ID of the deployment.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The ID of the last attempted deployment.
+        public var lastAttemptedDeploymentId: Swift.String?
+        /// The date and time the deployment was last modified.
+        /// This member is required.
+        public var lastModifiedAt: ClientRuntime.Date?
+        /// The ID of the last successful deployment.
+        public var lastSucceededDeploymentId: Swift.String?
+        /// The name of the service instance associated with the deployment.
+        public var serviceInstanceName: Swift.String?
+        /// The name of the service associated with the deployment.
+        public var serviceName: Swift.String?
+        /// The Amazon Resource Name (ARN) of the target of the deployment.
+        /// This member is required.
+        public var targetArn: Swift.String?
+        /// The date and time the target resource was created.
+        /// This member is required.
+        public var targetResourceCreatedAt: ClientRuntime.Date?
+        /// The resource type of the deployment target. It can be an environment, service, service instance, or component.
+        /// This member is required.
+        public var targetResourceType: ProtonClientTypes.DeploymentTargetResourceType?
+
+        public init(
+            arn: Swift.String? = nil,
+            completedAt: ClientRuntime.Date? = nil,
+            componentName: Swift.String? = nil,
+            createdAt: ClientRuntime.Date? = nil,
+            deploymentStatus: ProtonClientTypes.DeploymentStatus? = nil,
+            environmentName: Swift.String? = nil,
+            id: Swift.String? = nil,
+            lastAttemptedDeploymentId: Swift.String? = nil,
+            lastModifiedAt: ClientRuntime.Date? = nil,
+            lastSucceededDeploymentId: Swift.String? = nil,
+            serviceInstanceName: Swift.String? = nil,
+            serviceName: Swift.String? = nil,
+            targetArn: Swift.String? = nil,
+            targetResourceCreatedAt: ClientRuntime.Date? = nil,
+            targetResourceType: ProtonClientTypes.DeploymentTargetResourceType? = nil
+        )
+        {
+            self.arn = arn
+            self.completedAt = completedAt
+            self.componentName = componentName
+            self.createdAt = createdAt
+            self.deploymentStatus = deploymentStatus
+            self.environmentName = environmentName
+            self.id = id
+            self.lastAttemptedDeploymentId = lastAttemptedDeploymentId
+            self.lastModifiedAt = lastModifiedAt
+            self.lastSucceededDeploymentId = lastSucceededDeploymentId
+            self.serviceInstanceName = serviceInstanceName
+            self.serviceName = serviceName
+            self.targetArn = targetArn
+            self.targetResourceCreatedAt = targetResourceCreatedAt
+            self.targetResourceType = targetResourceType
+        }
+    }
+
+}
+
+extension ProtonClientTypes {
+    public enum DeploymentTargetResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case component
+        case environment
+        case serviceInstance
+        case servicePipeline
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeploymentTargetResourceType] {
+            return [
+                .component,
+                .environment,
+                .serviceInstance,
+                .servicePipeline,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .component: return "COMPONENT"
+            case .environment: return "ENVIRONMENT"
+            case .serviceInstance: return "SERVICE_INSTANCE"
+            case .servicePipeline: return "SERVICE_PIPELINE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DeploymentTargetResourceType(rawValue: rawValue) ?? DeploymentTargetResourceType.sdkUnknown(rawValue)
         }
     }
 }
@@ -5025,8 +5746,10 @@ extension ProtonClientTypes.Environment: Swift.Codable {
         case description
         case environmentAccountConnectionId
         case environmentAccountId
+        case lastAttemptedDeploymentId
         case lastDeploymentAttemptedAt
         case lastDeploymentSucceededAt
+        case lastSucceededDeploymentId
         case name
         case protonServiceRoleArn
         case provisioning
@@ -5066,11 +5789,17 @@ extension ProtonClientTypes.Environment: Swift.Codable {
         if let environmentAccountId = self.environmentAccountId {
             try encodeContainer.encode(environmentAccountId, forKey: .environmentAccountId)
         }
+        if let lastAttemptedDeploymentId = self.lastAttemptedDeploymentId {
+            try encodeContainer.encode(lastAttemptedDeploymentId, forKey: .lastAttemptedDeploymentId)
+        }
         if let lastDeploymentAttemptedAt = self.lastDeploymentAttemptedAt {
             try encodeContainer.encodeTimestamp(lastDeploymentAttemptedAt, format: .epochSeconds, forKey: .lastDeploymentAttemptedAt)
         }
         if let lastDeploymentSucceededAt = self.lastDeploymentSucceededAt {
             try encodeContainer.encodeTimestamp(lastDeploymentSucceededAt, format: .epochSeconds, forKey: .lastDeploymentSucceededAt)
+        }
+        if let lastSucceededDeploymentId = self.lastSucceededDeploymentId {
+            try encodeContainer.encode(lastSucceededDeploymentId, forKey: .lastSucceededDeploymentId)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -5138,12 +5867,16 @@ extension ProtonClientTypes.Environment: Swift.Codable {
         componentRoleArn = componentRoleArnDecoded
         let codebuildRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .codebuildRoleArn)
         codebuildRoleArn = codebuildRoleArnDecoded
+        let lastAttemptedDeploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastAttemptedDeploymentId)
+        lastAttemptedDeploymentId = lastAttemptedDeploymentIdDecoded
+        let lastSucceededDeploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastSucceededDeploymentId)
+        lastSucceededDeploymentId = lastSucceededDeploymentIdDecoded
     }
 }
 
 extension ProtonClientTypes.Environment: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Environment(arn: \(Swift.String(describing: arn)), codebuildRoleArn: \(Swift.String(describing: codebuildRoleArn)), componentRoleArn: \(Swift.String(describing: componentRoleArn)), createdAt: \(Swift.String(describing: createdAt)), deploymentStatus: \(Swift.String(describing: deploymentStatus)), environmentAccountConnectionId: \(Swift.String(describing: environmentAccountConnectionId)), environmentAccountId: \(Swift.String(describing: environmentAccountId)), lastDeploymentAttemptedAt: \(Swift.String(describing: lastDeploymentAttemptedAt)), lastDeploymentSucceededAt: \(Swift.String(describing: lastDeploymentSucceededAt)), name: \(Swift.String(describing: name)), protonServiceRoleArn: \(Swift.String(describing: protonServiceRoleArn)), provisioning: \(Swift.String(describing: provisioning)), provisioningRepository: \(Swift.String(describing: provisioningRepository)), templateMajorVersion: \(Swift.String(describing: templateMajorVersion)), templateMinorVersion: \(Swift.String(describing: templateMinorVersion)), templateName: \(Swift.String(describing: templateName)), deploymentStatusMessage: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", spec: \"CONTENT_REDACTED\")"}
+        "Environment(arn: \(Swift.String(describing: arn)), codebuildRoleArn: \(Swift.String(describing: codebuildRoleArn)), componentRoleArn: \(Swift.String(describing: componentRoleArn)), createdAt: \(Swift.String(describing: createdAt)), deploymentStatus: \(Swift.String(describing: deploymentStatus)), environmentAccountConnectionId: \(Swift.String(describing: environmentAccountConnectionId)), environmentAccountId: \(Swift.String(describing: environmentAccountId)), lastAttemptedDeploymentId: \(Swift.String(describing: lastAttemptedDeploymentId)), lastDeploymentAttemptedAt: \(Swift.String(describing: lastDeploymentAttemptedAt)), lastDeploymentSucceededAt: \(Swift.String(describing: lastDeploymentSucceededAt)), lastSucceededDeploymentId: \(Swift.String(describing: lastSucceededDeploymentId)), name: \(Swift.String(describing: name)), protonServiceRoleArn: \(Swift.String(describing: protonServiceRoleArn)), provisioning: \(Swift.String(describing: provisioning)), provisioningRepository: \(Swift.String(describing: provisioningRepository)), templateMajorVersion: \(Swift.String(describing: templateMajorVersion)), templateMinorVersion: \(Swift.String(describing: templateMinorVersion)), templateName: \(Swift.String(describing: templateName)), deploymentStatusMessage: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", spec: \"CONTENT_REDACTED\")"}
 }
 
 extension ProtonClientTypes {
@@ -5170,12 +5903,16 @@ extension ProtonClientTypes {
         public var environmentAccountConnectionId: Swift.String?
         /// The ID of the environment account that the environment infrastructure resources are provisioned in.
         public var environmentAccountId: Swift.String?
+        /// The ID of the last attempted deployment of this environment.
+        public var lastAttemptedDeploymentId: Swift.String?
         /// The time when a deployment of the environment was last attempted.
         /// This member is required.
         public var lastDeploymentAttemptedAt: ClientRuntime.Date?
         /// The time when the environment was last deployed successfully.
         /// This member is required.
         public var lastDeploymentSucceededAt: ClientRuntime.Date?
+        /// The ID of the last successful deployment of this environment.
+        public var lastSucceededDeploymentId: Swift.String?
         /// The name of the environment.
         /// This member is required.
         public var name: Swift.String?
@@ -5207,8 +5944,10 @@ extension ProtonClientTypes {
             description: Swift.String? = nil,
             environmentAccountConnectionId: Swift.String? = nil,
             environmentAccountId: Swift.String? = nil,
+            lastAttemptedDeploymentId: Swift.String? = nil,
             lastDeploymentAttemptedAt: ClientRuntime.Date? = nil,
             lastDeploymentSucceededAt: ClientRuntime.Date? = nil,
+            lastSucceededDeploymentId: Swift.String? = nil,
             name: Swift.String? = nil,
             protonServiceRoleArn: Swift.String? = nil,
             provisioning: ProtonClientTypes.Provisioning? = nil,
@@ -5228,8 +5967,10 @@ extension ProtonClientTypes {
             self.description = description
             self.environmentAccountConnectionId = environmentAccountConnectionId
             self.environmentAccountId = environmentAccountId
+            self.lastAttemptedDeploymentId = lastAttemptedDeploymentId
             self.lastDeploymentAttemptedAt = lastDeploymentAttemptedAt
             self.lastDeploymentSucceededAt = lastDeploymentSucceededAt
+            self.lastSucceededDeploymentId = lastSucceededDeploymentId
             self.name = name
             self.protonServiceRoleArn = protonServiceRoleArn
             self.provisioning = provisioning
@@ -5588,6 +6329,79 @@ extension ProtonClientTypes {
 
 }
 
+extension ProtonClientTypes.EnvironmentState: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case spec
+        case templateMajorVersion
+        case templateMinorVersion
+        case templateName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let spec = self.spec {
+            try encodeContainer.encode(spec, forKey: .spec)
+        }
+        if let templateMajorVersion = self.templateMajorVersion {
+            try encodeContainer.encode(templateMajorVersion, forKey: .templateMajorVersion)
+        }
+        if let templateMinorVersion = self.templateMinorVersion {
+            try encodeContainer.encode(templateMinorVersion, forKey: .templateMinorVersion)
+        }
+        if let templateName = self.templateName {
+            try encodeContainer.encode(templateName, forKey: .templateName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let specDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .spec)
+        spec = specDecoded
+        let templateNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateName)
+        templateName = templateNameDecoded
+        let templateMajorVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateMajorVersion)
+        templateMajorVersion = templateMajorVersionDecoded
+        let templateMinorVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateMinorVersion)
+        templateMinorVersion = templateMinorVersionDecoded
+    }
+}
+
+extension ProtonClientTypes.EnvironmentState: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EnvironmentState(templateMajorVersion: \(Swift.String(describing: templateMajorVersion)), templateMinorVersion: \(Swift.String(describing: templateMinorVersion)), templateName: \(Swift.String(describing: templateName)), spec: \"CONTENT_REDACTED\")"}
+}
+
+extension ProtonClientTypes {
+    /// The detailed data about the current state of the environment.
+    public struct EnvironmentState: Swift.Equatable {
+        /// The environment spec that was used to create the environment.
+        public var spec: Swift.String?
+        /// The major version of the environment template that was used to create the environment.
+        /// This member is required.
+        public var templateMajorVersion: Swift.String?
+        /// The minor version of the environment template that was used to create the environment.
+        /// This member is required.
+        public var templateMinorVersion: Swift.String?
+        /// The name of the environment template that was used to create the environment.
+        /// This member is required.
+        public var templateName: Swift.String?
+
+        public init(
+            spec: Swift.String? = nil,
+            templateMajorVersion: Swift.String? = nil,
+            templateMinorVersion: Swift.String? = nil,
+            templateName: Swift.String? = nil
+        )
+        {
+            self.spec = spec
+            self.templateMajorVersion = templateMajorVersion
+            self.templateMinorVersion = templateMinorVersion
+            self.templateName = templateName
+        }
+    }
+
+}
+
 extension ProtonClientTypes.EnvironmentSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
@@ -5598,8 +6412,10 @@ extension ProtonClientTypes.EnvironmentSummary: Swift.Codable {
         case description
         case environmentAccountConnectionId
         case environmentAccountId
+        case lastAttemptedDeploymentId
         case lastDeploymentAttemptedAt
         case lastDeploymentSucceededAt
+        case lastSucceededDeploymentId
         case name
         case protonServiceRoleArn
         case provisioning
@@ -5634,11 +6450,17 @@ extension ProtonClientTypes.EnvironmentSummary: Swift.Codable {
         if let environmentAccountId = self.environmentAccountId {
             try encodeContainer.encode(environmentAccountId, forKey: .environmentAccountId)
         }
+        if let lastAttemptedDeploymentId = self.lastAttemptedDeploymentId {
+            try encodeContainer.encode(lastAttemptedDeploymentId, forKey: .lastAttemptedDeploymentId)
+        }
         if let lastDeploymentAttemptedAt = self.lastDeploymentAttemptedAt {
             try encodeContainer.encodeTimestamp(lastDeploymentAttemptedAt, format: .epochSeconds, forKey: .lastDeploymentAttemptedAt)
         }
         if let lastDeploymentSucceededAt = self.lastDeploymentSucceededAt {
             try encodeContainer.encodeTimestamp(lastDeploymentSucceededAt, format: .epochSeconds, forKey: .lastDeploymentSucceededAt)
+        }
+        if let lastSucceededDeploymentId = self.lastSucceededDeploymentId {
+            try encodeContainer.encode(lastSucceededDeploymentId, forKey: .lastSucceededDeploymentId)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -5694,12 +6516,16 @@ extension ProtonClientTypes.EnvironmentSummary: Swift.Codable {
         provisioning = provisioningDecoded
         let componentRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentRoleArn)
         componentRoleArn = componentRoleArnDecoded
+        let lastAttemptedDeploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastAttemptedDeploymentId)
+        lastAttemptedDeploymentId = lastAttemptedDeploymentIdDecoded
+        let lastSucceededDeploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastSucceededDeploymentId)
+        lastSucceededDeploymentId = lastSucceededDeploymentIdDecoded
     }
 }
 
 extension ProtonClientTypes.EnvironmentSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "EnvironmentSummary(arn: \(Swift.String(describing: arn)), componentRoleArn: \(Swift.String(describing: componentRoleArn)), createdAt: \(Swift.String(describing: createdAt)), deploymentStatus: \(Swift.String(describing: deploymentStatus)), environmentAccountConnectionId: \(Swift.String(describing: environmentAccountConnectionId)), environmentAccountId: \(Swift.String(describing: environmentAccountId)), lastDeploymentAttemptedAt: \(Swift.String(describing: lastDeploymentAttemptedAt)), lastDeploymentSucceededAt: \(Swift.String(describing: lastDeploymentSucceededAt)), name: \(Swift.String(describing: name)), protonServiceRoleArn: \(Swift.String(describing: protonServiceRoleArn)), provisioning: \(Swift.String(describing: provisioning)), templateMajorVersion: \(Swift.String(describing: templateMajorVersion)), templateMinorVersion: \(Swift.String(describing: templateMinorVersion)), templateName: \(Swift.String(describing: templateName)), deploymentStatusMessage: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
+        "EnvironmentSummary(arn: \(Swift.String(describing: arn)), componentRoleArn: \(Swift.String(describing: componentRoleArn)), createdAt: \(Swift.String(describing: createdAt)), deploymentStatus: \(Swift.String(describing: deploymentStatus)), environmentAccountConnectionId: \(Swift.String(describing: environmentAccountConnectionId)), environmentAccountId: \(Swift.String(describing: environmentAccountId)), lastAttemptedDeploymentId: \(Swift.String(describing: lastAttemptedDeploymentId)), lastDeploymentAttemptedAt: \(Swift.String(describing: lastDeploymentAttemptedAt)), lastDeploymentSucceededAt: \(Swift.String(describing: lastDeploymentSucceededAt)), lastSucceededDeploymentId: \(Swift.String(describing: lastSucceededDeploymentId)), name: \(Swift.String(describing: name)), protonServiceRoleArn: \(Swift.String(describing: protonServiceRoleArn)), provisioning: \(Swift.String(describing: provisioning)), templateMajorVersion: \(Swift.String(describing: templateMajorVersion)), templateMinorVersion: \(Swift.String(describing: templateMinorVersion)), templateName: \(Swift.String(describing: templateName)), deploymentStatusMessage: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
 }
 
 extension ProtonClientTypes {
@@ -5724,12 +6550,16 @@ extension ProtonClientTypes {
         public var environmentAccountConnectionId: Swift.String?
         /// The ID of the environment account that the environment infrastructure resources are provisioned in.
         public var environmentAccountId: Swift.String?
+        /// The ID of the last attempted deployment of this environment.
+        public var lastAttemptedDeploymentId: Swift.String?
         /// The time when a deployment of the environment was last attempted.
         /// This member is required.
         public var lastDeploymentAttemptedAt: ClientRuntime.Date?
         /// The time when the environment was last deployed successfully.
         /// This member is required.
         public var lastDeploymentSucceededAt: ClientRuntime.Date?
+        /// The ID of the last successful deployment of this environment.
+        public var lastSucceededDeploymentId: Swift.String?
         /// The name of the environment.
         /// This member is required.
         public var name: Swift.String?
@@ -5756,8 +6586,10 @@ extension ProtonClientTypes {
             description: Swift.String? = nil,
             environmentAccountConnectionId: Swift.String? = nil,
             environmentAccountId: Swift.String? = nil,
+            lastAttemptedDeploymentId: Swift.String? = nil,
             lastDeploymentAttemptedAt: ClientRuntime.Date? = nil,
             lastDeploymentSucceededAt: ClientRuntime.Date? = nil,
+            lastSucceededDeploymentId: Swift.String? = nil,
             name: Swift.String? = nil,
             protonServiceRoleArn: Swift.String? = nil,
             provisioning: ProtonClientTypes.Provisioning? = nil,
@@ -5774,8 +6606,10 @@ extension ProtonClientTypes {
             self.description = description
             self.environmentAccountConnectionId = environmentAccountConnectionId
             self.environmentAccountId = environmentAccountId
+            self.lastAttemptedDeploymentId = lastAttemptedDeploymentId
             self.lastDeploymentAttemptedAt = lastDeploymentAttemptedAt
             self.lastDeploymentSucceededAt = lastDeploymentSucceededAt
+            self.lastSucceededDeploymentId = lastSucceededDeploymentId
             self.name = name
             self.protonServiceRoleArn = protonServiceRoleArn
             self.provisioning = provisioning
@@ -6539,6 +7373,157 @@ extension GetComponentOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let componentDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Component.self, forKey: .component)
         component = componentDecoded
+    }
+}
+
+extension GetDeploymentInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case componentName
+        case environmentName
+        case id
+        case serviceInstanceName
+        case serviceName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let componentName = self.componentName {
+            try encodeContainer.encode(componentName, forKey: .componentName)
+        }
+        if let environmentName = self.environmentName {
+            try encodeContainer.encode(environmentName, forKey: .environmentName)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let serviceInstanceName = self.serviceInstanceName {
+            try encodeContainer.encode(serviceInstanceName, forKey: .serviceInstanceName)
+        }
+        if let serviceName = self.serviceName {
+            try encodeContainer.encode(serviceName, forKey: .serviceName)
+        }
+    }
+}
+
+extension GetDeploymentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetDeploymentInput: Swift.Equatable {
+    /// The name of a component that you want to get the detailed data for.
+    public var componentName: Swift.String?
+    /// The name of a environment that you want to get the detailed data for.
+    public var environmentName: Swift.String?
+    /// The ID of the deployment that you want to get the detailed data for.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the service instance associated with the given deployment ID. serviceName must be specified to identify the service instance.
+    public var serviceInstanceName: Swift.String?
+    /// The name of the service associated with the given deployment ID.
+    public var serviceName: Swift.String?
+
+    public init(
+        componentName: Swift.String? = nil,
+        environmentName: Swift.String? = nil,
+        id: Swift.String? = nil,
+        serviceInstanceName: Swift.String? = nil,
+        serviceName: Swift.String? = nil
+    )
+    {
+        self.componentName = componentName
+        self.environmentName = environmentName
+        self.id = id
+        self.serviceInstanceName = serviceInstanceName
+        self.serviceName = serviceName
+    }
+}
+
+struct GetDeploymentInputBody: Swift.Equatable {
+    let id: Swift.String?
+    let environmentName: Swift.String?
+    let serviceName: Swift.String?
+    let serviceInstanceName: Swift.String?
+    let componentName: Swift.String?
+}
+
+extension GetDeploymentInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case componentName
+        case environmentName
+        case id
+        case serviceInstanceName
+        case serviceName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let environmentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentName)
+        environmentName = environmentNameDecoded
+        let serviceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceName)
+        serviceName = serviceNameDecoded
+        let serviceInstanceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceInstanceName)
+        serviceInstanceName = serviceInstanceNameDecoded
+        let componentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentName)
+        componentName = componentNameDecoded
+    }
+}
+
+public enum GetDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.deployment = output.deployment
+        } else {
+            self.deployment = nil
+        }
+    }
+}
+
+public struct GetDeploymentOutputResponse: Swift.Equatable {
+    /// The detailed data of the requested deployment.
+    public var deployment: ProtonClientTypes.Deployment?
+
+    public init(
+        deployment: ProtonClientTypes.Deployment? = nil
+    )
+    {
+        self.deployment = deployment
+    }
+}
+
+struct GetDeploymentOutputResponseBody: Swift.Equatable {
+    let deployment: ProtonClientTypes.Deployment?
+}
+
+extension GetDeploymentOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deployment
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deploymentDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Deployment.self, forKey: .deployment)
+        deployment = deploymentDecoded
     }
 }
 
@@ -8463,6 +9448,7 @@ extension InternalServerExceptionBody: Swift.Decodable {
 extension ListComponentOutputsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case componentName
+        case deploymentId
         case nextToken
     }
 
@@ -8470,6 +9456,9 @@ extension ListComponentOutputsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let componentName = self.componentName {
             try encodeContainer.encode(componentName, forKey: .componentName)
+        }
+        if let deploymentId = self.deploymentId {
+            try encodeContainer.encode(deploymentId, forKey: .deploymentId)
         }
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
@@ -8487,15 +9476,19 @@ public struct ListComponentOutputsInput: Swift.Equatable {
     /// The name of the component whose outputs you want.
     /// This member is required.
     public var componentName: Swift.String?
+    /// The ID of the deployment whose outputs you want.
+    public var deploymentId: Swift.String?
     /// A token that indicates the location of the next output in the array of outputs, after the list of outputs that was previously requested.
     public var nextToken: Swift.String?
 
     public init(
         componentName: Swift.String? = nil,
+        deploymentId: Swift.String? = nil,
         nextToken: Swift.String? = nil
     )
     {
         self.componentName = componentName
+        self.deploymentId = deploymentId
         self.nextToken = nextToken
     }
 }
@@ -8503,11 +9496,13 @@ public struct ListComponentOutputsInput: Swift.Equatable {
 struct ListComponentOutputsInputBody: Swift.Equatable {
     let componentName: Swift.String?
     let nextToken: Swift.String?
+    let deploymentId: Swift.String?
 }
 
 extension ListComponentOutputsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case componentName
+        case deploymentId
         case nextToken
     }
 
@@ -8517,6 +9512,8 @@ extension ListComponentOutputsInputBody: Swift.Decodable {
         componentName = componentNameDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+        let deploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentId)
+        deploymentId = deploymentIdDecoded
     }
 }
 
@@ -8899,6 +9896,188 @@ extension ListComponentsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListDeploymentsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case componentName
+        case environmentName
+        case maxResults
+        case nextToken
+        case serviceInstanceName
+        case serviceName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let componentName = self.componentName {
+            try encodeContainer.encode(componentName, forKey: .componentName)
+        }
+        if let environmentName = self.environmentName {
+            try encodeContainer.encode(environmentName, forKey: .environmentName)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let serviceInstanceName = self.serviceInstanceName {
+            try encodeContainer.encode(serviceInstanceName, forKey: .serviceInstanceName)
+        }
+        if let serviceName = self.serviceName {
+            try encodeContainer.encode(serviceName, forKey: .serviceName)
+        }
+    }
+}
+
+extension ListDeploymentsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListDeploymentsInput: Swift.Equatable {
+    /// The name of a component for result list filtering. Proton returns deployments associated with that component.
+    public var componentName: Swift.String?
+    /// The name of an environment for result list filtering. Proton returns deployments associated with the environment.
+    public var environmentName: Swift.String?
+    /// The maximum number of deployments to list.
+    public var maxResults: Swift.Int?
+    /// A token that indicates the location of the next deployment in the array of deployment, after the list of deployment that was previously requested.
+    public var nextToken: Swift.String?
+    /// The name of a service instance for result list filtering. Proton returns the deployments associated with the service instance.
+    public var serviceInstanceName: Swift.String?
+    /// The name of a service for result list filtering. Proton returns deployments associated with service instances of the service.
+    public var serviceName: Swift.String?
+
+    public init(
+        componentName: Swift.String? = nil,
+        environmentName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        serviceInstanceName: Swift.String? = nil,
+        serviceName: Swift.String? = nil
+    )
+    {
+        self.componentName = componentName
+        self.environmentName = environmentName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.serviceInstanceName = serviceInstanceName
+        self.serviceName = serviceName
+    }
+}
+
+struct ListDeploymentsInputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let environmentName: Swift.String?
+    let serviceName: Swift.String?
+    let serviceInstanceName: Swift.String?
+    let componentName: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListDeploymentsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case componentName
+        case environmentName
+        case maxResults
+        case nextToken
+        case serviceInstanceName
+        case serviceName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let environmentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentName)
+        environmentName = environmentNameDecoded
+        let serviceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceName)
+        serviceName = serviceNameDecoded
+        let serviceInstanceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceInstanceName)
+        serviceInstanceName = serviceInstanceNameDecoded
+        let componentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentName)
+        componentName = componentNameDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+public enum ListDeploymentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListDeploymentsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListDeploymentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.deployments = output.deployments
+            self.nextToken = output.nextToken
+        } else {
+            self.deployments = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListDeploymentsOutputResponse: Swift.Equatable {
+    /// An array of deployment with summary data.
+    /// This member is required.
+    public var deployments: [ProtonClientTypes.DeploymentSummary]?
+    /// A token that indicates the location of the next deployment in the array of deployment, after the current requested list of deployment.
+    public var nextToken: Swift.String?
+
+    public init(
+        deployments: [ProtonClientTypes.DeploymentSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.deployments = deployments
+        self.nextToken = nextToken
+    }
+}
+
+struct ListDeploymentsOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let deployments: [ProtonClientTypes.DeploymentSummary]?
+}
+
+extension ListDeploymentsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deployments
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let deploymentsContainer = try containerValues.decodeIfPresent([ProtonClientTypes.DeploymentSummary?].self, forKey: .deployments)
+        var deploymentsDecoded0:[ProtonClientTypes.DeploymentSummary]? = nil
+        if let deploymentsContainer = deploymentsContainer {
+            deploymentsDecoded0 = [ProtonClientTypes.DeploymentSummary]()
+            for structure0 in deploymentsContainer {
+                if let structure0 = structure0 {
+                    deploymentsDecoded0?.append(structure0)
+                }
+            }
+        }
+        deployments = deploymentsDecoded0
+    }
+}
+
 extension ListEnvironmentAccountConnectionsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case environmentName
@@ -9083,12 +10262,16 @@ extension ListEnvironmentAccountConnectionsOutputResponseBody: Swift.Decodable {
 
 extension ListEnvironmentOutputsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deploymentId
         case environmentName
         case nextToken
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deploymentId = self.deploymentId {
+            try encodeContainer.encode(deploymentId, forKey: .deploymentId)
+        }
         if let environmentName = self.environmentName {
             try encodeContainer.encode(environmentName, forKey: .environmentName)
         }
@@ -9105,6 +10288,8 @@ extension ListEnvironmentOutputsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListEnvironmentOutputsInput: Swift.Equatable {
+    /// The ID of the deployment whose outputs you want.
+    public var deploymentId: Swift.String?
     /// The environment name.
     /// This member is required.
     public var environmentName: Swift.String?
@@ -9112,10 +10297,12 @@ public struct ListEnvironmentOutputsInput: Swift.Equatable {
     public var nextToken: Swift.String?
 
     public init(
+        deploymentId: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         nextToken: Swift.String? = nil
     )
     {
+        self.deploymentId = deploymentId
         self.environmentName = environmentName
         self.nextToken = nextToken
     }
@@ -9124,10 +10311,12 @@ public struct ListEnvironmentOutputsInput: Swift.Equatable {
 struct ListEnvironmentOutputsInputBody: Swift.Equatable {
     let environmentName: Swift.String?
     let nextToken: Swift.String?
+    let deploymentId: Swift.String?
 }
 
 extension ListEnvironmentOutputsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deploymentId
         case environmentName
         case nextToken
     }
@@ -9138,6 +10327,8 @@ extension ListEnvironmentOutputsInputBody: Swift.Decodable {
         environmentName = environmentNameDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+        let deploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentId)
+        deploymentId = deploymentIdDecoded
     }
 }
 
@@ -10097,6 +11288,7 @@ extension ListRepositorySyncDefinitionsOutputResponseBody: Swift.Decodable {
 
 extension ListServiceInstanceOutputsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deploymentId
         case nextToken
         case serviceInstanceName
         case serviceName
@@ -10104,6 +11296,9 @@ extension ListServiceInstanceOutputsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deploymentId = self.deploymentId {
+            try encodeContainer.encode(deploymentId, forKey: .deploymentId)
+        }
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
         }
@@ -10123,6 +11318,8 @@ extension ListServiceInstanceOutputsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListServiceInstanceOutputsInput: Swift.Equatable {
+    /// The ID of the deployment whose outputs you want.
+    public var deploymentId: Swift.String?
     /// A token that indicates the location of the next output in the array of outputs, after the list of outputs that was previously requested.
     public var nextToken: Swift.String?
     /// The name of the service instance whose outputs you want.
@@ -10133,11 +11330,13 @@ public struct ListServiceInstanceOutputsInput: Swift.Equatable {
     public var serviceName: Swift.String?
 
     public init(
+        deploymentId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         serviceInstanceName: Swift.String? = nil,
         serviceName: Swift.String? = nil
     )
     {
+        self.deploymentId = deploymentId
         self.nextToken = nextToken
         self.serviceInstanceName = serviceInstanceName
         self.serviceName = serviceName
@@ -10148,10 +11347,12 @@ struct ListServiceInstanceOutputsInputBody: Swift.Equatable {
     let serviceInstanceName: Swift.String?
     let serviceName: Swift.String?
     let nextToken: Swift.String?
+    let deploymentId: Swift.String?
 }
 
 extension ListServiceInstanceOutputsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deploymentId
         case nextToken
         case serviceInstanceName
         case serviceName
@@ -10165,6 +11366,8 @@ extension ListServiceInstanceOutputsInputBody: Swift.Decodable {
         serviceName = serviceNameDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+        let deploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentId)
+        deploymentId = deploymentIdDecoded
     }
 }
 
@@ -10735,12 +11938,16 @@ extension ProtonClientTypes {
 
 extension ListServicePipelineOutputsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deploymentId
         case nextToken
         case serviceName
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deploymentId = self.deploymentId {
+            try encodeContainer.encode(deploymentId, forKey: .deploymentId)
+        }
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
         }
@@ -10757,6 +11964,8 @@ extension ListServicePipelineOutputsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListServicePipelineOutputsInput: Swift.Equatable {
+    /// The ID of the deployment you want the outputs for.
+    public var deploymentId: Swift.String?
     /// A token that indicates the location of the next output in the array of outputs, after the list of outputs that was previously requested.
     public var nextToken: Swift.String?
     /// The name of the service whose pipeline's outputs you want.
@@ -10764,10 +11973,12 @@ public struct ListServicePipelineOutputsInput: Swift.Equatable {
     public var serviceName: Swift.String?
 
     public init(
+        deploymentId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         serviceName: Swift.String? = nil
     )
     {
+        self.deploymentId = deploymentId
         self.nextToken = nextToken
         self.serviceName = serviceName
     }
@@ -10776,10 +11987,12 @@ public struct ListServicePipelineOutputsInput: Swift.Equatable {
 struct ListServicePipelineOutputsInputBody: Swift.Equatable {
     let serviceName: Swift.String?
     let nextToken: Swift.String?
+    let deploymentId: Swift.String?
 }
 
 extension ListServicePipelineOutputsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deploymentId
         case nextToken
         case serviceName
     }
@@ -10790,6 +12003,8 @@ extension ListServicePipelineOutputsInputBody: Swift.Decodable {
         serviceName = serviceNameDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+        let deploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentId)
+        deploymentId = deploymentIdDecoded
     }
 }
 
@@ -13210,9 +14425,11 @@ extension ProtonClientTypes.ServiceInstance: Swift.Codable {
         case deploymentStatus
         case deploymentStatusMessage
         case environmentName
+        case lastAttemptedDeploymentId
         case lastClientRequestToken
         case lastDeploymentAttemptedAt
         case lastDeploymentSucceededAt
+        case lastSucceededDeploymentId
         case name
         case serviceName
         case spec
@@ -13238,6 +14455,9 @@ extension ProtonClientTypes.ServiceInstance: Swift.Codable {
         if let environmentName = self.environmentName {
             try encodeContainer.encode(environmentName, forKey: .environmentName)
         }
+        if let lastAttemptedDeploymentId = self.lastAttemptedDeploymentId {
+            try encodeContainer.encode(lastAttemptedDeploymentId, forKey: .lastAttemptedDeploymentId)
+        }
         if let lastClientRequestToken = self.lastClientRequestToken {
             try encodeContainer.encode(lastClientRequestToken, forKey: .lastClientRequestToken)
         }
@@ -13246,6 +14466,9 @@ extension ProtonClientTypes.ServiceInstance: Swift.Codable {
         }
         if let lastDeploymentSucceededAt = self.lastDeploymentSucceededAt {
             try encodeContainer.encodeTimestamp(lastDeploymentSucceededAt, format: .epochSeconds, forKey: .lastDeploymentSucceededAt)
+        }
+        if let lastSucceededDeploymentId = self.lastSucceededDeploymentId {
+            try encodeContainer.encode(lastSucceededDeploymentId, forKey: .lastSucceededDeploymentId)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -13297,12 +14520,16 @@ extension ProtonClientTypes.ServiceInstance: Swift.Codable {
         spec = specDecoded
         let lastClientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastClientRequestToken)
         lastClientRequestToken = lastClientRequestTokenDecoded
+        let lastAttemptedDeploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastAttemptedDeploymentId)
+        lastAttemptedDeploymentId = lastAttemptedDeploymentIdDecoded
+        let lastSucceededDeploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastSucceededDeploymentId)
+        lastSucceededDeploymentId = lastSucceededDeploymentIdDecoded
     }
 }
 
 extension ProtonClientTypes.ServiceInstance: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ServiceInstance(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), deploymentStatus: \(Swift.String(describing: deploymentStatus)), environmentName: \(Swift.String(describing: environmentName)), lastClientRequestToken: \(Swift.String(describing: lastClientRequestToken)), lastDeploymentAttemptedAt: \(Swift.String(describing: lastDeploymentAttemptedAt)), lastDeploymentSucceededAt: \(Swift.String(describing: lastDeploymentSucceededAt)), name: \(Swift.String(describing: name)), serviceName: \(Swift.String(describing: serviceName)), templateMajorVersion: \(Swift.String(describing: templateMajorVersion)), templateMinorVersion: \(Swift.String(describing: templateMinorVersion)), templateName: \(Swift.String(describing: templateName)), deploymentStatusMessage: \"CONTENT_REDACTED\", spec: \"CONTENT_REDACTED\")"}
+        "ServiceInstance(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), deploymentStatus: \(Swift.String(describing: deploymentStatus)), environmentName: \(Swift.String(describing: environmentName)), lastAttemptedDeploymentId: \(Swift.String(describing: lastAttemptedDeploymentId)), lastClientRequestToken: \(Swift.String(describing: lastClientRequestToken)), lastDeploymentAttemptedAt: \(Swift.String(describing: lastDeploymentAttemptedAt)), lastDeploymentSucceededAt: \(Swift.String(describing: lastDeploymentSucceededAt)), lastSucceededDeploymentId: \(Swift.String(describing: lastSucceededDeploymentId)), name: \(Swift.String(describing: name)), serviceName: \(Swift.String(describing: serviceName)), templateMajorVersion: \(Swift.String(describing: templateMajorVersion)), templateMinorVersion: \(Swift.String(describing: templateMinorVersion)), templateName: \(Swift.String(describing: templateName)), deploymentStatusMessage: \"CONTENT_REDACTED\", spec: \"CONTENT_REDACTED\")"}
 }
 
 extension ProtonClientTypes {
@@ -13322,6 +14549,8 @@ extension ProtonClientTypes {
         /// The name of the environment that the service instance was deployed into.
         /// This member is required.
         public var environmentName: Swift.String?
+        /// The ID of the last attempted deployment of this service instance.
+        public var lastAttemptedDeploymentId: Swift.String?
         /// The last client request token received.
         public var lastClientRequestToken: Swift.String?
         /// The time when a deployment of the service instance was last attempted.
@@ -13330,6 +14559,8 @@ extension ProtonClientTypes {
         /// The time when the service instance was last deployed successfully.
         /// This member is required.
         public var lastDeploymentSucceededAt: ClientRuntime.Date?
+        /// The ID of the last successful deployment of this service instance.
+        public var lastSucceededDeploymentId: Swift.String?
         /// The name of the service instance.
         /// This member is required.
         public var name: Swift.String?
@@ -13354,9 +14585,11 @@ extension ProtonClientTypes {
             deploymentStatus: ProtonClientTypes.DeploymentStatus? = nil,
             deploymentStatusMessage: Swift.String? = nil,
             environmentName: Swift.String? = nil,
+            lastAttemptedDeploymentId: Swift.String? = nil,
             lastClientRequestToken: Swift.String? = nil,
             lastDeploymentAttemptedAt: ClientRuntime.Date? = nil,
             lastDeploymentSucceededAt: ClientRuntime.Date? = nil,
+            lastSucceededDeploymentId: Swift.String? = nil,
             name: Swift.String? = nil,
             serviceName: Swift.String? = nil,
             spec: Swift.String? = nil,
@@ -13370,11 +14603,129 @@ extension ProtonClientTypes {
             self.deploymentStatus = deploymentStatus
             self.deploymentStatusMessage = deploymentStatusMessage
             self.environmentName = environmentName
+            self.lastAttemptedDeploymentId = lastAttemptedDeploymentId
             self.lastClientRequestToken = lastClientRequestToken
             self.lastDeploymentAttemptedAt = lastDeploymentAttemptedAt
             self.lastDeploymentSucceededAt = lastDeploymentSucceededAt
+            self.lastSucceededDeploymentId = lastSucceededDeploymentId
             self.name = name
             self.serviceName = serviceName
+            self.spec = spec
+            self.templateMajorVersion = templateMajorVersion
+            self.templateMinorVersion = templateMinorVersion
+            self.templateName = templateName
+        }
+    }
+
+}
+
+extension ProtonClientTypes.ServiceInstanceState: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lastSuccessfulComponentDeploymentIds
+        case lastSuccessfulEnvironmentDeploymentId
+        case lastSuccessfulServicePipelineDeploymentId
+        case spec
+        case templateMajorVersion
+        case templateMinorVersion
+        case templateName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lastSuccessfulComponentDeploymentIds = lastSuccessfulComponentDeploymentIds {
+            var lastSuccessfulComponentDeploymentIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lastSuccessfulComponentDeploymentIds)
+            for deploymentid0 in lastSuccessfulComponentDeploymentIds {
+                try lastSuccessfulComponentDeploymentIdsContainer.encode(deploymentid0)
+            }
+        }
+        if let lastSuccessfulEnvironmentDeploymentId = self.lastSuccessfulEnvironmentDeploymentId {
+            try encodeContainer.encode(lastSuccessfulEnvironmentDeploymentId, forKey: .lastSuccessfulEnvironmentDeploymentId)
+        }
+        if let lastSuccessfulServicePipelineDeploymentId = self.lastSuccessfulServicePipelineDeploymentId {
+            try encodeContainer.encode(lastSuccessfulServicePipelineDeploymentId, forKey: .lastSuccessfulServicePipelineDeploymentId)
+        }
+        if let spec = self.spec {
+            try encodeContainer.encode(spec, forKey: .spec)
+        }
+        if let templateMajorVersion = self.templateMajorVersion {
+            try encodeContainer.encode(templateMajorVersion, forKey: .templateMajorVersion)
+        }
+        if let templateMinorVersion = self.templateMinorVersion {
+            try encodeContainer.encode(templateMinorVersion, forKey: .templateMinorVersion)
+        }
+        if let templateName = self.templateName {
+            try encodeContainer.encode(templateName, forKey: .templateName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let specDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .spec)
+        spec = specDecoded
+        let templateNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateName)
+        templateName = templateNameDecoded
+        let templateMajorVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateMajorVersion)
+        templateMajorVersion = templateMajorVersionDecoded
+        let templateMinorVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateMinorVersion)
+        templateMinorVersion = templateMinorVersionDecoded
+        let lastSuccessfulComponentDeploymentIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .lastSuccessfulComponentDeploymentIds)
+        var lastSuccessfulComponentDeploymentIdsDecoded0:[Swift.String]? = nil
+        if let lastSuccessfulComponentDeploymentIdsContainer = lastSuccessfulComponentDeploymentIdsContainer {
+            lastSuccessfulComponentDeploymentIdsDecoded0 = [Swift.String]()
+            for string0 in lastSuccessfulComponentDeploymentIdsContainer {
+                if let string0 = string0 {
+                    lastSuccessfulComponentDeploymentIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        lastSuccessfulComponentDeploymentIds = lastSuccessfulComponentDeploymentIdsDecoded0
+        let lastSuccessfulEnvironmentDeploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastSuccessfulEnvironmentDeploymentId)
+        lastSuccessfulEnvironmentDeploymentId = lastSuccessfulEnvironmentDeploymentIdDecoded
+        let lastSuccessfulServicePipelineDeploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastSuccessfulServicePipelineDeploymentId)
+        lastSuccessfulServicePipelineDeploymentId = lastSuccessfulServicePipelineDeploymentIdDecoded
+    }
+}
+
+extension ProtonClientTypes.ServiceInstanceState: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ServiceInstanceState(lastSuccessfulComponentDeploymentIds: \(Swift.String(describing: lastSuccessfulComponentDeploymentIds)), lastSuccessfulEnvironmentDeploymentId: \(Swift.String(describing: lastSuccessfulEnvironmentDeploymentId)), lastSuccessfulServicePipelineDeploymentId: \(Swift.String(describing: lastSuccessfulServicePipelineDeploymentId)), templateMajorVersion: \(Swift.String(describing: templateMajorVersion)), templateMinorVersion: \(Swift.String(describing: templateMinorVersion)), templateName: \(Swift.String(describing: templateName)), spec: \"CONTENT_REDACTED\")"}
+}
+
+extension ProtonClientTypes {
+    /// The detailed data about the current state of this service instance.
+    public struct ServiceInstanceState: Swift.Equatable {
+        /// The IDs for the last successful components deployed for this service instance.
+        public var lastSuccessfulComponentDeploymentIds: [Swift.String]?
+        /// The ID for the last successful environment deployed for this service instance.
+        public var lastSuccessfulEnvironmentDeploymentId: Swift.String?
+        /// The ID for the last successful service pipeline deployed for this service instance.
+        public var lastSuccessfulServicePipelineDeploymentId: Swift.String?
+        /// The service spec that was used to create the service instance.
+        /// This member is required.
+        public var spec: Swift.String?
+        /// The major version of the service template that was used to create the service pipeline.
+        /// This member is required.
+        public var templateMajorVersion: Swift.String?
+        /// The minor version of the service template that was used to create the service pipeline.
+        /// This member is required.
+        public var templateMinorVersion: Swift.String?
+        /// The name of the service template that was used to create the service instance.
+        /// This member is required.
+        public var templateName: Swift.String?
+
+        public init(
+            lastSuccessfulComponentDeploymentIds: [Swift.String]? = nil,
+            lastSuccessfulEnvironmentDeploymentId: Swift.String? = nil,
+            lastSuccessfulServicePipelineDeploymentId: Swift.String? = nil,
+            spec: Swift.String? = nil,
+            templateMajorVersion: Swift.String? = nil,
+            templateMinorVersion: Swift.String? = nil,
+            templateName: Swift.String? = nil
+        )
+        {
+            self.lastSuccessfulComponentDeploymentIds = lastSuccessfulComponentDeploymentIds
+            self.lastSuccessfulEnvironmentDeploymentId = lastSuccessfulEnvironmentDeploymentId
+            self.lastSuccessfulServicePipelineDeploymentId = lastSuccessfulServicePipelineDeploymentId
             self.spec = spec
             self.templateMajorVersion = templateMajorVersion
             self.templateMinorVersion = templateMinorVersion
@@ -13391,8 +14742,10 @@ extension ProtonClientTypes.ServiceInstanceSummary: Swift.Codable {
         case deploymentStatus
         case deploymentStatusMessage
         case environmentName
+        case lastAttemptedDeploymentId
         case lastDeploymentAttemptedAt
         case lastDeploymentSucceededAt
+        case lastSucceededDeploymentId
         case name
         case serviceName
         case templateMajorVersion
@@ -13417,11 +14770,17 @@ extension ProtonClientTypes.ServiceInstanceSummary: Swift.Codable {
         if let environmentName = self.environmentName {
             try encodeContainer.encode(environmentName, forKey: .environmentName)
         }
+        if let lastAttemptedDeploymentId = self.lastAttemptedDeploymentId {
+            try encodeContainer.encode(lastAttemptedDeploymentId, forKey: .lastAttemptedDeploymentId)
+        }
         if let lastDeploymentAttemptedAt = self.lastDeploymentAttemptedAt {
             try encodeContainer.encodeTimestamp(lastDeploymentAttemptedAt, format: .epochSeconds, forKey: .lastDeploymentAttemptedAt)
         }
         if let lastDeploymentSucceededAt = self.lastDeploymentSucceededAt {
             try encodeContainer.encodeTimestamp(lastDeploymentSucceededAt, format: .epochSeconds, forKey: .lastDeploymentSucceededAt)
+        }
+        if let lastSucceededDeploymentId = self.lastSucceededDeploymentId {
+            try encodeContainer.encode(lastSucceededDeploymentId, forKey: .lastSucceededDeploymentId)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -13466,12 +14825,16 @@ extension ProtonClientTypes.ServiceInstanceSummary: Swift.Codable {
         deploymentStatus = deploymentStatusDecoded
         let deploymentStatusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentStatusMessage)
         deploymentStatusMessage = deploymentStatusMessageDecoded
+        let lastAttemptedDeploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastAttemptedDeploymentId)
+        lastAttemptedDeploymentId = lastAttemptedDeploymentIdDecoded
+        let lastSucceededDeploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastSucceededDeploymentId)
+        lastSucceededDeploymentId = lastSucceededDeploymentIdDecoded
     }
 }
 
 extension ProtonClientTypes.ServiceInstanceSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ServiceInstanceSummary(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), deploymentStatus: \(Swift.String(describing: deploymentStatus)), environmentName: \(Swift.String(describing: environmentName)), lastDeploymentAttemptedAt: \(Swift.String(describing: lastDeploymentAttemptedAt)), lastDeploymentSucceededAt: \(Swift.String(describing: lastDeploymentSucceededAt)), name: \(Swift.String(describing: name)), serviceName: \(Swift.String(describing: serviceName)), templateMajorVersion: \(Swift.String(describing: templateMajorVersion)), templateMinorVersion: \(Swift.String(describing: templateMinorVersion)), templateName: \(Swift.String(describing: templateName)), deploymentStatusMessage: \"CONTENT_REDACTED\")"}
+        "ServiceInstanceSummary(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), deploymentStatus: \(Swift.String(describing: deploymentStatus)), environmentName: \(Swift.String(describing: environmentName)), lastAttemptedDeploymentId: \(Swift.String(describing: lastAttemptedDeploymentId)), lastDeploymentAttemptedAt: \(Swift.String(describing: lastDeploymentAttemptedAt)), lastDeploymentSucceededAt: \(Swift.String(describing: lastDeploymentSucceededAt)), lastSucceededDeploymentId: \(Swift.String(describing: lastSucceededDeploymentId)), name: \(Swift.String(describing: name)), serviceName: \(Swift.String(describing: serviceName)), templateMajorVersion: \(Swift.String(describing: templateMajorVersion)), templateMinorVersion: \(Swift.String(describing: templateMinorVersion)), templateName: \(Swift.String(describing: templateName)), deploymentStatusMessage: \"CONTENT_REDACTED\")"}
 }
 
 extension ProtonClientTypes {
@@ -13491,12 +14854,16 @@ extension ProtonClientTypes {
         /// The name of the environment that the service instance was deployed into.
         /// This member is required.
         public var environmentName: Swift.String?
+        /// The ID of the last attempted deployment of this service instance.
+        public var lastAttemptedDeploymentId: Swift.String?
         /// The time when a deployment of the service was last attempted.
         /// This member is required.
         public var lastDeploymentAttemptedAt: ClientRuntime.Date?
         /// The time when the service was last deployed successfully.
         /// This member is required.
         public var lastDeploymentSucceededAt: ClientRuntime.Date?
+        /// The ID of the last successful deployment of this service instance.
+        public var lastSucceededDeploymentId: Swift.String?
         /// The name of the service instance.
         /// This member is required.
         public var name: Swift.String?
@@ -13519,8 +14886,10 @@ extension ProtonClientTypes {
             deploymentStatus: ProtonClientTypes.DeploymentStatus? = nil,
             deploymentStatusMessage: Swift.String? = nil,
             environmentName: Swift.String? = nil,
+            lastAttemptedDeploymentId: Swift.String? = nil,
             lastDeploymentAttemptedAt: ClientRuntime.Date? = nil,
             lastDeploymentSucceededAt: ClientRuntime.Date? = nil,
+            lastSucceededDeploymentId: Swift.String? = nil,
             name: Swift.String? = nil,
             serviceName: Swift.String? = nil,
             templateMajorVersion: Swift.String? = nil,
@@ -13533,8 +14902,10 @@ extension ProtonClientTypes {
             self.deploymentStatus = deploymentStatus
             self.deploymentStatusMessage = deploymentStatusMessage
             self.environmentName = environmentName
+            self.lastAttemptedDeploymentId = lastAttemptedDeploymentId
             self.lastDeploymentAttemptedAt = lastDeploymentAttemptedAt
             self.lastDeploymentSucceededAt = lastDeploymentSucceededAt
+            self.lastSucceededDeploymentId = lastSucceededDeploymentId
             self.name = name
             self.serviceName = serviceName
             self.templateMajorVersion = templateMajorVersion
@@ -13551,8 +14922,10 @@ extension ProtonClientTypes.ServicePipeline: Swift.Codable {
         case createdAt
         case deploymentStatus
         case deploymentStatusMessage
+        case lastAttemptedDeploymentId
         case lastDeploymentAttemptedAt
         case lastDeploymentSucceededAt
+        case lastSucceededDeploymentId
         case spec
         case templateMajorVersion
         case templateMinorVersion
@@ -13573,11 +14946,17 @@ extension ProtonClientTypes.ServicePipeline: Swift.Codable {
         if let deploymentStatusMessage = self.deploymentStatusMessage {
             try encodeContainer.encode(deploymentStatusMessage, forKey: .deploymentStatusMessage)
         }
+        if let lastAttemptedDeploymentId = self.lastAttemptedDeploymentId {
+            try encodeContainer.encode(lastAttemptedDeploymentId, forKey: .lastAttemptedDeploymentId)
+        }
         if let lastDeploymentAttemptedAt = self.lastDeploymentAttemptedAt {
             try encodeContainer.encodeTimestamp(lastDeploymentAttemptedAt, format: .epochSeconds, forKey: .lastDeploymentAttemptedAt)
         }
         if let lastDeploymentSucceededAt = self.lastDeploymentSucceededAt {
             try encodeContainer.encodeTimestamp(lastDeploymentSucceededAt, format: .epochSeconds, forKey: .lastDeploymentSucceededAt)
+        }
+        if let lastSucceededDeploymentId = self.lastSucceededDeploymentId {
+            try encodeContainer.encode(lastSucceededDeploymentId, forKey: .lastSucceededDeploymentId)
         }
         if let spec = self.spec {
             try encodeContainer.encode(spec, forKey: .spec)
@@ -13615,12 +14994,16 @@ extension ProtonClientTypes.ServicePipeline: Swift.Codable {
         deploymentStatusMessage = deploymentStatusMessageDecoded
         let specDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .spec)
         spec = specDecoded
+        let lastAttemptedDeploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastAttemptedDeploymentId)
+        lastAttemptedDeploymentId = lastAttemptedDeploymentIdDecoded
+        let lastSucceededDeploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastSucceededDeploymentId)
+        lastSucceededDeploymentId = lastSucceededDeploymentIdDecoded
     }
 }
 
 extension ProtonClientTypes.ServicePipeline: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ServicePipeline(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), deploymentStatus: \(Swift.String(describing: deploymentStatus)), lastDeploymentAttemptedAt: \(Swift.String(describing: lastDeploymentAttemptedAt)), lastDeploymentSucceededAt: \(Swift.String(describing: lastDeploymentSucceededAt)), templateMajorVersion: \(Swift.String(describing: templateMajorVersion)), templateMinorVersion: \(Swift.String(describing: templateMinorVersion)), templateName: \(Swift.String(describing: templateName)), deploymentStatusMessage: \"CONTENT_REDACTED\", spec: \"CONTENT_REDACTED\")"}
+        "ServicePipeline(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), deploymentStatus: \(Swift.String(describing: deploymentStatus)), lastAttemptedDeploymentId: \(Swift.String(describing: lastAttemptedDeploymentId)), lastDeploymentAttemptedAt: \(Swift.String(describing: lastDeploymentAttemptedAt)), lastDeploymentSucceededAt: \(Swift.String(describing: lastDeploymentSucceededAt)), lastSucceededDeploymentId: \(Swift.String(describing: lastSucceededDeploymentId)), templateMajorVersion: \(Swift.String(describing: templateMajorVersion)), templateMinorVersion: \(Swift.String(describing: templateMinorVersion)), templateName: \(Swift.String(describing: templateName)), deploymentStatusMessage: \"CONTENT_REDACTED\", spec: \"CONTENT_REDACTED\")"}
 }
 
 extension ProtonClientTypes {
@@ -13637,12 +15020,16 @@ extension ProtonClientTypes {
         public var deploymentStatus: ProtonClientTypes.DeploymentStatus?
         /// A service pipeline deployment status message.
         public var deploymentStatusMessage: Swift.String?
+        /// The ID of the last attempted deployment of this service pipeline.
+        public var lastAttemptedDeploymentId: Swift.String?
         /// The time when a deployment of the service pipeline was last attempted.
         /// This member is required.
         public var lastDeploymentAttemptedAt: ClientRuntime.Date?
         /// The time when the service pipeline was last deployed successfully.
         /// This member is required.
         public var lastDeploymentSucceededAt: ClientRuntime.Date?
+        /// The ID of the last successful deployment of this service pipeline.
+        public var lastSucceededDeploymentId: Swift.String?
         /// The service spec that was used to create the service pipeline.
         public var spec: Swift.String?
         /// The major version of the service template that was used to create the service pipeline.
@@ -13660,8 +15047,10 @@ extension ProtonClientTypes {
             createdAt: ClientRuntime.Date? = nil,
             deploymentStatus: ProtonClientTypes.DeploymentStatus? = nil,
             deploymentStatusMessage: Swift.String? = nil,
+            lastAttemptedDeploymentId: Swift.String? = nil,
             lastDeploymentAttemptedAt: ClientRuntime.Date? = nil,
             lastDeploymentSucceededAt: ClientRuntime.Date? = nil,
+            lastSucceededDeploymentId: Swift.String? = nil,
             spec: Swift.String? = nil,
             templateMajorVersion: Swift.String? = nil,
             templateMinorVersion: Swift.String? = nil,
@@ -13672,8 +15061,83 @@ extension ProtonClientTypes {
             self.createdAt = createdAt
             self.deploymentStatus = deploymentStatus
             self.deploymentStatusMessage = deploymentStatusMessage
+            self.lastAttemptedDeploymentId = lastAttemptedDeploymentId
             self.lastDeploymentAttemptedAt = lastDeploymentAttemptedAt
             self.lastDeploymentSucceededAt = lastDeploymentSucceededAt
+            self.lastSucceededDeploymentId = lastSucceededDeploymentId
+            self.spec = spec
+            self.templateMajorVersion = templateMajorVersion
+            self.templateMinorVersion = templateMinorVersion
+            self.templateName = templateName
+        }
+    }
+
+}
+
+extension ProtonClientTypes.ServicePipelineState: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case spec
+        case templateMajorVersion
+        case templateMinorVersion
+        case templateName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let spec = self.spec {
+            try encodeContainer.encode(spec, forKey: .spec)
+        }
+        if let templateMajorVersion = self.templateMajorVersion {
+            try encodeContainer.encode(templateMajorVersion, forKey: .templateMajorVersion)
+        }
+        if let templateMinorVersion = self.templateMinorVersion {
+            try encodeContainer.encode(templateMinorVersion, forKey: .templateMinorVersion)
+        }
+        if let templateName = self.templateName {
+            try encodeContainer.encode(templateName, forKey: .templateName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let specDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .spec)
+        spec = specDecoded
+        let templateNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateName)
+        templateName = templateNameDecoded
+        let templateMajorVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateMajorVersion)
+        templateMajorVersion = templateMajorVersionDecoded
+        let templateMinorVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateMinorVersion)
+        templateMinorVersion = templateMinorVersionDecoded
+    }
+}
+
+extension ProtonClientTypes.ServicePipelineState: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ServicePipelineState(templateMajorVersion: \(Swift.String(describing: templateMajorVersion)), templateMinorVersion: \(Swift.String(describing: templateMinorVersion)), templateName: \(Swift.String(describing: templateName)), spec: \"CONTENT_REDACTED\")"}
+}
+
+extension ProtonClientTypes {
+    /// The detailed data about the current state of the service pipeline.
+    public struct ServicePipelineState: Swift.Equatable {
+        /// The service spec that was used to create the service pipeline.
+        public var spec: Swift.String?
+        /// The major version of the service template that was used to create the service pipeline.
+        /// This member is required.
+        public var templateMajorVersion: Swift.String?
+        /// The minor version of the service template that was used to create the service pipeline.
+        /// This member is required.
+        public var templateMinorVersion: Swift.String?
+        /// The name of the service template that was used to create the service pipeline.
+        /// This member is required.
+        public var templateName: Swift.String?
+
+        public init(
+            spec: Swift.String? = nil,
+            templateMajorVersion: Swift.String? = nil,
+            templateMinorVersion: Swift.String? = nil,
+            templateName: Swift.String? = nil
+        )
+        {
             self.spec = spec
             self.templateMajorVersion = templateMajorVersion
             self.templateMinorVersion = templateMinorVersion

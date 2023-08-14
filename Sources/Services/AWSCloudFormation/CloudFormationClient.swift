@@ -1700,6 +1700,42 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         return result
     }
 
+    /// Returns drift information for resources in a stack instance. ListStackInstanceResourceDrifts returns drift information for the most recent drift detection operation. If an operation is in progress, it may only return partial results.
+    public func listStackInstanceResourceDrifts(input: ListStackInstanceResourceDriftsInput) async throws -> ListStackInstanceResourceDriftsOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listStackInstanceResourceDrifts")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "cloudformation")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListStackInstanceResourceDriftsInput, ListStackInstanceResourceDriftsOutputResponse, ListStackInstanceResourceDriftsOutputError>(id: "listStackInstanceResourceDrifts")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStackInstanceResourceDriftsInput, ListStackInstanceResourceDriftsOutputResponse, ListStackInstanceResourceDriftsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStackInstanceResourceDriftsInput, ListStackInstanceResourceDriftsOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListStackInstanceResourceDriftsOutputResponse, ListStackInstanceResourceDriftsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListStackInstanceResourceDriftsInput, ListStackInstanceResourceDriftsOutputResponse>(xmlName: "ListStackInstanceResourceDriftsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListStackInstanceResourceDriftsInput, ListStackInstanceResourceDriftsOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListStackInstanceResourceDriftsOutputResponse, ListStackInstanceResourceDriftsOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStackInstanceResourceDriftsOutputResponse, ListStackInstanceResourceDriftsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStackInstanceResourceDriftsOutputResponse, ListStackInstanceResourceDriftsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStackInstanceResourceDriftsOutputResponse, ListStackInstanceResourceDriftsOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Returns summary information about stack instances that are associated with the specified stack set. You can filter for stack instances that are associated with a specific Amazon Web Services account name or Region, or that have a specific status.
     public func listStackInstances(input: ListStackInstancesInput) async throws -> ListStackInstancesOutputResponse
     {

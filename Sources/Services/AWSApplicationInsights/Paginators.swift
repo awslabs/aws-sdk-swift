@@ -19,6 +19,7 @@ extension ApplicationInsightsClient {
 extension ListApplicationsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListApplicationsInput {
         return ListApplicationsInput(
+            accountId: self.accountId,
             maxResults: self.maxResults,
             nextToken: token
         )}
@@ -40,6 +41,7 @@ extension ApplicationInsightsClient {
 extension ListComponentsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListComponentsInput {
         return ListComponentsInput(
+            accountId: self.accountId,
             maxResults: self.maxResults,
             nextToken: token,
             resourceGroupName: self.resourceGroupName
@@ -62,6 +64,7 @@ extension ApplicationInsightsClient {
 extension ListConfigurationHistoryInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListConfigurationHistoryInput {
         return ListConfigurationHistoryInput(
+            accountId: self.accountId,
             endTime: self.endTime,
             eventStatus: self.eventStatus,
             maxResults: self.maxResults,
@@ -87,6 +90,7 @@ extension ApplicationInsightsClient {
 extension ListLogPatternsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListLogPatternsInput {
         return ListLogPatternsInput(
+            accountId: self.accountId,
             maxResults: self.maxResults,
             nextToken: token,
             patternSetName: self.patternSetName,
@@ -110,6 +114,7 @@ extension ApplicationInsightsClient {
 extension ListLogPatternSetsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListLogPatternSetsInput {
         return ListLogPatternSetsInput(
+            accountId: self.accountId,
             maxResults: self.maxResults,
             nextToken: token,
             resourceGroupName: self.resourceGroupName
@@ -132,11 +137,37 @@ extension ApplicationInsightsClient {
 extension ListProblemsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListProblemsInput {
         return ListProblemsInput(
+            accountId: self.accountId,
             componentName: self.componentName,
             endTime: self.endTime,
             maxResults: self.maxResults,
             nextToken: token,
             resourceGroupName: self.resourceGroupName,
-            startTime: self.startTime
+            startTime: self.startTime,
+            visibility: self.visibility
+        )}
+}
+extension ApplicationInsightsClient {
+    /// Paginate over `[ListWorkloadsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListWorkloadsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListWorkloadsOutputResponse`
+    public func listWorkloadsPaginated(input: ListWorkloadsInput) -> ClientRuntime.PaginatorSequence<ListWorkloadsInput, ListWorkloadsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListWorkloadsInput, ListWorkloadsOutputResponse>(input: input, inputKey: \ListWorkloadsInput.nextToken, outputKey: \ListWorkloadsOutputResponse.nextToken, paginationFunction: self.listWorkloads(input:))
+    }
+}
+
+extension ListWorkloadsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListWorkloadsInput {
+        return ListWorkloadsInput(
+            accountId: self.accountId,
+            componentName: self.componentName,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceGroupName: self.resourceGroupName
         )}
 }

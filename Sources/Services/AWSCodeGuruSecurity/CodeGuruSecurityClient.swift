@@ -352,7 +352,7 @@ extension CodeGuruSecurityClient: CodeGuruSecurityClientProtocol {
         return result
     }
 
-    /// Returns a list of all the scans in an account.
+    /// Returns a list of all the standard scans in an account. Does not return express scans.
     public func listScans(input: ListScansInput) async throws -> ListScansOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

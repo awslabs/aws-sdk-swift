@@ -11344,6 +11344,7 @@ extension AppflowClientTypes.SAPODataConnectorProfileProperties: Swift.Codable {
         case applicationHostUrl
         case applicationServicePath
         case clientNumber
+        case disableSSO
         case logonLanguage
         case oAuthProperties
         case portNumber
@@ -11360,6 +11361,9 @@ extension AppflowClientTypes.SAPODataConnectorProfileProperties: Swift.Codable {
         }
         if let clientNumber = self.clientNumber {
             try encodeContainer.encode(clientNumber, forKey: .clientNumber)
+        }
+        if disableSSO != false {
+            try encodeContainer.encode(disableSSO, forKey: .disableSSO)
         }
         if let logonLanguage = self.logonLanguage {
             try encodeContainer.encode(logonLanguage, forKey: .logonLanguage)
@@ -11391,6 +11395,8 @@ extension AppflowClientTypes.SAPODataConnectorProfileProperties: Swift.Codable {
         privateLinkServiceName = privateLinkServiceNameDecoded
         let oAuthPropertiesDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.OAuthProperties.self, forKey: .oAuthProperties)
         oAuthProperties = oAuthPropertiesDecoded
+        let disableSSODecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .disableSSO) ?? false
+        disableSSO = disableSSODecoded
     }
 }
 
@@ -11406,6 +11412,8 @@ extension AppflowClientTypes {
         /// The client number for the client creating the connection.
         /// This member is required.
         public var clientNumber: Swift.String?
+        /// If you set this parameter to true, Amazon AppFlow bypasses the single sign-on (SSO) settings in your SAP account when it accesses your SAP OData instance. Whether you need this option depends on the types of credentials that you applied to your SAP OData connection profile. If your profile uses basic authentication credentials, SAP SSO can prevent Amazon AppFlow from connecting to your account with your username and password. In this case, bypassing SSO makes it possible for Amazon AppFlow to connect successfully. However, if your profile uses OAuth credentials, this parameter has no affect.
+        public var disableSSO: Swift.Bool
         /// The logon language of SAPOData instance.
         public var logonLanguage: Swift.String?
         /// The SAPOData OAuth properties required for OAuth type authentication.
@@ -11420,6 +11428,7 @@ extension AppflowClientTypes {
             applicationHostUrl: Swift.String? = nil,
             applicationServicePath: Swift.String? = nil,
             clientNumber: Swift.String? = nil,
+            disableSSO: Swift.Bool = false,
             logonLanguage: Swift.String? = nil,
             oAuthProperties: AppflowClientTypes.OAuthProperties? = nil,
             portNumber: Swift.Int? = nil,
@@ -11429,6 +11438,7 @@ extension AppflowClientTypes {
             self.applicationHostUrl = applicationHostUrl
             self.applicationServicePath = applicationServicePath
             self.clientNumber = clientNumber
+            self.disableSSO = disableSSO
             self.logonLanguage = logonLanguage
             self.oAuthProperties = oAuthProperties
             self.portNumber = portNumber

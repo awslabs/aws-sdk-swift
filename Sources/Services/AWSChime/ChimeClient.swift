@@ -104,7 +104,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Associates phone numbers with the specified Amazon Chime Voice Connector.
+    /// Associates phone numbers with the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [AssociatePhoneNumbersWithVoiceConnector](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_AssociatePhoneNumbersWithVoiceConnector.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by AssociatePhoneNumbersWithVoiceConnector in the Amazon Chime SDK Voice Namespace")
     public func associatePhoneNumbersWithVoiceConnector(input: AssociatePhoneNumbersWithVoiceConnectorInput) async throws -> AssociatePhoneNumbersWithVoiceConnectorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -141,7 +142,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Associates phone numbers with the specified Amazon Chime Voice Connector group.
+    /// Associates phone numbers with the specified Amazon Chime Voice Connector group. This API is is no longer supported and will not be updated. We recommend using the latest version, [AssociatePhoneNumbersWithVoiceConnectorGroup](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_AssociatePhoneNumbersWithVoiceConnectorGroup.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by AssociatePhoneNumbersWithVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
     public func associatePhoneNumbersWithVoiceConnectorGroup(input: AssociatePhoneNumbersWithVoiceConnectorGroupInput) async throws -> AssociatePhoneNumbersWithVoiceConnectorGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -215,7 +217,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Creates up to 100 new attendees for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide.
+    /// Creates up to 100 new attendees for an active Amazon Chime SDK meeting. This API is is no longer supported and will not be updated. We recommend using the latest version, [BatchCreateAttendee](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_BatchCreateAttendee.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by BatchCreateAttendee in the Amazon Chime SDK Meetings Namespace")
     public func batchCreateAttendee(input: BatchCreateAttendeeInput) async throws -> BatchCreateAttendeeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -252,7 +255,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Adds a specified number of users to a channel.
+    /// Adds a specified number of users to a channel. This API is is no longer supported and will not be updated. We recommend using the latest version, [BatchCreateChannelMembership](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_BatchCreateChannelMembership.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by BatchCreateChannelMembership in the Amazon Chime SDK Messaging Namespace")
     public func batchCreateChannelMembership(input: BatchCreateChannelMembershipInput) async throws -> BatchCreateChannelMembershipOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -547,7 +551,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Creates an Amazon Chime SDK messaging AppInstance under an AWS account. Only SDK messaging customers use this API. CreateAppInstance supports idempotency behavior as described in the AWS API Standard.
+    /// Creates an Amazon Chime SDK messaging AppInstance under an AWS account. Only SDK messaging customers use this API. CreateAppInstance supports idempotency behavior as described in the AWS API Standard. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateAppInstance](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_CreateAppInstance.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateAppInstance in the Amazon Chime SDK Identity Namespace")
     public func createAppInstance(input: CreateAppInstanceInput) async throws -> CreateAppInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -591,7 +596,7 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Promotes an AppInstanceUser to an AppInstanceAdmin. The promoted user can perform the following actions.
+    /// Promotes an AppInstanceUser to an AppInstanceAdmin. The promoted user can perform the following actions. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateAppInstanceAdmin](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_CreateAppInstanceAdmin.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     ///
     /// * ChannelModerator actions across all channels in the AppInstance.
     ///
@@ -599,6 +604,7 @@ extension ChimeClient: ChimeClientProtocol {
     ///
     ///
     /// Only an AppInstanceUser can be promoted to an AppInstanceAdmin role.
+    @available(*, deprecated, message: "Replaced by CreateAppInstanceAdmin in the Amazon Chime SDK Identity Namespace")
     public func createAppInstanceAdmin(input: CreateAppInstanceAdminInput) async throws -> CreateAppInstanceAdminOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -634,7 +640,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Creates a user under an Amazon Chime AppInstance. The request consists of a unique appInstanceUserId and Name for that user.
+    /// Creates a user under an Amazon Chime AppInstance. The request consists of a unique appInstanceUserId and Name for that user. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_CreateAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateAppInstanceUser in the Amazon Chime SDK Identity Namespace")
     public func createAppInstanceUser(input: CreateAppInstanceUserInput) async throws -> CreateAppInstanceUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -678,7 +685,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Creates a new attendee for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide.
+    /// Creates a new attendee for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateAttendee](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateAttendee.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateAttendee in the Amazon Chime SDK Meetings Namespace")
     public func createAttendee(input: CreateAttendeeInput) async throws -> CreateAttendeeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -750,7 +758,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Creates a channel to which you can add users and send messages. Restriction: You can't change a channel's privacy. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Creates a channel to which you can add users and send messages. Restriction: You can't change a channel's privacy. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateChannel](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_CreateChannel.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateChannel in the Amazon Chime SDK Messaging Namespace")
     public func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -795,7 +804,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Permanently bans a member from a channel. Moderators can't add banned members to a channel. To undo a ban, you first have to DeleteChannelBan, and then CreateChannelMembership. Bans are cleaned up when you delete users or channels. If you ban a user who is already part of a channel, that user is automatically kicked from the channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Permanently bans a member from a channel. Moderators can't add banned members to a channel. To undo a ban, you first have to DeleteChannelBan, and then CreateChannelMembership. Bans are cleaned up when you delete users or channels. If you ban a user who is already part of a channel, that user is automatically kicked from the channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateChannelBan](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_CreateChannelBan.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateChannelBan in the Amazon Chime SDK Messaging Namespace")
     public func createChannelBan(input: CreateChannelBanInput) async throws -> CreateChannelBanOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -852,7 +862,8 @@ extension ChimeClient: ChimeClientProtocol {
     /// * Private Channels: You must be a member to list or send messages.
     ///
     ///
-    /// The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateChannelMembership](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_CreateChannelMembership.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateChannelMembership in the Amazon Chime SDK Messaging Namespace")
     public func createChannelMembership(input: CreateChannelMembershipInput) async throws -> CreateChannelMembershipOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -902,7 +913,8 @@ extension ChimeClient: ChimeClientProtocol {
     /// * List messages in the channel.
     ///
     ///
-    /// The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateChannelModerator](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_CreateChannelModerator.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateChannelModerator in the Amazon Chime SDK Messaging Namespace")
     public func createChannelModerator(input: CreateChannelModeratorInput) async throws -> CreateChannelModeratorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -939,7 +951,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Creates a media capture pipeline.
+    /// Creates a media capture pipeline. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateMediaCapturePipeline](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_media-pipelines-chime_CreateMediaCapturePipeline), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateMediaCapturePipeline in the Amazon Chime SDK Media Pipelines Namespace")
     public func createMediaCapturePipeline(input: CreateMediaCapturePipelineInput) async throws -> CreateMediaCapturePipelineOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -983,7 +996,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Creates a new Amazon Chime SDK meeting in the specified media Region with no initial attendees. For more information about specifying media Regions, see [Amazon Chime SDK Media Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/chime-sdk-meetings-regions.html) in the Amazon Chime SDK Developer Guide . For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide .
+    /// Creates a new Amazon Chime SDK meeting in the specified media Region with no initial attendees. For more information about specifying media Regions, see [Amazon Chime SDK Media Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/chime-sdk-meetings-regions.html) in the Amazon Chime SDK Developer Guide . For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateMeeting](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateMeeting in the Amazon Chime SDK Meetings Namespace")
     public func createMeeting(input: CreateMeetingInput) async throws -> CreateMeetingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1027,7 +1041,7 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Uses the join token and call metadata in a meeting request (From number, To number, and so forth) to initiate an outbound call to a public switched telephone network (PSTN) and join them into a Chime meeting. Also ensures that the From number belongs to the customer. To play welcome audio or implement an interactive voice response (IVR), use the CreateSipMediaApplicationCall action with the corresponding SIP media application ID.
+    /// Uses the join token and call metadata in a meeting request (From number, To number, and so forth) to initiate an outbound call to a public switched telephone network (PSTN) and join them into a Chime meeting. Also ensures that the From number belongs to the customer. To play welcome audio or implement an interactive voice response (IVR), use the CreateSipMediaApplicationCall action with the corresponding SIP media application ID. This API is is not available in a dedicated namespace.
     public func createMeetingDialOut(input: CreateMeetingDialOutInput) async throws -> CreateMeetingDialOutOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1063,7 +1077,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For more information about specifying media Regions, see [Amazon Chime SDK Media Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/chime-sdk-meetings-regions.html) in the Amazon Chime SDK Developer Guide . For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide .
+    /// Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For more information about specifying media Regions, see [Amazon Chime SDK Media Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/chime-sdk-meetings-regions.html) in the Amazon Chime SDK Developer Guide . For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide . This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateMeetingWithAttendees](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeetingWithAttendees.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateMeetingWithAttendees in the Amazon Chime SDK Meetings Namespace")
     public func createMeetingWithAttendees(input: CreateMeetingWithAttendeesInput) async throws -> CreateMeetingWithAttendeesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1144,7 +1159,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Creates a proxy session on the specified Amazon Chime Voice Connector for the specified participant phone numbers.
+    /// Creates a proxy session on the specified Amazon Chime Voice Connector for the specified participant phone numbers. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateProxySession](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateProxySession.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateProxySession in the Amazon Chime SDK Voice Namespace")
     public func createProxySession(input: CreateProxySessionInput) async throws -> CreateProxySessionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1260,7 +1276,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Creates a SIP media application.
+    /// Creates a SIP media application. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateSipMediaApplication](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateSipMediaApplication.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateSipMediaApplication in the Amazon Chime SDK Voice Namespace")
     public func createSipMediaApplication(input: CreateSipMediaApplicationInput) async throws -> CreateSipMediaApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1296,7 +1313,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Creates an outbound call to a phone number from the phone number specified in the request, and it invokes the endpoint of the specified sipMediaApplicationId.
+    /// Creates an outbound call to a phone number from the phone number specified in the request, and it invokes the endpoint of the specified sipMediaApplicationId. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateSipMediaApplicationCall](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateSipMediaApplicationCall.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateSipMediaApplicationCall in the Amazon Chime SDK Voice Namespace")
     public func createSipMediaApplicationCall(input: CreateSipMediaApplicationCallInput) async throws -> CreateSipMediaApplicationCallOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1332,7 +1350,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Creates a SIP rule which can be used to run a SIP media application as a target for a specific trigger type.
+    /// Creates a SIP rule which can be used to run a SIP media application as a target for a specific trigger type. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateSipRule](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateSipRule.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateSipRule in the Amazon Chime SDK Voice Namespace")
     public func createSipRule(input: CreateSipRuleInput) async throws -> CreateSipRuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1405,7 +1424,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Creates an Amazon Chime Voice Connector under the administrator's AWS account. You can choose to create an Amazon Chime Voice Connector in a specific AWS Region. Enabling [CreateVoiceConnectorRequest$RequireEncryption] configures your Amazon Chime Voice Connector to use TLS transport for SIP signaling and Secure RTP (SRTP) for media. Inbound calls use TLS transport, and unencrypted outbound calls are blocked.
+    /// Creates an Amazon Chime Voice Connector under the administrator's AWS account. You can choose to create an Amazon Chime Voice Connector in a specific AWS Region. Enabling [CreateVoiceConnectorRequest$RequireEncryption] configures your Amazon Chime Voice Connector to use TLS transport for SIP signaling and Secure RTP (SRTP) for media. Inbound calls use TLS transport, and unencrypted outbound calls are blocked. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateVoiceConnector](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateVoiceConnector.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateVoiceConnector in the Amazon Chime SDK Voice Namespace")
     public func createVoiceConnector(input: CreateVoiceConnectorInput) async throws -> CreateVoiceConnectorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1441,7 +1461,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Creates an Amazon Chime Voice Connector group under the administrator's AWS account. You can associate Amazon Chime Voice Connectors with the Amazon Chime Voice Connector group by including VoiceConnectorItems in the request. You can include Amazon Chime Voice Connectors from different AWS Regions in your group. This creates a fault tolerant mechanism for fallback in case of availability events.
+    /// Creates an Amazon Chime Voice Connector group under the administrator's AWS account. You can associate Amazon Chime Voice Connectors with the Amazon Chime Voice Connector group by including VoiceConnectorItems in the request. You can include Amazon Chime Voice Connectors from different AWS Regions in your group. This creates a fault tolerant mechanism for fallback in case of availability events. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateVoiceConnectorGroup](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateVoiceConnectorGroup.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by CreateVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
     public func createVoiceConnectorGroup(input: CreateVoiceConnectorGroupInput) async throws -> CreateVoiceConnectorGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1510,7 +1531,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Deletes an AppInstance and all associated data asynchronously.
+    /// Deletes an AppInstance and all associated data asynchronously. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteAppInstance](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DeleteAppInstance.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteAppInstance in the Amazon Chime SDK Identity Namespace")
     public func deleteAppInstance(input: DeleteAppInstanceInput) async throws -> DeleteAppInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1543,7 +1565,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Demotes an AppInstanceAdmin to an AppInstanceUser. This action does not delete the user.
+    /// Demotes an AppInstanceAdmin to an AppInstanceUser. This action does not delete the user. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteAppInstanceAdmin](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DeleteAppInstanceAdmin.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteAppInstanceAdmin in the Amazon Chime SDK Identity Namespace")
     public func deleteAppInstanceAdmin(input: DeleteAppInstanceAdminInput) async throws -> DeleteAppInstanceAdminOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1576,7 +1599,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Deletes the streaming configurations of an AppInstance.
+    /// Deletes the streaming configurations of an AppInstance. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteAppInstanceStreamingConfigurations](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DeleteAppInstanceStreamingConfigurations.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteAppInstanceStreamingConfigurations in the Amazon Chime SDK Messaging Namespace")
     public func deleteAppInstanceStreamingConfigurations(input: DeleteAppInstanceStreamingConfigurationsInput) async throws -> DeleteAppInstanceStreamingConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1609,7 +1633,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Deletes an AppInstanceUser.
+    /// Deletes an AppInstanceUser. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DeleteAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteAppInstanceUser in the Amazon Chime SDK Identity Namespace")
     public func deleteAppInstanceUser(input: DeleteAppInstanceUserInput) async throws -> DeleteAppInstanceUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1642,7 +1667,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their JoinToken. Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide.
+    /// Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their JoinToken. Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteAttendee](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_DeleteAttendee.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteAttendee in the Amazon Chime SDK Meetings Namespace")
     public func deleteAttendee(input: DeleteAttendeeInput) async throws -> DeleteAttendeeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1675,7 +1701,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Immediately makes a channel and its memberships inaccessible and marks them for deletion. This is an irreversible process. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Immediately makes a channel and its memberships inaccessible and marks them for deletion. This is an irreversible process. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteChannel](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannel.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteChannel in the Amazon Chime SDK Messaging Namespace")
     public func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1709,7 +1736,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Removes a user from a channel's ban list. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Removes a user from a channel's ban list. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteChannelBan](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannelBan.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteChannelBan in the Amazon Chime SDK Messaging Namespace")
     public func deleteChannelBan(input: DeleteChannelBanInput) async throws -> DeleteChannelBanOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1743,7 +1771,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Removes a member from a channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Removes a member from a channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteChannelMembership](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannelMembership.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteChannelMembership in the Amazon Chime SDK Messaging Namespace")
     public func deleteChannelMembership(input: DeleteChannelMembershipInput) async throws -> DeleteChannelMembershipOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1777,7 +1806,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Deletes a channel message. Only admins can perform this action. Deletion makes messages inaccessible immediately. A background process deletes any revisions created by UpdateChannelMessage. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Deletes a channel message. Only admins can perform this action. Deletion makes messages inaccessible immediately. A background process deletes any revisions created by UpdateChannelMessage. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteChannelMessage](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannelMessage.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteChannelMessage in the Amazon Chime SDK Messaging Namespace")
     public func deleteChannelMessage(input: DeleteChannelMessageInput) async throws -> DeleteChannelMessageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1811,7 +1841,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Deletes a channel moderator. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Deletes a channel moderator. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteChannelModerator](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannelModerator.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteChannelModerator in the Amazon Chime SDK Messaging Namespace")
     public func deleteChannelModerator(input: DeleteChannelModeratorInput) async throws -> DeleteChannelModeratorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1878,7 +1909,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Deletes the media capture pipeline.
+    /// Deletes the media capture pipeline. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteMediaCapturePipeline](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_media-pipelines-chime_DeleteMediaCapturePipeline.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteMediaCapturePipeline in the Amazon Chime SDK Media Pipelines Namespace")
     public func deleteMediaCapturePipeline(input: DeleteMediaCapturePipelineInput) async throws -> DeleteMediaCapturePipelineOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1911,7 +1943,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Deletes the specified Amazon Chime SDK meeting. The operation deletes all attendees, disconnects all clients, and prevents new clients from joining the meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide.
+    /// Deletes the specified Amazon Chime SDK meeting. The operation deletes all attendees, disconnects all clients, and prevents new clients from joining the meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteMeeting](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_DeleteMeeting.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteMeeting in the Amazon Chime SDK Meetings Namespace")
     public func deleteMeeting(input: DeleteMeetingInput) async throws -> DeleteMeetingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1977,7 +2010,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Deletes the specified proxy session from the specified Amazon Chime Voice Connector.
+    /// Deletes the specified proxy session from the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteProxySession](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteProxySession.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteProxySession in the Amazon Chime SDK Voice Namespace")
     public func deleteProxySession(input: DeleteProxySessionInput) async throws -> DeleteProxySessionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2076,7 +2110,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Deletes a SIP media application.
+    /// Deletes a SIP media application. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteSipMediaApplication](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteSipMediaApplication.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteSipMediaApplication in the Amazon Chime SDK Voice Namespace")
     public func deleteSipMediaApplication(input: DeleteSipMediaApplicationInput) async throws -> DeleteSipMediaApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2109,7 +2144,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Deletes a SIP rule. You must disable a SIP rule before you can delete it.
+    /// Deletes a SIP rule. You must disable a SIP rule before you can delete it. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteSipRule](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteSipRule.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteSipRule in the Amazon Chime SDK Voice Namespace")
     public func deleteSipRule(input: DeleteSipRuleInput) async throws -> DeleteSipRuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2142,7 +2178,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Deletes the specified Amazon Chime Voice Connector. Any phone numbers associated with the Amazon Chime Voice Connector must be disassociated from it before it can be deleted.
+    /// Deletes the specified Amazon Chime Voice Connector. Any phone numbers associated with the Amazon Chime Voice Connector must be disassociated from it before it can be deleted. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceConnector](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnector.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteVoiceConnector in the Amazon Chime SDK Voice Namespace")
     public func deleteVoiceConnector(input: DeleteVoiceConnectorInput) async throws -> DeleteVoiceConnectorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2175,7 +2212,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Deletes the emergency calling configuration details from the specified Amazon Chime Voice Connector.
+    /// Deletes the emergency calling configuration details from the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceConnectorEmergencyCallingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorEmergencyCallingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorEmergencyCallingConfiguration in the Amazon Chime SDK Voice Namespace")
     public func deleteVoiceConnectorEmergencyCallingConfiguration(input: DeleteVoiceConnectorEmergencyCallingConfigurationInput) async throws -> DeleteVoiceConnectorEmergencyCallingConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2208,7 +2246,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Deletes the specified Amazon Chime Voice Connector group. Any VoiceConnectorItems and phone numbers associated with the group must be removed before it can be deleted.
+    /// Deletes the specified Amazon Chime Voice Connector group. Any VoiceConnectorItems and phone numbers associated with the group must be removed before it can be deleted. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceConnectorGroup](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorGroup.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
     public func deleteVoiceConnectorGroup(input: DeleteVoiceConnectorGroupInput) async throws -> DeleteVoiceConnectorGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2241,7 +2280,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Deletes the origination settings for the specified Amazon Chime Voice Connector. If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to deleting the origination settings.
+    /// Deletes the origination settings for the specified Amazon Chime Voice Connector. If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to deleting the origination settings. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceConnectorOrigination](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorOrigination.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorOrigination in the Amazon Chime SDK Voice Namespace")
     public func deleteVoiceConnectorOrigination(input: DeleteVoiceConnectorOriginationInput) async throws -> DeleteVoiceConnectorOriginationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2274,7 +2314,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Deletes the proxy configuration from the specified Amazon Chime Voice Connector.
+    /// Deletes the proxy configuration from the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceProxy](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorProxy.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorProxy in the Amazon Chime SDK Voice Namespace")
     public func deleteVoiceConnectorProxy(input: DeleteVoiceConnectorProxyInput) async throws -> DeleteVoiceConnectorProxyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2307,7 +2348,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Deletes the streaming configuration for the specified Amazon Chime Voice Connector.
+    /// Deletes the streaming configuration for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceConnectorStreamingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorStreamingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorStreamingConfiguration in the Amazon Chime SDK Voice Namespace")
     public func deleteVoiceConnectorStreamingConfiguration(input: DeleteVoiceConnectorStreamingConfigurationInput) async throws -> DeleteVoiceConnectorStreamingConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2340,7 +2382,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Deletes the termination settings for the specified Amazon Chime Voice Connector. If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to deleting the termination settings.
+    /// Deletes the termination settings for the specified Amazon Chime Voice Connector. If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to deleting the termination settings. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceConnectorTermination](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorTermination.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorTermination in the Amazon Chime SDK Voice Namespace")
     public func deleteVoiceConnectorTermination(input: DeleteVoiceConnectorTerminationInput) async throws -> DeleteVoiceConnectorTerminationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2373,7 +2416,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Deletes the specified SIP credentials used by your equipment to authenticate during call termination.
+    /// Deletes the specified SIP credentials used by your equipment to authenticate during call termination. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceConnectorTerminationCredentials](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorTerminationCredentials.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorTerminationCredentials in the Amazon Chime SDK Voice Namespace")
     public func deleteVoiceConnectorTerminationCredentials(input: DeleteVoiceConnectorTerminationCredentialsInput) async throws -> DeleteVoiceConnectorTerminationCredentialsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2410,7 +2454,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Returns the full details of an AppInstance.
+    /// Returns the full details of an AppInstance. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeAppInstance](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DescribeAppInstance.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DescribeAppInstance in the Amazon Chime SDK Identity Namespace")
     public func describeAppInstance(input: DescribeAppInstanceInput) async throws -> DescribeAppInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2443,7 +2488,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Returns the full details of an AppInstanceAdmin.
+    /// Returns the full details of an AppInstanceAdmin. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeAppInstanceAdmin](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DescribeAppInstanceAdmin.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DescribeAppInstanceAdmin in the Amazon Chime SDK Identity Namespace")
     public func describeAppInstanceAdmin(input: DescribeAppInstanceAdminInput) async throws -> DescribeAppInstanceAdminOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2476,7 +2522,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Returns the full details of an AppInstanceUser.
+    /// Returns the full details of an AppInstanceUser. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DescribeAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DescribeAppInstanceUser in the Amazon Chime SDK Identity Namespace")
     public func describeAppInstanceUser(input: DescribeAppInstanceUserInput) async throws -> DescribeAppInstanceUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2509,7 +2556,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Returns the full details of a channel in an Amazon Chime AppInstance. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Returns the full details of a channel in an Amazon Chime AppInstance. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeChannel](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannel.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DescribeChannel in the Amazon Chime SDK Messaging Namespace")
     public func describeChannel(input: DescribeChannelInput) async throws -> DescribeChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2543,7 +2591,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Returns the full details of a channel ban. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Returns the full details of a channel ban. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeChannelBan](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelBan.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DescribeChannelBan in the Amazon Chime SDK Messaging Namespace")
     public func describeChannelBan(input: DescribeChannelBanInput) async throws -> DescribeChannelBanOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2577,7 +2626,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Returns the full details of a user's channel membership. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Returns the full details of a user's channel membership. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeChannelMembership](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelMembership.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DescribeChannelMembership in the Amazon Chime SDK Messaging Namespace")
     public func describeChannelMembership(input: DescribeChannelMembershipInput) async throws -> DescribeChannelMembershipOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2611,7 +2661,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Returns the details of a channel based on the membership of the specified AppInstanceUser. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Returns the details of a channel based on the membership of the specified AppInstanceUser. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeChannelMembershipForAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelMembershipForAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DescribeChannelMembershipForAppInstanceUser in the Amazon Chime SDK Messaging Namespace")
     public func describeChannelMembershipForAppInstanceUser(input: DescribeChannelMembershipForAppInstanceUserInput) async throws -> DescribeChannelMembershipForAppInstanceUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2646,7 +2697,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Returns the full details of a channel moderated by the specified AppInstanceUser. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Returns the full details of a channel moderated by the specified AppInstanceUser. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeChannelModeratedByAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelModeratedByAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DescribeChannelModeratedByAppInstanceUser in the Amazon Chime SDK Messaging Namespace")
     public func describeChannelModeratedByAppInstanceUser(input: DescribeChannelModeratedByAppInstanceUserInput) async throws -> DescribeChannelModeratedByAppInstanceUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2681,7 +2733,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Returns the full details of a single ChannelModerator. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Returns the full details of a single ChannelModerator. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeChannelModerator](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelModerator.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DescribeChannelModerator in the Amazon Chime SDK Messaging Namespace")
     public func describeChannelModerator(input: DescribeChannelModeratorInput) async throws -> DescribeChannelModeratorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2749,7 +2802,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Disassociates the specified phone numbers from the specified Amazon Chime Voice Connector.
+    /// Disassociates the specified phone numbers from the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [DisassociatePhoneNumbersFromVoiceConnector](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DisassociatePhoneNumbersFromVoiceConnector.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DisassociatePhoneNumbersFromVoiceConnector in the Amazon Chime SDK Voice Namespace")
     public func disassociatePhoneNumbersFromVoiceConnector(input: DisassociatePhoneNumbersFromVoiceConnectorInput) async throws -> DisassociatePhoneNumbersFromVoiceConnectorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2786,7 +2840,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Disassociates the specified phone numbers from the specified Amazon Chime Voice Connector group.
+    /// Disassociates the specified phone numbers from the specified Amazon Chime Voice Connector group. This API is is no longer supported and will not be updated. We recommend using the latest version, [DisassociatePhoneNumbersFromVoiceConnectorGroup](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DisassociatePhoneNumbersFromVoiceConnectorGroup.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by DisassociatePhoneNumbersFromVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
     public func disassociatePhoneNumbersFromVoiceConnectorGroup(input: DisassociatePhoneNumbersFromVoiceConnectorGroupInput) async throws -> DisassociatePhoneNumbersFromVoiceConnectorGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2926,7 +2981,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Gets the retention settings for an AppInstance.
+    /// Gets the retention settings for an AppInstance. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetMessagingRetentionSettings](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_GetAppInstanceRetentionSettings.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetAppInstanceRetentionSettings in the Amazon Chime SDK Identity Namespace")
     public func getAppInstanceRetentionSettings(input: GetAppInstanceRetentionSettingsInput) async throws -> GetAppInstanceRetentionSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2959,7 +3015,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Gets the streaming settings for an AppInstance.
+    /// Gets the streaming settings for an AppInstance. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetMessagingStreamingConfigurations](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_GetMessagingStreamingConfigurations.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetAppInstanceStreamingConfigurations in the Amazon Chime SDK Messaging Namespace")
     public func getAppInstanceStreamingConfigurations(input: GetAppInstanceStreamingConfigurationsInput) async throws -> GetAppInstanceStreamingConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2992,7 +3049,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Gets the Amazon Chime SDK attendee details for a specified meeting ID and attendee ID. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide .
+    /// Gets the Amazon Chime SDK attendee details for a specified meeting ID and attendee ID. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetAttendee](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_GetAttendee.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetAttendee in the Amazon Chime SDK Meetings Namespace")
     public func getAttendee(input: GetAttendeeInput) async throws -> GetAttendeeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3058,7 +3116,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Gets the full details of a channel message. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Gets the full details of a channel message. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetChannelMessage](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_GetChannelMessage.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetChannelMessage in the Amazon Chime SDK Messaging Namespace")
     public func getChannelMessage(input: GetChannelMessageInput) async throws -> GetChannelMessageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3158,7 +3217,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Gets an existing media capture pipeline.
+    /// Gets an existing media capture pipeline. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetMediaCapturePipeline](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_media-pipelines-chime_GetMediaCapturePipeline.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetMediaCapturePipeline in the Amazon Chime SDK Media Pipelines Namespace")
     public func getMediaCapturePipeline(input: GetMediaCapturePipelineInput) async throws -> GetMediaCapturePipelineOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3191,7 +3251,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide .
+    /// This API is is no longer supported and will not be updated. We recommend using the latest version, [GetMeeting](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_GetMeeting.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide. Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide .
+    @available(*, deprecated, message: "Replaced by GetMeeting in the Amazon Chime SDK Meetings Namespace")
     public func getMeeting(input: GetMeetingInput) async throws -> GetMeetingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3224,7 +3285,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// The details of the endpoint for the messaging session.
+    /// The details of the endpoint for the messaging session. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetMessagingSessionEndpoint](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_GetMessagingSessionEndpoint.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetMessagingSessionEndpoint in the Amazon Chime SDK Messaging Namespace")
     public func getMessagingSessionEndpoint(input: GetMessagingSessionEndpointInput) async throws -> GetMessagingSessionEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3356,7 +3418,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Gets the specified proxy session details for the specified Amazon Chime Voice Connector.
+    /// Gets the specified proxy session details for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetProxySession](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetProxySession.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetProxySession in the Amazon Chime SDK Voice Namespace")
     public func getProxySession(input: GetProxySessionInput) async throws -> GetProxySessionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3455,7 +3518,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Retrieves the information for a SIP media application, including name, AWS Region, and endpoints.
+    /// Retrieves the information for a SIP media application, including name, AWS Region, and endpoints. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetSipMediaApplication](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetSipMediaApplication.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetSipMediaApplication in the Amazon Chime SDK Voice Namespace")
     public func getSipMediaApplication(input: GetSipMediaApplicationInput) async throws -> GetSipMediaApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3488,7 +3552,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Returns the logging configuration for the specified SIP media application.
+    /// Returns the logging configuration for the specified SIP media application. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetSipMediaApplicationLoggingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetSipMediaApplicationLoggingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetSipMediaApplicationLoggingConfiguration in the Amazon Chime SDK Voice Namespace")
     public func getSipMediaApplicationLoggingConfiguration(input: GetSipMediaApplicationLoggingConfigurationInput) async throws -> GetSipMediaApplicationLoggingConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3521,7 +3586,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Retrieves the details of a SIP rule, such as the rule ID, name, triggers, and target endpoints.
+    /// Retrieves the details of a SIP rule, such as the rule ID, name, triggers, and target endpoints. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetSipRule](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetSipRule.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetSipRule in the Amazon Chime SDK Voice Namespace")
     public func getSipRule(input: GetSipRuleInput) async throws -> GetSipRuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3620,7 +3686,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Retrieves details for the specified Amazon Chime Voice Connector, such as timestamps,name, outbound host, and encryption requirements.
+    /// Retrieves details for the specified Amazon Chime Voice Connector, such as timestamps,name, outbound host, and encryption requirements. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnector](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnector.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetVoiceConnector in the Amazon Chime SDK Voice Namespace")
     public func getVoiceConnector(input: GetVoiceConnectorInput) async throws -> GetVoiceConnectorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3653,7 +3720,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Gets the emergency calling configuration details for the specified Amazon Chime Voice Connector.
+    /// Gets the emergency calling configuration details for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorEmergencyCallingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorEmergencyCallingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetVoiceConnectorEmergencyCallingConfiguration in the Amazon Chime SDK Voice Namespace")
     public func getVoiceConnectorEmergencyCallingConfiguration(input: GetVoiceConnectorEmergencyCallingConfigurationInput) async throws -> GetVoiceConnectorEmergencyCallingConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3686,7 +3754,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Retrieves details for the specified Amazon Chime Voice Connector group, such as timestamps,name, and associated VoiceConnectorItems.
+    /// Retrieves details for the specified Amazon Chime Voice Connector group, such as timestamps,name, and associated VoiceConnectorItems. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorGroup](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorGroup.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
     public func getVoiceConnectorGroup(input: GetVoiceConnectorGroupInput) async throws -> GetVoiceConnectorGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3719,7 +3788,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Retrieves the logging configuration details for the specified Amazon Chime Voice Connector. Shows whether SIP message logs are enabled for sending to Amazon CloudWatch Logs.
+    /// Retrieves the logging configuration details for the specified Amazon Chime Voice Connector. Shows whether SIP message logs are enabled for sending to Amazon CloudWatch Logs. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorLoggingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorLoggingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetVoiceConnectorLoggingConfiguration in the Amazon Chime SDK Voice Namespace")
     public func getVoiceConnectorLoggingConfiguration(input: GetVoiceConnectorLoggingConfigurationInput) async throws -> GetVoiceConnectorLoggingConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3752,7 +3822,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Retrieves origination setting details for the specified Amazon Chime Voice Connector.
+    /// Retrieves origination setting details for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorOrigination](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorOrigination.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetVoiceConnectorOrigination in the Amazon Chime SDK Voice Namespace")
     public func getVoiceConnectorOrigination(input: GetVoiceConnectorOriginationInput) async throws -> GetVoiceConnectorOriginationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3785,7 +3856,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Gets the proxy configuration details for the specified Amazon Chime Voice Connector.
+    /// Gets the proxy configuration details for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorProxy](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorProxy.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetVoiceConnectorProxy in the Amazon Chime SDK Voice Namespace")
     public func getVoiceConnectorProxy(input: GetVoiceConnectorProxyInput) async throws -> GetVoiceConnectorProxyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3818,7 +3890,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Retrieves the streaming configuration details for the specified Amazon Chime Voice Connector. Shows whether media streaming is enabled for sending to Amazon Kinesis. It also shows the retention period, in hours, for the Amazon Kinesis data.
+    /// Retrieves the streaming configuration details for the specified Amazon Chime Voice Connector. Shows whether media streaming is enabled for sending to Amazon Kinesis. It also shows the retention period, in hours, for the Amazon Kinesis data. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorStreamingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorStreamingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetVoiceConnectorStreamingConfiguration in the Amazon Chime SDK Voice Namespace")
     public func getVoiceConnectorStreamingConfiguration(input: GetVoiceConnectorStreamingConfigurationInput) async throws -> GetVoiceConnectorStreamingConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3851,7 +3924,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Retrieves termination setting details for the specified Amazon Chime Voice Connector.
+    /// Retrieves termination setting details for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorTermination](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorTermination.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by GetVoiceConnectorTermination in the Amazon Chime SDK Voice Namespace")
     public func getVoiceConnectorTermination(input: GetVoiceConnectorTerminationInput) async throws -> GetVoiceConnectorTerminationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3884,7 +3958,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Retrieves information about the last time a SIP OPTIONS ping was received from your SIP infrastructure for the specified Amazon Chime Voice Connector.
+    /// This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorTerminationHealth](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorTerminationHealth.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide. Retrieves information about the last time a SIP OPTIONS ping was received from your SIP infrastructure for the specified Amazon Chime Voice Connector.
+    @available(*, deprecated, message: "Replaced by GetVoiceConnectorTerminationHealth in the Amazon Chime SDK Voice Namespace")
     public func getVoiceConnectorTerminationHealth(input: GetVoiceConnectorTerminationHealthInput) async throws -> GetVoiceConnectorTerminationHealthOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3988,7 +4063,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Returns a list of the administrators in the AppInstance.
+    /// Returns a list of the administrators in the AppInstance. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListAppInstanceAdmins](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_ListAppInstanceAdmins.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListAppInstanceAdmins in the Amazon Chime SDK Identity Namespace")
     public func listAppInstanceAdmins(input: ListAppInstanceAdminsInput) async throws -> ListAppInstanceAdminsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4022,7 +4098,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// List all AppInstanceUsers created under a single AppInstance.
+    /// List all AppInstanceUsers created under a single AppInstance. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListAppInstanceUsers](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_ListAppInstanceUsers.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListAppInstanceUsers in the Amazon Chime SDK Identity Namespace")
     public func listAppInstanceUsers(input: ListAppInstanceUsersInput) async throws -> ListAppInstanceUsersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4056,7 +4133,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Lists all Amazon Chime AppInstances created under a single AWS account.
+    /// Lists all Amazon Chime AppInstances created under a single AWS account. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListAppInstances](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_ListAppInstances.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListAppInstances in the Amazon Chime SDK Identity Namespace")
     public func listAppInstances(input: ListAppInstancesInput) async throws -> ListAppInstancesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4090,7 +4168,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Lists the tags applied to an Amazon Chime SDK attendee resource.
+    /// Lists the tags applied to an Amazon Chime SDK attendee resource. ListAttendeeTags is not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.
+    @available(*, deprecated, message: "Attendee Tags are not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.")
     public func listAttendeeTags(input: ListAttendeeTagsInput) async throws -> ListAttendeeTagsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4123,7 +4202,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide.
+    /// Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListAttendees](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_ListAttendees.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListAttendees in the Amazon Chime SDK Meetings Namespace")
     public func listAttendees(input: ListAttendeesInput) async throws -> ListAttendeesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4191,7 +4271,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Lists all the users banned from a particular channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Lists all the users banned from a particular channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListChannelBans](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelBans.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListChannelBans in the Amazon Chime SDK Messaging Namespace")
     public func listChannelBans(input: ListChannelBansInput) async throws -> ListChannelBansOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4226,7 +4307,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Lists all channel memberships in a channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Lists all channel memberships in a channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListChannelMemberships](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelMemberships.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListChannelMemberships in the Amazon Chime SDK Messaging Namespace")
     public func listChannelMemberships(input: ListChannelMembershipsInput) async throws -> ListChannelMembershipsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4261,7 +4343,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Lists all channels that a particular AppInstanceUser is a part of. Only an AppInstanceAdmin can call the API with a user ARN that is not their own. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Lists all channels that a particular AppInstanceUser is a part of. Only an AppInstanceAdmin can call the API with a user ARN that is not their own. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListChannelMembershipsForAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelMembershipsForAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListChannelMembershipsForAppInstanceUser in the Amazon Chime SDK Messaging Namespace")
     public func listChannelMembershipsForAppInstanceUser(input: ListChannelMembershipsForAppInstanceUserInput) async throws -> ListChannelMembershipsForAppInstanceUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4296,7 +4379,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// List all the messages in a channel. Returns a paginated list of ChannelMessages. By default, sorted by creation timestamp in descending order. Redacted messages appear in the results as empty, since they are only redacted, not deleted. Deleted messages do not appear in the results. This action always returns the latest version of an edited message. Also, the x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// List all the messages in a channel. Returns a paginated list of ChannelMessages. By default, sorted by creation timestamp in descending order. Redacted messages appear in the results as empty, since they are only redacted, not deleted. Deleted messages do not appear in the results. This action always returns the latest version of an edited message. Also, the x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListChannelMessages](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelMessages.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListChannelMessages in the Amazon Chime SDK Messaging Namespace")
     public func listChannelMessages(input: ListChannelMessagesInput) async throws -> ListChannelMessagesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4331,7 +4415,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Lists all the moderators for a channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Lists all the moderators for a channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListChannelModerators](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelModerators.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListChannelModerators in the Amazon Chime SDK Messaging Namespace")
     public func listChannelModerators(input: ListChannelModeratorsInput) async throws -> ListChannelModeratorsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4373,7 +4458,8 @@ extension ChimeClient: ChimeClientProtocol {
     /// * Only an AppInstanceAdmin can set privacy = PRIVATE to list the private channels in an account.
     ///
     ///
-    /// The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListChannels](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannels.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListChannels in the Amazon Chime SDK Messaging Namespace")
     public func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4408,7 +4494,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// A list of the channels moderated by an AppInstanceUser. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// A list of the channels moderated by an AppInstanceUser. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListChannelsModeratedByAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelsModeratedByAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListChannelsModeratedByAppInstanceUser in the Amazon Chime SDK Messaging Namespace")
     public func listChannelsModeratedByAppInstanceUser(input: ListChannelsModeratedByAppInstanceUserInput) async throws -> ListChannelsModeratedByAppInstanceUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4443,7 +4530,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Returns a list of media capture pipelines.
+    /// Returns a list of media capture pipelines. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListMediaCapturePipelines](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_media-pipelines-chime_ListMediaCapturePipelines.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListMediaCapturePipelines in the Amazon Chime SDK Media Pipelines Namespace")
     public func listMediaCapturePipelines(input: ListMediaCapturePipelinesInput) async throws -> ListMediaCapturePipelinesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4477,7 +4565,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Lists the tags applied to an Amazon Chime SDK meeting resource.
+    /// Lists the tags applied to an Amazon Chime SDK meeting resource. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListTagsForResource](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_ListTagsForResource.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Use ListTagsForResource in the Amazon Chime SDK Meetings Namespace.")
     public func listMeetingTags(input: ListMeetingTagsInput) async throws -> ListMeetingTagsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4510,7 +4599,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Lists up to 100 active Amazon Chime SDK meetings. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide.
+    /// Lists up to 100 active Amazon Chime SDK meetings. ListMeetings is not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "ListMeetings is not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.")
     public func listMeetings(input: ListMeetingsInput) async throws -> ListMeetingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4612,7 +4702,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Lists the proxy sessions for the specified Amazon Chime Voice Connector.
+    /// Lists the proxy sessions for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListProxySessions](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListProxySessions.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListProxySessions in the Amazon Chime SDK Voice Namespace")
     public func listProxySessions(input: ListProxySessionsInput) async throws -> ListProxySessionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4714,7 +4805,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Lists the SIP media applications under the administrator's AWS account.
+    /// Lists the SIP media applications under the administrator's AWS account. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListSipMediaApplications](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListSipMediaApplications.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListSipMediaApplications in the Amazon Chime SDK Voice Namespace")
     public func listSipMediaApplications(input: ListSipMediaApplicationsInput) async throws -> ListSipMediaApplicationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4748,7 +4840,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Lists the SIP rules under the administrator's AWS account.
+    /// Lists the SIP rules under the administrator's AWS account. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListSipRules](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListSipRules.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListSipRules in the Amazon Chime SDK Voice Namespace")
     public func listSipRules(input: ListSipRulesInput) async throws -> ListSipRulesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4816,7 +4909,15 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Lists the tags applied to an Amazon Chime SDK meeting resource.
+    /// Lists the tags applied to an Amazon Chime SDK meeting and messaging resources. This API is is no longer supported and will not be updated. We recommend using the applicable latest version in the Amazon Chime SDK.
+    ///
+    /// * For meetings: [ListTagsForResource](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_ListTagsForResource.html).
+    ///
+    /// * For messaging: [ListTagsForResource](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListTagsForResource.html).
+    ///
+    ///
+    /// Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListTagsForResource in the Amazon Chime SDK Voice, Amazon Chime SDK Meetings, Amazon Chime SDK Identity, Amazon Chime SDK Messaging, and Amazon Chime SDK Media Pipelines Namespaces")
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4884,7 +4985,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Lists the Amazon Chime Voice Connector groups for the administrator's AWS account.
+    /// Lists the Amazon Chime Voice Connector groups for the administrator's AWS account. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListVoiceConnectorGroups](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListVoiceConnectorGroups.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListVoiceConnectorGroups in the Amazon Chime SDK Voice Namespace")
     public func listVoiceConnectorGroups(input: ListVoiceConnectorGroupsInput) async throws -> ListVoiceConnectorGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4918,7 +5020,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Lists the SIP credentials for the specified Amazon Chime Voice Connector.
+    /// Lists the SIP credentials for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListVoiceConnectorTerminationCredentials](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListVoiceConnectorTerminationCredentials.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListVoiceConnectorTerminationCredentials in the Amazon Chime SDK Voice Namespace")
     public func listVoiceConnectorTerminationCredentials(input: ListVoiceConnectorTerminationCredentialsInput) async throws -> ListVoiceConnectorTerminationCredentialsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4951,7 +5054,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Lists the Amazon Chime Voice Connectors for the administrator's AWS account.
+    /// Lists the Amazon Chime Voice Connectors for the administrator's AWS account. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListVoiceConnectors](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListVoiceConnectors.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ListVoiceConnectors in the Amazon Chime SDK Voice Namespace")
     public func listVoiceConnectors(input: ListVoiceConnectorsInput) async throws -> ListVoiceConnectorsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5019,7 +5123,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Sets the amount of time in days that a given AppInstance retains data.
+    /// Sets the amount of time in days that a given AppInstance retains data. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutAppInstanceRetentionSettings](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_PutAppInstanceRetentionSettings.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by PutAppInstanceRetentionSettings in the Amazon Chime SDK Identity Namespace")
     public func putAppInstanceRetentionSettings(input: PutAppInstanceRetentionSettingsInput) async throws -> PutAppInstanceRetentionSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5055,7 +5160,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// The data streaming configurations of an AppInstance.
+    /// The data streaming configurations of an AppInstance. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutMessagingStreamingConfigurations](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_PutMessagingStreamingConfigurations.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by PutAppInstanceStreamingConfigurations in the Amazon Chime SDK Messaging Namespace")
     public func putAppInstanceStreamingConfigurations(input: PutAppInstanceStreamingConfigurationsInput) async throws -> PutAppInstanceStreamingConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5163,7 +5269,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Updates the logging configuration for the specified SIP media application.
+    /// Updates the logging configuration for the specified SIP media application. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutSipMediaApplicationLoggingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutSipMediaApplicationLoggingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by PutSipMediaApplicationLoggingConfiguration in the Amazon Chime SDK Voice Namespace")
     public func putSipMediaApplicationLoggingConfiguration(input: PutSipMediaApplicationLoggingConfigurationInput) async throws -> PutSipMediaApplicationLoggingConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5199,7 +5306,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Puts emergency calling configuration details to the specified Amazon Chime Voice Connector, such as emergency phone numbers and calling countries. Origination and termination settings must be enabled for the Amazon Chime Voice Connector before emergency calling can be configured.
+    /// Puts emergency calling configuration details to the specified Amazon Chime Voice Connector, such as emergency phone numbers and calling countries. Origination and termination settings must be enabled for the Amazon Chime Voice Connector before emergency calling can be configured. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutVoiceConnectorEmergencyCallingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorEmergencyCallingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by PutVoiceConnectorEmergencyCallingConfiguration in the Amazon Chime SDK Voice Namespace")
     public func putVoiceConnectorEmergencyCallingConfiguration(input: PutVoiceConnectorEmergencyCallingConfigurationInput) async throws -> PutVoiceConnectorEmergencyCallingConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5235,7 +5343,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Adds a logging configuration for the specified Amazon Chime Voice Connector. The logging configuration specifies whether SIP message logs are enabled for sending to Amazon CloudWatch Logs.
+    /// Adds a logging configuration for the specified Amazon Chime Voice Connector. The logging configuration specifies whether SIP message logs are enabled for sending to Amazon CloudWatch Logs. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutVoiceConnectorLoggingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorLoggingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by PutVoiceConnectorLoggingConfiguration in the Amazon Chime SDK Voice Namespace")
     public func putVoiceConnectorLoggingConfiguration(input: PutVoiceConnectorLoggingConfigurationInput) async throws -> PutVoiceConnectorLoggingConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5271,7 +5380,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Adds origination settings for the specified Amazon Chime Voice Connector. If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to turning off origination settings.
+    /// Adds origination settings for the specified Amazon Chime Voice Connector. If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to turning off origination settings. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutVoiceConnectorOrigination](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorOrigination.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by PutVoiceConnectorOrigination in the Amazon Chime SDK Voice Namespace")
     public func putVoiceConnectorOrigination(input: PutVoiceConnectorOriginationInput) async throws -> PutVoiceConnectorOriginationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5307,7 +5417,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Puts the specified proxy configuration to the specified Amazon Chime Voice Connector.
+    /// Puts the specified proxy configuration to the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutVoiceConnectorProxy](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorProxy.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by PutVoiceConnectorProxy in the Amazon Chime SDK Voice Namespace")
     public func putVoiceConnectorProxy(input: PutVoiceConnectorProxyInput) async throws -> PutVoiceConnectorProxyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5343,7 +5454,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Adds a streaming configuration for the specified Amazon Chime Voice Connector. The streaming configuration specifies whether media streaming is enabled for sending to Kinesis. It also sets the retention period, in hours, for the Amazon Kinesis data.
+    /// Adds a streaming configuration for the specified Amazon Chime Voice Connector. The streaming configuration specifies whether media streaming is enabled for sending to Kinesis. It also sets the retention period, in hours, for the Amazon Kinesis data. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutVoiceConnectorStreamingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorStreamingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by PutVoiceConnectorStreamingConfiguration in the Amazon Chime SDK Voice Namespace")
     public func putVoiceConnectorStreamingConfiguration(input: PutVoiceConnectorStreamingConfigurationInput) async throws -> PutVoiceConnectorStreamingConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5379,7 +5491,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Adds termination settings for the specified Amazon Chime Voice Connector. If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to turning off termination settings.
+    /// Adds termination settings for the specified Amazon Chime Voice Connector. If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to turning off termination settings. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutVoiceConnectorTermination](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorTermination.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by PutVoiceConnectorTermination in the Amazon Chime SDK Voice Namespace")
     public func putVoiceConnectorTermination(input: PutVoiceConnectorTerminationInput) async throws -> PutVoiceConnectorTerminationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5415,7 +5528,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Adds termination SIP credentials for the specified Amazon Chime Voice Connector.
+    /// Adds termination SIP credentials for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutVoiceConnectorTerminationCredentials](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorTerminationCredentials.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by PutVoiceConnectorTerminationCredentials in the Amazon Chime SDK Voice Namespace")
     public func putVoiceConnectorTerminationCredentials(input: PutVoiceConnectorTerminationCredentialsInput) async throws -> PutVoiceConnectorTerminationCredentialsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5452,7 +5566,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Redacts message content, but not metadata. The message exists in the back end, but the action returns null content, and the state shows as redacted. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Redacts message content, but not metadata. The message exists in the back end, but the action returns null content, and the state shows as redacted. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [RedactChannelMessage](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_RedactChannelMessage.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by RedactChannelMessage in the Amazon Chime SDK Messaging Namespace")
     public func redactChannelMessage(input: RedactChannelMessageInput) async throws -> RedactChannelMessageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5691,7 +5806,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Sends a message to a particular channel that the member is a part of. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. Also, STANDARD messages can contain 4KB of data and the 1KB of metadata. CONTROL messages can contain 30 bytes of data and no metadata.
+    /// Sends a message to a particular channel that the member is a part of. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. Also, STANDARD messages can contain 4KB of data and the 1KB of metadata. CONTROL messages can contain 30 bytes of data and no metadata. This API is is no longer supported and will not be updated. We recommend using the latest version, [SendChannelMessage](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_SendChannelMessage.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by SendChannelMessage in the Amazon Chime SDK Messaging Namespace")
     public func sendChannelMessage(input: SendChannelMessageInput) async throws -> SendChannelMessageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5736,7 +5852,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Starts transcription for the specified meetingId. For more information, refer to [ Using Amazon Chime SDK live transcription ](https://docs.aws.amazon.com/chime-sdk/latest/dg/meeting-transcription.html) in the Amazon Chime SDK Developer Guide. If you specify an invalid configuration, a TranscriptFailed event will be sent with the contents of the BadRequestException generated by Amazon Transcribe. For more information on each parameter and which combinations are valid, refer to the [StartStreamTranscription](https://docs.aws.amazon.com/transcribe/latest/APIReference/API_streaming_StartStreamTranscription.html) API in the Amazon Transcribe Developer Guide. Amazon Chime SDK live transcription is powered by Amazon Transcribe. Use of Amazon Transcribe is subject to the [AWS Service Terms](https://aws.amazon.com/service-terms/), including the terms specific to the AWS Machine Learning and Artificial Intelligence Services.
+    /// Starts transcription for the specified meetingId. For more information, refer to [ Using Amazon Chime SDK live transcription ](https://docs.aws.amazon.com/chime-sdk/latest/dg/meeting-transcription.html) in the Amazon Chime SDK Developer Guide. If you specify an invalid configuration, a TranscriptFailed event will be sent with the contents of the BadRequestException generated by Amazon Transcribe. For more information on each parameter and which combinations are valid, refer to the [StartStreamTranscription](https://docs.aws.amazon.com/transcribe/latest/APIReference/API_streaming_StartStreamTranscription.html) API in the Amazon Transcribe Developer Guide. Amazon Chime SDK live transcription is powered by Amazon Transcribe. Use of Amazon Transcribe is subject to the [AWS Service Terms](https://aws.amazon.com/service-terms/), including the terms specific to the AWS Machine Learning and Artificial Intelligence Services. This API is is no longer supported and will not be updated. We recommend using the latest version, [StartMeetingTranscription](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_StartMeetingTranscription.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by StartMeetingTranscription in the Amazon Chime SDK Meetings Namespace")
     public func startMeetingTranscription(input: StartMeetingTranscriptionInput) async throws -> StartMeetingTranscriptionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5773,7 +5890,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Stops transcription for the specified meetingId.
+    /// Stops transcription for the specified meetingId. This API is is no longer supported and will not be updated. We recommend using the latest version, [StopMeetingTranscription](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_StopMeetingTranscription.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by StopMeetingTranscription in the Amazon Chime SDK Meetings Namespace")
     public func stopMeetingTranscription(input: StopMeetingTranscriptionInput) async throws -> StopMeetingTranscriptionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5807,7 +5925,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Applies the specified tags to the specified Amazon Chime SDK attendee.
+    /// Applies the specified tags to the specified Amazon Chime attendee. TagAttendee is not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.
+    @available(*, deprecated, message: "Attendee Tags are not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.")
     public func tagAttendee(input: TagAttendeeInput) async throws -> TagAttendeeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5844,7 +5963,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Applies the specified tags to the specified Amazon Chime SDK meeting.
+    /// Applies the specified tags to the specified Amazon Chime SDK meeting. This API is is no longer supported and will not be updated. We recommend using the latest version, [TagResource](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_TagResource.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Use TagResource in the Amazon Chime SDK Meetings Namespace.")
     public func tagMeeting(input: TagMeetingInput) async throws -> TagMeetingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5881,7 +6001,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Applies the specified tags to the specified Amazon Chime SDK meeting resource.
+    /// Applies the specified tags to the specified Amazon Chime SDK meeting resource. This API is is no longer supported and will not be updated. We recommend using the latest version, [TagResource](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_TagResource.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by TagResource in the Amazon Chime SDK Voice, Amazon Chime SDK Meetings, Amazon Chime SDK Identity, Amazon Chime SDK Messaging, and Amazon Chime SDK Media Pipelines Namespaces")
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5918,7 +6039,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Untags the specified tags from the specified Amazon Chime SDK attendee.
+    /// Untags the specified tags from the specified Amazon Chime SDK attendee. UntagAttendee is not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.
+    @available(*, deprecated, message: "Attendee Tags are not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.")
     public func untagAttendee(input: UntagAttendeeInput) async throws -> UntagAttendeeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5955,7 +6077,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Untags the specified tags from the specified Amazon Chime SDK meeting.
+    /// Untags the specified tags from the specified Amazon Chime SDK meeting. This API is is no longer supported and will not be updated. We recommend using the latest version, [UntagResource](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_UntagResource.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Use UntagResource in the Amazon Chime SDK Meetings Namespace.")
     public func untagMeeting(input: UntagMeetingInput) async throws -> UntagMeetingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5992,7 +6115,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Untags the specified tags from the specified Amazon Chime SDK meeting resource.
+    /// Untags the specified tags from the specified Amazon Chime SDK meeting resource. Applies the specified tags to the specified Amazon Chime SDK meeting resource. This API is is no longer supported and will not be updated. We recommend using the latest version, [UntagResource](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_UntagResource.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by UntagResource in the Amazon Chime SDK Voice, Amazon Chime SDK Meetings, Amazon Chime SDK Identity, Amazon Chime SDK Messaging, and Amazon Chime SDK Media Pipelines Namespaces")
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6101,7 +6225,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Updates AppInstance metadata.
+    /// Updates AppInstance metadata. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateAppInstance](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_UpdateAppInstance.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by UpdateAppInstance in the Amazon Chime SDK Identity Namespace")
     public func updateAppInstance(input: UpdateAppInstanceInput) async throws -> UpdateAppInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6137,7 +6262,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Updates the details of an AppInstanceUser. You can update names and metadata.
+    /// Updates the details of an AppInstanceUser. You can update names and metadata. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_UpdateAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by UpdateAppInstanceUser in the Amazon Chime SDK Identity Namespace")
     public func updateAppInstanceUser(input: UpdateAppInstanceUserInput) async throws -> UpdateAppInstanceUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6209,7 +6335,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Update a channel's attributes. Restriction: You can't change a channel's privacy. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Update a channel's attributes. Restriction: You can't change a channel's privacy. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateChannel](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_UpdateChannel.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by UpdateChannel in the Amazon Chime SDK Messaging Namespace")
     public func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6246,7 +6373,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Updates the content of a message. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Updates the content of a message. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateChannelMessage](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_UpdateChannelMessage.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by UpdateChannelMessage in the Amazon Chime SDK Messaging Namespace")
     public func updateChannelMessage(input: UpdateChannelMessageInput) async throws -> UpdateChannelMessageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6283,7 +6411,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// The details of the time when a user last read messages in a channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// The details of the time when a user last read messages in a channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateChannelReadMarker](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_UpdateChannelReadMarker.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by UpdateChannelReadMarker in the Amazon Chime SDK Messaging Namespace")
     public func updateChannelReadMarker(input: UpdateChannelReadMarkerInput) async throws -> UpdateChannelReadMarkerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6425,7 +6554,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Updates the specified proxy session details, such as voice or SMS capabilities.
+    /// Updates the specified proxy session details, such as voice or SMS capabilities. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateProxySession](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateProxySession.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by UpdateProxySession in the Amazon Chime SDK Voice Namespace")
     public func updateProxySession(input: UpdateProxySessionInput) async throws -> UpdateProxySessionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6533,7 +6663,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Updates the details of the specified SIP media application.
+    /// Updates the details of the specified SIP media application. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateSipMediaApplication](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateSipMediaApplication.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by UpdateSipMediaApplication in the Amazon Chime SDK Voice Namespace")
     public func updateSipMediaApplication(input: UpdateSipMediaApplicationInput) async throws -> UpdateSipMediaApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6569,7 +6700,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Invokes the AWS Lambda function associated with the SIP media application and transaction ID in an update request. The Lambda function can then return a new set of actions.
+    /// Invokes the AWS Lambda function associated with the SIP media application and transaction ID in an update request. The Lambda function can then return a new set of actions. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateSipMediaApplicationCall](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateSipMediaApplicationCall.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by UpdateSipMediaApplicationCall in the Amazon Chime SDK Voice Namespace")
     public func updateSipMediaApplicationCall(input: UpdateSipMediaApplicationCallInput) async throws -> UpdateSipMediaApplicationCallOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6605,7 +6737,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Updates the details of the specified SIP rule.
+    /// Updates the details of the specified SIP rule. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateSipRule](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateSipRule.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by UpdateSipRule in the Amazon Chime SDK Voice Namespace")
     public func updateSipRule(input: UpdateSipRuleInput) async throws -> UpdateSipRuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6713,7 +6846,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Updates details for the specified Amazon Chime Voice Connector.
+    /// Updates details for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateVoiceConnector](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateVoiceConnector.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by UpdateVoiceConnector in the Amazon Chime SDK Voice Namespace")
     public func updateVoiceConnector(input: UpdateVoiceConnectorInput) async throws -> UpdateVoiceConnectorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6749,7 +6883,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Updates details of the specified Amazon Chime Voice Connector group, such as the name and Amazon Chime Voice Connector priority ranking.
+    /// Updates details of the specified Amazon Chime Voice Connector group, such as the name and Amazon Chime Voice Connector priority ranking. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateVoiceConnectorGroup](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateVoiceConnectorGroup.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by UpdateVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
     public func updateVoiceConnectorGroup(input: UpdateVoiceConnectorGroupInput) async throws -> UpdateVoiceConnectorGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6785,7 +6920,8 @@ extension ChimeClient: ChimeClientProtocol {
         return result
     }
 
-    /// Validates an address to be used for 911 calls made with Amazon Chime Voice Connectors. You can use validated addresses in a Presence Information Data Format Location Object file that you include in SIP requests. That helps ensure that addresses are routed to the appropriate Public Safety Answering Point.
+    /// Validates an address to be used for 911 calls made with Amazon Chime Voice Connectors. You can use validated addresses in a Presence Information Data Format Location Object file that you include in SIP requests. That helps ensure that addresses are routed to the appropriate Public Safety Answering Point. This API is is no longer supported and will not be updated. We recommend using the latest version, [ValidateE911Address](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ValidateE911Address.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
+    @available(*, deprecated, message: "Replaced by ValidateE911Address in the Amazon Chime SDK Voice Namespace")
     public func validateE911Address(input: ValidateE911AddressInput) async throws -> ValidateE911AddressOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

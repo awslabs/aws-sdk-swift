@@ -184,7 +184,7 @@ extension SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordIdentifier: Swif
 extension SageMakerFeatureStoreRuntimeClientTypes {
     /// The identifier that identifies the batch of Records you are retrieving in a batch.
     public struct BatchGetRecordIdentifier: Swift.Equatable {
-        /// A FeatureGroupName containing Records you are retrieving in a batch.
+        /// The name or Amazon Resource Name (ARN) of the FeatureGroup containing the records you are retrieving in a batch.
         /// This member is required.
         public var featureGroupName: Swift.String?
         /// List of names of Features to be retrieved. If not specified, the latest value for all the Features are returned.
@@ -209,11 +209,15 @@ extension SageMakerFeatureStoreRuntimeClientTypes {
 
 extension BatchGetRecordInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case expirationTimeResponse = "ExpirationTimeResponse"
         case identifiers = "Identifiers"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let expirationTimeResponse = self.expirationTimeResponse {
+            try encodeContainer.encode(expirationTimeResponse.rawValue, forKey: .expirationTimeResponse)
+        }
         if let identifiers = identifiers {
             var identifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .identifiers)
             for batchgetrecordidentifier0 in identifiers {
@@ -230,24 +234,30 @@ extension BatchGetRecordInput: ClientRuntime.URLPathProvider {
 }
 
 public struct BatchGetRecordInput: Swift.Equatable {
-    /// A list of FeatureGroup names, with their corresponding RecordIdentifier value, and Feature name that have been requested to be retrieved in batch.
+    /// Parameter to request ExpiresAt in response. If Enabled, BatchGetRecord will return the value of ExpiresAt, if it is not null. If Disabled and null, BatchGetRecord will return null.
+    public var expirationTimeResponse: SageMakerFeatureStoreRuntimeClientTypes.ExpirationTimeResponse?
+    /// A list containing the name or Amazon Resource Name (ARN) of the FeatureGroup, the list of names of Features to be retrieved, and the corresponding RecordIdentifier values as strings.
     /// This member is required.
     public var identifiers: [SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordIdentifier]?
 
     public init(
+        expirationTimeResponse: SageMakerFeatureStoreRuntimeClientTypes.ExpirationTimeResponse? = nil,
         identifiers: [SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordIdentifier]? = nil
     )
     {
+        self.expirationTimeResponse = expirationTimeResponse
         self.identifiers = identifiers
     }
 }
 
 struct BatchGetRecordInputBody: Swift.Equatable {
     let identifiers: [SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordIdentifier]?
+    let expirationTimeResponse: SageMakerFeatureStoreRuntimeClientTypes.ExpirationTimeResponse?
 }
 
 extension BatchGetRecordInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case expirationTimeResponse = "ExpirationTimeResponse"
         case identifiers = "Identifiers"
     }
 
@@ -264,6 +274,8 @@ extension BatchGetRecordInputBody: Swift.Decodable {
             }
         }
         identifiers = identifiersDecoded0
+        let expirationTimeResponseDecoded = try containerValues.decodeIfPresent(SageMakerFeatureStoreRuntimeClientTypes.ExpirationTimeResponse.self, forKey: .expirationTimeResponse)
+        expirationTimeResponse = expirationTimeResponseDecoded
     }
 }
 
@@ -373,6 +385,7 @@ extension BatchGetRecordOutputResponseBody: Swift.Decodable {
 
 extension SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordResultDetail: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case expiresAt = "ExpiresAt"
         case featureGroupName = "FeatureGroupName"
         case record = "Record"
         case recordIdentifierValueAsString = "RecordIdentifierValueAsString"
@@ -380,6 +393,9 @@ extension SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordResultDetail: Sw
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let expiresAt = self.expiresAt {
+            try encodeContainer.encode(expiresAt, forKey: .expiresAt)
+        }
         if let featureGroupName = self.featureGroupName {
             try encodeContainer.encode(featureGroupName, forKey: .featureGroupName)
         }
@@ -411,12 +427,16 @@ extension SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordResultDetail: Sw
             }
         }
         record = recordDecoded0
+        let expiresAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .expiresAt)
+        expiresAt = expiresAtDecoded
     }
 }
 
 extension SageMakerFeatureStoreRuntimeClientTypes {
-    /// The output of Records that have been retrieved in a batch.
+    /// The output of records that have been retrieved in a batch.
     public struct BatchGetRecordResultDetail: Swift.Equatable {
+        /// The ExpiresAt ISO string of the requested record.
+        public var expiresAt: Swift.String?
         /// The FeatureGroupName containing Records you retrieved in a batch.
         /// This member is required.
         public var featureGroupName: Swift.String?
@@ -428,11 +448,13 @@ extension SageMakerFeatureStoreRuntimeClientTypes {
         public var recordIdentifierValueAsString: Swift.String?
 
         public init(
+            expiresAt: Swift.String? = nil,
             featureGroupName: Swift.String? = nil,
             record: [SageMakerFeatureStoreRuntimeClientTypes.FeatureValue]? = nil,
             recordIdentifierValueAsString: Swift.String? = nil
         )
         {
+            self.expiresAt = expiresAt
             self.featureGroupName = featureGroupName
             self.record = record
             self.recordIdentifierValueAsString = recordIdentifierValueAsString
@@ -487,7 +509,7 @@ public struct DeleteRecordInput: Swift.Equatable {
     /// Timestamp indicating when the deletion event occurred. EventTime can be used to query data at a certain point in time.
     /// This member is required.
     public var eventTime: Swift.String?
-    /// The name of the feature group to delete the record from.
+    /// The name or Amazon Resource Name (ARN) of the feature group to delete the record from.
     /// This member is required.
     public var featureGroupName: Swift.String?
     /// The value for the RecordIdentifier that uniquely identifies the record, in string format.
@@ -577,6 +599,38 @@ extension SageMakerFeatureStoreRuntimeClientTypes {
     }
 }
 
+extension SageMakerFeatureStoreRuntimeClientTypes {
+    public enum ExpirationTimeResponse: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExpirationTimeResponse] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .enabled: return "Enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ExpirationTimeResponse(rawValue: rawValue) ?? ExpirationTimeResponse.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension SageMakerFeatureStoreRuntimeClientTypes.FeatureValue: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case featureName = "FeatureName"
@@ -634,6 +688,10 @@ extension GetRecordInput: ClientRuntime.QueryItemProvider {
             }
             let recordIdentifierValueAsStringQueryItem = ClientRuntime.URLQueryItem(name: "RecordIdentifierValueAsString".urlPercentEncoding(), value: Swift.String(recordIdentifierValueAsString).urlPercentEncoding())
             items.append(recordIdentifierValueAsStringQueryItem)
+            if let expirationTimeResponse = expirationTimeResponse {
+                let expirationTimeResponseQueryItem = ClientRuntime.URLQueryItem(name: "ExpirationTimeResponse".urlPercentEncoding(), value: Swift.String(expirationTimeResponse.rawValue).urlPercentEncoding())
+                items.append(expirationTimeResponseQueryItem)
+            }
             if let featureNames = featureNames {
                 featureNames.forEach { queryItemValue in
                     let queryItem = ClientRuntime.URLQueryItem(name: "FeatureName".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
@@ -655,7 +713,9 @@ extension GetRecordInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetRecordInput: Swift.Equatable {
-    /// The name of the feature group from which you want to retrieve a record.
+    /// Parameter to request ExpiresAt in response. If Enabled, GetRecord will return the value of ExpiresAt, if it is not null. If Disabled and null, GetRecord will return null.
+    public var expirationTimeResponse: SageMakerFeatureStoreRuntimeClientTypes.ExpirationTimeResponse?
+    /// The name or Amazon Resource Name (ARN) of the feature group from which you want to retrieve a record.
     /// This member is required.
     public var featureGroupName: Swift.String?
     /// List of names of Features to be retrieved. If not specified, the latest value for all the Features are returned.
@@ -665,11 +725,13 @@ public struct GetRecordInput: Swift.Equatable {
     public var recordIdentifierValueAsString: Swift.String?
 
     public init(
+        expirationTimeResponse: SageMakerFeatureStoreRuntimeClientTypes.ExpirationTimeResponse? = nil,
         featureGroupName: Swift.String? = nil,
         featureNames: [Swift.String]? = nil,
         recordIdentifierValueAsString: Swift.String? = nil
     )
     {
+        self.expirationTimeResponse = expirationTimeResponse
         self.featureGroupName = featureGroupName
         self.featureNames = featureNames
         self.recordIdentifierValueAsString = recordIdentifierValueAsString
@@ -705,31 +767,39 @@ extension GetRecordOutputResponse: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetRecordOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.expiresAt = output.expiresAt
             self.record = output.record
         } else {
+            self.expiresAt = nil
             self.record = nil
         }
     }
 }
 
 public struct GetRecordOutputResponse: Swift.Equatable {
+    /// The ExpiresAt ISO string of the requested record.
+    public var expiresAt: Swift.String?
     /// The record you requested. A list of FeatureValues.
     public var record: [SageMakerFeatureStoreRuntimeClientTypes.FeatureValue]?
 
     public init(
+        expiresAt: Swift.String? = nil,
         record: [SageMakerFeatureStoreRuntimeClientTypes.FeatureValue]? = nil
     )
     {
+        self.expiresAt = expiresAt
         self.record = record
     }
 }
 
 struct GetRecordOutputResponseBody: Swift.Equatable {
     let record: [SageMakerFeatureStoreRuntimeClientTypes.FeatureValue]?
+    let expiresAt: Swift.String?
 }
 
 extension GetRecordOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case expiresAt = "ExpiresAt"
         case record = "Record"
     }
 
@@ -746,6 +816,8 @@ extension GetRecordOutputResponseBody: Swift.Decodable {
             }
         }
         record = recordDecoded0
+        let expiresAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .expiresAt)
+        expiresAt = expiresAtDecoded
     }
 }
 
@@ -808,6 +880,7 @@ extension PutRecordInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case record = "Record"
         case targetStores = "TargetStores"
+        case ttlDuration = "TtlDuration"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -824,6 +897,9 @@ extension PutRecordInput: Swift.Encodable {
                 try targetStoresContainer.encode(targetstore0.rawValue)
             }
         }
+        if let ttlDuration = self.ttlDuration {
+            try encodeContainer.encode(ttlDuration, forKey: .ttlDuration)
+        }
     }
 }
 
@@ -837,7 +913,7 @@ extension PutRecordInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutRecordInput: Swift.Equatable {
-    /// The name of the feature group that you want to insert the record into.
+    /// The name or Amazon Resource Name (ARN) of the feature group that you want to insert the record into.
     /// This member is required.
     public var featureGroupName: Swift.String?
     /// List of FeatureValues to be inserted. This will be a full over-write. If you only want to update few of the feature values, do the following:
@@ -851,28 +927,34 @@ public struct PutRecordInput: Swift.Equatable {
     public var record: [SageMakerFeatureStoreRuntimeClientTypes.FeatureValue]?
     /// A list of stores to which you're adding the record. By default, Feature Store adds the record to all of the stores that you're using for the FeatureGroup.
     public var targetStores: [SageMakerFeatureStoreRuntimeClientTypes.TargetStore]?
+    /// Time to live duration, where the record is hard deleted after the expiration time is reached; ExpiresAt = EventTime + TtlDuration. For information on HardDelete, see the [DeleteRecord](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_DeleteRecord.html) API in the Amazon SageMaker API Reference guide.
+    public var ttlDuration: SageMakerFeatureStoreRuntimeClientTypes.TtlDuration?
 
     public init(
         featureGroupName: Swift.String? = nil,
         record: [SageMakerFeatureStoreRuntimeClientTypes.FeatureValue]? = nil,
-        targetStores: [SageMakerFeatureStoreRuntimeClientTypes.TargetStore]? = nil
+        targetStores: [SageMakerFeatureStoreRuntimeClientTypes.TargetStore]? = nil,
+        ttlDuration: SageMakerFeatureStoreRuntimeClientTypes.TtlDuration? = nil
     )
     {
         self.featureGroupName = featureGroupName
         self.record = record
         self.targetStores = targetStores
+        self.ttlDuration = ttlDuration
     }
 }
 
 struct PutRecordInputBody: Swift.Equatable {
     let record: [SageMakerFeatureStoreRuntimeClientTypes.FeatureValue]?
     let targetStores: [SageMakerFeatureStoreRuntimeClientTypes.TargetStore]?
+    let ttlDuration: SageMakerFeatureStoreRuntimeClientTypes.TtlDuration?
 }
 
 extension PutRecordInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case record = "Record"
         case targetStores = "TargetStores"
+        case ttlDuration = "TtlDuration"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -899,6 +981,8 @@ extension PutRecordInputBody: Swift.Decodable {
             }
         }
         targetStores = targetStoresDecoded0
+        let ttlDurationDecoded = try containerValues.decodeIfPresent(SageMakerFeatureStoreRuntimeClientTypes.TtlDuration.self, forKey: .ttlDuration)
+        ttlDuration = ttlDurationDecoded
     }
 }
 
@@ -1064,6 +1148,94 @@ extension SageMakerFeatureStoreRuntimeClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = TargetStore(rawValue: rawValue) ?? TargetStore.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension SageMakerFeatureStoreRuntimeClientTypes.TtlDuration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case unit = "Unit"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let unit = self.unit {
+            try encodeContainer.encode(unit.rawValue, forKey: .unit)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let unitDecoded = try containerValues.decodeIfPresent(SageMakerFeatureStoreRuntimeClientTypes.TtlDurationUnit.self, forKey: .unit)
+        unit = unitDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension SageMakerFeatureStoreRuntimeClientTypes {
+    /// Time to live duration, where the record is hard deleted after the expiration time is reached; ExpiresAt = EventTime + TtlDuration. For information on HardDelete, see the [DeleteRecord](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_DeleteRecord.html) API in the Amazon SageMaker API Reference guide.
+    public struct TtlDuration: Swift.Equatable {
+        /// TtlDuration time unit.
+        /// This member is required.
+        public var unit: SageMakerFeatureStoreRuntimeClientTypes.TtlDurationUnit?
+        /// TtlDuration time value.
+        /// This member is required.
+        public var value: Swift.Int?
+
+        public init(
+            unit: SageMakerFeatureStoreRuntimeClientTypes.TtlDurationUnit? = nil,
+            value: Swift.Int? = nil
+        )
+        {
+            self.unit = unit
+            self.value = value
+        }
+    }
+
+}
+
+extension SageMakerFeatureStoreRuntimeClientTypes {
+    public enum TtlDurationUnit: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case days
+        case hours
+        case minutes
+        case seconds
+        case weeks
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TtlDurationUnit] {
+            return [
+                .days,
+                .hours,
+                .minutes,
+                .seconds,
+                .weeks,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .days: return "Days"
+            case .hours: return "Hours"
+            case .minutes: return "Minutes"
+            case .seconds: return "Seconds"
+            case .weeks: return "Weeks"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TtlDurationUnit(rawValue: rawValue) ?? TtlDurationUnit.sdkUnknown(rawValue)
         }
     }
 }

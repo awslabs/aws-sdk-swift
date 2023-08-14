@@ -1753,6 +1753,8 @@ extension FSxClient: FSxClientProtocol {
     ///
     /// * DataCompressionType
     ///
+    /// * LogConfiguration
+    ///
     /// * LustreRootSquashConfiguration
     ///
     /// * StorageCapacity

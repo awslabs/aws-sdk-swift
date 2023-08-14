@@ -2640,10 +2640,66 @@ extension PinpointClientTypes {
 
 }
 
+extension PinpointClientTypes.ApplicationSettingsJourneyLimits: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dailyCap = "DailyCap"
+        case timeframeCap = "TimeframeCap"
+        case totalCap = "TotalCap"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dailyCap = self.dailyCap {
+            try encodeContainer.encode(dailyCap, forKey: .dailyCap)
+        }
+        if let timeframeCap = self.timeframeCap {
+            try encodeContainer.encode(timeframeCap, forKey: .timeframeCap)
+        }
+        if let totalCap = self.totalCap {
+            try encodeContainer.encode(totalCap, forKey: .totalCap)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dailyCapDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .dailyCap)
+        dailyCap = dailyCapDecoded
+        let timeframeCapDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneyTimeframeCap.self, forKey: .timeframeCap)
+        timeframeCap = timeframeCapDecoded
+        let totalCapDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalCap)
+        totalCap = totalCapDecoded
+    }
+}
+
+extension PinpointClientTypes {
+    /// The default sending limits for journeys in the application. To override these limits and define custom limits for a specific journey, use the Journey resource.
+    public struct ApplicationSettingsJourneyLimits: Swift.Equatable {
+        /// The daily number of messages that an endpoint can receive from all journeys. The maximum value is 100. If set to 0, this limit will not apply.
+        public var dailyCap: Swift.Int?
+        /// The default maximum number of messages that can be sent to an endpoint during the specified timeframe for all journeys.
+        public var timeframeCap: PinpointClientTypes.JourneyTimeframeCap?
+        /// The default maximum number of messages that a single journey can sent to a single endpoint. The maximum value is 100. If set to 0, this limit will not apply.
+        public var totalCap: Swift.Int?
+
+        public init(
+            dailyCap: Swift.Int? = nil,
+            timeframeCap: PinpointClientTypes.JourneyTimeframeCap? = nil,
+            totalCap: Swift.Int? = nil
+        )
+        {
+            self.dailyCap = dailyCap
+            self.timeframeCap = timeframeCap
+            self.totalCap = totalCap
+        }
+    }
+
+}
+
 extension PinpointClientTypes.ApplicationSettingsResource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applicationId = "ApplicationId"
         case campaignHook = "CampaignHook"
+        case journeyLimits = "JourneyLimits"
         case lastModifiedDate = "LastModifiedDate"
         case limits = "Limits"
         case quietTime = "QuietTime"
@@ -2656,6 +2712,9 @@ extension PinpointClientTypes.ApplicationSettingsResource: Swift.Codable {
         }
         if let campaignHook = self.campaignHook {
             try encodeContainer.encode(campaignHook, forKey: .campaignHook)
+        }
+        if let journeyLimits = self.journeyLimits {
+            try encodeContainer.encode(journeyLimits, forKey: .journeyLimits)
         }
         if let lastModifiedDate = self.lastModifiedDate {
             try encodeContainer.encode(lastModifiedDate, forKey: .lastModifiedDate)
@@ -2680,6 +2739,8 @@ extension PinpointClientTypes.ApplicationSettingsResource: Swift.Codable {
         limits = limitsDecoded
         let quietTimeDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.QuietTime.self, forKey: .quietTime)
         quietTime = quietTimeDecoded
+        let journeyLimitsDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ApplicationSettingsJourneyLimits.self, forKey: .journeyLimits)
+        journeyLimits = journeyLimitsDecoded
     }
 }
 
@@ -2691,6 +2752,8 @@ extension PinpointClientTypes {
         public var applicationId: Swift.String?
         /// The settings for the AWS Lambda function to invoke by default as a code hook for campaigns in the application. You can use this hook to customize segments that are used by campaigns in the application.
         public var campaignHook: PinpointClientTypes.CampaignHook?
+        /// The default sending limits for journeys in the application. These limits apply to each journey for the application but can be overridden, on a per journey basis, with the JourneyLimits resource.
+        public var journeyLimits: PinpointClientTypes.ApplicationSettingsJourneyLimits?
         /// The date and time, in ISO 8601 format, when the application's settings were last modified.
         public var lastModifiedDate: Swift.String?
         /// The default sending limits for campaigns in the application.
@@ -2710,6 +2773,7 @@ extension PinpointClientTypes {
         public init(
             applicationId: Swift.String? = nil,
             campaignHook: PinpointClientTypes.CampaignHook? = nil,
+            journeyLimits: PinpointClientTypes.ApplicationSettingsJourneyLimits? = nil,
             lastModifiedDate: Swift.String? = nil,
             limits: PinpointClientTypes.CampaignLimits? = nil,
             quietTime: PinpointClientTypes.QuietTime? = nil
@@ -2717,6 +2781,7 @@ extension PinpointClientTypes {
         {
             self.applicationId = applicationId
             self.campaignHook = campaignHook
+            self.journeyLimits = journeyLimits
             self.lastModifiedDate = lastModifiedDate
             self.limits = limits
             self.quietTime = quietTime
@@ -13286,7 +13351,9 @@ extension PinpointClientTypes {
 extension PinpointClientTypes.GCMChannelRequest: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case apiKey = "ApiKey"
+        case defaultAuthenticationMethod = "DefaultAuthenticationMethod"
         case enabled = "Enabled"
+        case serviceJson = "ServiceJson"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -13294,8 +13361,14 @@ extension PinpointClientTypes.GCMChannelRequest: Swift.Codable {
         if let apiKey = self.apiKey {
             try encodeContainer.encode(apiKey, forKey: .apiKey)
         }
+        if let defaultAuthenticationMethod = self.defaultAuthenticationMethod {
+            try encodeContainer.encode(defaultAuthenticationMethod, forKey: .defaultAuthenticationMethod)
+        }
         if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+        if let serviceJson = self.serviceJson {
+            try encodeContainer.encode(serviceJson, forKey: .serviceJson)
         }
     }
 
@@ -13303,8 +13376,12 @@ extension PinpointClientTypes.GCMChannelRequest: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let apiKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .apiKey)
         apiKey = apiKeyDecoded
+        let defaultAuthenticationMethodDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .defaultAuthenticationMethod)
+        defaultAuthenticationMethod = defaultAuthenticationMethodDecoded
         let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
+        let serviceJsonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceJson)
+        serviceJson = serviceJsonDecoded
     }
 }
 
@@ -13312,18 +13389,25 @@ extension PinpointClientTypes {
     /// Specifies the status and settings of the GCM channel for an application. This channel enables Amazon Pinpoint to send push notifications through the Firebase Cloud Messaging (FCM), formerly Google Cloud Messaging (GCM), service.
     public struct GCMChannelRequest: Swift.Equatable {
         /// The Web API Key, also referred to as an API_KEY or server key, that you received from Google to communicate with Google services.
-        /// This member is required.
         public var apiKey: Swift.String?
+        /// The default authentication method used for GCM. Values are either "TOKEN" or "KEY". Defaults to "KEY".
+        public var defaultAuthenticationMethod: Swift.String?
         /// Specifies whether to enable the GCM channel for the application.
         public var enabled: Swift.Bool?
+        /// The contents of the JSON file provided by Google during registration in order to generate an access token for authentication. For more information see [Migrate from legacy FCM APIs to HTTP v1](https://firebase.google.com/docs/cloud-messaging/migrate-v1).
+        public var serviceJson: Swift.String?
 
         public init(
             apiKey: Swift.String? = nil,
-            enabled: Swift.Bool? = nil
+            defaultAuthenticationMethod: Swift.String? = nil,
+            enabled: Swift.Bool? = nil,
+            serviceJson: Swift.String? = nil
         )
         {
             self.apiKey = apiKey
+            self.defaultAuthenticationMethod = defaultAuthenticationMethod
             self.enabled = enabled
+            self.serviceJson = serviceJson
         }
     }
 
@@ -13334,8 +13418,10 @@ extension PinpointClientTypes.GCMChannelResponse: Swift.Codable {
         case applicationId = "ApplicationId"
         case creationDate = "CreationDate"
         case credential = "Credential"
+        case defaultAuthenticationMethod = "DefaultAuthenticationMethod"
         case enabled = "Enabled"
         case hasCredential = "HasCredential"
+        case hasFcmServiceCredentials = "HasFcmServiceCredentials"
         case id = "Id"
         case isArchived = "IsArchived"
         case lastModifiedBy = "LastModifiedBy"
@@ -13355,11 +13441,17 @@ extension PinpointClientTypes.GCMChannelResponse: Swift.Codable {
         if let credential = self.credential {
             try encodeContainer.encode(credential, forKey: .credential)
         }
+        if let defaultAuthenticationMethod = self.defaultAuthenticationMethod {
+            try encodeContainer.encode(defaultAuthenticationMethod, forKey: .defaultAuthenticationMethod)
+        }
         if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
         if let hasCredential = self.hasCredential {
             try encodeContainer.encode(hasCredential, forKey: .hasCredential)
+        }
+        if let hasFcmServiceCredentials = self.hasFcmServiceCredentials {
+            try encodeContainer.encode(hasFcmServiceCredentials, forKey: .hasFcmServiceCredentials)
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
@@ -13389,10 +13481,14 @@ extension PinpointClientTypes.GCMChannelResponse: Swift.Codable {
         creationDate = creationDateDecoded
         let credentialDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .credential)
         credential = credentialDecoded
+        let defaultAuthenticationMethodDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .defaultAuthenticationMethod)
+        defaultAuthenticationMethod = defaultAuthenticationMethodDecoded
         let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
         let hasCredentialDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hasCredential)
         hasCredential = hasCredentialDecoded
+        let hasFcmServiceCredentialsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hasFcmServiceCredentials)
+        hasFcmServiceCredentials = hasFcmServiceCredentialsDecoded
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
         let isArchivedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isArchived)
@@ -13416,12 +13512,15 @@ extension PinpointClientTypes {
         /// The date and time when the GCM channel was enabled.
         public var creationDate: Swift.String?
         /// The Web API Key, also referred to as an API_KEY or server key, that you received from Google to communicate with Google services.
-        /// This member is required.
         public var credential: Swift.String?
+        /// The default authentication method used for GCM. Values are either "TOKEN" or "KEY". Defaults to "KEY".
+        public var defaultAuthenticationMethod: Swift.String?
         /// Specifies whether the GCM channel is enabled for the application.
         public var enabled: Swift.Bool?
         /// (Not used) This property is retained only for backward compatibility.
         public var hasCredential: Swift.Bool?
+        /// Returns true if the JSON file provided by Google during registration process was used in the ServiceJson field of the request.
+        public var hasFcmServiceCredentials: Swift.Bool?
         /// (Deprecated) An identifier for the GCM channel. This property is retained only for backward compatibility.
         public var id: Swift.String?
         /// Specifies whether the GCM channel is archived.
@@ -13440,8 +13539,10 @@ extension PinpointClientTypes {
             applicationId: Swift.String? = nil,
             creationDate: Swift.String? = nil,
             credential: Swift.String? = nil,
+            defaultAuthenticationMethod: Swift.String? = nil,
             enabled: Swift.Bool? = nil,
             hasCredential: Swift.Bool? = nil,
+            hasFcmServiceCredentials: Swift.Bool? = nil,
             id: Swift.String? = nil,
             isArchived: Swift.Bool? = nil,
             lastModifiedBy: Swift.String? = nil,
@@ -13453,8 +13554,10 @@ extension PinpointClientTypes {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.credential = credential
+            self.defaultAuthenticationMethod = defaultAuthenticationMethod
             self.enabled = enabled
             self.hasCredential = hasCredential
+            self.hasFcmServiceCredentials = hasFcmServiceCredentials
             self.id = id
             self.isArchived = isArchived
             self.lastModifiedBy = lastModifiedBy
@@ -13475,6 +13578,7 @@ extension PinpointClientTypes.GCMMessage: Swift.Codable {
         case iconReference = "IconReference"
         case imageIconUrl = "ImageIconUrl"
         case imageUrl = "ImageUrl"
+        case preferredAuthenticationMethod = "PreferredAuthenticationMethod"
         case priority = "Priority"
         case rawContent = "RawContent"
         case restrictedPackageName = "RestrictedPackageName"
@@ -13512,6 +13616,9 @@ extension PinpointClientTypes.GCMMessage: Swift.Codable {
         }
         if let imageUrl = self.imageUrl {
             try encodeContainer.encode(imageUrl, forKey: .imageUrl)
+        }
+        if let preferredAuthenticationMethod = self.preferredAuthenticationMethod {
+            try encodeContainer.encode(preferredAuthenticationMethod, forKey: .preferredAuthenticationMethod)
         }
         if let priority = self.priority {
             try encodeContainer.encode(priority, forKey: .priority)
@@ -13576,6 +13683,8 @@ extension PinpointClientTypes.GCMMessage: Swift.Codable {
         imageIconUrl = imageIconUrlDecoded
         let imageUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageUrl)
         imageUrl = imageUrlDecoded
+        let preferredAuthenticationMethodDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredAuthenticationMethod)
+        preferredAuthenticationMethod = preferredAuthenticationMethodDecoded
         let priorityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .priority)
         priority = priorityDecoded
         let rawContentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rawContent)
@@ -13638,8 +13747,10 @@ extension PinpointClientTypes {
         public var imageIconUrl: Swift.String?
         /// The URL of an image to display in the push notification.
         public var imageUrl: Swift.String?
-        /// para>normal - The notification might be delayed. Delivery is optimized for battery usage on the recipient's device. Use this value unless immediate delivery is required./listitem>
-        /// * high - The notification is sent immediately and might wake a sleeping device.
+        /// The preferred authentication method, with valid values "KEY" or "TOKEN". If a value isn't provided then the DefaultAuthenticationMethod is used.
+        public var preferredAuthenticationMethod: Swift.String?
+        /// para>normal – The notification might be delayed. Delivery is optimized for battery usage on the recipient's device. Use this value unless immediate delivery is required./listitem>
+        /// * high – The notification is sent immediately and might wake a sleeping device.
         /// /para> Amazon Pinpoint specifies this value in the FCM priority parameter when it sends the notification message to FCM. The equivalent values for Apple Push Notification service (APNs) are 5, for normal, and 10, for high. If you specify an APNs value for this property, Amazon Pinpoint accepts and converts the value to the corresponding FCM value.
         public var priority: Swift.String?
         /// The raw, JSON-formatted string to use as the payload for the notification message. If specified, this value overrides all other content for the message.
@@ -13669,6 +13780,7 @@ extension PinpointClientTypes {
             iconReference: Swift.String? = nil,
             imageIconUrl: Swift.String? = nil,
             imageUrl: Swift.String? = nil,
+            preferredAuthenticationMethod: Swift.String? = nil,
             priority: Swift.String? = nil,
             rawContent: Swift.String? = nil,
             restrictedPackageName: Swift.String? = nil,
@@ -13688,6 +13800,7 @@ extension PinpointClientTypes {
             self.iconReference = iconReference
             self.imageIconUrl = imageIconUrl
             self.imageUrl = imageUrl
+            self.preferredAuthenticationMethod = preferredAuthenticationMethod
             self.priority = priority
             self.rawContent = rawContent
             self.restrictedPackageName = restrictedPackageName
@@ -20938,6 +21051,8 @@ extension PinpointClientTypes.JourneyLimits: Swift.Codable {
         case endpointReentryCap = "EndpointReentryCap"
         case endpointReentryInterval = "EndpointReentryInterval"
         case messagesPerSecond = "MessagesPerSecond"
+        case timeframeCap = "TimeframeCap"
+        case totalCap = "TotalCap"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -20954,6 +21069,12 @@ extension PinpointClientTypes.JourneyLimits: Swift.Codable {
         if let messagesPerSecond = self.messagesPerSecond {
             try encodeContainer.encode(messagesPerSecond, forKey: .messagesPerSecond)
         }
+        if let timeframeCap = self.timeframeCap {
+            try encodeContainer.encode(timeframeCap, forKey: .timeframeCap)
+        }
+        if let totalCap = self.totalCap {
+            try encodeContainer.encode(totalCap, forKey: .totalCap)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -20966,6 +21087,10 @@ extension PinpointClientTypes.JourneyLimits: Swift.Codable {
         messagesPerSecond = messagesPerSecondDecoded
         let endpointReentryIntervalDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpointReentryInterval)
         endpointReentryInterval = endpointReentryIntervalDecoded
+        let timeframeCapDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneyTimeframeCap.self, forKey: .timeframeCap)
+        timeframeCap = timeframeCapDecoded
+        let totalCapDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalCap)
+        totalCap = totalCapDecoded
     }
 }
 
@@ -20980,18 +21105,26 @@ extension PinpointClientTypes {
         public var endpointReentryInterval: Swift.String?
         /// The maximum number of messages that the journey can send each second.
         public var messagesPerSecond: Swift.Int?
+        /// The number of messages that an endpoint can receive during the specified timeframe.
+        public var timeframeCap: PinpointClientTypes.JourneyTimeframeCap?
+        /// The maximum number of messages a journey can sent to a single endpoint. The maximum value is 100. If set to 0, this limit will not apply.
+        public var totalCap: Swift.Int?
 
         public init(
             dailyCap: Swift.Int? = nil,
             endpointReentryCap: Swift.Int? = nil,
             endpointReentryInterval: Swift.String? = nil,
-            messagesPerSecond: Swift.Int? = nil
+            messagesPerSecond: Swift.Int? = nil,
+            timeframeCap: PinpointClientTypes.JourneyTimeframeCap? = nil,
+            totalCap: Swift.Int? = nil
         )
         {
             self.dailyCap = dailyCap
             self.endpointReentryCap = endpointReentryCap
             self.endpointReentryInterval = endpointReentryInterval
             self.messagesPerSecond = messagesPerSecond
+            self.timeframeCap = timeframeCap
+            self.totalCap = totalCap
         }
     }
 
@@ -21053,6 +21186,7 @@ extension PinpointClientTypes.JourneyResponse: Swift.Codable {
         case startActivity = "StartActivity"
         case startCondition = "StartCondition"
         case state = "State"
+        case timezoneEstimationMethods = "TimezoneEstimationMethods"
         case waitForQuietTime = "WaitForQuietTime"
         case tags = "tags"
     }
@@ -21118,6 +21252,12 @@ extension PinpointClientTypes.JourneyResponse: Swift.Codable {
         }
         if let state = self.state {
             try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+        if let timezoneEstimationMethods = timezoneEstimationMethods {
+            var timezoneEstimationMethodsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .timezoneEstimationMethods)
+            for __timezoneestimationmethodselement0 in timezoneEstimationMethods {
+                try timezoneEstimationMethodsContainer.encode(__timezoneestimationmethodselement0.rawValue)
+            }
         }
         if let waitForQuietTime = self.waitForQuietTime {
             try encodeContainer.encode(waitForQuietTime, forKey: .waitForQuietTime)
@@ -21192,6 +21332,17 @@ extension PinpointClientTypes.JourneyResponse: Swift.Codable {
         openHours = openHoursDecoded
         let closedDaysDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ClosedDays.self, forKey: .closedDays)
         closedDays = closedDaysDecoded
+        let timezoneEstimationMethodsContainer = try containerValues.decodeIfPresent([PinpointClientTypes.__TimezoneEstimationMethodsElement?].self, forKey: .timezoneEstimationMethods)
+        var timezoneEstimationMethodsDecoded0:[PinpointClientTypes.__TimezoneEstimationMethodsElement]? = nil
+        if let timezoneEstimationMethodsContainer = timezoneEstimationMethodsContainer {
+            timezoneEstimationMethodsDecoded0 = [PinpointClientTypes.__TimezoneEstimationMethodsElement]()
+            for enum0 in timezoneEstimationMethodsContainer {
+                if let enum0 = enum0 {
+                    timezoneEstimationMethodsDecoded0?.append(enum0)
+                }
+            }
+        }
+        timezoneEstimationMethods = timezoneEstimationMethodsDecoded0
     }
 }
 
@@ -21260,6 +21411,12 @@ extension PinpointClientTypes {
         public var state: PinpointClientTypes.State?
         /// This object is not used or supported.
         public var tags: [Swift.String:Swift.String]?
+        /// An array of time zone estimation methods, if any, to use for determining an [Endpoints](https://docs.aws.amazon.com/pinpoint/latest/apireference/apps-application-id-endpoints-endpoint-id.html) time zone if the Endpoint does not have a value for the Demographic.Timezone attribute.
+        ///
+        /// * PHONE_NUMBER - A time zone is determined based on the Endpoint.Address and Endpoint.Location.Country.
+        ///
+        /// * POSTAL_CODE - A time zone is determined based on the Endpoint.Location.PostalCode and Endpoint.Location.Country. POSTAL_CODE detection is only supported in the United States, United Kingdom, Australia, New Zealand, Canada, France, Italy, Spain, Germany and in regions where Amazon Pinpoint is available.
+        public var timezoneEstimationMethods: [PinpointClientTypes.__TimezoneEstimationMethodsElement]?
         /// Indicates whether endpoints in quiet hours should enter a wait activity until quiet hours have elapsed.
         public var waitForQuietTime: Swift.Bool?
 
@@ -21284,6 +21441,7 @@ extension PinpointClientTypes {
             startCondition: PinpointClientTypes.StartCondition? = nil,
             state: PinpointClientTypes.State? = nil,
             tags: [Swift.String:Swift.String]? = nil,
+            timezoneEstimationMethods: [PinpointClientTypes.__TimezoneEstimationMethodsElement]? = nil,
             waitForQuietTime: Swift.Bool? = nil
         )
         {
@@ -21307,6 +21465,7 @@ extension PinpointClientTypes {
             self.startCondition = startCondition
             self.state = state
             self.tags = tags
+            self.timezoneEstimationMethods = timezoneEstimationMethods
             self.waitForQuietTime = waitForQuietTime
         }
     }
@@ -21856,6 +22015,51 @@ extension PinpointClientTypes {
         )
         {
             self.state = state
+        }
+    }
+
+}
+
+extension PinpointClientTypes.JourneyTimeframeCap: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cap = "Cap"
+        case days = "Days"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cap = self.cap {
+            try encodeContainer.encode(cap, forKey: .cap)
+        }
+        if let days = self.days {
+            try encodeContainer.encode(days, forKey: .days)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let capDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cap)
+        cap = capDecoded
+        let daysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .days)
+        days = daysDecoded
+    }
+}
+
+extension PinpointClientTypes {
+    /// The number of messages that can be sent to an endpoint during the specified timeframe for all journeys.
+    public struct JourneyTimeframeCap: Swift.Equatable {
+        /// The maximum number of messages that all journeys can send to an endpoint during the specified timeframe. The maximum value is 100. If set to 0, this limit will not apply.
+        public var cap: Swift.Int?
+        /// The length of the timeframe in days. The maximum value is 30. If set to 0, this limit will not apply.
+        public var days: Swift.Int?
+
+        public init(
+            cap: Swift.Int? = nil,
+            days: Swift.Int? = nil
+        )
+        {
+            self.cap = cap
+            self.days = days
         }
     }
 
@@ -28787,6 +28991,7 @@ extension PinpointClientTypes {
 extension PinpointClientTypes.TemplateConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case emailTemplate = "EmailTemplate"
+        case inAppTemplate = "InAppTemplate"
         case pushTemplate = "PushTemplate"
         case smsTemplate = "SMSTemplate"
         case voiceTemplate = "VoiceTemplate"
@@ -28796,6 +29001,9 @@ extension PinpointClientTypes.TemplateConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let emailTemplate = self.emailTemplate {
             try encodeContainer.encode(emailTemplate, forKey: .emailTemplate)
+        }
+        if let inAppTemplate = self.inAppTemplate {
+            try encodeContainer.encode(inAppTemplate, forKey: .inAppTemplate)
         }
         if let pushTemplate = self.pushTemplate {
             try encodeContainer.encode(pushTemplate, forKey: .pushTemplate)
@@ -28818,6 +29026,8 @@ extension PinpointClientTypes.TemplateConfiguration: Swift.Codable {
         smsTemplate = smsTemplateDecoded
         let voiceTemplateDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.Template.self, forKey: .voiceTemplate)
         voiceTemplate = voiceTemplateDecoded
+        let inAppTemplateDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.Template.self, forKey: .inAppTemplate)
+        inAppTemplate = inAppTemplateDecoded
     }
 }
 
@@ -28826,6 +29036,8 @@ extension PinpointClientTypes {
     public struct TemplateConfiguration: Swift.Equatable {
         /// The email template to use for the message.
         public var emailTemplate: PinpointClientTypes.Template?
+        /// The InApp template to use for the message. The InApp template object is not supported for SendMessages.
+        public var inAppTemplate: PinpointClientTypes.Template?
         /// The push notification template to use for the message.
         public var pushTemplate: PinpointClientTypes.Template?
         /// The SMS template to use for the message.
@@ -28835,12 +29047,14 @@ extension PinpointClientTypes {
 
         public init(
             emailTemplate: PinpointClientTypes.Template? = nil,
+            inAppTemplate: PinpointClientTypes.Template? = nil,
             pushTemplate: PinpointClientTypes.Template? = nil,
             smsTemplate: PinpointClientTypes.Template? = nil,
             voiceTemplate: PinpointClientTypes.Template? = nil
         )
         {
             self.emailTemplate = emailTemplate
+            self.inAppTemplate = inAppTemplate
             self.pushTemplate = pushTemplate
             self.smsTemplate = smsTemplate
             self.voiceTemplate = voiceTemplate
@@ -29003,7 +29217,7 @@ extension PinpointClientTypes {
         /// The name of the message template.
         /// This member is required.
         public var templateName: Swift.String?
-        /// The type of channel that the message template is designed for. Possible values are: EMAIL, PUSH, SMS, and VOICE.
+        /// The type of channel that the message template is designed for. Possible values are: EMAIL, PUSH, SMS, INAPP, and VOICE.
         /// This member is required.
         public var templateType: PinpointClientTypes.TemplateType?
         /// The unique identifier, as an integer, for the active version of the message template.
@@ -29147,7 +29361,7 @@ extension PinpointClientTypes {
         /// The name of the message template.
         /// This member is required.
         public var templateName: Swift.String?
-        /// The type of channel that the message template is designed for. Possible values are: EMAIL, PUSH, SMS, and VOICE.
+        /// The type of channel that the message template is designed for. Possible values are: EMAIL, PUSH, SMS, INAPP, and VOICE.
         /// This member is required.
         public var templateType: Swift.String?
         /// The unique identifier for the version of the message template. This value is an integer that Amazon Pinpoint automatically increments and assigns to each new version of a template.
@@ -34472,6 +34686,7 @@ extension PinpointClientTypes.WriteApplicationSettingsRequest: Swift.Codable {
         case campaignHook = "CampaignHook"
         case cloudWatchMetricsEnabled = "CloudWatchMetricsEnabled"
         case eventTaggingEnabled = "EventTaggingEnabled"
+        case journeyLimits = "JourneyLimits"
         case limits = "Limits"
         case quietTime = "QuietTime"
     }
@@ -34486,6 +34701,9 @@ extension PinpointClientTypes.WriteApplicationSettingsRequest: Swift.Codable {
         }
         if let eventTaggingEnabled = self.eventTaggingEnabled {
             try encodeContainer.encode(eventTaggingEnabled, forKey: .eventTaggingEnabled)
+        }
+        if let journeyLimits = self.journeyLimits {
+            try encodeContainer.encode(journeyLimits, forKey: .journeyLimits)
         }
         if let limits = self.limits {
             try encodeContainer.encode(limits, forKey: .limits)
@@ -34507,6 +34725,8 @@ extension PinpointClientTypes.WriteApplicationSettingsRequest: Swift.Codable {
         limits = limitsDecoded
         let quietTimeDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.QuietTime.self, forKey: .quietTime)
         quietTime = quietTimeDecoded
+        let journeyLimitsDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ApplicationSettingsJourneyLimits.self, forKey: .journeyLimits)
+        journeyLimits = journeyLimitsDecoded
     }
 }
 
@@ -34518,6 +34738,8 @@ extension PinpointClientTypes {
         /// Specifies whether to enable application-related alarms in Amazon CloudWatch.
         public var cloudWatchMetricsEnabled: Swift.Bool?
         public var eventTaggingEnabled: Swift.Bool?
+        /// The default sending limits for journeys in the application. These limits apply to each journey for the application but can be overridden, on a per journey basis, with the JourneyLimits resource.
+        public var journeyLimits: PinpointClientTypes.ApplicationSettingsJourneyLimits?
         /// The default sending limits for campaigns in the application. To override these limits and define custom limits for a specific campaign or journey, use the Campaign resource or the Journey resource, respectively.
         public var limits: PinpointClientTypes.CampaignLimits?
         /// The default quiet time for campaigns in the application. Quiet time is a specific time range when messages aren't sent to endpoints, if all the following conditions are met:
@@ -34536,6 +34758,7 @@ extension PinpointClientTypes {
             campaignHook: PinpointClientTypes.CampaignHook? = nil,
             cloudWatchMetricsEnabled: Swift.Bool? = nil,
             eventTaggingEnabled: Swift.Bool? = nil,
+            journeyLimits: PinpointClientTypes.ApplicationSettingsJourneyLimits? = nil,
             limits: PinpointClientTypes.CampaignLimits? = nil,
             quietTime: PinpointClientTypes.QuietTime? = nil
         )
@@ -34543,6 +34766,7 @@ extension PinpointClientTypes {
             self.campaignHook = campaignHook
             self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
             self.eventTaggingEnabled = eventTaggingEnabled
+            self.journeyLimits = journeyLimits
             self.limits = limits
             self.quietTime = quietTime
         }
@@ -34835,6 +35059,7 @@ extension PinpointClientTypes.WriteJourneyRequest: Swift.Codable {
         case startActivity = "StartActivity"
         case startCondition = "StartCondition"
         case state = "State"
+        case timezoneEstimationMethods = "TimezoneEstimationMethods"
         case waitForQuietTime = "WaitForQuietTime"
     }
 
@@ -34894,6 +35119,12 @@ extension PinpointClientTypes.WriteJourneyRequest: Swift.Codable {
         if let state = self.state {
             try encodeContainer.encode(state.rawValue, forKey: .state)
         }
+        if let timezoneEstimationMethods = timezoneEstimationMethods {
+            var timezoneEstimationMethodsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .timezoneEstimationMethods)
+            for __timezoneestimationmethodselement0 in timezoneEstimationMethods {
+                try timezoneEstimationMethodsContainer.encode(__timezoneestimationmethodselement0.rawValue)
+            }
+        }
         if let waitForQuietTime = self.waitForQuietTime {
             try encodeContainer.encode(waitForQuietTime, forKey: .waitForQuietTime)
         }
@@ -34946,6 +35177,17 @@ extension PinpointClientTypes.WriteJourneyRequest: Swift.Codable {
         openHours = openHoursDecoded
         let closedDaysDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ClosedDays.self, forKey: .closedDays)
         closedDays = closedDaysDecoded
+        let timezoneEstimationMethodsContainer = try containerValues.decodeIfPresent([PinpointClientTypes.__TimezoneEstimationMethodsElement?].self, forKey: .timezoneEstimationMethods)
+        var timezoneEstimationMethodsDecoded0:[PinpointClientTypes.__TimezoneEstimationMethodsElement]? = nil
+        if let timezoneEstimationMethodsContainer = timezoneEstimationMethodsContainer {
+            timezoneEstimationMethodsDecoded0 = [PinpointClientTypes.__TimezoneEstimationMethodsElement]()
+            for enum0 in timezoneEstimationMethodsContainer {
+                if let enum0 = enum0 {
+                    timezoneEstimationMethodsDecoded0?.append(enum0)
+                }
+            }
+        }
+        timezoneEstimationMethods = timezoneEstimationMethodsDecoded0
     }
 }
 
@@ -35003,6 +35245,12 @@ extension PinpointClientTypes {
         ///
         /// PAUSED, CANCELLED, COMPLETED, and CLOSED states are not supported in requests to create or update a journey. To cancel, pause, or resume a journey, use the Journey State resource.
         public var state: PinpointClientTypes.State?
+        /// An array of time zone estimation methods, if any, to use for determining an [Endpoints](https://docs.aws.amazon.com/pinpoint/latest/apireference/apps-application-id-endpoints-endpoint-id.html) time zone if the Endpoint does not have a value for the Demographic.Timezone attribute.
+        ///
+        /// * PHONE_NUMBER - A time zone is determined based on the Endpoint.Address and Endpoint.Location.Country.
+        ///
+        /// * POSTAL_CODE - A time zone is determined based on the Endpoint.Location.PostalCode and Endpoint.Location.Country. POSTAL_CODE detection is only supported in the United States, United Kingdom, Australia, New Zealand, Canada, France, Italy, Spain, Germany and in regions where Amazon Pinpoint is available.
+        public var timezoneEstimationMethods: [PinpointClientTypes.__TimezoneEstimationMethodsElement]?
         /// Specifies whether endpoints in quiet hours should enter a wait till the end of their quiet hours.
         public var waitForQuietTime: Swift.Bool?
 
@@ -35024,6 +35272,7 @@ extension PinpointClientTypes {
             startActivity: Swift.String? = nil,
             startCondition: PinpointClientTypes.StartCondition? = nil,
             state: PinpointClientTypes.State? = nil,
+            timezoneEstimationMethods: [PinpointClientTypes.__TimezoneEstimationMethodsElement]? = nil,
             waitForQuietTime: Swift.Bool? = nil
         )
         {
@@ -35044,6 +35293,7 @@ extension PinpointClientTypes {
             self.startActivity = startActivity
             self.startCondition = startCondition
             self.state = state
+            self.timezoneEstimationMethods = timezoneEstimationMethods
             self.waitForQuietTime = waitForQuietTime
         }
     }
@@ -35284,6 +35534,38 @@ extension PinpointClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = __EndpointTypesElement(rawValue: rawValue) ?? __EndpointTypesElement.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PinpointClientTypes {
+    public enum __TimezoneEstimationMethodsElement: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case phoneNumber
+        case postalCode
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [__TimezoneEstimationMethodsElement] {
+            return [
+                .phoneNumber,
+                .postalCode,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .phoneNumber: return "PHONE_NUMBER"
+            case .postalCode: return "POSTAL_CODE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = __TimezoneEstimationMethodsElement(rawValue: rawValue) ?? __TimezoneEstimationMethodsElement.sdkUnknown(rawValue)
         }
     }
 }

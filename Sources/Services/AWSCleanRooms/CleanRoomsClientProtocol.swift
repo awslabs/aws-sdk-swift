@@ -2,10 +2,14 @@
 
 import ClientRuntime
 
-/// Welcome to the AWS Clean Rooms API Reference. AWS Clean Rooms is an AWS service that helps multiple parties to join their data together in a secure collaboration workspace. In the collaboration, members who can query and receive results can get insights into the collective datasets without either party getting access to the other party's raw data. To learn more about AWS Clean Rooms concepts, procedures, and best practices, see the [AWS Clean Rooms User Guide](https://docs.aws.amazon.com/clean-rooms/latest/userguide/what-is.html).
+/// Welcome to the Clean Rooms API Reference. Clean Rooms is an Amazon Web Services service that helps multiple parties to join their data together in a secure collaboration workspace. In the collaboration, members who can query and receive results can get insights into the collective datasets without either party getting access to the other party's raw data. To learn more about Clean Rooms concepts, procedures, and best practices, see the [Clean Rooms User Guide](https://docs.aws.amazon.com/clean-rooms/latest/userguide/what-is.html).
 public protocol CleanRoomsClientProtocol {
+    /// Retrieves multiple analysis templates within a collaboration by their Amazon Resource Names (ARNs).
+    func batchGetCollaborationAnalysisTemplate(input: BatchGetCollaborationAnalysisTemplateInput) async throws -> BatchGetCollaborationAnalysisTemplateOutputResponse
     /// Retrieves multiple schemas by their identifiers.
     func batchGetSchema(input: BatchGetSchemaInput) async throws -> BatchGetSchemaOutputResponse
+    /// Creates a new analysis template.
+    func createAnalysisTemplate(input: CreateAnalysisTemplateInput) async throws -> CreateAnalysisTemplateOutputResponse
     /// Creates a new collaboration.
     func createCollaboration(input: CreateCollaborationInput) async throws -> CreateCollaborationOutputResponse
     /// Creates a new configured table resource.
@@ -16,6 +20,8 @@ public protocol CleanRoomsClientProtocol {
     func createConfiguredTableAssociation(input: CreateConfiguredTableAssociationInput) async throws -> CreateConfiguredTableAssociationOutputResponse
     /// Creates a membership for a specific collaboration identifier and joins the collaboration.
     func createMembership(input: CreateMembershipInput) async throws -> CreateMembershipOutputResponse
+    /// Deletes an analysis template.
+    func deleteAnalysisTemplate(input: DeleteAnalysisTemplateInput) async throws -> DeleteAnalysisTemplateOutputResponse
     /// Deletes a collaboration. It can only be called by the collaboration owner.
     func deleteCollaboration(input: DeleteCollaborationInput) async throws -> DeleteCollaborationOutputResponse
     /// Deletes a configured table.
@@ -28,8 +34,12 @@ public protocol CleanRoomsClientProtocol {
     func deleteMember(input: DeleteMemberInput) async throws -> DeleteMemberOutputResponse
     /// Deletes a specified membership. All resources under a membership must be deleted.
     func deleteMembership(input: DeleteMembershipInput) async throws -> DeleteMembershipOutputResponse
+    /// Retrieves an analysis template.
+    func getAnalysisTemplate(input: GetAnalysisTemplateInput) async throws -> GetAnalysisTemplateOutputResponse
     /// Returns metadata about a collaboration.
     func getCollaboration(input: GetCollaborationInput) async throws -> GetCollaborationOutputResponse
+    /// Retrieves an analysis template within a collaboration.
+    func getCollaborationAnalysisTemplate(input: GetCollaborationAnalysisTemplateInput) async throws -> GetCollaborationAnalysisTemplateOutputResponse
     /// Retrieves a configured table.
     func getConfiguredTable(input: GetConfiguredTableInput) async throws -> GetConfiguredTableOutputResponse
     /// Retrieves a configured table analysis rule.
@@ -44,6 +54,10 @@ public protocol CleanRoomsClientProtocol {
     func getSchema(input: GetSchemaInput) async throws -> GetSchemaOutputResponse
     /// Retrieves a schema analysis rule.
     func getSchemaAnalysisRule(input: GetSchemaAnalysisRuleInput) async throws -> GetSchemaAnalysisRuleOutputResponse
+    /// Lists analysis templates that the caller owns.
+    func listAnalysisTemplates(input: ListAnalysisTemplatesInput) async throws -> ListAnalysisTemplatesOutputResponse
+    /// Lists analysis templates within a collaboration.
+    func listCollaborationAnalysisTemplates(input: ListCollaborationAnalysisTemplatesInput) async throws -> ListCollaborationAnalysisTemplatesOutputResponse
     /// Lists collaborations the caller owns, is active in, or has been invited to.
     func listCollaborations(input: ListCollaborationsInput) async throws -> ListCollaborationsOutputResponse
     /// Lists configured table associations for a membership.
@@ -60,12 +74,14 @@ public protocol CleanRoomsClientProtocol {
     func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutputResponse
     /// Lists all of the tags that have been added to a resource.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
-    /// Creates a protected query that is started by AWS Clean Rooms.
+    /// Creates a protected query that is started by Clean Rooms .
     func startProtectedQuery(input: StartProtectedQueryInput) async throws -> StartProtectedQueryOutputResponse
     /// Tags a resource.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes a tag or list of tags from a resource.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    /// Updates the analysis template metadata.
+    func updateAnalysisTemplate(input: UpdateAnalysisTemplateInput) async throws -> UpdateAnalysisTemplateOutputResponse
     /// Updates collaboration metadata and can only be called by the collaboration owner.
     func updateCollaboration(input: UpdateCollaborationInput) async throws -> UpdateCollaborationOutputResponse
     /// Updates a configured table.

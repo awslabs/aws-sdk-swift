@@ -342,12 +342,14 @@ extension OutpostsClientTypes {
 extension OutpostsClientTypes {
     public enum AssetState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case active
+        case isolated
         case retiring
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AssetState] {
             return [
                 .active,
+                .isolated,
                 .retiring,
                 .sdkUnknown("")
             ]
@@ -359,6 +361,7 @@ extension OutpostsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .active: return "ACTIVE"
+            case .isolated: return "ISOLATED"
             case .retiring: return "RETIRING"
             case let .sdkUnknown(s): return s
             }
@@ -2519,7 +2522,7 @@ extension OutpostsClientTypes {
         public var lineItemId: Swift.String?
         /// The ID of the previous line item.
         public var previousLineItemId: Swift.String?
-        /// The ID of the previous order.
+        /// The ID of the previous order item.
         public var previousOrderId: Swift.String?
         /// The quantity of the line item.
         public var quantity: Swift.Int
@@ -3779,7 +3782,7 @@ extension OutpostsClientTypes {
         public var orderId: Swift.String?
         /// The submission date for the order.
         public var orderSubmissionDate: ClientRuntime.Date?
-        /// The type of order.
+        /// Type of order.
         public var orderType: OutpostsClientTypes.OrderType?
         /// The ID of the Outpost in the order.
         public var outpostId: Swift.String?

@@ -67,7 +67,7 @@ public struct EBSClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
 }
 
 extension EBSClient: EBSClientProtocol {
-    /// Seals and completes the snapshot after all of the required blocks of data have been written to it. Completing the snapshot changes the status to completed. You cannot write new blocks to a snapshot after it has been completed.
+    /// Seals and completes the snapshot after all of the required blocks of data have been written to it. Completing the snapshot changes the status to completed. You cannot write new blocks to a snapshot after it has been completed. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
     public func completeSnapshot(input: CompleteSnapshotInput) async throws -> CompleteSnapshotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -101,7 +101,7 @@ extension EBSClient: EBSClientProtocol {
         return result
     }
 
-    /// Returns the data in a block in an Amazon Elastic Block Store snapshot.
+    /// Returns the data in a block in an Amazon Elastic Block Store snapshot. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
     public func getSnapshotBlock(input: GetSnapshotBlockInput) async throws -> GetSnapshotBlockOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -135,7 +135,7 @@ extension EBSClient: EBSClientProtocol {
         return result
     }
 
-    /// Returns information about the blocks that are different between two Amazon Elastic Block Store snapshots of the same volume/snapshot lineage.
+    /// Returns information about the blocks that are different between two Amazon Elastic Block Store snapshots of the same volume/snapshot lineage. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
     public func listChangedBlocks(input: ListChangedBlocksInput) async throws -> ListChangedBlocksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -169,7 +169,7 @@ extension EBSClient: EBSClientProtocol {
         return result
     }
 
-    /// Returns information about the blocks in an Amazon Elastic Block Store snapshot.
+    /// Returns information about the blocks in an Amazon Elastic Block Store snapshot. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
     public func listSnapshotBlocks(input: ListSnapshotBlocksInput) async throws -> ListSnapshotBlocksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -203,7 +203,7 @@ extension EBSClient: EBSClientProtocol {
         return result
     }
 
-    /// Writes a block of data to a snapshot. If the specified block contains data, the existing data is overwritten. The target snapshot must be in the pending state. Data written to a snapshot must be aligned with 512-KiB sectors.
+    /// Writes a block of data to a snapshot. If the specified block contains data, the existing data is overwritten. The target snapshot must be in the pending state. Data written to a snapshot must be aligned with 512-KiB sectors. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
     public func putSnapshotBlock(input: PutSnapshotBlockInput) async throws -> PutSnapshotBlockOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -240,7 +240,7 @@ extension EBSClient: EBSClientProtocol {
         return result
     }
 
-    /// Creates a new Amazon EBS snapshot. The new snapshot enters the pending state after the request completes. After creating the snapshot, use [ PutSnapshotBlock](https://docs.aws.amazon.com/ebs/latest/APIReference/API_PutSnapshotBlock.html) to write blocks of data to the snapshot.
+    /// Creates a new Amazon EBS snapshot. The new snapshot enters the pending state after the request completes. After creating the snapshot, use [ PutSnapshotBlock](https://docs.aws.amazon.com/ebs/latest/APIReference/API_PutSnapshotBlock.html) to write blocks of data to the snapshot. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
     public func startSnapshot(input: StartSnapshotInput) async throws -> StartSnapshotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

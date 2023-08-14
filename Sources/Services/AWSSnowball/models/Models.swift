@@ -18,6 +18,7 @@ extension SnowballClientTypes.Address: Swift.Codable {
         case street1 = "Street1"
         case street2 = "Street2"
         case street3 = "Street3"
+        case type = "Type"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -64,6 +65,9 @@ extension SnowballClientTypes.Address: Swift.Codable {
         if let street3 = self.street3 {
             try encodeContainer.encode(street3, forKey: .street3)
         }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -96,6 +100,8 @@ extension SnowballClientTypes.Address: Swift.Codable {
         phoneNumber = phoneNumberDecoded
         let isRestrictedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isRestricted) ?? false
         isRestricted = isRestrictedDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.AddressType.self, forKey: .type)
+        type = typeDecoded
     }
 }
 
@@ -130,6 +136,8 @@ extension SnowballClientTypes {
         public var street2: Swift.String?
         /// The third line in a street address that a Snow device is to be delivered to.
         public var street3: Swift.String?
+        /// Differentiates between delivery address and pickup address in the customer account. Provided at job creation.
+        public var type: SnowballClientTypes.AddressType?
 
         public init(
             addressId: Swift.String? = nil,
@@ -145,7 +153,8 @@ extension SnowballClientTypes {
             stateOrProvince: Swift.String? = nil,
             street1: Swift.String? = nil,
             street2: Swift.String? = nil,
-            street3: Swift.String? = nil
+            street3: Swift.String? = nil,
+            type: SnowballClientTypes.AddressType? = nil
         )
         {
             self.addressId = addressId
@@ -162,9 +171,42 @@ extension SnowballClientTypes {
             self.street1 = street1
             self.street2 = street2
             self.street3 = street3
+            self.type = type
         }
     }
 
+}
+
+extension SnowballClientTypes {
+    public enum AddressType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case awsShip
+        case custPickup
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AddressType] {
+            return [
+                .awsShip,
+                .custPickup,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsShip: return "AWS_SHIP"
+            case .custPickup: return "CUST_PICKUP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AddressType(rawValue: rawValue) ?? AddressType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension CancelClusterInput: Swift.Encodable {
@@ -1168,7 +1210,7 @@ extension CreateClusterOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct CreateClusterOutputResponse: Swift.Equatable {
     /// The automatically generated ID for a cluster.
     public var clusterId: Swift.String?
-    /// List of jobs created for this cluster. For syntax, see [ListJobsResult$JobListEntries](https://docs.aws.amazon.com/snowball/latest/api-reference/API_ListJobs.html#API_ListJobs_ResponseSyntax) in this guide.
+    /// List of jobs created for this cluster. For syntax, see [ListJobsResult$JobListEntries](http://amazonaws.com/snowball/latest/api-reference/API_ListJobs.html#API_ListJobs_ResponseSyntax) in this guide.
     public var jobListEntries: [SnowballClientTypes.JobListEntry]?
 
     public init(
@@ -1217,11 +1259,13 @@ extension CreateJobInput: Swift.Encodable {
         case description = "Description"
         case deviceConfiguration = "DeviceConfiguration"
         case forwardingAddressId = "ForwardingAddressId"
+        case impactLevel = "ImpactLevel"
         case jobType = "JobType"
         case kmsKeyARN = "KmsKeyARN"
         case longTermPricingId = "LongTermPricingId"
         case notification = "Notification"
         case onDeviceServiceConfiguration = "OnDeviceServiceConfiguration"
+        case pickupDetails = "PickupDetails"
         case remoteManagement = "RemoteManagement"
         case resources = "Resources"
         case roleARN = "RoleARN"
@@ -1248,6 +1292,9 @@ extension CreateJobInput: Swift.Encodable {
         if let forwardingAddressId = self.forwardingAddressId {
             try encodeContainer.encode(forwardingAddressId, forKey: .forwardingAddressId)
         }
+        if let impactLevel = self.impactLevel {
+            try encodeContainer.encode(impactLevel.rawValue, forKey: .impactLevel)
+        }
         if let jobType = self.jobType {
             try encodeContainer.encode(jobType.rawValue, forKey: .jobType)
         }
@@ -1262,6 +1309,9 @@ extension CreateJobInput: Swift.Encodable {
         }
         if let onDeviceServiceConfiguration = self.onDeviceServiceConfiguration {
             try encodeContainer.encode(onDeviceServiceConfiguration, forKey: .onDeviceServiceConfiguration)
+        }
+        if let pickupDetails = self.pickupDetails {
+            try encodeContainer.encode(pickupDetails, forKey: .pickupDetails)
         }
         if let remoteManagement = self.remoteManagement {
             try encodeContainer.encode(remoteManagement.rawValue, forKey: .remoteManagement)
@@ -1304,6 +1354,8 @@ public struct CreateJobInput: Swift.Equatable {
     public var deviceConfiguration: SnowballClientTypes.DeviceConfiguration?
     /// The forwarding address ID for a job. This field is not supported in most Regions.
     public var forwardingAddressId: Swift.String?
+    /// The highest impact level of data that will be stored or processed on the device, provided at job creation.
+    public var impactLevel: SnowballClientTypes.ImpactLevel?
     /// Defines the type of job that you're creating.
     public var jobType: SnowballClientTypes.JobType?
     /// The KmsKeyARN that you want to associate with this job. KmsKeyARNs are created using the [CreateKey](https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html) Key Management Service (KMS) API action.
@@ -1314,7 +1366,9 @@ public struct CreateJobInput: Swift.Equatable {
     public var notification: SnowballClientTypes.Notification?
     /// Specifies the service or services on the Snow Family device that your transferred data will be exported from or imported into. Amazon Web Services Snow Family supports Amazon S3 and NFS (Network File System) and the Amazon Web Services Storage Gateway service Tape Gateway type.
     public var onDeviceServiceConfiguration: SnowballClientTypes.OnDeviceServiceConfiguration?
-    /// Allows you to securely operate and manage Snowcone devices remotely from outside of your internal network. When set to INSTALLED_AUTOSTART, remote management will automatically be available when the device arrives at your location. Otherwise, you need to use the Snowball Client to manage the device.
+    /// Information identifying the person picking up the device.
+    public var pickupDetails: SnowballClientTypes.PickupDetails?
+    /// Allows you to securely operate and manage Snowcone devices remotely from outside of your internal network. When set to INSTALLED_AUTOSTART, remote management will automatically be available when the device arrives at your location. Otherwise, you need to use the Snowball Edge client to manage the device. When set to NOT_INSTALLED, remote management will not be available on the device.
     public var remoteManagement: SnowballClientTypes.RemoteManagement?
     /// Defines the Amazon S3 buckets associated with this job. With IMPORT jobs, you specify the bucket or buckets that your transferred data will be imported into. With EXPORT jobs, you specify the bucket or buckets that your transferred data will be exported from. Optionally, you can also specify a KeyRange value. If you choose to export a range, you define the length of the range by providing either an inclusive BeginMarker value, an inclusive EndMarker value, or both. Ranges are UTF-8 binary sorted.
     public var resources: SnowballClientTypes.JobResource?
@@ -1343,11 +1397,13 @@ public struct CreateJobInput: Swift.Equatable {
         description: Swift.String? = nil,
         deviceConfiguration: SnowballClientTypes.DeviceConfiguration? = nil,
         forwardingAddressId: Swift.String? = nil,
+        impactLevel: SnowballClientTypes.ImpactLevel? = nil,
         jobType: SnowballClientTypes.JobType? = nil,
         kmsKeyARN: Swift.String? = nil,
         longTermPricingId: Swift.String? = nil,
         notification: SnowballClientTypes.Notification? = nil,
         onDeviceServiceConfiguration: SnowballClientTypes.OnDeviceServiceConfiguration? = nil,
+        pickupDetails: SnowballClientTypes.PickupDetails? = nil,
         remoteManagement: SnowballClientTypes.RemoteManagement? = nil,
         resources: SnowballClientTypes.JobResource? = nil,
         roleARN: Swift.String? = nil,
@@ -1362,11 +1418,13 @@ public struct CreateJobInput: Swift.Equatable {
         self.description = description
         self.deviceConfiguration = deviceConfiguration
         self.forwardingAddressId = forwardingAddressId
+        self.impactLevel = impactLevel
         self.jobType = jobType
         self.kmsKeyARN = kmsKeyARN
         self.longTermPricingId = longTermPricingId
         self.notification = notification
         self.onDeviceServiceConfiguration = onDeviceServiceConfiguration
+        self.pickupDetails = pickupDetails
         self.remoteManagement = remoteManagement
         self.resources = resources
         self.roleARN = roleARN
@@ -1395,6 +1453,8 @@ struct CreateJobInputBody: Swift.Equatable {
     let deviceConfiguration: SnowballClientTypes.DeviceConfiguration?
     let remoteManagement: SnowballClientTypes.RemoteManagement?
     let longTermPricingId: Swift.String?
+    let impactLevel: SnowballClientTypes.ImpactLevel?
+    let pickupDetails: SnowballClientTypes.PickupDetails?
 }
 
 extension CreateJobInputBody: Swift.Decodable {
@@ -1404,11 +1464,13 @@ extension CreateJobInputBody: Swift.Decodable {
         case description = "Description"
         case deviceConfiguration = "DeviceConfiguration"
         case forwardingAddressId = "ForwardingAddressId"
+        case impactLevel = "ImpactLevel"
         case jobType = "JobType"
         case kmsKeyARN = "KmsKeyARN"
         case longTermPricingId = "LongTermPricingId"
         case notification = "Notification"
         case onDeviceServiceConfiguration = "OnDeviceServiceConfiguration"
+        case pickupDetails = "PickupDetails"
         case remoteManagement = "RemoteManagement"
         case resources = "Resources"
         case roleARN = "RoleARN"
@@ -1454,6 +1516,10 @@ extension CreateJobInputBody: Swift.Decodable {
         remoteManagement = remoteManagementDecoded
         let longTermPricingIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .longTermPricingId)
         longTermPricingId = longTermPricingIdDecoded
+        let impactLevelDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.ImpactLevel.self, forKey: .impactLevel)
+        impactLevel = impactLevelDecoded
+        let pickupDetailsDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.PickupDetails.self, forKey: .pickupDetails)
+        pickupDetails = pickupDetailsDecoded
     }
 }
 
@@ -1546,6 +1612,7 @@ public struct CreateLongTermPricingInput: Swift.Equatable {
     /// This member is required.
     public var longTermPricingType: SnowballClientTypes.LongTermPricingType?
     /// The type of Snow Family devices to use for the long-term pricing job.
+    /// This member is required.
     public var snowballType: SnowballClientTypes.SnowballType?
 
     public init(
@@ -2565,7 +2632,7 @@ extension SnowballClientTypes.Ec2AmiResource: Swift.Codable {
 }
 
 extension SnowballClientTypes {
-    /// A JSON-formatted object that contains the IDs for an Amazon Machine Image (AMI), including the Amazon EC2 AMI ID and the Snow device AMI ID. Each AMI has these two IDs to simplify identifying the AMI in both the Amazon Web Services Cloud and on the device.
+    /// A JSON-formatted object that contains the IDs for an Amazon Machine Image (AMI), including the Amazon EC2-compatible AMI ID and the Snow device AMI ID. Each AMI has these two IDs to simplify identifying the AMI in both the Amazon Web Services Cloud and on the device.
     public struct Ec2AmiResource: Swift.Equatable {
         /// The ID of the AMI in Amazon EC2.
         /// This member is required.
@@ -3098,6 +3165,47 @@ extension SnowballClientTypes {
 
 }
 
+extension SnowballClientTypes {
+    public enum ImpactLevel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case il2
+        case il4
+        case il5
+        case il6
+        case il99
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImpactLevel] {
+            return [
+                .il2,
+                .il4,
+                .il5,
+                .il6,
+                .il99,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .il2: return "IL2"
+            case .il4: return "IL4"
+            case .il5: return "IL5"
+            case .il6: return "IL6"
+            case .il99: return "IL99"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ImpactLevel(rawValue: rawValue) ?? ImpactLevel.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension InvalidAddressException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -3542,6 +3650,7 @@ extension SnowballClientTypes.JobMetadata: Swift.Codable {
         case description = "Description"
         case deviceConfiguration = "DeviceConfiguration"
         case forwardingAddressId = "ForwardingAddressId"
+        case impactLevel = "ImpactLevel"
         case jobId = "JobId"
         case jobLogInfo = "JobLogInfo"
         case jobState = "JobState"
@@ -3550,11 +3659,13 @@ extension SnowballClientTypes.JobMetadata: Swift.Codable {
         case longTermPricingId = "LongTermPricingId"
         case notification = "Notification"
         case onDeviceServiceConfiguration = "OnDeviceServiceConfiguration"
+        case pickupDetails = "PickupDetails"
         case remoteManagement = "RemoteManagement"
         case resources = "Resources"
         case roleARN = "RoleARN"
         case shippingDetails = "ShippingDetails"
         case snowballCapacityPreference = "SnowballCapacityPreference"
+        case snowballId = "SnowballId"
         case snowballType = "SnowballType"
         case taxDocuments = "TaxDocuments"
     }
@@ -3582,6 +3693,9 @@ extension SnowballClientTypes.JobMetadata: Swift.Codable {
         if let forwardingAddressId = self.forwardingAddressId {
             try encodeContainer.encode(forwardingAddressId, forKey: .forwardingAddressId)
         }
+        if let impactLevel = self.impactLevel {
+            try encodeContainer.encode(impactLevel.rawValue, forKey: .impactLevel)
+        }
         if let jobId = self.jobId {
             try encodeContainer.encode(jobId, forKey: .jobId)
         }
@@ -3606,6 +3720,9 @@ extension SnowballClientTypes.JobMetadata: Swift.Codable {
         if let onDeviceServiceConfiguration = self.onDeviceServiceConfiguration {
             try encodeContainer.encode(onDeviceServiceConfiguration, forKey: .onDeviceServiceConfiguration)
         }
+        if let pickupDetails = self.pickupDetails {
+            try encodeContainer.encode(pickupDetails, forKey: .pickupDetails)
+        }
         if let remoteManagement = self.remoteManagement {
             try encodeContainer.encode(remoteManagement.rawValue, forKey: .remoteManagement)
         }
@@ -3620,6 +3737,9 @@ extension SnowballClientTypes.JobMetadata: Swift.Codable {
         }
         if let snowballCapacityPreference = self.snowballCapacityPreference {
             try encodeContainer.encode(snowballCapacityPreference.rawValue, forKey: .snowballCapacityPreference)
+        }
+        if let snowballId = self.snowballId {
+            try encodeContainer.encode(snowballId, forKey: .snowballId)
         }
         if let snowballType = self.snowballType {
             try encodeContainer.encode(snowballType.rawValue, forKey: .snowballType)
@@ -3675,6 +3795,12 @@ extension SnowballClientTypes.JobMetadata: Swift.Codable {
         longTermPricingId = longTermPricingIdDecoded
         let onDeviceServiceConfigurationDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.OnDeviceServiceConfiguration.self, forKey: .onDeviceServiceConfiguration)
         onDeviceServiceConfiguration = onDeviceServiceConfigurationDecoded
+        let impactLevelDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.ImpactLevel.self, forKey: .impactLevel)
+        impactLevel = impactLevelDecoded
+        let pickupDetailsDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.PickupDetails.self, forKey: .pickupDetails)
+        pickupDetails = pickupDetailsDecoded
+        let snowballIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snowballId)
+        snowballId = snowballIdDecoded
     }
 }
 
@@ -3695,6 +3821,8 @@ extension SnowballClientTypes {
         public var deviceConfiguration: SnowballClientTypes.DeviceConfiguration?
         /// The ID of the address that you want a job shipped to, after it will be shipped to its primary address. This field is not supported in most regions.
         public var forwardingAddressId: Swift.String?
+        /// The highest impact level of data that will be stored or processed on the device, provided at job creation.
+        public var impactLevel: SnowballClientTypes.ImpactLevel?
         /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
         public var jobId: Swift.String?
         /// Links to Amazon S3 presigned URLs for the job report and logs. For import jobs, the PDF job report becomes available at the end of the import process. For export jobs, your job report typically becomes available while the Snow device for your job part is being delivered to you.
@@ -3711,6 +3839,8 @@ extension SnowballClientTypes {
         public var notification: SnowballClientTypes.Notification?
         /// Represents metadata and configuration settings for services on an Amazon Web Services Snow Family device.
         public var onDeviceServiceConfiguration: SnowballClientTypes.OnDeviceServiceConfiguration?
+        /// Information identifying the person picking up the device.
+        public var pickupDetails: SnowballClientTypes.PickupDetails?
         /// Allows you to securely operate and manage Snowcone devices remotely from outside of your internal network. When set to INSTALLED_AUTOSTART, remote management will automatically be available when the device arrives at your location. Otherwise, you need to use the Snowball Client to manage the device.
         public var remoteManagement: SnowballClientTypes.RemoteManagement?
         /// An array of S3Resource objects. Each S3Resource object represents an Amazon S3 bucket that your transferred data will be exported from or imported into.
@@ -3721,6 +3851,8 @@ extension SnowballClientTypes {
         public var shippingDetails: SnowballClientTypes.ShippingDetails?
         /// The Snow device capacity preference for this job, specified at job creation. In US regions, you can choose between 50 TB and 80 TB Snowballs. All other regions use 80 TB capacity Snowballs. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
         public var snowballCapacityPreference: SnowballClientTypes.SnowballCapacity?
+        /// Unique ID associated with a device.
+        public var snowballId: Swift.String?
         /// The type of device used with this job.
         public var snowballType: SnowballClientTypes.SnowballType?
         /// The metadata associated with the tax documents required in your Amazon Web Services Region.
@@ -3734,6 +3866,7 @@ extension SnowballClientTypes {
             description: Swift.String? = nil,
             deviceConfiguration: SnowballClientTypes.DeviceConfiguration? = nil,
             forwardingAddressId: Swift.String? = nil,
+            impactLevel: SnowballClientTypes.ImpactLevel? = nil,
             jobId: Swift.String? = nil,
             jobLogInfo: SnowballClientTypes.JobLogs? = nil,
             jobState: SnowballClientTypes.JobState? = nil,
@@ -3742,11 +3875,13 @@ extension SnowballClientTypes {
             longTermPricingId: Swift.String? = nil,
             notification: SnowballClientTypes.Notification? = nil,
             onDeviceServiceConfiguration: SnowballClientTypes.OnDeviceServiceConfiguration? = nil,
+            pickupDetails: SnowballClientTypes.PickupDetails? = nil,
             remoteManagement: SnowballClientTypes.RemoteManagement? = nil,
             resources: SnowballClientTypes.JobResource? = nil,
             roleARN: Swift.String? = nil,
             shippingDetails: SnowballClientTypes.ShippingDetails? = nil,
             snowballCapacityPreference: SnowballClientTypes.SnowballCapacity? = nil,
+            snowballId: Swift.String? = nil,
             snowballType: SnowballClientTypes.SnowballType? = nil,
             taxDocuments: SnowballClientTypes.TaxDocuments? = nil
         )
@@ -3758,6 +3893,7 @@ extension SnowballClientTypes {
             self.description = description
             self.deviceConfiguration = deviceConfiguration
             self.forwardingAddressId = forwardingAddressId
+            self.impactLevel = impactLevel
             self.jobId = jobId
             self.jobLogInfo = jobLogInfo
             self.jobState = jobState
@@ -3766,11 +3902,13 @@ extension SnowballClientTypes {
             self.longTermPricingId = longTermPricingId
             self.notification = notification
             self.onDeviceServiceConfiguration = onDeviceServiceConfiguration
+            self.pickupDetails = pickupDetails
             self.remoteManagement = remoteManagement
             self.resources = resources
             self.roleARN = roleARN
             self.shippingDetails = shippingDetails
             self.snowballCapacityPreference = snowballCapacityPreference
+            self.snowballId = snowballId
             self.snowballType = snowballType
             self.taxDocuments = taxDocuments
         }
@@ -4787,6 +4925,135 @@ extension ListLongTermPricingOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListPickupLocationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListPickupLocationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListPickupLocationsInput: Swift.Equatable {
+    /// The maximum number of locations to list per page.
+    public var maxResults: Swift.Int?
+    /// HTTP requests are stateless. To identify what object comes "next" in the list of ListPickupLocationsRequest objects, you have the option of specifying NextToken as the starting point for your returned list.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListPickupLocationsInputBody: Swift.Equatable {
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListPickupLocationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+public enum ListPickupLocationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidResourceException": return try await InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListPickupLocationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListPickupLocationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.addresses = output.addresses
+            self.nextToken = output.nextToken
+        } else {
+            self.addresses = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListPickupLocationsOutputResponse: Swift.Equatable {
+    /// Information about the address of pickup locations.
+    public var addresses: [SnowballClientTypes.Address]?
+    /// HTTP requests are stateless. To identify what object comes "next" in the list of ListPickupLocationsResult objects, you have the option of specifying NextToken as the starting point for your returned list.
+    public var nextToken: Swift.String?
+
+    public init(
+        addresses: [SnowballClientTypes.Address]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.addresses = addresses
+        self.nextToken = nextToken
+    }
+}
+
+struct ListPickupLocationsOutputResponseBody: Swift.Equatable {
+    let addresses: [SnowballClientTypes.Address]?
+    let nextToken: Swift.String?
+}
+
+extension ListPickupLocationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case addresses = "Addresses"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let addressesContainer = try containerValues.decodeIfPresent([SnowballClientTypes.Address?].self, forKey: .addresses)
+        var addressesDecoded0:[SnowballClientTypes.Address]? = nil
+        if let addressesContainer = addressesContainer {
+            addressesDecoded0 = [SnowballClientTypes.Address]()
+            for structure0 in addressesContainer {
+                if let structure0 = structure0 {
+                    addressesDecoded0?.append(structure0)
+                }
+            }
+        }
+        addresses = addressesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension ListServiceVersionsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dependentServices = "DependentServices"
@@ -5204,6 +5471,7 @@ extension SnowballClientTypes {
 
 extension SnowballClientTypes.Notification: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case devicePickupSnsTopicARN = "DevicePickupSnsTopicARN"
         case jobStatesToNotify = "JobStatesToNotify"
         case notifyAll = "NotifyAll"
         case snsTopicARN = "SnsTopicARN"
@@ -5211,6 +5479,9 @@ extension SnowballClientTypes.Notification: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let devicePickupSnsTopicARN = self.devicePickupSnsTopicARN {
+            try encodeContainer.encode(devicePickupSnsTopicARN, forKey: .devicePickupSnsTopicARN)
+        }
         if let jobStatesToNotify = jobStatesToNotify {
             var jobStatesToNotifyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobStatesToNotify)
             for jobstate0 in jobStatesToNotify {
@@ -5242,12 +5513,16 @@ extension SnowballClientTypes.Notification: Swift.Codable {
         jobStatesToNotify = jobStatesToNotifyDecoded0
         let notifyAllDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .notifyAll) ?? false
         notifyAll = notifyAllDecoded
+        let devicePickupSnsTopicARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .devicePickupSnsTopicARN)
+        devicePickupSnsTopicARN = devicePickupSnsTopicARNDecoded
     }
 }
 
 extension SnowballClientTypes {
     /// The Amazon Simple Notification Service (Amazon SNS) notification settings associated with a specific job. The Notification object is returned as a part of the response syntax of the DescribeJob action in the JobMetadata data type. When the notification settings are defined during job creation, you can choose to notify based on a specific set of job states using the JobStatesToNotify array of strings, or you can specify that you want to have Amazon SNS notifications sent out for all job states with NotifyAll set to true.
     public struct Notification: Swift.Equatable {
+        /// Used to send SNS notifications for the person picking up the device (identified during job creation).
+        public var devicePickupSnsTopicARN: Swift.String?
         /// The list of job states that will trigger a notification for this job.
         public var jobStatesToNotify: [SnowballClientTypes.JobState]?
         /// Any change in job state will trigger a notification for this job.
@@ -5256,11 +5531,13 @@ extension SnowballClientTypes {
         public var snsTopicARN: Swift.String?
 
         public init(
+            devicePickupSnsTopicARN: Swift.String? = nil,
             jobStatesToNotify: [SnowballClientTypes.JobState]? = nil,
             notifyAll: Swift.Bool = false,
             snsTopicARN: Swift.String? = nil
         )
         {
+            self.devicePickupSnsTopicARN = devicePickupSnsTopicARN
             self.jobStatesToNotify = jobStatesToNotify
             self.notifyAll = notifyAll
             self.snsTopicARN = snsTopicARN
@@ -5334,16 +5611,118 @@ extension SnowballClientTypes {
 
 }
 
+extension SnowballClientTypes.PickupDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case devicePickupId = "DevicePickupId"
+        case email = "Email"
+        case identificationExpirationDate = "IdentificationExpirationDate"
+        case identificationIssuingOrg = "IdentificationIssuingOrg"
+        case identificationNumber = "IdentificationNumber"
+        case name = "Name"
+        case phoneNumber = "PhoneNumber"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let devicePickupId = self.devicePickupId {
+            try encodeContainer.encode(devicePickupId, forKey: .devicePickupId)
+        }
+        if let email = self.email {
+            try encodeContainer.encode(email, forKey: .email)
+        }
+        if let identificationExpirationDate = self.identificationExpirationDate {
+            try encodeContainer.encodeTimestamp(identificationExpirationDate, format: .epochSeconds, forKey: .identificationExpirationDate)
+        }
+        if let identificationIssuingOrg = self.identificationIssuingOrg {
+            try encodeContainer.encode(identificationIssuingOrg, forKey: .identificationIssuingOrg)
+        }
+        if let identificationNumber = self.identificationNumber {
+            try encodeContainer.encode(identificationNumber, forKey: .identificationNumber)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let phoneNumber = self.phoneNumber {
+            try encodeContainer.encode(phoneNumber, forKey: .phoneNumber)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let phoneNumberDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .phoneNumber)
+        phoneNumber = phoneNumberDecoded
+        let emailDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .email)
+        email = emailDecoded
+        let identificationNumberDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identificationNumber)
+        identificationNumber = identificationNumberDecoded
+        let identificationExpirationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .identificationExpirationDate)
+        identificationExpirationDate = identificationExpirationDateDecoded
+        let identificationIssuingOrgDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identificationIssuingOrg)
+        identificationIssuingOrg = identificationIssuingOrgDecoded
+        let devicePickupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .devicePickupId)
+        devicePickupId = devicePickupIdDecoded
+    }
+}
+
+extension SnowballClientTypes.PickupDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PickupDetails(devicePickupId: \(Swift.String(describing: devicePickupId)), identificationExpirationDate: \(Swift.String(describing: identificationExpirationDate)), identificationIssuingOrg: \(Swift.String(describing: identificationIssuingOrg)), identificationNumber: \(Swift.String(describing: identificationNumber)), name: \(Swift.String(describing: name)), email: \"CONTENT_REDACTED\", phoneNumber: \"CONTENT_REDACTED\")"}
+}
+
+extension SnowballClientTypes {
+    /// Information identifying the person picking up the device.
+    public struct PickupDetails: Swift.Equatable {
+        /// The unique ID for a device that will be picked up.
+        public var devicePickupId: Swift.String?
+        /// The email address of the person picking up the device.
+        public var email: Swift.String?
+        /// Expiration date of the credential identifying the person picking up the device.
+        public var identificationExpirationDate: ClientRuntime.Date?
+        /// Organization that issued the credential identifying the person picking up the device.
+        public var identificationIssuingOrg: Swift.String?
+        /// The number on the credential identifying the person picking up the device.
+        public var identificationNumber: Swift.String?
+        /// The name of the person picking up the device.
+        public var name: Swift.String?
+        /// The phone number of the person picking up the device.
+        public var phoneNumber: Swift.String?
+
+        public init(
+            devicePickupId: Swift.String? = nil,
+            email: Swift.String? = nil,
+            identificationExpirationDate: ClientRuntime.Date? = nil,
+            identificationIssuingOrg: Swift.String? = nil,
+            identificationNumber: Swift.String? = nil,
+            name: Swift.String? = nil,
+            phoneNumber: Swift.String? = nil
+        )
+        {
+            self.devicePickupId = devicePickupId
+            self.email = email
+            self.identificationExpirationDate = identificationExpirationDate
+            self.identificationIssuingOrg = identificationIssuingOrg
+            self.identificationNumber = identificationNumber
+            self.name = name
+            self.phoneNumber = phoneNumber
+        }
+    }
+
+}
+
 extension SnowballClientTypes {
     public enum RemoteManagement: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case installedAutostart
         case installedOnly
+        case notInstalled
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RemoteManagement] {
             return [
                 .installedAutostart,
                 .installedOnly,
+                .notInstalled,
                 .sdkUnknown("")
             ]
         }
@@ -5355,6 +5734,7 @@ extension SnowballClientTypes {
             switch self {
             case .installedAutostart: return "INSTALLED_AUTOSTART"
             case .installedOnly: return "INSTALLED_ONLY"
+            case .notInstalled: return "NOT_INSTALLED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5840,6 +6220,7 @@ extension SnowballClientTypes {
     public enum SnowballCapacity: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case noPreference
         case t100
+        case t13
         case t14
         case t240
         case t32
@@ -5854,6 +6235,7 @@ extension SnowballClientTypes {
             return [
                 .noPreference,
                 .t100,
+                .t13,
                 .t14,
                 .t240,
                 .t32,
@@ -5873,6 +6255,7 @@ extension SnowballClientTypes {
             switch self {
             case .noPreference: return "NoPreference"
             case .t100: return "T100"
+            case .t13: return "T13"
             case .t14: return "T14"
             case .t240: return "T240"
             case .t32: return "T32"
@@ -5898,6 +6281,7 @@ extension SnowballClientTypes {
         case edgeC
         case edgeCg
         case edgeS
+        case rack5uC
         case snc1Hdd
         case snc1Ssd
         case standard
@@ -5911,6 +6295,7 @@ extension SnowballClientTypes {
                 .edgeC,
                 .edgeCg,
                 .edgeS,
+                .rack5uC,
                 .snc1Hdd,
                 .snc1Ssd,
                 .standard,
@@ -5929,6 +6314,7 @@ extension SnowballClientTypes {
             case .edgeC: return "EDGE_C"
             case .edgeCg: return "EDGE_CG"
             case .edgeS: return "EDGE_S"
+            case .rack5uC: return "RACK_5U_C"
             case .snc1Hdd: return "SNC1_HDD"
             case .snc1Ssd: return "SNC1_SSD"
             case .standard: return "STANDARD"
@@ -6401,6 +6787,7 @@ extension UpdateJobInput: Swift.Encodable {
         case jobId = "JobId"
         case notification = "Notification"
         case onDeviceServiceConfiguration = "OnDeviceServiceConfiguration"
+        case pickupDetails = "PickupDetails"
         case resources = "Resources"
         case roleARN = "RoleARN"
         case shippingOption = "ShippingOption"
@@ -6426,6 +6813,9 @@ extension UpdateJobInput: Swift.Encodable {
         }
         if let onDeviceServiceConfiguration = self.onDeviceServiceConfiguration {
             try encodeContainer.encode(onDeviceServiceConfiguration, forKey: .onDeviceServiceConfiguration)
+        }
+        if let pickupDetails = self.pickupDetails {
+            try encodeContainer.encode(pickupDetails, forKey: .pickupDetails)
         }
         if let resources = self.resources {
             try encodeContainer.encode(resources, forKey: .resources)
@@ -6462,6 +6852,8 @@ public struct UpdateJobInput: Swift.Equatable {
     public var notification: SnowballClientTypes.Notification?
     /// Specifies the service or services on the Snow Family device that your transferred data will be exported from or imported into. Amazon Web Services Snow Family supports Amazon S3 and NFS (Network File System) and the Amazon Web Services Storage Gateway service Tape Gateway type.
     public var onDeviceServiceConfiguration: SnowballClientTypes.OnDeviceServiceConfiguration?
+    /// Information identifying the person picking up the device.
+    public var pickupDetails: SnowballClientTypes.PickupDetails?
     /// The updated JobResource object, or the updated [JobResource] object.
     public var resources: SnowballClientTypes.JobResource?
     /// The new role Amazon Resource Name (ARN) that you want to associate with this job. To create a role ARN, use the [CreateRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html)Identity and Access Management (IAM) API action.
@@ -6478,6 +6870,7 @@ public struct UpdateJobInput: Swift.Equatable {
         jobId: Swift.String? = nil,
         notification: SnowballClientTypes.Notification? = nil,
         onDeviceServiceConfiguration: SnowballClientTypes.OnDeviceServiceConfiguration? = nil,
+        pickupDetails: SnowballClientTypes.PickupDetails? = nil,
         resources: SnowballClientTypes.JobResource? = nil,
         roleARN: Swift.String? = nil,
         shippingOption: SnowballClientTypes.ShippingOption? = nil,
@@ -6490,6 +6883,7 @@ public struct UpdateJobInput: Swift.Equatable {
         self.jobId = jobId
         self.notification = notification
         self.onDeviceServiceConfiguration = onDeviceServiceConfiguration
+        self.pickupDetails = pickupDetails
         self.resources = resources
         self.roleARN = roleARN
         self.shippingOption = shippingOption
@@ -6508,6 +6902,7 @@ struct UpdateJobInputBody: Swift.Equatable {
     let description: Swift.String?
     let snowballCapacityPreference: SnowballClientTypes.SnowballCapacity?
     let forwardingAddressId: Swift.String?
+    let pickupDetails: SnowballClientTypes.PickupDetails?
 }
 
 extension UpdateJobInputBody: Swift.Decodable {
@@ -6518,6 +6913,7 @@ extension UpdateJobInputBody: Swift.Decodable {
         case jobId = "JobId"
         case notification = "Notification"
         case onDeviceServiceConfiguration = "OnDeviceServiceConfiguration"
+        case pickupDetails = "PickupDetails"
         case resources = "Resources"
         case roleARN = "RoleARN"
         case shippingOption = "ShippingOption"
@@ -6546,6 +6942,8 @@ extension UpdateJobInputBody: Swift.Decodable {
         snowballCapacityPreference = snowballCapacityPreferenceDecoded
         let forwardingAddressIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .forwardingAddressId)
         forwardingAddressId = forwardingAddressIdDecoded
+        let pickupDetailsDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.PickupDetails.self, forKey: .pickupDetails)
+        pickupDetails = pickupDetailsDecoded
     }
 }
 

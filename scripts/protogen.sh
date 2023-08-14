@@ -41,7 +41,12 @@ rm codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-cod
 rm codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/rest_json_extras/swift-codegen/Package.swift
 rm codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/Waiters/swift-codegen/Package.swift
 
+# Regenerate the Package.swift with protocol tests included
+cd AWSSDKSwiftCLI
+swift run AWSSDKSwiftCLI generate-package-manifest --include-protocol-tests ..
+cd ..
+
 # If on Mac, reopen Xcode to the refreshed tests
 if [ -x "$(command -v osascript)" ]; then
-  open -a Xcode codegen/Package.swift
+  open -a Xcode
 fi

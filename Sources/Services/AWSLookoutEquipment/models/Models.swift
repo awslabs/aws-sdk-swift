@@ -783,7 +783,7 @@ extension CreateLabelGroupOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateLabelGroupOutputResponse: Swift.Equatable {
-    /// The ARN of the label group that you have created.
+    /// The Amazon Resource Name (ARN) of the label group that you have created.
     public var labelGroupArn: Swift.String?
     /// The name of the label group that you have created. Data in this field will be retained for service usage. Follow best practices for the security of your data.
     public var labelGroupName: Swift.String?
@@ -1566,6 +1566,7 @@ extension LookoutEquipmentClientTypes {
     public enum DatasetStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case active
         case created
+        case importInProgress
         case ingestionInProgress
         case sdkUnknown(Swift.String)
 
@@ -1573,6 +1574,7 @@ extension LookoutEquipmentClientTypes {
             return [
                 .active,
                 .created,
+                .importInProgress,
                 .ingestionInProgress,
                 .sdkUnknown("")
             ]
@@ -1585,6 +1587,7 @@ extension LookoutEquipmentClientTypes {
             switch self {
             case .active: return "ACTIVE"
             case .created: return "CREATED"
+            case .importInProgress: return "IMPORT_IN_PROGRESS"
             case .ingestionInProgress: return "INGESTION_IN_PROGRESS"
             case let .sdkUnknown(s): return s
             }
@@ -2045,6 +2048,80 @@ public struct DeleteModelOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension DeleteResourcePolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "ResourceArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+    }
+}
+
+extension DeleteResourcePolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteResourcePolicyInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the resource for which the resource policy should be deleted.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+    }
+}
+
+struct DeleteResourcePolicyInputBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+}
+
+extension DeleteResourcePolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "ResourceArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+    }
+}
+
+public enum DeleteResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteResourcePolicyOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
 extension DescribeDataIngestionJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobId = "JobId"
@@ -2124,6 +2201,7 @@ extension DescribeDataIngestionJobOutputResponse: ClientRuntime.HttpResponseBind
             self.ingestionInputConfiguration = output.ingestionInputConfiguration
             self.jobId = output.jobId
             self.roleArn = output.roleArn
+            self.sourceDatasetArn = output.sourceDatasetArn
             self.status = output.status
             self.statusDetail = output.statusDetail
         } else {
@@ -2138,6 +2216,7 @@ extension DescribeDataIngestionJobOutputResponse: ClientRuntime.HttpResponseBind
             self.ingestionInputConfiguration = nil
             self.jobId = nil
             self.roleArn = nil
+            self.sourceDatasetArn = nil
             self.status = nil
             self.statusDetail = nil
         }
@@ -2167,6 +2246,8 @@ public struct DescribeDataIngestionJobOutputResponse: Swift.Equatable {
     public var jobId: Swift.String?
     /// The Amazon Resource Name (ARN) of an IAM role with permission to access the data source being ingested.
     public var roleArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the source dataset from which the data used for the data ingestion job was imported from.
+    public var sourceDatasetArn: Swift.String?
     /// Indicates the status of the DataIngestionJob operation.
     public var status: LookoutEquipmentClientTypes.IngestionJobStatus?
     /// Provides details about status of the ingestion job that is currently in progress.
@@ -2184,6 +2265,7 @@ public struct DescribeDataIngestionJobOutputResponse: Swift.Equatable {
         ingestionInputConfiguration: LookoutEquipmentClientTypes.IngestionInputConfiguration? = nil,
         jobId: Swift.String? = nil,
         roleArn: Swift.String? = nil,
+        sourceDatasetArn: Swift.String? = nil,
         status: LookoutEquipmentClientTypes.IngestionJobStatus? = nil,
         statusDetail: Swift.String? = nil
     )
@@ -2199,6 +2281,7 @@ public struct DescribeDataIngestionJobOutputResponse: Swift.Equatable {
         self.ingestionInputConfiguration = ingestionInputConfiguration
         self.jobId = jobId
         self.roleArn = roleArn
+        self.sourceDatasetArn = sourceDatasetArn
         self.status = status
         self.statusDetail = statusDetail
     }
@@ -2218,6 +2301,7 @@ struct DescribeDataIngestionJobOutputResponseBody: Swift.Equatable {
     let ingestedDataSize: Swift.Int?
     let dataStartTime: ClientRuntime.Date?
     let dataEndTime: ClientRuntime.Date?
+    let sourceDatasetArn: Swift.String?
 }
 
 extension DescribeDataIngestionJobOutputResponseBody: Swift.Decodable {
@@ -2233,6 +2317,7 @@ extension DescribeDataIngestionJobOutputResponseBody: Swift.Decodable {
         case ingestionInputConfiguration = "IngestionInputConfiguration"
         case jobId = "JobId"
         case roleArn = "RoleArn"
+        case sourceDatasetArn = "SourceDatasetArn"
         case status = "Status"
         case statusDetail = "StatusDetail"
     }
@@ -2265,6 +2350,8 @@ extension DescribeDataIngestionJobOutputResponseBody: Swift.Decodable {
         dataStartTime = dataStartTimeDecoded
         let dataEndTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .dataEndTime)
         dataEndTime = dataEndTimeDecoded
+        let sourceDatasetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceDatasetArn)
+        sourceDatasetArn = sourceDatasetArnDecoded
     }
 }
 
@@ -2348,6 +2435,7 @@ extension DescribeDatasetOutputResponse: ClientRuntime.HttpResponseBinding {
             self.roleArn = output.roleArn
             self.schema = output.schema
             self.serverSideKmsKeyId = output.serverSideKmsKeyId
+            self.sourceDatasetArn = output.sourceDatasetArn
             self.status = output.status
         } else {
             self.createdAt = nil
@@ -2362,6 +2450,7 @@ extension DescribeDatasetOutputResponse: ClientRuntime.HttpResponseBinding {
             self.roleArn = nil
             self.schema = nil
             self.serverSideKmsKeyId = nil
+            self.sourceDatasetArn = nil
             self.status = nil
         }
     }
@@ -2392,6 +2481,8 @@ public struct DescribeDatasetOutputResponse: Swift.Equatable {
     public var schema: Swift.String?
     /// Provides the identifier of the KMS key used to encrypt dataset data by Amazon Lookout for Equipment.
     public var serverSideKmsKeyId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the source dataset from which the current data being described was imported from.
+    public var sourceDatasetArn: Swift.String?
     /// Indicates the status of the dataset.
     public var status: LookoutEquipmentClientTypes.DatasetStatus?
 
@@ -2408,6 +2499,7 @@ public struct DescribeDatasetOutputResponse: Swift.Equatable {
         roleArn: Swift.String? = nil,
         schema: Swift.String? = nil,
         serverSideKmsKeyId: Swift.String? = nil,
+        sourceDatasetArn: Swift.String? = nil,
         status: LookoutEquipmentClientTypes.DatasetStatus? = nil
     )
     {
@@ -2423,6 +2515,7 @@ public struct DescribeDatasetOutputResponse: Swift.Equatable {
         self.roleArn = roleArn
         self.schema = schema
         self.serverSideKmsKeyId = serverSideKmsKeyId
+        self.sourceDatasetArn = sourceDatasetArn
         self.status = status
     }
 }
@@ -2441,6 +2534,7 @@ struct DescribeDatasetOutputResponseBody: Swift.Equatable {
     let roleArn: Swift.String?
     let dataStartTime: ClientRuntime.Date?
     let dataEndTime: ClientRuntime.Date?
+    let sourceDatasetArn: Swift.String?
 }
 
 extension DescribeDatasetOutputResponseBody: Swift.Decodable {
@@ -2457,6 +2551,7 @@ extension DescribeDatasetOutputResponseBody: Swift.Decodable {
         case roleArn = "RoleArn"
         case schema = "Schema"
         case serverSideKmsKeyId = "ServerSideKmsKeyId"
+        case sourceDatasetArn = "SourceDatasetArn"
         case status = "Status"
     }
 
@@ -2488,6 +2583,8 @@ extension DescribeDatasetOutputResponseBody: Swift.Decodable {
         dataStartTime = dataStartTimeDecoded
         let dataEndTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .dataEndTime)
         dataEndTime = dataEndTimeDecoded
+        let sourceDatasetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceDatasetArn)
+        sourceDatasetArn = sourceDatasetArnDecoded
     }
 }
 
@@ -2812,7 +2909,7 @@ public struct DescribeLabelGroupOutputResponse: Swift.Equatable {
     public var createdAt: ClientRuntime.Date?
     /// Codes indicating the type of anomaly associated with the labels in the lagbel group.
     public var faultCodes: [Swift.String]?
-    /// The ARN of the label group.
+    /// The Amazon Resource Name (ARN) of the label group.
     public var labelGroupArn: Swift.String?
     /// The name of the label group.
     public var labelGroupName: Swift.String?
@@ -2991,7 +3088,7 @@ public struct DescribeLabelOutputResponse: Swift.Equatable {
     public var equipment: Swift.String?
     /// Indicates the type of anomaly associated with the label. Data in this field will be retained for service usage. Follow best practices for the security of your data.
     public var faultCode: Swift.String?
-    /// The ARN of the requested label group.
+    /// The Amazon Resource Name (ARN) of the requested label group.
     public var labelGroupArn: Swift.String?
     /// The name of the requested label group.
     public var labelGroupName: Swift.String?
@@ -3150,6 +3247,8 @@ extension DescribeModelOutputResponse: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeModelOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.activeModelVersion = output.activeModelVersion
+            self.activeModelVersionArn = output.activeModelVersionArn
             self.createdAt = output.createdAt
             self.dataPreProcessingConfiguration = output.dataPreProcessingConfiguration
             self.datasetArn = output.datasetArn
@@ -3157,21 +3256,30 @@ extension DescribeModelOutputResponse: ClientRuntime.HttpResponseBinding {
             self.evaluationDataEndTime = output.evaluationDataEndTime
             self.evaluationDataStartTime = output.evaluationDataStartTime
             self.failedReason = output.failedReason
+            self.importJobEndTime = output.importJobEndTime
+            self.importJobStartTime = output.importJobStartTime
             self.labelsInputConfiguration = output.labelsInputConfiguration
             self.lastUpdatedTime = output.lastUpdatedTime
             self.modelArn = output.modelArn
             self.modelMetrics = output.modelMetrics
             self.modelName = output.modelName
+            self.modelVersionActivatedAt = output.modelVersionActivatedAt
             self.offCondition = output.offCondition
+            self.previousActiveModelVersion = output.previousActiveModelVersion
+            self.previousActiveModelVersionArn = output.previousActiveModelVersionArn
+            self.previousModelVersionActivatedAt = output.previousModelVersionActivatedAt
             self.roleArn = output.roleArn
             self.schema = output.schema
             self.serverSideKmsKeyId = output.serverSideKmsKeyId
+            self.sourceModelVersionArn = output.sourceModelVersionArn
             self.status = output.status
             self.trainingDataEndTime = output.trainingDataEndTime
             self.trainingDataStartTime = output.trainingDataStartTime
             self.trainingExecutionEndTime = output.trainingExecutionEndTime
             self.trainingExecutionStartTime = output.trainingExecutionStartTime
         } else {
+            self.activeModelVersion = nil
+            self.activeModelVersionArn = nil
             self.createdAt = nil
             self.dataPreProcessingConfiguration = nil
             self.datasetArn = nil
@@ -3179,15 +3287,22 @@ extension DescribeModelOutputResponse: ClientRuntime.HttpResponseBinding {
             self.evaluationDataEndTime = nil
             self.evaluationDataStartTime = nil
             self.failedReason = nil
+            self.importJobEndTime = nil
+            self.importJobStartTime = nil
             self.labelsInputConfiguration = nil
             self.lastUpdatedTime = nil
             self.modelArn = nil
             self.modelMetrics = nil
             self.modelName = nil
+            self.modelVersionActivatedAt = nil
             self.offCondition = nil
+            self.previousActiveModelVersion = nil
+            self.previousActiveModelVersionArn = nil
+            self.previousModelVersionActivatedAt = nil
             self.roleArn = nil
             self.schema = nil
             self.serverSideKmsKeyId = nil
+            self.sourceModelVersionArn = nil
             self.status = nil
             self.trainingDataEndTime = nil
             self.trainingDataStartTime = nil
@@ -3198,6 +3313,10 @@ extension DescribeModelOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DescribeModelOutputResponse: Swift.Equatable {
+    /// The name of the model version used by the inference schedular when running a scheduled inference execution.
+    public var activeModelVersion: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the model version used by the inference scheduler when running a scheduled inference execution.
+    public var activeModelVersionArn: Swift.String?
     /// Indicates the time and date at which the ML model was created.
     public var createdAt: ClientRuntime.Date?
     /// The configuration is the TargetSamplingRate, which is the sampling rate of the data after post processing by Amazon Lookout for Equipment. For example, if you provide data that has been collected at a 1 second level and you want the system to resample the data at a 1 minute rate before training, the TargetSamplingRate is 1 minute. When providing a value for the TargetSamplingRate, you must attach the prefix "PT" to the rate you want. The value for a 1 second rate is therefore PT1S, the value for a 15 minute rate is PT15M, and the value for a 1 hour rate is PT1H
@@ -3212,6 +3331,10 @@ public struct DescribeModelOutputResponse: Swift.Equatable {
     public var evaluationDataStartTime: ClientRuntime.Date?
     /// If the training of the ML model failed, this indicates the reason for that failure.
     public var failedReason: Swift.String?
+    /// The date and time when the import job was completed. This field appears if the active model version was imported.
+    public var importJobEndTime: ClientRuntime.Date?
+    /// The date and time when the import job was started. This field appears if the active model version was imported.
+    public var importJobStartTime: ClientRuntime.Date?
     /// Specifies configuration information about the labels input, including its S3 location.
     public var labelsInputConfiguration: LookoutEquipmentClientTypes.LabelsInputConfiguration?
     /// Indicates the last time the ML model was updated. The type of update is not specified.
@@ -3222,14 +3345,24 @@ public struct DescribeModelOutputResponse: Swift.Equatable {
     public var modelMetrics: Swift.String?
     /// The name of the ML model being described.
     public var modelName: Swift.String?
+    /// The date the active model version was activated.
+    public var modelVersionActivatedAt: ClientRuntime.Date?
     /// Indicates that the asset associated with this sensor has been shut off. As long as this condition is met, Lookout for Equipment will not use data from this asset for training, evaluation, or inference.
     public var offCondition: Swift.String?
+    /// The model version that was set as the active model version prior to the current active model version.
+    public var previousActiveModelVersion: Swift.Int?
+    /// The ARN of the model version that was set as the active model version prior to the current active model version.
+    public var previousActiveModelVersionArn: Swift.String?
+    /// The date and time when the previous active model version was activated.
+    public var previousModelVersionActivatedAt: ClientRuntime.Date?
     /// The Amazon Resource Name (ARN) of a role with permission to access the data source for the ML model being described.
     public var roleArn: Swift.String?
     /// A JSON description of the data that is in each time series dataset, including names, column names, and data types.
     public var schema: Swift.String?
     /// Provides the identifier of the KMS key used to encrypt model data by Amazon Lookout for Equipment.
     public var serverSideKmsKeyId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the source model version. This field appears if the active model version was imported.
+    public var sourceModelVersionArn: Swift.String?
     /// Specifies the current status of the model being described. Status describes the status of the most recent action of the model.
     public var status: LookoutEquipmentClientTypes.ModelStatus?
     /// Indicates the time reference in the dataset that was used to end the subset of training data for the ML model.
@@ -3242,6 +3375,8 @@ public struct DescribeModelOutputResponse: Swift.Equatable {
     public var trainingExecutionStartTime: ClientRuntime.Date?
 
     public init(
+        activeModelVersion: Swift.Int? = nil,
+        activeModelVersionArn: Swift.String? = nil,
         createdAt: ClientRuntime.Date? = nil,
         dataPreProcessingConfiguration: LookoutEquipmentClientTypes.DataPreProcessingConfiguration? = nil,
         datasetArn: Swift.String? = nil,
@@ -3249,15 +3384,22 @@ public struct DescribeModelOutputResponse: Swift.Equatable {
         evaluationDataEndTime: ClientRuntime.Date? = nil,
         evaluationDataStartTime: ClientRuntime.Date? = nil,
         failedReason: Swift.String? = nil,
+        importJobEndTime: ClientRuntime.Date? = nil,
+        importJobStartTime: ClientRuntime.Date? = nil,
         labelsInputConfiguration: LookoutEquipmentClientTypes.LabelsInputConfiguration? = nil,
         lastUpdatedTime: ClientRuntime.Date? = nil,
         modelArn: Swift.String? = nil,
         modelMetrics: Swift.String? = nil,
         modelName: Swift.String? = nil,
+        modelVersionActivatedAt: ClientRuntime.Date? = nil,
         offCondition: Swift.String? = nil,
+        previousActiveModelVersion: Swift.Int? = nil,
+        previousActiveModelVersionArn: Swift.String? = nil,
+        previousModelVersionActivatedAt: ClientRuntime.Date? = nil,
         roleArn: Swift.String? = nil,
         schema: Swift.String? = nil,
         serverSideKmsKeyId: Swift.String? = nil,
+        sourceModelVersionArn: Swift.String? = nil,
         status: LookoutEquipmentClientTypes.ModelStatus? = nil,
         trainingDataEndTime: ClientRuntime.Date? = nil,
         trainingDataStartTime: ClientRuntime.Date? = nil,
@@ -3265,6 +3407,8 @@ public struct DescribeModelOutputResponse: Swift.Equatable {
         trainingExecutionStartTime: ClientRuntime.Date? = nil
     )
     {
+        self.activeModelVersion = activeModelVersion
+        self.activeModelVersionArn = activeModelVersionArn
         self.createdAt = createdAt
         self.dataPreProcessingConfiguration = dataPreProcessingConfiguration
         self.datasetArn = datasetArn
@@ -3272,15 +3416,22 @@ public struct DescribeModelOutputResponse: Swift.Equatable {
         self.evaluationDataEndTime = evaluationDataEndTime
         self.evaluationDataStartTime = evaluationDataStartTime
         self.failedReason = failedReason
+        self.importJobEndTime = importJobEndTime
+        self.importJobStartTime = importJobStartTime
         self.labelsInputConfiguration = labelsInputConfiguration
         self.lastUpdatedTime = lastUpdatedTime
         self.modelArn = modelArn
         self.modelMetrics = modelMetrics
         self.modelName = modelName
+        self.modelVersionActivatedAt = modelVersionActivatedAt
         self.offCondition = offCondition
+        self.previousActiveModelVersion = previousActiveModelVersion
+        self.previousActiveModelVersionArn = previousActiveModelVersionArn
+        self.previousModelVersionActivatedAt = previousModelVersionActivatedAt
         self.roleArn = roleArn
         self.schema = schema
         self.serverSideKmsKeyId = serverSideKmsKeyId
+        self.sourceModelVersionArn = sourceModelVersionArn
         self.status = status
         self.trainingDataEndTime = trainingDataEndTime
         self.trainingDataStartTime = trainingDataStartTime
@@ -3311,10 +3462,21 @@ struct DescribeModelOutputResponseBody: Swift.Equatable {
     let createdAt: ClientRuntime.Date?
     let serverSideKmsKeyId: Swift.String?
     let offCondition: Swift.String?
+    let sourceModelVersionArn: Swift.String?
+    let importJobStartTime: ClientRuntime.Date?
+    let importJobEndTime: ClientRuntime.Date?
+    let activeModelVersion: Swift.Int?
+    let activeModelVersionArn: Swift.String?
+    let modelVersionActivatedAt: ClientRuntime.Date?
+    let previousActiveModelVersion: Swift.Int?
+    let previousActiveModelVersionArn: Swift.String?
+    let previousModelVersionActivatedAt: ClientRuntime.Date?
 }
 
 extension DescribeModelOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activeModelVersion = "ActiveModelVersion"
+        case activeModelVersionArn = "ActiveModelVersionArn"
         case createdAt = "CreatedAt"
         case dataPreProcessingConfiguration = "DataPreProcessingConfiguration"
         case datasetArn = "DatasetArn"
@@ -3322,15 +3484,22 @@ extension DescribeModelOutputResponseBody: Swift.Decodable {
         case evaluationDataEndTime = "EvaluationDataEndTime"
         case evaluationDataStartTime = "EvaluationDataStartTime"
         case failedReason = "FailedReason"
+        case importJobEndTime = "ImportJobEndTime"
+        case importJobStartTime = "ImportJobStartTime"
         case labelsInputConfiguration = "LabelsInputConfiguration"
         case lastUpdatedTime = "LastUpdatedTime"
         case modelArn = "ModelArn"
         case modelMetrics = "ModelMetrics"
         case modelName = "ModelName"
+        case modelVersionActivatedAt = "ModelVersionActivatedAt"
         case offCondition = "OffCondition"
+        case previousActiveModelVersion = "PreviousActiveModelVersion"
+        case previousActiveModelVersionArn = "PreviousActiveModelVersionArn"
+        case previousModelVersionActivatedAt = "PreviousModelVersionActivatedAt"
         case roleArn = "RoleArn"
         case schema = "Schema"
         case serverSideKmsKeyId = "ServerSideKmsKeyId"
+        case sourceModelVersionArn = "SourceModelVersionArn"
         case status = "Status"
         case trainingDataEndTime = "TrainingDataEndTime"
         case trainingDataStartTime = "TrainingDataStartTime"
@@ -3382,6 +3551,543 @@ extension DescribeModelOutputResponseBody: Swift.Decodable {
         serverSideKmsKeyId = serverSideKmsKeyIdDecoded
         let offConditionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .offCondition)
         offCondition = offConditionDecoded
+        let sourceModelVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceModelVersionArn)
+        sourceModelVersionArn = sourceModelVersionArnDecoded
+        let importJobStartTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .importJobStartTime)
+        importJobStartTime = importJobStartTimeDecoded
+        let importJobEndTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .importJobEndTime)
+        importJobEndTime = importJobEndTimeDecoded
+        let activeModelVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .activeModelVersion)
+        activeModelVersion = activeModelVersionDecoded
+        let activeModelVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .activeModelVersionArn)
+        activeModelVersionArn = activeModelVersionArnDecoded
+        let modelVersionActivatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .modelVersionActivatedAt)
+        modelVersionActivatedAt = modelVersionActivatedAtDecoded
+        let previousActiveModelVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .previousActiveModelVersion)
+        previousActiveModelVersion = previousActiveModelVersionDecoded
+        let previousActiveModelVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .previousActiveModelVersionArn)
+        previousActiveModelVersionArn = previousActiveModelVersionArnDecoded
+        let previousModelVersionActivatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .previousModelVersionActivatedAt)
+        previousModelVersionActivatedAt = previousModelVersionActivatedAtDecoded
+    }
+}
+
+extension DescribeModelVersionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case modelName = "ModelName"
+        case modelVersion = "ModelVersion"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let modelName = self.modelName {
+            try encodeContainer.encode(modelName, forKey: .modelName)
+        }
+        if let modelVersion = self.modelVersion {
+            try encodeContainer.encode(modelVersion, forKey: .modelVersion)
+        }
+    }
+}
+
+extension DescribeModelVersionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeModelVersionInput: Swift.Equatable {
+    /// The name of the machine learning model that this version belongs to.
+    /// This member is required.
+    public var modelName: Swift.String?
+    /// The version of the machine learning model.
+    /// This member is required.
+    public var modelVersion: Swift.Int?
+
+    public init(
+        modelName: Swift.String? = nil,
+        modelVersion: Swift.Int? = nil
+    )
+    {
+        self.modelName = modelName
+        self.modelVersion = modelVersion
+    }
+}
+
+struct DescribeModelVersionInputBody: Swift.Equatable {
+    let modelName: Swift.String?
+    let modelVersion: Swift.Int?
+}
+
+extension DescribeModelVersionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case modelName = "ModelName"
+        case modelVersion = "ModelVersion"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let modelNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modelName)
+        modelName = modelNameDecoded
+        let modelVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .modelVersion)
+        modelVersion = modelVersionDecoded
+    }
+}
+
+public enum DescribeModelVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeModelVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeModelVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.createdAt = output.createdAt
+            self.dataPreProcessingConfiguration = output.dataPreProcessingConfiguration
+            self.datasetArn = output.datasetArn
+            self.datasetName = output.datasetName
+            self.evaluationDataEndTime = output.evaluationDataEndTime
+            self.evaluationDataStartTime = output.evaluationDataStartTime
+            self.failedReason = output.failedReason
+            self.importJobEndTime = output.importJobEndTime
+            self.importJobStartTime = output.importJobStartTime
+            self.importedDataSizeInBytes = output.importedDataSizeInBytes
+            self.labelsInputConfiguration = output.labelsInputConfiguration
+            self.lastUpdatedTime = output.lastUpdatedTime
+            self.modelArn = output.modelArn
+            self.modelMetrics = output.modelMetrics
+            self.modelName = output.modelName
+            self.modelVersion = output.modelVersion
+            self.modelVersionArn = output.modelVersionArn
+            self.offCondition = output.offCondition
+            self.roleArn = output.roleArn
+            self.schema = output.schema
+            self.serverSideKmsKeyId = output.serverSideKmsKeyId
+            self.sourceModelVersionArn = output.sourceModelVersionArn
+            self.sourceType = output.sourceType
+            self.status = output.status
+            self.trainingDataEndTime = output.trainingDataEndTime
+            self.trainingDataStartTime = output.trainingDataStartTime
+            self.trainingExecutionEndTime = output.trainingExecutionEndTime
+            self.trainingExecutionStartTime = output.trainingExecutionStartTime
+        } else {
+            self.createdAt = nil
+            self.dataPreProcessingConfiguration = nil
+            self.datasetArn = nil
+            self.datasetName = nil
+            self.evaluationDataEndTime = nil
+            self.evaluationDataStartTime = nil
+            self.failedReason = nil
+            self.importJobEndTime = nil
+            self.importJobStartTime = nil
+            self.importedDataSizeInBytes = nil
+            self.labelsInputConfiguration = nil
+            self.lastUpdatedTime = nil
+            self.modelArn = nil
+            self.modelMetrics = nil
+            self.modelName = nil
+            self.modelVersion = nil
+            self.modelVersionArn = nil
+            self.offCondition = nil
+            self.roleArn = nil
+            self.schema = nil
+            self.serverSideKmsKeyId = nil
+            self.sourceModelVersionArn = nil
+            self.sourceType = nil
+            self.status = nil
+            self.trainingDataEndTime = nil
+            self.trainingDataStartTime = nil
+            self.trainingExecutionEndTime = nil
+            self.trainingExecutionStartTime = nil
+        }
+    }
+}
+
+public struct DescribeModelVersionOutputResponse: Swift.Equatable {
+    /// Indicates the time and date at which the machine learning model version was created.
+    public var createdAt: ClientRuntime.Date?
+    /// The configuration is the TargetSamplingRate, which is the sampling rate of the data after post processing by Amazon Lookout for Equipment. For example, if you provide data that has been collected at a 1 second level and you want the system to resample the data at a 1 minute rate before training, the TargetSamplingRate is 1 minute. When providing a value for the TargetSamplingRate, you must attach the prefix "PT" to the rate you want. The value for a 1 second rate is therefore PT1S, the value for a 15 minute rate is PT15M, and the value for a 1 hour rate is PT1H
+    public var dataPreProcessingConfiguration: LookoutEquipmentClientTypes.DataPreProcessingConfiguration?
+    /// The Amazon Resource Name (ARN) of the dataset used to train the model version.
+    public var datasetArn: Swift.String?
+    /// The name of the dataset used to train the model version.
+    public var datasetName: Swift.String?
+    /// The date on which the data in the evaluation set began being gathered. If you imported the version, this is the date that the evaluation set data in the source version finished being gathered.
+    public var evaluationDataEndTime: ClientRuntime.Date?
+    /// The date on which the data in the evaluation set began being gathered. If you imported the version, this is the date that the evaluation set data in the source version began being gathered.
+    public var evaluationDataStartTime: ClientRuntime.Date?
+    /// The failure message if the training of the model version failed.
+    public var failedReason: Swift.String?
+    /// The date and time when the import job completed. This field appears if the model version was imported.
+    public var importJobEndTime: ClientRuntime.Date?
+    /// The date and time when the import job began. This field appears if the model version was imported.
+    public var importJobStartTime: ClientRuntime.Date?
+    /// The size in bytes of the imported data. This field appears if the model version was imported.
+    public var importedDataSizeInBytes: Swift.Int?
+    /// Contains the configuration information for the S3 location being used to hold label data.
+    public var labelsInputConfiguration: LookoutEquipmentClientTypes.LabelsInputConfiguration?
+    /// Indicates the last time the machine learning model version was updated.
+    public var lastUpdatedTime: ClientRuntime.Date?
+    /// The Amazon Resource Name (ARN) of the parent machine learning model that this version belong to.
+    public var modelArn: Swift.String?
+    /// Shows an aggregated summary, in JSON format, of the model's performance within the evaluation time range. These metrics are created when evaluating the model.
+    public var modelMetrics: Swift.String?
+    /// The name of the machine learning model that this version belongs to.
+    public var modelName: Swift.String?
+    /// The version of the machine learning model.
+    public var modelVersion: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the model version.
+    public var modelVersionArn: Swift.String?
+    /// Indicates that the asset associated with this sensor has been shut off. As long as this condition is met, Lookout for Equipment will not use data from this asset for training, evaluation, or inference.
+    public var offCondition: Swift.String?
+    /// The Amazon Resource Name (ARN) of the role that was used to train the model version.
+    public var roleArn: Swift.String?
+    /// The schema of the data used to train the model version.
+    public var schema: Swift.String?
+    /// The identifier of the KMS key key used to encrypt model version data by Amazon Lookout for Equipment.
+    public var serverSideKmsKeyId: Swift.String?
+    /// If model version was imported, then this field is the arn of the source model version.
+    public var sourceModelVersionArn: Swift.String?
+    /// Indicates whether this model version was created by training or by importing.
+    public var sourceType: LookoutEquipmentClientTypes.ModelVersionSourceType?
+    /// The current status of the model version.
+    public var status: LookoutEquipmentClientTypes.ModelVersionStatus?
+    /// The date on which the training data finished being gathered. If you imported the version, this is the date that the training data in the source version finished being gathered.
+    public var trainingDataEndTime: ClientRuntime.Date?
+    /// The date on which the training data began being gathered. If you imported the version, this is the date that the training data in the source version began being gathered.
+    public var trainingDataStartTime: ClientRuntime.Date?
+    /// The time when the training of the version completed.
+    public var trainingExecutionEndTime: ClientRuntime.Date?
+    /// The time when the training of the version began.
+    public var trainingExecutionStartTime: ClientRuntime.Date?
+
+    public init(
+        createdAt: ClientRuntime.Date? = nil,
+        dataPreProcessingConfiguration: LookoutEquipmentClientTypes.DataPreProcessingConfiguration? = nil,
+        datasetArn: Swift.String? = nil,
+        datasetName: Swift.String? = nil,
+        evaluationDataEndTime: ClientRuntime.Date? = nil,
+        evaluationDataStartTime: ClientRuntime.Date? = nil,
+        failedReason: Swift.String? = nil,
+        importJobEndTime: ClientRuntime.Date? = nil,
+        importJobStartTime: ClientRuntime.Date? = nil,
+        importedDataSizeInBytes: Swift.Int? = nil,
+        labelsInputConfiguration: LookoutEquipmentClientTypes.LabelsInputConfiguration? = nil,
+        lastUpdatedTime: ClientRuntime.Date? = nil,
+        modelArn: Swift.String? = nil,
+        modelMetrics: Swift.String? = nil,
+        modelName: Swift.String? = nil,
+        modelVersion: Swift.Int? = nil,
+        modelVersionArn: Swift.String? = nil,
+        offCondition: Swift.String? = nil,
+        roleArn: Swift.String? = nil,
+        schema: Swift.String? = nil,
+        serverSideKmsKeyId: Swift.String? = nil,
+        sourceModelVersionArn: Swift.String? = nil,
+        sourceType: LookoutEquipmentClientTypes.ModelVersionSourceType? = nil,
+        status: LookoutEquipmentClientTypes.ModelVersionStatus? = nil,
+        trainingDataEndTime: ClientRuntime.Date? = nil,
+        trainingDataStartTime: ClientRuntime.Date? = nil,
+        trainingExecutionEndTime: ClientRuntime.Date? = nil,
+        trainingExecutionStartTime: ClientRuntime.Date? = nil
+    )
+    {
+        self.createdAt = createdAt
+        self.dataPreProcessingConfiguration = dataPreProcessingConfiguration
+        self.datasetArn = datasetArn
+        self.datasetName = datasetName
+        self.evaluationDataEndTime = evaluationDataEndTime
+        self.evaluationDataStartTime = evaluationDataStartTime
+        self.failedReason = failedReason
+        self.importJobEndTime = importJobEndTime
+        self.importJobStartTime = importJobStartTime
+        self.importedDataSizeInBytes = importedDataSizeInBytes
+        self.labelsInputConfiguration = labelsInputConfiguration
+        self.lastUpdatedTime = lastUpdatedTime
+        self.modelArn = modelArn
+        self.modelMetrics = modelMetrics
+        self.modelName = modelName
+        self.modelVersion = modelVersion
+        self.modelVersionArn = modelVersionArn
+        self.offCondition = offCondition
+        self.roleArn = roleArn
+        self.schema = schema
+        self.serverSideKmsKeyId = serverSideKmsKeyId
+        self.sourceModelVersionArn = sourceModelVersionArn
+        self.sourceType = sourceType
+        self.status = status
+        self.trainingDataEndTime = trainingDataEndTime
+        self.trainingDataStartTime = trainingDataStartTime
+        self.trainingExecutionEndTime = trainingExecutionEndTime
+        self.trainingExecutionStartTime = trainingExecutionStartTime
+    }
+}
+
+struct DescribeModelVersionOutputResponseBody: Swift.Equatable {
+    let modelName: Swift.String?
+    let modelArn: Swift.String?
+    let modelVersion: Swift.Int?
+    let modelVersionArn: Swift.String?
+    let status: LookoutEquipmentClientTypes.ModelVersionStatus?
+    let sourceType: LookoutEquipmentClientTypes.ModelVersionSourceType?
+    let datasetName: Swift.String?
+    let datasetArn: Swift.String?
+    let schema: Swift.String?
+    let labelsInputConfiguration: LookoutEquipmentClientTypes.LabelsInputConfiguration?
+    let trainingDataStartTime: ClientRuntime.Date?
+    let trainingDataEndTime: ClientRuntime.Date?
+    let evaluationDataStartTime: ClientRuntime.Date?
+    let evaluationDataEndTime: ClientRuntime.Date?
+    let roleArn: Swift.String?
+    let dataPreProcessingConfiguration: LookoutEquipmentClientTypes.DataPreProcessingConfiguration?
+    let trainingExecutionStartTime: ClientRuntime.Date?
+    let trainingExecutionEndTime: ClientRuntime.Date?
+    let failedReason: Swift.String?
+    let modelMetrics: Swift.String?
+    let lastUpdatedTime: ClientRuntime.Date?
+    let createdAt: ClientRuntime.Date?
+    let serverSideKmsKeyId: Swift.String?
+    let offCondition: Swift.String?
+    let sourceModelVersionArn: Swift.String?
+    let importJobStartTime: ClientRuntime.Date?
+    let importJobEndTime: ClientRuntime.Date?
+    let importedDataSizeInBytes: Swift.Int?
+}
+
+extension DescribeModelVersionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdAt = "CreatedAt"
+        case dataPreProcessingConfiguration = "DataPreProcessingConfiguration"
+        case datasetArn = "DatasetArn"
+        case datasetName = "DatasetName"
+        case evaluationDataEndTime = "EvaluationDataEndTime"
+        case evaluationDataStartTime = "EvaluationDataStartTime"
+        case failedReason = "FailedReason"
+        case importJobEndTime = "ImportJobEndTime"
+        case importJobStartTime = "ImportJobStartTime"
+        case importedDataSizeInBytes = "ImportedDataSizeInBytes"
+        case labelsInputConfiguration = "LabelsInputConfiguration"
+        case lastUpdatedTime = "LastUpdatedTime"
+        case modelArn = "ModelArn"
+        case modelMetrics = "ModelMetrics"
+        case modelName = "ModelName"
+        case modelVersion = "ModelVersion"
+        case modelVersionArn = "ModelVersionArn"
+        case offCondition = "OffCondition"
+        case roleArn = "RoleArn"
+        case schema = "Schema"
+        case serverSideKmsKeyId = "ServerSideKmsKeyId"
+        case sourceModelVersionArn = "SourceModelVersionArn"
+        case sourceType = "SourceType"
+        case status = "Status"
+        case trainingDataEndTime = "TrainingDataEndTime"
+        case trainingDataStartTime = "TrainingDataStartTime"
+        case trainingExecutionEndTime = "TrainingExecutionEndTime"
+        case trainingExecutionStartTime = "TrainingExecutionStartTime"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let modelNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modelName)
+        modelName = modelNameDecoded
+        let modelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modelArn)
+        modelArn = modelArnDecoded
+        let modelVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .modelVersion)
+        modelVersion = modelVersionDecoded
+        let modelVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modelVersionArn)
+        modelVersionArn = modelVersionArnDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(LookoutEquipmentClientTypes.ModelVersionStatus.self, forKey: .status)
+        status = statusDecoded
+        let sourceTypeDecoded = try containerValues.decodeIfPresent(LookoutEquipmentClientTypes.ModelVersionSourceType.self, forKey: .sourceType)
+        sourceType = sourceTypeDecoded
+        let datasetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetName)
+        datasetName = datasetNameDecoded
+        let datasetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetArn)
+        datasetArn = datasetArnDecoded
+        let schemaDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .schema)
+        schema = schemaDecoded
+        let labelsInputConfigurationDecoded = try containerValues.decodeIfPresent(LookoutEquipmentClientTypes.LabelsInputConfiguration.self, forKey: .labelsInputConfiguration)
+        labelsInputConfiguration = labelsInputConfigurationDecoded
+        let trainingDataStartTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .trainingDataStartTime)
+        trainingDataStartTime = trainingDataStartTimeDecoded
+        let trainingDataEndTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .trainingDataEndTime)
+        trainingDataEndTime = trainingDataEndTimeDecoded
+        let evaluationDataStartTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .evaluationDataStartTime)
+        evaluationDataStartTime = evaluationDataStartTimeDecoded
+        let evaluationDataEndTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .evaluationDataEndTime)
+        evaluationDataEndTime = evaluationDataEndTimeDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let dataPreProcessingConfigurationDecoded = try containerValues.decodeIfPresent(LookoutEquipmentClientTypes.DataPreProcessingConfiguration.self, forKey: .dataPreProcessingConfiguration)
+        dataPreProcessingConfiguration = dataPreProcessingConfigurationDecoded
+        let trainingExecutionStartTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .trainingExecutionStartTime)
+        trainingExecutionStartTime = trainingExecutionStartTimeDecoded
+        let trainingExecutionEndTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .trainingExecutionEndTime)
+        trainingExecutionEndTime = trainingExecutionEndTimeDecoded
+        let failedReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failedReason)
+        failedReason = failedReasonDecoded
+        let modelMetricsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modelMetrics)
+        modelMetrics = modelMetricsDecoded
+        let lastUpdatedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedTime)
+        lastUpdatedTime = lastUpdatedTimeDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let serverSideKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverSideKmsKeyId)
+        serverSideKmsKeyId = serverSideKmsKeyIdDecoded
+        let offConditionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .offCondition)
+        offCondition = offConditionDecoded
+        let sourceModelVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceModelVersionArn)
+        sourceModelVersionArn = sourceModelVersionArnDecoded
+        let importJobStartTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .importJobStartTime)
+        importJobStartTime = importJobStartTimeDecoded
+        let importJobEndTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .importJobEndTime)
+        importJobEndTime = importJobEndTimeDecoded
+        let importedDataSizeInBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .importedDataSizeInBytes)
+        importedDataSizeInBytes = importedDataSizeInBytesDecoded
+    }
+}
+
+extension DescribeResourcePolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "ResourceArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+    }
+}
+
+extension DescribeResourcePolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeResourcePolicyInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the resource that is associated with the resource policy.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+    }
+}
+
+struct DescribeResourcePolicyInputBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+}
+
+extension DescribeResourcePolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "ResourceArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+    }
+}
+
+public enum DescribeResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.creationTime = output.creationTime
+            self.lastModifiedTime = output.lastModifiedTime
+            self.policyRevisionId = output.policyRevisionId
+            self.resourcePolicy = output.resourcePolicy
+        } else {
+            self.creationTime = nil
+            self.lastModifiedTime = nil
+            self.policyRevisionId = nil
+            self.resourcePolicy = nil
+        }
+    }
+}
+
+public struct DescribeResourcePolicyOutputResponse: Swift.Equatable {
+    /// The time when the resource policy was created.
+    public var creationTime: ClientRuntime.Date?
+    /// The time when the resource policy was last modified.
+    public var lastModifiedTime: ClientRuntime.Date?
+    /// A unique identifier for a revision of the resource policy.
+    public var policyRevisionId: Swift.String?
+    /// The resource policy in a JSON-formatted string.
+    public var resourcePolicy: Swift.String?
+
+    public init(
+        creationTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: ClientRuntime.Date? = nil,
+        policyRevisionId: Swift.String? = nil,
+        resourcePolicy: Swift.String? = nil
+    )
+    {
+        self.creationTime = creationTime
+        self.lastModifiedTime = lastModifiedTime
+        self.policyRevisionId = policyRevisionId
+        self.resourcePolicy = resourcePolicy
+    }
+}
+
+struct DescribeResourcePolicyOutputResponseBody: Swift.Equatable {
+    let policyRevisionId: Swift.String?
+    let resourcePolicy: Swift.String?
+    let creationTime: ClientRuntime.Date?
+    let lastModifiedTime: ClientRuntime.Date?
+}
+
+extension DescribeResourcePolicyOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "CreationTime"
+        case lastModifiedTime = "LastModifiedTime"
+        case policyRevisionId = "PolicyRevisionId"
+        case resourcePolicy = "ResourcePolicy"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let policyRevisionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyRevisionId)
+        policyRevisionId = policyRevisionIdDecoded
+        let resourcePolicyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourcePolicy)
+        resourcePolicy = resourcePolicyDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
     }
 }
 
@@ -3419,6 +4125,445 @@ extension LookoutEquipmentClientTypes {
         }
     }
 
+}
+
+extension ImportDatasetInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case datasetName = "DatasetName"
+        case serverSideKmsKeyId = "ServerSideKmsKeyId"
+        case sourceDatasetArn = "SourceDatasetArn"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let datasetName = self.datasetName {
+            try encodeContainer.encode(datasetName, forKey: .datasetName)
+        }
+        if let serverSideKmsKeyId = self.serverSideKmsKeyId {
+            try encodeContainer.encode(serverSideKmsKeyId, forKey: .serverSideKmsKeyId)
+        }
+        if let sourceDatasetArn = self.sourceDatasetArn {
+            try encodeContainer.encode(sourceDatasetArn, forKey: .sourceDatasetArn)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension ImportDatasetInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ImportDatasetInput: Swift.Equatable {
+    /// A unique identifier for the request. If you do not set the client request token, Amazon Lookout for Equipment generates one.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The name of the machine learning dataset to be created. If the dataset already exists, Amazon Lookout for Equipment overwrites the existing dataset. If you don't specify this field, it is filled with the name of the source dataset.
+    public var datasetName: Swift.String?
+    /// Provides the identifier of the KMS key key used to encrypt model data by Amazon Lookout for Equipment.
+    public var serverSideKmsKeyId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the dataset to import.
+    /// This member is required.
+    public var sourceDatasetArn: Swift.String?
+    /// Any tags associated with the dataset to be created.
+    public var tags: [LookoutEquipmentClientTypes.Tag]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        datasetName: Swift.String? = nil,
+        serverSideKmsKeyId: Swift.String? = nil,
+        sourceDatasetArn: Swift.String? = nil,
+        tags: [LookoutEquipmentClientTypes.Tag]? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.datasetName = datasetName
+        self.serverSideKmsKeyId = serverSideKmsKeyId
+        self.sourceDatasetArn = sourceDatasetArn
+        self.tags = tags
+    }
+}
+
+struct ImportDatasetInputBody: Swift.Equatable {
+    let sourceDatasetArn: Swift.String?
+    let datasetName: Swift.String?
+    let clientToken: Swift.String?
+    let serverSideKmsKeyId: Swift.String?
+    let tags: [LookoutEquipmentClientTypes.Tag]?
+}
+
+extension ImportDatasetInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case datasetName = "DatasetName"
+        case serverSideKmsKeyId = "ServerSideKmsKeyId"
+        case sourceDatasetArn = "SourceDatasetArn"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceDatasetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceDatasetArn)
+        sourceDatasetArn = sourceDatasetArnDecoded
+        let datasetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetName)
+        datasetName = datasetNameDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let serverSideKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverSideKmsKeyId)
+        serverSideKmsKeyId = serverSideKmsKeyIdDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([LookoutEquipmentClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[LookoutEquipmentClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [LookoutEquipmentClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+public enum ImportDatasetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ImportDatasetOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ImportDatasetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.datasetArn = output.datasetArn
+            self.datasetName = output.datasetName
+            self.jobId = output.jobId
+            self.status = output.status
+        } else {
+            self.datasetArn = nil
+            self.datasetName = nil
+            self.jobId = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct ImportDatasetOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the dataset that was imported.
+    public var datasetArn: Swift.String?
+    /// The name of the created machine learning dataset.
+    public var datasetName: Swift.String?
+    /// A unique identifier for the job of importing the dataset.
+    public var jobId: Swift.String?
+    /// The status of the ImportDataset operation.
+    public var status: LookoutEquipmentClientTypes.DatasetStatus?
+
+    public init(
+        datasetArn: Swift.String? = nil,
+        datasetName: Swift.String? = nil,
+        jobId: Swift.String? = nil,
+        status: LookoutEquipmentClientTypes.DatasetStatus? = nil
+    )
+    {
+        self.datasetArn = datasetArn
+        self.datasetName = datasetName
+        self.jobId = jobId
+        self.status = status
+    }
+}
+
+struct ImportDatasetOutputResponseBody: Swift.Equatable {
+    let datasetName: Swift.String?
+    let datasetArn: Swift.String?
+    let status: LookoutEquipmentClientTypes.DatasetStatus?
+    let jobId: Swift.String?
+}
+
+extension ImportDatasetOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case datasetArn = "DatasetArn"
+        case datasetName = "DatasetName"
+        case jobId = "JobId"
+        case status = "Status"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let datasetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetName)
+        datasetName = datasetNameDecoded
+        let datasetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetArn)
+        datasetArn = datasetArnDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(LookoutEquipmentClientTypes.DatasetStatus.self, forKey: .status)
+        status = statusDecoded
+        let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
+        jobId = jobIdDecoded
+    }
+}
+
+extension ImportModelVersionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case datasetName = "DatasetName"
+        case labelsInputConfiguration = "LabelsInputConfiguration"
+        case modelName = "ModelName"
+        case roleArn = "RoleArn"
+        case serverSideKmsKeyId = "ServerSideKmsKeyId"
+        case sourceModelVersionArn = "SourceModelVersionArn"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let datasetName = self.datasetName {
+            try encodeContainer.encode(datasetName, forKey: .datasetName)
+        }
+        if let labelsInputConfiguration = self.labelsInputConfiguration {
+            try encodeContainer.encode(labelsInputConfiguration, forKey: .labelsInputConfiguration)
+        }
+        if let modelName = self.modelName {
+            try encodeContainer.encode(modelName, forKey: .modelName)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let serverSideKmsKeyId = self.serverSideKmsKeyId {
+            try encodeContainer.encode(serverSideKmsKeyId, forKey: .serverSideKmsKeyId)
+        }
+        if let sourceModelVersionArn = self.sourceModelVersionArn {
+            try encodeContainer.encode(sourceModelVersionArn, forKey: .sourceModelVersionArn)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension ImportModelVersionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ImportModelVersionInput: Swift.Equatable {
+    /// A unique identifier for the request. If you do not set the client request token, Amazon Lookout for Equipment generates one.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The name of the dataset for the machine learning model being imported.
+    /// This member is required.
+    public var datasetName: Swift.String?
+    /// Contains the configuration information for the S3 location being used to hold label data.
+    public var labelsInputConfiguration: LookoutEquipmentClientTypes.LabelsInputConfiguration?
+    /// The name for the machine learning model to be created. If the model already exists, Amazon Lookout for Equipment creates a new version. If you do not specify this field, it is filled with the name of the source model.
+    public var modelName: Swift.String?
+    /// The Amazon Resource Name (ARN) of a role with permission to access the data source being used to create the machine learning model.
+    public var roleArn: Swift.String?
+    /// Provides the identifier of the KMS key key used to encrypt model data by Amazon Lookout for Equipment.
+    public var serverSideKmsKeyId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the model version to import.
+    /// This member is required.
+    public var sourceModelVersionArn: Swift.String?
+    /// The tags associated with the machine learning model to be created.
+    public var tags: [LookoutEquipmentClientTypes.Tag]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        datasetName: Swift.String? = nil,
+        labelsInputConfiguration: LookoutEquipmentClientTypes.LabelsInputConfiguration? = nil,
+        modelName: Swift.String? = nil,
+        roleArn: Swift.String? = nil,
+        serverSideKmsKeyId: Swift.String? = nil,
+        sourceModelVersionArn: Swift.String? = nil,
+        tags: [LookoutEquipmentClientTypes.Tag]? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.datasetName = datasetName
+        self.labelsInputConfiguration = labelsInputConfiguration
+        self.modelName = modelName
+        self.roleArn = roleArn
+        self.serverSideKmsKeyId = serverSideKmsKeyId
+        self.sourceModelVersionArn = sourceModelVersionArn
+        self.tags = tags
+    }
+}
+
+struct ImportModelVersionInputBody: Swift.Equatable {
+    let sourceModelVersionArn: Swift.String?
+    let modelName: Swift.String?
+    let datasetName: Swift.String?
+    let labelsInputConfiguration: LookoutEquipmentClientTypes.LabelsInputConfiguration?
+    let clientToken: Swift.String?
+    let roleArn: Swift.String?
+    let serverSideKmsKeyId: Swift.String?
+    let tags: [LookoutEquipmentClientTypes.Tag]?
+}
+
+extension ImportModelVersionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case datasetName = "DatasetName"
+        case labelsInputConfiguration = "LabelsInputConfiguration"
+        case modelName = "ModelName"
+        case roleArn = "RoleArn"
+        case serverSideKmsKeyId = "ServerSideKmsKeyId"
+        case sourceModelVersionArn = "SourceModelVersionArn"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceModelVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceModelVersionArn)
+        sourceModelVersionArn = sourceModelVersionArnDecoded
+        let modelNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modelName)
+        modelName = modelNameDecoded
+        let datasetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetName)
+        datasetName = datasetNameDecoded
+        let labelsInputConfigurationDecoded = try containerValues.decodeIfPresent(LookoutEquipmentClientTypes.LabelsInputConfiguration.self, forKey: .labelsInputConfiguration)
+        labelsInputConfiguration = labelsInputConfigurationDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let serverSideKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverSideKmsKeyId)
+        serverSideKmsKeyId = serverSideKmsKeyIdDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([LookoutEquipmentClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[LookoutEquipmentClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [LookoutEquipmentClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+public enum ImportModelVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ImportModelVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ImportModelVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.modelArn = output.modelArn
+            self.modelName = output.modelName
+            self.modelVersion = output.modelVersion
+            self.modelVersionArn = output.modelVersionArn
+            self.status = output.status
+        } else {
+            self.modelArn = nil
+            self.modelName = nil
+            self.modelVersion = nil
+            self.modelVersionArn = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct ImportModelVersionOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the model being created.
+    public var modelArn: Swift.String?
+    /// The name for the machine learning model.
+    public var modelName: Swift.String?
+    /// The version of the model being created.
+    public var modelVersion: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the model version being created.
+    public var modelVersionArn: Swift.String?
+    /// The status of the ImportModelVersion operation.
+    public var status: LookoutEquipmentClientTypes.ModelVersionStatus?
+
+    public init(
+        modelArn: Swift.String? = nil,
+        modelName: Swift.String? = nil,
+        modelVersion: Swift.Int? = nil,
+        modelVersionArn: Swift.String? = nil,
+        status: LookoutEquipmentClientTypes.ModelVersionStatus? = nil
+    )
+    {
+        self.modelArn = modelArn
+        self.modelName = modelName
+        self.modelVersion = modelVersion
+        self.modelVersionArn = modelVersionArn
+        self.status = status
+    }
+}
+
+struct ImportModelVersionOutputResponseBody: Swift.Equatable {
+    let modelName: Swift.String?
+    let modelArn: Swift.String?
+    let modelVersionArn: Swift.String?
+    let modelVersion: Swift.Int?
+    let status: LookoutEquipmentClientTypes.ModelVersionStatus?
+}
+
+extension ImportModelVersionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case modelArn = "ModelArn"
+        case modelName = "ModelName"
+        case modelVersion = "ModelVersion"
+        case modelVersionArn = "ModelVersionArn"
+        case status = "Status"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let modelNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modelName)
+        modelName = modelNameDecoded
+        let modelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modelArn)
+        modelArn = modelArnDecoded
+        let modelVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modelVersionArn)
+        modelVersionArn = modelVersionArnDecoded
+        let modelVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .modelVersion)
+        modelVersion = modelVersionDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(LookoutEquipmentClientTypes.ModelVersionStatus.self, forKey: .status)
+        status = statusDecoded
+    }
 }
 
 extension LookoutEquipmentClientTypes.InferenceEventSummary: Swift.Codable {
@@ -3814,7 +4959,7 @@ extension LookoutEquipmentClientTypes.InferenceOutputConfiguration: Swift.Codabl
 extension LookoutEquipmentClientTypes {
     /// Specifies configuration information for the output results from for the inference, including KMS key ID and output S3 location.
     public struct InferenceOutputConfiguration: Swift.Equatable {
-        /// The ID number for the AWS KMS key used to encrypt the inference output.
+        /// The ID number for the KMS key key used to encrypt the inference output.
         public var kmsKeyId: Swift.String?
         /// Specifies configuration information for the output results from for the inference, output S3 location.
         /// This member is required.
@@ -4175,6 +5320,7 @@ extension LookoutEquipmentClientTypes {
 extension LookoutEquipmentClientTypes {
     public enum IngestionJobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case failed
+        case importInProgress
         case inProgress
         case success
         case sdkUnknown(Swift.String)
@@ -4182,6 +5328,7 @@ extension LookoutEquipmentClientTypes {
         public static var allCases: [IngestionJobStatus] {
             return [
                 .failed,
+                .importInProgress,
                 .inProgress,
                 .success,
                 .sdkUnknown("")
@@ -4194,6 +5341,7 @@ extension LookoutEquipmentClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .failed: return "FAILED"
+            case .importInProgress: return "IMPORT_IN_PROGRESS"
             case .inProgress: return "IN_PROGRESS"
             case .success: return "SUCCESS"
             case let .sdkUnknown(s): return s
@@ -4244,7 +5392,7 @@ extension LookoutEquipmentClientTypes {
         /// The name of the S3 bucket used for the input data for the data ingestion.
         /// This member is required.
         public var bucket: Swift.String?
-        /// Pattern for matching the Amazon S3 files which will be used for ingestion. If no KeyPattern is provided, we will use the default hierarchy file structure, which is same as KeyPattern {prefix}/{component_name}/*
+        /// The pattern for matching the Amazon S3 files that will be used for ingestion. If the schema was created previously without any KeyPattern, then the default KeyPattern {prefix}/{component_name}/* is used to download files from Amazon S3 according to the schema. This field is required when ingestion is being done for the first time. Valid Values: {prefix}/{component_name}_* | {prefix}/{component_name}/* | {prefix}/{component_name}[DELIMITER]* (Allowed delimiters : space, dot, underscore, hyphen)
         public var keyPattern: Swift.String?
         /// The prefix for the S3 location being used for the input data for the data ingestion.
         public var `prefix`: Swift.String?
@@ -4455,7 +5603,7 @@ extension LookoutEquipmentClientTypes {
     public struct LabelGroupSummary: Swift.Equatable {
         /// The time at which the label group was created.
         public var createdAt: ClientRuntime.Date?
-        /// The ARN of the label group.
+        /// The Amazon Resource Name (ARN) of the label group.
         public var labelGroupArn: Swift.String?
         /// The name of the label group.
         public var labelGroupName: Swift.String?
@@ -4591,7 +5739,7 @@ extension LookoutEquipmentClientTypes {
         public var equipment: Swift.String?
         /// Indicates the type of anomaly associated with the label. Data in this field will be retained for service usage. Follow best practices for the security of your data.
         public var faultCode: Swift.String?
-        /// The ARN of the label group.
+        /// The Amazon Resource Name (ARN) of the label group.
         public var labelGroupArn: Swift.String?
         /// The name of the label group.
         public var labelGroupName: Swift.String?
@@ -5146,7 +6294,7 @@ public struct ListInferenceEventsInput: Swift.Equatable {
     /// The name of the inference scheduler for the inference events listed.
     /// This member is required.
     public var inferenceSchedulerName: Swift.String?
-    /// Returns all the inference events with an end start time equal to or greater than less than the end time given
+    /// Returns all the inference events with an end start time equal to or greater than less than the end time given.
     /// This member is required.
     public var intervalEndTime: ClientRuntime.Date?
     /// Lookout for Equipment will return all the inference events with an end time equal to or greater than the start time given.
@@ -5505,7 +6653,7 @@ public struct ListInferenceSchedulersInput: Swift.Equatable {
     public var modelName: Swift.String?
     /// An opaque pagination token indicating where to continue the listing of inference schedulers.
     public var nextToken: Swift.String?
-    /// Specifies the current status of the inference schedulers to list.
+    /// Specifies the current status of the inference schedulers.
     public var status: LookoutEquipmentClientTypes.InferenceSchedulerStatus?
 
     public init(
@@ -5963,6 +7111,224 @@ extension ListLabelsOutputResponseBody: Swift.Decodable {
             }
         }
         labelSummaries = labelSummariesDecoded0
+    }
+}
+
+extension ListModelVersionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdAtEndTime = "CreatedAtEndTime"
+        case createdAtStartTime = "CreatedAtStartTime"
+        case maxModelVersion = "MaxModelVersion"
+        case maxResults = "MaxResults"
+        case minModelVersion = "MinModelVersion"
+        case modelName = "ModelName"
+        case nextToken = "NextToken"
+        case sourceType = "SourceType"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdAtEndTime = self.createdAtEndTime {
+            try encodeContainer.encodeTimestamp(createdAtEndTime, format: .epochSeconds, forKey: .createdAtEndTime)
+        }
+        if let createdAtStartTime = self.createdAtStartTime {
+            try encodeContainer.encodeTimestamp(createdAtStartTime, format: .epochSeconds, forKey: .createdAtStartTime)
+        }
+        if let maxModelVersion = self.maxModelVersion {
+            try encodeContainer.encode(maxModelVersion, forKey: .maxModelVersion)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let minModelVersion = self.minModelVersion {
+            try encodeContainer.encode(minModelVersion, forKey: .minModelVersion)
+        }
+        if let modelName = self.modelName {
+            try encodeContainer.encode(modelName, forKey: .modelName)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let sourceType = self.sourceType {
+            try encodeContainer.encode(sourceType.rawValue, forKey: .sourceType)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+}
+
+extension ListModelVersionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListModelVersionsInput: Swift.Equatable {
+    /// Filter results to return all the model versions created before this time.
+    public var createdAtEndTime: ClientRuntime.Date?
+    /// Filter results to return all the model versions created after this time.
+    public var createdAtStartTime: ClientRuntime.Date?
+    /// Specifies the highest version of the model to return in the list.
+    public var maxModelVersion: Swift.Int?
+    /// Specifies the maximum number of machine learning model versions to list.
+    public var maxResults: Swift.Int?
+    /// Specifies the lowest version of the model to return in the list.
+    public var minModelVersion: Swift.Int?
+    /// Then name of the machine learning model for which the model versions are to be listed.
+    /// This member is required.
+    public var modelName: Swift.String?
+    /// If the total number of results exceeds the limit that the response can display, the response returns an opaque pagination token indicating where to continue the listing of machine learning model versions. Use this token in the NextToken field in the request to list the next page of results.
+    public var nextToken: Swift.String?
+    /// Filter the results based on the way the model version was generated.
+    public var sourceType: LookoutEquipmentClientTypes.ModelVersionSourceType?
+    /// Filter the results based on the current status of the model version.
+    public var status: LookoutEquipmentClientTypes.ModelVersionStatus?
+
+    public init(
+        createdAtEndTime: ClientRuntime.Date? = nil,
+        createdAtStartTime: ClientRuntime.Date? = nil,
+        maxModelVersion: Swift.Int? = nil,
+        maxResults: Swift.Int? = nil,
+        minModelVersion: Swift.Int? = nil,
+        modelName: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        sourceType: LookoutEquipmentClientTypes.ModelVersionSourceType? = nil,
+        status: LookoutEquipmentClientTypes.ModelVersionStatus? = nil
+    )
+    {
+        self.createdAtEndTime = createdAtEndTime
+        self.createdAtStartTime = createdAtStartTime
+        self.maxModelVersion = maxModelVersion
+        self.maxResults = maxResults
+        self.minModelVersion = minModelVersion
+        self.modelName = modelName
+        self.nextToken = nextToken
+        self.sourceType = sourceType
+        self.status = status
+    }
+}
+
+struct ListModelVersionsInputBody: Swift.Equatable {
+    let modelName: Swift.String?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+    let status: LookoutEquipmentClientTypes.ModelVersionStatus?
+    let sourceType: LookoutEquipmentClientTypes.ModelVersionSourceType?
+    let createdAtEndTime: ClientRuntime.Date?
+    let createdAtStartTime: ClientRuntime.Date?
+    let maxModelVersion: Swift.Int?
+    let minModelVersion: Swift.Int?
+}
+
+extension ListModelVersionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdAtEndTime = "CreatedAtEndTime"
+        case createdAtStartTime = "CreatedAtStartTime"
+        case maxModelVersion = "MaxModelVersion"
+        case maxResults = "MaxResults"
+        case minModelVersion = "MinModelVersion"
+        case modelName = "ModelName"
+        case nextToken = "NextToken"
+        case sourceType = "SourceType"
+        case status = "Status"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let modelNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modelName)
+        modelName = modelNameDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(LookoutEquipmentClientTypes.ModelVersionStatus.self, forKey: .status)
+        status = statusDecoded
+        let sourceTypeDecoded = try containerValues.decodeIfPresent(LookoutEquipmentClientTypes.ModelVersionSourceType.self, forKey: .sourceType)
+        sourceType = sourceTypeDecoded
+        let createdAtEndTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAtEndTime)
+        createdAtEndTime = createdAtEndTimeDecoded
+        let createdAtStartTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAtStartTime)
+        createdAtStartTime = createdAtStartTimeDecoded
+        let maxModelVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxModelVersion)
+        maxModelVersion = maxModelVersionDecoded
+        let minModelVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minModelVersion)
+        minModelVersion = minModelVersionDecoded
+    }
+}
+
+public enum ListModelVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListModelVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListModelVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.modelVersionSummaries = output.modelVersionSummaries
+            self.nextToken = output.nextToken
+        } else {
+            self.modelVersionSummaries = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListModelVersionsOutputResponse: Swift.Equatable {
+    /// Provides information on the specified model version, including the created time, model and dataset ARNs, and status.
+    public var modelVersionSummaries: [LookoutEquipmentClientTypes.ModelVersionSummary]?
+    /// If the total number of results exceeds the limit that the response can display, the response returns an opaque pagination token indicating where to continue the listing of machine learning model versions. Use this token in the NextToken field in the request to list the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        modelVersionSummaries: [LookoutEquipmentClientTypes.ModelVersionSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.modelVersionSummaries = modelVersionSummaries
+        self.nextToken = nextToken
+    }
+}
+
+struct ListModelVersionsOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let modelVersionSummaries: [LookoutEquipmentClientTypes.ModelVersionSummary]?
+}
+
+extension ListModelVersionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case modelVersionSummaries = "ModelVersionSummaries"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let modelVersionSummariesContainer = try containerValues.decodeIfPresent([LookoutEquipmentClientTypes.ModelVersionSummary?].self, forKey: .modelVersionSummaries)
+        var modelVersionSummariesDecoded0:[LookoutEquipmentClientTypes.ModelVersionSummary]? = nil
+        if let modelVersionSummariesContainer = modelVersionSummariesContainer {
+            modelVersionSummariesDecoded0 = [LookoutEquipmentClientTypes.ModelVersionSummary]()
+            for structure0 in modelVersionSummariesContainer {
+                if let structure0 = structure0 {
+                    modelVersionSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        modelVersionSummaries = modelVersionSummariesDecoded0
     }
 }
 
@@ -6490,6 +7856,7 @@ extension LookoutEquipmentClientTypes {
 extension LookoutEquipmentClientTypes {
     public enum ModelStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case failed
+        case importInProgress
         case inProgress
         case success
         case sdkUnknown(Swift.String)
@@ -6497,6 +7864,7 @@ extension LookoutEquipmentClientTypes {
         public static var allCases: [ModelStatus] {
             return [
                 .failed,
+                .importInProgress,
                 .inProgress,
                 .success,
                 .sdkUnknown("")
@@ -6509,6 +7877,7 @@ extension LookoutEquipmentClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .failed: return "FAILED"
+            case .importInProgress: return "IMPORT_IN_PROGRESS"
             case .inProgress: return "IN_PROGRESS"
             case .success: return "SUCCESS"
             case let .sdkUnknown(s): return s
@@ -6524,6 +7893,8 @@ extension LookoutEquipmentClientTypes {
 
 extension LookoutEquipmentClientTypes.ModelSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activeModelVersion = "ActiveModelVersion"
+        case activeModelVersionArn = "ActiveModelVersionArn"
         case createdAt = "CreatedAt"
         case datasetArn = "DatasetArn"
         case datasetName = "DatasetName"
@@ -6534,6 +7905,12 @@ extension LookoutEquipmentClientTypes.ModelSummary: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let activeModelVersion = self.activeModelVersion {
+            try encodeContainer.encode(activeModelVersion, forKey: .activeModelVersion)
+        }
+        if let activeModelVersionArn = self.activeModelVersionArn {
+            try encodeContainer.encode(activeModelVersionArn, forKey: .activeModelVersionArn)
+        }
         if let createdAt = self.createdAt {
             try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
         }
@@ -6568,12 +7945,20 @@ extension LookoutEquipmentClientTypes.ModelSummary: Swift.Codable {
         status = statusDecoded
         let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
         createdAt = createdAtDecoded
+        let activeModelVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .activeModelVersion)
+        activeModelVersion = activeModelVersionDecoded
+        let activeModelVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .activeModelVersionArn)
+        activeModelVersionArn = activeModelVersionArnDecoded
     }
 }
 
 extension LookoutEquipmentClientTypes {
     /// Provides information about the specified ML model, including dataset and model names and ARNs, as well as status.
     public struct ModelSummary: Swift.Equatable {
+        /// The model version that the inference scheduler uses to run an inference execution.
+        public var activeModelVersion: Swift.Int?
+        /// The Amazon Resource Name (ARN) of the model version that is set as active. The active model version is the model version that the inference scheduler uses to run an inference execution.
+        public var activeModelVersionArn: Swift.String?
         /// The time at which the specific model was created.
         public var createdAt: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the dataset used to create the model.
@@ -6588,6 +7973,8 @@ extension LookoutEquipmentClientTypes {
         public var status: LookoutEquipmentClientTypes.ModelStatus?
 
         public init(
+            activeModelVersion: Swift.Int? = nil,
+            activeModelVersionArn: Swift.String? = nil,
             createdAt: ClientRuntime.Date? = nil,
             datasetArn: Swift.String? = nil,
             datasetName: Swift.String? = nil,
@@ -6596,11 +7983,184 @@ extension LookoutEquipmentClientTypes {
             status: LookoutEquipmentClientTypes.ModelStatus? = nil
         )
         {
+            self.activeModelVersion = activeModelVersion
+            self.activeModelVersionArn = activeModelVersionArn
             self.createdAt = createdAt
             self.datasetArn = datasetArn
             self.datasetName = datasetName
             self.modelArn = modelArn
             self.modelName = modelName
+            self.status = status
+        }
+    }
+
+}
+
+extension LookoutEquipmentClientTypes {
+    public enum ModelVersionSourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case `import`
+        case retraining
+        case training
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ModelVersionSourceType] {
+            return [
+                .import,
+                .retraining,
+                .training,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .import: return "IMPORT"
+            case .retraining: return "RETRAINING"
+            case .training: return "TRAINING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ModelVersionSourceType(rawValue: rawValue) ?? ModelVersionSourceType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LookoutEquipmentClientTypes {
+    public enum ModelVersionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case canceled
+        case failed
+        case importInProgress
+        case inProgress
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ModelVersionStatus] {
+            return [
+                .canceled,
+                .failed,
+                .importInProgress,
+                .inProgress,
+                .success,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .canceled: return "CANCELED"
+            case .failed: return "FAILED"
+            case .importInProgress: return "IMPORT_IN_PROGRESS"
+            case .inProgress: return "IN_PROGRESS"
+            case .success: return "SUCCESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ModelVersionStatus(rawValue: rawValue) ?? ModelVersionStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LookoutEquipmentClientTypes.ModelVersionSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdAt = "CreatedAt"
+        case modelArn = "ModelArn"
+        case modelName = "ModelName"
+        case modelVersion = "ModelVersion"
+        case modelVersionArn = "ModelVersionArn"
+        case sourceType = "SourceType"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let modelArn = self.modelArn {
+            try encodeContainer.encode(modelArn, forKey: .modelArn)
+        }
+        if let modelName = self.modelName {
+            try encodeContainer.encode(modelName, forKey: .modelName)
+        }
+        if let modelVersion = self.modelVersion {
+            try encodeContainer.encode(modelVersion, forKey: .modelVersion)
+        }
+        if let modelVersionArn = self.modelVersionArn {
+            try encodeContainer.encode(modelVersionArn, forKey: .modelVersionArn)
+        }
+        if let sourceType = self.sourceType {
+            try encodeContainer.encode(sourceType.rawValue, forKey: .sourceType)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let modelNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modelName)
+        modelName = modelNameDecoded
+        let modelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modelArn)
+        modelArn = modelArnDecoded
+        let modelVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .modelVersion)
+        modelVersion = modelVersionDecoded
+        let modelVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modelVersionArn)
+        modelVersionArn = modelVersionArnDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(LookoutEquipmentClientTypes.ModelVersionStatus.self, forKey: .status)
+        status = statusDecoded
+        let sourceTypeDecoded = try containerValues.decodeIfPresent(LookoutEquipmentClientTypes.ModelVersionSourceType.self, forKey: .sourceType)
+        sourceType = sourceTypeDecoded
+    }
+}
+
+extension LookoutEquipmentClientTypes {
+    /// Contains information about the specific model version.
+    public struct ModelVersionSummary: Swift.Equatable {
+        /// The time when this model version was created.
+        public var createdAt: ClientRuntime.Date?
+        /// The Amazon Resource Name (ARN) of the model that this model version is a version of.
+        public var modelArn: Swift.String?
+        /// The name of the model that this model version is a version of.
+        public var modelName: Swift.String?
+        /// The version of the model.
+        public var modelVersion: Swift.Int?
+        /// The Amazon Resource Name (ARN) of the model version.
+        public var modelVersionArn: Swift.String?
+        /// Indicates how this model version was generated.
+        public var sourceType: LookoutEquipmentClientTypes.ModelVersionSourceType?
+        /// The current status of the model version.
+        public var status: LookoutEquipmentClientTypes.ModelVersionStatus?
+
+        public init(
+            createdAt: ClientRuntime.Date? = nil,
+            modelArn: Swift.String? = nil,
+            modelName: Swift.String? = nil,
+            modelVersion: Swift.Int? = nil,
+            modelVersionArn: Swift.String? = nil,
+            sourceType: LookoutEquipmentClientTypes.ModelVersionSourceType? = nil,
+            status: LookoutEquipmentClientTypes.ModelVersionStatus? = nil
+        )
+        {
+            self.createdAt = createdAt
+            self.modelArn = modelArn
+            self.modelName = modelName
+            self.modelVersion = modelVersion
+            self.modelVersionArn = modelVersionArn
+            self.sourceType = sourceType
             self.status = status
         }
     }
@@ -6724,6 +8284,159 @@ extension LookoutEquipmentClientTypes {
 
 }
 
+extension PutResourcePolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case policyRevisionId = "PolicyRevisionId"
+        case resourceArn = "ResourceArn"
+        case resourcePolicy = "ResourcePolicy"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let policyRevisionId = self.policyRevisionId {
+            try encodeContainer.encode(policyRevisionId, forKey: .policyRevisionId)
+        }
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+        if let resourcePolicy = self.resourcePolicy {
+            try encodeContainer.encode(resourcePolicy, forKey: .resourcePolicy)
+        }
+    }
+}
+
+extension PutResourcePolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct PutResourcePolicyInput: Swift.Equatable {
+    /// A unique identifier for the request. If you do not set the client request token, Amazon Lookout for Equipment generates one.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// A unique identifier for a revision of the resource policy.
+    public var policyRevisionId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the resource for which the policy is being created.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The JSON-formatted resource policy to create.
+    /// This member is required.
+    public var resourcePolicy: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        policyRevisionId: Swift.String? = nil,
+        resourceArn: Swift.String? = nil,
+        resourcePolicy: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.policyRevisionId = policyRevisionId
+        self.resourceArn = resourceArn
+        self.resourcePolicy = resourcePolicy
+    }
+}
+
+struct PutResourcePolicyInputBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+    let resourcePolicy: Swift.String?
+    let policyRevisionId: Swift.String?
+    let clientToken: Swift.String?
+}
+
+extension PutResourcePolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case policyRevisionId = "PolicyRevisionId"
+        case resourceArn = "ResourceArn"
+        case resourcePolicy = "ResourcePolicy"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let resourcePolicyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourcePolicy)
+        resourcePolicy = resourcePolicyDecoded
+        let policyRevisionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyRevisionId)
+        policyRevisionId = policyRevisionIdDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+public enum PutResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension PutResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.policyRevisionId = output.policyRevisionId
+            self.resourceArn = output.resourceArn
+        } else {
+            self.policyRevisionId = nil
+            self.resourceArn = nil
+        }
+    }
+}
+
+public struct PutResourcePolicyOutputResponse: Swift.Equatable {
+    /// A unique identifier for a revision of the resource policy.
+    public var policyRevisionId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the resource for which the policy was created.
+    public var resourceArn: Swift.String?
+
+    public init(
+        policyRevisionId: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.policyRevisionId = policyRevisionId
+        self.resourceArn = resourceArn
+    }
+}
+
+struct PutResourcePolicyOutputResponseBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+    let policyRevisionId: Swift.String?
+}
+
+extension PutResourcePolicyOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policyRevisionId = "PolicyRevisionId"
+        case resourceArn = "ResourceArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let policyRevisionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyRevisionId)
+        policyRevisionId = policyRevisionIdDecoded
+    }
+}
+
 extension ResourceNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6811,7 +8524,7 @@ extension LookoutEquipmentClientTypes {
         /// The name of the specific S3 bucket.
         /// This member is required.
         public var bucket: Swift.String?
-        /// The AWS Key Management Service (AWS KMS) key being used to encrypt the S3 object. Without this key, data in the bucket is not accessible.
+        /// The Amazon Web Services Key Management Service (KMS key) key being used to encrypt the S3 object. Without this key, data in the bucket is not accessible.
         /// This member is required.
         public var key: Swift.String?
 
@@ -7943,6 +9656,173 @@ public struct UntagResourceOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension UpdateActiveModelVersionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case modelName = "ModelName"
+        case modelVersion = "ModelVersion"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let modelName = self.modelName {
+            try encodeContainer.encode(modelName, forKey: .modelName)
+        }
+        if let modelVersion = self.modelVersion {
+            try encodeContainer.encode(modelVersion, forKey: .modelVersion)
+        }
+    }
+}
+
+extension UpdateActiveModelVersionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateActiveModelVersionInput: Swift.Equatable {
+    /// The name of the machine learning model for which the active model version is being set.
+    /// This member is required.
+    public var modelName: Swift.String?
+    /// The version of the machine learning model for which the active model version is being set.
+    /// This member is required.
+    public var modelVersion: Swift.Int?
+
+    public init(
+        modelName: Swift.String? = nil,
+        modelVersion: Swift.Int? = nil
+    )
+    {
+        self.modelName = modelName
+        self.modelVersion = modelVersion
+    }
+}
+
+struct UpdateActiveModelVersionInputBody: Swift.Equatable {
+    let modelName: Swift.String?
+    let modelVersion: Swift.Int?
+}
+
+extension UpdateActiveModelVersionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case modelName = "ModelName"
+        case modelVersion = "ModelVersion"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let modelNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modelName)
+        modelName = modelNameDecoded
+        let modelVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .modelVersion)
+        modelVersion = modelVersionDecoded
+    }
+}
+
+public enum UpdateActiveModelVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateActiveModelVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateActiveModelVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.currentActiveVersion = output.currentActiveVersion
+            self.currentActiveVersionArn = output.currentActiveVersionArn
+            self.modelArn = output.modelArn
+            self.modelName = output.modelName
+            self.previousActiveVersion = output.previousActiveVersion
+            self.previousActiveVersionArn = output.previousActiveVersionArn
+        } else {
+            self.currentActiveVersion = nil
+            self.currentActiveVersionArn = nil
+            self.modelArn = nil
+            self.modelName = nil
+            self.previousActiveVersion = nil
+            self.previousActiveVersionArn = nil
+        }
+    }
+}
+
+public struct UpdateActiveModelVersionOutputResponse: Swift.Equatable {
+    /// The version that is currently active of the machine learning model for which the active model version was set.
+    public var currentActiveVersion: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the machine learning model version that is the current active model version.
+    public var currentActiveVersionArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the machine learning model for which the active model version was set.
+    public var modelArn: Swift.String?
+    /// The name of the machine learning model for which the active model version was set.
+    public var modelName: Swift.String?
+    /// The previous version that was active of the machine learning model for which the active model version was set.
+    public var previousActiveVersion: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the machine learning model version that was the previous active model version.
+    public var previousActiveVersionArn: Swift.String?
+
+    public init(
+        currentActiveVersion: Swift.Int? = nil,
+        currentActiveVersionArn: Swift.String? = nil,
+        modelArn: Swift.String? = nil,
+        modelName: Swift.String? = nil,
+        previousActiveVersion: Swift.Int? = nil,
+        previousActiveVersionArn: Swift.String? = nil
+    )
+    {
+        self.currentActiveVersion = currentActiveVersion
+        self.currentActiveVersionArn = currentActiveVersionArn
+        self.modelArn = modelArn
+        self.modelName = modelName
+        self.previousActiveVersion = previousActiveVersion
+        self.previousActiveVersionArn = previousActiveVersionArn
+    }
+}
+
+struct UpdateActiveModelVersionOutputResponseBody: Swift.Equatable {
+    let modelName: Swift.String?
+    let modelArn: Swift.String?
+    let currentActiveVersion: Swift.Int?
+    let previousActiveVersion: Swift.Int?
+    let currentActiveVersionArn: Swift.String?
+    let previousActiveVersionArn: Swift.String?
+}
+
+extension UpdateActiveModelVersionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case currentActiveVersion = "CurrentActiveVersion"
+        case currentActiveVersionArn = "CurrentActiveVersionArn"
+        case modelArn = "ModelArn"
+        case modelName = "ModelName"
+        case previousActiveVersion = "PreviousActiveVersion"
+        case previousActiveVersionArn = "PreviousActiveVersionArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let modelNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modelName)
+        modelName = modelNameDecoded
+        let modelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modelArn)
+        modelArn = modelArnDecoded
+        let currentActiveVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .currentActiveVersion)
+        currentActiveVersion = currentActiveVersionDecoded
+        let previousActiveVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .previousActiveVersion)
+        previousActiveVersion = previousActiveVersionDecoded
+        let currentActiveVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .currentActiveVersionArn)
+        currentActiveVersionArn = currentActiveVersionArnDecoded
+        let previousActiveVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .previousActiveVersionArn)
+        previousActiveVersionArn = previousActiveVersionArnDecoded
+    }
+}
+
 extension UpdateInferenceSchedulerInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dataDelayOffsetInMinutes = "DataDelayOffsetInMinutes"
@@ -8190,7 +10070,7 @@ extension ValidationException {
     }
 }
 
-/// The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related AWS service that's being utilized.
+/// The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {

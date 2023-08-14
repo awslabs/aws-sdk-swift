@@ -8155,6 +8155,163 @@ extension GetLoginProfileOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetMFADeviceInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let serialNumber = serialNumber {
+            try container.encode(serialNumber, forKey: ClientRuntime.Key("SerialNumber"))
+        }
+        if let userName = userName {
+            try container.encode(userName, forKey: ClientRuntime.Key("UserName"))
+        }
+        try container.encode("GetMFADevice", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2010-05-08", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension GetMFADeviceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetMFADeviceInput: Swift.Equatable {
+    /// Serial number that uniquely identifies the MFA device. For this API, we only accept FIDO security key [ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html).
+    /// This member is required.
+    public var serialNumber: Swift.String?
+    /// The friendly name identifying the user.
+    public var userName: Swift.String?
+
+    public init(
+        serialNumber: Swift.String? = nil,
+        userName: Swift.String? = nil
+    )
+    {
+        self.serialNumber = serialNumber
+        self.userName = userName
+    }
+}
+
+struct GetMFADeviceInputBody: Swift.Equatable {
+    let serialNumber: Swift.String?
+    let userName: Swift.String?
+}
+
+extension GetMFADeviceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serialNumber = "SerialNumber"
+        case userName = "UserName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serialNumberDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serialNumber)
+        serialNumber = serialNumberDecoded
+        let userNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userName)
+        userName = userNameDecoded
+    }
+}
+
+public enum GetMFADeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension GetMFADeviceOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetMFADeviceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.certifications = output.certifications
+            self.enableDate = output.enableDate
+            self.serialNumber = output.serialNumber
+            self.userName = output.userName
+        } else {
+            self.certifications = nil
+            self.enableDate = nil
+            self.serialNumber = nil
+            self.userName = nil
+        }
+    }
+}
+
+public struct GetMFADeviceOutputResponse: Swift.Equatable {
+    /// The certifications of a specified user's MFA device. We currently provide FIPS-140-2, FIPS-140-3, and FIDO certification levels obtained from [ FIDO Alliance Metadata Service (MDS)](https://fidoalliance.org/metadata/).
+    public var certifications: [Swift.String:Swift.String]?
+    /// The date that a specified user's MFA device was first enabled.
+    public var enableDate: ClientRuntime.Date?
+    /// Serial number that uniquely identifies the MFA device. For this API, we only accept FIDO security key [ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html).
+    /// This member is required.
+    public var serialNumber: Swift.String?
+    /// The friendly name identifying the user.
+    public var userName: Swift.String?
+
+    public init(
+        certifications: [Swift.String:Swift.String]? = nil,
+        enableDate: ClientRuntime.Date? = nil,
+        serialNumber: Swift.String? = nil,
+        userName: Swift.String? = nil
+    )
+    {
+        self.certifications = certifications
+        self.enableDate = enableDate
+        self.serialNumber = serialNumber
+        self.userName = userName
+    }
+}
+
+struct GetMFADeviceOutputResponseBody: Swift.Equatable {
+    let userName: Swift.String?
+    let serialNumber: Swift.String?
+    let enableDate: ClientRuntime.Date?
+    let certifications: [Swift.String:Swift.String]?
+}
+
+extension GetMFADeviceOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certifications = "Certifications"
+        case enableDate = "EnableDate"
+        case serialNumber = "SerialNumber"
+        case userName = "UserName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GetMFADeviceResult"))
+        let userNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userName)
+        userName = userNameDecoded
+        let serialNumberDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serialNumber)
+        serialNumber = serialNumberDecoded
+        let enableDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .enableDate)
+        enableDate = enableDateDecoded
+        if containerValues.contains(.certifications) {
+            struct KeyVal0{struct key{}; struct value{}}
+            let certificationsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: ClientRuntime.MapEntry<Swift.String, Swift.String, KeyVal0.key, KeyVal0.value>.CodingKeys.self, forKey: .certifications)
+            if let certificationsWrappedContainer = certificationsWrappedContainer {
+                let certificationsContainer = try certificationsWrappedContainer.decodeIfPresent([ClientRuntime.MapKeyValue<Swift.String, Swift.String, KeyVal0.key, KeyVal0.value>].self, forKey: .entry)
+                var certificationsBuffer: [Swift.String:Swift.String]? = nil
+                if let certificationsContainer = certificationsContainer {
+                    certificationsBuffer = [Swift.String:Swift.String]()
+                    for stringContainer0 in certificationsContainer {
+                        certificationsBuffer?[stringContainer0.key] = stringContainer0.value
+                    }
+                }
+                certifications = certificationsBuffer
+            } else {
+                certifications = [:]
+            }
+        } else {
+            certifications = nil
+        }
+    }
+}
+
 extension GetOpenIDConnectProviderInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -18089,7 +18246,7 @@ public struct PutGroupPolicyInput: Swift.Equatable {
     /// The name of the group to associate the policy with. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-.
     /// This member is required.
     public var groupName: Swift.String?
-    /// The policy document. You must provide policies in JSON format in IAM. However, for CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation always converts a YAML policy to JSON format before submitting it to = IAM. The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a string of characters consisting of the following:
+    /// The policy document. You must provide policies in JSON format in IAM. However, for CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a string of characters consisting of the following:
     ///
     /// * Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range
     ///

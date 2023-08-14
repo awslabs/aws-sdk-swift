@@ -3428,7 +3428,7 @@ extension GetComponentVersionArtifactInput: ClientRuntime.URLPathProvider {
         guard let artifactName = artifactName else {
             return nil
         }
-        return "/greengrass/v2/components/\(arn.urlPercentEncoding())/artifacts/\(artifactName)"
+        return "/greengrass/v2/components/\(arn.urlPercentEncoding())/artifacts/\(artifactName.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 

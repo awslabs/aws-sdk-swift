@@ -221,7 +221,7 @@ extension CloudFrontClientTypes.ActiveTrustedSigners: ClientRuntime.DynamicNodeE
 extension CloudFrontClientTypes {
     /// A list of Amazon Web Services accounts and the active CloudFront key pairs in each account that CloudFront can use to verify the signatures of signed URLs and signed cookies.
     public struct ActiveTrustedSigners: Swift.Equatable {
-        /// This field is true if any of the Amazon Web Services accounts in the list have active CloudFront key pairs that CloudFront can use to verify the signatures of signed URLs and signed cookies. If not, this field is false.
+        /// This field is true if any of the Amazon Web Services accounts in the list are configured as trusted signers. If not, this field is false.
         /// This member is required.
         public var enabled: Swift.Bool?
         /// A list of Amazon Web Services accounts and the identifiers of active CloudFront key pairs in each account that CloudFront can use to verify the signatures of signed URLs and signed cookies.
@@ -3603,6 +3603,7 @@ extension CopyDistributionInput: ClientRuntime.DynamicNodeEncoding {
 extension CopyDistributionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case callerReference = "CallerReference"
+        case enabled = "Enabled"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -3612,6 +3613,9 @@ extension CopyDistributionInput: Swift.Encodable {
         }
         if let callerReference = callerReference {
             try container.encode(callerReference, forKey: ClientRuntime.Key("CallerReference"))
+        }
+        if let enabled = enabled {
+            try container.encode(enabled, forKey: ClientRuntime.Key("Enabled"))
         }
     }
 }
@@ -3642,6 +3646,8 @@ public struct CopyDistributionInput: Swift.Equatable {
     /// A value that uniquely identifies a request to create a resource. This helps to prevent CloudFront from creating a duplicate resource if you accidentally resubmit an identical request.
     /// This member is required.
     public var callerReference: Swift.String?
+    /// A Boolean flag to specify the state of the staging distribution when it's created. When you set this value to True, the staging distribution is enabled. When you set this value to False, the staging distribution is disabled. If you omit this field, the default value is True.
+    public var enabled: Swift.Bool?
     /// The version identifier of the primary distribution whose configuration you are copying. This is the ETag value returned in the response to GetDistribution and GetDistributionConfig.
     public var ifMatch: Swift.String?
     /// The identifier of the primary distribution whose configuration you are copying. To get a distribution ID, use ListDistributions.
@@ -3652,12 +3658,14 @@ public struct CopyDistributionInput: Swift.Equatable {
 
     public init(
         callerReference: Swift.String? = nil,
+        enabled: Swift.Bool? = nil,
         ifMatch: Swift.String? = nil,
         primaryDistributionId: Swift.String? = nil,
         staging: Swift.Bool? = nil
     )
     {
         self.callerReference = callerReference
+        self.enabled = enabled
         self.ifMatch = ifMatch
         self.primaryDistributionId = primaryDistributionId
         self.staging = staging
@@ -3666,17 +3674,21 @@ public struct CopyDistributionInput: Swift.Equatable {
 
 struct CopyDistributionInputBody: Swift.Equatable {
     let callerReference: Swift.String?
+    let enabled: Swift.Bool?
 }
 
 extension CopyDistributionInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case callerReference = "CallerReference"
+        case enabled = "Enabled"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let callerReferenceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .callerReference)
         callerReference = callerReferenceDecoded
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
+        enabled = enabledDecoded
     }
 }
 
@@ -3731,6 +3743,7 @@ public enum CopyDistributionOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "TooManyDistributionsAssociatedToCachePolicy": return try await TooManyDistributionsAssociatedToCachePolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyDistributionsAssociatedToFieldLevelEncryptionConfig": return try await TooManyDistributionsAssociatedToFieldLevelEncryptionConfig(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyDistributionsAssociatedToKeyGroup": return try await TooManyDistributionsAssociatedToKeyGroup(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyDistributionsAssociatedToOriginAccessControl": return try await TooManyDistributionsAssociatedToOriginAccessControl(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyDistributionsAssociatedToOriginRequestPolicy": return try await TooManyDistributionsAssociatedToOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyDistributionsAssociatedToResponseHeadersPolicy": return try await TooManyDistributionsAssociatedToResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyDistributionsWithFunctionAssociations": return try await TooManyDistributionsWithFunctionAssociations(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -4701,6 +4714,7 @@ public enum CreateDistributionWithTagsOutputError: ClientRuntime.HttpResponseErr
             case "ContinuousDeploymentPolicyInUse": return try await ContinuousDeploymentPolicyInUse(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DistributionAlreadyExists": return try await DistributionAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior": return try await IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "IllegalOriginAccessConfiguration": return try await IllegalOriginAccessConfiguration(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InconsistentQuantities": return try await InconsistentQuantities(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidDefaultRootObject": return try await InvalidDefaultRootObject(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -4744,6 +4758,7 @@ public enum CreateDistributionWithTagsOutputError: ClientRuntime.HttpResponseErr
             case "TooManyDistributionsAssociatedToCachePolicy": return try await TooManyDistributionsAssociatedToCachePolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyDistributionsAssociatedToFieldLevelEncryptionConfig": return try await TooManyDistributionsAssociatedToFieldLevelEncryptionConfig(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyDistributionsAssociatedToKeyGroup": return try await TooManyDistributionsAssociatedToKeyGroup(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyDistributionsAssociatedToOriginAccessControl": return try await TooManyDistributionsAssociatedToOriginAccessControl(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyDistributionsAssociatedToOriginRequestPolicy": return try await TooManyDistributionsAssociatedToOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyDistributionsAssociatedToResponseHeadersPolicy": return try await TooManyDistributionsAssociatedToResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyDistributionsWithFunctionAssociations": return try await TooManyDistributionsWithFunctionAssociations(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -11831,7 +11846,7 @@ extension CloudFrontClientTypes {
         /// A comment to describe the function.
         /// This member is required.
         public var comment: Swift.String?
-        /// The function's runtime environment. The only valid value is cloudfront-js-1.0.
+        /// The function's runtime environment verion.
         /// This member is required.
         public var runtime: CloudFrontClientTypes.FunctionRuntime?
 
@@ -12092,11 +12107,13 @@ extension CloudFrontClientTypes {
 extension CloudFrontClientTypes {
     public enum FunctionRuntime: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case cloudfrontJs10
+        case cloudfrontJs20
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FunctionRuntime] {
             return [
                 .cloudfrontJs10,
+                .cloudfrontJs20,
                 .sdkUnknown("")
             ]
         }
@@ -12107,6 +12124,7 @@ extension CloudFrontClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .cloudfrontJs10: return "cloudfront-js-1.0"
+            case .cloudfrontJs20: return "cloudfront-js-2.0"
             case let .sdkUnknown(s): return s
             }
         }
@@ -32983,7 +33001,7 @@ extension CloudFrontClientTypes.TrustedSigners: ClientRuntime.DynamicNodeEncodin
 extension CloudFrontClientTypes {
     /// A list of Amazon Web Services accounts whose public keys CloudFront can use to verify the signatures of signed URLs and signed cookies.
     public struct TrustedSigners: Swift.Equatable {
-        /// This field is true if any of the Amazon Web Services accounts have public keys that CloudFront can use to verify the signatures of signed URLs and signed cookies. If not, this field is false.
+        /// This field is true if any of the Amazon Web Services accounts in the list are configured as trusted signers. If not, this field is false.
         /// This member is required.
         public var enabled: Swift.Bool?
         /// A list of Amazon Web Services account identifiers.
@@ -33966,6 +33984,7 @@ public enum UpdateDistributionOutputError: ClientRuntime.HttpResponseErrorBindin
             case "TooManyDistributionsAssociatedToCachePolicy": return try await TooManyDistributionsAssociatedToCachePolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyDistributionsAssociatedToFieldLevelEncryptionConfig": return try await TooManyDistributionsAssociatedToFieldLevelEncryptionConfig(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyDistributionsAssociatedToKeyGroup": return try await TooManyDistributionsAssociatedToKeyGroup(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyDistributionsAssociatedToOriginAccessControl": return try await TooManyDistributionsAssociatedToOriginAccessControl(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyDistributionsAssociatedToOriginRequestPolicy": return try await TooManyDistributionsAssociatedToOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyDistributionsAssociatedToResponseHeadersPolicy": return try await TooManyDistributionsAssociatedToResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyDistributionsWithFunctionAssociations": return try await TooManyDistributionsWithFunctionAssociations(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -34146,6 +34165,7 @@ public enum UpdateDistributionWithStagingConfigOutputError: ClientRuntime.HttpRe
             case "TooManyDistributionsAssociatedToCachePolicy": return try await TooManyDistributionsAssociatedToCachePolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyDistributionsAssociatedToFieldLevelEncryptionConfig": return try await TooManyDistributionsAssociatedToFieldLevelEncryptionConfig(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyDistributionsAssociatedToKeyGroup": return try await TooManyDistributionsAssociatedToKeyGroup(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyDistributionsAssociatedToOriginAccessControl": return try await TooManyDistributionsAssociatedToOriginAccessControl(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyDistributionsAssociatedToOriginRequestPolicy": return try await TooManyDistributionsAssociatedToOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyDistributionsAssociatedToResponseHeadersPolicy": return try await TooManyDistributionsAssociatedToResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyDistributionsWithFunctionAssociations": return try await TooManyDistributionsWithFunctionAssociations(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)

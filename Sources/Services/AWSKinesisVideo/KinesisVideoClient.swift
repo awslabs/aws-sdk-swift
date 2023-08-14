@@ -139,6 +139,42 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         return result
     }
 
+    /// An asynchronous API that deletes a stream’s existing edge configuration, as well as the corresponding media from the Edge Agent. When you invoke this API, the sync status is set to DELETING. A deletion process starts, in which active edge jobs are stopped and all media is deleted from the edge device. The time to delete varies, depending on the total amount of stored media. If the deletion process fails, the sync status changes to DELETE_FAILED. You will need to re-try the deletion. When the deletion process has completed successfully, the edge configuration is no longer accessible.
+    public func deleteEdgeConfiguration(input: DeleteEdgeConfigurationInput) async throws -> DeleteEdgeConfigurationOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteEdgeConfiguration")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "kinesisvideo")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeleteEdgeConfigurationInput, DeleteEdgeConfigurationOutputResponse, DeleteEdgeConfigurationOutputError>(id: "deleteEdgeConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEdgeConfigurationInput, DeleteEdgeConfigurationOutputResponse, DeleteEdgeConfigurationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEdgeConfigurationInput, DeleteEdgeConfigurationOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteEdgeConfigurationOutputResponse, DeleteEdgeConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteEdgeConfigurationInput, DeleteEdgeConfigurationOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteEdgeConfigurationInput, DeleteEdgeConfigurationOutputResponse>(xmlName: "DeleteEdgeConfigurationInput"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteEdgeConfigurationOutputResponse, DeleteEdgeConfigurationOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEdgeConfigurationOutputResponse, DeleteEdgeConfigurationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEdgeConfigurationOutputResponse, DeleteEdgeConfigurationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEdgeConfigurationOutputResponse, DeleteEdgeConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Deletes a specified signaling channel. DeleteSignalingChannel is an asynchronous operation. If you don't specify the channel's current version, the most recent version is deleted.
     public func deleteSignalingChannel(input: DeleteSignalingChannelInput) async throws -> DeleteSignalingChannelOutputResponse
     {
@@ -211,7 +247,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         return result
     }
 
-    /// Describes a stream’s edge configuration that was set using the StartEdgeConfigurationUpdate API. Use this API to get the status of the configuration if the configuration is in sync with the Edge Agent.
+    /// Describes a stream’s edge configuration that was set using the StartEdgeConfigurationUpdate API and the latest status of the edge agent's recorder and uploader jobs. Use this API to get the status of the configuration to determine if the configuration is in sync with the Edge Agent. Use this API to evaluate the health of the Edge Agent.
     public func describeEdgeConfiguration(input: DescribeEdgeConfigurationInput) async throws -> DescribeEdgeConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -283,7 +319,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         return result
     }
 
-    /// Returns the most current information about the stream. Either streamName or streamARN should be provided in the input. Returns the most current information about the stream. The streamName or streamARN should be provided in the input.
+    /// Returns the most current information about the stream. The streamName or streamARN should be provided in the input.
     public func describeMappedResourceConfiguration(input: DescribeMappedResourceConfigurationInput) async throws -> DescribeMappedResourceConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -531,6 +567,42 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSignalingChannelEndpointOutputResponse, GetSignalingChannelEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSignalingChannelEndpointOutputResponse, GetSignalingChannelEndpointOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSignalingChannelEndpointOutputResponse, GetSignalingChannelEndpointOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Returns an array of edge configurations associated with the specified Edge Agent. In the request, you must specify the Edge Agent HubDeviceArn.
+    public func listEdgeAgentConfigurations(input: ListEdgeAgentConfigurationsInput) async throws -> ListEdgeAgentConfigurationsOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listEdgeAgentConfigurations")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "kinesisvideo")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListEdgeAgentConfigurationsInput, ListEdgeAgentConfigurationsOutputResponse, ListEdgeAgentConfigurationsOutputError>(id: "listEdgeAgentConfigurations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEdgeAgentConfigurationsInput, ListEdgeAgentConfigurationsOutputResponse, ListEdgeAgentConfigurationsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEdgeAgentConfigurationsInput, ListEdgeAgentConfigurationsOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEdgeAgentConfigurationsOutputResponse, ListEdgeAgentConfigurationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListEdgeAgentConfigurationsInput, ListEdgeAgentConfigurationsOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListEdgeAgentConfigurationsInput, ListEdgeAgentConfigurationsOutputResponse>(xmlName: "ListEdgeAgentConfigurationsInput"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEdgeAgentConfigurationsOutputResponse, ListEdgeAgentConfigurationsOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEdgeAgentConfigurationsOutputResponse, ListEdgeAgentConfigurationsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEdgeAgentConfigurationsOutputResponse, ListEdgeAgentConfigurationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEdgeAgentConfigurationsOutputResponse, ListEdgeAgentConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

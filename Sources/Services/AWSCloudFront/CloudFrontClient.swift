@@ -103,7 +103,13 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Creates a staging distribution using the configuration of the provided primary distribution. A staging distribution is a copy of an existing distribution (called the primary distribution) that you can use in a continuous deployment workflow. After you create a staging distribution, you can use UpdateDistribution to modify the staging distribution's configuration. Then you can use CreateContinuousDeploymentPolicy to incrementally move traffic to the staging distribution.
+    /// Creates a staging distribution using the configuration of the provided primary distribution. A staging distribution is a copy of an existing distribution (called the primary distribution) that you can use in a continuous deployment workflow. After you create a staging distribution, you can use UpdateDistribution to modify the staging distribution's configuration. Then you can use CreateContinuousDeploymentPolicy to incrementally move traffic to the staging distribution. This API operation requires the following IAM permissions:
+    ///
+    /// * [GetDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_GetDistribution.html)
+    ///
+    /// * [CreateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_CreateDistribution.html)
+    ///
+    /// * [CopyDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_CopyDistribution.html)
     public func copyDistribution(input: CopyDistributionInput) async throws -> CopyDistributionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -291,7 +297,11 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Create a new distribution with tags.
+    /// Create a new distribution with tags. This API operation requires the following IAM permissions:
+    ///
+    /// * [CreateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_CreateDistribution.html)
+    ///
+    /// * [TagResource](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_TagResource.html)
     public func createDistributionWithTags(input: CreateDistributionWithTagsInput) async throws -> CreateDistributionWithTagsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3414,7 +3424,11 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Copies the staging distribution's configuration to its corresponding primary distribution. The primary distribution retains its Aliases (also known as alternate domain names or CNAMEs) and ContinuousDeploymentPolicyId value, but otherwise its configuration is overwritten to match the staging distribution. You can use this operation in a continuous deployment workflow after you have tested configuration changes on the staging distribution. After using a continuous deployment policy to move a portion of your domain name's traffic to the staging distribution and verifying that it works as intended, you can use this operation to copy the staging distribution's configuration to the primary distribution. This action will disable the continuous deployment policy and move your domain's traffic back to the primary distribution.
+    /// Copies the staging distribution's configuration to its corresponding primary distribution. The primary distribution retains its Aliases (also known as alternate domain names or CNAMEs) and ContinuousDeploymentPolicyId value, but otherwise its configuration is overwritten to match the staging distribution. You can use this operation in a continuous deployment workflow after you have tested configuration changes on the staging distribution. After using a continuous deployment policy to move a portion of your domain name's traffic to the staging distribution and verifying that it works as intended, you can use this operation to copy the staging distribution's configuration to the primary distribution. This action will disable the continuous deployment policy and move your domain's traffic back to the primary distribution. This API operation requires the following IAM permissions:
+    ///
+    /// * [GetDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_GetDistribution.html)
+    ///
+    /// * [UpdateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html)
     public func updateDistributionWithStagingConfig(input: UpdateDistributionWithStagingConfigInput) async throws -> UpdateDistributionWithStagingConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

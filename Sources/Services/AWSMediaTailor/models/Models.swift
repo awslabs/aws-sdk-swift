@@ -81,6 +81,7 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes.AdBreak: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case adBreakMetadata = "AdBreakMetadata"
         case messageType = "MessageType"
         case offsetMillis = "OffsetMillis"
         case slate = "Slate"
@@ -90,6 +91,12 @@ extension MediaTailorClientTypes.AdBreak: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let adBreakMetadata = adBreakMetadata {
+            var adBreakMetadataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .adBreakMetadata)
+            for keyvaluepair0 in adBreakMetadata {
+                try adBreakMetadataContainer.encode(keyvaluepair0)
+            }
+        }
         if let messageType = self.messageType {
             try encodeContainer.encode(messageType.rawValue, forKey: .messageType)
         }
@@ -119,12 +126,25 @@ extension MediaTailorClientTypes.AdBreak: Swift.Codable {
         spliceInsertMessage = spliceInsertMessageDecoded
         let timeSignalMessageDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.TimeSignalMessage.self, forKey: .timeSignalMessage)
         timeSignalMessage = timeSignalMessageDecoded
+        let adBreakMetadataContainer = try containerValues.decodeIfPresent([MediaTailorClientTypes.KeyValuePair?].self, forKey: .adBreakMetadata)
+        var adBreakMetadataDecoded0:[MediaTailorClientTypes.KeyValuePair]? = nil
+        if let adBreakMetadataContainer = adBreakMetadataContainer {
+            adBreakMetadataDecoded0 = [MediaTailorClientTypes.KeyValuePair]()
+            for structure0 in adBreakMetadataContainer {
+                if let structure0 = structure0 {
+                    adBreakMetadataDecoded0?.append(structure0)
+                }
+            }
+        }
+        adBreakMetadata = adBreakMetadataDecoded0
     }
 }
 
 extension MediaTailorClientTypes {
     /// Ad break configuration parameters.
     public struct AdBreak: Swift.Equatable {
+        /// Defines a list of key/value pairs that MediaTailor generates within the EXT-X-ASSETtag for SCTE35_ENHANCED output.
+        public var adBreakMetadata: [MediaTailorClientTypes.KeyValuePair]?
         /// The SCTE-35 ad insertion type. Accepted value: SPLICE_INSERT, TIME_SIGNAL.
         public var messageType: MediaTailorClientTypes.MessageType?
         /// How long (in milliseconds) after the beginning of the program that an ad starts. This value must fall within 100ms of a segment boundary, otherwise the ad break will be skipped.
@@ -137,6 +157,7 @@ extension MediaTailorClientTypes {
         public var timeSignalMessage: MediaTailorClientTypes.TimeSignalMessage?
 
         public init(
+            adBreakMetadata: [MediaTailorClientTypes.KeyValuePair]? = nil,
             messageType: MediaTailorClientTypes.MessageType? = nil,
             offsetMillis: Swift.Int? = nil,
             slate: MediaTailorClientTypes.SlateSource? = nil,
@@ -144,6 +165,7 @@ extension MediaTailorClientTypes {
             timeSignalMessage: MediaTailorClientTypes.TimeSignalMessage? = nil
         )
         {
+            self.adBreakMetadata = adBreakMetadata
             self.messageType = messageType
             self.offsetMillis = offsetMillis
             self.slate = slate
@@ -189,10 +211,43 @@ extension MediaTailorClientTypes {
 
 }
 
+extension MediaTailorClientTypes {
+    public enum AdMarkupType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case daterange
+        case scte35Enhanced
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AdMarkupType] {
+            return [
+                .daterange,
+                .scte35Enhanced,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .daterange: return "DATERANGE"
+            case .scte35Enhanced: return "SCTE35_ENHANCED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AdMarkupType(rawValue: rawValue) ?? AdMarkupType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension MediaTailorClientTypes.Alert: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case alertCode = "AlertCode"
         case alertMessage = "AlertMessage"
+        case category = "Category"
         case lastModifiedTime = "LastModifiedTime"
         case relatedResourceArns = "RelatedResourceArns"
         case resourceArn = "ResourceArn"
@@ -205,6 +260,9 @@ extension MediaTailorClientTypes.Alert: Swift.Codable {
         }
         if let alertMessage = self.alertMessage {
             try encodeContainer.encode(alertMessage, forKey: .alertMessage)
+        }
+        if let category = self.category {
+            try encodeContainer.encode(category.rawValue, forKey: .category)
         }
         if let lastModifiedTime = self.lastModifiedTime {
             try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
@@ -241,6 +299,8 @@ extension MediaTailorClientTypes.Alert: Swift.Codable {
         relatedResourceArns = relatedResourceArnsDecoded0
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
+        let categoryDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.AlertCategory.self, forKey: .category)
+        category = categoryDecoded
     }
 }
 
@@ -253,6 +313,8 @@ extension MediaTailorClientTypes {
         /// If an alert is generated for a resource, an explanation of the reason for the alert.
         /// This member is required.
         public var alertMessage: Swift.String?
+        /// The category that MediaTailor assigns to the alert.
+        public var category: MediaTailorClientTypes.AlertCategory?
         /// The timestamp when the alert was last modified.
         /// This member is required.
         public var lastModifiedTime: ClientRuntime.Date?
@@ -266,6 +328,7 @@ extension MediaTailorClientTypes {
         public init(
             alertCode: Swift.String? = nil,
             alertMessage: Swift.String? = nil,
+            category: MediaTailorClientTypes.AlertCategory? = nil,
             lastModifiedTime: ClientRuntime.Date? = nil,
             relatedResourceArns: [Swift.String]? = nil,
             resourceArn: Swift.String? = nil
@@ -273,12 +336,48 @@ extension MediaTailorClientTypes {
         {
             self.alertCode = alertCode
             self.alertMessage = alertMessage
+            self.category = category
             self.lastModifiedTime = lastModifiedTime
             self.relatedResourceArns = relatedResourceArns
             self.resourceArn = resourceArn
         }
     }
 
+}
+
+extension MediaTailorClientTypes {
+    public enum AlertCategory: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case info
+        case playbackWarning
+        case schedulingError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AlertCategory] {
+            return [
+                .info,
+                .playbackWarning,
+                .schedulingError,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .info: return "INFO"
+            case .playbackWarning: return "PLAYBACK_WARNING"
+            case .schedulingError: return "SCHEDULING_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AlertCategory(rawValue: rawValue) ?? AlertCategory.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension MediaTailorClientTypes.AvailMatchingCriteria: Swift.Codable {
@@ -4778,11 +4877,18 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes.HlsPlaylistSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case adMarkupType = "AdMarkupType"
         case manifestWindowSeconds = "ManifestWindowSeconds"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let adMarkupType = adMarkupType {
+            var adMarkupTypeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .adMarkupType)
+            for admarkuptype0 in adMarkupType {
+                try adMarkupTypeContainer.encode(admarkuptype0.rawValue)
+            }
+        }
         if let manifestWindowSeconds = self.manifestWindowSeconds {
             try encodeContainer.encode(manifestWindowSeconds, forKey: .manifestWindowSeconds)
         }
@@ -4792,19 +4898,34 @@ extension MediaTailorClientTypes.HlsPlaylistSettings: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let manifestWindowSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .manifestWindowSeconds)
         manifestWindowSeconds = manifestWindowSecondsDecoded
+        let adMarkupTypeContainer = try containerValues.decodeIfPresent([MediaTailorClientTypes.AdMarkupType?].self, forKey: .adMarkupType)
+        var adMarkupTypeDecoded0:[MediaTailorClientTypes.AdMarkupType]? = nil
+        if let adMarkupTypeContainer = adMarkupTypeContainer {
+            adMarkupTypeDecoded0 = [MediaTailorClientTypes.AdMarkupType]()
+            for enum0 in adMarkupTypeContainer {
+                if let enum0 = enum0 {
+                    adMarkupTypeDecoded0?.append(enum0)
+                }
+            }
+        }
+        adMarkupType = adMarkupTypeDecoded0
     }
 }
 
 extension MediaTailorClientTypes {
     /// HLS playlist configuration parameters.
     public struct HlsPlaylistSettings: Swift.Equatable {
+        /// Determines the type of SCTE 35 tags to use in ad markup. Specify DATERANGE to use DATERANGE tags (for live or VOD content). Specify SCTE35_ENHANCED to use EXT-X-CUE-OUT and EXT-X-CUE-IN tags (for VOD content only).
+        public var adMarkupType: [MediaTailorClientTypes.AdMarkupType]?
         /// The total duration (in seconds) of each manifest. Minimum value: 30 seconds. Maximum value: 3600 seconds.
         public var manifestWindowSeconds: Swift.Int?
 
         public init(
+            adMarkupType: [MediaTailorClientTypes.AdMarkupType]? = nil,
             manifestWindowSeconds: Swift.Int? = nil
         )
         {
+            self.adMarkupType = adMarkupType
             self.manifestWindowSeconds = manifestWindowSeconds
         }
     }
@@ -4900,6 +5021,53 @@ extension MediaTailorClientTypes {
             self.path = path
             self.sourceGroup = sourceGroup
             self.type = type
+        }
+    }
+
+}
+
+extension MediaTailorClientTypes.KeyValuePair: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key = "Key"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let key = self.key {
+            try encodeContainer.encode(key, forKey: .key)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension MediaTailorClientTypes {
+    /// For SCTE35_ENHANCED output, defines a key and corresponding value. MediaTailor generates these pairs within the EXT-X-ASSETtag.
+    public struct KeyValuePair: Swift.Equatable {
+        /// For SCTE35_ENHANCED output, defines a key. MediaTailor takes this key, and its associated value, and generates the key/value pair within the EXT-X-ASSETtag. If you specify a key, you must also specify a corresponding value.
+        /// This member is required.
+        public var key: Swift.String?
+        /// For SCTE35_ENHANCED output, defines a value. MediaTailor; takes this value, and its associated key, and generates the key/value pair within the EXT-X-ASSETtag. If you specify a value, you must also specify a corresponding key.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.key = key
+            self.value = value
         }
     }
 

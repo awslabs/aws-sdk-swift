@@ -4717,7 +4717,7 @@ public struct StartMessageMoveTaskInput: Swift.Equatable {
     public var destinationArn: Swift.String?
     /// The number of messages to be moved per second (the message movement rate). You can use this field to define a fixed message movement rate. The maximum value for messages per second is 500. If this field is left blank, the system will optimize the rate based on the queue message backlog size, which may vary throughout the duration of the message movement task.
     public var maxNumberOfMessagesPerSecond: Swift.Int?
-    /// The ARN of the queue that contains the messages to be moved to another queue. Currently, only dead-letter queue (DLQ) ARNs are accepted.
+    /// The ARN of the queue that contains the messages to be moved to another queue. Currently, only ARNs of dead-letter queues (DLQs) whose sources are other Amazon SQS queues are accepted. DLQs whose sources are non-SQS queues, such as Lambda or Amazon SNS topics, are not currently supported.
     /// This member is required.
     public var sourceArn: Swift.String?
 

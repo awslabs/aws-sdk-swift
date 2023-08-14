@@ -31,7 +31,7 @@ public protocol ConnectCasesClientProtocol {
     func createRelatedItem(input: CreateRelatedItemInput) async throws -> CreateRelatedItemOutputResponse
     /// Creates a template in the Cases domain. This template is used to define the case object model (that is, to define what data can be captured on cases) in a Cases domain. A template must have a unique name within a domain, and it must reference existing field IDs and layout IDs. Additionally, multiple fields with same IDs are not allowed within the same Template. A template can be either Active or Inactive, as indicated by its status. Inactive templates cannot be used to create cases.
     func createTemplate(input: CreateTemplateInput) async throws -> CreateTemplateOutputResponse
-    /// Deletes a domain.
+    /// Deletes a Cases domain. After deleting your domain you must disassociate the deleted domain from your Amazon Connect instance with another API call before being able to use Cases again with this Amazon Connect instance. See [DeleteIntegrationAssociation](https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteIntegrationAssociation.html).
     func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutputResponse
     /// Returns information about a specific case if it exists.
     func getCase(input: GetCaseInput) async throws -> GetCaseOutputResponse

@@ -400,11 +400,15 @@ extension MgnClientTypes {
 
 extension ArchiveApplicationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case applicationID
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let applicationID = self.applicationID {
             try encodeContainer.encode(applicationID, forKey: .applicationID)
         }
@@ -418,24 +422,30 @@ extension ArchiveApplicationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ArchiveApplicationInput: Swift.Equatable {
+    /// Account ID.
+    public var accountID: Swift.String?
     /// Application ID.
     /// This member is required.
     public var applicationID: Swift.String?
 
     public init(
+        accountID: Swift.String? = nil,
         applicationID: Swift.String? = nil
     )
     {
+        self.accountID = accountID
         self.applicationID = applicationID
     }
 }
 
 struct ArchiveApplicationInputBody: Swift.Equatable {
     let applicationID: Swift.String?
+    let accountID: Swift.String?
 }
 
 extension ArchiveApplicationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case applicationID
     }
 
@@ -443,6 +453,8 @@ extension ArchiveApplicationInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationID)
         applicationID = applicationIDDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -606,11 +618,15 @@ extension ArchiveApplicationOutputResponseBody: Swift.Decodable {
 
 extension ArchiveWaveInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case waveID
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let waveID = self.waveID {
             try encodeContainer.encode(waveID, forKey: .waveID)
         }
@@ -624,24 +640,30 @@ extension ArchiveWaveInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ArchiveWaveInput: Swift.Equatable {
+    /// Account ID.
+    public var accountID: Swift.String?
     /// Wave ID.
     /// This member is required.
     public var waveID: Swift.String?
 
     public init(
+        accountID: Swift.String? = nil,
         waveID: Swift.String? = nil
     )
     {
+        self.accountID = accountID
         self.waveID = waveID
     }
 }
 
 struct ArchiveWaveInputBody: Swift.Equatable {
     let waveID: Swift.String?
+    let accountID: Swift.String?
 }
 
 extension ArchiveWaveInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case waveID
     }
 
@@ -649,6 +671,8 @@ extension ArchiveWaveInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let waveIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .waveID)
         waveID = waveIDDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -802,12 +826,16 @@ extension ArchiveWaveOutputResponseBody: Swift.Decodable {
 
 extension AssociateApplicationsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case applicationIDs
         case waveID
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let applicationIDs = applicationIDs {
             var applicationIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .applicationIDs)
             for applicationid0 in applicationIDs {
@@ -827,6 +855,8 @@ extension AssociateApplicationsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct AssociateApplicationsInput: Swift.Equatable {
+    /// Account ID.
+    public var accountID: Swift.String?
     /// Application IDs list.
     /// This member is required.
     public var applicationIDs: [Swift.String]?
@@ -835,10 +865,12 @@ public struct AssociateApplicationsInput: Swift.Equatable {
     public var waveID: Swift.String?
 
     public init(
+        accountID: Swift.String? = nil,
         applicationIDs: [Swift.String]? = nil,
         waveID: Swift.String? = nil
     )
     {
+        self.accountID = accountID
         self.applicationIDs = applicationIDs
         self.waveID = waveID
     }
@@ -847,10 +879,12 @@ public struct AssociateApplicationsInput: Swift.Equatable {
 struct AssociateApplicationsInputBody: Swift.Equatable {
     let waveID: Swift.String?
     let applicationIDs: [Swift.String]?
+    let accountID: Swift.String?
 }
 
 extension AssociateApplicationsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case applicationIDs
         case waveID
     }
@@ -870,6 +904,8 @@ extension AssociateApplicationsInputBody: Swift.Decodable {
             }
         }
         applicationIDs = applicationIDsDecoded0
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -899,12 +935,16 @@ public struct AssociateApplicationsOutputResponse: Swift.Equatable {
 
 extension AssociateSourceServersInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case applicationID
         case sourceServerIDs
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let applicationID = self.applicationID {
             try encodeContainer.encode(applicationID, forKey: .applicationID)
         }
@@ -924,6 +964,8 @@ extension AssociateSourceServersInput: ClientRuntime.URLPathProvider {
 }
 
 public struct AssociateSourceServersInput: Swift.Equatable {
+    /// Account ID.
+    public var accountID: Swift.String?
     /// Application ID.
     /// This member is required.
     public var applicationID: Swift.String?
@@ -932,10 +974,12 @@ public struct AssociateSourceServersInput: Swift.Equatable {
     public var sourceServerIDs: [Swift.String]?
 
     public init(
+        accountID: Swift.String? = nil,
         applicationID: Swift.String? = nil,
         sourceServerIDs: [Swift.String]? = nil
     )
     {
+        self.accountID = accountID
         self.applicationID = applicationID
         self.sourceServerIDs = sourceServerIDs
     }
@@ -944,10 +988,12 @@ public struct AssociateSourceServersInput: Swift.Equatable {
 struct AssociateSourceServersInputBody: Swift.Equatable {
     let applicationID: Swift.String?
     let sourceServerIDs: [Swift.String]?
+    let accountID: Swift.String?
 }
 
 extension AssociateSourceServersInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case applicationID
         case sourceServerIDs
     }
@@ -967,6 +1013,8 @@ extension AssociateSourceServersInputBody: Swift.Decodable {
             }
         }
         sourceServerIDs = sourceServerIDsDecoded0
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -1073,12 +1121,16 @@ extension MgnClientTypes {
 
 extension ChangeServerLifeCycleStateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case lifeCycle
         case sourceServerID
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let lifeCycle = self.lifeCycle {
             try encodeContainer.encode(lifeCycle, forKey: .lifeCycle)
         }
@@ -1095,6 +1147,8 @@ extension ChangeServerLifeCycleStateInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ChangeServerLifeCycleStateInput: Swift.Equatable {
+    /// The request to change the source server migration account ID.
+    public var accountID: Swift.String?
     /// The request to change the source server migration lifecycle state.
     /// This member is required.
     public var lifeCycle: MgnClientTypes.ChangeServerLifeCycleStateSourceServerLifecycle?
@@ -1103,10 +1157,12 @@ public struct ChangeServerLifeCycleStateInput: Swift.Equatable {
     public var sourceServerID: Swift.String?
 
     public init(
+        accountID: Swift.String? = nil,
         lifeCycle: MgnClientTypes.ChangeServerLifeCycleStateSourceServerLifecycle? = nil,
         sourceServerID: Swift.String? = nil
     )
     {
+        self.accountID = accountID
         self.lifeCycle = lifeCycle
         self.sourceServerID = sourceServerID
     }
@@ -1115,10 +1171,12 @@ public struct ChangeServerLifeCycleStateInput: Swift.Equatable {
 struct ChangeServerLifeCycleStateInputBody: Swift.Equatable {
     let sourceServerID: Swift.String?
     let lifeCycle: MgnClientTypes.ChangeServerLifeCycleStateSourceServerLifecycle?
+    let accountID: Swift.String?
 }
 
 extension ChangeServerLifeCycleStateInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case lifeCycle
         case sourceServerID
     }
@@ -1129,6 +1187,8 @@ extension ChangeServerLifeCycleStateInputBody: Swift.Decodable {
         sourceServerID = sourceServerIDDecoded
         let lifeCycleDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ChangeServerLifeCycleStateSourceServerLifecycle.self, forKey: .lifeCycle)
         lifeCycle = lifeCycleDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -1496,11 +1556,12 @@ extension ConflictExceptionBody: Swift.Decodable {
 
 extension CreateApplicationInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateApplicationInput(description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), tags: \"CONTENT_REDACTED\")"}
+        "CreateApplicationInput(accountID: \(Swift.String(describing: accountID)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateApplicationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case description
         case name
         case tags
@@ -1508,6 +1569,9 @@ extension CreateApplicationInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
@@ -1530,6 +1594,8 @@ extension CreateApplicationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateApplicationInput: Swift.Equatable {
+    /// Account ID.
+    public var accountID: Swift.String?
     /// Application description.
     public var description: Swift.String?
     /// Application name.
@@ -1539,11 +1605,13 @@ public struct CreateApplicationInput: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
 
     public init(
+        accountID: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
+        self.accountID = accountID
         self.description = description
         self.name = name
         self.tags = tags
@@ -1554,10 +1622,12 @@ struct CreateApplicationInputBody: Swift.Equatable {
     let name: Swift.String?
     let description: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let accountID: Swift.String?
 }
 
 extension CreateApplicationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case description
         case name
         case tags
@@ -1580,6 +1650,8 @@ extension CreateApplicationInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -2190,7 +2262,7 @@ extension CreateLaunchConfigurationTemplateOutputResponseBody: Swift.Decodable {
 
 extension CreateReplicationConfigurationTemplateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateReplicationConfigurationTemplateInput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateReplicationConfigurationTemplateInput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateReplicationConfigurationTemplateInput: Swift.Encodable {
@@ -2208,6 +2280,7 @@ extension CreateReplicationConfigurationTemplateInput: Swift.Encodable {
         case stagingAreaTags
         case tags
         case useDedicatedReplicationServer
+        case useFipsEndpoint
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2260,6 +2333,9 @@ extension CreateReplicationConfigurationTemplateInput: Swift.Encodable {
         if let useDedicatedReplicationServer = self.useDedicatedReplicationServer {
             try encodeContainer.encode(useDedicatedReplicationServer, forKey: .useDedicatedReplicationServer)
         }
+        if let useFipsEndpoint = self.useFipsEndpoint {
+            try encodeContainer.encode(useFipsEndpoint, forKey: .useFipsEndpoint)
+        }
     }
 }
 
@@ -2307,6 +2383,8 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Equatable {
     /// Request to use Dedicated Replication Servers during Replication Settings template creation.
     /// This member is required.
     public var useDedicatedReplicationServer: Swift.Bool?
+    /// Request to use Fips Endpoint during Replication Settings template creation.
+    public var useFipsEndpoint: Swift.Bool?
 
     public init(
         associateDefaultSecurityGroup: Swift.Bool? = nil,
@@ -2321,7 +2399,8 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Equatable {
         stagingAreaSubnetId: Swift.String? = nil,
         stagingAreaTags: [Swift.String:Swift.String]? = nil,
         tags: [Swift.String:Swift.String]? = nil,
-        useDedicatedReplicationServer: Swift.Bool? = nil
+        useDedicatedReplicationServer: Swift.Bool? = nil,
+        useFipsEndpoint: Swift.Bool? = nil
     )
     {
         self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
@@ -2337,6 +2416,7 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Equatable {
         self.stagingAreaTags = stagingAreaTags
         self.tags = tags
         self.useDedicatedReplicationServer = useDedicatedReplicationServer
+        self.useFipsEndpoint = useFipsEndpoint
     }
 }
 
@@ -2353,6 +2433,7 @@ struct CreateReplicationConfigurationTemplateInputBody: Swift.Equatable {
     let dataPlaneRouting: MgnClientTypes.ReplicationConfigurationDataPlaneRouting?
     let createPublicIP: Swift.Bool?
     let stagingAreaTags: [Swift.String:Swift.String]?
+    let useFipsEndpoint: Swift.Bool?
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -2371,6 +2452,7 @@ extension CreateReplicationConfigurationTemplateInputBody: Swift.Decodable {
         case stagingAreaTags
         case tags
         case useDedicatedReplicationServer
+        case useFipsEndpoint
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -2417,6 +2499,8 @@ extension CreateReplicationConfigurationTemplateInputBody: Swift.Decodable {
             }
         }
         stagingAreaTags = stagingAreaTagsDecoded0
+        let useFipsEndpointDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useFipsEndpoint)
+        useFipsEndpoint = useFipsEndpointDecoded
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
         if let tagsContainer = tagsContainer {
@@ -2446,7 +2530,7 @@ public enum CreateReplicationConfigurationTemplateOutputError: ClientRuntime.Htt
 
 extension CreateReplicationConfigurationTemplateOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateReplicationConfigurationTemplateOutputResponse(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateReplicationConfigurationTemplateOutputResponse(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateReplicationConfigurationTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2469,6 +2553,7 @@ extension CreateReplicationConfigurationTemplateOutputResponse: ClientRuntime.Ht
             self.stagingAreaTags = output.stagingAreaTags
             self.tags = output.tags
             self.useDedicatedReplicationServer = output.useDedicatedReplicationServer
+            self.useFipsEndpoint = output.useFipsEndpoint
         } else {
             self.arn = nil
             self.associateDefaultSecurityGroup = nil
@@ -2485,6 +2570,7 @@ extension CreateReplicationConfigurationTemplateOutputResponse: ClientRuntime.Ht
             self.stagingAreaTags = nil
             self.tags = nil
             self.useDedicatedReplicationServer = nil
+            self.useFipsEndpoint = nil
         }
     }
 }
@@ -2521,6 +2607,8 @@ public struct CreateReplicationConfigurationTemplateOutputResponse: Swift.Equata
     public var tags: [Swift.String:Swift.String]?
     /// Replication Configuration template use Dedicated Replication Server.
     public var useDedicatedReplicationServer: Swift.Bool?
+    /// Replication Configuration template use Fips Endpoint.
+    public var useFipsEndpoint: Swift.Bool?
 
     public init(
         arn: Swift.String? = nil,
@@ -2537,7 +2625,8 @@ public struct CreateReplicationConfigurationTemplateOutputResponse: Swift.Equata
         stagingAreaSubnetId: Swift.String? = nil,
         stagingAreaTags: [Swift.String:Swift.String]? = nil,
         tags: [Swift.String:Swift.String]? = nil,
-        useDedicatedReplicationServer: Swift.Bool? = nil
+        useDedicatedReplicationServer: Swift.Bool? = nil,
+        useFipsEndpoint: Swift.Bool? = nil
     )
     {
         self.arn = arn
@@ -2555,6 +2644,7 @@ public struct CreateReplicationConfigurationTemplateOutputResponse: Swift.Equata
         self.stagingAreaTags = stagingAreaTags
         self.tags = tags
         self.useDedicatedReplicationServer = useDedicatedReplicationServer
+        self.useFipsEndpoint = useFipsEndpoint
     }
 }
 
@@ -2573,6 +2663,7 @@ struct CreateReplicationConfigurationTemplateOutputResponseBody: Swift.Equatable
     let dataPlaneRouting: MgnClientTypes.ReplicationConfigurationDataPlaneRouting?
     let createPublicIP: Swift.Bool?
     let stagingAreaTags: [Swift.String:Swift.String]?
+    let useFipsEndpoint: Swift.Bool?
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -2593,6 +2684,7 @@ extension CreateReplicationConfigurationTemplateOutputResponseBody: Swift.Decoda
         case stagingAreaTags
         case tags
         case useDedicatedReplicationServer
+        case useFipsEndpoint
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -2643,6 +2735,8 @@ extension CreateReplicationConfigurationTemplateOutputResponseBody: Swift.Decoda
             }
         }
         stagingAreaTags = stagingAreaTagsDecoded0
+        let useFipsEndpointDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useFipsEndpoint)
+        useFipsEndpoint = useFipsEndpointDecoded
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
         if let tagsContainer = tagsContainer {
@@ -2659,11 +2753,12 @@ extension CreateReplicationConfigurationTemplateOutputResponseBody: Swift.Decoda
 
 extension CreateWaveInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateWaveInput(description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), tags: \"CONTENT_REDACTED\")"}
+        "CreateWaveInput(accountID: \(Swift.String(describing: accountID)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateWaveInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case description
         case name
         case tags
@@ -2671,6 +2766,9 @@ extension CreateWaveInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
@@ -2693,6 +2791,8 @@ extension CreateWaveInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateWaveInput: Swift.Equatable {
+    /// Account ID.
+    public var accountID: Swift.String?
     /// Wave description.
     public var description: Swift.String?
     /// Wave name.
@@ -2702,11 +2802,13 @@ public struct CreateWaveInput: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
 
     public init(
+        accountID: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
+        self.accountID = accountID
         self.description = description
         self.name = name
         self.tags = tags
@@ -2717,10 +2819,12 @@ struct CreateWaveInputBody: Swift.Equatable {
     let name: Swift.String?
     let description: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let accountID: Swift.String?
 }
 
 extension CreateWaveInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case description
         case name
         case tags
@@ -2743,6 +2847,8 @@ extension CreateWaveInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -3470,11 +3576,15 @@ extension MgnClientTypes {
 
 extension DeleteApplicationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case applicationID
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let applicationID = self.applicationID {
             try encodeContainer.encode(applicationID, forKey: .applicationID)
         }
@@ -3488,24 +3598,30 @@ extension DeleteApplicationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteApplicationInput: Swift.Equatable {
+    /// Account ID.
+    public var accountID: Swift.String?
     /// Application ID.
     /// This member is required.
     public var applicationID: Swift.String?
 
     public init(
+        accountID: Swift.String? = nil,
         applicationID: Swift.String? = nil
     )
     {
+        self.accountID = accountID
         self.applicationID = applicationID
     }
 }
 
 struct DeleteApplicationInputBody: Swift.Equatable {
     let applicationID: Swift.String?
+    let accountID: Swift.String?
 }
 
 extension DeleteApplicationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case applicationID
     }
 
@@ -3513,6 +3629,8 @@ extension DeleteApplicationInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationID)
         applicationID = applicationIDDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -3541,11 +3659,15 @@ public struct DeleteApplicationOutputResponse: Swift.Equatable {
 
 extension DeleteJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case jobID
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let jobID = self.jobID {
             try encodeContainer.encode(jobID, forKey: .jobID)
         }
@@ -3559,24 +3681,30 @@ extension DeleteJobInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteJobInput: Swift.Equatable {
+    /// Request to delete Job from service by Account ID.
+    public var accountID: Swift.String?
     /// Request to delete Job from service by Job ID.
     /// This member is required.
     public var jobID: Swift.String?
 
     public init(
+        accountID: Swift.String? = nil,
         jobID: Swift.String? = nil
     )
     {
+        self.accountID = accountID
         self.jobID = jobID
     }
 }
 
 struct DeleteJobInputBody: Swift.Equatable {
     let jobID: Swift.String?
+    let accountID: Swift.String?
 }
 
 extension DeleteJobInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case jobID
     }
 
@@ -3584,6 +3712,8 @@ extension DeleteJobInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobID)
         jobID = jobIDDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -3754,11 +3884,15 @@ public struct DeleteReplicationConfigurationTemplateOutputResponse: Swift.Equata
 
 extension DeleteSourceServerInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case sourceServerID
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let sourceServerID = self.sourceServerID {
             try encodeContainer.encode(sourceServerID, forKey: .sourceServerID)
         }
@@ -3772,24 +3906,30 @@ extension DeleteSourceServerInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteSourceServerInput: Swift.Equatable {
+    /// Request to delete Source Server from service by Account ID.
+    public var accountID: Swift.String?
     /// Request to delete Source Server from service by Server ID.
     /// This member is required.
     public var sourceServerID: Swift.String?
 
     public init(
+        accountID: Swift.String? = nil,
         sourceServerID: Swift.String? = nil
     )
     {
+        self.accountID = accountID
         self.sourceServerID = sourceServerID
     }
 }
 
 struct DeleteSourceServerInputBody: Swift.Equatable {
     let sourceServerID: Swift.String?
+    let accountID: Swift.String?
 }
 
 extension DeleteSourceServerInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case sourceServerID
     }
 
@@ -3797,6 +3937,8 @@ extension DeleteSourceServerInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceServerIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceServerID)
         sourceServerID = sourceServerIDDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -3896,11 +4038,15 @@ public struct DeleteVcenterClientOutputResponse: Swift.Equatable {
 
 extension DeleteWaveInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case waveID
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let waveID = self.waveID {
             try encodeContainer.encode(waveID, forKey: .waveID)
         }
@@ -3914,24 +4060,30 @@ extension DeleteWaveInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteWaveInput: Swift.Equatable {
+    /// Account ID.
+    public var accountID: Swift.String?
     /// Wave ID.
     /// This member is required.
     public var waveID: Swift.String?
 
     public init(
+        accountID: Swift.String? = nil,
         waveID: Swift.String? = nil
     )
     {
+        self.accountID = accountID
         self.waveID = waveID
     }
 }
 
 struct DeleteWaveInputBody: Swift.Equatable {
     let waveID: Swift.String?
+    let accountID: Swift.String?
 }
 
 extension DeleteWaveInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case waveID
     }
 
@@ -3939,6 +4091,8 @@ extension DeleteWaveInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let waveIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .waveID)
         waveID = waveIDDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -3967,6 +4121,7 @@ public struct DeleteWaveOutputResponse: Swift.Equatable {
 
 extension DescribeJobLogItemsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case jobID
         case maxResults
         case nextToken
@@ -3974,6 +4129,9 @@ extension DescribeJobLogItemsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let jobID = self.jobID {
             try encodeContainer.encode(jobID, forKey: .jobID)
         }
@@ -3993,6 +4151,8 @@ extension DescribeJobLogItemsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeJobLogItemsInput: Swift.Equatable {
+    /// Request to describe Job log Account ID.
+    public var accountID: Swift.String?
     /// Request to describe Job log job ID.
     /// This member is required.
     public var jobID: Swift.String?
@@ -4002,11 +4162,13 @@ public struct DescribeJobLogItemsInput: Swift.Equatable {
     public var nextToken: Swift.String?
 
     public init(
+        accountID: Swift.String? = nil,
         jobID: Swift.String? = nil,
         maxResults: Swift.Int = 0,
         nextToken: Swift.String? = nil
     )
     {
+        self.accountID = accountID
         self.jobID = jobID
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4017,10 +4179,12 @@ struct DescribeJobLogItemsInputBody: Swift.Equatable {
     let jobID: Swift.String?
     let maxResults: Swift.Int
     let nextToken: Swift.String?
+    let accountID: Swift.String?
 }
 
 extension DescribeJobLogItemsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case jobID
         case maxResults
         case nextToken
@@ -4034,6 +4198,8 @@ extension DescribeJobLogItemsInputBody: Swift.Decodable {
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -4110,6 +4276,7 @@ extension DescribeJobLogItemsOutputResponseBody: Swift.Decodable {
 
 extension DescribeJobsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case filters
         case maxResults
         case nextToken
@@ -4117,6 +4284,9 @@ extension DescribeJobsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let filters = self.filters {
             try encodeContainer.encode(filters, forKey: .filters)
         }
@@ -4136,6 +4306,8 @@ extension DescribeJobsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeJobsInput: Swift.Equatable {
+    /// Request to describe job log items by Account ID.
+    public var accountID: Swift.String?
     /// Request to describe Job log filters.
     public var filters: MgnClientTypes.DescribeJobsRequestFilters?
     /// Request to describe job log items by max results.
@@ -4144,11 +4316,13 @@ public struct DescribeJobsInput: Swift.Equatable {
     public var nextToken: Swift.String?
 
     public init(
+        accountID: Swift.String? = nil,
         filters: MgnClientTypes.DescribeJobsRequestFilters? = nil,
         maxResults: Swift.Int = 0,
         nextToken: Swift.String? = nil
     )
     {
+        self.accountID = accountID
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4159,10 +4333,12 @@ struct DescribeJobsInputBody: Swift.Equatable {
     let filters: MgnClientTypes.DescribeJobsRequestFilters?
     let maxResults: Swift.Int
     let nextToken: Swift.String?
+    let accountID: Swift.String?
 }
 
 extension DescribeJobsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case filters
         case maxResults
         case nextToken
@@ -4176,6 +4352,8 @@ extension DescribeJobsInputBody: Swift.Decodable {
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -4629,6 +4807,7 @@ extension DescribeReplicationConfigurationTemplatesOutputResponseBody: Swift.Dec
 
 extension DescribeSourceServersInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case filters
         case maxResults
         case nextToken
@@ -4636,6 +4815,9 @@ extension DescribeSourceServersInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let filters = self.filters {
             try encodeContainer.encode(filters, forKey: .filters)
         }
@@ -4655,6 +4837,8 @@ extension DescribeSourceServersInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeSourceServersInput: Swift.Equatable {
+    /// Request to filter Source Servers list by Accoun ID.
+    public var accountID: Swift.String?
     /// Request to filter Source Servers list.
     public var filters: MgnClientTypes.DescribeSourceServersRequestFilters?
     /// Request to filter Source Servers list by maximum results.
@@ -4663,11 +4847,13 @@ public struct DescribeSourceServersInput: Swift.Equatable {
     public var nextToken: Swift.String?
 
     public init(
+        accountID: Swift.String? = nil,
         filters: MgnClientTypes.DescribeSourceServersRequestFilters? = nil,
         maxResults: Swift.Int = 0,
         nextToken: Swift.String? = nil
     )
     {
+        self.accountID = accountID
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4678,10 +4864,12 @@ struct DescribeSourceServersInputBody: Swift.Equatable {
     let filters: MgnClientTypes.DescribeSourceServersRequestFilters?
     let maxResults: Swift.Int
     let nextToken: Swift.String?
+    let accountID: Swift.String?
 }
 
 extension DescribeSourceServersInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case filters
         case maxResults
         case nextToken
@@ -4695,6 +4883,8 @@ extension DescribeSourceServersInputBody: Swift.Decodable {
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -5014,12 +5204,16 @@ extension DescribeVcenterClientsOutputResponseBody: Swift.Decodable {
 
 extension DisassociateApplicationsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case applicationIDs
         case waveID
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let applicationIDs = applicationIDs {
             var applicationIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .applicationIDs)
             for applicationid0 in applicationIDs {
@@ -5039,6 +5233,8 @@ extension DisassociateApplicationsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DisassociateApplicationsInput: Swift.Equatable {
+    /// Account ID.
+    public var accountID: Swift.String?
     /// Application IDs list.
     /// This member is required.
     public var applicationIDs: [Swift.String]?
@@ -5047,10 +5243,12 @@ public struct DisassociateApplicationsInput: Swift.Equatable {
     public var waveID: Swift.String?
 
     public init(
+        accountID: Swift.String? = nil,
         applicationIDs: [Swift.String]? = nil,
         waveID: Swift.String? = nil
     )
     {
+        self.accountID = accountID
         self.applicationIDs = applicationIDs
         self.waveID = waveID
     }
@@ -5059,10 +5257,12 @@ public struct DisassociateApplicationsInput: Swift.Equatable {
 struct DisassociateApplicationsInputBody: Swift.Equatable {
     let waveID: Swift.String?
     let applicationIDs: [Swift.String]?
+    let accountID: Swift.String?
 }
 
 extension DisassociateApplicationsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case applicationIDs
         case waveID
     }
@@ -5082,6 +5282,8 @@ extension DisassociateApplicationsInputBody: Swift.Decodable {
             }
         }
         applicationIDs = applicationIDsDecoded0
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -5110,12 +5312,16 @@ public struct DisassociateApplicationsOutputResponse: Swift.Equatable {
 
 extension DisassociateSourceServersInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case applicationID
         case sourceServerIDs
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let applicationID = self.applicationID {
             try encodeContainer.encode(applicationID, forKey: .applicationID)
         }
@@ -5135,6 +5341,8 @@ extension DisassociateSourceServersInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DisassociateSourceServersInput: Swift.Equatable {
+    /// Account ID.
+    public var accountID: Swift.String?
     /// Application ID.
     /// This member is required.
     public var applicationID: Swift.String?
@@ -5143,10 +5351,12 @@ public struct DisassociateSourceServersInput: Swift.Equatable {
     public var sourceServerIDs: [Swift.String]?
 
     public init(
+        accountID: Swift.String? = nil,
         applicationID: Swift.String? = nil,
         sourceServerIDs: [Swift.String]? = nil
     )
     {
+        self.accountID = accountID
         self.applicationID = applicationID
         self.sourceServerIDs = sourceServerIDs
     }
@@ -5155,10 +5365,12 @@ public struct DisassociateSourceServersInput: Swift.Equatable {
 struct DisassociateSourceServersInputBody: Swift.Equatable {
     let applicationID: Swift.String?
     let sourceServerIDs: [Swift.String]?
+    let accountID: Swift.String?
 }
 
 extension DisassociateSourceServersInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case applicationID
         case sourceServerIDs
     }
@@ -5178,6 +5390,8 @@ extension DisassociateSourceServersInputBody: Swift.Decodable {
             }
         }
         sourceServerIDs = sourceServerIDsDecoded0
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -5206,11 +5420,15 @@ public struct DisassociateSourceServersOutputResponse: Swift.Equatable {
 
 extension DisconnectFromServiceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case sourceServerID
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let sourceServerID = self.sourceServerID {
             try encodeContainer.encode(sourceServerID, forKey: .sourceServerID)
         }
@@ -5224,24 +5442,30 @@ extension DisconnectFromServiceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DisconnectFromServiceInput: Swift.Equatable {
+    /// Request to disconnect Source Server from service by Account ID.
+    public var accountID: Swift.String?
     /// Request to disconnect Source Server from service by Server ID.
     /// This member is required.
     public var sourceServerID: Swift.String?
 
     public init(
+        accountID: Swift.String? = nil,
         sourceServerID: Swift.String? = nil
     )
     {
+        self.accountID = accountID
         self.sourceServerID = sourceServerID
     }
 }
 
 struct DisconnectFromServiceInputBody: Swift.Equatable {
     let sourceServerID: Swift.String?
+    let accountID: Swift.String?
 }
 
 extension DisconnectFromServiceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case sourceServerID
     }
 
@@ -5249,6 +5473,8 @@ extension DisconnectFromServiceInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceServerIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceServerID)
         sourceServerID = sourceServerIDDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -5839,11 +6065,15 @@ extension MgnClientTypes {
 
 extension FinalizeCutoverInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case sourceServerID
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let sourceServerID = self.sourceServerID {
             try encodeContainer.encode(sourceServerID, forKey: .sourceServerID)
         }
@@ -5857,24 +6087,30 @@ extension FinalizeCutoverInput: ClientRuntime.URLPathProvider {
 }
 
 public struct FinalizeCutoverInput: Swift.Equatable {
+    /// Request to finalize Cutover by Source Account ID.
+    public var accountID: Swift.String?
     /// Request to finalize Cutover by Source Server ID.
     /// This member is required.
     public var sourceServerID: Swift.String?
 
     public init(
+        accountID: Swift.String? = nil,
         sourceServerID: Swift.String? = nil
     )
     {
+        self.accountID = accountID
         self.sourceServerID = sourceServerID
     }
 }
 
 struct FinalizeCutoverInputBody: Swift.Equatable {
     let sourceServerID: Swift.String?
+    let accountID: Swift.String?
 }
 
 extension FinalizeCutoverInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case sourceServerID
     }
 
@@ -5882,6 +6118,8 @@ extension FinalizeCutoverInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceServerIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceServerID)
         sourceServerID = sourceServerIDDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -6113,11 +6351,15 @@ extension MgnClientTypes {
 
 extension GetLaunchConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case sourceServerID
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let sourceServerID = self.sourceServerID {
             try encodeContainer.encode(sourceServerID, forKey: .sourceServerID)
         }
@@ -6131,24 +6373,30 @@ extension GetLaunchConfigurationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetLaunchConfigurationInput: Swift.Equatable {
+    /// Request to get Launch Configuration information by Account ID.
+    public var accountID: Swift.String?
     /// Request to get Launch Configuration information by Source Server ID.
     /// This member is required.
     public var sourceServerID: Swift.String?
 
     public init(
+        accountID: Swift.String? = nil,
         sourceServerID: Swift.String? = nil
     )
     {
+        self.accountID = accountID
         self.sourceServerID = sourceServerID
     }
 }
 
 struct GetLaunchConfigurationInputBody: Swift.Equatable {
     let sourceServerID: Swift.String?
+    let accountID: Swift.String?
 }
 
 extension GetLaunchConfigurationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case sourceServerID
     }
 
@@ -6156,6 +6404,8 @@ extension GetLaunchConfigurationInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceServerIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceServerID)
         sourceServerID = sourceServerIDDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -6323,11 +6573,15 @@ extension GetLaunchConfigurationOutputResponseBody: Swift.Decodable {
 
 extension GetReplicationConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case sourceServerID
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let sourceServerID = self.sourceServerID {
             try encodeContainer.encode(sourceServerID, forKey: .sourceServerID)
         }
@@ -6341,24 +6595,30 @@ extension GetReplicationConfigurationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetReplicationConfigurationInput: Swift.Equatable {
+    /// Request to get Replication Configuration by Account ID.
+    public var accountID: Swift.String?
     /// Request to get Replication Configuration by Source Server ID.
     /// This member is required.
     public var sourceServerID: Swift.String?
 
     public init(
+        accountID: Swift.String? = nil,
         sourceServerID: Swift.String? = nil
     )
     {
+        self.accountID = accountID
         self.sourceServerID = sourceServerID
     }
 }
 
 struct GetReplicationConfigurationInputBody: Swift.Equatable {
     let sourceServerID: Swift.String?
+    let accountID: Swift.String?
 }
 
 extension GetReplicationConfigurationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case sourceServerID
     }
 
@@ -6366,6 +6626,8 @@ extension GetReplicationConfigurationInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceServerIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceServerID)
         sourceServerID = sourceServerIDDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -6383,7 +6645,7 @@ public enum GetReplicationConfigurationOutputError: ClientRuntime.HttpResponseEr
 
 extension GetReplicationConfigurationOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetReplicationConfigurationOutputResponse(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), name: \(Swift.String(describing: name)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "GetReplicationConfigurationOutputResponse(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), name: \(Swift.String(describing: name)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 extension GetReplicationConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6406,6 +6668,7 @@ extension GetReplicationConfigurationOutputResponse: ClientRuntime.HttpResponseB
             self.stagingAreaSubnetId = output.stagingAreaSubnetId
             self.stagingAreaTags = output.stagingAreaTags
             self.useDedicatedReplicationServer = output.useDedicatedReplicationServer
+            self.useFipsEndpoint = output.useFipsEndpoint
         } else {
             self.associateDefaultSecurityGroup = nil
             self.bandwidthThrottling = 0
@@ -6422,6 +6685,7 @@ extension GetReplicationConfigurationOutputResponse: ClientRuntime.HttpResponseB
             self.stagingAreaSubnetId = nil
             self.stagingAreaTags = nil
             self.useDedicatedReplicationServer = nil
+            self.useFipsEndpoint = nil
         }
     }
 }
@@ -6457,6 +6721,8 @@ public struct GetReplicationConfigurationOutputResponse: Swift.Equatable {
     public var stagingAreaTags: [Swift.String:Swift.String]?
     /// Replication Configuration use Dedicated Replication Server.
     public var useDedicatedReplicationServer: Swift.Bool?
+    /// Replication Configuration use Fips Endpoint.
+    public var useFipsEndpoint: Swift.Bool?
 
     public init(
         associateDefaultSecurityGroup: Swift.Bool? = nil,
@@ -6473,7 +6739,8 @@ public struct GetReplicationConfigurationOutputResponse: Swift.Equatable {
         sourceServerID: Swift.String? = nil,
         stagingAreaSubnetId: Swift.String? = nil,
         stagingAreaTags: [Swift.String:Swift.String]? = nil,
-        useDedicatedReplicationServer: Swift.Bool? = nil
+        useDedicatedReplicationServer: Swift.Bool? = nil,
+        useFipsEndpoint: Swift.Bool? = nil
     )
     {
         self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
@@ -6491,6 +6758,7 @@ public struct GetReplicationConfigurationOutputResponse: Swift.Equatable {
         self.stagingAreaSubnetId = stagingAreaSubnetId
         self.stagingAreaTags = stagingAreaTags
         self.useDedicatedReplicationServer = useDedicatedReplicationServer
+        self.useFipsEndpoint = useFipsEndpoint
     }
 }
 
@@ -6510,6 +6778,7 @@ struct GetReplicationConfigurationOutputResponseBody: Swift.Equatable {
     let dataPlaneRouting: MgnClientTypes.ReplicationConfigurationDataPlaneRouting?
     let createPublicIP: Swift.Bool?
     let stagingAreaTags: [Swift.String:Swift.String]?
+    let useFipsEndpoint: Swift.Bool?
 }
 
 extension GetReplicationConfigurationOutputResponseBody: Swift.Decodable {
@@ -6529,6 +6798,7 @@ extension GetReplicationConfigurationOutputResponseBody: Swift.Decodable {
         case stagingAreaSubnetId
         case stagingAreaTags
         case useDedicatedReplicationServer
+        case useFipsEndpoint
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -6590,6 +6860,8 @@ extension GetReplicationConfigurationOutputResponseBody: Swift.Decodable {
             }
         }
         stagingAreaTags = stagingAreaTagsDecoded0
+        let useFipsEndpointDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useFipsEndpoint)
+        useFipsEndpoint = useFipsEndpointDecoded
     }
 }
 
@@ -6670,6 +6942,7 @@ extension MgnClientTypes {
 
 extension MgnClientTypes.ImportErrorData: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case applicationID
         case ec2LaunchTemplateID
         case rawError
@@ -6680,6 +6953,9 @@ extension MgnClientTypes.ImportErrorData: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let applicationID = self.applicationID {
             try encodeContainer.encode(applicationID, forKey: .applicationID)
         }
@@ -6714,12 +6990,16 @@ extension MgnClientTypes.ImportErrorData: Swift.Codable {
         rowNumber = rowNumberDecoded
         let rawErrorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rawError)
         rawError = rawErrorDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
 extension MgnClientTypes {
     /// Import error data.
     public struct ImportErrorData: Swift.Equatable {
+        /// Import error data source account ID.
+        public var accountID: Swift.String?
         /// Import error data application ID.
         public var applicationID: Swift.String?
         /// Import error data ec2 LaunchTemplate ID.
@@ -6734,6 +7014,7 @@ extension MgnClientTypes {
         public var waveID: Swift.String?
 
         public init(
+            accountID: Swift.String? = nil,
             applicationID: Swift.String? = nil,
             ec2LaunchTemplateID: Swift.String? = nil,
             rawError: Swift.String? = nil,
@@ -6742,6 +7023,7 @@ extension MgnClientTypes {
             waveID: Swift.String? = nil
         )
         {
+            self.accountID = accountID
             self.applicationID = applicationID
             self.ec2LaunchTemplateID = ec2LaunchTemplateID
             self.rawError = rawError
@@ -8712,6 +8994,7 @@ extension MgnClientTypes {
 
 extension ListApplicationsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case filters
         case maxResults
         case nextToken
@@ -8719,6 +9002,9 @@ extension ListApplicationsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let filters = self.filters {
             try encodeContainer.encode(filters, forKey: .filters)
         }
@@ -8738,6 +9024,8 @@ extension ListApplicationsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListApplicationsInput: Swift.Equatable {
+    /// Applications list Account ID.
+    public var accountID: Swift.String?
     /// Applications list filters.
     public var filters: MgnClientTypes.ListApplicationsRequestFilters?
     /// Maximum results to return when listing applications.
@@ -8746,11 +9034,13 @@ public struct ListApplicationsInput: Swift.Equatable {
     public var nextToken: Swift.String?
 
     public init(
+        accountID: Swift.String? = nil,
         filters: MgnClientTypes.ListApplicationsRequestFilters? = nil,
         maxResults: Swift.Int = 0,
         nextToken: Swift.String? = nil
     )
     {
+        self.accountID = accountID
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8761,10 +9051,12 @@ struct ListApplicationsInputBody: Swift.Equatable {
     let filters: MgnClientTypes.ListApplicationsRequestFilters?
     let maxResults: Swift.Int
     let nextToken: Swift.String?
+    let accountID: Swift.String?
 }
 
 extension ListApplicationsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case filters
         case maxResults
         case nextToken
@@ -8778,6 +9070,8 @@ extension ListApplicationsInputBody: Swift.Decodable {
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -9601,8 +9895,142 @@ extension MgnClientTypes {
 
 }
 
+extension ListManagedAccountsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListManagedAccountsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ListManagedAccounts"
+    }
+}
+
+/// List managed accounts request.
+public struct ListManagedAccountsInput: Swift.Equatable {
+    /// List managed accounts request max results.
+    public var maxResults: Swift.Int?
+    /// List managed accounts request next token.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListManagedAccountsInputBody: Swift.Equatable {
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListManagedAccountsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+public enum ListManagedAccountsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "UninitializedAccountException": return try await UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListManagedAccountsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListManagedAccountsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.items = output.items
+            self.nextToken = output.nextToken
+        } else {
+            self.items = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+/// List managed accounts response.
+public struct ListManagedAccountsOutputResponse: Swift.Equatable {
+    /// List managed accounts response items.
+    /// This member is required.
+    public var items: [MgnClientTypes.ManagedAccount]?
+    /// List managed accounts response next token.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [MgnClientTypes.ManagedAccount]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+struct ListManagedAccountsOutputResponseBody: Swift.Equatable {
+    let items: [MgnClientTypes.ManagedAccount]?
+    let nextToken: Swift.String?
+}
+
+extension ListManagedAccountsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case items
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let itemsContainer = try containerValues.decodeIfPresent([MgnClientTypes.ManagedAccount?].self, forKey: .items)
+        var itemsDecoded0:[MgnClientTypes.ManagedAccount]? = nil
+        if let itemsContainer = itemsContainer {
+            itemsDecoded0 = [MgnClientTypes.ManagedAccount]()
+            for structure0 in itemsContainer {
+                if let structure0 = structure0 {
+                    itemsDecoded0?.append(structure0)
+                }
+            }
+        }
+        items = itemsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension ListSourceServerActionsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case filters
         case maxResults
         case nextToken
@@ -9611,6 +10039,9 @@ extension ListSourceServerActionsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let filters = self.filters {
             try encodeContainer.encode(filters, forKey: .filters)
         }
@@ -9633,6 +10064,8 @@ extension ListSourceServerActionsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListSourceServerActionsInput: Swift.Equatable {
+    /// Account ID to return when listing source server post migration custom actions.
+    public var accountID: Swift.String?
     /// Filters to apply when listing source server post migration custom actions.
     public var filters: MgnClientTypes.SourceServerActionsRequestFilters?
     /// Maximum amount of items to return when listing source server post migration custom actions.
@@ -9644,12 +10077,14 @@ public struct ListSourceServerActionsInput: Swift.Equatable {
     public var sourceServerID: Swift.String?
 
     public init(
+        accountID: Swift.String? = nil,
         filters: MgnClientTypes.SourceServerActionsRequestFilters? = nil,
         maxResults: Swift.Int = 0,
         nextToken: Swift.String? = nil,
         sourceServerID: Swift.String? = nil
     )
     {
+        self.accountID = accountID
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -9662,10 +10097,12 @@ struct ListSourceServerActionsInputBody: Swift.Equatable {
     let filters: MgnClientTypes.SourceServerActionsRequestFilters?
     let maxResults: Swift.Int
     let nextToken: Swift.String?
+    let accountID: Swift.String?
 }
 
 extension ListSourceServerActionsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case filters
         case maxResults
         case nextToken
@@ -9682,6 +10119,8 @@ extension ListSourceServerActionsInputBody: Swift.Decodable {
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -10013,6 +10452,7 @@ extension ListTemplateActionsOutputResponseBody: Swift.Decodable {
 
 extension ListWavesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case filters
         case maxResults
         case nextToken
@@ -10020,6 +10460,9 @@ extension ListWavesInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let filters = self.filters {
             try encodeContainer.encode(filters, forKey: .filters)
         }
@@ -10039,6 +10482,8 @@ extension ListWavesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListWavesInput: Swift.Equatable {
+    /// Request account ID.
+    public var accountID: Swift.String?
     /// Waves list filters.
     public var filters: MgnClientTypes.ListWavesRequestFilters?
     /// Maximum results to return when listing waves.
@@ -10047,11 +10492,13 @@ public struct ListWavesInput: Swift.Equatable {
     public var nextToken: Swift.String?
 
     public init(
+        accountID: Swift.String? = nil,
         filters: MgnClientTypes.ListWavesRequestFilters? = nil,
         maxResults: Swift.Int = 0,
         nextToken: Swift.String? = nil
     )
     {
+        self.accountID = accountID
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -10062,10 +10509,12 @@ struct ListWavesInputBody: Swift.Equatable {
     let filters: MgnClientTypes.ListWavesRequestFilters?
     let maxResults: Swift.Int
     let nextToken: Swift.String?
+    let accountID: Swift.String?
 }
 
 extension ListWavesInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case filters
         case maxResults
         case nextToken
@@ -10079,6 +10528,8 @@ extension ListWavesInputBody: Swift.Decodable {
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -10209,13 +10660,52 @@ extension MgnClientTypes {
 
 }
 
+extension MgnClientTypes.ManagedAccount: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+    }
+}
+
+extension MgnClientTypes {
+    /// Managed account.
+    public struct ManagedAccount: Swift.Equatable {
+        /// Managed account, account ID.
+        public var accountId: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil
+        )
+        {
+            self.accountId = accountId
+        }
+    }
+
+}
+
 extension MarkAsArchivedInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case sourceServerID
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let sourceServerID = self.sourceServerID {
             try encodeContainer.encode(sourceServerID, forKey: .sourceServerID)
         }
@@ -10229,24 +10719,30 @@ extension MarkAsArchivedInput: ClientRuntime.URLPathProvider {
 }
 
 public struct MarkAsArchivedInput: Swift.Equatable {
+    /// Mark as archived by Account ID.
+    public var accountID: Swift.String?
     /// Mark as archived by Source Server ID.
     /// This member is required.
     public var sourceServerID: Swift.String?
 
     public init(
+        accountID: Swift.String? = nil,
         sourceServerID: Swift.String? = nil
     )
     {
+        self.accountID = accountID
         self.sourceServerID = sourceServerID
     }
 }
 
 struct MarkAsArchivedInputBody: Swift.Equatable {
     let sourceServerID: Swift.String?
+    let accountID: Swift.String?
 }
 
 extension MarkAsArchivedInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case sourceServerID
     }
 
@@ -10254,6 +10750,8 @@ extension MarkAsArchivedInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceServerIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceServerID)
         sourceServerID = sourceServerIDDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -10612,6 +11110,255 @@ extension MgnClientTypes {
 
 }
 
+extension PauseReplicationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
+        case sourceServerID
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
+        if let sourceServerID = self.sourceServerID {
+            try encodeContainer.encode(sourceServerID, forKey: .sourceServerID)
+        }
+    }
+}
+
+extension PauseReplicationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/PauseReplication"
+    }
+}
+
+public struct PauseReplicationInput: Swift.Equatable {
+    /// Pause Replication Request account ID.
+    public var accountID: Swift.String?
+    /// Pause Replication Request source server ID.
+    /// This member is required.
+    public var sourceServerID: Swift.String?
+
+    public init(
+        accountID: Swift.String? = nil,
+        sourceServerID: Swift.String? = nil
+    )
+    {
+        self.accountID = accountID
+        self.sourceServerID = sourceServerID
+    }
+}
+
+struct PauseReplicationInputBody: Swift.Equatable {
+    let sourceServerID: Swift.String?
+    let accountID: Swift.String?
+}
+
+extension PauseReplicationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
+        case sourceServerID
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceServerIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceServerID)
+        sourceServerID = sourceServerIDDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
+    }
+}
+
+public enum PauseReplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UninitializedAccountException": return try await UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension PauseReplicationOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PauseReplicationOutputResponse(applicationID: \(Swift.String(describing: applicationID)), arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), fqdnForActionFramework: \(Swift.String(describing: fqdnForActionFramework)), isArchived: \(Swift.String(describing: isArchived)), launchedInstance: \(Swift.String(describing: launchedInstance)), lifeCycle: \(Swift.String(describing: lifeCycle)), replicationType: \(Swift.String(describing: replicationType)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), userProvidedID: \(Swift.String(describing: userProvidedID)), vcenterClientID: \(Swift.String(describing: vcenterClientID)), tags: \"CONTENT_REDACTED\")"}
+}
+
+extension PauseReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PauseReplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.applicationID = output.applicationID
+            self.arn = output.arn
+            self.dataReplicationInfo = output.dataReplicationInfo
+            self.fqdnForActionFramework = output.fqdnForActionFramework
+            self.isArchived = output.isArchived
+            self.launchedInstance = output.launchedInstance
+            self.lifeCycle = output.lifeCycle
+            self.replicationType = output.replicationType
+            self.sourceProperties = output.sourceProperties
+            self.sourceServerID = output.sourceServerID
+            self.tags = output.tags
+            self.userProvidedID = output.userProvidedID
+            self.vcenterClientID = output.vcenterClientID
+        } else {
+            self.applicationID = nil
+            self.arn = nil
+            self.dataReplicationInfo = nil
+            self.fqdnForActionFramework = nil
+            self.isArchived = nil
+            self.launchedInstance = nil
+            self.lifeCycle = nil
+            self.replicationType = nil
+            self.sourceProperties = nil
+            self.sourceServerID = nil
+            self.tags = nil
+            self.userProvidedID = nil
+            self.vcenterClientID = nil
+        }
+    }
+}
+
+public struct PauseReplicationOutputResponse: Swift.Equatable {
+    /// Source server application ID.
+    public var applicationID: Swift.String?
+    /// Source server ARN.
+    public var arn: Swift.String?
+    /// Source server data replication info.
+    public var dataReplicationInfo: MgnClientTypes.DataReplicationInfo?
+    /// Source server fqdn for action framework.
+    public var fqdnForActionFramework: Swift.String?
+    /// Source server archived status.
+    public var isArchived: Swift.Bool?
+    /// Source server launched instance.
+    public var launchedInstance: MgnClientTypes.LaunchedInstance?
+    /// Source server lifecycle state.
+    public var lifeCycle: MgnClientTypes.LifeCycle?
+    /// Source server replication type.
+    public var replicationType: MgnClientTypes.ReplicationType?
+    /// Source server properties.
+    public var sourceProperties: MgnClientTypes.SourceProperties?
+    /// Source server ID.
+    public var sourceServerID: Swift.String?
+    /// Source server Tags.
+    public var tags: [Swift.String:Swift.String]?
+    /// Source server user provided ID.
+    public var userProvidedID: Swift.String?
+    /// Source server vCenter client id.
+    public var vcenterClientID: Swift.String?
+
+    public init(
+        applicationID: Swift.String? = nil,
+        arn: Swift.String? = nil,
+        dataReplicationInfo: MgnClientTypes.DataReplicationInfo? = nil,
+        fqdnForActionFramework: Swift.String? = nil,
+        isArchived: Swift.Bool? = nil,
+        launchedInstance: MgnClientTypes.LaunchedInstance? = nil,
+        lifeCycle: MgnClientTypes.LifeCycle? = nil,
+        replicationType: MgnClientTypes.ReplicationType? = nil,
+        sourceProperties: MgnClientTypes.SourceProperties? = nil,
+        sourceServerID: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        userProvidedID: Swift.String? = nil,
+        vcenterClientID: Swift.String? = nil
+    )
+    {
+        self.applicationID = applicationID
+        self.arn = arn
+        self.dataReplicationInfo = dataReplicationInfo
+        self.fqdnForActionFramework = fqdnForActionFramework
+        self.isArchived = isArchived
+        self.launchedInstance = launchedInstance
+        self.lifeCycle = lifeCycle
+        self.replicationType = replicationType
+        self.sourceProperties = sourceProperties
+        self.sourceServerID = sourceServerID
+        self.tags = tags
+        self.userProvidedID = userProvidedID
+        self.vcenterClientID = vcenterClientID
+    }
+}
+
+struct PauseReplicationOutputResponseBody: Swift.Equatable {
+    let sourceServerID: Swift.String?
+    let arn: Swift.String?
+    let isArchived: Swift.Bool?
+    let tags: [Swift.String:Swift.String]?
+    let launchedInstance: MgnClientTypes.LaunchedInstance?
+    let dataReplicationInfo: MgnClientTypes.DataReplicationInfo?
+    let lifeCycle: MgnClientTypes.LifeCycle?
+    let sourceProperties: MgnClientTypes.SourceProperties?
+    let replicationType: MgnClientTypes.ReplicationType?
+    let vcenterClientID: Swift.String?
+    let applicationID: Swift.String?
+    let userProvidedID: Swift.String?
+    let fqdnForActionFramework: Swift.String?
+}
+
+extension PauseReplicationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationID
+        case arn
+        case dataReplicationInfo
+        case fqdnForActionFramework
+        case isArchived
+        case launchedInstance
+        case lifeCycle
+        case replicationType
+        case sourceProperties
+        case sourceServerID
+        case tags
+        case userProvidedID
+        case vcenterClientID
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceServerIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceServerID)
+        sourceServerID = sourceServerIDDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let isArchivedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isArchived)
+        isArchived = isArchivedDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let launchedInstanceDecoded = try containerValues.decodeIfPresent(MgnClientTypes.LaunchedInstance.self, forKey: .launchedInstance)
+        launchedInstance = launchedInstanceDecoded
+        let dataReplicationInfoDecoded = try containerValues.decodeIfPresent(MgnClientTypes.DataReplicationInfo.self, forKey: .dataReplicationInfo)
+        dataReplicationInfo = dataReplicationInfoDecoded
+        let lifeCycleDecoded = try containerValues.decodeIfPresent(MgnClientTypes.LifeCycle.self, forKey: .lifeCycle)
+        lifeCycle = lifeCycleDecoded
+        let sourcePropertiesDecoded = try containerValues.decodeIfPresent(MgnClientTypes.SourceProperties.self, forKey: .sourceProperties)
+        sourceProperties = sourcePropertiesDecoded
+        let replicationTypeDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ReplicationType.self, forKey: .replicationType)
+        replicationType = replicationTypeDecoded
+        let vcenterClientIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vcenterClientID)
+        vcenterClientID = vcenterClientIDDecoded
+        let applicationIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationID)
+        applicationID = applicationIDDecoded
+        let userProvidedIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userProvidedID)
+        userProvidedID = userProvidedIDDecoded
+        let fqdnForActionFrameworkDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fqdnForActionFramework)
+        fqdnForActionFramework = fqdnForActionFrameworkDecoded
+    }
+}
+
 extension MgnClientTypes {
     public enum PostLaunchActionExecutionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case failed
@@ -10828,6 +11575,7 @@ extension MgnClientTypes {
 
 extension PutSourceServerActionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case actionID
         case actionName
         case active
@@ -10845,6 +11593,9 @@ extension PutSourceServerActionInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let actionID = self.actionID {
             try encodeContainer.encode(actionID, forKey: .actionID)
         }
@@ -10903,6 +11654,8 @@ extension PutSourceServerActionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutSourceServerActionInput: Swift.Equatable {
+    /// Source server post migration custom account ID.
+    public var accountID: Swift.String?
     /// Source server post migration custom action ID.
     /// This member is required.
     public var actionID: Swift.String?
@@ -10936,6 +11689,7 @@ public struct PutSourceServerActionInput: Swift.Equatable {
     public var timeoutSeconds: Swift.Int
 
     public init(
+        accountID: Swift.String? = nil,
         actionID: Swift.String? = nil,
         actionName: Swift.String? = nil,
         active: Swift.Bool? = nil,
@@ -10951,6 +11705,7 @@ public struct PutSourceServerActionInput: Swift.Equatable {
         timeoutSeconds: Swift.Int = 0
     )
     {
+        self.accountID = accountID
         self.actionID = actionID
         self.actionName = actionName
         self.active = active
@@ -10981,10 +11736,12 @@ struct PutSourceServerActionInputBody: Swift.Equatable {
     let externalParameters: [Swift.String:MgnClientTypes.SsmExternalParameter]?
     let description: Swift.String?
     let category: MgnClientTypes.ActionCategory?
+    let accountID: Swift.String?
 }
 
 extension PutSourceServerActionInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case actionID
         case actionName
         case active
@@ -11053,6 +11810,8 @@ extension PutSourceServerActionInputBody: Swift.Decodable {
         description = descriptionDecoded
         let categoryDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ActionCategory.self, forKey: .category)
         category = categoryDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -11688,12 +12447,16 @@ extension PutTemplateActionOutputResponseBody: Swift.Decodable {
 
 extension RemoveSourceServerActionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case actionID
         case sourceServerID
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let actionID = self.actionID {
             try encodeContainer.encode(actionID, forKey: .actionID)
         }
@@ -11710,6 +12473,8 @@ extension RemoveSourceServerActionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct RemoveSourceServerActionInput: Swift.Equatable {
+    /// Source server post migration account ID.
+    public var accountID: Swift.String?
     /// Source server post migration custom action ID to remove.
     /// This member is required.
     public var actionID: Swift.String?
@@ -11718,10 +12483,12 @@ public struct RemoveSourceServerActionInput: Swift.Equatable {
     public var sourceServerID: Swift.String?
 
     public init(
+        accountID: Swift.String? = nil,
         actionID: Swift.String? = nil,
         sourceServerID: Swift.String? = nil
     )
     {
+        self.accountID = accountID
         self.actionID = actionID
         self.sourceServerID = sourceServerID
     }
@@ -11730,10 +12497,12 @@ public struct RemoveSourceServerActionInput: Swift.Equatable {
 struct RemoveSourceServerActionInputBody: Swift.Equatable {
     let sourceServerID: Swift.String?
     let actionID: Swift.String?
+    let accountID: Swift.String?
 }
 
 extension RemoveSourceServerActionInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case actionID
         case sourceServerID
     }
@@ -11744,6 +12513,8 @@ extension RemoveSourceServerActionInputBody: Swift.Decodable {
         sourceServerID = sourceServerIDDecoded
         let actionIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionID)
         actionID = actionIDDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -12095,6 +12866,7 @@ extension MgnClientTypes.ReplicationConfigurationTemplate: Swift.Codable {
         case stagingAreaTags
         case tags
         case useDedicatedReplicationServer
+        case useFipsEndpoint
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -12153,6 +12925,9 @@ extension MgnClientTypes.ReplicationConfigurationTemplate: Swift.Codable {
         if let useDedicatedReplicationServer = self.useDedicatedReplicationServer {
             try encodeContainer.encode(useDedicatedReplicationServer, forKey: .useDedicatedReplicationServer)
         }
+        if let useFipsEndpoint = self.useFipsEndpoint {
+            try encodeContainer.encode(useFipsEndpoint, forKey: .useFipsEndpoint)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -12203,6 +12978,8 @@ extension MgnClientTypes.ReplicationConfigurationTemplate: Swift.Codable {
             }
         }
         stagingAreaTags = stagingAreaTagsDecoded0
+        let useFipsEndpointDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useFipsEndpoint)
+        useFipsEndpoint = useFipsEndpointDecoded
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
         if let tagsContainer = tagsContainer {
@@ -12219,7 +12996,7 @@ extension MgnClientTypes.ReplicationConfigurationTemplate: Swift.Codable {
 
 extension MgnClientTypes.ReplicationConfigurationTemplate: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ReplicationConfigurationTemplate(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "ReplicationConfigurationTemplate(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 extension MgnClientTypes {
@@ -12255,6 +13032,8 @@ extension MgnClientTypes {
         public var tags: [Swift.String:Swift.String]?
         /// Replication Configuration template use Dedicated Replication Server.
         public var useDedicatedReplicationServer: Swift.Bool?
+        /// Replication Configuration template use Fips Endpoint.
+        public var useFipsEndpoint: Swift.Bool?
 
         public init(
             arn: Swift.String? = nil,
@@ -12271,7 +13050,8 @@ extension MgnClientTypes {
             stagingAreaSubnetId: Swift.String? = nil,
             stagingAreaTags: [Swift.String:Swift.String]? = nil,
             tags: [Swift.String:Swift.String]? = nil,
-            useDedicatedReplicationServer: Swift.Bool? = nil
+            useDedicatedReplicationServer: Swift.Bool? = nil,
+            useFipsEndpoint: Swift.Bool? = nil
         )
         {
             self.arn = arn
@@ -12289,6 +13069,7 @@ extension MgnClientTypes {
             self.stagingAreaTags = stagingAreaTags
             self.tags = tags
             self.useDedicatedReplicationServer = useDedicatedReplicationServer
+            self.useFipsEndpoint = useFipsEndpoint
         }
     }
 
@@ -12410,13 +13191,266 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
-extension RetryDataReplicationInput: Swift.Encodable {
+extension ResumeReplicationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case sourceServerID
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
+        if let sourceServerID = self.sourceServerID {
+            try encodeContainer.encode(sourceServerID, forKey: .sourceServerID)
+        }
+    }
+}
+
+extension ResumeReplicationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ResumeReplication"
+    }
+}
+
+public struct ResumeReplicationInput: Swift.Equatable {
+    /// Resume Replication Request account ID.
+    public var accountID: Swift.String?
+    /// Resume Replication Request source server ID.
+    /// This member is required.
+    public var sourceServerID: Swift.String?
+
+    public init(
+        accountID: Swift.String? = nil,
+        sourceServerID: Swift.String? = nil
+    )
+    {
+        self.accountID = accountID
+        self.sourceServerID = sourceServerID
+    }
+}
+
+struct ResumeReplicationInputBody: Swift.Equatable {
+    let sourceServerID: Swift.String?
+    let accountID: Swift.String?
+}
+
+extension ResumeReplicationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
+        case sourceServerID
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceServerIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceServerID)
+        sourceServerID = sourceServerIDDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
+    }
+}
+
+public enum ResumeReplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UninitializedAccountException": return try await UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ResumeReplicationOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ResumeReplicationOutputResponse(applicationID: \(Swift.String(describing: applicationID)), arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), fqdnForActionFramework: \(Swift.String(describing: fqdnForActionFramework)), isArchived: \(Swift.String(describing: isArchived)), launchedInstance: \(Swift.String(describing: launchedInstance)), lifeCycle: \(Swift.String(describing: lifeCycle)), replicationType: \(Swift.String(describing: replicationType)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), userProvidedID: \(Swift.String(describing: userProvidedID)), vcenterClientID: \(Swift.String(describing: vcenterClientID)), tags: \"CONTENT_REDACTED\")"}
+}
+
+extension ResumeReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ResumeReplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.applicationID = output.applicationID
+            self.arn = output.arn
+            self.dataReplicationInfo = output.dataReplicationInfo
+            self.fqdnForActionFramework = output.fqdnForActionFramework
+            self.isArchived = output.isArchived
+            self.launchedInstance = output.launchedInstance
+            self.lifeCycle = output.lifeCycle
+            self.replicationType = output.replicationType
+            self.sourceProperties = output.sourceProperties
+            self.sourceServerID = output.sourceServerID
+            self.tags = output.tags
+            self.userProvidedID = output.userProvidedID
+            self.vcenterClientID = output.vcenterClientID
+        } else {
+            self.applicationID = nil
+            self.arn = nil
+            self.dataReplicationInfo = nil
+            self.fqdnForActionFramework = nil
+            self.isArchived = nil
+            self.launchedInstance = nil
+            self.lifeCycle = nil
+            self.replicationType = nil
+            self.sourceProperties = nil
+            self.sourceServerID = nil
+            self.tags = nil
+            self.userProvidedID = nil
+            self.vcenterClientID = nil
+        }
+    }
+}
+
+public struct ResumeReplicationOutputResponse: Swift.Equatable {
+    /// Source server application ID.
+    public var applicationID: Swift.String?
+    /// Source server ARN.
+    public var arn: Swift.String?
+    /// Source server data replication info.
+    public var dataReplicationInfo: MgnClientTypes.DataReplicationInfo?
+    /// Source server fqdn for action framework.
+    public var fqdnForActionFramework: Swift.String?
+    /// Source server archived status.
+    public var isArchived: Swift.Bool?
+    /// Source server launched instance.
+    public var launchedInstance: MgnClientTypes.LaunchedInstance?
+    /// Source server lifecycle state.
+    public var lifeCycle: MgnClientTypes.LifeCycle?
+    /// Source server replication type.
+    public var replicationType: MgnClientTypes.ReplicationType?
+    /// Source server properties.
+    public var sourceProperties: MgnClientTypes.SourceProperties?
+    /// Source server ID.
+    public var sourceServerID: Swift.String?
+    /// Source server Tags.
+    public var tags: [Swift.String:Swift.String]?
+    /// Source server user provided ID.
+    public var userProvidedID: Swift.String?
+    /// Source server vCenter client id.
+    public var vcenterClientID: Swift.String?
+
+    public init(
+        applicationID: Swift.String? = nil,
+        arn: Swift.String? = nil,
+        dataReplicationInfo: MgnClientTypes.DataReplicationInfo? = nil,
+        fqdnForActionFramework: Swift.String? = nil,
+        isArchived: Swift.Bool? = nil,
+        launchedInstance: MgnClientTypes.LaunchedInstance? = nil,
+        lifeCycle: MgnClientTypes.LifeCycle? = nil,
+        replicationType: MgnClientTypes.ReplicationType? = nil,
+        sourceProperties: MgnClientTypes.SourceProperties? = nil,
+        sourceServerID: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        userProvidedID: Swift.String? = nil,
+        vcenterClientID: Swift.String? = nil
+    )
+    {
+        self.applicationID = applicationID
+        self.arn = arn
+        self.dataReplicationInfo = dataReplicationInfo
+        self.fqdnForActionFramework = fqdnForActionFramework
+        self.isArchived = isArchived
+        self.launchedInstance = launchedInstance
+        self.lifeCycle = lifeCycle
+        self.replicationType = replicationType
+        self.sourceProperties = sourceProperties
+        self.sourceServerID = sourceServerID
+        self.tags = tags
+        self.userProvidedID = userProvidedID
+        self.vcenterClientID = vcenterClientID
+    }
+}
+
+struct ResumeReplicationOutputResponseBody: Swift.Equatable {
+    let sourceServerID: Swift.String?
+    let arn: Swift.String?
+    let isArchived: Swift.Bool?
+    let tags: [Swift.String:Swift.String]?
+    let launchedInstance: MgnClientTypes.LaunchedInstance?
+    let dataReplicationInfo: MgnClientTypes.DataReplicationInfo?
+    let lifeCycle: MgnClientTypes.LifeCycle?
+    let sourceProperties: MgnClientTypes.SourceProperties?
+    let replicationType: MgnClientTypes.ReplicationType?
+    let vcenterClientID: Swift.String?
+    let applicationID: Swift.String?
+    let userProvidedID: Swift.String?
+    let fqdnForActionFramework: Swift.String?
+}
+
+extension ResumeReplicationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationID
+        case arn
+        case dataReplicationInfo
+        case fqdnForActionFramework
+        case isArchived
+        case launchedInstance
+        case lifeCycle
+        case replicationType
+        case sourceProperties
+        case sourceServerID
+        case tags
+        case userProvidedID
+        case vcenterClientID
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceServerIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceServerID)
+        sourceServerID = sourceServerIDDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let isArchivedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isArchived)
+        isArchived = isArchivedDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let launchedInstanceDecoded = try containerValues.decodeIfPresent(MgnClientTypes.LaunchedInstance.self, forKey: .launchedInstance)
+        launchedInstance = launchedInstanceDecoded
+        let dataReplicationInfoDecoded = try containerValues.decodeIfPresent(MgnClientTypes.DataReplicationInfo.self, forKey: .dataReplicationInfo)
+        dataReplicationInfo = dataReplicationInfoDecoded
+        let lifeCycleDecoded = try containerValues.decodeIfPresent(MgnClientTypes.LifeCycle.self, forKey: .lifeCycle)
+        lifeCycle = lifeCycleDecoded
+        let sourcePropertiesDecoded = try containerValues.decodeIfPresent(MgnClientTypes.SourceProperties.self, forKey: .sourceProperties)
+        sourceProperties = sourcePropertiesDecoded
+        let replicationTypeDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ReplicationType.self, forKey: .replicationType)
+        replicationType = replicationTypeDecoded
+        let vcenterClientIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vcenterClientID)
+        vcenterClientID = vcenterClientIDDecoded
+        let applicationIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationID)
+        applicationID = applicationIDDecoded
+        let userProvidedIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userProvidedID)
+        userProvidedID = userProvidedIDDecoded
+        let fqdnForActionFrameworkDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fqdnForActionFramework)
+        fqdnForActionFramework = fqdnForActionFrameworkDecoded
+    }
+}
+
+extension RetryDataReplicationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
+        case sourceServerID
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let sourceServerID = self.sourceServerID {
             try encodeContainer.encode(sourceServerID, forKey: .sourceServerID)
         }
@@ -12430,24 +13464,30 @@ extension RetryDataReplicationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct RetryDataReplicationInput: Swift.Equatable {
+    /// Retry data replication for Account ID.
+    public var accountID: Swift.String?
     /// Retry data replication for Source Server ID.
     /// This member is required.
     public var sourceServerID: Swift.String?
 
     public init(
+        accountID: Swift.String? = nil,
         sourceServerID: Swift.String? = nil
     )
     {
+        self.accountID = accountID
         self.sourceServerID = sourceServerID
     }
 }
 
 struct RetryDataReplicationInputBody: Swift.Equatable {
     let sourceServerID: Swift.String?
+    let accountID: Swift.String?
 }
 
 extension RetryDataReplicationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case sourceServerID
     }
 
@@ -12455,6 +13495,8 @@ extension RetryDataReplicationInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceServerIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceServerID)
         sourceServerID = sourceServerIDDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -13621,17 +14663,21 @@ extension MgnClientTypes {
 
 extension StartCutoverInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartCutoverInput(sourceServerIDs: \(Swift.String(describing: sourceServerIDs)), tags: \"CONTENT_REDACTED\")"}
+        "StartCutoverInput(accountID: \(Swift.String(describing: accountID)), sourceServerIDs: \(Swift.String(describing: sourceServerIDs)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension StartCutoverInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case sourceServerIDs
         case tags
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let sourceServerIDs = sourceServerIDs {
             var sourceServerIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceServerIDs)
             for sourceserverid0 in sourceServerIDs {
@@ -13654,6 +14700,8 @@ extension StartCutoverInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartCutoverInput: Swift.Equatable {
+    /// Start Cutover by Account IDs
+    public var accountID: Swift.String?
     /// Start Cutover by Source Server IDs.
     /// This member is required.
     public var sourceServerIDs: [Swift.String]?
@@ -13661,10 +14709,12 @@ public struct StartCutoverInput: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
 
     public init(
+        accountID: Swift.String? = nil,
         sourceServerIDs: [Swift.String]? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
+        self.accountID = accountID
         self.sourceServerIDs = sourceServerIDs
         self.tags = tags
     }
@@ -13673,10 +14723,12 @@ public struct StartCutoverInput: Swift.Equatable {
 struct StartCutoverInputBody: Swift.Equatable {
     let sourceServerIDs: [Swift.String]?
     let tags: [Swift.String:Swift.String]?
+    let accountID: Swift.String?
 }
 
 extension StartCutoverInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case sourceServerIDs
         case tags
     }
@@ -13705,6 +14757,8 @@ extension StartCutoverInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -14008,11 +15062,15 @@ extension StartImportOutputResponseBody: Swift.Decodable {
 
 extension StartReplicationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case sourceServerID
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let sourceServerID = self.sourceServerID {
             try encodeContainer.encode(sourceServerID, forKey: .sourceServerID)
         }
@@ -14026,24 +15084,30 @@ extension StartReplicationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartReplicationInput: Swift.Equatable {
+    /// Account ID on which to start replication.
+    public var accountID: Swift.String?
     /// ID of source server on which to start replication.
     /// This member is required.
     public var sourceServerID: Swift.String?
 
     public init(
+        accountID: Swift.String? = nil,
         sourceServerID: Swift.String? = nil
     )
     {
+        self.accountID = accountID
         self.sourceServerID = sourceServerID
     }
 }
 
 struct StartReplicationInputBody: Swift.Equatable {
     let sourceServerID: Swift.String?
+    let accountID: Swift.String?
 }
 
 extension StartReplicationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case sourceServerID
     }
 
@@ -14051,6 +15115,8 @@ extension StartReplicationInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceServerIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceServerID)
         sourceServerID = sourceServerIDDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -14245,17 +15311,21 @@ extension StartReplicationOutputResponseBody: Swift.Decodable {
 
 extension StartTestInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartTestInput(sourceServerIDs: \(Swift.String(describing: sourceServerIDs)), tags: \"CONTENT_REDACTED\")"}
+        "StartTestInput(accountID: \(Swift.String(describing: accountID)), sourceServerIDs: \(Swift.String(describing: sourceServerIDs)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension StartTestInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case sourceServerIDs
         case tags
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let sourceServerIDs = sourceServerIDs {
             var sourceServerIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceServerIDs)
             for sourceserverid0 in sourceServerIDs {
@@ -14278,6 +15348,8 @@ extension StartTestInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartTestInput: Swift.Equatable {
+    /// Start Test for Account ID.
+    public var accountID: Swift.String?
     /// Start Test for Source Server IDs.
     /// This member is required.
     public var sourceServerIDs: [Swift.String]?
@@ -14285,10 +15357,12 @@ public struct StartTestInput: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
 
     public init(
+        accountID: Swift.String? = nil,
         sourceServerIDs: [Swift.String]? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
+        self.accountID = accountID
         self.sourceServerIDs = sourceServerIDs
         self.tags = tags
     }
@@ -14297,10 +15371,12 @@ public struct StartTestInput: Swift.Equatable {
 struct StartTestInputBody: Swift.Equatable {
     let sourceServerIDs: [Swift.String]?
     let tags: [Swift.String:Swift.String]?
+    let accountID: Swift.String?
 }
 
 extension StartTestInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case sourceServerIDs
         case tags
     }
@@ -14329,6 +15405,8 @@ extension StartTestInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -14382,6 +15460,255 @@ extension StartTestOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobDecoded = try containerValues.decodeIfPresent(MgnClientTypes.Job.self, forKey: .job)
         job = jobDecoded
+    }
+}
+
+extension StopReplicationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
+        case sourceServerID
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
+        if let sourceServerID = self.sourceServerID {
+            try encodeContainer.encode(sourceServerID, forKey: .sourceServerID)
+        }
+    }
+}
+
+extension StopReplicationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/StopReplication"
+    }
+}
+
+public struct StopReplicationInput: Swift.Equatable {
+    /// Stop Replication Request account ID.
+    public var accountID: Swift.String?
+    /// Stop Replication Request source server ID.
+    /// This member is required.
+    public var sourceServerID: Swift.String?
+
+    public init(
+        accountID: Swift.String? = nil,
+        sourceServerID: Swift.String? = nil
+    )
+    {
+        self.accountID = accountID
+        self.sourceServerID = sourceServerID
+    }
+}
+
+struct StopReplicationInputBody: Swift.Equatable {
+    let sourceServerID: Swift.String?
+    let accountID: Swift.String?
+}
+
+extension StopReplicationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
+        case sourceServerID
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceServerIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceServerID)
+        sourceServerID = sourceServerIDDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
+    }
+}
+
+public enum StopReplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UninitializedAccountException": return try await UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StopReplicationOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StopReplicationOutputResponse(applicationID: \(Swift.String(describing: applicationID)), arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), fqdnForActionFramework: \(Swift.String(describing: fqdnForActionFramework)), isArchived: \(Swift.String(describing: isArchived)), launchedInstance: \(Swift.String(describing: launchedInstance)), lifeCycle: \(Swift.String(describing: lifeCycle)), replicationType: \(Swift.String(describing: replicationType)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), userProvidedID: \(Swift.String(describing: userProvidedID)), vcenterClientID: \(Swift.String(describing: vcenterClientID)), tags: \"CONTENT_REDACTED\")"}
+}
+
+extension StopReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StopReplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.applicationID = output.applicationID
+            self.arn = output.arn
+            self.dataReplicationInfo = output.dataReplicationInfo
+            self.fqdnForActionFramework = output.fqdnForActionFramework
+            self.isArchived = output.isArchived
+            self.launchedInstance = output.launchedInstance
+            self.lifeCycle = output.lifeCycle
+            self.replicationType = output.replicationType
+            self.sourceProperties = output.sourceProperties
+            self.sourceServerID = output.sourceServerID
+            self.tags = output.tags
+            self.userProvidedID = output.userProvidedID
+            self.vcenterClientID = output.vcenterClientID
+        } else {
+            self.applicationID = nil
+            self.arn = nil
+            self.dataReplicationInfo = nil
+            self.fqdnForActionFramework = nil
+            self.isArchived = nil
+            self.launchedInstance = nil
+            self.lifeCycle = nil
+            self.replicationType = nil
+            self.sourceProperties = nil
+            self.sourceServerID = nil
+            self.tags = nil
+            self.userProvidedID = nil
+            self.vcenterClientID = nil
+        }
+    }
+}
+
+public struct StopReplicationOutputResponse: Swift.Equatable {
+    /// Source server application ID.
+    public var applicationID: Swift.String?
+    /// Source server ARN.
+    public var arn: Swift.String?
+    /// Source server data replication info.
+    public var dataReplicationInfo: MgnClientTypes.DataReplicationInfo?
+    /// Source server fqdn for action framework.
+    public var fqdnForActionFramework: Swift.String?
+    /// Source server archived status.
+    public var isArchived: Swift.Bool?
+    /// Source server launched instance.
+    public var launchedInstance: MgnClientTypes.LaunchedInstance?
+    /// Source server lifecycle state.
+    public var lifeCycle: MgnClientTypes.LifeCycle?
+    /// Source server replication type.
+    public var replicationType: MgnClientTypes.ReplicationType?
+    /// Source server properties.
+    public var sourceProperties: MgnClientTypes.SourceProperties?
+    /// Source server ID.
+    public var sourceServerID: Swift.String?
+    /// Source server Tags.
+    public var tags: [Swift.String:Swift.String]?
+    /// Source server user provided ID.
+    public var userProvidedID: Swift.String?
+    /// Source server vCenter client id.
+    public var vcenterClientID: Swift.String?
+
+    public init(
+        applicationID: Swift.String? = nil,
+        arn: Swift.String? = nil,
+        dataReplicationInfo: MgnClientTypes.DataReplicationInfo? = nil,
+        fqdnForActionFramework: Swift.String? = nil,
+        isArchived: Swift.Bool? = nil,
+        launchedInstance: MgnClientTypes.LaunchedInstance? = nil,
+        lifeCycle: MgnClientTypes.LifeCycle? = nil,
+        replicationType: MgnClientTypes.ReplicationType? = nil,
+        sourceProperties: MgnClientTypes.SourceProperties? = nil,
+        sourceServerID: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        userProvidedID: Swift.String? = nil,
+        vcenterClientID: Swift.String? = nil
+    )
+    {
+        self.applicationID = applicationID
+        self.arn = arn
+        self.dataReplicationInfo = dataReplicationInfo
+        self.fqdnForActionFramework = fqdnForActionFramework
+        self.isArchived = isArchived
+        self.launchedInstance = launchedInstance
+        self.lifeCycle = lifeCycle
+        self.replicationType = replicationType
+        self.sourceProperties = sourceProperties
+        self.sourceServerID = sourceServerID
+        self.tags = tags
+        self.userProvidedID = userProvidedID
+        self.vcenterClientID = vcenterClientID
+    }
+}
+
+struct StopReplicationOutputResponseBody: Swift.Equatable {
+    let sourceServerID: Swift.String?
+    let arn: Swift.String?
+    let isArchived: Swift.Bool?
+    let tags: [Swift.String:Swift.String]?
+    let launchedInstance: MgnClientTypes.LaunchedInstance?
+    let dataReplicationInfo: MgnClientTypes.DataReplicationInfo?
+    let lifeCycle: MgnClientTypes.LifeCycle?
+    let sourceProperties: MgnClientTypes.SourceProperties?
+    let replicationType: MgnClientTypes.ReplicationType?
+    let vcenterClientID: Swift.String?
+    let applicationID: Swift.String?
+    let userProvidedID: Swift.String?
+    let fqdnForActionFramework: Swift.String?
+}
+
+extension StopReplicationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationID
+        case arn
+        case dataReplicationInfo
+        case fqdnForActionFramework
+        case isArchived
+        case launchedInstance
+        case lifeCycle
+        case replicationType
+        case sourceProperties
+        case sourceServerID
+        case tags
+        case userProvidedID
+        case vcenterClientID
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceServerIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceServerID)
+        sourceServerID = sourceServerIDDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let isArchivedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isArchived)
+        isArchived = isArchivedDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let launchedInstanceDecoded = try containerValues.decodeIfPresent(MgnClientTypes.LaunchedInstance.self, forKey: .launchedInstance)
+        launchedInstance = launchedInstanceDecoded
+        let dataReplicationInfoDecoded = try containerValues.decodeIfPresent(MgnClientTypes.DataReplicationInfo.self, forKey: .dataReplicationInfo)
+        dataReplicationInfo = dataReplicationInfoDecoded
+        let lifeCycleDecoded = try containerValues.decodeIfPresent(MgnClientTypes.LifeCycle.self, forKey: .lifeCycle)
+        lifeCycle = lifeCycleDecoded
+        let sourcePropertiesDecoded = try containerValues.decodeIfPresent(MgnClientTypes.SourceProperties.self, forKey: .sourceProperties)
+        sourceProperties = sourcePropertiesDecoded
+        let replicationTypeDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ReplicationType.self, forKey: .replicationType)
+        replicationType = replicationTypeDecoded
+        let vcenterClientIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vcenterClientID)
+        vcenterClientID = vcenterClientIDDecoded
+        let applicationIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationID)
+        applicationID = applicationIDDecoded
+        let userProvidedIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userProvidedID)
+        userProvidedID = userProvidedIDDecoded
+        let fqdnForActionFrameworkDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fqdnForActionFramework)
+        fqdnForActionFramework = fqdnForActionFrameworkDecoded
     }
 }
 
@@ -14752,17 +16079,21 @@ extension MgnClientTypes {
 
 extension TerminateTargetInstancesInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "TerminateTargetInstancesInput(sourceServerIDs: \(Swift.String(describing: sourceServerIDs)), tags: \"CONTENT_REDACTED\")"}
+        "TerminateTargetInstancesInput(accountID: \(Swift.String(describing: accountID)), sourceServerIDs: \(Swift.String(describing: sourceServerIDs)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension TerminateTargetInstancesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case sourceServerIDs
         case tags
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let sourceServerIDs = sourceServerIDs {
             var sourceServerIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceServerIDs)
             for sourceserverid0 in sourceServerIDs {
@@ -14785,6 +16116,8 @@ extension TerminateTargetInstancesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct TerminateTargetInstancesInput: Swift.Equatable {
+    /// Terminate Target instance by Account ID
+    public var accountID: Swift.String?
     /// Terminate Target instance by Source Server IDs.
     /// This member is required.
     public var sourceServerIDs: [Swift.String]?
@@ -14792,10 +16125,12 @@ public struct TerminateTargetInstancesInput: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
 
     public init(
+        accountID: Swift.String? = nil,
         sourceServerIDs: [Swift.String]? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
+        self.accountID = accountID
         self.sourceServerIDs = sourceServerIDs
         self.tags = tags
     }
@@ -14804,10 +16139,12 @@ public struct TerminateTargetInstancesInput: Swift.Equatable {
 struct TerminateTargetInstancesInputBody: Swift.Equatable {
     let sourceServerIDs: [Swift.String]?
     let tags: [Swift.String:Swift.String]?
+    let accountID: Swift.String?
 }
 
 extension TerminateTargetInstancesInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case sourceServerIDs
         case tags
     }
@@ -14836,6 +16173,8 @@ extension TerminateTargetInstancesInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -14979,11 +16318,15 @@ extension ThrottlingExceptionBody: Swift.Decodable {
 
 extension UnarchiveApplicationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case applicationID
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let applicationID = self.applicationID {
             try encodeContainer.encode(applicationID, forKey: .applicationID)
         }
@@ -14997,24 +16340,30 @@ extension UnarchiveApplicationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UnarchiveApplicationInput: Swift.Equatable {
+    /// Account ID.
+    public var accountID: Swift.String?
     /// Application ID.
     /// This member is required.
     public var applicationID: Swift.String?
 
     public init(
+        accountID: Swift.String? = nil,
         applicationID: Swift.String? = nil
     )
     {
+        self.accountID = accountID
         self.applicationID = applicationID
     }
 }
 
 struct UnarchiveApplicationInputBody: Swift.Equatable {
     let applicationID: Swift.String?
+    let accountID: Swift.String?
 }
 
 extension UnarchiveApplicationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case applicationID
     }
 
@@ -15022,6 +16371,8 @@ extension UnarchiveApplicationInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationID)
         applicationID = applicationIDDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -15184,11 +16535,15 @@ extension UnarchiveApplicationOutputResponseBody: Swift.Decodable {
 
 extension UnarchiveWaveInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case waveID
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let waveID = self.waveID {
             try encodeContainer.encode(waveID, forKey: .waveID)
         }
@@ -15202,24 +16557,30 @@ extension UnarchiveWaveInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UnarchiveWaveInput: Swift.Equatable {
+    /// Account ID.
+    public var accountID: Swift.String?
     /// Wave ID.
     /// This member is required.
     public var waveID: Swift.String?
 
     public init(
+        accountID: Swift.String? = nil,
         waveID: Swift.String? = nil
     )
     {
+        self.accountID = accountID
         self.waveID = waveID
     }
 }
 
 struct UnarchiveWaveInputBody: Swift.Equatable {
     let waveID: Swift.String?
+    let accountID: Swift.String?
 }
 
 extension UnarchiveWaveInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case waveID
     }
 
@@ -15227,6 +16588,8 @@ extension UnarchiveWaveInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let waveIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .waveID)
         waveID = waveIDDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -15526,6 +16889,7 @@ public struct UntagResourceOutputResponse: Swift.Equatable {
 
 extension UpdateApplicationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case applicationID
         case description
         case name
@@ -15533,6 +16897,9 @@ extension UpdateApplicationInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let applicationID = self.applicationID {
             try encodeContainer.encode(applicationID, forKey: .applicationID)
         }
@@ -15552,6 +16919,8 @@ extension UpdateApplicationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateApplicationInput: Swift.Equatable {
+    /// Account ID.
+    public var accountID: Swift.String?
     /// Application ID.
     /// This member is required.
     public var applicationID: Swift.String?
@@ -15561,11 +16930,13 @@ public struct UpdateApplicationInput: Swift.Equatable {
     public var name: Swift.String?
 
     public init(
+        accountID: Swift.String? = nil,
         applicationID: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil
     )
     {
+        self.accountID = accountID
         self.applicationID = applicationID
         self.description = description
         self.name = name
@@ -15576,10 +16947,12 @@ struct UpdateApplicationInputBody: Swift.Equatable {
     let applicationID: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
+    let accountID: Swift.String?
 }
 
 extension UpdateApplicationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case applicationID
         case description
         case name
@@ -15593,6 +16966,8 @@ extension UpdateApplicationInputBody: Swift.Decodable {
         name = nameDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -15755,6 +17130,7 @@ extension UpdateApplicationOutputResponseBody: Swift.Decodable {
 
 extension UpdateLaunchConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case bootMode
         case copyPrivateIp
         case copyTags
@@ -15770,6 +17146,9 @@ extension UpdateLaunchConfigurationInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let bootMode = self.bootMode {
             try encodeContainer.encode(bootMode.rawValue, forKey: .bootMode)
         }
@@ -15813,6 +17192,8 @@ extension UpdateLaunchConfigurationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateLaunchConfigurationInput: Swift.Equatable {
+    /// Update Launch configuration Account ID.
+    public var accountID: Swift.String?
     /// Update Launch configuration boot mode request.
     public var bootMode: MgnClientTypes.BootMode?
     /// Update Launch configuration copy Private IP request.
@@ -15838,6 +17219,7 @@ public struct UpdateLaunchConfigurationInput: Swift.Equatable {
     public var targetInstanceTypeRightSizingMethod: MgnClientTypes.TargetInstanceTypeRightSizingMethod?
 
     public init(
+        accountID: Swift.String? = nil,
         bootMode: MgnClientTypes.BootMode? = nil,
         copyPrivateIp: Swift.Bool? = nil,
         copyTags: Swift.Bool? = nil,
@@ -15851,6 +17233,7 @@ public struct UpdateLaunchConfigurationInput: Swift.Equatable {
         targetInstanceTypeRightSizingMethod: MgnClientTypes.TargetInstanceTypeRightSizingMethod? = nil
     )
     {
+        self.accountID = accountID
         self.bootMode = bootMode
         self.copyPrivateIp = copyPrivateIp
         self.copyTags = copyTags
@@ -15877,10 +17260,12 @@ struct UpdateLaunchConfigurationInputBody: Swift.Equatable {
     let postLaunchActions: MgnClientTypes.PostLaunchActions?
     let enableMapAutoTagging: Swift.Bool?
     let mapAutoTaggingMpeID: Swift.String?
+    let accountID: Swift.String?
 }
 
 extension UpdateLaunchConfigurationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case bootMode
         case copyPrivateIp
         case copyTags
@@ -15918,6 +17303,8 @@ extension UpdateLaunchConfigurationInputBody: Swift.Decodable {
         enableMapAutoTagging = enableMapAutoTaggingDecoded
         let mapAutoTaggingMpeIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mapAutoTaggingMpeID)
         mapAutoTaggingMpeID = mapAutoTaggingMpeIDDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -16520,11 +17907,12 @@ extension UpdateLaunchConfigurationTemplateOutputResponseBody: Swift.Decodable {
 
 extension UpdateReplicationConfigurationInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationInput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), name: \(Swift.String(describing: name)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationInput(accountID: \(Swift.String(describing: accountID)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), name: \(Swift.String(describing: name)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateReplicationConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case associateDefaultSecurityGroup
         case bandwidthThrottling
         case createPublicIP
@@ -16540,10 +17928,14 @@ extension UpdateReplicationConfigurationInput: Swift.Encodable {
         case stagingAreaSubnetId
         case stagingAreaTags
         case useDedicatedReplicationServer
+        case useFipsEndpoint
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let associateDefaultSecurityGroup = self.associateDefaultSecurityGroup {
             try encodeContainer.encode(associateDefaultSecurityGroup, forKey: .associateDefaultSecurityGroup)
         }
@@ -16598,6 +17990,9 @@ extension UpdateReplicationConfigurationInput: Swift.Encodable {
         if let useDedicatedReplicationServer = self.useDedicatedReplicationServer {
             try encodeContainer.encode(useDedicatedReplicationServer, forKey: .useDedicatedReplicationServer)
         }
+        if let useFipsEndpoint = self.useFipsEndpoint {
+            try encodeContainer.encode(useFipsEndpoint, forKey: .useFipsEndpoint)
+        }
     }
 }
 
@@ -16608,6 +18003,8 @@ extension UpdateReplicationConfigurationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateReplicationConfigurationInput: Swift.Equatable {
+    /// Update replication configuration Account ID request.
+    public var accountID: Swift.String?
     /// Update replication configuration associate default Application Migration Service Security group request.
     public var associateDefaultSecurityGroup: Swift.Bool?
     /// Update replication configuration bandwidth throttling request.
@@ -16639,8 +18036,11 @@ public struct UpdateReplicationConfigurationInput: Swift.Equatable {
     public var stagingAreaTags: [Swift.String:Swift.String]?
     /// Update replication configuration use dedicated Replication Server request.
     public var useDedicatedReplicationServer: Swift.Bool?
+    /// Update replication configuration use Fips Endpoint.
+    public var useFipsEndpoint: Swift.Bool?
 
     public init(
+        accountID: Swift.String? = nil,
         associateDefaultSecurityGroup: Swift.Bool? = nil,
         bandwidthThrottling: Swift.Int = 0,
         createPublicIP: Swift.Bool? = nil,
@@ -16655,9 +18055,11 @@ public struct UpdateReplicationConfigurationInput: Swift.Equatable {
         sourceServerID: Swift.String? = nil,
         stagingAreaSubnetId: Swift.String? = nil,
         stagingAreaTags: [Swift.String:Swift.String]? = nil,
-        useDedicatedReplicationServer: Swift.Bool? = nil
+        useDedicatedReplicationServer: Swift.Bool? = nil,
+        useFipsEndpoint: Swift.Bool? = nil
     )
     {
+        self.accountID = accountID
         self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
         self.bandwidthThrottling = bandwidthThrottling
         self.createPublicIP = createPublicIP
@@ -16673,6 +18075,7 @@ public struct UpdateReplicationConfigurationInput: Swift.Equatable {
         self.stagingAreaSubnetId = stagingAreaSubnetId
         self.stagingAreaTags = stagingAreaTags
         self.useDedicatedReplicationServer = useDedicatedReplicationServer
+        self.useFipsEndpoint = useFipsEndpoint
     }
 }
 
@@ -16692,10 +18095,13 @@ struct UpdateReplicationConfigurationInputBody: Swift.Equatable {
     let dataPlaneRouting: MgnClientTypes.ReplicationConfigurationDataPlaneRouting?
     let createPublicIP: Swift.Bool?
     let stagingAreaTags: [Swift.String:Swift.String]?
+    let useFipsEndpoint: Swift.Bool?
+    let accountID: Swift.String?
 }
 
 extension UpdateReplicationConfigurationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case associateDefaultSecurityGroup
         case bandwidthThrottling
         case createPublicIP
@@ -16711,6 +18117,7 @@ extension UpdateReplicationConfigurationInputBody: Swift.Decodable {
         case stagingAreaSubnetId
         case stagingAreaTags
         case useDedicatedReplicationServer
+        case useFipsEndpoint
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -16772,6 +18179,10 @@ extension UpdateReplicationConfigurationInputBody: Swift.Decodable {
             }
         }
         stagingAreaTags = stagingAreaTagsDecoded0
+        let useFipsEndpointDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useFipsEndpoint)
+        useFipsEndpoint = useFipsEndpointDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -16792,7 +18203,7 @@ public enum UpdateReplicationConfigurationOutputError: ClientRuntime.HttpRespons
 
 extension UpdateReplicationConfigurationOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationOutputResponse(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), name: \(Swift.String(describing: name)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationOutputResponse(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), name: \(Swift.String(describing: name)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateReplicationConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -16815,6 +18226,7 @@ extension UpdateReplicationConfigurationOutputResponse: ClientRuntime.HttpRespon
             self.stagingAreaSubnetId = output.stagingAreaSubnetId
             self.stagingAreaTags = output.stagingAreaTags
             self.useDedicatedReplicationServer = output.useDedicatedReplicationServer
+            self.useFipsEndpoint = output.useFipsEndpoint
         } else {
             self.associateDefaultSecurityGroup = nil
             self.bandwidthThrottling = 0
@@ -16831,6 +18243,7 @@ extension UpdateReplicationConfigurationOutputResponse: ClientRuntime.HttpRespon
             self.stagingAreaSubnetId = nil
             self.stagingAreaTags = nil
             self.useDedicatedReplicationServer = nil
+            self.useFipsEndpoint = nil
         }
     }
 }
@@ -16866,6 +18279,8 @@ public struct UpdateReplicationConfigurationOutputResponse: Swift.Equatable {
     public var stagingAreaTags: [Swift.String:Swift.String]?
     /// Replication Configuration use Dedicated Replication Server.
     public var useDedicatedReplicationServer: Swift.Bool?
+    /// Replication Configuration use Fips Endpoint.
+    public var useFipsEndpoint: Swift.Bool?
 
     public init(
         associateDefaultSecurityGroup: Swift.Bool? = nil,
@@ -16882,7 +18297,8 @@ public struct UpdateReplicationConfigurationOutputResponse: Swift.Equatable {
         sourceServerID: Swift.String? = nil,
         stagingAreaSubnetId: Swift.String? = nil,
         stagingAreaTags: [Swift.String:Swift.String]? = nil,
-        useDedicatedReplicationServer: Swift.Bool? = nil
+        useDedicatedReplicationServer: Swift.Bool? = nil,
+        useFipsEndpoint: Swift.Bool? = nil
     )
     {
         self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
@@ -16900,6 +18316,7 @@ public struct UpdateReplicationConfigurationOutputResponse: Swift.Equatable {
         self.stagingAreaSubnetId = stagingAreaSubnetId
         self.stagingAreaTags = stagingAreaTags
         self.useDedicatedReplicationServer = useDedicatedReplicationServer
+        self.useFipsEndpoint = useFipsEndpoint
     }
 }
 
@@ -16919,6 +18336,7 @@ struct UpdateReplicationConfigurationOutputResponseBody: Swift.Equatable {
     let dataPlaneRouting: MgnClientTypes.ReplicationConfigurationDataPlaneRouting?
     let createPublicIP: Swift.Bool?
     let stagingAreaTags: [Swift.String:Swift.String]?
+    let useFipsEndpoint: Swift.Bool?
 }
 
 extension UpdateReplicationConfigurationOutputResponseBody: Swift.Decodable {
@@ -16938,6 +18356,7 @@ extension UpdateReplicationConfigurationOutputResponseBody: Swift.Decodable {
         case stagingAreaSubnetId
         case stagingAreaTags
         case useDedicatedReplicationServer
+        case useFipsEndpoint
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -16999,12 +18418,14 @@ extension UpdateReplicationConfigurationOutputResponseBody: Swift.Decodable {
             }
         }
         stagingAreaTags = stagingAreaTagsDecoded0
+        let useFipsEndpointDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useFipsEndpoint)
+        useFipsEndpoint = useFipsEndpointDecoded
     }
 }
 
 extension UpdateReplicationConfigurationTemplateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationTemplateInput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationTemplateInput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateReplicationConfigurationTemplateInput: Swift.Encodable {
@@ -17023,6 +18444,7 @@ extension UpdateReplicationConfigurationTemplateInput: Swift.Encodable {
         case stagingAreaSubnetId
         case stagingAreaTags
         case useDedicatedReplicationServer
+        case useFipsEndpoint
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -17075,6 +18497,9 @@ extension UpdateReplicationConfigurationTemplateInput: Swift.Encodable {
         if let useDedicatedReplicationServer = self.useDedicatedReplicationServer {
             try encodeContainer.encode(useDedicatedReplicationServer, forKey: .useDedicatedReplicationServer)
         }
+        if let useFipsEndpoint = self.useFipsEndpoint {
+            try encodeContainer.encode(useFipsEndpoint, forKey: .useFipsEndpoint)
+        }
     }
 }
 
@@ -17114,6 +18539,8 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Equatable {
     public var stagingAreaTags: [Swift.String:Swift.String]?
     /// Update replication configuration template use dedicated Replication Server request.
     public var useDedicatedReplicationServer: Swift.Bool?
+    /// Update replication configuration template use Fips Endpoint request.
+    public var useFipsEndpoint: Swift.Bool?
 
     public init(
         arn: Swift.String? = nil,
@@ -17129,7 +18556,8 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Equatable {
         replicationServersSecurityGroupsIDs: [Swift.String]? = nil,
         stagingAreaSubnetId: Swift.String? = nil,
         stagingAreaTags: [Swift.String:Swift.String]? = nil,
-        useDedicatedReplicationServer: Swift.Bool? = nil
+        useDedicatedReplicationServer: Swift.Bool? = nil,
+        useFipsEndpoint: Swift.Bool? = nil
     )
     {
         self.arn = arn
@@ -17146,6 +18574,7 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Equatable {
         self.stagingAreaSubnetId = stagingAreaSubnetId
         self.stagingAreaTags = stagingAreaTags
         self.useDedicatedReplicationServer = useDedicatedReplicationServer
+        self.useFipsEndpoint = useFipsEndpoint
     }
 }
 
@@ -17164,6 +18593,7 @@ struct UpdateReplicationConfigurationTemplateInputBody: Swift.Equatable {
     let dataPlaneRouting: MgnClientTypes.ReplicationConfigurationDataPlaneRouting?
     let createPublicIP: Swift.Bool?
     let stagingAreaTags: [Swift.String:Swift.String]?
+    let useFipsEndpoint: Swift.Bool?
 }
 
 extension UpdateReplicationConfigurationTemplateInputBody: Swift.Decodable {
@@ -17182,6 +18612,7 @@ extension UpdateReplicationConfigurationTemplateInputBody: Swift.Decodable {
         case stagingAreaSubnetId
         case stagingAreaTags
         case useDedicatedReplicationServer
+        case useFipsEndpoint
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -17232,6 +18663,8 @@ extension UpdateReplicationConfigurationTemplateInputBody: Swift.Decodable {
             }
         }
         stagingAreaTags = stagingAreaTagsDecoded0
+        let useFipsEndpointDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useFipsEndpoint)
+        useFipsEndpoint = useFipsEndpointDecoded
     }
 }
 
@@ -17251,7 +18684,7 @@ public enum UpdateReplicationConfigurationTemplateOutputError: ClientRuntime.Htt
 
 extension UpdateReplicationConfigurationTemplateOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationTemplateOutputResponse(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationTemplateOutputResponse(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateReplicationConfigurationTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -17274,6 +18707,7 @@ extension UpdateReplicationConfigurationTemplateOutputResponse: ClientRuntime.Ht
             self.stagingAreaTags = output.stagingAreaTags
             self.tags = output.tags
             self.useDedicatedReplicationServer = output.useDedicatedReplicationServer
+            self.useFipsEndpoint = output.useFipsEndpoint
         } else {
             self.arn = nil
             self.associateDefaultSecurityGroup = nil
@@ -17290,6 +18724,7 @@ extension UpdateReplicationConfigurationTemplateOutputResponse: ClientRuntime.Ht
             self.stagingAreaTags = nil
             self.tags = nil
             self.useDedicatedReplicationServer = nil
+            self.useFipsEndpoint = nil
         }
     }
 }
@@ -17326,6 +18761,8 @@ public struct UpdateReplicationConfigurationTemplateOutputResponse: Swift.Equata
     public var tags: [Swift.String:Swift.String]?
     /// Replication Configuration template use Dedicated Replication Server.
     public var useDedicatedReplicationServer: Swift.Bool?
+    /// Replication Configuration template use Fips Endpoint.
+    public var useFipsEndpoint: Swift.Bool?
 
     public init(
         arn: Swift.String? = nil,
@@ -17342,7 +18779,8 @@ public struct UpdateReplicationConfigurationTemplateOutputResponse: Swift.Equata
         stagingAreaSubnetId: Swift.String? = nil,
         stagingAreaTags: [Swift.String:Swift.String]? = nil,
         tags: [Swift.String:Swift.String]? = nil,
-        useDedicatedReplicationServer: Swift.Bool? = nil
+        useDedicatedReplicationServer: Swift.Bool? = nil,
+        useFipsEndpoint: Swift.Bool? = nil
     )
     {
         self.arn = arn
@@ -17360,6 +18798,7 @@ public struct UpdateReplicationConfigurationTemplateOutputResponse: Swift.Equata
         self.stagingAreaTags = stagingAreaTags
         self.tags = tags
         self.useDedicatedReplicationServer = useDedicatedReplicationServer
+        self.useFipsEndpoint = useFipsEndpoint
     }
 }
 
@@ -17378,6 +18817,7 @@ struct UpdateReplicationConfigurationTemplateOutputResponseBody: Swift.Equatable
     let dataPlaneRouting: MgnClientTypes.ReplicationConfigurationDataPlaneRouting?
     let createPublicIP: Swift.Bool?
     let stagingAreaTags: [Swift.String:Swift.String]?
+    let useFipsEndpoint: Swift.Bool?
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -17398,6 +18838,7 @@ extension UpdateReplicationConfigurationTemplateOutputResponseBody: Swift.Decoda
         case stagingAreaTags
         case tags
         case useDedicatedReplicationServer
+        case useFipsEndpoint
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -17448,6 +18889,8 @@ extension UpdateReplicationConfigurationTemplateOutputResponseBody: Swift.Decoda
             }
         }
         stagingAreaTags = stagingAreaTagsDecoded0
+        let useFipsEndpointDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useFipsEndpoint)
+        useFipsEndpoint = useFipsEndpointDecoded
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
         if let tagsContainer = tagsContainer {
@@ -17464,12 +18907,16 @@ extension UpdateReplicationConfigurationTemplateOutputResponseBody: Swift.Decoda
 
 extension UpdateSourceServerReplicationTypeInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case replicationType
         case sourceServerID
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let replicationType = self.replicationType {
             try encodeContainer.encode(replicationType.rawValue, forKey: .replicationType)
         }
@@ -17486,6 +18933,8 @@ extension UpdateSourceServerReplicationTypeInput: ClientRuntime.URLPathProvider 
 }
 
 public struct UpdateSourceServerReplicationTypeInput: Swift.Equatable {
+    /// Account ID on which to update replication type.
+    public var accountID: Swift.String?
     /// Replication type to which to update source server.
     /// This member is required.
     public var replicationType: MgnClientTypes.ReplicationType?
@@ -17494,10 +18943,12 @@ public struct UpdateSourceServerReplicationTypeInput: Swift.Equatable {
     public var sourceServerID: Swift.String?
 
     public init(
+        accountID: Swift.String? = nil,
         replicationType: MgnClientTypes.ReplicationType? = nil,
         sourceServerID: Swift.String? = nil
     )
     {
+        self.accountID = accountID
         self.replicationType = replicationType
         self.sourceServerID = sourceServerID
     }
@@ -17506,10 +18957,12 @@ public struct UpdateSourceServerReplicationTypeInput: Swift.Equatable {
 struct UpdateSourceServerReplicationTypeInputBody: Swift.Equatable {
     let sourceServerID: Swift.String?
     let replicationType: MgnClientTypes.ReplicationType?
+    let accountID: Swift.String?
 }
 
 extension UpdateSourceServerReplicationTypeInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case replicationType
         case sourceServerID
     }
@@ -17520,6 +18973,8 @@ extension UpdateSourceServerReplicationTypeInputBody: Swift.Decodable {
         sourceServerID = sourceServerIDDecoded
         let replicationTypeDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ReplicationType.self, forKey: .replicationType)
         replicationType = replicationTypeDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 
@@ -17713,6 +19168,7 @@ extension UpdateSourceServerReplicationTypeOutputResponseBody: Swift.Decodable {
 
 extension UpdateWaveInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case description
         case name
         case waveID
@@ -17720,6 +19176,9 @@ extension UpdateWaveInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountID = self.accountID {
+            try encodeContainer.encode(accountID, forKey: .accountID)
+        }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
@@ -17739,6 +19198,8 @@ extension UpdateWaveInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateWaveInput: Swift.Equatable {
+    /// Account ID.
+    public var accountID: Swift.String?
     /// Wave description.
     public var description: Swift.String?
     /// Wave name.
@@ -17748,11 +19209,13 @@ public struct UpdateWaveInput: Swift.Equatable {
     public var waveID: Swift.String?
 
     public init(
+        accountID: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         waveID: Swift.String? = nil
     )
     {
+        self.accountID = accountID
         self.description = description
         self.name = name
         self.waveID = waveID
@@ -17763,10 +19226,12 @@ struct UpdateWaveInputBody: Swift.Equatable {
     let waveID: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
+    let accountID: Swift.String?
 }
 
 extension UpdateWaveInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountID
         case description
         case name
         case waveID
@@ -17780,6 +19245,8 @@ extension UpdateWaveInputBody: Swift.Decodable {
         name = nameDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
+        let accountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountID)
+        accountID = accountIDDecoded
     }
 }
 

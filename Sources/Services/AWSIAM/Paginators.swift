@@ -393,6 +393,37 @@ extension PaginatorSequence where Input == ListInstanceProfilesForRoleInput, Out
     }
 }
 extension IAMClient {
+    /// Paginate over `[ListInstanceProfileTagsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListInstanceProfileTagsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInstanceProfileTagsOutputResponse`
+    public func listInstanceProfileTagsPaginated(input: ListInstanceProfileTagsInput) -> ClientRuntime.PaginatorSequence<ListInstanceProfileTagsInput, ListInstanceProfileTagsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListInstanceProfileTagsInput, ListInstanceProfileTagsOutputResponse>(input: input, inputKey: \ListInstanceProfileTagsInput.marker, outputKey: \ListInstanceProfileTagsOutputResponse.marker, paginationFunction: self.listInstanceProfileTags(input:))
+    }
+}
+
+extension ListInstanceProfileTagsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListInstanceProfileTagsInput {
+        return ListInstanceProfileTagsInput(
+            instanceProfileName: self.instanceProfileName,
+            marker: token,
+            maxItems: self.maxItems
+        )}
+}
+
+extension PaginatorSequence where Input == ListInstanceProfileTagsInput, Output == ListInstanceProfileTagsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listInstanceProfileTagsPaginated`
+    /// to access the nested member `[IAMClientTypes.Tag]`
+    /// - Returns: `[IAMClientTypes.Tag]`
+    public func tags() async throws -> [IAMClientTypes.Tag] {
+        return try await self.asyncCompactMap { item in item.tags }
+    }
+}
+extension IAMClient {
     /// Paginate over `[ListMFADevicesOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -421,6 +452,68 @@ extension PaginatorSequence where Input == ListMFADevicesInput, Output == ListMF
     /// - Returns: `[IAMClientTypes.MFADevice]`
     public func mfaDevices() async throws -> [IAMClientTypes.MFADevice] {
         return try await self.asyncCompactMap { item in item.mfaDevices }
+    }
+}
+extension IAMClient {
+    /// Paginate over `[ListMFADeviceTagsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListMFADeviceTagsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMFADeviceTagsOutputResponse`
+    public func listMFADeviceTagsPaginated(input: ListMFADeviceTagsInput) -> ClientRuntime.PaginatorSequence<ListMFADeviceTagsInput, ListMFADeviceTagsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListMFADeviceTagsInput, ListMFADeviceTagsOutputResponse>(input: input, inputKey: \ListMFADeviceTagsInput.marker, outputKey: \ListMFADeviceTagsOutputResponse.marker, paginationFunction: self.listMFADeviceTags(input:))
+    }
+}
+
+extension ListMFADeviceTagsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListMFADeviceTagsInput {
+        return ListMFADeviceTagsInput(
+            marker: token,
+            maxItems: self.maxItems,
+            serialNumber: self.serialNumber
+        )}
+}
+
+extension PaginatorSequence where Input == ListMFADeviceTagsInput, Output == ListMFADeviceTagsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listMFADeviceTagsPaginated`
+    /// to access the nested member `[IAMClientTypes.Tag]`
+    /// - Returns: `[IAMClientTypes.Tag]`
+    public func tags() async throws -> [IAMClientTypes.Tag] {
+        return try await self.asyncCompactMap { item in item.tags }
+    }
+}
+extension IAMClient {
+    /// Paginate over `[ListOpenIDConnectProviderTagsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListOpenIDConnectProviderTagsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListOpenIDConnectProviderTagsOutputResponse`
+    public func listOpenIDConnectProviderTagsPaginated(input: ListOpenIDConnectProviderTagsInput) -> ClientRuntime.PaginatorSequence<ListOpenIDConnectProviderTagsInput, ListOpenIDConnectProviderTagsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListOpenIDConnectProviderTagsInput, ListOpenIDConnectProviderTagsOutputResponse>(input: input, inputKey: \ListOpenIDConnectProviderTagsInput.marker, outputKey: \ListOpenIDConnectProviderTagsOutputResponse.marker, paginationFunction: self.listOpenIDConnectProviderTags(input:))
+    }
+}
+
+extension ListOpenIDConnectProviderTagsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListOpenIDConnectProviderTagsInput {
+        return ListOpenIDConnectProviderTagsInput(
+            marker: token,
+            maxItems: self.maxItems,
+            openIDConnectProviderArn: self.openIDConnectProviderArn
+        )}
+}
+
+extension PaginatorSequence where Input == ListOpenIDConnectProviderTagsInput, Output == ListOpenIDConnectProviderTagsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listOpenIDConnectProviderTagsPaginated`
+    /// to access the nested member `[IAMClientTypes.Tag]`
+    /// - Returns: `[IAMClientTypes.Tag]`
+    public func tags() async throws -> [IAMClientTypes.Tag] {
+        return try await self.asyncCompactMap { item in item.tags }
     }
 }
 extension IAMClient {
@@ -455,6 +548,37 @@ extension PaginatorSequence where Input == ListPoliciesInput, Output == ListPoli
     /// - Returns: `[IAMClientTypes.Policy]`
     public func policies() async throws -> [IAMClientTypes.Policy] {
         return try await self.asyncCompactMap { item in item.policies }
+    }
+}
+extension IAMClient {
+    /// Paginate over `[ListPolicyTagsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPolicyTagsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPolicyTagsOutputResponse`
+    public func listPolicyTagsPaginated(input: ListPolicyTagsInput) -> ClientRuntime.PaginatorSequence<ListPolicyTagsInput, ListPolicyTagsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListPolicyTagsInput, ListPolicyTagsOutputResponse>(input: input, inputKey: \ListPolicyTagsInput.marker, outputKey: \ListPolicyTagsOutputResponse.marker, paginationFunction: self.listPolicyTags(input:))
+    }
+}
+
+extension ListPolicyTagsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListPolicyTagsInput {
+        return ListPolicyTagsInput(
+            marker: token,
+            maxItems: self.maxItems,
+            policyArn: self.policyArn
+        )}
+}
+
+extension PaginatorSequence where Input == ListPolicyTagsInput, Output == ListPolicyTagsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listPolicyTagsPaginated`
+    /// to access the nested member `[IAMClientTypes.Tag]`
+    /// - Returns: `[IAMClientTypes.Tag]`
+    public func tags() async throws -> [IAMClientTypes.Tag] {
+        return try await self.asyncCompactMap { item in item.tags }
     }
 }
 extension IAMClient {
@@ -551,6 +675,68 @@ extension PaginatorSequence where Input == ListRolesInput, Output == ListRolesOu
     }
 }
 extension IAMClient {
+    /// Paginate over `[ListRoleTagsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRoleTagsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRoleTagsOutputResponse`
+    public func listRoleTagsPaginated(input: ListRoleTagsInput) -> ClientRuntime.PaginatorSequence<ListRoleTagsInput, ListRoleTagsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListRoleTagsInput, ListRoleTagsOutputResponse>(input: input, inputKey: \ListRoleTagsInput.marker, outputKey: \ListRoleTagsOutputResponse.marker, paginationFunction: self.listRoleTags(input:))
+    }
+}
+
+extension ListRoleTagsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListRoleTagsInput {
+        return ListRoleTagsInput(
+            marker: token,
+            maxItems: self.maxItems,
+            roleName: self.roleName
+        )}
+}
+
+extension PaginatorSequence where Input == ListRoleTagsInput, Output == ListRoleTagsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listRoleTagsPaginated`
+    /// to access the nested member `[IAMClientTypes.Tag]`
+    /// - Returns: `[IAMClientTypes.Tag]`
+    public func tags() async throws -> [IAMClientTypes.Tag] {
+        return try await self.asyncCompactMap { item in item.tags }
+    }
+}
+extension IAMClient {
+    /// Paginate over `[ListSAMLProviderTagsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSAMLProviderTagsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSAMLProviderTagsOutputResponse`
+    public func listSAMLProviderTagsPaginated(input: ListSAMLProviderTagsInput) -> ClientRuntime.PaginatorSequence<ListSAMLProviderTagsInput, ListSAMLProviderTagsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListSAMLProviderTagsInput, ListSAMLProviderTagsOutputResponse>(input: input, inputKey: \ListSAMLProviderTagsInput.marker, outputKey: \ListSAMLProviderTagsOutputResponse.marker, paginationFunction: self.listSAMLProviderTags(input:))
+    }
+}
+
+extension ListSAMLProviderTagsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSAMLProviderTagsInput {
+        return ListSAMLProviderTagsInput(
+            marker: token,
+            maxItems: self.maxItems,
+            samlProviderArn: self.samlProviderArn
+        )}
+}
+
+extension PaginatorSequence where Input == ListSAMLProviderTagsInput, Output == ListSAMLProviderTagsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listSAMLProviderTagsPaginated`
+    /// to access the nested member `[IAMClientTypes.Tag]`
+    /// - Returns: `[IAMClientTypes.Tag]`
+    public func tags() async throws -> [IAMClientTypes.Tag] {
+        return try await self.asyncCompactMap { item in item.tags }
+    }
+}
+extension IAMClient {
     /// Paginate over `[ListServerCertificatesOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -579,6 +765,37 @@ extension PaginatorSequence where Input == ListServerCertificatesInput, Output =
     /// - Returns: `[IAMClientTypes.ServerCertificateMetadata]`
     public func serverCertificateMetadataList() async throws -> [IAMClientTypes.ServerCertificateMetadata] {
         return try await self.asyncCompactMap { item in item.serverCertificateMetadataList }
+    }
+}
+extension IAMClient {
+    /// Paginate over `[ListServerCertificateTagsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListServerCertificateTagsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListServerCertificateTagsOutputResponse`
+    public func listServerCertificateTagsPaginated(input: ListServerCertificateTagsInput) -> ClientRuntime.PaginatorSequence<ListServerCertificateTagsInput, ListServerCertificateTagsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListServerCertificateTagsInput, ListServerCertificateTagsOutputResponse>(input: input, inputKey: \ListServerCertificateTagsInput.marker, outputKey: \ListServerCertificateTagsOutputResponse.marker, paginationFunction: self.listServerCertificateTags(input:))
+    }
+}
+
+extension ListServerCertificateTagsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListServerCertificateTagsInput {
+        return ListServerCertificateTagsInput(
+            marker: token,
+            maxItems: self.maxItems,
+            serverCertificateName: self.serverCertificateName
+        )}
+}
+
+extension PaginatorSequence where Input == ListServerCertificateTagsInput, Output == ListServerCertificateTagsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listServerCertificateTagsPaginated`
+    /// to access the nested member `[IAMClientTypes.Tag]`
+    /// - Returns: `[IAMClientTypes.Tag]`
+    public func tags() async throws -> [IAMClientTypes.Tag] {
+        return try await self.asyncCompactMap { item in item.tags }
     }
 }
 extension IAMClient {

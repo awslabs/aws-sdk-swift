@@ -98,11 +98,11 @@ extension ComprehendMedicalClientTypes {
         public var endOffset: Swift.Int?
         /// The numeric identifier for this attribute. This is a monotonically increasing id unique within this response rather than a global unique identifier.
         public var id: Swift.Int?
-        /// The level of confidence that Comprehend Medical; has that this attribute is correctly related to this entity.
+        /// The level of confidence that Amazon Comprehend Medical has that this attribute is correctly related to this entity.
         public var relationshipScore: Swift.Float?
         /// The type of relationship between the entity and attribute. Type for the relationship is OVERLAP, indicating that the entity occurred at the same time as the Date_Expression.
         public var relationshipType: ComprehendMedicalClientTypes.RelationshipType?
-        /// The level of confidence that Comprehend Medical; has that the segment of text is correctly recognized as an attribute.
+        /// The level of confidence that Amazon Comprehend Medical has that the segment of text is correctly recognized as an attribute.
         public var score: Swift.Float?
         /// The segment of input text extracted as this attribute.
         public var text: Swift.String?
@@ -214,7 +214,7 @@ extension ComprehendMedicalClientTypes.Characters: Swift.Codable {
 extension ComprehendMedicalClientTypes {
     /// The number of characters in the input text to be analyzed.
     public struct Characters: Swift.Equatable {
-        /// The number of characters present in the input text document as processed by Comprehend Medical.
+        /// The number of characters present in the input text document as processed by Amazon Comprehend Medical.
         public var originalTextCharacters: Swift.Int?
 
         public init(
@@ -392,7 +392,7 @@ extension ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties: Swif
 extension ComprehendMedicalClientTypes {
     /// Provides information about a detection job.
     public struct ComprehendMedicalAsyncJobProperties: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) that gives Comprehend Medical; read access to your input data.
+        /// The Amazon Resource Name (ARN) that gives Amazon Comprehend Medical read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the detection job completed.
         public var endTime: ClientRuntime.Date?
@@ -477,7 +477,7 @@ extension DescribeEntitiesDetectionV2JobInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeEntitiesDetectionV2JobInput: Swift.Equatable {
-    /// The identifier that Comprehend Medical; generated for the job. The StartEntitiesDetectionV2Job operation returns this identifier in its response.
+    /// The identifier that Amazon Comprehend Medical generated for the job. The StartEntitiesDetectionV2Job operation returns this identifier in its response.
     /// This member is required.
     public var jobId: Swift.String?
 
@@ -681,7 +681,7 @@ extension DescribePHIDetectionJobInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribePHIDetectionJobInput: Swift.Equatable {
-    /// The identifier that Comprehend Medical; generated for the job. The StartPHIDetectionJob operation returns this identifier in its response.
+    /// The identifier that Amazon Comprehend Medical generated for the job. The StartPHIDetectionJob operation returns this identifier in its response.
     /// This member is required.
     public var jobId: Swift.String?
 
@@ -987,7 +987,7 @@ extension DetectEntitiesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DetectEntitiesInput: Swift.Equatable {
-    /// A UTF-8 text string containing the clinical content being examined for entities. Each string must contain fewer than 20,000 bytes of characters.
+    /// A UTF-8 text string containing the clinical content being examined for entities.
     /// This member is required.
     public var text: Swift.String?
 
@@ -1050,7 +1050,7 @@ extension DetectEntitiesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DetectEntitiesOutputResponse: Swift.Equatable {
-    /// The collection of medical entities extracted from the input text and their associated information. For each entity, the response provides the entity text, the entity category, where the entity text begins and ends, and the level of confidence that Comprehend Medical; has in the detection and analysis. Attributes and traits of the entity are also returned.
+    /// The collection of medical entities extracted from the input text and their associated information. For each entity, the response provides the entity text, the entity category, where the entity text begins and ends, and the level of confidence that Amazon Comprehend Medical has in the detection and analysis. Attributes and traits of the entity are also returned.
     /// This member is required.
     public var entities: [ComprehendMedicalClientTypes.Entity]?
     /// The version of the model used to analyze the documents. The version number looks like X.X.X. You can use this information to track the model used for a particular batch of documents.
@@ -1141,7 +1141,7 @@ extension DetectEntitiesV2Input: ClientRuntime.URLPathProvider {
 }
 
 public struct DetectEntitiesV2Input: Swift.Equatable {
-    /// A UTF-8 string containing the clinical content being examined for entities. Each string must contain fewer than 20,000 bytes of characters.
+    /// A UTF-8 string containing the clinical content being examined for entities.
     /// This member is required.
     public var text: Swift.String?
 
@@ -1295,7 +1295,7 @@ extension DetectPHIInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DetectPHIInput: Swift.Equatable {
-    /// A UTF-8 text string containing the clinical content being examined for PHI entities. Each string must contain fewer than 20,000 bytes of characters.
+    /// A UTF-8 text string containing the clinical content being examined for PHI entities.
     /// This member is required.
     public var text: Swift.String?
 
@@ -1356,7 +1356,7 @@ extension DetectPHIOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DetectPHIOutputResponse: Swift.Equatable {
-    /// The collection of PHI entities extracted from the input text and their associated information. For each entity, the response provides the entity text, the entity category, where the entity text begins and ends, and the level of confidence that Comprehend Medical; has in its detection.
+    /// The collection of PHI entities extracted from the input text and their associated information. For each entity, the response provides the entity text, the entity category, where the entity text begins and ends, and the level of confidence that Amazon Comprehend Medical has in its detection.
     /// This member is required.
     public var entities: [ComprehendMedicalClientTypes.Entity]?
     /// The version of the model used to analyze the documents. The version number looks like X.X.X. You can use this information to track the model used for a particular batch of documents.
@@ -1514,7 +1514,7 @@ extension ComprehendMedicalClientTypes {
         public var endOffset: Swift.Int?
         /// The numeric identifier for the entity. This is a monotonically increasing id unique within this response rather than a global unique identifier.
         public var id: Swift.Int?
-        /// The level of confidence that Comprehend Medical; has in the accuracy of the detection.
+        /// The level of confidence that Amazon Comprehend Medical has in the accuracy of the detection.
         public var score: Swift.Float?
         /// The segment of input text extracted as this entity.
         public var text: Swift.String?
@@ -2283,7 +2283,7 @@ extension ComprehendMedicalClientTypes {
     public struct ICD10CMTrait: Swift.Equatable {
         /// Provides a name or contextual description about the trait.
         public var name: ComprehendMedicalClientTypes.ICD10CMTraitName?
-        /// The level of confidence that Comprehend Medical; has that the segment of text is correctly recognized as a trait.
+        /// The level of confidence that Amazon Comprehend Medical has that the segment of text is correctly recognized as a trait.
         public var score: Swift.Float?
 
         public init(
@@ -2365,7 +2365,7 @@ extension InferICD10CMInput: ClientRuntime.URLPathProvider {
 }
 
 public struct InferICD10CMInput: Swift.Equatable {
-    /// The input text used for analysis. The input for InferICD10CM is a string from 1 to 10000 characters.
+    /// The input text used for analysis.
     /// This member is required.
     public var text: Swift.String?
 
@@ -2499,7 +2499,7 @@ extension InferRxNormInput: ClientRuntime.URLPathProvider {
 }
 
 public struct InferRxNormInput: Swift.Equatable {
-    /// The input text used for analysis. The input for InferRxNorm is a string from 1 to 10000 characters.
+    /// The input text used for analysis.
     /// This member is required.
     public var text: Swift.String?
 
@@ -2633,7 +2633,7 @@ extension InferSNOMEDCTInput: ClientRuntime.URLPathProvider {
 }
 
 public struct InferSNOMEDCTInput: Swift.Equatable {
-    /// The input text to be analyzed using InferSNOMEDCT. The text should be a string with 1 to 10000 characters.
+    /// The input text to be analyzed using InferSNOMEDCT.
     /// This member is required.
     public var text: Swift.String?
 
@@ -2700,7 +2700,7 @@ extension InferSNOMEDCTOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct InferSNOMEDCTOutputResponse: Swift.Equatable {
     /// The number of characters in the input request documentation.
     public var characters: ComprehendMedicalClientTypes.Characters?
-    /// The collection of medical concept entities extracted from the input text and their associated information. For each entity, the response provides the entity text, the entity category, where the entity text begins and ends, and the level of confidence that Comprehend Medical has in the detection and analysis. Attributes and traits of the entity are also returned.
+    /// The collection of medical concept entities extracted from the input text and their associated information. For each entity, the response provides the entity text, the entity category, where the entity text begins and ends, and the level of confidence that Amazon Comprehend Medical has in the detection and analysis. Attributes and traits of the entity are also returned.
     /// This member is required.
     public var entities: [ComprehendMedicalClientTypes.SNOMEDCTEntity]?
     /// The version of the model used to analyze the documents, in the format n.n.n You can use this information to track the model used for a particular batch of documents.
@@ -2795,7 +2795,7 @@ extension ComprehendMedicalClientTypes.InputDataConfig: Swift.Codable {
 extension ComprehendMedicalClientTypes {
     /// The input properties for an entities detection job. This includes the name of the S3 bucket and the path to the files to be analyzed.
     public struct InputDataConfig: Swift.Equatable {
-        /// The URI of the S3 bucket that contains the input data. The bucket must be in the same region as the API endpoint that you are calling. Each file in the document collection must be less than 40 KB. You can store a maximum of 30 GB in the bucket.
+        /// The URI of the S3 bucket that contains the input data. The bucket must be in the same region as the API endpoint that you are calling.
         /// This member is required.
         public var s3Bucket: Swift.String?
         /// The path to the input data files in the S3 bucket.
@@ -3805,7 +3805,7 @@ extension ComprehendMedicalClientTypes {
         /// When you use the OutputDataConfig object with asynchronous operations, you specify the Amazon S3 location where you want to write the output data. The URI must be in the same region as the API endpoint that you are calling. The location is used as the prefix for the actual location of the output.
         /// This member is required.
         public var s3Bucket: Swift.String?
-        /// The path to the output data files in the S3 bucket. Comprehend Medical; creates an output directory using the job ID so that the output from one job does not overwrite the output of another.
+        /// The path to the output data files in the S3 bucket. Amazon Comprehend Medical creates an output directory using the job ID so that the output from one job does not overwrite the output of another.
         public var s3Key: Swift.String?
 
         public init(
@@ -4051,7 +4051,7 @@ extension ComprehendMedicalClientTypes {
         public var id: Swift.Int?
         /// The level of confidence that Amazon Comprehend Medical has that the attribute is accurately linked to an entity.
         public var relationshipScore: Swift.Float?
-        /// The level of confidence that Comprehend Medical has that the segment of text is correctly recognized as an attribute.
+        /// The level of confidence that Amazon Comprehend Medical has that the segment of text is correctly recognized as an attribute.
         public var score: Swift.Float?
         /// The segment of input text which corresponds to the detected attribute.
         public var text: Swift.String?
@@ -4599,11 +4599,11 @@ extension ComprehendMedicalClientTypes {
         public var endOffset: Swift.Int?
         /// The numeric identifier for this attribute. This is a monotonically increasing id unique within this response rather than a global unique identifier.
         public var id: Swift.Int?
-        /// The level of confidence that Comprehend Medical has that this attribute is correctly related to this entity.
+        /// The level of confidence that Amazon Comprehend Medical has that this attribute is correctly related to this entity.
         public var relationshipScore: Swift.Float?
         /// The type of relationship that exists between the entity and the related attribute.
         public var relationshipType: ComprehendMedicalClientTypes.SNOMEDCTRelationshipType?
-        /// The level of confidence that Comprehend Medical has that the segment of text is correctly recognized as an attribute.
+        /// The level of confidence that Amazon Comprehend Medical has that the segment of text is correctly recognized as an attribute.
         public var score: Swift.Float?
         /// The SNOMED-CT concepts specific to an attribute, along with a score indicating the likelihood of the match.
         public var snomedctConcepts: [ComprehendMedicalClientTypes.SNOMEDCTConcept]?
@@ -4726,7 +4726,7 @@ extension ComprehendMedicalClientTypes {
         public var code: Swift.String?
         /// The description of the SNOMED-CT concept.
         public var description: Swift.String?
-        /// The level of confidence Comprehend Medical has that the entity should be linked to the identified SNOMED-CT concept.
+        /// The level of confidence Amazon Comprehend Medical has that the entity should be linked to the identified SNOMED-CT concept.
         public var score: Swift.Float?
 
         public init(
@@ -4908,7 +4908,7 @@ extension ComprehendMedicalClientTypes.SNOMEDCTEntity: Swift.Codable {
 }
 
 extension ComprehendMedicalClientTypes {
-    /// The collection of medical entities extracted from the input text and their associated information. For each entity, the response provides the entity text, the entity category, where the entity text begins and ends, and the level of confidence that Comprehend Medical has in the detection and analysis. Attributes and traits of the entity are also returned.
+    /// The collection of medical entities extracted from the input text and their associated information. For each entity, the response provides the entity text, the entity category, where the entity text begins and ends, and the level of confidence that Amazon Comprehend Medical has in the detection and analysis. Attributes and traits of the entity are also returned.
     public struct SNOMEDCTEntity: Swift.Equatable {
         /// An extracted segment of the text that is an attribute of an entity, or otherwise related to an entity, such as the dosage of a medication taken.
         public var attributes: [ComprehendMedicalClientTypes.SNOMEDCTAttribute]?
@@ -4920,7 +4920,7 @@ extension ComprehendMedicalClientTypes {
         public var endOffset: Swift.Int?
         /// The numeric identifier for the entity. This is a monotonically increasing id unique within this response rather than a global unique identifier.
         public var id: Swift.Int?
-        /// The level of confidence that Comprehend Medical has in the accuracy of the detected entity.
+        /// The level of confidence that Amazon Comprehend Medical has in the accuracy of the detected entity.
         public var score: Swift.Float?
         /// The SNOMED concepts that the entity could refer to, along with a score indicating the likelihood of the match.
         public var snomedctConcepts: [ComprehendMedicalClientTypes.SNOMEDCTConcept]?
@@ -5109,7 +5109,7 @@ extension ComprehendMedicalClientTypes {
     public struct SNOMEDCTTrait: Swift.Equatable {
         /// The name or contextual description of a detected trait.
         public var name: ComprehendMedicalClientTypes.SNOMEDCTTraitName?
-        /// The level of confidence that Comprehend Medical has in the accuracy of a detected trait.
+        /// The level of confidence that Amazon Comprehend Medical has in the accuracy of a detected trait.
         public var score: Swift.Float?
 
         public init(
@@ -5192,7 +5192,7 @@ extension ServiceUnavailableException {
     }
 }
 
-/// The Comprehend Medical; service is temporarily unavailable. Please wait and then retry your request.
+/// The Amazon Comprehend Medical service is temporarily unavailable. Please wait and then retry your request.
 public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -5276,9 +5276,9 @@ extension StartEntitiesDetectionV2JobInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartEntitiesDetectionV2JobInput: Swift.Equatable {
-    /// A unique identifier for the request. If you don't set the client request token, Comprehend Medical; generates one for you.
+    /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend Medical generates one for you.
     public var clientRequestToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Comprehend Medical; read access to your input data. For more information, see [ Role-Based Permissions Required for Asynchronous Operations](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med).
+    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend Medical read access to your input data. For more information, see [Role-Based Permissions Required for Asynchronous Operations](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med).
     /// This member is required.
     public var dataAccessRoleArn: Swift.String?
     /// The input configuration that specifies the format and location of the input data for the job.
@@ -5288,7 +5288,7 @@ public struct StartEntitiesDetectionV2JobInput: Swift.Equatable {
     public var jobName: Swift.String?
     /// An AWS Key Management Service key to encrypt your output files. If you do not specify a key, the files are written in plain text.
     public var kmsKey: Swift.String?
-    /// The language of the input documents. All documents must be in the same language. Comprehend Medical; processes files in US English (en).
+    /// The language of the input documents. All documents must be in the same language. Amazon Comprehend Medical processes files in US English (en).
     /// This member is required.
     public var languageCode: ComprehendMedicalClientTypes.LanguageCode?
     /// The output configuration that specifies where to send the output files.
@@ -5453,9 +5453,9 @@ extension StartICD10CMInferenceJobInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartICD10CMInferenceJobInput: Swift.Equatable {
-    /// A unique identifier for the request. If you don't set the client request token, Comprehend Medical; generates one.
+    /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend Medical generates one.
     public var clientRequestToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Comprehend Medical; read access to your input data. For more information, see [ Role-Based Permissions Required for Asynchronous Operations](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med).
+    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend Medical read access to your input data. For more information, see [ Role-Based Permissions Required for Asynchronous Operations](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med).
     /// This member is required.
     public var dataAccessRoleArn: Swift.String?
     /// Specifies the format and location of the input data for the job.
@@ -5630,9 +5630,9 @@ extension StartPHIDetectionJobInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartPHIDetectionJobInput: Swift.Equatable {
-    /// A unique identifier for the request. If you don't set the client request token, Comprehend Medical; generates one.
+    /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend Medical generates one.
     public var clientRequestToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Comprehend Medical; read access to your input data. For more information, see [ Role-Based Permissions Required for Asynchronous Operations](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med).
+    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend Medical read access to your input data. For more information, see [ Role-Based Permissions Required for Asynchronous Operations](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med).
     /// This member is required.
     public var dataAccessRoleArn: Swift.String?
     /// Specifies the format and location of the input data for the job.
@@ -5807,9 +5807,9 @@ extension StartRxNormInferenceJobInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartRxNormInferenceJobInput: Swift.Equatable {
-    /// A unique identifier for the request. If you don't set the client request token, Comprehend Medical; generates one.
+    /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend Medical generates one.
     public var clientRequestToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Comprehend Medical; read access to your input data. For more information, see [ Role-Based Permissions Required for Asynchronous Operations](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med).
+    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend Medical read access to your input data. For more information, see [ Role-Based Permissions Required for Asynchronous Operations](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med).
     /// This member is required.
     public var dataAccessRoleArn: Swift.String?
     /// Specifies the format and location of the input data for the job.
@@ -6763,7 +6763,7 @@ extension ComprehendMedicalClientTypes {
     public struct Trait: Swift.Equatable {
         /// Provides a name or contextual description about the trait.
         public var name: ComprehendMedicalClientTypes.AttributeName?
-        /// The level of confidence that Comprehend Medical; has in the accuracy of this trait.
+        /// The level of confidence that Amazon Comprehend Medical has in the accuracy of this trait.
         public var score: Swift.Float?
 
         public init(
@@ -6804,7 +6804,7 @@ extension ComprehendMedicalClientTypes.UnmappedAttribute: Swift.Codable {
 }
 
 extension ComprehendMedicalClientTypes {
-    /// An attribute that was extracted, but Comprehend Medical; was unable to relate to an entity.
+    /// An attribute that was extracted, but Amazon Comprehend Medical was unable to relate to an entity.
     public struct UnmappedAttribute: Swift.Equatable {
         /// The specific attribute that has been extracted but not mapped to an entity.
         public var attribute: ComprehendMedicalClientTypes.Attribute?

@@ -862,7 +862,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
         return result
     }
 
-    /// Deletes a route request parameter.
+    /// Deletes a route request parameter. Supported only for WebSocket APIs.
     public func deleteRouteRequestParameter(input: DeleteRouteRequestParameterInput) async throws -> DeleteRouteRequestParameterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

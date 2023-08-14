@@ -169,8 +169,8 @@ func addProtocolTests() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.22.0",
-    crtVersion: "0.12.0"
+    clientRuntimeVersion: "0.26.0",
+    crtVersion: "0.13.0"
 )
 
 let serviceTargets: [String] = [
@@ -189,6 +189,7 @@ let serviceTargets: [String] = [
     "AWSApiGatewayV2",
     "AWSAppConfig",
     "AWSAppConfigData",
+    "AWSAppFabric",
     "AWSAppIntegrations",
     "AWSAppMesh",
     "AWSAppRunner",
@@ -294,6 +295,7 @@ let serviceTargets: [String] = [
     "AWSElasticLoadBalancingv2",
     "AWSElasticTranscoder",
     "AWSElasticsearchService",
+    "AWSEntityResolution",
     "AWSEventBridge",
     "AWSEvidently",
     "AWSFMS",
@@ -379,6 +381,7 @@ let serviceTargets: [String] = [
     "AWSMacie",
     "AWSMacie2",
     "AWSManagedBlockchain",
+    "AWSManagedBlockchainQuery",
     "AWSMarketplaceCatalog",
     "AWSMarketplaceCommerceAnalytics",
     "AWSMarketplaceEntitlementService",
@@ -392,6 +395,7 @@ let serviceTargets: [String] = [
     "AWSMediaStore",
     "AWSMediaStoreData",
     "AWSMediaTailor",
+    "AWSMedicalImaging",
     "AWSMemoryDB",
     "AWSMgn",
     "AWSMigrationHub",
@@ -508,6 +512,7 @@ let serviceTargets: [String] = [
     "AWSTransfer",
     "AWSTranslate",
     "AWSVPCLattice",
+    "AWSVerifiedPermissions",
     "AWSVoiceID",
     "AWSWAF",
     "AWSWAFRegional",

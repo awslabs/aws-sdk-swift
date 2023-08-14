@@ -20451,15 +20451,15 @@ extension ChimeClientTypes {
         public var audioHostUrl: Swift.String?
         /// The event ingestion URL to which you send client meeting events.
         public var eventIngestionUrl: Swift.String?
-        /// The screen data URL.
+        /// The screen data URL. This parameter is is no longer supported and no longer used by the Amazon Chime SDK.
         public var screenDataUrl: Swift.String?
-        /// The screen sharing URL.
+        /// The screen sharing URL. This parameter is is no longer supported and no longer used by the Amazon Chime SDK..
         public var screenSharingUrl: Swift.String?
-        /// The screen viewing URL.
+        /// The screen viewing URL. This parameter is is no longer supported and no longer used by the Amazon Chime SDK.
         public var screenViewingUrl: Swift.String?
         /// The signaling URL.
         public var signalingUrl: Swift.String?
-        /// The turn control URL.
+        /// The turn control URL. This parameter is is no longer supported and no longer used by the Amazon Chime SDK.
         public var turnControlUrl: Swift.String?
 
         public init(

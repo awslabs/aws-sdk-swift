@@ -1217,6 +1217,64 @@ extension EC2ClientProtocol {
         return try await waiter.waitUntil(options: options, input: input)
     }
 
+    static func storeImageTaskCompleteWaiterConfig() throws -> WaiterConfiguration<DescribeStoreImageTasksInput, DescribeStoreImageTasksOutputResponse> {
+        let acceptors: [WaiterConfiguration<DescribeStoreImageTasksInput, DescribeStoreImageTasksOutputResponse>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeStoreImageTasksInput, result: Result<DescribeStoreImageTasksOutputResponse, Error>) -> Bool in
+                // JMESPath expression: "StoreImageTaskResults[].StoreTaskState"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "Completed"
+                guard case .success(let output) = result else { return false }
+                let storeImageTaskResults = output.storeImageTaskResults
+                let projection: [Swift.String]? = storeImageTaskResults?.compactMap { original in
+                    let storeTaskState = original.storeTaskState
+                    return storeTaskState
+                }
+                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "Completed") } ?? false)
+            }),
+            .init(state: .failure, matcher: { (input: DescribeStoreImageTasksInput, result: Result<DescribeStoreImageTasksOutputResponse, Error>) -> Bool in
+                // JMESPath expression: "StoreImageTaskResults[].StoreTaskState"
+                // JMESPath comparator: "anyStringEquals"
+                // JMESPath expected value: "Failed"
+                guard case .success(let output) = result else { return false }
+                let storeImageTaskResults = output.storeImageTaskResults
+                let projection: [Swift.String]? = storeImageTaskResults?.compactMap { original in
+                    let storeTaskState = original.storeTaskState
+                    return storeTaskState
+                }
+                return projection?.contains(where: { JMESUtils.compare($0, ==, "Failed") }) ?? false
+            }),
+            .init(state: .retry, matcher: { (input: DescribeStoreImageTasksInput, result: Result<DescribeStoreImageTasksOutputResponse, Error>) -> Bool in
+                // JMESPath expression: "StoreImageTaskResults[].StoreTaskState"
+                // JMESPath comparator: "anyStringEquals"
+                // JMESPath expected value: "InProgress"
+                guard case .success(let output) = result else { return false }
+                let storeImageTaskResults = output.storeImageTaskResults
+                let projection: [Swift.String]? = storeImageTaskResults?.compactMap { original in
+                    let storeTaskState = original.storeTaskState
+                    return storeTaskState
+                }
+                return projection?.contains(where: { JMESUtils.compare($0, ==, "InProgress") }) ?? false
+            }),
+        ]
+        return try WaiterConfiguration<DescribeStoreImageTasksInput, DescribeStoreImageTasksOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the StoreImageTaskComplete event on the describeStoreImageTasks operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeStoreImageTasksInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilStoreImageTaskComplete(options: WaiterOptions, input: DescribeStoreImageTasksInput) async throws -> WaiterOutcome<DescribeStoreImageTasksOutputResponse> {
+        let waiter = Waiter(config: try Self.storeImageTaskCompleteWaiterConfig(), operation: self.describeStoreImageTasks(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
     static func subnetAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeSubnetsInput, DescribeSubnetsOutputResponse> {
         let acceptors: [WaiterConfiguration<DescribeSubnetsInput, DescribeSubnetsOutputResponse>.Acceptor] = [
             .init(state: .success, matcher: { (input: DescribeSubnetsInput, result: Result<DescribeSubnetsOutputResponse, Error>) -> Bool in

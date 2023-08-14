@@ -6,7 +6,13 @@ import ClientRuntime
 public protocol CloudFrontClientProtocol {
     /// Associates an alias (also known as a CNAME or an alternate domain name) with a CloudFront distribution. With this operation you can move an alias that's already in use on a CloudFront distribution to a different distribution in one step. This prevents the downtime that could occur if you first remove the alias from one distribution and then separately add the alias to another distribution. To use this operation to associate an alias with a distribution, you provide the alias and the ID of the target distribution for the alias. For more information, including how to set up the target distribution, prerequisites that you must complete, and other restrictions, see [Moving an alternate domain name to a different distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move) in the Amazon CloudFront Developer Guide.
     func associateAlias(input: AssociateAliasInput) async throws -> AssociateAliasOutputResponse
-    /// Creates a staging distribution using the configuration of the provided primary distribution. A staging distribution is a copy of an existing distribution (called the primary distribution) that you can use in a continuous deployment workflow. After you create a staging distribution, you can use UpdateDistribution to modify the staging distribution's configuration. Then you can use CreateContinuousDeploymentPolicy to incrementally move traffic to the staging distribution.
+    /// Creates a staging distribution using the configuration of the provided primary distribution. A staging distribution is a copy of an existing distribution (called the primary distribution) that you can use in a continuous deployment workflow. After you create a staging distribution, you can use UpdateDistribution to modify the staging distribution's configuration. Then you can use CreateContinuousDeploymentPolicy to incrementally move traffic to the staging distribution. This API operation requires the following IAM permissions:
+    ///
+    /// * [GetDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_GetDistribution.html)
+    ///
+    /// * [CreateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_CreateDistribution.html)
+    ///
+    /// * [CopyDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_CopyDistribution.html)
     func copyDistribution(input: CopyDistributionInput) async throws -> CopyDistributionOutputResponse
     /// Creates a cache policy. After you create a cache policy, you can attach it to one or more cache behaviors. When it's attached to a cache behavior, the cache policy determines the following:
     ///
@@ -23,7 +29,11 @@ public protocol CloudFrontClientProtocol {
     func createContinuousDeploymentPolicy(input: CreateContinuousDeploymentPolicyInput) async throws -> CreateContinuousDeploymentPolicyOutputResponse
     /// Creates a CloudFront distribution.
     func createDistribution(input: CreateDistributionInput) async throws -> CreateDistributionOutputResponse
-    /// Create a new distribution with tags.
+    /// Create a new distribution with tags. This API operation requires the following IAM permissions:
+    ///
+    /// * [CreateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_CreateDistribution.html)
+    ///
+    /// * [TagResource](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_TagResource.html)
     func createDistributionWithTags(input: CreateDistributionWithTagsInput) async throws -> CreateDistributionWithTagsOutputResponse
     /// Create a new field-level encryption configuration.
     func createFieldLevelEncryptionConfig(input: CreateFieldLevelEncryptionConfigInput) async throws -> CreateFieldLevelEncryptionConfigOutputResponse
@@ -268,7 +278,11 @@ public protocol CloudFrontClientProtocol {
     ///
     /// * Submit an UpdateDistribution request, providing the distribution configuration. The new configuration replaces the existing configuration. The values that you specify in an UpdateDistribution request are not merged into your existing configuration. Make sure to include all fields: the ones that you modified and also the ones that you didn't.
     func updateDistribution(input: UpdateDistributionInput) async throws -> UpdateDistributionOutputResponse
-    /// Copies the staging distribution's configuration to its corresponding primary distribution. The primary distribution retains its Aliases (also known as alternate domain names or CNAMEs) and ContinuousDeploymentPolicyId value, but otherwise its configuration is overwritten to match the staging distribution. You can use this operation in a continuous deployment workflow after you have tested configuration changes on the staging distribution. After using a continuous deployment policy to move a portion of your domain name's traffic to the staging distribution and verifying that it works as intended, you can use this operation to copy the staging distribution's configuration to the primary distribution. This action will disable the continuous deployment policy and move your domain's traffic back to the primary distribution.
+    /// Copies the staging distribution's configuration to its corresponding primary distribution. The primary distribution retains its Aliases (also known as alternate domain names or CNAMEs) and ContinuousDeploymentPolicyId value, but otherwise its configuration is overwritten to match the staging distribution. You can use this operation in a continuous deployment workflow after you have tested configuration changes on the staging distribution. After using a continuous deployment policy to move a portion of your domain name's traffic to the staging distribution and verifying that it works as intended, you can use this operation to copy the staging distribution's configuration to the primary distribution. This action will disable the continuous deployment policy and move your domain's traffic back to the primary distribution. This API operation requires the following IAM permissions:
+    ///
+    /// * [GetDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_GetDistribution.html)
+    ///
+    /// * [UpdateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html)
     func updateDistributionWithStagingConfig(input: UpdateDistributionWithStagingConfigInput) async throws -> UpdateDistributionWithStagingConfigOutputResponse
     /// Update a field-level encryption configuration.
     func updateFieldLevelEncryptionConfig(input: UpdateFieldLevelEncryptionConfigInput) async throws -> UpdateFieldLevelEncryptionConfigOutputResponse

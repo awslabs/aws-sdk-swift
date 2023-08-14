@@ -944,7 +944,7 @@ extension GlueClientTypes.AmazonRedshiftTarget: Swift.Codable {
 extension GlueClientTypes {
     /// Specifies an Amazon Redshift target.
     public struct AmazonRedshiftTarget: Swift.Equatable {
-        /// Specifies the data of the Amazon Reshift target node.
+        /// Specifies the data of the Amazon Redshift target node.
         public var data: GlueClientTypes.AmazonRedshiftNodeData?
         /// The nodes that are inputs to the data target.
         public var inputs: [Swift.String]?
@@ -6010,6 +6010,7 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         case piiDetection = "PIIDetection"
         case postgreSQLCatalogSource = "PostgreSQLCatalogSource"
         case postgreSQLCatalogTarget = "PostgreSQLCatalogTarget"
+        case recipe = "Recipe"
         case redshiftSource = "RedshiftSource"
         case redshiftTarget = "RedshiftTarget"
         case relationalCatalogSource = "RelationalCatalogSource"
@@ -6031,6 +6032,8 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         case s3ParquetSource = "S3ParquetSource"
         case selectFields = "SelectFields"
         case selectFromCollection = "SelectFromCollection"
+        case snowflakeSource = "SnowflakeSource"
+        case snowflakeTarget = "SnowflakeTarget"
         case sparkConnectorSource = "SparkConnectorSource"
         case sparkConnectorTarget = "SparkConnectorTarget"
         case sparkSQL = "SparkSQL"
@@ -6158,6 +6161,9 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         if let postgreSQLCatalogTarget = self.postgreSQLCatalogTarget {
             try encodeContainer.encode(postgreSQLCatalogTarget, forKey: .postgreSQLCatalogTarget)
         }
+        if let recipe = self.recipe {
+            try encodeContainer.encode(recipe, forKey: .recipe)
+        }
         if let redshiftSource = self.redshiftSource {
             try encodeContainer.encode(redshiftSource, forKey: .redshiftSource)
         }
@@ -6220,6 +6226,12 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         }
         if let selectFromCollection = self.selectFromCollection {
             try encodeContainer.encode(selectFromCollection, forKey: .selectFromCollection)
+        }
+        if let snowflakeSource = self.snowflakeSource {
+            try encodeContainer.encode(snowflakeSource, forKey: .snowflakeSource)
+        }
+        if let snowflakeTarget = self.snowflakeTarget {
+            try encodeContainer.encode(snowflakeTarget, forKey: .snowflakeTarget)
         }
         if let sparkConnectorSource = self.sparkConnectorSource {
             try encodeContainer.encode(sparkConnectorSource, forKey: .sparkConnectorSource)
@@ -6375,6 +6387,12 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         amazonRedshiftTarget = amazonRedshiftTargetDecoded
         let evaluateDataQualityMultiFrameDecoded = try containerValues.decodeIfPresent(GlueClientTypes.EvaluateDataQualityMultiFrame.self, forKey: .evaluateDataQualityMultiFrame)
         evaluateDataQualityMultiFrame = evaluateDataQualityMultiFrameDecoded
+        let recipeDecoded = try containerValues.decodeIfPresent(GlueClientTypes.Recipe.self, forKey: .recipe)
+        recipe = recipeDecoded
+        let snowflakeSourceDecoded = try containerValues.decodeIfPresent(GlueClientTypes.SnowflakeSource.self, forKey: .snowflakeSource)
+        snowflakeSource = snowflakeSourceDecoded
+        let snowflakeTargetDecoded = try containerValues.decodeIfPresent(GlueClientTypes.SnowflakeTarget.self, forKey: .snowflakeTarget)
+        snowflakeTarget = snowflakeTargetDecoded
     }
 }
 
@@ -6459,6 +6477,8 @@ extension GlueClientTypes {
         public var postgreSQLCatalogSource: GlueClientTypes.PostgreSQLCatalogSource?
         /// Specifies a target that uses Postgres SQL.
         public var postgreSQLCatalogTarget: GlueClientTypes.PostgreSQLCatalogTarget?
+        /// Specifies a Glue DataBrew recipe node.
+        public var recipe: GlueClientTypes.Recipe?
         /// Specifies an Amazon Redshift data store.
         public var redshiftSource: GlueClientTypes.RedshiftSource?
         /// Specifies a target that uses Amazon Redshift.
@@ -6501,6 +6521,10 @@ extension GlueClientTypes {
         public var selectFields: GlueClientTypes.SelectFields?
         /// Specifies a transform that chooses one DynamicFrame from a collection of DynamicFrames. The output is the selected DynamicFrame
         public var selectFromCollection: GlueClientTypes.SelectFromCollection?
+        /// Specifies a Snowflake data source.
+        public var snowflakeSource: GlueClientTypes.SnowflakeSource?
+        /// Specifies a target that writes to a Snowflake data source.
+        public var snowflakeTarget: GlueClientTypes.SnowflakeTarget?
         /// Specifies a connector to an Apache Spark data source.
         public var sparkConnectorSource: GlueClientTypes.SparkConnectorSource?
         /// Specifies a target that uses an Apache Spark connector.
@@ -6554,6 +6578,7 @@ extension GlueClientTypes {
             piiDetection: GlueClientTypes.PIIDetection? = nil,
             postgreSQLCatalogSource: GlueClientTypes.PostgreSQLCatalogSource? = nil,
             postgreSQLCatalogTarget: GlueClientTypes.PostgreSQLCatalogTarget? = nil,
+            recipe: GlueClientTypes.Recipe? = nil,
             redshiftSource: GlueClientTypes.RedshiftSource? = nil,
             redshiftTarget: GlueClientTypes.RedshiftTarget? = nil,
             relationalCatalogSource: GlueClientTypes.RelationalCatalogSource? = nil,
@@ -6575,6 +6600,8 @@ extension GlueClientTypes {
             s3ParquetSource: GlueClientTypes.S3ParquetSource? = nil,
             selectFields: GlueClientTypes.SelectFields? = nil,
             selectFromCollection: GlueClientTypes.SelectFromCollection? = nil,
+            snowflakeSource: GlueClientTypes.SnowflakeSource? = nil,
+            snowflakeTarget: GlueClientTypes.SnowflakeTarget? = nil,
             sparkConnectorSource: GlueClientTypes.SparkConnectorSource? = nil,
             sparkConnectorTarget: GlueClientTypes.SparkConnectorTarget? = nil,
             sparkSQL: GlueClientTypes.SparkSQL? = nil,
@@ -6622,6 +6649,7 @@ extension GlueClientTypes {
             self.piiDetection = piiDetection
             self.postgreSQLCatalogSource = postgreSQLCatalogSource
             self.postgreSQLCatalogTarget = postgreSQLCatalogTarget
+            self.recipe = recipe
             self.redshiftSource = redshiftSource
             self.redshiftTarget = redshiftTarget
             self.relationalCatalogSource = relationalCatalogSource
@@ -6643,6 +6671,8 @@ extension GlueClientTypes {
             self.s3ParquetSource = s3ParquetSource
             self.selectFields = selectFields
             self.selectFromCollection = selectFromCollection
+            self.snowflakeSource = snowflakeSource
+            self.snowflakeTarget = snowflakeTarget
             self.sparkConnectorSource = sparkConnectorSource
             self.sparkConnectorTarget = sparkConnectorTarget
             self.sparkSQL = sparkSQL
@@ -7979,6 +8009,8 @@ extension GlueClientTypes {
         ///
         /// * ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD - The encrypted version of the Kafka SASL SCRAM password (if the user has the Glue encrypt passwords setting selected).
         ///
+        /// * KAFKA_SASL_SCRAM_SECRETS_ARN - The Amazon Resource Name of a secret in Amazon Web Services Secrets Manager.
+        ///
         /// * KAFKA_SASL_GSSAPI_KEYTAB - The S3 location of a Kerberos keytab file. A keytab stores long-term keys for one or more principals. For more information, see [MIT Kerberos Documentation: Keytab](https://web.mit.edu/kerberos/krb5-latest/doc/basic/keytab_def.html).
         ///
         /// * KAFKA_SASL_GSSAPI_KRB5_CONF - The S3 location of a Kerberos krb5.conf file. A krb5.conf stores Kerberos configuration information, such as the location of the KDC server. For more information, see [MIT Kerberos Documentation: krb5.conf](https://web.mit.edu/kerberos/krb5-1.12/doc/admin/conf_files/krb5_conf.html).
@@ -8252,6 +8284,7 @@ extension GlueClientTypes {
         case customJdbcCertString
         case encryptedKafkaClientKeystorePassword
         case encryptedKafkaClientKeyPassword
+        case encryptedKafkaSaslScramPassword
         case encryptedPassword
         case host
         case instanceId
@@ -8266,6 +8299,14 @@ extension GlueClientTypes {
         case kafkaClientKeystorePassword
         case kafkaClientKeyPassword
         case kafkaCustomCert
+        case kafkaSaslGssapiKeytab
+        case kafkaSaslGssapiKrb5Conf
+        case kafkaSaslGssapiPrincipal
+        case kafkaSaslGssapiService
+        case kafkaSaslMechanism
+        case kafkaSaslScramPassword
+        case kafkaSaslScramSecretsArn
+        case kafkaSaslScramUsername
         case kafkaSkipCustomCertValidation
         case kafkaSslEnabled
         case password
@@ -8286,6 +8327,7 @@ extension GlueClientTypes {
                 .customJdbcCertString,
                 .encryptedKafkaClientKeystorePassword,
                 .encryptedKafkaClientKeyPassword,
+                .encryptedKafkaSaslScramPassword,
                 .encryptedPassword,
                 .host,
                 .instanceId,
@@ -8300,6 +8342,14 @@ extension GlueClientTypes {
                 .kafkaClientKeystorePassword,
                 .kafkaClientKeyPassword,
                 .kafkaCustomCert,
+                .kafkaSaslGssapiKeytab,
+                .kafkaSaslGssapiKrb5Conf,
+                .kafkaSaslGssapiPrincipal,
+                .kafkaSaslGssapiService,
+                .kafkaSaslMechanism,
+                .kafkaSaslScramPassword,
+                .kafkaSaslScramSecretsArn,
+                .kafkaSaslScramUsername,
                 .kafkaSkipCustomCertValidation,
                 .kafkaSslEnabled,
                 .password,
@@ -8325,6 +8375,7 @@ extension GlueClientTypes {
             case .customJdbcCertString: return "CUSTOM_JDBC_CERT_STRING"
             case .encryptedKafkaClientKeystorePassword: return "ENCRYPTED_KAFKA_CLIENT_KEYSTORE_PASSWORD"
             case .encryptedKafkaClientKeyPassword: return "ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD"
+            case .encryptedKafkaSaslScramPassword: return "ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD"
             case .encryptedPassword: return "ENCRYPTED_PASSWORD"
             case .host: return "HOST"
             case .instanceId: return "INSTANCE_ID"
@@ -8339,6 +8390,14 @@ extension GlueClientTypes {
             case .kafkaClientKeystorePassword: return "KAFKA_CLIENT_KEYSTORE_PASSWORD"
             case .kafkaClientKeyPassword: return "KAFKA_CLIENT_KEY_PASSWORD"
             case .kafkaCustomCert: return "KAFKA_CUSTOM_CERT"
+            case .kafkaSaslGssapiKeytab: return "KAFKA_SASL_GSSAPI_KEYTAB"
+            case .kafkaSaslGssapiKrb5Conf: return "KAFKA_SASL_GSSAPI_KRB5_CONF"
+            case .kafkaSaslGssapiPrincipal: return "KAFKA_SASL_GSSAPI_PRINCIPAL"
+            case .kafkaSaslGssapiService: return "KAFKA_SASL_GSSAPI_SERVICE"
+            case .kafkaSaslMechanism: return "KAFKA_SASL_MECHANISM"
+            case .kafkaSaslScramPassword: return "KAFKA_SASL_SCRAM_PASSWORD"
+            case .kafkaSaslScramSecretsArn: return "KAFKA_SASL_SCRAM_SECRETS_ARN"
+            case .kafkaSaslScramUsername: return "KAFKA_SASL_SCRAM_USERNAME"
             case .kafkaSkipCustomCertValidation: return "KAFKA_SKIP_CUSTOM_CERT_VALIDATION"
             case .kafkaSslEnabled: return "KAFKA_SSL_ENABLED"
             case .password: return "PASSWORD"
@@ -9372,6 +9431,8 @@ extension GlueClientTypes.CrawlerTargets: Swift.Codable {
         case catalogTargets = "CatalogTargets"
         case deltaTargets = "DeltaTargets"
         case dynamoDBTargets = "DynamoDBTargets"
+        case hudiTargets = "HudiTargets"
+        case icebergTargets = "IcebergTargets"
         case jdbcTargets = "JdbcTargets"
         case mongoDBTargets = "MongoDBTargets"
         case s3Targets = "S3Targets"
@@ -9395,6 +9456,18 @@ extension GlueClientTypes.CrawlerTargets: Swift.Codable {
             var dynamoDBTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dynamoDBTargets)
             for dynamodbtarget0 in dynamoDBTargets {
                 try dynamoDBTargetsContainer.encode(dynamodbtarget0)
+            }
+        }
+        if let hudiTargets = hudiTargets {
+            var hudiTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .hudiTargets)
+            for huditarget0 in hudiTargets {
+                try hudiTargetsContainer.encode(huditarget0)
+            }
+        }
+        if let icebergTargets = icebergTargets {
+            var icebergTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .icebergTargets)
+            for icebergtarget0 in icebergTargets {
+                try icebergTargetsContainer.encode(icebergtarget0)
             }
         }
         if let jdbcTargets = jdbcTargets {
@@ -9485,6 +9558,28 @@ extension GlueClientTypes.CrawlerTargets: Swift.Codable {
             }
         }
         deltaTargets = deltaTargetsDecoded0
+        let icebergTargetsContainer = try containerValues.decodeIfPresent([GlueClientTypes.IcebergTarget?].self, forKey: .icebergTargets)
+        var icebergTargetsDecoded0:[GlueClientTypes.IcebergTarget]? = nil
+        if let icebergTargetsContainer = icebergTargetsContainer {
+            icebergTargetsDecoded0 = [GlueClientTypes.IcebergTarget]()
+            for structure0 in icebergTargetsContainer {
+                if let structure0 = structure0 {
+                    icebergTargetsDecoded0?.append(structure0)
+                }
+            }
+        }
+        icebergTargets = icebergTargetsDecoded0
+        let hudiTargetsContainer = try containerValues.decodeIfPresent([GlueClientTypes.HudiTarget?].self, forKey: .hudiTargets)
+        var hudiTargetsDecoded0:[GlueClientTypes.HudiTarget]? = nil
+        if let hudiTargetsContainer = hudiTargetsContainer {
+            hudiTargetsDecoded0 = [GlueClientTypes.HudiTarget]()
+            for structure0 in hudiTargetsContainer {
+                if let structure0 = structure0 {
+                    hudiTargetsDecoded0?.append(structure0)
+                }
+            }
+        }
+        hudiTargets = hudiTargetsDecoded0
     }
 }
 
@@ -9497,6 +9592,10 @@ extension GlueClientTypes {
         public var deltaTargets: [GlueClientTypes.DeltaTarget]?
         /// Specifies Amazon DynamoDB targets.
         public var dynamoDBTargets: [GlueClientTypes.DynamoDBTarget]?
+        /// Specifies Apache Hudi data store targets.
+        public var hudiTargets: [GlueClientTypes.HudiTarget]?
+        /// Specifies Apache Iceberg data store targets.
+        public var icebergTargets: [GlueClientTypes.IcebergTarget]?
         /// Specifies JDBC targets.
         public var jdbcTargets: [GlueClientTypes.JdbcTarget]?
         /// Specifies Amazon DocumentDB or MongoDB targets.
@@ -9508,6 +9607,8 @@ extension GlueClientTypes {
             catalogTargets: [GlueClientTypes.CatalogTarget]? = nil,
             deltaTargets: [GlueClientTypes.DeltaTarget]? = nil,
             dynamoDBTargets: [GlueClientTypes.DynamoDBTarget]? = nil,
+            hudiTargets: [GlueClientTypes.HudiTarget]? = nil,
+            icebergTargets: [GlueClientTypes.IcebergTarget]? = nil,
             jdbcTargets: [GlueClientTypes.JdbcTarget]? = nil,
             mongoDBTargets: [GlueClientTypes.MongoDBTarget]? = nil,
             s3Targets: [GlueClientTypes.S3Target]? = nil
@@ -9516,6 +9617,8 @@ extension GlueClientTypes {
             self.catalogTargets = catalogTargets
             self.deltaTargets = deltaTargets
             self.dynamoDBTargets = dynamoDBTargets
+            self.hudiTargets = hudiTargets
+            self.icebergTargets = icebergTargets
             self.jdbcTargets = jdbcTargets
             self.mongoDBTargets = mongoDBTargets
             self.s3Targets = s3Targets
@@ -11600,17 +11703,19 @@ public struct CreateJobInput: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
     /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
     public var timeout: Swift.Int?
-    /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
+    /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
     ///
-    /// * For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.
+    /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
     ///
-    /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
+    /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
     ///
-    /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
+    /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).
     ///
-    /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
+    /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.
     ///
-    /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPU, 64 GB of m emory, 128 GB disk), and provides up to 8 Ray workers based on the autoscaler.
+    /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
+    ///
+    /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
     public var workerType: GlueClientTypes.WorkerType?
 
     public init(
@@ -13359,15 +13464,17 @@ public struct CreateSessionInput: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
     /// The number of minutes before session times out. Default for Spark ETL jobs is 48 hours (2880 minutes), the maximum session lifetime for this job type. Consult the documentation for other job types.
     public var timeout: Swift.Int?
-    /// The type of predefined worker that is allocated to use for the session. Accepts a value of Standard, G.1X, G.2X, or G.025X.
+    /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, or G.8X for Spark jobs. Accepts the value Z.2X for Ray notebooks.
     ///
-    /// * For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.
+    /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
     ///
-    /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
+    /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
     ///
-    /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
+    /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).
     ///
-    /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
+    /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.
+    ///
+    /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
     public var workerType: GlueClientTypes.WorkerType?
 
     public init(
@@ -13558,6 +13665,7 @@ extension CreateTableInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case catalogId = "CatalogId"
         case databaseName = "DatabaseName"
+        case openTableFormatInput = "OpenTableFormatInput"
         case partitionIndexes = "PartitionIndexes"
         case tableInput = "TableInput"
         case transactionId = "TransactionId"
@@ -13570,6 +13678,9 @@ extension CreateTableInput: Swift.Encodable {
         }
         if let databaseName = self.databaseName {
             try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let openTableFormatInput = self.openTableFormatInput {
+            try encodeContainer.encode(openTableFormatInput, forKey: .openTableFormatInput)
         }
         if let partitionIndexes = partitionIndexes {
             var partitionIndexesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionIndexes)
@@ -13598,6 +13709,8 @@ public struct CreateTableInput: Swift.Equatable {
     /// The catalog database in which to create the new table. For Hive compatibility, this name is entirely lowercase.
     /// This member is required.
     public var databaseName: Swift.String?
+    /// Specifies an OpenTableFormatInput structure when creating an open format table.
+    public var openTableFormatInput: GlueClientTypes.OpenTableFormatInput?
     /// A list of partition indexes, PartitionIndex structures, to create in the table.
     public var partitionIndexes: [GlueClientTypes.PartitionIndex]?
     /// The TableInput object that defines the metadata table to create in the catalog.
@@ -13609,6 +13722,7 @@ public struct CreateTableInput: Swift.Equatable {
     public init(
         catalogId: Swift.String? = nil,
         databaseName: Swift.String? = nil,
+        openTableFormatInput: GlueClientTypes.OpenTableFormatInput? = nil,
         partitionIndexes: [GlueClientTypes.PartitionIndex]? = nil,
         tableInput: GlueClientTypes.TableInput? = nil,
         transactionId: Swift.String? = nil
@@ -13616,6 +13730,7 @@ public struct CreateTableInput: Swift.Equatable {
     {
         self.catalogId = catalogId
         self.databaseName = databaseName
+        self.openTableFormatInput = openTableFormatInput
         self.partitionIndexes = partitionIndexes
         self.tableInput = tableInput
         self.transactionId = transactionId
@@ -13628,12 +13743,14 @@ struct CreateTableInputBody: Swift.Equatable {
     let tableInput: GlueClientTypes.TableInput?
     let partitionIndexes: [GlueClientTypes.PartitionIndex]?
     let transactionId: Swift.String?
+    let openTableFormatInput: GlueClientTypes.OpenTableFormatInput?
 }
 
 extension CreateTableInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case catalogId = "CatalogId"
         case databaseName = "DatabaseName"
+        case openTableFormatInput = "OpenTableFormatInput"
         case partitionIndexes = "PartitionIndexes"
         case tableInput = "TableInput"
         case transactionId = "TransactionId"
@@ -13660,6 +13777,8 @@ extension CreateTableInputBody: Swift.Decodable {
         partitionIndexes = partitionIndexesDecoded0
         let transactionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transactionId)
         transactionId = transactionIdDecoded
+        let openTableFormatInputDecoded = try containerValues.decodeIfPresent(GlueClientTypes.OpenTableFormatInput.self, forKey: .openTableFormatInput)
+        openTableFormatInput = openTableFormatInputDecoded
     }
 }
 
@@ -33003,6 +33122,95 @@ extension GlueClientTypes {
 
 }
 
+extension GlueClientTypes.HudiTarget: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectionName = "ConnectionName"
+        case exclusions = "Exclusions"
+        case maximumTraversalDepth = "MaximumTraversalDepth"
+        case paths = "Paths"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let connectionName = self.connectionName {
+            try encodeContainer.encode(connectionName, forKey: .connectionName)
+        }
+        if let exclusions = exclusions {
+            var exclusionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exclusions)
+            for path0 in exclusions {
+                try exclusionsContainer.encode(path0)
+            }
+        }
+        if let maximumTraversalDepth = self.maximumTraversalDepth {
+            try encodeContainer.encode(maximumTraversalDepth, forKey: .maximumTraversalDepth)
+        }
+        if let paths = paths {
+            var pathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .paths)
+            for path0 in paths {
+                try pathsContainer.encode(path0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pathsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .paths)
+        var pathsDecoded0:[Swift.String]? = nil
+        if let pathsContainer = pathsContainer {
+            pathsDecoded0 = [Swift.String]()
+            for string0 in pathsContainer {
+                if let string0 = string0 {
+                    pathsDecoded0?.append(string0)
+                }
+            }
+        }
+        paths = pathsDecoded0
+        let connectionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionName)
+        connectionName = connectionNameDecoded
+        let exclusionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .exclusions)
+        var exclusionsDecoded0:[Swift.String]? = nil
+        if let exclusionsContainer = exclusionsContainer {
+            exclusionsDecoded0 = [Swift.String]()
+            for string0 in exclusionsContainer {
+                if let string0 = string0 {
+                    exclusionsDecoded0?.append(string0)
+                }
+            }
+        }
+        exclusions = exclusionsDecoded0
+        let maximumTraversalDepthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumTraversalDepth)
+        maximumTraversalDepth = maximumTraversalDepthDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies an Apache Hudi data source.
+    public struct HudiTarget: Swift.Equatable {
+        /// The name of the connection to use to connect to the Hudi target. If your Hudi files are stored in buckets that require VPC authorization, you can set their connection properties here.
+        public var connectionName: Swift.String?
+        /// A list of glob patterns used to exclude from the crawl. For more information, see [Catalog Tables with a Crawler](https://docs.aws.amazon.com/glue/latest/dg/add-crawler.html).
+        public var exclusions: [Swift.String]?
+        /// The maximum depth of Amazon S3 paths that the crawler can traverse to discover the Hudi metadata folder in your Amazon S3 path. Used to limit the crawler run time.
+        public var maximumTraversalDepth: Swift.Int?
+        /// An array of Amazon S3 location strings for Hudi, each indicating the root folder with which the metadata files for a Hudi table resides. The Hudi folder may be located in a child folder of the root folder. The crawler will scan all folders underneath a path for a Hudi folder.
+        public var paths: [Swift.String]?
+
+        public init(
+            connectionName: Swift.String? = nil,
+            exclusions: [Swift.String]? = nil,
+            maximumTraversalDepth: Swift.Int? = nil,
+            paths: [Swift.String]? = nil
+        )
+        {
+            self.connectionName = connectionName
+            self.exclusions = exclusions
+            self.maximumTraversalDepth = maximumTraversalDepth
+            self.paths = paths
+        }
+    }
+
+}
+
 extension GlueClientTypes {
     public enum HudiTargetCompressionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case gzip
@@ -33039,6 +33247,141 @@ extension GlueClientTypes {
             self = HudiTargetCompressionType(rawValue: rawValue) ?? HudiTargetCompressionType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension GlueClientTypes.IcebergInput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metadataOperation = "MetadataOperation"
+        case version = "Version"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let metadataOperation = self.metadataOperation {
+            try encodeContainer.encode(metadataOperation.rawValue, forKey: .metadataOperation)
+        }
+        if let version = self.version {
+            try encodeContainer.encode(version, forKey: .version)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let metadataOperationDecoded = try containerValues.decodeIfPresent(GlueClientTypes.MetadataOperation.self, forKey: .metadataOperation)
+        metadataOperation = metadataOperationDecoded
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// A structure that defines an Apache Iceberg metadata table to create in the catalog.
+    public struct IcebergInput: Swift.Equatable {
+        /// A required metadata operation. Can only be set to CREATE.
+        /// This member is required.
+        public var metadataOperation: GlueClientTypes.MetadataOperation?
+        /// The table version for the Iceberg table. Defaults to 2.
+        public var version: Swift.String?
+
+        public init(
+            metadataOperation: GlueClientTypes.MetadataOperation? = nil,
+            version: Swift.String? = nil
+        )
+        {
+            self.metadataOperation = metadataOperation
+            self.version = version
+        }
+    }
+
+}
+
+extension GlueClientTypes.IcebergTarget: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectionName = "ConnectionName"
+        case exclusions = "Exclusions"
+        case maximumTraversalDepth = "MaximumTraversalDepth"
+        case paths = "Paths"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let connectionName = self.connectionName {
+            try encodeContainer.encode(connectionName, forKey: .connectionName)
+        }
+        if let exclusions = exclusions {
+            var exclusionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exclusions)
+            for path0 in exclusions {
+                try exclusionsContainer.encode(path0)
+            }
+        }
+        if let maximumTraversalDepth = self.maximumTraversalDepth {
+            try encodeContainer.encode(maximumTraversalDepth, forKey: .maximumTraversalDepth)
+        }
+        if let paths = paths {
+            var pathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .paths)
+            for path0 in paths {
+                try pathsContainer.encode(path0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pathsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .paths)
+        var pathsDecoded0:[Swift.String]? = nil
+        if let pathsContainer = pathsContainer {
+            pathsDecoded0 = [Swift.String]()
+            for string0 in pathsContainer {
+                if let string0 = string0 {
+                    pathsDecoded0?.append(string0)
+                }
+            }
+        }
+        paths = pathsDecoded0
+        let connectionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionName)
+        connectionName = connectionNameDecoded
+        let exclusionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .exclusions)
+        var exclusionsDecoded0:[Swift.String]? = nil
+        if let exclusionsContainer = exclusionsContainer {
+            exclusionsDecoded0 = [Swift.String]()
+            for string0 in exclusionsContainer {
+                if let string0 = string0 {
+                    exclusionsDecoded0?.append(string0)
+                }
+            }
+        }
+        exclusions = exclusionsDecoded0
+        let maximumTraversalDepthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumTraversalDepth)
+        maximumTraversalDepth = maximumTraversalDepthDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies an Apache Iceberg data source where Iceberg tables are stored in Amazon S3.
+    public struct IcebergTarget: Swift.Equatable {
+        /// The name of the connection to use to connect to the Iceberg target.
+        public var connectionName: Swift.String?
+        /// A list of glob patterns used to exclude from the crawl. For more information, see [Catalog Tables with a Crawler](https://docs.aws.amazon.com/glue/latest/dg/add-crawler.html).
+        public var exclusions: [Swift.String]?
+        /// The maximum depth of Amazon S3 paths that the crawler can traverse to discover the Iceberg metadata folder in your Amazon S3 path. Used to limit the crawler run time.
+        public var maximumTraversalDepth: Swift.Int?
+        /// One or more Amazon S3 paths that contains Iceberg metadata folders as s3://bucket/prefix.
+        public var paths: [Swift.String]?
+
+        public init(
+            connectionName: Swift.String? = nil,
+            exclusions: [Swift.String]? = nil,
+            maximumTraversalDepth: Swift.Int? = nil,
+            paths: [Swift.String]? = nil
+        )
+        {
+            self.connectionName = connectionName
+            self.exclusions = exclusions
+            self.maximumTraversalDepth = maximumTraversalDepth
+            self.paths = paths
+        }
+    }
+
 }
 
 extension IdempotentParameterMismatchException {
@@ -34503,21 +34846,19 @@ extension GlueClientTypes {
         public var sourceControlDetails: GlueClientTypes.SourceControlDetails?
         /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public var timeout: Swift.Int?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, G.4X, G.8X, or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
         ///
-        /// * For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.
+        /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
         ///
-        /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
+        /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
         ///
-        /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
+        /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).
         ///
-        /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPU, 64 GB of memory, 256 GB disk), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).
+        /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.
         ///
-        /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPU, 128 GB of memory, 512 GB disk), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.
+        /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
         ///
-        /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
-        ///
-        /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPU, 64 GB of m emory, 128 GB disk), and provides a default of 8 Ray workers (1 per vCPU).
+        /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
         public var workerType: GlueClientTypes.WorkerType?
 
         public init(
@@ -35093,17 +35434,19 @@ extension GlueClientTypes {
         public var timeout: Swift.Int?
         /// The name of the trigger that started this job run.
         public var triggerName: Swift.String?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
         ///
-        /// * For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.
+        /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
         ///
-        /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
+        /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
         ///
-        /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
+        /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).
         ///
-        /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
+        /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.
         ///
-        /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPU, 64 GB of m emory, 128 GB disk), and provides up to 8 Ray workers (one per vCPU) based on the autoscaler.
+        /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
+        ///
+        /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
         public var workerType: GlueClientTypes.WorkerType?
 
         public init(
@@ -35435,17 +35778,19 @@ extension GlueClientTypes {
         public var sourceControlDetails: GlueClientTypes.SourceControlDetails?
         /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public var timeout: Swift.Int?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
         ///
-        /// * For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.
+        /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
         ///
-        /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
+        /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
         ///
-        /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
+        /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).
         ///
-        /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
+        /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.
         ///
-        /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPU, 64 GB of m emory, 128 GB disk), and provides up to 8 Ray workers based on the autoscaler.
+        /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
+        ///
+        /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
         public var workerType: GlueClientTypes.WorkerType?
 
         public init(
@@ -35799,6 +36144,7 @@ extension GlueClientTypes.KafkaStreamingSourceOptions: Swift.Codable {
         case retryIntervalMs = "RetryIntervalMs"
         case securityProtocol = "SecurityProtocol"
         case startingOffsets = "StartingOffsets"
+        case startingTimestamp = "StartingTimestamp"
         case subscribePattern = "SubscribePattern"
         case topicName = "TopicName"
     }
@@ -35853,6 +36199,9 @@ extension GlueClientTypes.KafkaStreamingSourceOptions: Swift.Codable {
         if let startingOffsets = self.startingOffsets {
             try encodeContainer.encode(startingOffsets, forKey: .startingOffsets)
         }
+        if let startingTimestamp = self.startingTimestamp {
+            try encodeContainer.encodeTimestamp(startingTimestamp, format: .dateTime, forKey: .startingTimestamp)
+        }
         if let subscribePattern = self.subscribePattern {
             try encodeContainer.encode(subscribePattern, forKey: .subscribePattern)
         }
@@ -35899,6 +36248,8 @@ extension GlueClientTypes.KafkaStreamingSourceOptions: Swift.Codable {
         addRecordTimestamp = addRecordTimestampDecoded
         let emitConsumerLagMetricsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .emitConsumerLagMetrics)
         emitConsumerLagMetrics = emitConsumerLagMetricsDecoded
+        let startingTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startingTimestamp)
+        startingTimestamp = startingTimestampDecoded
     }
 }
 
@@ -35937,6 +36288,8 @@ extension GlueClientTypes {
         public var securityProtocol: Swift.String?
         /// The starting position in the Kafka topic to read data from. The possible values are "earliest" or "latest". The default value is "latest".
         public var startingOffsets: Swift.String?
+        /// The timestamp of the record in the Kafka topic to start reading data from. The possible values are a timestamp string in UTC format of the pattern yyyy-mm-ddTHH:MM:SSZ (where Z represents a UTC timezone offset with a +/-. For example: "2023-04-04T08:00:00+08:00"). Only one of StartingTimestamp or StartingOffsets must be set.
+        public var startingTimestamp: ClientRuntime.Date?
         /// A Java regex string that identifies the topic list to subscribe to. You must specify at least one of "topicName", "assign" or "subscribePattern".
         public var subscribePattern: Swift.String?
         /// The topic name as specified in Apache Kafka. You must specify at least one of "topicName", "assign" or "subscribePattern".
@@ -35959,6 +36312,7 @@ extension GlueClientTypes {
             retryIntervalMs: Swift.Int? = nil,
             securityProtocol: Swift.String? = nil,
             startingOffsets: Swift.String? = nil,
+            startingTimestamp: ClientRuntime.Date? = nil,
             subscribePattern: Swift.String? = nil,
             topicName: Swift.String? = nil
         )
@@ -35979,6 +36333,7 @@ extension GlueClientTypes {
             self.retryIntervalMs = retryIntervalMs
             self.securityProtocol = securityProtocol
             self.startingOffsets = startingOffsets
+            self.startingTimestamp = startingTimestamp
             self.subscribePattern = subscribePattern
             self.topicName = topicName
         }
@@ -36053,6 +36408,7 @@ extension GlueClientTypes.KinesisStreamingSourceOptions: Swift.Codable {
         case roleArn = "RoleArn"
         case roleSessionName = "RoleSessionName"
         case startingPosition = "StartingPosition"
+        case startingTimestamp = "StartingTimestamp"
         case streamArn = "StreamArn"
         case streamName = "StreamName"
     }
@@ -36113,6 +36469,9 @@ extension GlueClientTypes.KinesisStreamingSourceOptions: Swift.Codable {
         if let startingPosition = self.startingPosition {
             try encodeContainer.encode(startingPosition.rawValue, forKey: .startingPosition)
         }
+        if let startingTimestamp = self.startingTimestamp {
+            try encodeContainer.encodeTimestamp(startingTimestamp, format: .dateTime, forKey: .startingTimestamp)
+        }
         if let streamArn = self.streamArn {
             try encodeContainer.encode(streamArn, forKey: .streamArn)
         }
@@ -36163,6 +36522,8 @@ extension GlueClientTypes.KinesisStreamingSourceOptions: Swift.Codable {
         addRecordTimestamp = addRecordTimestampDecoded
         let emitConsumerLagMetricsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .emitConsumerLagMetrics)
         emitConsumerLagMetrics = emitConsumerLagMetricsDecoded
+        let startingTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startingTimestamp)
+        startingTimestamp = startingTimestampDecoded
     }
 }
 
@@ -36203,8 +36564,10 @@ extension GlueClientTypes {
         public var roleArn: Swift.String?
         /// An identifier for the session assuming the role using AWS STS. You must use this parameter when accessing a data stream in a different account. Used in conjunction with "awsSTSRoleARN".
         public var roleSessionName: Swift.String?
-        /// The starting position in the Kinesis data stream to read data from. The possible values are "latest", "trim_horizon", or "earliest". The default value is "latest".
+        /// The starting position in the Kinesis data stream to read data from. The possible values are "latest", "trim_horizon", "earliest", or a timestamp string in UTC format in the pattern yyyy-mm-ddTHH:MM:SSZ (where Z represents a UTC timezone offset with a +/-. For example: "2023-04-04T08:00:00-04:00"). The default value is "latest". Note: Using a value that is a timestamp string in UTC format for "startingPosition" is supported only for Glue version 4.0 or later.
         public var startingPosition: GlueClientTypes.StartingPosition?
+        /// The timestamp of the record in the Kinesis data stream to start reading data from. The possible values are a timestamp string in UTC format of the pattern yyyy-mm-ddTHH:MM:SSZ (where Z represents a UTC timezone offset with a +/-. For example: "2023-04-04T08:00:00+08:00").
+        public var startingTimestamp: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the Kinesis data stream.
         public var streamArn: Swift.String?
         /// The name of the Kinesis data stream.
@@ -36229,6 +36592,7 @@ extension GlueClientTypes {
             roleArn: Swift.String? = nil,
             roleSessionName: Swift.String? = nil,
             startingPosition: GlueClientTypes.StartingPosition? = nil,
+            startingTimestamp: ClientRuntime.Date? = nil,
             streamArn: Swift.String? = nil,
             streamName: Swift.String? = nil
         )
@@ -36251,6 +36615,7 @@ extension GlueClientTypes {
             self.roleArn = roleArn
             self.roleSessionName = roleSessionName
             self.startingPosition = startingPosition
+            self.startingTimestamp = startingTimestamp
             self.streamArn = streamArn
             self.streamName = streamName
         }
@@ -40422,6 +40787,35 @@ extension GlueClientTypes {
 
 }
 
+extension GlueClientTypes {
+    public enum MetadataOperation: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case create
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MetadataOperation] {
+            return [
+                .create,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .create: return "CREATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MetadataOperation(rawValue: rawValue) ?? MetadataOperation.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension GlueClientTypes.MicrosoftSQLServerCatalogSource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case database = "Database"
@@ -41063,6 +41457,41 @@ extension GlueClientTypes {
         {
             self.datatype = datatype
             self.value = value
+        }
+    }
+
+}
+
+extension GlueClientTypes.OpenTableFormatInput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case icebergInput = "IcebergInput"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let icebergInput = self.icebergInput {
+            try encodeContainer.encode(icebergInput, forKey: .icebergInput)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let icebergInputDecoded = try containerValues.decodeIfPresent(GlueClientTypes.IcebergInput.self, forKey: .icebergInput)
+        icebergInput = icebergInputDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// A structure representing an open format table.
+    public struct OpenTableFormatInput: Swift.Equatable {
+        /// Specifies an IcebergInput structure that defines an Apache Iceberg metadata table.
+        public var icebergInput: GlueClientTypes.IcebergInput?
+
+        public init(
+            icebergInput: GlueClientTypes.IcebergInput? = nil
+        )
+        {
+            self.icebergInput = icebergInput
         }
     }
 
@@ -42228,12 +42657,16 @@ extension GlueClientTypes {
     public enum PermissionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case cellFilterPermission
         case columnPermission
+        case nestedCellPermission
+        case nestedPermission
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PermissionType] {
             return [
                 .cellFilterPermission,
                 .columnPermission,
+                .nestedCellPermission,
+                .nestedPermission,
                 .sdkUnknown("")
             ]
         }
@@ -42245,6 +42678,8 @@ extension GlueClientTypes {
             switch self {
             case .cellFilterPermission: return "CELL_FILTER_PERMISSION"
             case .columnPermission: return "COLUMN_PERMISSION"
+            case .nestedCellPermission: return "NESTED_CELL_PERMISSION"
+            case .nestedPermission: return "NESTED_PERMISSION"
             case let .sdkUnknown(s): return s
             }
         }
@@ -43605,6 +44040,123 @@ extension GlueClientTypes {
             self = QuoteChar(rawValue: rawValue) ?? QuoteChar.sdkUnknown(rawValue)
         }
     }
+}
+
+extension GlueClientTypes.Recipe: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case inputs = "Inputs"
+        case name = "Name"
+        case recipeReference = "RecipeReference"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let inputs = inputs {
+            var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let recipeReference = self.recipeReference {
+            try encodeContainer.encode(recipeReference, forKey: .recipeReference)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let inputsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .inputs)
+        var inputsDecoded0:[Swift.String]? = nil
+        if let inputsContainer = inputsContainer {
+            inputsDecoded0 = [Swift.String]()
+            for string0 in inputsContainer {
+                if let string0 = string0 {
+                    inputsDecoded0?.append(string0)
+                }
+            }
+        }
+        inputs = inputsDecoded0
+        let recipeReferenceDecoded = try containerValues.decodeIfPresent(GlueClientTypes.RecipeReference.self, forKey: .recipeReference)
+        recipeReference = recipeReferenceDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// A Glue Studio node that uses a Glue DataBrew recipe in Glue jobs.
+    public struct Recipe: Swift.Equatable {
+        /// The nodes that are inputs to the recipe node, identified by id.
+        /// This member is required.
+        public var inputs: [Swift.String]?
+        /// The name of the Glue Studio node.
+        /// This member is required.
+        public var name: Swift.String?
+        /// A reference to the DataBrew recipe used by the node.
+        /// This member is required.
+        public var recipeReference: GlueClientTypes.RecipeReference?
+
+        public init(
+            inputs: [Swift.String]? = nil,
+            name: Swift.String? = nil,
+            recipeReference: GlueClientTypes.RecipeReference? = nil
+        )
+        {
+            self.inputs = inputs
+            self.name = name
+            self.recipeReference = recipeReference
+        }
+    }
+
+}
+
+extension GlueClientTypes.RecipeReference: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case recipeArn = "RecipeArn"
+        case recipeVersion = "RecipeVersion"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let recipeArn = self.recipeArn {
+            try encodeContainer.encode(recipeArn, forKey: .recipeArn)
+        }
+        if let recipeVersion = self.recipeVersion {
+            try encodeContainer.encode(recipeVersion, forKey: .recipeVersion)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recipeArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recipeArn)
+        recipeArn = recipeArnDecoded
+        let recipeVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recipeVersion)
+        recipeVersion = recipeVersionDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// A reference to a Glue DataBrew recipe.
+    public struct RecipeReference: Swift.Equatable {
+        /// The ARN of the DataBrew recipe.
+        /// This member is required.
+        public var recipeArn: Swift.String?
+        /// The RecipeVersion of the DataBrew recipe.
+        /// This member is required.
+        public var recipeVersion: Swift.String?
+
+        public init(
+            recipeArn: Swift.String? = nil,
+            recipeVersion: Swift.String? = nil
+        )
+        {
+            self.recipeArn = recipeArn
+            self.recipeVersion = recipeVersion
+        }
+    }
+
 }
 
 extension GlueClientTypes {
@@ -49334,6 +49886,415 @@ extension GlueClientTypes {
 
 }
 
+extension GlueClientTypes.SnowflakeNodeData: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case action = "Action"
+        case additionalOptions = "AdditionalOptions"
+        case autoPushdown = "AutoPushdown"
+        case connection = "Connection"
+        case database = "Database"
+        case iamRole = "IamRole"
+        case mergeAction = "MergeAction"
+        case mergeClause = "MergeClause"
+        case mergeWhenMatched = "MergeWhenMatched"
+        case mergeWhenNotMatched = "MergeWhenNotMatched"
+        case postAction = "PostAction"
+        case preAction = "PreAction"
+        case sampleQuery = "SampleQuery"
+        case schema = "Schema"
+        case selectedColumns = "SelectedColumns"
+        case sourceType = "SourceType"
+        case stagingTable = "StagingTable"
+        case table = "Table"
+        case tableSchema = "TableSchema"
+        case tempDir = "TempDir"
+        case upsert = "Upsert"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let action = self.action {
+            try encodeContainer.encode(action, forKey: .action)
+        }
+        if let additionalOptions = additionalOptions {
+            var additionalOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalOptions)
+            for (dictKey0, additionalOptions0) in additionalOptions {
+                try additionalOptionsContainer.encode(additionalOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if autoPushdown != false {
+            try encodeContainer.encode(autoPushdown, forKey: .autoPushdown)
+        }
+        if let connection = self.connection {
+            try encodeContainer.encode(connection, forKey: .connection)
+        }
+        if let database = self.database {
+            try encodeContainer.encode(database, forKey: .database)
+        }
+        if let iamRole = self.iamRole {
+            try encodeContainer.encode(iamRole, forKey: .iamRole)
+        }
+        if let mergeAction = self.mergeAction {
+            try encodeContainer.encode(mergeAction, forKey: .mergeAction)
+        }
+        if let mergeClause = self.mergeClause {
+            try encodeContainer.encode(mergeClause, forKey: .mergeClause)
+        }
+        if let mergeWhenMatched = self.mergeWhenMatched {
+            try encodeContainer.encode(mergeWhenMatched, forKey: .mergeWhenMatched)
+        }
+        if let mergeWhenNotMatched = self.mergeWhenNotMatched {
+            try encodeContainer.encode(mergeWhenNotMatched, forKey: .mergeWhenNotMatched)
+        }
+        if let postAction = self.postAction {
+            try encodeContainer.encode(postAction, forKey: .postAction)
+        }
+        if let preAction = self.preAction {
+            try encodeContainer.encode(preAction, forKey: .preAction)
+        }
+        if let sampleQuery = self.sampleQuery {
+            try encodeContainer.encode(sampleQuery, forKey: .sampleQuery)
+        }
+        if let schema = self.schema {
+            try encodeContainer.encode(schema, forKey: .schema)
+        }
+        if let selectedColumns = selectedColumns {
+            var selectedColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .selectedColumns)
+            for option0 in selectedColumns {
+                try selectedColumnsContainer.encode(option0)
+            }
+        }
+        if let sourceType = self.sourceType {
+            try encodeContainer.encode(sourceType, forKey: .sourceType)
+        }
+        if let stagingTable = self.stagingTable {
+            try encodeContainer.encode(stagingTable, forKey: .stagingTable)
+        }
+        if let table = self.table {
+            try encodeContainer.encode(table, forKey: .table)
+        }
+        if let tableSchema = tableSchema {
+            var tableSchemaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tableSchema)
+            for option0 in tableSchema {
+                try tableSchemaContainer.encode(option0)
+            }
+        }
+        if let tempDir = self.tempDir {
+            try encodeContainer.encode(tempDir, forKey: .tempDir)
+        }
+        if upsert != false {
+            try encodeContainer.encode(upsert, forKey: .upsert)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceType)
+        sourceType = sourceTypeDecoded
+        let connectionDecoded = try containerValues.decodeIfPresent(GlueClientTypes.Option.self, forKey: .connection)
+        connection = connectionDecoded
+        let schemaDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .schema)
+        schema = schemaDecoded
+        let tableDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .table)
+        table = tableDecoded
+        let databaseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .database)
+        database = databaseDecoded
+        let tempDirDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tempDir)
+        tempDir = tempDirDecoded
+        let iamRoleDecoded = try containerValues.decodeIfPresent(GlueClientTypes.Option.self, forKey: .iamRole)
+        iamRole = iamRoleDecoded
+        let additionalOptionsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .additionalOptions)
+        var additionalOptionsDecoded0: [Swift.String:Swift.String]? = nil
+        if let additionalOptionsContainer = additionalOptionsContainer {
+            additionalOptionsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, enclosedinstringproperty0) in additionalOptionsContainer {
+                if let enclosedinstringproperty0 = enclosedinstringproperty0 {
+                    additionalOptionsDecoded0?[key0] = enclosedinstringproperty0
+                }
+            }
+        }
+        additionalOptions = additionalOptionsDecoded0
+        let sampleQueryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sampleQuery)
+        sampleQuery = sampleQueryDecoded
+        let preActionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preAction)
+        preAction = preActionDecoded
+        let postActionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .postAction)
+        postAction = postActionDecoded
+        let actionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .action)
+        action = actionDecoded
+        let upsertDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .upsert) ?? false
+        upsert = upsertDecoded
+        let mergeActionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mergeAction)
+        mergeAction = mergeActionDecoded
+        let mergeWhenMatchedDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mergeWhenMatched)
+        mergeWhenMatched = mergeWhenMatchedDecoded
+        let mergeWhenNotMatchedDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mergeWhenNotMatched)
+        mergeWhenNotMatched = mergeWhenNotMatchedDecoded
+        let mergeClauseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mergeClause)
+        mergeClause = mergeClauseDecoded
+        let stagingTableDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stagingTable)
+        stagingTable = stagingTableDecoded
+        let selectedColumnsContainer = try containerValues.decodeIfPresent([GlueClientTypes.Option?].self, forKey: .selectedColumns)
+        var selectedColumnsDecoded0:[GlueClientTypes.Option]? = nil
+        if let selectedColumnsContainer = selectedColumnsContainer {
+            selectedColumnsDecoded0 = [GlueClientTypes.Option]()
+            for structure0 in selectedColumnsContainer {
+                if let structure0 = structure0 {
+                    selectedColumnsDecoded0?.append(structure0)
+                }
+            }
+        }
+        selectedColumns = selectedColumnsDecoded0
+        let autoPushdownDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoPushdown) ?? false
+        autoPushdown = autoPushdownDecoded
+        let tableSchemaContainer = try containerValues.decodeIfPresent([GlueClientTypes.Option?].self, forKey: .tableSchema)
+        var tableSchemaDecoded0:[GlueClientTypes.Option]? = nil
+        if let tableSchemaContainer = tableSchemaContainer {
+            tableSchemaDecoded0 = [GlueClientTypes.Option]()
+            for structure0 in tableSchemaContainer {
+                if let structure0 = structure0 {
+                    tableSchemaDecoded0?.append(structure0)
+                }
+            }
+        }
+        tableSchema = tableSchemaDecoded0
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies configuration for Snowflake nodes in Glue Studio.
+    public struct SnowflakeNodeData: Swift.Equatable {
+        /// Specifies what action to take when writing to a table with preexisting data. Valid values:  append, merge, truncate, drop.
+        public var action: Swift.String?
+        /// Specifies additional options passed to the Snowflake connector. If options are specified elsewhere in this node, this will take precedence.
+        public var additionalOptions: [Swift.String:Swift.String]?
+        /// Specifies whether automatic query pushdown is enabled. If pushdown is enabled, then when a query is run on Spark, if part of the query can be "pushed down" to the Snowflake server, it is pushed down. This improves performance of some queries.
+        public var autoPushdown: Swift.Bool
+        /// Specifies a Glue Data Catalog Connection to a Snowflake endpoint.
+        public var connection: GlueClientTypes.Option?
+        /// Specifies a Snowflake database for your node to use.
+        public var database: Swift.String?
+        /// Not currently used.
+        public var iamRole: GlueClientTypes.Option?
+        /// Specifies a merge action. Valid values: simple, custom. If simple, merge behavior is defined by MergeWhenMatched and  MergeWhenNotMatched. If custom, defined by MergeClause.
+        public var mergeAction: Swift.String?
+        /// A SQL statement that specifies a custom merge behavior.
+        public var mergeClause: Swift.String?
+        /// Specifies how to resolve records that match preexisting data when merging. Valid values:  update, delete.
+        public var mergeWhenMatched: Swift.String?
+        /// Specifies how to process records that do not match preexisting data when merging. Valid values: insert, none.
+        public var mergeWhenNotMatched: Swift.String?
+        /// A SQL string run after the Snowflake connector performs its standard actions.
+        public var postAction: Swift.String?
+        /// A SQL string run before the Snowflake connector performs its standard actions.
+        public var preAction: Swift.String?
+        /// A SQL string used to retrieve data with the query sourcetype.
+        public var sampleQuery: Swift.String?
+        /// Specifies a Snowflake database schema for your node to use.
+        public var schema: Swift.String?
+        /// Specifies the columns combined to identify a record when detecting matches for merges and upserts. A list of structures with value, label and  description keys. Each structure describes a column.
+        public var selectedColumns: [GlueClientTypes.Option]?
+        /// Specifies how retrieved data is specified. Valid values: "table",  "query".
+        public var sourceType: Swift.String?
+        /// The name of a staging table used when performing merge or upsert append actions. Data is written to this table, then moved to table by a generated postaction.
+        public var stagingTable: Swift.String?
+        /// Specifies a Snowflake table for your node to use.
+        public var table: Swift.String?
+        /// Manually defines the target schema for the node. A list of structures with value , label and description keys. Each structure defines a column.
+        public var tableSchema: [GlueClientTypes.Option]?
+        /// Not currently used.
+        public var tempDir: Swift.String?
+        /// Used when Action is append. Specifies the resolution behavior when a row already exists. If true, preexisting rows will be updated. If false, those rows will be inserted.
+        public var upsert: Swift.Bool
+
+        public init(
+            action: Swift.String? = nil,
+            additionalOptions: [Swift.String:Swift.String]? = nil,
+            autoPushdown: Swift.Bool = false,
+            connection: GlueClientTypes.Option? = nil,
+            database: Swift.String? = nil,
+            iamRole: GlueClientTypes.Option? = nil,
+            mergeAction: Swift.String? = nil,
+            mergeClause: Swift.String? = nil,
+            mergeWhenMatched: Swift.String? = nil,
+            mergeWhenNotMatched: Swift.String? = nil,
+            postAction: Swift.String? = nil,
+            preAction: Swift.String? = nil,
+            sampleQuery: Swift.String? = nil,
+            schema: Swift.String? = nil,
+            selectedColumns: [GlueClientTypes.Option]? = nil,
+            sourceType: Swift.String? = nil,
+            stagingTable: Swift.String? = nil,
+            table: Swift.String? = nil,
+            tableSchema: [GlueClientTypes.Option]? = nil,
+            tempDir: Swift.String? = nil,
+            upsert: Swift.Bool = false
+        )
+        {
+            self.action = action
+            self.additionalOptions = additionalOptions
+            self.autoPushdown = autoPushdown
+            self.connection = connection
+            self.database = database
+            self.iamRole = iamRole
+            self.mergeAction = mergeAction
+            self.mergeClause = mergeClause
+            self.mergeWhenMatched = mergeWhenMatched
+            self.mergeWhenNotMatched = mergeWhenNotMatched
+            self.postAction = postAction
+            self.preAction = preAction
+            self.sampleQuery = sampleQuery
+            self.schema = schema
+            self.selectedColumns = selectedColumns
+            self.sourceType = sourceType
+            self.stagingTable = stagingTable
+            self.table = table
+            self.tableSchema = tableSchema
+            self.tempDir = tempDir
+            self.upsert = upsert
+        }
+    }
+
+}
+
+extension GlueClientTypes.SnowflakeSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case data = "Data"
+        case name = "Name"
+        case outputSchemas = "OutputSchemas"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let data = self.data {
+            try encodeContainer.encode(data, forKey: .data)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let outputSchemas = outputSchemas {
+            var outputSchemasContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputSchemas)
+            for glueschema0 in outputSchemas {
+                try outputSchemasContainer.encode(glueschema0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let dataDecoded = try containerValues.decodeIfPresent(GlueClientTypes.SnowflakeNodeData.self, forKey: .data)
+        data = dataDecoded
+        let outputSchemasContainer = try containerValues.decodeIfPresent([GlueClientTypes.GlueSchema?].self, forKey: .outputSchemas)
+        var outputSchemasDecoded0:[GlueClientTypes.GlueSchema]? = nil
+        if let outputSchemasContainer = outputSchemasContainer {
+            outputSchemasDecoded0 = [GlueClientTypes.GlueSchema]()
+            for structure0 in outputSchemasContainer {
+                if let structure0 = structure0 {
+                    outputSchemasDecoded0?.append(structure0)
+                }
+            }
+        }
+        outputSchemas = outputSchemasDecoded0
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies a Snowflake data source.
+    public struct SnowflakeSource: Swift.Equatable {
+        /// Configuration for the Snowflake data source.
+        /// This member is required.
+        public var data: GlueClientTypes.SnowflakeNodeData?
+        /// The name of the Snowflake data source.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Specifies user-defined schemas for your output data.
+        public var outputSchemas: [GlueClientTypes.GlueSchema]?
+
+        public init(
+            data: GlueClientTypes.SnowflakeNodeData? = nil,
+            name: Swift.String? = nil,
+            outputSchemas: [GlueClientTypes.GlueSchema]? = nil
+        )
+        {
+            self.data = data
+            self.name = name
+            self.outputSchemas = outputSchemas
+        }
+    }
+
+}
+
+extension GlueClientTypes.SnowflakeTarget: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case data = "Data"
+        case inputs = "Inputs"
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let data = self.data {
+            try encodeContainer.encode(data, forKey: .data)
+        }
+        if let inputs = inputs {
+            var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let dataDecoded = try containerValues.decodeIfPresent(GlueClientTypes.SnowflakeNodeData.self, forKey: .data)
+        data = dataDecoded
+        let inputsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .inputs)
+        var inputsDecoded0:[Swift.String]? = nil
+        if let inputsContainer = inputsContainer {
+            inputsDecoded0 = [Swift.String]()
+            for string0 in inputsContainer {
+                if let string0 = string0 {
+                    inputsDecoded0?.append(string0)
+                }
+            }
+        }
+        inputs = inputsDecoded0
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies a Snowflake target.
+    public struct SnowflakeTarget: Swift.Equatable {
+        /// Specifies the data of the Snowflake target node.
+        /// This member is required.
+        public var data: GlueClientTypes.SnowflakeNodeData?
+        /// The nodes that are inputs to the data target.
+        public var inputs: [Swift.String]?
+        /// The name of the Snowflake target.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            data: GlueClientTypes.SnowflakeNodeData? = nil,
+            inputs: [Swift.String]? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.data = data
+            self.inputs = inputs
+            self.name = name
+        }
+    }
+
+}
+
 extension GlueClientTypes {
     public enum Sort: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case ascending
@@ -51188,17 +52149,19 @@ public struct StartJobRunInput: Swift.Equatable {
     public var securityConfiguration: Swift.String?
     /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job. Streaming jobs do not have a timeout. The default for non-streaming jobs is 2,880 minutes (48 hours).
     public var timeout: Swift.Int?
-    /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
+    /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
     ///
-    /// * For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.
+    /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
     ///
-    /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
+    /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
     ///
-    /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
+    /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).
     ///
-    /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
+    /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.
     ///
-    /// * For the Z.2X worker type, each worker maps to 2 DPU (8vCPU, 64 GB of m emory, 128 GB disk), and provides up to 8 Ray workers (one per vCPU) based on the autoscaler.
+    /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
+    ///
+    /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
     public var workerType: GlueClientTypes.WorkerType?
 
     public init(
@@ -51851,6 +52814,7 @@ extension GlueClientTypes {
     public enum StartingPosition: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case earliest
         case latest
+        case timestamp
         case trimHorizon
         case sdkUnknown(Swift.String)
 
@@ -51858,6 +52822,7 @@ extension GlueClientTypes {
             return [
                 .earliest,
                 .latest,
+                .timestamp,
                 .trimHorizon,
                 .sdkUnknown("")
             ]
@@ -51870,6 +52835,7 @@ extension GlueClientTypes {
             switch self {
             case .earliest: return "earliest"
             case .latest: return "latest"
+            case .timestamp: return "timestamp"
             case .trimHorizon: return "trim_horizon"
             case let .sdkUnknown(s): return s
             }

@@ -2098,6 +2098,7 @@ extension ECSClientTypes.ContainerDefinition: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case command
         case cpu
+        case credentialSpecs
         case dependsOn
         case disableNetworking
         case dnsSearchDomains
@@ -2147,6 +2148,12 @@ extension ECSClientTypes.ContainerDefinition: Swift.Codable {
         }
         if cpu != 0 {
             try encodeContainer.encode(cpu, forKey: .cpu)
+        }
+        if let credentialSpecs = credentialSpecs {
+            var credentialSpecsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .credentialSpecs)
+            for string0 in credentialSpecs {
+                try credentialSpecsContainer.encode(string0)
+            }
         }
         if let dependsOn = dependsOn {
             var dependsOnContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dependsOn)
@@ -2554,6 +2561,17 @@ extension ECSClientTypes.ContainerDefinition: Swift.Codable {
         resourceRequirements = resourceRequirementsDecoded0
         let firelensConfigurationDecoded = try containerValues.decodeIfPresent(ECSClientTypes.FirelensConfiguration.self, forKey: .firelensConfiguration)
         firelensConfiguration = firelensConfigurationDecoded
+        let credentialSpecsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .credentialSpecs)
+        var credentialSpecsDecoded0:[Swift.String]? = nil
+        if let credentialSpecsContainer = credentialSpecsContainer {
+            credentialSpecsDecoded0 = [Swift.String]()
+            for string0 in credentialSpecsContainer {
+                if let string0 = string0 {
+                    credentialSpecsDecoded0?.append(string0)
+                }
+            }
+        }
+        credentialSpecs = credentialSpecsDecoded0
     }
 }
 
@@ -2571,6 +2589,8 @@ extension ECSClientTypes {
         ///
         /// On Windows container instances, the CPU limit is enforced as an absolute limit, or a quota. Windows containers only have access to the specified amount of CPU that's described in the task definition. A null or zero CPU value is passed to Docker as 0, which Windows interprets as 1% of one CPU.
         public var cpu: Swift.Int
+        /// A list of ARNs in SSM or Amazon S3 to a credential spec (credspeccode>) file that configures a container for Active Directory authentication. This parameter is only used with domainless authentication. The format for each ARN is credentialspecdomainless:MyARN. Replace MyARN with the ARN in SSM or Amazon S3. The credspec must provide a ARN in Secrets Manager for a secret containing the username, password, and the domain to connect to. For better security, the instance isn't joined to the domain for domainless authentication. Other applications on the instance can't use the domainless credentials. You can use this parameter to run tasks on the same instance, even it the tasks need to join different domains. For more information, see [Using gMSAs for Windows Containers](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/windows-gmsa.html) and [Using gMSAs for Linux Containers](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/linux-gmsa.html).
+        public var credentialSpecs: [Swift.String]?
         /// The dependencies defined for container startup and shutdown. A container can contain multiple dependencies on other containers in a task definition. When a dependency is defined for container startup, for container shutdown it is reversed. For tasks using the EC2 launch type, the container instances require at least version 1.26.0 of the container agent to turn on container dependencies. However, we recommend using the latest container agent version. For information about checking your agent version and updating to the latest version, see [Updating the Amazon ECS Container Agent](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-update.html) in the Amazon Elastic Container Service Developer Guide. If you're using an Amazon ECS-optimized Linux AMI, your instance needs at least version 1.26.0-1 of the ecs-init package. If your container instances are launched from version 20190301 or later, then they contain the required versions of the container agent and ecs-init. For more information, see [Amazon ECS-optimized Linux AMI](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html) in the Amazon Elastic Container Service Developer Guide. For tasks using the Fargate launch type, the task or service requires the following platforms:
         ///
         /// * Linux platform version 1.3.0 or later.
@@ -2692,6 +2712,7 @@ extension ECSClientTypes {
         public init(
             command: [Swift.String]? = nil,
             cpu: Swift.Int = 0,
+            credentialSpecs: [Swift.String]? = nil,
             dependsOn: [ECSClientTypes.ContainerDependency]? = nil,
             disableNetworking: Swift.Bool? = nil,
             dnsSearchDomains: [Swift.String]? = nil,
@@ -2733,6 +2754,7 @@ extension ECSClientTypes {
         {
             self.command = command
             self.cpu = cpu
+            self.credentialSpecs = credentialSpecs
             self.dependsOn = dependsOn
             self.disableNetworking = disableNetworking
             self.dnsSearchDomains = dnsSearchDomains
@@ -9064,7 +9086,7 @@ extension ECSClientTypes.HealthCheck: Swift.Codable {
 }
 
 extension ECSClientTypes {
-    /// An object representing a container health check. Health check parameters that are specified in a container definition override any Docker health checks that exist in the container image (such as those specified in a parent image or from the image's Dockerfile). This configuration maps to the HEALTHCHECK parameter of [docker run](https://docs.docker.com/engine/reference/run/). The Amazon ECS container agent only monitors and reports on the health checks specified in the task definition. Amazon ECS does not monitor Docker health checks that are embedded in a container image and not specified in the container definition. Health check parameters that are specified in a container definition override any Docker health checks that exist in the container image. You can view the health status of both individual containers and a task with the DescribeTasks API operation or when viewing the task details in the console. The following describes the possible healthStatus values for a container:
+    /// An object representing a container health check. Health check parameters that are specified in a container definition override any Docker health checks that exist in the container image (such as those specified in a parent image or from the image's Dockerfile). This configuration maps to the HEALTHCHECK parameter of [docker run](https://docs.docker.com/engine/reference/run/). The Amazon ECS container agent only monitors and reports on the health checks specified in the task definition. Amazon ECS does not monitor Docker health checks that are embedded in a container image and not specified in the container definition. Health check parameters that are specified in a container definition override any Docker health checks that exist in the container image. You can view the health status of both individual containers and a task with the DescribeTasks API operation or when viewing the task details in the console. The health check is designed to make sure that your containers survive agent restarts, upgrades, or temporary unavailability. The following describes the possible healthStatus values for a container:
     ///
     /// * HEALTHY-The container health check has passed successfully.
     ///
@@ -9083,6 +9105,10 @@ extension ECSClientTypes {
     ///
     ///
     /// If a task is run manually, and not as part of a service, the task will continue its lifecycle regardless of its health status. For tasks that are part of a service, if the task reports as unhealthy then the task will be stopped and the service scheduler will replace it. The following are notes about container health check support:
+    ///
+    /// * When the Amazon ECS agent cannot connect to the Amazon ECS service, the service reports the container as UNHEALTHY.
+    ///
+    /// * The health check statuses are the "last heard from" response from the Amazon ECS agent. There are no assumptions made about the status of the container health checks.
     ///
     /// * Container health checks require version 1.17.0 or greater of the Amazon ECS container agent. For more information, see [Updating the Amazon ECS container agent](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-update.html).
     ///

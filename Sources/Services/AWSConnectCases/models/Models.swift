@@ -450,6 +450,7 @@ extension ConnectCasesClientTypes.CaseFilter: Swift.Codable {
         case andall = "andAll"
         case field
         case not
+        case orall = "orAll"
         case sdkUnknown
     }
 
@@ -465,6 +466,11 @@ extension ConnectCasesClientTypes.CaseFilter: Swift.Codable {
                 try container.encode(field, forKey: .field)
             case let .not(not):
                 try container.encode(not, forKey: .not)
+            case let .orall(orall):
+                var orallContainer = container.nestedUnkeyedContainer(forKey: .orall)
+                for casefilter0 in orall {
+                    try orallContainer.encode(casefilter0)
+                }
             case let .sdkUnknown(sdkUnknown):
                 try container.encode(sdkUnknown, forKey: .sdkUnknown)
         }
@@ -496,6 +502,20 @@ extension ConnectCasesClientTypes.CaseFilter: Swift.Codable {
             self = .andall(andall)
             return
         }
+        let orallContainer = try values.decodeIfPresent([ConnectCasesClientTypes.CaseFilter?].self, forKey: .orall)
+        var orallDecoded0:[ConnectCasesClientTypes.CaseFilter]? = nil
+        if let orallContainer = orallContainer {
+            orallDecoded0 = [ConnectCasesClientTypes.CaseFilter]()
+            for union0 in orallContainer {
+                if let union0 = union0 {
+                    orallDecoded0?.append(union0)
+                }
+            }
+        }
+        if let orall = orallDecoded0 {
+            self = .orall(orall)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
@@ -509,6 +529,8 @@ extension ConnectCasesClientTypes {
         case not(ConnectCasesClientTypes.CaseFilter)
         /// Provides "and all" filtering.
         case andall([ConnectCasesClientTypes.CaseFilter])
+        /// Provides "or all" filtering.
+        case orall([ConnectCasesClientTypes.CaseFilter])
         case sdkUnknown(Swift.String)
     }
 
@@ -1920,6 +1942,26 @@ extension ConnectCasesClientTypes {
 
 }
 
+extension ConnectCasesClientTypes.EmptyFieldValue: Swift.Codable {
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode([String:String]())
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ConnectCasesClientTypes {
+    /// An empty value. You cannot set EmptyFieldValue on a field that is required on a case template. This structure will never have any data members. It signifies an empty value on a case field.
+    public struct EmptyFieldValue: Swift.Equatable {
+
+        public init() { }
+    }
+
+}
+
 extension ConnectCasesClientTypes.EventBridgeConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enabled
@@ -2608,6 +2650,7 @@ extension ConnectCasesClientTypes.FieldValueUnion: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case booleanvalue = "booleanValue"
         case doublevalue = "doubleValue"
+        case emptyvalue = "emptyValue"
         case sdkUnknown
         case stringvalue = "stringValue"
     }
@@ -2619,6 +2662,8 @@ extension ConnectCasesClientTypes.FieldValueUnion: Swift.Codable {
                 try container.encode(booleanvalue, forKey: .booleanvalue)
             case let .doublevalue(doublevalue):
                 try container.encode(doublevalue, forKey: .doublevalue)
+            case let .emptyvalue(emptyvalue):
+                try container.encode(emptyvalue, forKey: .emptyvalue)
             case let .stringvalue(stringvalue):
                 try container.encode(stringvalue, forKey: .stringvalue)
             case let .sdkUnknown(sdkUnknown):
@@ -2643,6 +2688,11 @@ extension ConnectCasesClientTypes.FieldValueUnion: Swift.Codable {
             self = .booleanvalue(booleanvalue)
             return
         }
+        let emptyvalueDecoded = try values.decodeIfPresent(ConnectCasesClientTypes.EmptyFieldValue.self, forKey: .emptyvalue)
+        if let emptyvalue = emptyvalueDecoded {
+            self = .emptyvalue(emptyvalue)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
@@ -2656,6 +2706,8 @@ extension ConnectCasesClientTypes {
         case doublevalue(Swift.Double)
         /// Can be either null, or have a Boolean value type. Only one value can be provided.
         case booleanvalue(Swift.Bool)
+        /// An empty value.
+        case emptyvalue(ConnectCasesClientTypes.EmptyFieldValue)
         case sdkUnknown(Swift.String)
     }
 

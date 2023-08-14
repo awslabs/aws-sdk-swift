@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-/// This is the Amazon Omics API Reference. For an introduction to the service, see [What is Amazon Omics?](https://docs.aws.amazon.com/omics/latest/dev/) in the Amazon Omics User Guide.
+/// This is the AWS HealthOmics API Reference. For an introduction to the service, see [What is AWS HealthOmics?](https://docs.aws.amazon.com/omics/latest/dev/) in the AWS HealthOmics User Guide.
 public protocol OmicsClientProtocol {
     /// Stops a multipart upload.
     func abortMultipartReadSetUpload(input: AbortMultipartReadSetUploadInput) async throws -> AbortMultipartReadSetUploadOutputResponse

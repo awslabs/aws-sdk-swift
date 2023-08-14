@@ -8,7 +8,7 @@ public protocol TransferClientProtocol {
     func createAccess(input: CreateAccessInput) async throws -> CreateAccessOutputResponse
     /// Creates an agreement. An agreement is a bilateral trading partner agreement, or partnership, between an Transfer Family server and an AS2 process. The agreement defines the file and message transfer relationship between the server and the AS2 process. To define an agreement, Transfer Family combines a server, local profile, partner profile, certificate, and other attributes. The partner is identified with the PartnerProfileId, and the AS2 process is identified with the LocalProfileId.
     func createAgreement(input: CreateAgreementInput) async throws -> CreateAgreementOutputResponse
-    /// Creates the connector, which captures the parameters for an outbound connection for the AS2 protocol. The connector is required for sending files to an externally hosted AS2 server. For more details about connectors, see [Create AS2 connectors](https://docs.aws.amazon.com/transfer/latest/userguide/create-b2b-server.html#configure-as2-connector).
+    /// Creates the connector, which captures the parameters for an outbound connection for the AS2 or SFTP protocol. The connector is required for sending files to an externally hosted AS2 or SFTP server. For more details about AS2 connectors, see [Create AS2 connectors](https://docs.aws.amazon.com/transfer/latest/userguide/create-b2b-server.html#configure-as2-connector). You must specify exactly one configuration object: either for AS2 (As2Config) or SFTP (SftpConfig).
     func createConnector(input: CreateConnectorInput) async throws -> CreateConnectorOutputResponse
     /// Creates the local or partner profile to use for AS2 transfers.
     func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutputResponse
@@ -24,7 +24,7 @@ public protocol TransferClientProtocol {
     func deleteAgreement(input: DeleteAgreementInput) async throws -> DeleteAgreementOutputResponse
     /// Deletes the certificate that's specified in the CertificateId parameter.
     func deleteCertificate(input: DeleteCertificateInput) async throws -> DeleteCertificateOutputResponse
-    /// Deletes the agreement that's specified in the provided ConnectorId.
+    /// Deletes the connector that's specified in the provided ConnectorId.
     func deleteConnector(input: DeleteConnectorInput) async throws -> DeleteConnectorOutputResponse
     /// Deletes the host key that's specified in the HostKeyId parameter.
     func deleteHostKey(input: DeleteHostKeyInput) async throws -> DeleteHostKeyOutputResponse
@@ -92,7 +92,15 @@ public protocol TransferClientProtocol {
     func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutputResponse
     /// Sends a callback for asynchronous custom steps. The ExecutionId, WorkflowId, and Token are passed to the target resource during execution of a custom step of a workflow. You must include those with their callback as well as providing a status.
     func sendWorkflowStepState(input: SendWorkflowStepStateInput) async throws -> SendWorkflowStepStateOutputResponse
-    /// Begins an outbound file transfer to a remote AS2 server. You specify the ConnectorId and the file paths for where to send the files.
+    /// Begins a file transfer between local Amazon Web Services storage and a remote AS2 or SFTP server.
+    ///
+    /// * For an AS2 connector, you specify the ConnectorId and one or more SendFilePaths to identify the files you want to transfer.
+    ///
+    /// * For an SFTP connector, the file transfer can be either outbound or inbound. In both cases, you specify the ConnectorId. Depending on the direction of the transfer, you also specify the following items:
+    ///
+    /// * If you are transferring file from a partner's SFTP server to a Transfer Family server, you specify one or more RetreiveFilePaths to identify the files you want to transfer, and a LocalDirectoryPath to specify the destination folder.
+    ///
+    /// * If you are transferring file to a partner's SFTP server from Amazon Web Services storage, you specify one or more SendFilePaths to identify the files you want to transfer, and a RemoteDirectoryPath to specify the destination folder.
     func startFileTransfer(input: StartFileTransferInput) async throws -> StartFileTransferOutputResponse
     /// Changes the state of a file transfer protocol-enabled server from OFFLINE to ONLINE. It has no impact on a server that is already ONLINE. An ONLINE server can accept and process file transfer jobs. The state of STARTING indicates that the server is in an intermediate state, either not fully able to respond, or not fully online. The values of START_FAILED can indicate an error condition. No response is returned from this call.
     func startServer(input: StartServerInput) async throws -> StartServerOutputResponse
@@ -100,6 +108,8 @@ public protocol TransferClientProtocol {
     func stopServer(input: StopServerInput) async throws -> StopServerOutputResponse
     /// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities. There is no response returned from this call.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    /// Tests whether your SFTP connector is set up successfully. We highly recommend that you call this operation to test your ability to transfer files between a Transfer Family server and a trading partner's SFTP server.
+    func testConnection(input: TestConnectionInput) async throws -> TestConnectionOutputResponse
     /// If the IdentityProviderType of a file transfer protocol-enabled server is AWS_DIRECTORY_SERVICE or API_Gateway, tests whether your identity provider is set up successfully. We highly recommend that you call this operation to test your authentication method as soon as you create your server. By doing so, you can troubleshoot issues with the identity provider integration to ensure that your users can successfully use the service. The ServerId and UserName parameters are required. The ServerProtocol, SourceIp, and UserPassword are all optional. Note the following:
     ///
     /// * You cannot use TestIdentityProvider if the IdentityProviderType of your server is SERVICE_MANAGED.

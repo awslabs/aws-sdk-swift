@@ -1014,7 +1014,7 @@ extension SecurityHubClientTypes {
     public struct AutomationRulesAction: Swift.Equatable {
         /// Specifies that the automation rule action is an update to a finding field.
         public var findingFieldsUpdate: SecurityHubClientTypes.AutomationRulesFindingFieldsUpdate?
-        /// Specifies that the rule action should update the Types finding field. The Types finding field provides one or more finding types in the format of namespace/category/classifier that classify a finding. For more information, see [Types taxonomy for ASFF](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format-type-taxonomy.html) in the Security Hub User Guide.
+        /// Specifies that the rule action should update the Types finding field. The Types finding field classifies findings in the format of namespace/category/classifier. For more information, see [Types taxonomy for ASFF](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format-type-taxonomy.html) in the Security Hub User Guide.
         public var type: SecurityHubClientTypes.AutomationRulesActionType?
 
         public init(
@@ -1158,11 +1158,11 @@ extension SecurityHubClientTypes {
         public var createdAt: ClientRuntime.Date?
         /// The principal that created a rule.
         public var createdBy: Swift.String?
-        /// A set of [Amazon Web Services Security Finding Format](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format.html) finding field attributes and corresponding expected values that Security Hub uses to filter findings. If a finding matches the conditions specified in this parameter, Security Hub applies the rule action to the finding.
+        /// A set of [Amazon Web Services Security Finding Format](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format.html) finding field attributes and corresponding expected values that Security Hub uses to filter findings. If a rule is enabled and a finding matches the conditions specified in this parameter, Security Hub applies the rule action to the finding.
         public var criteria: SecurityHubClientTypes.AutomationRulesFindingFilters?
         /// A description of the rule.
         public var description: Swift.String?
-        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If the value of this field is set to true for a rule, Security Hub applies the rule action to a finding that matches the rule criteria and won't evaluate other rules for the finding.  The default value of this field is false.
+        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If a rule is terminal, Security Hub applies the rule action to a finding that matches the rule criteria and doesn't evaluate other rules for the finding. By default, a rule isn't terminal.
         public var isTerminal: Swift.Bool
         /// The Amazon Resource Name (ARN) of a rule.
         public var ruleArn: Swift.String?
@@ -1170,7 +1170,7 @@ extension SecurityHubClientTypes {
         public var ruleName: Swift.String?
         /// An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub applies rules with lower values for this parameter first.
         public var ruleOrder: Swift.Int
-        /// Whether the rule is active after it is created. If this parameter is equal to >ENABLED, Security Hub will apply the rule to findings and finding updates after the rule is created.
+        /// Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub starts applying the rule to findings and finding updates after the rule is created.
         public var ruleStatus: SecurityHubClientTypes.RuleStatus?
         /// A timestamp that indicates when the rule was most recently updated. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
         public var updatedAt: ClientRuntime.Date?
@@ -1309,23 +1309,23 @@ extension SecurityHubClientTypes.AutomationRulesFindingFieldsUpdate: Swift.Codab
 }
 
 extension SecurityHubClientTypes {
-    /// Identifies the finding fields that the automation rule action will update when a finding matches the defined criteria.
+    /// Identifies the finding fields that the automation rule action updates when a finding matches the defined criteria.
     public struct AutomationRulesFindingFieldsUpdate: Swift.Equatable {
-        /// The rule action will update the Confidence field of a finding.
+        /// The rule action updates the Confidence field of a finding.
         public var confidence: Swift.Int
-        /// The rule action will update the Criticality field of a finding.
+        /// The rule action updates the Criticality field of a finding.
         public var criticality: Swift.Int
         /// The updated note.
         public var note: SecurityHubClientTypes.NoteUpdate?
-        /// A list of findings that are related to a finding.
+        /// The rule action updates the RelatedFindings field of a finding.
         public var relatedFindings: [SecurityHubClientTypes.RelatedFinding]?
         /// Updates to the severity information for a finding.
         public var severity: SecurityHubClientTypes.SeverityUpdate?
-        /// The rule action will update the Types field of a finding.
+        /// The rule action updates the Types field of a finding.
         public var types: [Swift.String]?
-        /// The rule action will update the UserDefinedFields field of a finding.
+        /// The rule action updates the UserDefinedFields field of a finding.
         public var userDefinedFields: [Swift.String:Swift.String]?
-        /// The rule action will update the VerificationState field of a finding.
+        /// The rule action updates the VerificationState field of a finding.
         public var verificationState: SecurityHubClientTypes.VerificationState?
         /// Used to update information about the investigation into the finding.
         public var workflow: SecurityHubClientTypes.WorkflowUpdate?
@@ -2227,7 +2227,7 @@ extension SecurityHubClientTypes {
         public var createdBy: Swift.String?
         /// A description of the rule.
         public var description: Swift.String?
-        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If the value of this field is set to true for a rule, Security Hub applies the rule action to a finding that matches the rule criteria and won't evaluate other rules for the finding.  The default value of this field is false.
+        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If a rule is terminal, Security Hub applies the rule action to a finding that matches the rule criteria and doesn't evaluate other rules for the finding. By default, a rule isn't terminal.
         public var isTerminal: Swift.Bool
         /// The Amazon Resource Name (ARN) for the rule.
         public var ruleArn: Swift.String?
@@ -2235,7 +2235,7 @@ extension SecurityHubClientTypes {
         public var ruleName: Swift.String?
         /// An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub applies rules with lower values for this parameter first.
         public var ruleOrder: Swift.Int
-        /// Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub will apply the rule to findings and finding updates after the rule is created. To change the value of this parameter after creating a rule, use BatchUpdateAutomationRules.
+        /// Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub starts applying the rule to findings and finding updates after the rule is created. To change the value of this parameter after creating a rule, use [BatchUpdateAutomationRules](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateAutomationRules.html).
         public var ruleStatus: SecurityHubClientTypes.RuleStatus?
         /// A timestamp that indicates when the rule was most recently updated. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
         public var updatedAt: ClientRuntime.Date?
@@ -4592,6 +4592,186 @@ extension SecurityHubClientTypes {
             self.awsRegion = awsRegion
             self.defaultAction = defaultAction
             self.userPoolId = userPoolId
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsAthenaWorkGroupConfigurationDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resultConfiguration = "ResultConfiguration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resultConfiguration = self.resultConfiguration {
+            try encodeContainer.encode(resultConfiguration, forKey: .resultConfiguration)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resultConfigurationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsAthenaWorkGroupConfigurationResultConfigurationDetails.self, forKey: .resultConfiguration)
+        resultConfiguration = resultConfigurationDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The configuration of the workgroup, which includes the location in Amazon Simple Storage Service (Amazon S3) where query results are stored, the encryption option, if any, used for query results, whether Amazon CloudWatch metrics are enabled for the workgroup, and the limit for the amount of bytes scanned (cutoff) per query, if it is specified.
+    public struct AwsAthenaWorkGroupConfigurationDetails: Swift.Equatable {
+        /// The location in Amazon S3 where query and calculation results are stored and the encryption option, if any, used for query and calculation results. These are known as client-side settings. If workgroup settings override client-side settings, then the query uses the workgroup settings.
+        public var resultConfiguration: SecurityHubClientTypes.AwsAthenaWorkGroupConfigurationResultConfigurationDetails?
+
+        public init(
+            resultConfiguration: SecurityHubClientTypes.AwsAthenaWorkGroupConfigurationResultConfigurationDetails? = nil
+        )
+        {
+            self.resultConfiguration = resultConfiguration
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsAthenaWorkGroupConfigurationResultConfigurationDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case encryptionConfiguration = "EncryptionConfiguration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let encryptionConfiguration = self.encryptionConfiguration {
+            try encodeContainer.encode(encryptionConfiguration, forKey: .encryptionConfiguration)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let encryptionConfigurationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsAthenaWorkGroupConfigurationResultConfigurationEncryptionConfigurationDetails.self, forKey: .encryptionConfiguration)
+        encryptionConfiguration = encryptionConfigurationDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The location in Amazon Simple Storage Service (Amazon S3) where query and calculation results are stored and the encryption option, if any, used for query and calculation results. These are known as client-side settings. If workgroup settings override client-side settings, then the query uses the workgroup settings.
+    public struct AwsAthenaWorkGroupConfigurationResultConfigurationDetails: Swift.Equatable {
+        /// Specifies the method used to encrypt the user’s data stores in the Athena workgroup.
+        public var encryptionConfiguration: SecurityHubClientTypes.AwsAthenaWorkGroupConfigurationResultConfigurationEncryptionConfigurationDetails?
+
+        public init(
+            encryptionConfiguration: SecurityHubClientTypes.AwsAthenaWorkGroupConfigurationResultConfigurationEncryptionConfigurationDetails? = nil
+        )
+        {
+            self.encryptionConfiguration = encryptionConfiguration
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsAthenaWorkGroupConfigurationResultConfigurationEncryptionConfigurationDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case encryptionOption = "EncryptionOption"
+        case kmsKey = "KmsKey"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let encryptionOption = self.encryptionOption {
+            try encodeContainer.encode(encryptionOption, forKey: .encryptionOption)
+        }
+        if let kmsKey = self.kmsKey {
+            try encodeContainer.encode(kmsKey, forKey: .kmsKey)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let encryptionOptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .encryptionOption)
+        encryptionOption = encryptionOptionDecoded
+        let kmsKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKey)
+        kmsKey = kmsKeyDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Specifies the method used to encrypt the user’s data stores in the Athena workgroup.
+    public struct AwsAthenaWorkGroupConfigurationResultConfigurationEncryptionConfigurationDetails: Swift.Equatable {
+        /// Indicates whether Amazon Simple Storage Service (Amazon S3) server-side encryption with Amazon S3 managed keys (SSE_S3), server-side encryption with KMS keys (SSE_KMS), or client-side encryption with KMS customer managed keys (CSE_KMS) is used.
+        public var encryptionOption: Swift.String?
+        /// For SSE_KMS and CSE_KMS, this is the KMS key Amazon Resource Name (ARN) or ID.
+        public var kmsKey: Swift.String?
+
+        public init(
+            encryptionOption: Swift.String? = nil,
+            kmsKey: Swift.String? = nil
+        )
+        {
+            self.encryptionOption = encryptionOption
+            self.kmsKey = kmsKey
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsAthenaWorkGroupDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configuration = "Configuration"
+        case description = "Description"
+        case name = "Name"
+        case state = "State"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let configuration = self.configuration {
+            try encodeContainer.encode(configuration, forKey: .configuration)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state, forKey: .state)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .state)
+        state = stateDecoded
+        let configurationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsAthenaWorkGroupConfigurationDetails.self, forKey: .configuration)
+        configuration = configurationDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides information about an Amazon Athena workgroup.
+    public struct AwsAthenaWorkGroupDetails: Swift.Equatable {
+        /// The configuration of the workgroup, which includes the location in Amazon Simple Storage Service (Amazon S3) where query results are stored, the encryption option, if any, used for query results, whether Amazon CloudWatch metrics are enabled for the workgroup, and the limit for the amount of bytes scanned (cutoff) per query, if it is specified.
+        public var configuration: SecurityHubClientTypes.AwsAthenaWorkGroupConfigurationDetails?
+        /// The workgroup description.
+        public var description: Swift.String?
+        /// The workgroup name.
+        public var name: Swift.String?
+        /// Whether the workgroup is enabled or disabled.
+        public var state: Swift.String?
+
+        public init(
+            configuration: SecurityHubClientTypes.AwsAthenaWorkGroupConfigurationDetails? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            state: Swift.String? = nil
+        )
+        {
+            self.configuration = configuration
+            self.description = description
+            self.name = name
+            self.state = state
         }
     }
 
@@ -29266,12 +29446,70 @@ extension SecurityHubClientTypes {
 
 }
 
+extension SecurityHubClientTypes.AwsRdsDbClusterSnapshotDbClusterSnapshotAttribute: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeName = "AttributeName"
+        case attributeValues = "AttributeValues"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributeName = self.attributeName {
+            try encodeContainer.encode(attributeName, forKey: .attributeName)
+        }
+        if let attributeValues = attributeValues {
+            var attributeValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeValues)
+            for nonemptystring0 in attributeValues {
+                try attributeValuesContainer.encode(nonemptystring0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let attributeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attributeName)
+        attributeName = attributeNameDecoded
+        let attributeValuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .attributeValues)
+        var attributeValuesDecoded0:[Swift.String]? = nil
+        if let attributeValuesContainer = attributeValuesContainer {
+            attributeValuesDecoded0 = [Swift.String]()
+            for string0 in attributeValuesContainer {
+                if let string0 = string0 {
+                    attributeValuesDecoded0?.append(string0)
+                }
+            }
+        }
+        attributeValues = attributeValuesDecoded0
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Contains the name and values of a manual Amazon Relational Database Service (RDS) DB cluster snapshot attribute.
+    public struct AwsRdsDbClusterSnapshotDbClusterSnapshotAttribute: Swift.Equatable {
+        /// The name of the manual DB cluster snapshot attribute. The attribute named restore refers to the list of Amazon Web Services accounts that have permission to copy or restore the manual DB cluster snapshot.
+        public var attributeName: Swift.String?
+        /// The value(s) for the manual DB cluster snapshot attribute. If the AttributeName field is set to restore, then this element returns a list of IDs of the Amazon Web Services accounts that are authorized to copy or restore the manual DB cluster snapshot. If a value of all is in the list, then the manual DB cluster snapshot is public and available for any Amazon Web Services account to copy or restore.
+        public var attributeValues: [Swift.String]?
+
+        public init(
+            attributeName: Swift.String? = nil,
+            attributeValues: [Swift.String]? = nil
+        )
+        {
+            self.attributeName = attributeName
+            self.attributeValues = attributeValues
+        }
+    }
+
+}
+
 extension SecurityHubClientTypes.AwsRdsDbClusterSnapshotDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case allocatedStorage = "AllocatedStorage"
         case availabilityZones = "AvailabilityZones"
         case clusterCreateTime = "ClusterCreateTime"
         case dbClusterIdentifier = "DbClusterIdentifier"
+        case dbClusterSnapshotAttributes = "DbClusterSnapshotAttributes"
         case dbClusterSnapshotIdentifier = "DbClusterSnapshotIdentifier"
         case engine = "Engine"
         case engineVersion = "EngineVersion"
@@ -29304,6 +29542,12 @@ extension SecurityHubClientTypes.AwsRdsDbClusterSnapshotDetails: Swift.Codable {
         }
         if let dbClusterIdentifier = self.dbClusterIdentifier {
             try encodeContainer.encode(dbClusterIdentifier, forKey: .dbClusterIdentifier)
+        }
+        if let dbClusterSnapshotAttributes = dbClusterSnapshotAttributes {
+            var dbClusterSnapshotAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dbClusterSnapshotAttributes)
+            for awsrdsdbclustersnapshotdbclustersnapshotattribute0 in dbClusterSnapshotAttributes {
+                try dbClusterSnapshotAttributesContainer.encode(awsrdsdbclustersnapshotdbclustersnapshotattribute0)
+            }
         }
         if let dbClusterSnapshotIdentifier = self.dbClusterSnapshotIdentifier {
             try encodeContainer.encode(dbClusterSnapshotIdentifier, forKey: .dbClusterSnapshotIdentifier)
@@ -29396,6 +29640,17 @@ extension SecurityHubClientTypes.AwsRdsDbClusterSnapshotDetails: Swift.Codable {
         dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifierDecoded
         let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled) ?? false
         iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabledDecoded
+        let dbClusterSnapshotAttributesContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsRdsDbClusterSnapshotDbClusterSnapshotAttribute?].self, forKey: .dbClusterSnapshotAttributes)
+        var dbClusterSnapshotAttributesDecoded0:[SecurityHubClientTypes.AwsRdsDbClusterSnapshotDbClusterSnapshotAttribute]? = nil
+        if let dbClusterSnapshotAttributesContainer = dbClusterSnapshotAttributesContainer {
+            dbClusterSnapshotAttributesDecoded0 = [SecurityHubClientTypes.AwsRdsDbClusterSnapshotDbClusterSnapshotAttribute]()
+            for structure0 in dbClusterSnapshotAttributesContainer {
+                if let structure0 = structure0 {
+                    dbClusterSnapshotAttributesDecoded0?.append(structure0)
+                }
+            }
+        }
+        dbClusterSnapshotAttributes = dbClusterSnapshotAttributesDecoded0
     }
 }
 
@@ -29410,6 +29665,8 @@ extension SecurityHubClientTypes {
         public var clusterCreateTime: Swift.String?
         /// The DB cluster identifier.
         public var dbClusterIdentifier: Swift.String?
+        /// Contains the name and values of a manual DB cluster snapshot attribute.
+        public var dbClusterSnapshotAttributes: [SecurityHubClientTypes.AwsRdsDbClusterSnapshotDbClusterSnapshotAttribute]?
         /// The identifier of the DB cluster snapshot.
         public var dbClusterSnapshotIdentifier: Swift.String?
         /// The name of the database engine that you want to use for this DB instance.
@@ -29444,6 +29701,7 @@ extension SecurityHubClientTypes {
             availabilityZones: [Swift.String]? = nil,
             clusterCreateTime: Swift.String? = nil,
             dbClusterIdentifier: Swift.String? = nil,
+            dbClusterSnapshotAttributes: [SecurityHubClientTypes.AwsRdsDbClusterSnapshotDbClusterSnapshotAttribute]? = nil,
             dbClusterSnapshotIdentifier: Swift.String? = nil,
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
@@ -29464,6 +29722,7 @@ extension SecurityHubClientTypes {
             self.availabilityZones = availabilityZones
             self.clusterCreateTime = clusterCreateTime
             self.dbClusterIdentifier = dbClusterIdentifier
+            self.dbClusterSnapshotAttributes = dbClusterSnapshotAttributes
             self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
             self.engine = engine
             self.engineVersion = engineVersion
@@ -43984,13 +44243,13 @@ public struct CreateAutomationRuleInput: Swift.Equatable {
     /// One or more actions to update finding fields if a finding matches the conditions specified in Criteria.
     /// This member is required.
     public var actions: [SecurityHubClientTypes.AutomationRulesAction]?
-    /// A set of ASFF finding field attributes and corresponding expected values that Security Hub uses to filter findings. If a finding matches the conditions specified in this parameter, Security Hub applies the rule action to the finding.
+    /// A set of ASFF finding field attributes and corresponding expected values that Security Hub uses to filter findings. If a rule is enabled and a finding matches the conditions specified in this parameter, Security Hub applies the rule action to the finding.
     /// This member is required.
     public var criteria: SecurityHubClientTypes.AutomationRulesFindingFilters?
     /// A description of the rule.
     /// This member is required.
     public var description: Swift.String?
-    /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If the value of this field is set to true for a rule, Security Hub applies the rule action to a finding that matches the rule criteria and won't evaluate other rules for the finding. The default value of this field is false.
+    /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If a rule is terminal, Security Hub applies the rule action to a finding that matches the rule criteria and doesn't evaluate other rules for the finding. By default, a rule isn't terminal.
     public var isTerminal: Swift.Bool?
     /// The name of the rule.
     /// This member is required.
@@ -43998,7 +44257,7 @@ public struct CreateAutomationRuleInput: Swift.Equatable {
     /// An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub applies rules with lower values for this parameter first.
     /// This member is required.
     public var ruleOrder: Swift.Int?
-    /// Whether the rule is active after it is created. If this parameter is equal to Enabled, Security Hub will apply the rule to findings and finding updates after the rule is created. To change the value of this parameter after creating a rule, use BatchUpdateAutomationRules.
+    /// Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub starts applying the rule to findings and finding updates after the rule is created. To change the value of this parameter after creating a rule, use [BatchUpdateAutomationRules](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateAutomationRules.html).
     public var ruleStatus: SecurityHubClientTypes.RuleStatus?
     /// User-defined tags that help you label the purpose of a rule.
     public var tags: [Swift.String:Swift.String]?
@@ -45079,7 +45338,7 @@ extension DeleteActionTargetInput: ClientRuntime.URLPathProvider {
         guard let actionTargetArn = actionTargetArn else {
             return nil
         }
-        return "/actionTargets/\(actionTargetArn)"
+        return "/actionTargets/\(actionTargetArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -45165,7 +45424,7 @@ extension DeleteFindingAggregatorInput: ClientRuntime.URLPathProvider {
         guard let findingAggregatorArn = findingAggregatorArn else {
             return nil
         }
-        return "/findingAggregator/delete/\(findingAggregatorArn)"
+        return "/findingAggregator/delete/\(findingAggregatorArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -45222,7 +45481,7 @@ extension DeleteInsightInput: ClientRuntime.URLPathProvider {
         guard let insightArn = insightArn else {
             return nil
         }
-        return "/insights/\(insightArn)"
+        return "/insights/\(insightArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -46080,7 +46339,7 @@ extension DescribeStandardsControlsInput: ClientRuntime.URLPathProvider {
         guard let standardsSubscriptionArn = standardsSubscriptionArn else {
             return nil
         }
-        return "/standards/controls/\(standardsSubscriptionArn)"
+        return "/standards/controls/\(standardsSubscriptionArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -46312,7 +46571,7 @@ extension DisableImportFindingsForProductInput: ClientRuntime.URLPathProvider {
         guard let productSubscriptionArn = productSubscriptionArn else {
             return nil
         }
-        return "/productSubscriptions/\(productSubscriptionArn)"
+        return "/productSubscriptions/\(productSubscriptionArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -48006,7 +48265,7 @@ extension GetFindingAggregatorInput: ClientRuntime.URLPathProvider {
         guard let findingAggregatorArn = findingAggregatorArn else {
             return nil
         }
-        return "/findingAggregator/get/\(findingAggregatorArn)"
+        return "/findingAggregator/get/\(findingAggregatorArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -48470,7 +48729,7 @@ extension GetInsightResultsInput: ClientRuntime.URLPathProvider {
         guard let insightArn = insightArn else {
             return nil
         }
-        return "/insights/results/\(insightArn)"
+        return "/insights/results/\(insightArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -51313,13 +51572,27 @@ extension SecurityHubClientTypes.MapFilter: Swift.Codable {
 }
 
 extension SecurityHubClientTypes {
-    /// A map filter for querying findings. Each map filter provides the field to check, the value to look for, and the comparison operator.
+    /// A map filter for filtering Security Hub findings. Each map filter provides the field to check for, the value to check for, and the comparison operator.
     public struct MapFilter: Swift.Equatable {
-        /// The condition to apply to the key value when querying for findings with a map filter. To search for values that exactly match the filter value, use EQUALS. For example, for the ResourceTags field, the filter Department EQUALS Security matches findings that have the value Security for the tag Department. To search for values other than the filter value, use NOT_EQUALS. For example, for the ResourceTags field, the filter Department NOT_EQUALS Finance matches findings that do not have the value Finance for the tag Department. EQUALS filters on the same field are joined by OR. A finding matches if it matches any one of those filters. NOT_EQUALS filters on the same field are joined by AND. A finding matches only if it matches all of those filters. You cannot have both an EQUALS filter and a NOT_EQUALS filter on the same field.
+        /// The condition to apply to the key value when filtering Security Hub findings with a map filter. To search for values that have the filter value, use one of the following comparison operators:
+        ///
+        /// * To search for values that include the filter value, use CONTAINS. For example, for the ResourceTags field, the filter Department CONTAINS Security matches findings that include the value Security for the Department tag. In the same example, a finding with a value of Security team for the Department tag is a match.
+        ///
+        /// * To search for values that exactly match the filter value, use EQUALS. For example, for the ResourceTags field, the filter Department EQUALS Security matches findings that have the value Security for the Department tag.
+        ///
+        ///
+        /// CONTAINS and EQUALS filters on the same field are joined by OR. A finding matches if it matches any one of those filters. For example, the filters Department CONTAINS Security OR Department CONTAINS Finance match a finding that includes either Security, Finance, or both values. To search for values that don't have the filter value, use one of the following comparison operators:
+        ///
+        /// * To search for values that exclude the filter value, use NOT_CONTAINS. For example, for the ResourceTags field, the filter Department NOT_CONTAINS Finance matches findings that exclude the value Finance for the Department tag.
+        ///
+        /// * To search for values other than the filter value, use NOT_EQUALS. For example, for the ResourceTags field, the filter Department NOT_EQUALS Finance matches findings that don’t have the value Finance for the Department tag.
+        ///
+        ///
+        /// NOT_CONTAINS and NOT_EQUALS filters on the same field are joined by AND. A finding matches only if it matches all of those filters. For example, the filters Department NOT_CONTAINS Security AND Department NOT_CONTAINS Finance match a finding that excludes both the Security and Finance values. CONTAINS filters can only be used with other CONTAINS filters. NOT_CONTAINS filters can only be used with other NOT_CONTAINS filters. You can’t have both a CONTAINS filter and a NOT_CONTAINS filter on the same field. Similarly, you can’t have both an EQUALS filter and a NOT_EQUALS filter on the same field. Combining filters in this way returns an error. CONTAINS and NOT_CONTAINS operators can be used only with automation rules. For more information, see [Automation rules](https://docs.aws.amazon.com/securityhub/latest/userguide/automation-rules.html) in the Security Hub User Guide.
         public var comparison: SecurityHubClientTypes.MapFilterComparison?
         /// The key of the map filter. For example, for ResourceTags, Key identifies the name of the tag. For UserDefinedFields, Key is the name of the field.
         public var key: Swift.String?
-        /// The value for the key in the map filter. Filter values are case sensitive. For example, one of the values for a tag called Department might be Security. If you provide security as the filter value, then there is no match.
+        /// The value for the key in the map filter. Filter values are case sensitive. For example, one of the values for a tag called Department might be Security. If you provide security as the filter value, then there's no match.
         public var value: Swift.String?
 
         public init(
@@ -51338,13 +51611,17 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
     public enum MapFilterComparison: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case contains
         case equals
+        case notContains
         case notEquals
         case sdkUnknown(Swift.String)
 
         public static var allCases: [MapFilterComparison] {
             return [
+                .contains,
                 .equals,
+                .notContains,
                 .notEquals,
                 .sdkUnknown("")
             ]
@@ -51355,7 +51632,9 @@ extension SecurityHubClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .contains: return "CONTAINS"
             case .equals: return "EQUALS"
+            case .notContains: return "NOT_CONTAINS"
             case .notEquals: return "NOT_EQUALS"
             case let .sdkUnknown(s): return s
             }
@@ -53400,6 +53679,7 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         case awsApiGatewayV2Api = "AwsApiGatewayV2Api"
         case awsApiGatewayV2Stage = "AwsApiGatewayV2Stage"
         case awsAppSyncGraphQlApi = "AwsAppSyncGraphQlApi"
+        case awsAthenaWorkGroup = "AwsAthenaWorkGroup"
         case awsAutoScalingAutoScalingGroup = "AwsAutoScalingAutoScalingGroup"
         case awsAutoScalingLaunchConfiguration = "AwsAutoScalingLaunchConfiguration"
         case awsBackupBackupPlan = "AwsBackupBackupPlan"
@@ -53504,6 +53784,9 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         }
         if let awsAppSyncGraphQlApi = self.awsAppSyncGraphQlApi {
             try encodeContainer.encode(awsAppSyncGraphQlApi, forKey: .awsAppSyncGraphQlApi)
+        }
+        if let awsAthenaWorkGroup = self.awsAthenaWorkGroup {
+            try encodeContainer.encode(awsAthenaWorkGroup, forKey: .awsAthenaWorkGroup)
         }
         if let awsAutoScalingAutoScalingGroup = self.awsAutoScalingAutoScalingGroup {
             try encodeContainer.encode(awsAutoScalingAutoScalingGroup, forKey: .awsAutoScalingAutoScalingGroup)
@@ -53948,6 +54231,8 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         awsGuardDutyDetector = awsGuardDutyDetectorDecoded
         let awsStepFunctionStateMachineDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsStepFunctionStateMachineDetails.self, forKey: .awsStepFunctionStateMachine)
         awsStepFunctionStateMachine = awsStepFunctionStateMachineDecoded
+        let awsAthenaWorkGroupDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsAthenaWorkGroupDetails.self, forKey: .awsAthenaWorkGroup)
+        awsAthenaWorkGroup = awsAthenaWorkGroupDecoded
     }
 }
 
@@ -53966,6 +54251,8 @@ extension SecurityHubClientTypes {
         public var awsApiGatewayV2Stage: SecurityHubClientTypes.AwsApiGatewayV2StageDetails?
         /// Provides details about an AppSync Graph QL API, which lets you query multiple databases, microservices, and APIs from a single GraphQL endpoint.
         public var awsAppSyncGraphQlApi: SecurityHubClientTypes.AwsAppSyncGraphQlApiDetails?
+        /// Provides information about an Amazon Athena workgroup. A workgroup helps you separate users, teams, applications, or workloads. It also helps you set limits on data processing and track costs.
+        public var awsAthenaWorkGroup: SecurityHubClientTypes.AwsAthenaWorkGroupDetails?
         /// Details for an autoscaling group.
         public var awsAutoScalingAutoScalingGroup: SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupDetails?
         /// Provides details about a launch configuration.
@@ -54144,6 +54431,7 @@ extension SecurityHubClientTypes {
             awsApiGatewayV2Api: SecurityHubClientTypes.AwsApiGatewayV2ApiDetails? = nil,
             awsApiGatewayV2Stage: SecurityHubClientTypes.AwsApiGatewayV2StageDetails? = nil,
             awsAppSyncGraphQlApi: SecurityHubClientTypes.AwsAppSyncGraphQlApiDetails? = nil,
+            awsAthenaWorkGroup: SecurityHubClientTypes.AwsAthenaWorkGroupDetails? = nil,
             awsAutoScalingAutoScalingGroup: SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupDetails? = nil,
             awsAutoScalingLaunchConfiguration: SecurityHubClientTypes.AwsAutoScalingLaunchConfigurationDetails? = nil,
             awsBackupBackupPlan: SecurityHubClientTypes.AwsBackupBackupPlanDetails? = nil,
@@ -54235,6 +54523,7 @@ extension SecurityHubClientTypes {
             self.awsApiGatewayV2Api = awsApiGatewayV2Api
             self.awsApiGatewayV2Stage = awsApiGatewayV2Stage
             self.awsAppSyncGraphQlApi = awsAppSyncGraphQlApi
+            self.awsAthenaWorkGroup = awsAthenaWorkGroup
             self.awsAutoScalingAutoScalingGroup = awsAutoScalingAutoScalingGroup
             self.awsAutoScalingLaunchConfiguration = awsAutoScalingLaunchConfiguration
             self.awsBackupBackupPlan = awsBackupBackupPlan
@@ -55870,7 +56159,7 @@ extension SecurityHubClientTypes {
         /// The unique identifier of a security control across standards. Values for this field typically consist of an Amazon Web Service name and a number, such as APIGateway.3.
         /// This member is required.
         public var securityControlId: Swift.String?
-        /// The status of a security control based on the compliance status of its findings. For more information about how control status is determined, see [Determining the overall status of a control from its findings](https://docs.aws.amazon.com/securityhub/latest/userguide/controls-overall-status.html) in the Security Hub User Guide.
+        /// The enablement status of a security control in a specific standard.
         /// This member is required.
         public var securityControlStatus: SecurityHubClientTypes.ControlStatus?
         /// The severity of a security control. For more information about how Security Hub determines control severity, see [Assigning severity to control findings](https://docs.aws.amazon.com/securityhub/latest/userguide/controls-findings-create-update.html#control-findings-severity) in the Security Hub User Guide.
@@ -57692,23 +57981,27 @@ extension SecurityHubClientTypes.StringFilter: Swift.Codable {
 }
 
 extension SecurityHubClientTypes {
-    /// A string filter for querying findings.
+    /// A string filter for filtering Security Hub findings.
     public struct StringFilter: Swift.Equatable {
-        /// The condition to apply to a string value when querying for findings. To search for values that contain the filter criteria value, use one of the following comparison operators:
+        /// The condition to apply to a string value when filtering Security Hub findings. To search for values that have the filter value, use one of the following comparison operators:
         ///
-        /// * To search for values that exactly match the filter value, use EQUALS. For example, the filter ResourceType EQUALS AwsEc2SecurityGroup only matches findings that have a resource type of AwsEc2SecurityGroup.
+        /// * To search for values that include the filter value, use CONTAINS. For example, the filter Title CONTAINS CloudFront matches findings that have a Title that includes the string CloudFront.
         ///
-        /// * To search for values that start with the filter value, use PREFIX. For example, the filter ResourceType PREFIX AwsIam matches findings that have a resource type that starts with AwsIam. Findings with a resource type of AwsIamPolicy, AwsIamRole, or AwsIamUser would all match.
+        /// * To search for values that exactly match the filter value, use EQUALS. For example, the filter AwsAccountId EQUALS 123456789012 only matches findings that have an account ID of 123456789012.
         ///
-        ///
-        /// EQUALS and PREFIX filters on the same field are joined by OR. A finding matches if it matches any one of those filters. To search for values that do not contain the filter criteria value, use one of the following comparison operators:
-        ///
-        /// * To search for values that do not exactly match the filter value, use NOT_EQUALS. For example, the filter ResourceType NOT_EQUALS AwsIamPolicy matches findings that have a resource type other than AwsIamPolicy.
-        ///
-        /// * To search for values that do not start with the filter value, use PREFIX_NOT_EQUALS. For example, the filter ResourceType PREFIX_NOT_EQUALS AwsIam matches findings that have a resource type that does not start with AwsIam. Findings with a resource type of AwsIamPolicy, AwsIamRole, or AwsIamUser would all be excluded from the results.
+        /// * To search for values that start with the filter value, use PREFIX. For example, the filter ResourceRegion PREFIX us matches findings that have a ResourceRegion that starts with us. A ResourceRegion that starts with a different value, such as af, ap, or ca, doesn't match.
         ///
         ///
-        /// NOT_EQUALS and PREFIX_NOT_EQUALS filters on the same field are joined by AND. A finding matches only if it matches all of those filters. For filters on the same field, you cannot provide both an EQUALS filter and a NOT_EQUALS or PREFIX_NOT_EQUALS filter. Combining filters in this way always returns an error, even if the provided filter values would return valid results. You can combine PREFIX filters with NOT_EQUALS or PREFIX_NOT_EQUALS filters for the same field. Security Hub first processes the PREFIX filters, then the NOT_EQUALS or PREFIX_NOT_EQUALS filters. For example, for the following filter, Security Hub first identifies findings that have resource types that start with either AwsIAM or AwsEc2. It then excludes findings that have a resource type of AwsIamPolicy and findings that have a resource type of AwsEc2NetworkInterface.
+        /// CONTAINS, EQUALS, and PREFIX filters on the same field are joined by OR. A finding matches if it matches any one of those filters. For example, the filters Title CONTAINS CloudFront OR Title CONTAINS CloudWatch match a finding that includes either CloudFront, CloudWatch, or both strings in the title. To search for values that don’t have the filter value, use one of the following comparison operators:
+        ///
+        /// * To search for values that exclude the filter value, use NOT_CONTAINS. For example, the filter Title NOT_CONTAINS CloudFront matches findings that have a Title that excludes the string CloudFront.
+        ///
+        /// * To search for values other than the filter value, use NOT_EQUALS. For example, the filter AwsAccountId NOT_EQUALS 123456789012 only matches findings that have an account ID other than 123456789012.
+        ///
+        /// * To search for values that don't start with the filter value, use PREFIX_NOT_EQUALS. For example, the filter ResourceRegion PREFIX_NOT_EQUALS us matches findings with a ResourceRegion that starts with a value other than us.
+        ///
+        ///
+        /// NOT_CONTAINS, NOT_EQUALS, and PREFIX_NOT_EQUALS filters on the same field are joined by AND. A finding matches only if it matches all of those filters. For example, the filters Title NOT_CONTAINS CloudFront AND Title NOT_CONTAINS CloudWatch match a finding that excludes both CloudFront and CloudWatch in the title. You can’t have both a CONTAINS filter and a NOT_CONTAINS filter on the same field. Similarly, you can't provide both an EQUALS filter and a NOT_EQUALS or PREFIX_NOT_EQUALS filter on the same field. Combining filters in this way returns an error. CONTAINS filters can only be used with other CONTAINS filters. NOT_CONTAINS filters can only be used with other NOT_CONTAINS filters. You can combine PREFIX filters with NOT_EQUALS or PREFIX_NOT_EQUALS filters for the same field. Security Hub first processes the PREFIX filters, and then the NOT_EQUALS or PREFIX_NOT_EQUALS filters. For example, for the following filters, Security Hub first identifies findings that have resource types that start with either AwsIam or AwsEc2. It then excludes findings that have a resource type of AwsIamPolicy and findings that have a resource type of AwsEc2NetworkInterface.
         ///
         /// * ResourceType PREFIX AwsIam
         ///
@@ -57717,8 +58010,11 @@ extension SecurityHubClientTypes {
         /// * ResourceType NOT_EQUALS AwsIamPolicy
         ///
         /// * ResourceType NOT_EQUALS AwsEc2NetworkInterface
+        ///
+        ///
+        /// CONTAINS and NOT_CONTAINS operators can be used only with automation rules. For more information, see [Automation rules](https://docs.aws.amazon.com/securityhub/latest/userguide/automation-rules.html) in the Security Hub User Guide.
         public var comparison: SecurityHubClientTypes.StringFilterComparison?
-        /// The string filter value. Filter values are case sensitive. For example, the product name for control-based findings is Security Hub. If you provide security hub as the filter text, then there is no match.
+        /// The string filter value. Filter values are case sensitive. For example, the product name for control-based findings is Security Hub. If you provide security hub as the filter value, there's no match.
         public var value: Swift.String?
 
         public init(
@@ -57735,7 +58031,9 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
     public enum StringFilterComparison: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case contains
         case equals
+        case notContains
         case notEquals
         case `prefix`
         case prefixNotEquals
@@ -57743,7 +58041,9 @@ extension SecurityHubClientTypes {
 
         public static var allCases: [StringFilterComparison] {
             return [
+                .contains,
                 .equals,
+                .notContains,
                 .notEquals,
                 .prefix,
                 .prefixNotEquals,
@@ -57756,7 +58056,9 @@ extension SecurityHubClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .contains: return "CONTAINS"
             case .equals: return "EQUALS"
+            case .notContains: return "NOT_CONTAINS"
             case .notEquals: return "NOT_EQUALS"
             case .prefix: return "PREFIX"
             case .prefixNotEquals: return "PREFIX_NOT_EQUALS"
@@ -58489,7 +58791,7 @@ extension UpdateActionTargetInput: ClientRuntime.URLPathProvider {
         guard let actionTargetArn = actionTargetArn else {
             return nil
         }
-        return "/actionTargets/\(actionTargetArn)"
+        return "/actionTargets/\(actionTargetArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -58636,11 +58938,11 @@ extension SecurityHubClientTypes {
     public struct UpdateAutomationRulesRequestItem: Swift.Equatable {
         /// One or more actions to update finding fields if a finding matches the conditions specified in Criteria.
         public var actions: [SecurityHubClientTypes.AutomationRulesAction]?
-        /// A set of ASFF finding field attributes and corresponding expected values that Security Hub uses to filter findings. If a finding matches the conditions specified in this parameter, Security Hub applies the rule action to the finding.
+        /// A set of ASFF finding field attributes and corresponding expected values that Security Hub uses to filter findings. If a rule is enabled and a finding matches the conditions specified in this parameter, Security Hub applies the rule action to the finding.
         public var criteria: SecurityHubClientTypes.AutomationRulesFindingFilters?
         /// A description of the rule.
         public var description: Swift.String?
-        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If the value of this field is set to true for a rule, Security Hub applies the rule action to a finding that matches the rule criteria and won't evaluate other rules for the finding.  The default value of this field is false.
+        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If a rule is terminal, Security Hub applies the rule action to a finding that matches the rule criteria and doesn't evaluate other rules for the finding. By default, a rule isn't terminal.
         public var isTerminal: Swift.Bool
         /// The Amazon Resource Name (ARN) for the rule.
         /// This member is required.
@@ -58649,7 +58951,7 @@ extension SecurityHubClientTypes {
         public var ruleName: Swift.String?
         /// An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub applies rules with lower values for this parameter first.
         public var ruleOrder: Swift.Int
-        /// Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub will apply the rule to findings and finding updates after the rule is created. To change the value of this parameter after creating a rule, use BatchUpdateAutomationRules.
+        /// Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub starts applying the rule to findings and finding updates after the rule is created. To change the value of this parameter after creating a rule, use [BatchUpdateAutomationRules](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateAutomationRules.html).
         public var ruleStatus: SecurityHubClientTypes.RuleStatus?
 
         public init(
@@ -58985,7 +59287,7 @@ extension UpdateInsightInput: ClientRuntime.URLPathProvider {
         guard let insightArn = insightArn else {
             return nil
         }
-        return "/insights/\(insightArn)"
+        return "/insights/\(insightArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -59253,7 +59555,7 @@ extension UpdateStandardsControlInput: ClientRuntime.URLPathProvider {
         guard let standardsControlArn = standardsControlArn else {
             return nil
         }
-        return "/standards/control/\(standardsControlArn)"
+        return "/standards/control/\(standardsControlArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 

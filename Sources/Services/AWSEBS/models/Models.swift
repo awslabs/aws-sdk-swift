@@ -660,7 +660,7 @@ extension InternalServerException {
     }
 }
 
-/// An internal error has occurred.
+/// An internal error has occurred. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html).
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -1247,7 +1247,7 @@ extension RequestThrottledException {
     }
 }
 
-/// The number of API requests has exceed the maximum allowed API request throttling limit.
+/// The number of API requests has exceeded the maximum allowed API request throttling limit for the snapshot. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html).
 public struct RequestThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -1398,12 +1398,16 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
 extension EBSClientTypes {
     public enum ResourceNotFoundExceptionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case dependencyResourceNotFound
+        case grantNotFound
+        case imageNotFound
         case snapshotNotFound
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceNotFoundExceptionReason] {
             return [
                 .dependencyResourceNotFound,
+                .grantNotFound,
+                .imageNotFound,
                 .snapshotNotFound,
                 .sdkUnknown("")
             ]
@@ -1415,6 +1419,8 @@ extension EBSClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .dependencyResourceNotFound: return "DEPENDENCY_RESOURCE_NOT_FOUND"
+            case .grantNotFound: return "GRANT_NOT_FOUND"
+            case .imageNotFound: return "IMAGE_NOT_FOUND"
             case .snapshotNotFound: return "SNAPSHOT_NOT_FOUND"
             case let .sdkUnknown(s): return s
             }
@@ -1423,6 +1429,41 @@ extension EBSClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ResourceNotFoundExceptionReason(rawValue: rawValue) ?? ResourceNotFoundExceptionReason.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension EBSClientTypes {
+    public enum SSEType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case `none`
+        case sseEbs
+        case sseKms
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SSEType] {
+            return [
+                .none,
+                .sseEbs,
+                .sseKms,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "none"
+            case .sseEbs: return "sse-ebs"
+            case .sseKms: return "sse-kms"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SSEType(rawValue: rawValue) ?? SSEType.sdkUnknown(rawValue)
         }
     }
 }
@@ -1697,7 +1738,7 @@ public enum StartSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension StartSnapshotOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartSnapshotOutputResponse(blockSize: \(Swift.String(describing: blockSize)), description: \(Swift.String(describing: description)), ownerId: \(Swift.String(describing: ownerId)), parentSnapshotId: \(Swift.String(describing: parentSnapshotId)), snapshotId: \(Swift.String(describing: snapshotId)), startTime: \(Swift.String(describing: startTime)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), volumeSize: \(Swift.String(describing: volumeSize)), kmsKeyArn: \"CONTENT_REDACTED\")"}
+        "StartSnapshotOutputResponse(blockSize: \(Swift.String(describing: blockSize)), description: \(Swift.String(describing: description)), ownerId: \(Swift.String(describing: ownerId)), parentSnapshotId: \(Swift.String(describing: parentSnapshotId)), snapshotId: \(Swift.String(describing: snapshotId)), sseType: \(Swift.String(describing: sseType)), startTime: \(Swift.String(describing: startTime)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), volumeSize: \(Swift.String(describing: volumeSize)), kmsKeyArn: \"CONTENT_REDACTED\")"}
 }
 
 extension StartSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1711,6 +1752,7 @@ extension StartSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
             self.ownerId = output.ownerId
             self.parentSnapshotId = output.parentSnapshotId
             self.snapshotId = output.snapshotId
+            self.sseType = output.sseType
             self.startTime = output.startTime
             self.status = output.status
             self.tags = output.tags
@@ -1722,6 +1764,7 @@ extension StartSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
             self.ownerId = nil
             self.parentSnapshotId = nil
             self.snapshotId = nil
+            self.sseType = nil
             self.startTime = nil
             self.status = nil
             self.tags = nil
@@ -1743,6 +1786,8 @@ public struct StartSnapshotOutputResponse: Swift.Equatable {
     public var parentSnapshotId: Swift.String?
     /// The ID of the snapshot.
     public var snapshotId: Swift.String?
+    /// Reserved for future use.
+    public var sseType: EBSClientTypes.SSEType?
     /// The timestamp when the snapshot was created.
     public var startTime: ClientRuntime.Date?
     /// The status of the snapshot.
@@ -1759,6 +1804,7 @@ public struct StartSnapshotOutputResponse: Swift.Equatable {
         ownerId: Swift.String? = nil,
         parentSnapshotId: Swift.String? = nil,
         snapshotId: Swift.String? = nil,
+        sseType: EBSClientTypes.SSEType? = nil,
         startTime: ClientRuntime.Date? = nil,
         status: EBSClientTypes.Status? = nil,
         tags: [EBSClientTypes.Tag]? = nil,
@@ -1771,6 +1817,7 @@ public struct StartSnapshotOutputResponse: Swift.Equatable {
         self.ownerId = ownerId
         self.parentSnapshotId = parentSnapshotId
         self.snapshotId = snapshotId
+        self.sseType = sseType
         self.startTime = startTime
         self.status = status
         self.tags = tags
@@ -1789,6 +1836,7 @@ struct StartSnapshotOutputResponseBody: Swift.Equatable {
     let tags: [EBSClientTypes.Tag]?
     let parentSnapshotId: Swift.String?
     let kmsKeyArn: Swift.String?
+    let sseType: EBSClientTypes.SSEType?
 }
 
 extension StartSnapshotOutputResponseBody: Swift.Decodable {
@@ -1799,6 +1847,7 @@ extension StartSnapshotOutputResponseBody: Swift.Decodable {
         case ownerId = "OwnerId"
         case parentSnapshotId = "ParentSnapshotId"
         case snapshotId = "SnapshotId"
+        case sseType = "SseType"
         case startTime = "StartTime"
         case status = "Status"
         case tags = "Tags"
@@ -1836,6 +1885,8 @@ extension StartSnapshotOutputResponseBody: Swift.Decodable {
         parentSnapshotId = parentSnapshotIdDecoded
         let kmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyArn)
         kmsKeyArn = kmsKeyArnDecoded
+        let sseTypeDecoded = try containerValues.decodeIfPresent(EBSClientTypes.SSEType.self, forKey: .sseType)
+        sseType = sseTypeDecoded
     }
 }
 
@@ -1992,12 +2043,15 @@ extension EBSClientTypes {
         case invalidContentEncoding
         case invalidCustomerKey
         case invalidDependencyRequest
+        case invalidGrantToken
+        case invalidImageId
         case invalidPageToken
         case invalidParameterValue
         case invalidSnapshotId
         case invalidTag
         case invalidVolumeSize
         case unrelatedSnapshots
+        case writeRequestTimeout
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ValidationExceptionReason] {
@@ -2008,12 +2062,15 @@ extension EBSClientTypes {
                 .invalidContentEncoding,
                 .invalidCustomerKey,
                 .invalidDependencyRequest,
+                .invalidGrantToken,
+                .invalidImageId,
                 .invalidPageToken,
                 .invalidParameterValue,
                 .invalidSnapshotId,
                 .invalidTag,
                 .invalidVolumeSize,
                 .unrelatedSnapshots,
+                .writeRequestTimeout,
                 .sdkUnknown("")
             ]
         }
@@ -2029,12 +2086,15 @@ extension EBSClientTypes {
             case .invalidContentEncoding: return "INVALID_CONTENT_ENCODING"
             case .invalidCustomerKey: return "INVALID_CUSTOMER_KEY"
             case .invalidDependencyRequest: return "INVALID_DEPENDENCY_REQUEST"
+            case .invalidGrantToken: return "INVALID_GRANT_TOKEN"
+            case .invalidImageId: return "INVALID_IMAGE_ID"
             case .invalidPageToken: return "INVALID_PAGE_TOKEN"
             case .invalidParameterValue: return "INVALID_PARAMETER_VALUE"
             case .invalidSnapshotId: return "INVALID_SNAPSHOT_ID"
             case .invalidTag: return "INVALID_TAG"
             case .invalidVolumeSize: return "INVALID_VOLUME_SIZE"
             case .unrelatedSnapshots: return "UNRELATED_SNAPSHOTS"
+            case .writeRequestTimeout: return "WRITE_REQUEST_TIMEOUT"
             case let .sdkUnknown(s): return s
             }
         }

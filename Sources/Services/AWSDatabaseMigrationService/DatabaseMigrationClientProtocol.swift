@@ -18,9 +18,11 @@ public protocol DatabaseMigrationClientProtocol {
     func createEventSubscription(input: CreateEventSubscriptionInput) async throws -> CreateEventSubscriptionOutputResponse
     /// Creates a Fleet Advisor collector using the specified parameters.
     func createFleetAdvisorCollector(input: CreateFleetAdvisorCollectorInput) async throws -> CreateFleetAdvisorCollectorOutputResponse
+    /// Creates a configuration that you can later provide to configure and start an DMS Serverless replication. You can also provide options to validate the configuration inputs before you start the replication.
+    func createReplicationConfig(input: CreateReplicationConfigInput) async throws -> CreateReplicationConfigOutputResponse
     /// Creates the replication instance using the specified parameters. DMS requires that your account have certain roles with appropriate permissions before you can create a replication instance. For information on the required roles, see [Creating the IAM Roles to Use With the CLI and DMS API](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#CHAP_Security.APIRole). For information on the required permissions, see [IAM Permissions Needed to Use DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#CHAP_Security.IAMPermissions).
     func createReplicationInstance(input: CreateReplicationInstanceInput) async throws -> CreateReplicationInstanceOutputResponse
-    /// Creates a replication subnet group given a list of the subnet IDs in a VPC. The VPC needs to have at least one subnet in at least two availability zones in the Amazon Web Services Region, otherwise the service will throw a ReplicationSubnetGroupDoesNotCoverEnoughAZs exception.
+    /// Creates a replication subnet group given a list of the subnet IDs in a VPC. The VPC needs to have at least one subnet in at least two availability zones in the Amazon Web Services Region, otherwise the service will throw a ReplicationSubnetGroupDoesNotCoverEnoughAZs exception. If a replication subnet group exists in your Amazon Web Services account, the CreateReplicationSubnetGroup action returns the following error message: The Replication Subnet Group already exists. In this case, delete the existing replication subnet group. To do so, use the [DeleteReplicationSubnetGroup](https://docs.aws.amazon.com/en_us/dms/latest/APIReference/API_DeleteReplicationSubnetGroup.html) action. Optionally, choose Subnet groups in the DMS console, then choose your subnet group. Next, choose Delete from Actions.
     func createReplicationSubnetGroup(input: CreateReplicationSubnetGroupInput) async throws -> CreateReplicationSubnetGroupOutputResponse
     /// Creates a replication task using the specified parameters.
     func createReplicationTask(input: CreateReplicationTaskInput) async throws -> CreateReplicationTaskOutputResponse
@@ -36,6 +38,8 @@ public protocol DatabaseMigrationClientProtocol {
     func deleteFleetAdvisorCollector(input: DeleteFleetAdvisorCollectorInput) async throws -> DeleteFleetAdvisorCollectorOutputResponse
     /// Deletes the specified Fleet Advisor collector databases.
     func deleteFleetAdvisorDatabases(input: DeleteFleetAdvisorDatabasesInput) async throws -> DeleteFleetAdvisorDatabasesOutputResponse
+    /// Deletes an DMS Serverless replication configuration. This effectively deprovisions any and all replications that use this configuration. You can't delete the configuration for an DMS Serverless replication that is ongoing. You can delete the configuration when the replication is in a non-RUNNING and non-STARTING state.
+    func deleteReplicationConfig(input: DeleteReplicationConfigInput) async throws -> DeleteReplicationConfigOutputResponse
     /// Deletes the specified replication instance. You must delete any migration tasks that are associated with the replication instance before you can delete it.
     func deleteReplicationInstance(input: DeleteReplicationInstanceInput) async throws -> DeleteReplicationInstanceOutputResponse
     /// Deletes a subnet group.
@@ -58,6 +62,8 @@ public protocol DatabaseMigrationClientProtocol {
     func describeEndpointSettings(input: DescribeEndpointSettingsInput) async throws -> DescribeEndpointSettingsOutputResponse
     /// Returns information about the type of endpoints available.
     func describeEndpointTypes(input: DescribeEndpointTypesInput) async throws -> DescribeEndpointTypesOutputResponse
+    /// Returns information about the replication instance versions used in the project.
+    func describeEngineVersions(input: DescribeEngineVersionsInput) async throws -> DescribeEngineVersionsOutputResponse
     /// Lists categories for all event source types, or, if specified, for a specified source type. You can see a list of the event categories and source types in [Working with Events and Notifications](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Events.html) in the Database Migration Service User Guide.
     func describeEventCategories(input: DescribeEventCategoriesInput) async throws -> DescribeEventCategoriesOutputResponse
     /// Lists events for a given source identifier and source type. You can also specify a start and end time. For more information on DMS events, see [Working with Events and Notifications](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Events.html) in the Database Migration Service User Guide.
@@ -84,12 +90,18 @@ public protocol DatabaseMigrationClientProtocol {
     func describeRecommendations(input: DescribeRecommendationsInput) async throws -> DescribeRecommendationsOutputResponse
     /// Returns the status of the RefreshSchemas operation.
     func describeRefreshSchemasStatus(input: DescribeRefreshSchemasStatusInput) async throws -> DescribeRefreshSchemasStatusOutputResponse
+    /// Returns one or more existing DMS Serverless replication configurations as a list of structures.
+    func describeReplicationConfigs(input: DescribeReplicationConfigsInput) async throws -> DescribeReplicationConfigsOutputResponse
     /// Returns information about replication instances for your account in the current region.
     func describeReplicationInstances(input: DescribeReplicationInstancesInput) async throws -> DescribeReplicationInstancesOutputResponse
     /// Returns information about the task logs for the specified task.
     func describeReplicationInstanceTaskLogs(input: DescribeReplicationInstanceTaskLogsInput) async throws -> DescribeReplicationInstanceTaskLogsOutputResponse
+    /// Provides details on replication progress by returning status information for one or more provisioned DMS Serverless replications.
+    func describeReplications(input: DescribeReplicationsInput) async throws -> DescribeReplicationsOutputResponse
     /// Returns information about the replication subnet groups.
     func describeReplicationSubnetGroups(input: DescribeReplicationSubnetGroupsInput) async throws -> DescribeReplicationSubnetGroupsOutputResponse
+    /// Returns table and schema statistics for one or more provisioned replications that use a given DMS Serverless replication configuration.
+    func describeReplicationTableStatistics(input: DescribeReplicationTableStatisticsInput) async throws -> DescribeReplicationTableStatisticsOutputResponse
     /// Returns the task assessment results from the Amazon S3 bucket that DMS creates in your Amazon Web Services account. This action always returns the latest results. For more information about DMS task assessments, see [Creating a task assessment report](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.AssessmentReport.html) in the Database Migration Service User Guide.
     func describeReplicationTaskAssessmentResults(input: DescribeReplicationTaskAssessmentResultsInput) async throws -> DescribeReplicationTaskAssessmentResultsOutputResponse
     /// Returns a paginated list of premigration assessment runs based on filter settings. These filter settings can specify a combination of premigration assessment runs, migration tasks, replication instances, and assessment run status values. This operation doesn't return information about individual assessments. For this information, see the DescribeReplicationTaskIndividualAssessments operation.
@@ -110,6 +122,8 @@ public protocol DatabaseMigrationClientProtocol {
     func modifyEndpoint(input: ModifyEndpointInput) async throws -> ModifyEndpointOutputResponse
     /// Modifies an existing DMS event notification subscription.
     func modifyEventSubscription(input: ModifyEventSubscriptionInput) async throws -> ModifyEventSubscriptionOutputResponse
+    /// Modifies an existing DMS Serverless replication configuration that you can use to start a replication. This command includes input validation and logic to check the state of any replication that uses this configuration. You can only modify a replication configuration before any replication that uses it has started. As soon as you have initially started a replication with a given configuiration, you can't modify that configuration, even if you stop it. Other run statuses that allow you to run this command include FAILED and CREATED. A provisioning state that allows you to run this command is FAILED_PROVISION.
+    func modifyReplicationConfig(input: ModifyReplicationConfigInput) async throws -> ModifyReplicationConfigOutputResponse
     /// Modifies the replication instance to apply new settings. You can change one or more parameters by specifying these parameters and the new values in the request. Some settings are applied during the maintenance window.
     func modifyReplicationInstance(input: ModifyReplicationInstanceInput) async throws -> ModifyReplicationInstanceOutputResponse
     /// Modifies the settings for the specified replication subnet group.
@@ -122,6 +136,8 @@ public protocol DatabaseMigrationClientProtocol {
     func rebootReplicationInstance(input: RebootReplicationInstanceInput) async throws -> RebootReplicationInstanceOutputResponse
     /// Populates the schema for the specified endpoint. This is an asynchronous operation and can take several minutes. You can check the status of this operation by calling the DescribeRefreshSchemasStatus operation.
     func refreshSchemas(input: RefreshSchemasInput) async throws -> RefreshSchemasOutputResponse
+    /// Reloads the target database table with the source data for a given DMS Serverless replication configuration. You can only use this operation with a task in the RUNNING state, otherwise the service will throw an InvalidResourceStateFault exception.
+    func reloadReplicationTables(input: ReloadReplicationTablesInput) async throws -> ReloadReplicationTablesOutputResponse
     /// Reloads the target database table with the source data. You can only use this operation with a task in the RUNNING state, otherwise the service will throw an InvalidResourceStateFault exception.
     func reloadTables(input: ReloadTablesInput) async throws -> ReloadTablesOutputResponse
     /// Removes metadata tags from an DMS resource, including replication instance, endpoint, subnet group, and migration task. For more information, see [Tag](https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html) data type description.
@@ -130,6 +146,8 @@ public protocol DatabaseMigrationClientProtocol {
     func runFleetAdvisorLsaAnalysis(input: RunFleetAdvisorLsaAnalysisInput) async throws -> RunFleetAdvisorLsaAnalysisOutputResponse
     /// Starts the analysis of your source database to provide recommendations of target engines. You can create recommendations for multiple source databases using [BatchStartRecommendations](https://docs.aws.amazon.com/dms/latest/APIReference/API_BatchStartRecommendations.html).
     func startRecommendations(input: StartRecommendationsInput) async throws -> StartRecommendationsOutputResponse
+    /// For a given DMS Serverless replication configuration, DMS connects to the source endpoint and collects the metadata to analyze the replication workload. Using this metadata, DMS then computes and provisions the required capacity and starts replicating to the target endpoint using the server resources that DMS has provisioned for the DMS Serverless replication.
+    func startReplication(input: StartReplicationInput) async throws -> StartReplicationOutputResponse
     /// Starts the replication task. For more information about DMS tasks, see [Working with Migration Tasks ](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.html) in the Database Migration Service User Guide.
     func startReplicationTask(input: StartReplicationTaskInput) async throws -> StartReplicationTaskOutputResponse
     /// Starts the replication task assessment for unsupported data types in the source database. You can only use this operation for a task if the following conditions are true:
@@ -143,6 +161,8 @@ public protocol DatabaseMigrationClientProtocol {
     func startReplicationTaskAssessment(input: StartReplicationTaskAssessmentInput) async throws -> StartReplicationTaskAssessmentOutputResponse
     /// Starts a new premigration assessment run for one or more individual assessments of a migration task. The assessments that you can specify depend on the source and target database engine and the migration type defined for the given task. To run this operation, your migration task must already be created. After you run this operation, you can review the status of each individual assessment. You can also run the migration task manually after the assessment run and its individual assessments complete.
     func startReplicationTaskAssessmentRun(input: StartReplicationTaskAssessmentRunInput) async throws -> StartReplicationTaskAssessmentRunOutputResponse
+    /// For a given DMS Serverless replication configuration, DMS stops any and all ongoing DMS Serverless replications. This command doesn't deprovision the stopped replications.
+    func stopReplication(input: StopReplicationInput) async throws -> StopReplicationOutputResponse
     /// Stops the replication task.
     func stopReplicationTask(input: StopReplicationTaskInput) async throws -> StopReplicationTaskOutputResponse
     /// Tests the connection between the replication instance and the endpoint.

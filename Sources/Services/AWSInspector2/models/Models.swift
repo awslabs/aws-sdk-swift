@@ -321,12 +321,14 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes {
     public enum AggregationFindingType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case codeVulnerability
         case networkReachability
         case packageVulnerability
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AggregationFindingType] {
             return [
+                .codeVulnerability,
                 .networkReachability,
                 .packageVulnerability,
                 .sdkUnknown("")
@@ -338,6 +340,7 @@ extension Inspector2ClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .codeVulnerability: return "CODE_VULNERABILITY"
             case .networkReachability: return "NETWORK_REACHABILITY"
             case .packageVulnerability: return "PACKAGE_VULNERABILITY"
             case let .sdkUnknown(s): return s
@@ -1119,6 +1122,7 @@ extension Inspector2ClientTypes.AutoEnable: Swift.Codable {
         case ec2
         case ecr
         case lambda
+        case lambdaCode
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1132,6 +1136,9 @@ extension Inspector2ClientTypes.AutoEnable: Swift.Codable {
         if let lambda = self.lambda {
             try encodeContainer.encode(lambda, forKey: .lambda)
         }
+        if let lambdaCode = self.lambdaCode {
+            try encodeContainer.encode(lambdaCode, forKey: .lambdaCode)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -1142,6 +1149,8 @@ extension Inspector2ClientTypes.AutoEnable: Swift.Codable {
         ecr = ecrDecoded
         let lambdaDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .lambda)
         lambda = lambdaDecoded
+        let lambdaCodeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .lambdaCode)
+        lambdaCode = lambdaCodeDecoded
     }
 }
 
@@ -1156,16 +1165,20 @@ extension Inspector2ClientTypes {
         public var ecr: Swift.Bool?
         /// Represents whether AWS Lambda standard scans are automatically enabled for new members of your Amazon Inspector organization.
         public var lambda: Swift.Bool?
+        /// Represents whether AWS Lambda code scans are automatically enabled for new members of your Amazon Inspector organization.
+        public var lambdaCode: Swift.Bool?
 
         public init(
             ec2: Swift.Bool? = nil,
             ecr: Swift.Bool? = nil,
-            lambda: Swift.Bool? = nil
+            lambda: Swift.Bool? = nil,
+            lambdaCode: Swift.Bool? = nil
         )
         {
             self.ec2 = ec2
             self.ecr = ecr
             self.lambda = lambda
+            self.lambdaCode = lambdaCode
         }
     }
 
@@ -2091,6 +2104,290 @@ extension BatchGetAccountStatusOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension BatchGetCodeSnippetInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case findingArns
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let findingArns = findingArns {
+            var findingArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .findingArns)
+            for findingarn0 in findingArns {
+                try findingArnsContainer.encode(findingarn0)
+            }
+        }
+    }
+}
+
+extension BatchGetCodeSnippetInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/codesnippet/batchget"
+    }
+}
+
+public struct BatchGetCodeSnippetInput: Swift.Equatable {
+    /// An array of finding ARNs for the findings you want to retrieve code snippets from.
+    /// This member is required.
+    public var findingArns: [Swift.String]?
+
+    public init(
+        findingArns: [Swift.String]? = nil
+    )
+    {
+        self.findingArns = findingArns
+    }
+}
+
+struct BatchGetCodeSnippetInputBody: Swift.Equatable {
+    let findingArns: [Swift.String]?
+}
+
+extension BatchGetCodeSnippetInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case findingArns
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let findingArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .findingArns)
+        var findingArnsDecoded0:[Swift.String]? = nil
+        if let findingArnsContainer = findingArnsContainer {
+            findingArnsDecoded0 = [Swift.String]()
+            for string0 in findingArnsContainer {
+                if let string0 = string0 {
+                    findingArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        findingArns = findingArnsDecoded0
+    }
+}
+
+public enum BatchGetCodeSnippetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension BatchGetCodeSnippetOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchGetCodeSnippetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.codeSnippetResults = output.codeSnippetResults
+            self.errors = output.errors
+        } else {
+            self.codeSnippetResults = nil
+            self.errors = nil
+        }
+    }
+}
+
+public struct BatchGetCodeSnippetOutputResponse: Swift.Equatable {
+    /// The retrieved code snippets associated with the provided finding ARNs.
+    public var codeSnippetResults: [Inspector2ClientTypes.CodeSnippetResult]?
+    /// Any errors Amazon Inspector encountered while trying to retrieve the requested code snippets.
+    public var errors: [Inspector2ClientTypes.CodeSnippetError]?
+
+    public init(
+        codeSnippetResults: [Inspector2ClientTypes.CodeSnippetResult]? = nil,
+        errors: [Inspector2ClientTypes.CodeSnippetError]? = nil
+    )
+    {
+        self.codeSnippetResults = codeSnippetResults
+        self.errors = errors
+    }
+}
+
+struct BatchGetCodeSnippetOutputResponseBody: Swift.Equatable {
+    let codeSnippetResults: [Inspector2ClientTypes.CodeSnippetResult]?
+    let errors: [Inspector2ClientTypes.CodeSnippetError]?
+}
+
+extension BatchGetCodeSnippetOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case codeSnippetResults
+        case errors
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let codeSnippetResultsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CodeSnippetResult?].self, forKey: .codeSnippetResults)
+        var codeSnippetResultsDecoded0:[Inspector2ClientTypes.CodeSnippetResult]? = nil
+        if let codeSnippetResultsContainer = codeSnippetResultsContainer {
+            codeSnippetResultsDecoded0 = [Inspector2ClientTypes.CodeSnippetResult]()
+            for structure0 in codeSnippetResultsContainer {
+                if let structure0 = structure0 {
+                    codeSnippetResultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        codeSnippetResults = codeSnippetResultsDecoded0
+        let errorsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CodeSnippetError?].self, forKey: .errors)
+        var errorsDecoded0:[Inspector2ClientTypes.CodeSnippetError]? = nil
+        if let errorsContainer = errorsContainer {
+            errorsDecoded0 = [Inspector2ClientTypes.CodeSnippetError]()
+            for structure0 in errorsContainer {
+                if let structure0 = structure0 {
+                    errorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        errors = errorsDecoded0
+    }
+}
+
+extension BatchGetFindingDetailsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case findingArns
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let findingArns = findingArns {
+            var findingArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .findingArns)
+            for findingarn0 in findingArns {
+                try findingArnsContainer.encode(findingarn0)
+            }
+        }
+    }
+}
+
+extension BatchGetFindingDetailsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/findings/details/batch/get"
+    }
+}
+
+public struct BatchGetFindingDetailsInput: Swift.Equatable {
+    /// A list of finding ARNs.
+    /// This member is required.
+    public var findingArns: [Swift.String]?
+
+    public init(
+        findingArns: [Swift.String]? = nil
+    )
+    {
+        self.findingArns = findingArns
+    }
+}
+
+struct BatchGetFindingDetailsInputBody: Swift.Equatable {
+    let findingArns: [Swift.String]?
+}
+
+extension BatchGetFindingDetailsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case findingArns
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let findingArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .findingArns)
+        var findingArnsDecoded0:[Swift.String]? = nil
+        if let findingArnsContainer = findingArnsContainer {
+            findingArnsDecoded0 = [Swift.String]()
+            for string0 in findingArnsContainer {
+                if let string0 = string0 {
+                    findingArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        findingArns = findingArnsDecoded0
+    }
+}
+
+public enum BatchGetFindingDetailsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension BatchGetFindingDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchGetFindingDetailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.errors = output.errors
+            self.findingDetails = output.findingDetails
+        } else {
+            self.errors = nil
+            self.findingDetails = nil
+        }
+    }
+}
+
+public struct BatchGetFindingDetailsOutputResponse: Swift.Equatable {
+    /// Error information for findings that details could not be returned for.
+    public var errors: [Inspector2ClientTypes.FindingDetailsError]?
+    /// A finding's vulnerability details.
+    public var findingDetails: [Inspector2ClientTypes.FindingDetail]?
+
+    public init(
+        errors: [Inspector2ClientTypes.FindingDetailsError]? = nil,
+        findingDetails: [Inspector2ClientTypes.FindingDetail]? = nil
+    )
+    {
+        self.errors = errors
+        self.findingDetails = findingDetails
+    }
+}
+
+struct BatchGetFindingDetailsOutputResponseBody: Swift.Equatable {
+    let findingDetails: [Inspector2ClientTypes.FindingDetail]?
+    let errors: [Inspector2ClientTypes.FindingDetailsError]?
+}
+
+extension BatchGetFindingDetailsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errors
+        case findingDetails
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let findingDetailsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.FindingDetail?].self, forKey: .findingDetails)
+        var findingDetailsDecoded0:[Inspector2ClientTypes.FindingDetail]? = nil
+        if let findingDetailsContainer = findingDetailsContainer {
+            findingDetailsDecoded0 = [Inspector2ClientTypes.FindingDetail]()
+            for structure0 in findingDetailsContainer {
+                if let structure0 = structure0 {
+                    findingDetailsDecoded0?.append(structure0)
+                }
+            }
+        }
+        findingDetails = findingDetailsDecoded0
+        let errorsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.FindingDetailsError?].self, forKey: .errors)
+        var errorsDecoded0:[Inspector2ClientTypes.FindingDetailsError]? = nil
+        if let errorsContainer = errorsContainer {
+            errorsDecoded0 = [Inspector2ClientTypes.FindingDetailsError]()
+            for structure0 in errorsContainer {
+                if let structure0 = structure0 {
+                    errorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        errors = errorsDecoded0
+    }
+}
+
 extension BatchGetFreeTrialInfoInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountIds
@@ -2622,6 +2919,109 @@ extension CancelFindingsReportOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CancelSbomExportInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reportId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let reportId = self.reportId {
+            try encodeContainer.encode(reportId, forKey: .reportId)
+        }
+    }
+}
+
+extension CancelSbomExportInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/sbomexport/cancel"
+    }
+}
+
+public struct CancelSbomExportInput: Swift.Equatable {
+    /// The report ID of the SBOM export to cancel.
+    /// This member is required.
+    public var reportId: Swift.String?
+
+    public init(
+        reportId: Swift.String? = nil
+    )
+    {
+        self.reportId = reportId
+    }
+}
+
+struct CancelSbomExportInputBody: Swift.Equatable {
+    let reportId: Swift.String?
+}
+
+extension CancelSbomExportInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reportId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let reportIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reportId)
+        reportId = reportIdDecoded
+    }
+}
+
+public enum CancelSbomExportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CancelSbomExportOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CancelSbomExportOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.reportId = output.reportId
+        } else {
+            self.reportId = nil
+        }
+    }
+}
+
+public struct CancelSbomExportOutputResponse: Swift.Equatable {
+    /// The report ID of the canceled SBOM export.
+    public var reportId: Swift.String?
+
+    public init(
+        reportId: Swift.String? = nil
+    )
+    {
+        self.reportId = reportId
+    }
+}
+
+struct CancelSbomExportOutputResponseBody: Swift.Equatable {
+    let reportId: Swift.String?
+}
+
+extension CancelSbomExportOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reportId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let reportIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reportId)
+        reportId = reportIdDecoded
+    }
+}
+
 extension Inspector2ClientTypes.CisaData: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case action
@@ -2672,6 +3072,462 @@ extension Inspector2ClientTypes {
             self.action = action
             self.dateAdded = dateAdded
             self.dateDue = dateDue
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes.CodeFilePath: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endLine
+        case fileName
+        case filePath
+        case startLine
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endLine = self.endLine {
+            try encodeContainer.encode(endLine, forKey: .endLine)
+        }
+        if let fileName = self.fileName {
+            try encodeContainer.encode(fileName, forKey: .fileName)
+        }
+        if let filePath = self.filePath {
+            try encodeContainer.encode(filePath, forKey: .filePath)
+        }
+        if let startLine = self.startLine {
+            try encodeContainer.encode(startLine, forKey: .startLine)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileName)
+        fileName = fileNameDecoded
+        let filePathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filePath)
+        filePath = filePathDecoded
+        let startLineDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startLine)
+        startLine = startLineDecoded
+        let endLineDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endLine)
+        endLine = endLineDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// Contains information on where a code vulnerability is located in your Lambda function.
+    public struct CodeFilePath: Swift.Equatable {
+        /// The line number of the last line of code that a vulnerability was found in.
+        /// This member is required.
+        public var endLine: Swift.Int?
+        /// The name of the file the code vulnerability was found in.
+        /// This member is required.
+        public var fileName: Swift.String?
+        /// The file path to the code that a vulnerability was found in.
+        /// This member is required.
+        public var filePath: Swift.String?
+        /// The line number of the first line of code that a vulnerability was found in.
+        /// This member is required.
+        public var startLine: Swift.Int?
+
+        public init(
+            endLine: Swift.Int? = nil,
+            fileName: Swift.String? = nil,
+            filePath: Swift.String? = nil,
+            startLine: Swift.Int? = nil
+        )
+        {
+            self.endLine = endLine
+            self.fileName = fileName
+            self.filePath = filePath
+            self.startLine = startLine
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes.CodeLine: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case content
+        case lineNumber
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let content = self.content {
+            try encodeContainer.encode(content, forKey: .content)
+        }
+        if let lineNumber = self.lineNumber {
+            try encodeContainer.encode(lineNumber, forKey: .lineNumber)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let contentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .content)
+        content = contentDecoded
+        let lineNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lineNumber)
+        lineNumber = lineNumberDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// Contains information on the lines of code associated with a code snippet.
+    public struct CodeLine: Swift.Equatable {
+        /// The content of a line of code
+        /// This member is required.
+        public var content: Swift.String?
+        /// The line number that a section of code is located at.
+        /// This member is required.
+        public var lineNumber: Swift.Int?
+
+        public init(
+            content: Swift.String? = nil,
+            lineNumber: Swift.Int? = nil
+        )
+        {
+            self.content = content
+            self.lineNumber = lineNumber
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes.CodeSnippetError: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode
+        case errorMessage
+        case findingArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorCode = self.errorCode {
+            try encodeContainer.encode(errorCode.rawValue, forKey: .errorCode)
+        }
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+        if let findingArn = self.findingArn {
+            try encodeContainer.encode(findingArn, forKey: .findingArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let findingArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .findingArn)
+        findingArn = findingArnDecoded
+        let errorCodeDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CodeSnippetErrorCode.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// Contains information about any errors encountered while trying to retrieve a code snippet.
+    public struct CodeSnippetError: Swift.Equatable {
+        /// The error code for the error that prevented a code snippet from being retrieved.
+        /// This member is required.
+        public var errorCode: Inspector2ClientTypes.CodeSnippetErrorCode?
+        /// The error message received when Amazon Inspector failed to retrieve a code snippet.
+        /// This member is required.
+        public var errorMessage: Swift.String?
+        /// The ARN of the finding that a code snippet couldn't be retrieved for.
+        /// This member is required.
+        public var findingArn: Swift.String?
+
+        public init(
+            errorCode: Inspector2ClientTypes.CodeSnippetErrorCode? = nil,
+            errorMessage: Swift.String? = nil,
+            findingArn: Swift.String? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.findingArn = findingArn
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes {
+    public enum CodeSnippetErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case accessDenied
+        case codeSnippetNotFound
+        case internalError
+        case invalidInput
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CodeSnippetErrorCode] {
+            return [
+                .accessDenied,
+                .codeSnippetNotFound,
+                .internalError,
+                .invalidInput,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessDenied: return "ACCESS_DENIED"
+            case .codeSnippetNotFound: return "CODE_SNIPPET_NOT_FOUND"
+            case .internalError: return "INTERNAL_ERROR"
+            case .invalidInput: return "INVALID_INPUT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CodeSnippetErrorCode(rawValue: rawValue) ?? CodeSnippetErrorCode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes.CodeSnippetResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case codeSnippet
+        case endLine
+        case findingArn
+        case startLine
+        case suggestedFixes
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let codeSnippet = codeSnippet {
+            var codeSnippetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .codeSnippet)
+            for codeline0 in codeSnippet {
+                try codeSnippetContainer.encode(codeline0)
+            }
+        }
+        if let endLine = self.endLine {
+            try encodeContainer.encode(endLine, forKey: .endLine)
+        }
+        if let findingArn = self.findingArn {
+            try encodeContainer.encode(findingArn, forKey: .findingArn)
+        }
+        if let startLine = self.startLine {
+            try encodeContainer.encode(startLine, forKey: .startLine)
+        }
+        if let suggestedFixes = suggestedFixes {
+            var suggestedFixesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .suggestedFixes)
+            for suggestedfix0 in suggestedFixes {
+                try suggestedFixesContainer.encode(suggestedfix0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let findingArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .findingArn)
+        findingArn = findingArnDecoded
+        let startLineDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startLine)
+        startLine = startLineDecoded
+        let endLineDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endLine)
+        endLine = endLineDecoded
+        let codeSnippetContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CodeLine?].self, forKey: .codeSnippet)
+        var codeSnippetDecoded0:[Inspector2ClientTypes.CodeLine]? = nil
+        if let codeSnippetContainer = codeSnippetContainer {
+            codeSnippetDecoded0 = [Inspector2ClientTypes.CodeLine]()
+            for structure0 in codeSnippetContainer {
+                if let structure0 = structure0 {
+                    codeSnippetDecoded0?.append(structure0)
+                }
+            }
+        }
+        codeSnippet = codeSnippetDecoded0
+        let suggestedFixesContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.SuggestedFix?].self, forKey: .suggestedFixes)
+        var suggestedFixesDecoded0:[Inspector2ClientTypes.SuggestedFix]? = nil
+        if let suggestedFixesContainer = suggestedFixesContainer {
+            suggestedFixesDecoded0 = [Inspector2ClientTypes.SuggestedFix]()
+            for structure0 in suggestedFixesContainer {
+                if let structure0 = structure0 {
+                    suggestedFixesDecoded0?.append(structure0)
+                }
+            }
+        }
+        suggestedFixes = suggestedFixesDecoded0
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// Contains information on a code snippet retrieved by Amazon Inspector from a code vulnerability finding.
+    public struct CodeSnippetResult: Swift.Equatable {
+        /// Contains information on the retrieved code snippet.
+        public var codeSnippet: [Inspector2ClientTypes.CodeLine]?
+        /// The line number of the last line of a code snippet.
+        public var endLine: Swift.Int?
+        /// The ARN of a finding that the code snippet is associated with.
+        public var findingArn: Swift.String?
+        /// The line number of the first line of a code snippet.
+        public var startLine: Swift.Int?
+        /// Details of a suggested code fix.
+        public var suggestedFixes: [Inspector2ClientTypes.SuggestedFix]?
+
+        public init(
+            codeSnippet: [Inspector2ClientTypes.CodeLine]? = nil,
+            endLine: Swift.Int? = nil,
+            findingArn: Swift.String? = nil,
+            startLine: Swift.Int? = nil,
+            suggestedFixes: [Inspector2ClientTypes.SuggestedFix]? = nil
+        )
+        {
+            self.codeSnippet = codeSnippet
+            self.endLine = endLine
+            self.findingArn = findingArn
+            self.startLine = startLine
+            self.suggestedFixes = suggestedFixes
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes.CodeVulnerabilityDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cwes
+        case detectorId
+        case detectorName
+        case detectorTags
+        case filePath
+        case referenceUrls
+        case ruleId
+        case sourceLambdaLayerArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cwes = cwes {
+            var cwesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cwes)
+            for nonemptystring0 in cwes {
+                try cwesContainer.encode(nonemptystring0)
+            }
+        }
+        if let detectorId = self.detectorId {
+            try encodeContainer.encode(detectorId, forKey: .detectorId)
+        }
+        if let detectorName = self.detectorName {
+            try encodeContainer.encode(detectorName, forKey: .detectorName)
+        }
+        if let detectorTags = detectorTags {
+            var detectorTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .detectorTags)
+            for nonemptystring0 in detectorTags {
+                try detectorTagsContainer.encode(nonemptystring0)
+            }
+        }
+        if let filePath = self.filePath {
+            try encodeContainer.encode(filePath, forKey: .filePath)
+        }
+        if let referenceUrls = referenceUrls {
+            var referenceUrlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .referenceUrls)
+            for nonemptystring0 in referenceUrls {
+                try referenceUrlsContainer.encode(nonemptystring0)
+            }
+        }
+        if let ruleId = self.ruleId {
+            try encodeContainer.encode(ruleId, forKey: .ruleId)
+        }
+        if let sourceLambdaLayerArn = self.sourceLambdaLayerArn {
+            try encodeContainer.encode(sourceLambdaLayerArn, forKey: .sourceLambdaLayerArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filePathDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CodeFilePath.self, forKey: .filePath)
+        filePath = filePathDecoded
+        let detectorTagsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .detectorTags)
+        var detectorTagsDecoded0:[Swift.String]? = nil
+        if let detectorTagsContainer = detectorTagsContainer {
+            detectorTagsDecoded0 = [Swift.String]()
+            for string0 in detectorTagsContainer {
+                if let string0 = string0 {
+                    detectorTagsDecoded0?.append(string0)
+                }
+            }
+        }
+        detectorTags = detectorTagsDecoded0
+        let referenceUrlsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .referenceUrls)
+        var referenceUrlsDecoded0:[Swift.String]? = nil
+        if let referenceUrlsContainer = referenceUrlsContainer {
+            referenceUrlsDecoded0 = [Swift.String]()
+            for string0 in referenceUrlsContainer {
+                if let string0 = string0 {
+                    referenceUrlsDecoded0?.append(string0)
+                }
+            }
+        }
+        referenceUrls = referenceUrlsDecoded0
+        let ruleIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleId)
+        ruleId = ruleIdDecoded
+        let sourceLambdaLayerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceLambdaLayerArn)
+        sourceLambdaLayerArn = sourceLambdaLayerArnDecoded
+        let detectorIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .detectorId)
+        detectorId = detectorIdDecoded
+        let detectorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .detectorName)
+        detectorName = detectorNameDecoded
+        let cwesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .cwes)
+        var cwesDecoded0:[Swift.String]? = nil
+        if let cwesContainer = cwesContainer {
+            cwesDecoded0 = [Swift.String]()
+            for string0 in cwesContainer {
+                if let string0 = string0 {
+                    cwesDecoded0?.append(string0)
+                }
+            }
+        }
+        cwes = cwesDecoded0
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// Contains information on the code vulnerability identified in your Lambda function.
+    public struct CodeVulnerabilityDetails: Swift.Equatable {
+        /// The Common Weakness Enumeration (CWE) item associated with the detected vulnerability.
+        /// This member is required.
+        public var cwes: [Swift.String]?
+        /// The ID for the Amazon CodeGuru detector associated with the finding. For more information on detectors see [Amazon CodeGuru Detector Library](https://docs.aws.amazon.com/codeguru/detector-library).
+        /// This member is required.
+        public var detectorId: Swift.String?
+        /// The name of the detector used to identify the code vulnerability. For more information on detectors see [CodeGuru Detector Library](https://docs.aws.amazon.com/codeguru/detector-library).
+        /// This member is required.
+        public var detectorName: Swift.String?
+        /// The detector tag associated with the vulnerability. Detector tags group related vulnerabilities by common themes or tactics. For a list of available tags by programming language, see [Java tags](https://docs.aws.amazon.com/codeguru/detector-library/java/tags/), or [Python tags](https://docs.aws.amazon.com/codeguru/detector-library/python/tags/).
+        public var detectorTags: [Swift.String]?
+        /// Contains information on where the code vulnerability is located in your code.
+        /// This member is required.
+        public var filePath: Inspector2ClientTypes.CodeFilePath?
+        /// A URL containing supporting documentation about the code vulnerability detected.
+        public var referenceUrls: [Swift.String]?
+        /// The identifier for a rule that was used to detect the code vulnerability.
+        public var ruleId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Lambda layer that the code vulnerability was detected in.
+        public var sourceLambdaLayerArn: Swift.String?
+
+        public init(
+            cwes: [Swift.String]? = nil,
+            detectorId: Swift.String? = nil,
+            detectorName: Swift.String? = nil,
+            detectorTags: [Swift.String]? = nil,
+            filePath: Inspector2ClientTypes.CodeFilePath? = nil,
+            referenceUrls: [Swift.String]? = nil,
+            ruleId: Swift.String? = nil,
+            sourceLambdaLayerArn: Swift.String? = nil
+        )
+        {
+            self.cwes = cwes
+            self.detectorId = detectorId
+            self.detectorName = detectorName
+            self.detectorTags = detectorTags
+            self.filePath = filePath
+            self.referenceUrls = referenceUrls
+            self.ruleId = ruleId
+            self.sourceLambdaLayerArn = sourceLambdaLayerArn
         }
     }
 
@@ -3765,6 +4621,134 @@ extension CreateFindingsReportOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateSbomExportInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reportFormat
+        case resourceFilterCriteria
+        case s3Destination
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let reportFormat = self.reportFormat {
+            try encodeContainer.encode(reportFormat.rawValue, forKey: .reportFormat)
+        }
+        if let resourceFilterCriteria = self.resourceFilterCriteria {
+            try encodeContainer.encode(resourceFilterCriteria, forKey: .resourceFilterCriteria)
+        }
+        if let s3Destination = self.s3Destination {
+            try encodeContainer.encode(s3Destination, forKey: .s3Destination)
+        }
+    }
+}
+
+extension CreateSbomExportInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/sbomexport/create"
+    }
+}
+
+public struct CreateSbomExportInput: Swift.Equatable {
+    /// The output format for the software bill of materials (SBOM) report.
+    /// This member is required.
+    public var reportFormat: Inspector2ClientTypes.SbomReportFormat?
+    /// The resource filter criteria for the software bill of materials (SBOM) report.
+    public var resourceFilterCriteria: Inspector2ClientTypes.ResourceFilterCriteria?
+    /// Contains details of the Amazon S3 bucket and KMS key used to export findings.
+    /// This member is required.
+    public var s3Destination: Inspector2ClientTypes.Destination?
+
+    public init(
+        reportFormat: Inspector2ClientTypes.SbomReportFormat? = nil,
+        resourceFilterCriteria: Inspector2ClientTypes.ResourceFilterCriteria? = nil,
+        s3Destination: Inspector2ClientTypes.Destination? = nil
+    )
+    {
+        self.reportFormat = reportFormat
+        self.resourceFilterCriteria = resourceFilterCriteria
+        self.s3Destination = s3Destination
+    }
+}
+
+struct CreateSbomExportInputBody: Swift.Equatable {
+    let resourceFilterCriteria: Inspector2ClientTypes.ResourceFilterCriteria?
+    let reportFormat: Inspector2ClientTypes.SbomReportFormat?
+    let s3Destination: Inspector2ClientTypes.Destination?
+}
+
+extension CreateSbomExportInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reportFormat
+        case resourceFilterCriteria
+        case s3Destination
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceFilterCriteriaDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.ResourceFilterCriteria.self, forKey: .resourceFilterCriteria)
+        resourceFilterCriteria = resourceFilterCriteriaDecoded
+        let reportFormatDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.SbomReportFormat.self, forKey: .reportFormat)
+        reportFormat = reportFormatDecoded
+        let s3DestinationDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Destination.self, forKey: .s3Destination)
+        s3Destination = s3DestinationDecoded
+    }
+}
+
+public enum CreateSbomExportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateSbomExportOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateSbomExportOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.reportId = output.reportId
+        } else {
+            self.reportId = nil
+        }
+    }
+}
+
+public struct CreateSbomExportOutputResponse: Swift.Equatable {
+    /// The report ID for the software bill of materials (SBOM) report.
+    public var reportId: Swift.String?
+
+    public init(
+        reportId: Swift.String? = nil
+    )
+    {
+        self.reportId = reportId
+    }
+}
+
+struct CreateSbomExportOutputResponseBody: Swift.Equatable {
+    let reportId: Swift.String?
+}
+
+extension CreateSbomExportOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reportId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let reportIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reportId)
+        reportId = reportIdDecoded
+    }
+}
+
 extension Inspector2ClientTypes {
     public enum Currency: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case usd
@@ -4493,7 +5477,7 @@ extension Inspector2ClientTypes {
         /// The name of the Amazon S3 bucket to export findings to.
         /// This member is required.
         public var bucketName: Swift.String?
-        /// The prefix of the Amazon S3 bucket used to export findings.
+        /// The prefix that the findings will be written under.
         public var keyPrefix: Swift.String?
         /// The ARN of the KMS key used to encrypt data when exporting findings.
         /// This member is required.
@@ -5962,6 +6946,41 @@ extension Inspector2ClientTypes {
 
 }
 
+extension Inspector2ClientTypes.EpssDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case score
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if score != 0.0 {
+            try encodeContainer.encode(score, forKey: .score)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .score) ?? 0.0
+        score = scoreDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// Details about the Exploit Prediction Scoring System (EPSS) score for a finding.
+    public struct EpssDetails: Swift.Equatable {
+        /// The EPSS score.
+        public var score: Swift.Double
+
+        public init(
+            score: Swift.Double = 0.0
+        )
+        {
+            self.score = score
+        }
+    }
+
+}
+
 extension Inspector2ClientTypes {
     public enum ErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case accessDenied
@@ -6028,6 +7047,61 @@ extension Inspector2ClientTypes {
             self = ErrorCode(rawValue: rawValue) ?? ErrorCode.sdkUnknown(rawValue)
         }
     }
+}
+
+extension Inspector2ClientTypes.Evidence: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case evidenceDetail
+        case evidenceRule
+        case severity
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let evidenceDetail = self.evidenceDetail {
+            try encodeContainer.encode(evidenceDetail, forKey: .evidenceDetail)
+        }
+        if let evidenceRule = self.evidenceRule {
+            try encodeContainer.encode(evidenceRule, forKey: .evidenceRule)
+        }
+        if let severity = self.severity {
+            try encodeContainer.encode(severity, forKey: .severity)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evidenceRuleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evidenceRule)
+        evidenceRule = evidenceRuleDecoded
+        let evidenceDetailDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evidenceDetail)
+        evidenceDetail = evidenceDetailDecoded
+        let severityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .severity)
+        severity = severityDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// Details of the evidence for a vulnerability identified in a finding.
+    public struct Evidence: Swift.Equatable {
+        /// The evidence details.
+        public var evidenceDetail: Swift.String?
+        /// The evidence rule.
+        public var evidenceRule: Swift.String?
+        /// The evidence severity.
+        public var severity: Swift.String?
+
+        public init(
+            evidenceDetail: Swift.String? = nil,
+            evidenceRule: Swift.String? = nil,
+            severity: Swift.String? = nil
+        )
+        {
+            self.evidenceDetail = evidenceDetail
+            self.evidenceRule = evidenceRule
+            self.severity = severity
+        }
+    }
+
 }
 
 extension Inspector2ClientTypes {
@@ -6493,6 +7567,9 @@ extension Inspector2ClientTypes {
 extension Inspector2ClientTypes.FilterCriteria: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case awsAccountId
+        case codeVulnerabilityDetectorName
+        case codeVulnerabilityDetectorTags
+        case codeVulnerabilityFilePath
         case componentId
         case componentType
         case ec2InstanceImageId
@@ -6504,6 +7581,7 @@ extension Inspector2ClientTypes.FilterCriteria: Swift.Codable {
         case ecrImageRegistry
         case ecrImageRepositoryName
         case ecrImageTags
+        case epssScore
         case exploitAvailable
         case findingArn
         case findingStatus
@@ -6538,6 +7616,24 @@ extension Inspector2ClientTypes.FilterCriteria: Swift.Codable {
             var awsAccountIdContainer = encodeContainer.nestedUnkeyedContainer(forKey: .awsAccountId)
             for stringfilter0 in awsAccountId {
                 try awsAccountIdContainer.encode(stringfilter0)
+            }
+        }
+        if let codeVulnerabilityDetectorName = codeVulnerabilityDetectorName {
+            var codeVulnerabilityDetectorNameContainer = encodeContainer.nestedUnkeyedContainer(forKey: .codeVulnerabilityDetectorName)
+            for stringfilter0 in codeVulnerabilityDetectorName {
+                try codeVulnerabilityDetectorNameContainer.encode(stringfilter0)
+            }
+        }
+        if let codeVulnerabilityDetectorTags = codeVulnerabilityDetectorTags {
+            var codeVulnerabilityDetectorTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .codeVulnerabilityDetectorTags)
+            for stringfilter0 in codeVulnerabilityDetectorTags {
+                try codeVulnerabilityDetectorTagsContainer.encode(stringfilter0)
+            }
+        }
+        if let codeVulnerabilityFilePath = codeVulnerabilityFilePath {
+            var codeVulnerabilityFilePathContainer = encodeContainer.nestedUnkeyedContainer(forKey: .codeVulnerabilityFilePath)
+            for stringfilter0 in codeVulnerabilityFilePath {
+                try codeVulnerabilityFilePathContainer.encode(stringfilter0)
             }
         }
         if let componentId = componentId {
@@ -6604,6 +7700,12 @@ extension Inspector2ClientTypes.FilterCriteria: Swift.Codable {
             var ecrImageTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ecrImageTags)
             for stringfilter0 in ecrImageTags {
                 try ecrImageTagsContainer.encode(stringfilter0)
+            }
+        }
+        if let epssScore = epssScore {
+            var epssScoreContainer = encodeContainer.nestedUnkeyedContainer(forKey: .epssScore)
+            for numberfilter0 in epssScore {
+                try epssScoreContainer.encode(numberfilter0)
             }
         }
         if let exploitAvailable = exploitAvailable {
@@ -7184,6 +8286,50 @@ extension Inspector2ClientTypes.FilterCriteria: Swift.Codable {
             }
         }
         exploitAvailable = exploitAvailableDecoded0
+        let codeVulnerabilityDetectorNameContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.StringFilter?].self, forKey: .codeVulnerabilityDetectorName)
+        var codeVulnerabilityDetectorNameDecoded0:[Inspector2ClientTypes.StringFilter]? = nil
+        if let codeVulnerabilityDetectorNameContainer = codeVulnerabilityDetectorNameContainer {
+            codeVulnerabilityDetectorNameDecoded0 = [Inspector2ClientTypes.StringFilter]()
+            for structure0 in codeVulnerabilityDetectorNameContainer {
+                if let structure0 = structure0 {
+                    codeVulnerabilityDetectorNameDecoded0?.append(structure0)
+                }
+            }
+        }
+        codeVulnerabilityDetectorName = codeVulnerabilityDetectorNameDecoded0
+        let codeVulnerabilityDetectorTagsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.StringFilter?].self, forKey: .codeVulnerabilityDetectorTags)
+        var codeVulnerabilityDetectorTagsDecoded0:[Inspector2ClientTypes.StringFilter]? = nil
+        if let codeVulnerabilityDetectorTagsContainer = codeVulnerabilityDetectorTagsContainer {
+            codeVulnerabilityDetectorTagsDecoded0 = [Inspector2ClientTypes.StringFilter]()
+            for structure0 in codeVulnerabilityDetectorTagsContainer {
+                if let structure0 = structure0 {
+                    codeVulnerabilityDetectorTagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        codeVulnerabilityDetectorTags = codeVulnerabilityDetectorTagsDecoded0
+        let codeVulnerabilityFilePathContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.StringFilter?].self, forKey: .codeVulnerabilityFilePath)
+        var codeVulnerabilityFilePathDecoded0:[Inspector2ClientTypes.StringFilter]? = nil
+        if let codeVulnerabilityFilePathContainer = codeVulnerabilityFilePathContainer {
+            codeVulnerabilityFilePathDecoded0 = [Inspector2ClientTypes.StringFilter]()
+            for structure0 in codeVulnerabilityFilePathContainer {
+                if let structure0 = structure0 {
+                    codeVulnerabilityFilePathDecoded0?.append(structure0)
+                }
+            }
+        }
+        codeVulnerabilityFilePath = codeVulnerabilityFilePathDecoded0
+        let epssScoreContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.NumberFilter?].self, forKey: .epssScore)
+        var epssScoreDecoded0:[Inspector2ClientTypes.NumberFilter]? = nil
+        if let epssScoreContainer = epssScoreContainer {
+            epssScoreDecoded0 = [Inspector2ClientTypes.NumberFilter]()
+            for structure0 in epssScoreContainer {
+                if let structure0 = structure0 {
+                    epssScoreDecoded0?.append(structure0)
+                }
+            }
+        }
+        epssScore = epssScoreDecoded0
     }
 }
 
@@ -7192,6 +8338,12 @@ extension Inspector2ClientTypes {
     public struct FilterCriteria: Swift.Equatable {
         /// Details of the Amazon Web Services account IDs used to filter findings.
         public var awsAccountId: [Inspector2ClientTypes.StringFilter]?
+        /// The name of the detector used to identify a code vulnerability in a Lambda function used to filter findings.
+        public var codeVulnerabilityDetectorName: [Inspector2ClientTypes.StringFilter]?
+        /// The detector type tag associated with the vulnerability used to filter findings. Detector tags group related vulnerabilities by common themes or tactics. For a list of available tags by programming language, see [Java tags](https://docs.aws.amazon.com/codeguru/detector-library/java/tags/), or [Python tags](https://docs.aws.amazon.com/codeguru/detector-library/python/tags/).
+        public var codeVulnerabilityDetectorTags: [Inspector2ClientTypes.StringFilter]?
+        /// The file path to the file in a Lambda function that contains a code vulnerability used to filter findings.
+        public var codeVulnerabilityFilePath: [Inspector2ClientTypes.StringFilter]?
         /// Details of the component IDs used to filter findings.
         public var componentId: [Inspector2ClientTypes.StringFilter]?
         /// Details of the component types used to filter findings.
@@ -7214,6 +8366,8 @@ extension Inspector2ClientTypes {
         public var ecrImageRepositoryName: [Inspector2ClientTypes.StringFilter]?
         /// The tags attached to the Amazon ECR container image.
         public var ecrImageTags: [Inspector2ClientTypes.StringFilter]?
+        /// The EPSS score used to filter findings.
+        public var epssScore: [Inspector2ClientTypes.NumberFilter]?
         /// Filters the list of AWS Lambda findings by the availability of exploits.
         public var exploitAvailable: [Inspector2ClientTypes.StringFilter]?
         /// Details on the finding ARNs used to filter findings.
@@ -7240,7 +8394,7 @@ extension Inspector2ClientTypes {
         public var lambdaFunctionRuntime: [Inspector2ClientTypes.StringFilter]?
         /// Details on the date and time a finding was last seen used to filter findings.
         public var lastObservedAt: [Inspector2ClientTypes.DateFilter]?
-        /// Details on the ingress source addresses used to filter findings.
+        /// Details on network protocol used to filter findings.
         public var networkProtocol: [Inspector2ClientTypes.StringFilter]?
         /// Details on the port ranges used to filter findings.
         public var portRange: [Inspector2ClientTypes.PortRangeFilter]?
@@ -7269,6 +8423,9 @@ extension Inspector2ClientTypes {
 
         public init(
             awsAccountId: [Inspector2ClientTypes.StringFilter]? = nil,
+            codeVulnerabilityDetectorName: [Inspector2ClientTypes.StringFilter]? = nil,
+            codeVulnerabilityDetectorTags: [Inspector2ClientTypes.StringFilter]? = nil,
+            codeVulnerabilityFilePath: [Inspector2ClientTypes.StringFilter]? = nil,
             componentId: [Inspector2ClientTypes.StringFilter]? = nil,
             componentType: [Inspector2ClientTypes.StringFilter]? = nil,
             ec2InstanceImageId: [Inspector2ClientTypes.StringFilter]? = nil,
@@ -7280,6 +8437,7 @@ extension Inspector2ClientTypes {
             ecrImageRegistry: [Inspector2ClientTypes.StringFilter]? = nil,
             ecrImageRepositoryName: [Inspector2ClientTypes.StringFilter]? = nil,
             ecrImageTags: [Inspector2ClientTypes.StringFilter]? = nil,
+            epssScore: [Inspector2ClientTypes.NumberFilter]? = nil,
             exploitAvailable: [Inspector2ClientTypes.StringFilter]? = nil,
             findingArn: [Inspector2ClientTypes.StringFilter]? = nil,
             findingStatus: [Inspector2ClientTypes.StringFilter]? = nil,
@@ -7309,6 +8467,9 @@ extension Inspector2ClientTypes {
         )
         {
             self.awsAccountId = awsAccountId
+            self.codeVulnerabilityDetectorName = codeVulnerabilityDetectorName
+            self.codeVulnerabilityDetectorTags = codeVulnerabilityDetectorTags
+            self.codeVulnerabilityFilePath = codeVulnerabilityFilePath
             self.componentId = componentId
             self.componentType = componentType
             self.ec2InstanceImageId = ec2InstanceImageId
@@ -7320,6 +8481,7 @@ extension Inspector2ClientTypes {
             self.ecrImageRegistry = ecrImageRegistry
             self.ecrImageRepositoryName = ecrImageRepositoryName
             self.ecrImageTags = ecrImageTags
+            self.epssScore = epssScore
             self.exploitAvailable = exploitAvailable
             self.findingArn = findingArn
             self.findingStatus = findingStatus
@@ -7354,7 +8516,9 @@ extension Inspector2ClientTypes {
 extension Inspector2ClientTypes.Finding: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case awsAccountId
+        case codeVulnerabilityDetails
         case description
+        case epss
         case exploitAvailable
         case exploitabilityDetails
         case findingArn
@@ -7379,8 +8543,14 @@ extension Inspector2ClientTypes.Finding: Swift.Codable {
         if let awsAccountId = self.awsAccountId {
             try encodeContainer.encode(awsAccountId, forKey: .awsAccountId)
         }
+        if let codeVulnerabilityDetails = self.codeVulnerabilityDetails {
+            try encodeContainer.encode(codeVulnerabilityDetails, forKey: .codeVulnerabilityDetails)
+        }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let epss = self.epss {
+            try encodeContainer.encode(epss, forKey: .epss)
         }
         if let exploitAvailable = self.exploitAvailable {
             try encodeContainer.encode(exploitAvailable.rawValue, forKey: .exploitAvailable)
@@ -7487,6 +8657,10 @@ extension Inspector2ClientTypes.Finding: Swift.Codable {
         exploitAvailable = exploitAvailableDecoded
         let exploitabilityDetailsDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.ExploitabilityDetails.self, forKey: .exploitabilityDetails)
         exploitabilityDetails = exploitabilityDetailsDecoded
+        let codeVulnerabilityDetailsDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CodeVulnerabilityDetails.self, forKey: .codeVulnerabilityDetails)
+        codeVulnerabilityDetails = codeVulnerabilityDetailsDecoded
+        let epssDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.EpssDetails.self, forKey: .epss)
+        epss = epssDecoded
     }
 }
 
@@ -7496,9 +8670,13 @@ extension Inspector2ClientTypes {
         /// The Amazon Web Services account ID associated with the finding.
         /// This member is required.
         public var awsAccountId: Swift.String?
+        /// Details about the code vulnerability identified in a Lambda function used to filter findings.
+        public var codeVulnerabilityDetails: Inspector2ClientTypes.CodeVulnerabilityDetails?
         /// The description of the finding.
         /// This member is required.
         public var description: Swift.String?
+        /// The finding's EPSS score.
+        public var epss: Inspector2ClientTypes.EpssDetails?
         /// If a finding discovered in your environment has an exploit available.
         public var exploitAvailable: Inspector2ClientTypes.ExploitAvailable?
         /// The details of an exploit available for a finding discovered in your environment.
@@ -7544,7 +8722,9 @@ extension Inspector2ClientTypes {
 
         public init(
             awsAccountId: Swift.String? = nil,
+            codeVulnerabilityDetails: Inspector2ClientTypes.CodeVulnerabilityDetails? = nil,
             description: Swift.String? = nil,
+            epss: Inspector2ClientTypes.EpssDetails? = nil,
             exploitAvailable: Inspector2ClientTypes.ExploitAvailable? = nil,
             exploitabilityDetails: Inspector2ClientTypes.ExploitabilityDetails? = nil,
             findingArn: Swift.String? = nil,
@@ -7565,7 +8745,9 @@ extension Inspector2ClientTypes {
         )
         {
             self.awsAccountId = awsAccountId
+            self.codeVulnerabilityDetails = codeVulnerabilityDetails
             self.description = description
+            self.epss = epss
             self.exploitAvailable = exploitAvailable
             self.exploitabilityDetails = exploitabilityDetails
             self.findingArn = findingArn
@@ -7586,6 +8768,287 @@ extension Inspector2ClientTypes {
         }
     }
 
+}
+
+extension Inspector2ClientTypes.FindingDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cisaData
+        case cwes
+        case epssScore
+        case evidences
+        case exploitObserved
+        case findingArn
+        case referenceUrls
+        case riskScore
+        case tools
+        case ttps
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cisaData = self.cisaData {
+            try encodeContainer.encode(cisaData, forKey: .cisaData)
+        }
+        if let cwes = cwes {
+            var cwesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cwes)
+            for cwe0 in cwes {
+                try cwesContainer.encode(cwe0)
+            }
+        }
+        if let epssScore = self.epssScore {
+            try encodeContainer.encode(epssScore, forKey: .epssScore)
+        }
+        if let evidences = evidences {
+            var evidencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .evidences)
+            for evidence0 in evidences {
+                try evidencesContainer.encode(evidence0)
+            }
+        }
+        if let exploitObserved = self.exploitObserved {
+            try encodeContainer.encode(exploitObserved, forKey: .exploitObserved)
+        }
+        if let findingArn = self.findingArn {
+            try encodeContainer.encode(findingArn, forKey: .findingArn)
+        }
+        if let referenceUrls = referenceUrls {
+            var referenceUrlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .referenceUrls)
+            for vulnerabilityreferenceurl0 in referenceUrls {
+                try referenceUrlsContainer.encode(vulnerabilityreferenceurl0)
+            }
+        }
+        if let riskScore = self.riskScore {
+            try encodeContainer.encode(riskScore, forKey: .riskScore)
+        }
+        if let tools = tools {
+            var toolsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tools)
+            for tool0 in tools {
+                try toolsContainer.encode(tool0)
+            }
+        }
+        if let ttps = ttps {
+            var ttpsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ttps)
+            for ttp0 in ttps {
+                try ttpsContainer.encode(ttp0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let findingArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .findingArn)
+        findingArn = findingArnDecoded
+        let cisaDataDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisaData.self, forKey: .cisaData)
+        cisaData = cisaDataDecoded
+        let riskScoreDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .riskScore)
+        riskScore = riskScoreDecoded
+        let evidencesContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.Evidence?].self, forKey: .evidences)
+        var evidencesDecoded0:[Inspector2ClientTypes.Evidence]? = nil
+        if let evidencesContainer = evidencesContainer {
+            evidencesDecoded0 = [Inspector2ClientTypes.Evidence]()
+            for structure0 in evidencesContainer {
+                if let structure0 = structure0 {
+                    evidencesDecoded0?.append(structure0)
+                }
+            }
+        }
+        evidences = evidencesDecoded0
+        let ttpsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .ttps)
+        var ttpsDecoded0:[Swift.String]? = nil
+        if let ttpsContainer = ttpsContainer {
+            ttpsDecoded0 = [Swift.String]()
+            for string0 in ttpsContainer {
+                if let string0 = string0 {
+                    ttpsDecoded0?.append(string0)
+                }
+            }
+        }
+        ttps = ttpsDecoded0
+        let toolsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .tools)
+        var toolsDecoded0:[Swift.String]? = nil
+        if let toolsContainer = toolsContainer {
+            toolsDecoded0 = [Swift.String]()
+            for string0 in toolsContainer {
+                if let string0 = string0 {
+                    toolsDecoded0?.append(string0)
+                }
+            }
+        }
+        tools = toolsDecoded0
+        let exploitObservedDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.ExploitObserved.self, forKey: .exploitObserved)
+        exploitObserved = exploitObservedDecoded
+        let referenceUrlsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .referenceUrls)
+        var referenceUrlsDecoded0:[Swift.String]? = nil
+        if let referenceUrlsContainer = referenceUrlsContainer {
+            referenceUrlsDecoded0 = [Swift.String]()
+            for string0 in referenceUrlsContainer {
+                if let string0 = string0 {
+                    referenceUrlsDecoded0?.append(string0)
+                }
+            }
+        }
+        referenceUrls = referenceUrlsDecoded0
+        let cwesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .cwes)
+        var cwesDecoded0:[Swift.String]? = nil
+        if let cwesContainer = cwesContainer {
+            cwesDecoded0 = [Swift.String]()
+            for string0 in cwesContainer {
+                if let string0 = string0 {
+                    cwesDecoded0?.append(string0)
+                }
+            }
+        }
+        cwes = cwesDecoded0
+        let epssScoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .epssScore)
+        epssScore = epssScoreDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// Details of the vulnerability identified in a finding.
+    public struct FindingDetail: Swift.Equatable {
+        /// The Cybersecurity and Infrastructure Security Agency (CISA) details for a specific vulnerability.
+        public var cisaData: Inspector2ClientTypes.CisaData?
+        /// The Common Weakness Enumerations (CWEs) associated with the vulnerability.
+        public var cwes: [Swift.String]?
+        /// The Exploit Prediction Scoring System (EPSS) score of the vulnerability.
+        public var epssScore: Swift.Double?
+        /// Information on the evidence of the vulnerability.
+        public var evidences: [Inspector2ClientTypes.Evidence]?
+        /// Contains information on when this exploit was observed.
+        public var exploitObserved: Inspector2ClientTypes.ExploitObserved?
+        /// The finding ARN that the vulnerability details are associated with.
+        public var findingArn: Swift.String?
+        /// The reference URLs for the vulnerability data.
+        public var referenceUrls: [Swift.String]?
+        /// The risk score of the vulnerability.
+        public var riskScore: Swift.Int?
+        /// The known malware tools or kits that can exploit the vulnerability.
+        public var tools: [Swift.String]?
+        /// The MITRE adversary tactics, techniques, or procedures (TTPs) associated with the vulnerability.
+        public var ttps: [Swift.String]?
+
+        public init(
+            cisaData: Inspector2ClientTypes.CisaData? = nil,
+            cwes: [Swift.String]? = nil,
+            epssScore: Swift.Double? = nil,
+            evidences: [Inspector2ClientTypes.Evidence]? = nil,
+            exploitObserved: Inspector2ClientTypes.ExploitObserved? = nil,
+            findingArn: Swift.String? = nil,
+            referenceUrls: [Swift.String]? = nil,
+            riskScore: Swift.Int? = nil,
+            tools: [Swift.String]? = nil,
+            ttps: [Swift.String]? = nil
+        )
+        {
+            self.cisaData = cisaData
+            self.cwes = cwes
+            self.epssScore = epssScore
+            self.evidences = evidences
+            self.exploitObserved = exploitObserved
+            self.findingArn = findingArn
+            self.referenceUrls = referenceUrls
+            self.riskScore = riskScore
+            self.tools = tools
+            self.ttps = ttps
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes.FindingDetailsError: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode
+        case errorMessage
+        case findingArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorCode = self.errorCode {
+            try encodeContainer.encode(errorCode.rawValue, forKey: .errorCode)
+        }
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+        if let findingArn = self.findingArn {
+            try encodeContainer.encode(findingArn, forKey: .findingArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let findingArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .findingArn)
+        findingArn = findingArnDecoded
+        let errorCodeDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.FindingDetailsErrorCode.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// Details about an error encountered when trying to return vulnerability data for a finding.
+    public struct FindingDetailsError: Swift.Equatable {
+        /// The error code.
+        /// This member is required.
+        public var errorCode: Inspector2ClientTypes.FindingDetailsErrorCode?
+        /// The error message.
+        /// This member is required.
+        public var errorMessage: Swift.String?
+        /// The finding ARN that returned an error.
+        /// This member is required.
+        public var findingArn: Swift.String?
+
+        public init(
+            errorCode: Inspector2ClientTypes.FindingDetailsErrorCode? = nil,
+            errorMessage: Swift.String? = nil,
+            findingArn: Swift.String? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.findingArn = findingArn
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes {
+    public enum FindingDetailsErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case accessDenied
+        case findingDetailsNotFound
+        case internalError
+        case invalidInput
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FindingDetailsErrorCode] {
+            return [
+                .accessDenied,
+                .findingDetailsNotFound,
+                .internalError,
+                .invalidInput,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessDenied: return "ACCESS_DENIED"
+            case .findingDetailsNotFound: return "FINDING_DETAILS_NOT_FOUND"
+            case .internalError: return "INTERNAL_ERROR"
+            case .invalidInput: return "INVALID_INPUT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FindingDetailsErrorCode(rawValue: rawValue) ?? FindingDetailsErrorCode.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension Inspector2ClientTypes {
@@ -7625,12 +9088,14 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes {
     public enum FindingType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case codeVulnerability
         case networkReachability
         case packageVulnerability
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FindingType] {
             return [
+                .codeVulnerability,
                 .networkReachability,
                 .packageVulnerability,
                 .sdkUnknown("")
@@ -7642,6 +9107,7 @@ extension Inspector2ClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .codeVulnerability: return "CODE_VULNERABILITY"
             case .networkReachability: return "NETWORK_REACHABILITY"
             case .packageVulnerability: return "PACKAGE_VULNERABILITY"
             case let .sdkUnknown(s): return s
@@ -8090,6 +9556,7 @@ extension Inspector2ClientTypes {
         case ec2
         case ecr
         case lambda
+        case lambdaCode
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FreeTrialType] {
@@ -8097,6 +9564,7 @@ extension Inspector2ClientTypes {
                 .ec2,
                 .ecr,
                 .lambda,
+                .lambdaCode,
                 .sdkUnknown("")
             ]
         }
@@ -8109,6 +9577,7 @@ extension Inspector2ClientTypes {
             case .ec2: return "EC2"
             case .ecr: return "ECR"
             case .lambda: return "LAMBDA"
+            case .lambdaCode: return "LAMBDA_CODE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -8390,6 +9859,116 @@ extension GetEc2DeepInspectionConfigurationOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetEncryptionKeyInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let scanType = scanType else {
+                let message = "Creating a URL Query Item failed. scanType is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let scanTypeQueryItem = ClientRuntime.URLQueryItem(name: "scanType".urlPercentEncoding(), value: Swift.String(scanType.rawValue).urlPercentEncoding())
+            items.append(scanTypeQueryItem)
+            guard let resourceType = resourceType else {
+                let message = "Creating a URL Query Item failed. resourceType is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
+            items.append(resourceTypeQueryItem)
+            return items
+        }
+    }
+}
+
+extension GetEncryptionKeyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/encryptionkey/get"
+    }
+}
+
+public struct GetEncryptionKeyInput: Swift.Equatable {
+    /// The resource type the key encrypts.
+    /// This member is required.
+    public var resourceType: Inspector2ClientTypes.ResourceType?
+    /// The scan type the key encrypts.
+    /// This member is required.
+    public var scanType: Inspector2ClientTypes.ScanType?
+
+    public init(
+        resourceType: Inspector2ClientTypes.ResourceType? = nil,
+        scanType: Inspector2ClientTypes.ScanType? = nil
+    )
+    {
+        self.resourceType = resourceType
+        self.scanType = scanType
+    }
+}
+
+struct GetEncryptionKeyInputBody: Swift.Equatable {
+}
+
+extension GetEncryptionKeyInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetEncryptionKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetEncryptionKeyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetEncryptionKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.kmsKeyId = output.kmsKeyId
+        } else {
+            self.kmsKeyId = nil
+        }
+    }
+}
+
+public struct GetEncryptionKeyOutputResponse: Swift.Equatable {
+    /// A kms key ID.
+    /// This member is required.
+    public var kmsKeyId: Swift.String?
+
+    public init(
+        kmsKeyId: Swift.String? = nil
+    )
+    {
+        self.kmsKeyId = kmsKeyId
+    }
+}
+
+struct GetEncryptionKeyOutputResponseBody: Swift.Equatable {
+    let kmsKeyId: Swift.String?
+}
+
+extension GetEncryptionKeyOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kmsKeyId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+    }
+}
+
 extension GetFindingsReportStatusInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case reportId
@@ -8642,6 +10221,169 @@ extension GetMemberOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let memberDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Member.self, forKey: .member)
         member = memberDecoded
+    }
+}
+
+extension GetSbomExportInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reportId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let reportId = self.reportId {
+            try encodeContainer.encode(reportId, forKey: .reportId)
+        }
+    }
+}
+
+extension GetSbomExportInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/sbomexport/get"
+    }
+}
+
+public struct GetSbomExportInput: Swift.Equatable {
+    /// The report ID of the SBOM export to get details for.
+    /// This member is required.
+    public var reportId: Swift.String?
+
+    public init(
+        reportId: Swift.String? = nil
+    )
+    {
+        self.reportId = reportId
+    }
+}
+
+struct GetSbomExportInputBody: Swift.Equatable {
+    let reportId: Swift.String?
+}
+
+extension GetSbomExportInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reportId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let reportIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reportId)
+        reportId = reportIdDecoded
+    }
+}
+
+public enum GetSbomExportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetSbomExportOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetSbomExportOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.errorCode = output.errorCode
+            self.errorMessage = output.errorMessage
+            self.filterCriteria = output.filterCriteria
+            self.format = output.format
+            self.reportId = output.reportId
+            self.s3Destination = output.s3Destination
+            self.status = output.status
+        } else {
+            self.errorCode = nil
+            self.errorMessage = nil
+            self.filterCriteria = nil
+            self.format = nil
+            self.reportId = nil
+            self.s3Destination = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct GetSbomExportOutputResponse: Swift.Equatable {
+    /// An error code.
+    public var errorCode: Inspector2ClientTypes.ReportingErrorCode?
+    /// An error message.
+    public var errorMessage: Swift.String?
+    /// Contains details about the resource filter criteria used for the software bill of materials (SBOM) report.
+    public var filterCriteria: Inspector2ClientTypes.ResourceFilterCriteria?
+    /// The format of the software bill of materials (SBOM) report.
+    public var format: Inspector2ClientTypes.SbomReportFormat?
+    /// The report ID of the software bill of materials (SBOM) report.
+    public var reportId: Swift.String?
+    /// Contains details of the Amazon S3 bucket and KMS key used to export findings.
+    public var s3Destination: Inspector2ClientTypes.Destination?
+    /// The status of the software bill of materials (SBOM) report.
+    public var status: Inspector2ClientTypes.ExternalReportStatus?
+
+    public init(
+        errorCode: Inspector2ClientTypes.ReportingErrorCode? = nil,
+        errorMessage: Swift.String? = nil,
+        filterCriteria: Inspector2ClientTypes.ResourceFilterCriteria? = nil,
+        format: Inspector2ClientTypes.SbomReportFormat? = nil,
+        reportId: Swift.String? = nil,
+        s3Destination: Inspector2ClientTypes.Destination? = nil,
+        status: Inspector2ClientTypes.ExternalReportStatus? = nil
+    )
+    {
+        self.errorCode = errorCode
+        self.errorMessage = errorMessage
+        self.filterCriteria = filterCriteria
+        self.format = format
+        self.reportId = reportId
+        self.s3Destination = s3Destination
+        self.status = status
+    }
+}
+
+struct GetSbomExportOutputResponseBody: Swift.Equatable {
+    let reportId: Swift.String?
+    let format: Inspector2ClientTypes.SbomReportFormat?
+    let status: Inspector2ClientTypes.ExternalReportStatus?
+    let errorCode: Inspector2ClientTypes.ReportingErrorCode?
+    let errorMessage: Swift.String?
+    let s3Destination: Inspector2ClientTypes.Destination?
+    let filterCriteria: Inspector2ClientTypes.ResourceFilterCriteria?
+}
+
+extension GetSbomExportOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode
+        case errorMessage
+        case filterCriteria
+        case format
+        case reportId
+        case s3Destination
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let reportIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reportId)
+        reportId = reportIdDecoded
+        let formatDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.SbomReportFormat.self, forKey: .format)
+        format = formatDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.ExternalReportStatus.self, forKey: .status)
+        status = statusDecoded
+        let errorCodeDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.ReportingErrorCode.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+        let s3DestinationDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Destination.self, forKey: .s3Destination)
+        s3Destination = s3DestinationDecoded
+        let filterCriteriaDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.ResourceFilterCriteria.self, forKey: .filterCriteria)
+        filterCriteria = filterCriteriaDecoded
     }
 }
 
@@ -12702,6 +14444,92 @@ extension Inspector2ClientTypes {
     }
 }
 
+extension ResetEncryptionKeyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceType
+        case scanType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType.rawValue, forKey: .resourceType)
+        }
+        if let scanType = self.scanType {
+            try encodeContainer.encode(scanType.rawValue, forKey: .scanType)
+        }
+    }
+}
+
+extension ResetEncryptionKeyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/encryptionkey/reset"
+    }
+}
+
+public struct ResetEncryptionKeyInput: Swift.Equatable {
+    /// The resource type the key encrypts.
+    /// This member is required.
+    public var resourceType: Inspector2ClientTypes.ResourceType?
+    /// The scan type the key encrypts.
+    /// This member is required.
+    public var scanType: Inspector2ClientTypes.ScanType?
+
+    public init(
+        resourceType: Inspector2ClientTypes.ResourceType? = nil,
+        scanType: Inspector2ClientTypes.ScanType? = nil
+    )
+    {
+        self.resourceType = resourceType
+        self.scanType = scanType
+    }
+}
+
+struct ResetEncryptionKeyInputBody: Swift.Equatable {
+    let scanType: Inspector2ClientTypes.ScanType?
+    let resourceType: Inspector2ClientTypes.ResourceType?
+}
+
+extension ResetEncryptionKeyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceType
+        case scanType
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scanTypeDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.ScanType.self, forKey: .scanType)
+        scanType = scanTypeDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.ResourceType.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+    }
+}
+
+public enum ResetEncryptionKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ResetEncryptionKeyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct ResetEncryptionKeyOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
 extension Inspector2ClientTypes.Resource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case details
@@ -12856,6 +14684,293 @@ extension Inspector2ClientTypes {
 
 }
 
+extension Inspector2ClientTypes.ResourceFilterCriteria: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId
+        case ec2InstanceTags
+        case ecrImageTags
+        case ecrRepositoryName
+        case lambdaFunctionName
+        case lambdaFunctionTags
+        case resourceId
+        case resourceType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = accountId {
+            var accountIdContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountId)
+            for resourcestringfilter0 in accountId {
+                try accountIdContainer.encode(resourcestringfilter0)
+            }
+        }
+        if let ec2InstanceTags = ec2InstanceTags {
+            var ec2InstanceTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ec2InstanceTags)
+            for resourcemapfilter0 in ec2InstanceTags {
+                try ec2InstanceTagsContainer.encode(resourcemapfilter0)
+            }
+        }
+        if let ecrImageTags = ecrImageTags {
+            var ecrImageTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ecrImageTags)
+            for resourcestringfilter0 in ecrImageTags {
+                try ecrImageTagsContainer.encode(resourcestringfilter0)
+            }
+        }
+        if let ecrRepositoryName = ecrRepositoryName {
+            var ecrRepositoryNameContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ecrRepositoryName)
+            for resourcestringfilter0 in ecrRepositoryName {
+                try ecrRepositoryNameContainer.encode(resourcestringfilter0)
+            }
+        }
+        if let lambdaFunctionName = lambdaFunctionName {
+            var lambdaFunctionNameContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lambdaFunctionName)
+            for resourcestringfilter0 in lambdaFunctionName {
+                try lambdaFunctionNameContainer.encode(resourcestringfilter0)
+            }
+        }
+        if let lambdaFunctionTags = lambdaFunctionTags {
+            var lambdaFunctionTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lambdaFunctionTags)
+            for resourcemapfilter0 in lambdaFunctionTags {
+                try lambdaFunctionTagsContainer.encode(resourcemapfilter0)
+            }
+        }
+        if let resourceId = resourceId {
+            var resourceIdContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceId)
+            for resourcestringfilter0 in resourceId {
+                try resourceIdContainer.encode(resourcestringfilter0)
+            }
+        }
+        if let resourceType = resourceType {
+            var resourceTypeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceType)
+            for resourcestringfilter0 in resourceType {
+                try resourceTypeContainer.encode(resourcestringfilter0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.ResourceStringFilter?].self, forKey: .accountId)
+        var accountIdDecoded0:[Inspector2ClientTypes.ResourceStringFilter]? = nil
+        if let accountIdContainer = accountIdContainer {
+            accountIdDecoded0 = [Inspector2ClientTypes.ResourceStringFilter]()
+            for structure0 in accountIdContainer {
+                if let structure0 = structure0 {
+                    accountIdDecoded0?.append(structure0)
+                }
+            }
+        }
+        accountId = accountIdDecoded0
+        let resourceIdContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.ResourceStringFilter?].self, forKey: .resourceId)
+        var resourceIdDecoded0:[Inspector2ClientTypes.ResourceStringFilter]? = nil
+        if let resourceIdContainer = resourceIdContainer {
+            resourceIdDecoded0 = [Inspector2ClientTypes.ResourceStringFilter]()
+            for structure0 in resourceIdContainer {
+                if let structure0 = structure0 {
+                    resourceIdDecoded0?.append(structure0)
+                }
+            }
+        }
+        resourceId = resourceIdDecoded0
+        let resourceTypeContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.ResourceStringFilter?].self, forKey: .resourceType)
+        var resourceTypeDecoded0:[Inspector2ClientTypes.ResourceStringFilter]? = nil
+        if let resourceTypeContainer = resourceTypeContainer {
+            resourceTypeDecoded0 = [Inspector2ClientTypes.ResourceStringFilter]()
+            for structure0 in resourceTypeContainer {
+                if let structure0 = structure0 {
+                    resourceTypeDecoded0?.append(structure0)
+                }
+            }
+        }
+        resourceType = resourceTypeDecoded0
+        let ecrRepositoryNameContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.ResourceStringFilter?].self, forKey: .ecrRepositoryName)
+        var ecrRepositoryNameDecoded0:[Inspector2ClientTypes.ResourceStringFilter]? = nil
+        if let ecrRepositoryNameContainer = ecrRepositoryNameContainer {
+            ecrRepositoryNameDecoded0 = [Inspector2ClientTypes.ResourceStringFilter]()
+            for structure0 in ecrRepositoryNameContainer {
+                if let structure0 = structure0 {
+                    ecrRepositoryNameDecoded0?.append(structure0)
+                }
+            }
+        }
+        ecrRepositoryName = ecrRepositoryNameDecoded0
+        let lambdaFunctionNameContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.ResourceStringFilter?].self, forKey: .lambdaFunctionName)
+        var lambdaFunctionNameDecoded0:[Inspector2ClientTypes.ResourceStringFilter]? = nil
+        if let lambdaFunctionNameContainer = lambdaFunctionNameContainer {
+            lambdaFunctionNameDecoded0 = [Inspector2ClientTypes.ResourceStringFilter]()
+            for structure0 in lambdaFunctionNameContainer {
+                if let structure0 = structure0 {
+                    lambdaFunctionNameDecoded0?.append(structure0)
+                }
+            }
+        }
+        lambdaFunctionName = lambdaFunctionNameDecoded0
+        let ecrImageTagsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.ResourceStringFilter?].self, forKey: .ecrImageTags)
+        var ecrImageTagsDecoded0:[Inspector2ClientTypes.ResourceStringFilter]? = nil
+        if let ecrImageTagsContainer = ecrImageTagsContainer {
+            ecrImageTagsDecoded0 = [Inspector2ClientTypes.ResourceStringFilter]()
+            for structure0 in ecrImageTagsContainer {
+                if let structure0 = structure0 {
+                    ecrImageTagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        ecrImageTags = ecrImageTagsDecoded0
+        let ec2InstanceTagsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.ResourceMapFilter?].self, forKey: .ec2InstanceTags)
+        var ec2InstanceTagsDecoded0:[Inspector2ClientTypes.ResourceMapFilter]? = nil
+        if let ec2InstanceTagsContainer = ec2InstanceTagsContainer {
+            ec2InstanceTagsDecoded0 = [Inspector2ClientTypes.ResourceMapFilter]()
+            for structure0 in ec2InstanceTagsContainer {
+                if let structure0 = structure0 {
+                    ec2InstanceTagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        ec2InstanceTags = ec2InstanceTagsDecoded0
+        let lambdaFunctionTagsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.ResourceMapFilter?].self, forKey: .lambdaFunctionTags)
+        var lambdaFunctionTagsDecoded0:[Inspector2ClientTypes.ResourceMapFilter]? = nil
+        if let lambdaFunctionTagsContainer = lambdaFunctionTagsContainer {
+            lambdaFunctionTagsDecoded0 = [Inspector2ClientTypes.ResourceMapFilter]()
+            for structure0 in lambdaFunctionTagsContainer {
+                if let structure0 = structure0 {
+                    lambdaFunctionTagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        lambdaFunctionTags = lambdaFunctionTagsDecoded0
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The resource filter criteria for a Software bill of materials (SBOM) report.
+    public struct ResourceFilterCriteria: Swift.Equatable {
+        /// The account IDs used as resource filter criteria.
+        public var accountId: [Inspector2ClientTypes.ResourceStringFilter]?
+        /// The EC2 instance tags used as resource filter criteria.
+        public var ec2InstanceTags: [Inspector2ClientTypes.ResourceMapFilter]?
+        /// The ECR image tags used as resource filter criteria.
+        public var ecrImageTags: [Inspector2ClientTypes.ResourceStringFilter]?
+        /// The ECR repository names used as resource filter criteria.
+        public var ecrRepositoryName: [Inspector2ClientTypes.ResourceStringFilter]?
+        /// The AWS Lambda function name used as resource filter criteria.
+        public var lambdaFunctionName: [Inspector2ClientTypes.ResourceStringFilter]?
+        /// The AWS Lambda function tags used as resource filter criteria.
+        public var lambdaFunctionTags: [Inspector2ClientTypes.ResourceMapFilter]?
+        /// The resource IDs used as resource filter criteria.
+        public var resourceId: [Inspector2ClientTypes.ResourceStringFilter]?
+        /// The resource types used as resource filter criteria.
+        public var resourceType: [Inspector2ClientTypes.ResourceStringFilter]?
+
+        public init(
+            accountId: [Inspector2ClientTypes.ResourceStringFilter]? = nil,
+            ec2InstanceTags: [Inspector2ClientTypes.ResourceMapFilter]? = nil,
+            ecrImageTags: [Inspector2ClientTypes.ResourceStringFilter]? = nil,
+            ecrRepositoryName: [Inspector2ClientTypes.ResourceStringFilter]? = nil,
+            lambdaFunctionName: [Inspector2ClientTypes.ResourceStringFilter]? = nil,
+            lambdaFunctionTags: [Inspector2ClientTypes.ResourceMapFilter]? = nil,
+            resourceId: [Inspector2ClientTypes.ResourceStringFilter]? = nil,
+            resourceType: [Inspector2ClientTypes.ResourceStringFilter]? = nil
+        )
+        {
+            self.accountId = accountId
+            self.ec2InstanceTags = ec2InstanceTags
+            self.ecrImageTags = ecrImageTags
+            self.ecrRepositoryName = ecrRepositoryName
+            self.lambdaFunctionName = lambdaFunctionName
+            self.lambdaFunctionTags = lambdaFunctionTags
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes {
+    public enum ResourceMapComparison: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case equals
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceMapComparison] {
+            return [
+                .equals,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .equals: return "EQUALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ResourceMapComparison(rawValue: rawValue) ?? ResourceMapComparison.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes.ResourceMapFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case comparison
+        case key
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let comparison = self.comparison {
+            try encodeContainer.encode(comparison.rawValue, forKey: .comparison)
+        }
+        if let key = self.key {
+            try encodeContainer.encode(key, forKey: .key)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let comparisonDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.ResourceMapComparison.self, forKey: .comparison)
+        comparison = comparisonDecoded
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// A resource map filter for a software bill of material report.
+    public struct ResourceMapFilter: Swift.Equatable {
+        /// The filter's comparison.
+        /// This member is required.
+        public var comparison: Inspector2ClientTypes.ResourceMapComparison?
+        /// The filter's key.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The filter's value.
+        public var value: Swift.String?
+
+        public init(
+            comparison: Inspector2ClientTypes.ResourceMapComparison? = nil,
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.comparison = comparison
+            self.key = key
+            self.value = value
+        }
+    }
+
+}
+
 extension ResourceNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -12982,6 +15097,7 @@ extension Inspector2ClientTypes {
         case ec2
         case ecr
         case lambda
+        case lambdaCode
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceScanType] {
@@ -12989,6 +15105,7 @@ extension Inspector2ClientTypes {
                 .ec2,
                 .ecr,
                 .lambda,
+                .lambdaCode,
                 .sdkUnknown("")
             ]
         }
@@ -13001,6 +15118,7 @@ extension Inspector2ClientTypes {
             case .ec2: return "EC2"
             case .ecr: return "ECR"
             case .lambda: return "LAMBDA"
+            case .lambdaCode: return "LAMBDA_CODE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -13017,6 +15135,7 @@ extension Inspector2ClientTypes.ResourceState: Swift.Codable {
         case ec2
         case ecr
         case lambda
+        case lambdaCode
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -13030,6 +15149,9 @@ extension Inspector2ClientTypes.ResourceState: Swift.Codable {
         if let lambda = self.lambda {
             try encodeContainer.encode(lambda, forKey: .lambda)
         }
+        if let lambdaCode = self.lambdaCode {
+            try encodeContainer.encode(lambdaCode, forKey: .lambdaCode)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -13040,6 +15162,8 @@ extension Inspector2ClientTypes.ResourceState: Swift.Codable {
         ecr = ecrDecoded
         let lambdaDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.State.self, forKey: .lambda)
         lambda = lambdaDecoded
+        let lambdaCodeDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.State.self, forKey: .lambdaCode)
+        lambdaCode = lambdaCodeDecoded
     }
 }
 
@@ -13054,16 +15178,20 @@ extension Inspector2ClientTypes {
         public var ecr: Inspector2ClientTypes.State?
         /// An object that described the state of Amazon Inspector scans for an account.
         public var lambda: Inspector2ClientTypes.State?
+        /// An object that described the state of Amazon Inspector scans for an account.
+        public var lambdaCode: Inspector2ClientTypes.State?
 
         public init(
             ec2: Inspector2ClientTypes.State? = nil,
             ecr: Inspector2ClientTypes.State? = nil,
-            lambda: Inspector2ClientTypes.State? = nil
+            lambda: Inspector2ClientTypes.State? = nil,
+            lambdaCode: Inspector2ClientTypes.State? = nil
         )
         {
             self.ec2 = ec2
             self.ecr = ecr
             self.lambda = lambda
+            self.lambdaCode = lambdaCode
         }
     }
 
@@ -13074,6 +15202,7 @@ extension Inspector2ClientTypes.ResourceStatus: Swift.Codable {
         case ec2
         case ecr
         case lambda
+        case lambdaCode
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -13087,6 +15216,9 @@ extension Inspector2ClientTypes.ResourceStatus: Swift.Codable {
         if let lambda = self.lambda {
             try encodeContainer.encode(lambda.rawValue, forKey: .lambda)
         }
+        if let lambdaCode = self.lambdaCode {
+            try encodeContainer.encode(lambdaCode.rawValue, forKey: .lambdaCode)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -13097,6 +15229,8 @@ extension Inspector2ClientTypes.ResourceStatus: Swift.Codable {
         ecr = ecrDecoded
         let lambdaDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Status.self, forKey: .lambda)
         lambda = lambdaDecoded
+        let lambdaCodeDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Status.self, forKey: .lambdaCode)
+        lambdaCode = lambdaCodeDecoded
     }
 }
 
@@ -13111,16 +15245,99 @@ extension Inspector2ClientTypes {
         public var ecr: Inspector2ClientTypes.Status?
         /// The status of Amazon Inspector scanning for AWS Lambda function.
         public var lambda: Inspector2ClientTypes.Status?
+        /// The status of Amazon Inspector scanning for custom application code for Amazon Web Services Lambda functions.
+        public var lambdaCode: Inspector2ClientTypes.Status?
 
         public init(
             ec2: Inspector2ClientTypes.Status? = nil,
             ecr: Inspector2ClientTypes.Status? = nil,
-            lambda: Inspector2ClientTypes.Status? = nil
+            lambda: Inspector2ClientTypes.Status? = nil,
+            lambdaCode: Inspector2ClientTypes.Status? = nil
         )
         {
             self.ec2 = ec2
             self.ecr = ecr
             self.lambda = lambda
+            self.lambdaCode = lambdaCode
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes {
+    public enum ResourceStringComparison: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case equals
+        case notEquals
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceStringComparison] {
+            return [
+                .equals,
+                .notEquals,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .equals: return "EQUALS"
+            case .notEquals: return "NOT_EQUALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ResourceStringComparison(rawValue: rawValue) ?? ResourceStringComparison.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes.ResourceStringFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case comparison
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let comparison = self.comparison {
+            try encodeContainer.encode(comparison.rawValue, forKey: .comparison)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let comparisonDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.ResourceStringComparison.self, forKey: .comparison)
+        comparison = comparisonDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// A resource string filter for a software bill of materials report.
+    public struct ResourceStringFilter: Swift.Equatable {
+        /// The filter's comparison.
+        /// This member is required.
+        public var comparison: Inspector2ClientTypes.ResourceStringComparison?
+        /// The filter's value.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            comparison: Inspector2ClientTypes.ResourceStringComparison? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.comparison = comparison
+            self.value = value
         }
     }
 
@@ -13168,6 +15385,7 @@ extension Inspector2ClientTypes {
     public enum Runtime: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case go1X
         case java11
+        case java17
         case java8
         case java8Al2
         case nodejs
@@ -13175,6 +15393,7 @@ extension Inspector2ClientTypes {
         case nodejs14X
         case nodejs16X
         case nodejs18X
+        case python310
         case python37
         case python38
         case python39
@@ -13185,6 +15404,7 @@ extension Inspector2ClientTypes {
             return [
                 .go1X,
                 .java11,
+                .java17,
                 .java8,
                 .java8Al2,
                 .nodejs,
@@ -13192,6 +15412,7 @@ extension Inspector2ClientTypes {
                 .nodejs14X,
                 .nodejs16X,
                 .nodejs18X,
+                .python310,
                 .python37,
                 .python38,
                 .python39,
@@ -13207,6 +15428,7 @@ extension Inspector2ClientTypes {
             switch self {
             case .go1X: return "GO_1_X"
             case .java11: return "JAVA_11"
+            case .java17: return "JAVA_17"
             case .java8: return "JAVA_8"
             case .java8Al2: return "JAVA_8_AL2"
             case .nodejs: return "NODEJS"
@@ -13214,6 +15436,7 @@ extension Inspector2ClientTypes {
             case .nodejs14X: return "NODEJS_14_X"
             case .nodejs16X: return "NODEJS_16_X"
             case .nodejs18X: return "NODEJS_18_X"
+            case .python310: return "PYTHON_3_10"
             case .python37: return "PYTHON_3_7"
             case .python38: return "PYTHON_3_8"
             case .python39: return "PYTHON_3_9"
@@ -13225,6 +15448,38 @@ extension Inspector2ClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = Runtime(rawValue: rawValue) ?? Runtime.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+    public enum SbomReportFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cyclonedx14
+        case spdx23
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SbomReportFormat] {
+            return [
+                .cyclonedx14,
+                .spdx23,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cyclonedx14: return "CYCLONEDX_1_4"
+            case .spdx23: return "SPDX_2_3"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SbomReportFormat(rawValue: rawValue) ?? SbomReportFormat.sdkUnknown(rawValue)
         }
     }
 }
@@ -13408,12 +15663,14 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes {
     public enum ScanType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case code
         case network
         case package
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ScanType] {
             return [
+                .code,
                 .network,
                 .package,
                 .sdkUnknown("")
@@ -13425,6 +15682,7 @@ extension Inspector2ClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .code: return "CODE"
             case .network: return "NETWORK"
             case .package: return "PACKAGE"
             case let .sdkUnknown(s): return s
@@ -13885,6 +16143,7 @@ extension Inspector2ClientTypes {
         case ecrImagePushedAt
         case ecrImageRegistry
         case ecrImageRepositoryName
+        case epssScore
         case findingStatus
         case findingType
         case firstObservedAt
@@ -13905,6 +16164,7 @@ extension Inspector2ClientTypes {
                 .ecrImagePushedAt,
                 .ecrImageRegistry,
                 .ecrImageRepositoryName,
+                .epssScore,
                 .findingStatus,
                 .findingType,
                 .firstObservedAt,
@@ -13930,6 +16190,7 @@ extension Inspector2ClientTypes {
             case .ecrImagePushedAt: return "ECR_IMAGE_PUSHED_AT"
             case .ecrImageRegistry: return "ECR_IMAGE_REGISTRY"
             case .ecrImageRepositoryName: return "ECR_IMAGE_REPOSITORY_NAME"
+            case .epssScore: return "EPSS_SCORE"
             case .findingStatus: return "FINDING_STATUS"
             case .findingType: return "FINDING_TYPE"
             case .firstObservedAt: return "FIRST_OBSERVED_AT"
@@ -14215,6 +16476,51 @@ extension Inspector2ClientTypes {
 
 }
 
+extension Inspector2ClientTypes.SuggestedFix: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code
+        case description
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// A suggested fix for a vulnerability in your Lambda function code.
+    public struct SuggestedFix: Swift.Equatable {
+        /// The fix's code.
+        public var code: Swift.String?
+        /// The fix's description.
+        public var description: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            description: Swift.String? = nil
+        )
+        {
+            self.code = code
+            self.description = description
+        }
+    }
+
+}
+
 extension TagResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags
@@ -14375,6 +16681,7 @@ extension ThrottlingExceptionBody: Swift.Decodable {
 
 extension Inspector2ClientTypes.TitleAggregation: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case findingType
         case resourceType
         case sortBy
         case sortOrder
@@ -14384,6 +16691,9 @@ extension Inspector2ClientTypes.TitleAggregation: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let findingType = self.findingType {
+            try encodeContainer.encode(findingType.rawValue, forKey: .findingType)
+        }
         if let resourceType = self.resourceType {
             try encodeContainer.encode(resourceType.rawValue, forKey: .resourceType)
         }
@@ -14437,12 +16747,16 @@ extension Inspector2ClientTypes.TitleAggregation: Swift.Codable {
         sortOrder = sortOrderDecoded
         let sortByDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.TitleSortBy.self, forKey: .sortBy)
         sortBy = sortByDecoded
+        let findingTypeDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.AggregationFindingType.self, forKey: .findingType)
+        findingType = findingTypeDecoded
     }
 }
 
 extension Inspector2ClientTypes {
     /// The details that define an aggregation based on finding title.
     public struct TitleAggregation: Swift.Equatable {
+        /// The type of finding to aggregate on.
+        public var findingType: Inspector2ClientTypes.AggregationFindingType?
         /// The resource type to aggregate on.
         public var resourceType: Inspector2ClientTypes.AggregationResourceType?
         /// The value to sort results by.
@@ -14455,6 +16769,7 @@ extension Inspector2ClientTypes {
         public var vulnerabilityIds: [Inspector2ClientTypes.StringFilter]?
 
         public init(
+            findingType: Inspector2ClientTypes.AggregationFindingType? = nil,
             resourceType: Inspector2ClientTypes.AggregationResourceType? = nil,
             sortBy: Inspector2ClientTypes.TitleSortBy? = nil,
             sortOrder: Inspector2ClientTypes.SortOrder? = nil,
@@ -14462,6 +16777,7 @@ extension Inspector2ClientTypes {
             vulnerabilityIds: [Inspector2ClientTypes.StringFilter]? = nil
         )
         {
+            self.findingType = findingType
             self.resourceType = resourceType
             self.sortBy = sortBy
             self.sortOrder = sortOrder
@@ -14893,6 +17209,105 @@ extension UpdateEc2DeepInspectionConfigurationOutputResponseBody: Swift.Decodabl
         let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
         errorMessage = errorMessageDecoded
     }
+}
+
+extension UpdateEncryptionKeyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kmsKeyId
+        case resourceType
+        case scanType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let kmsKeyId = self.kmsKeyId {
+            try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType.rawValue, forKey: .resourceType)
+        }
+        if let scanType = self.scanType {
+            try encodeContainer.encode(scanType.rawValue, forKey: .scanType)
+        }
+    }
+}
+
+extension UpdateEncryptionKeyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/encryptionkey/update"
+    }
+}
+
+public struct UpdateEncryptionKeyInput: Swift.Equatable {
+    /// A KMS key ID for the encryption key.
+    /// This member is required.
+    public var kmsKeyId: Swift.String?
+    /// The resource type for the encryption key.
+    /// This member is required.
+    public var resourceType: Inspector2ClientTypes.ResourceType?
+    /// The scan type for the encryption key.
+    /// This member is required.
+    public var scanType: Inspector2ClientTypes.ScanType?
+
+    public init(
+        kmsKeyId: Swift.String? = nil,
+        resourceType: Inspector2ClientTypes.ResourceType? = nil,
+        scanType: Inspector2ClientTypes.ScanType? = nil
+    )
+    {
+        self.kmsKeyId = kmsKeyId
+        self.resourceType = resourceType
+        self.scanType = scanType
+    }
+}
+
+struct UpdateEncryptionKeyInputBody: Swift.Equatable {
+    let kmsKeyId: Swift.String?
+    let scanType: Inspector2ClientTypes.ScanType?
+    let resourceType: Inspector2ClientTypes.ResourceType?
+}
+
+extension UpdateEncryptionKeyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kmsKeyId
+        case resourceType
+        case scanType
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        let scanTypeDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.ScanType.self, forKey: .scanType)
+        scanType = scanTypeDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.ResourceType.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+    }
+}
+
+public enum UpdateEncryptionKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateEncryptionKeyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateEncryptionKeyOutputResponse: Swift.Equatable {
+
+    public init() { }
 }
 
 extension UpdateFilterInput: Swift.Encodable {
@@ -15373,6 +17788,7 @@ extension Inspector2ClientTypes {
         case ec2InstanceHours
         case ecrInitialScan
         case ecrRescan
+        case lambdaFunctionCodeHours
         case lambdaFunctionHours
         case sdkUnknown(Swift.String)
 
@@ -15381,6 +17797,7 @@ extension Inspector2ClientTypes {
                 .ec2InstanceHours,
                 .ecrInitialScan,
                 .ecrRescan,
+                .lambdaFunctionCodeHours,
                 .lambdaFunctionHours,
                 .sdkUnknown("")
             ]
@@ -15394,6 +17811,7 @@ extension Inspector2ClientTypes {
             case .ec2InstanceHours: return "EC2_INSTANCE_HOURS"
             case .ecrInitialScan: return "ECR_INITIAL_SCAN"
             case .ecrRescan: return "ECR_RESCAN"
+            case .lambdaFunctionCodeHours: return "LAMBDA_FUNCTION_CODE_HOURS"
             case .lambdaFunctionHours: return "LAMBDA_FUNCTION_HOURS"
             case let .sdkUnknown(s): return s
             }
@@ -15754,7 +18172,7 @@ extension Inspector2ClientTypes {
         public var description: Swift.String?
         /// Platforms that the vulnerability can be detected on.
         public var detectionPlatforms: [Swift.String]?
-        /// An object that contains the Exploit Prediction Scoring System (EPSS) score.
+        /// An object that contains the Exploit Prediction Scoring System (EPSS) score for a vulnerability.
         public var epss: Inspector2ClientTypes.Epss?
         /// An object that contains details on when the exploit was observed.
         public var exploitObserved: Inspector2ClientTypes.ExploitObserved?

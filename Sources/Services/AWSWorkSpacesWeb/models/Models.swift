@@ -77,7 +77,7 @@ extension AssociateBrowserSettingsInput: ClientRuntime.URLPathProvider {
         guard let portalArn = portalArn else {
             return nil
         }
-        return "/portals/\(portalArn)/browserSettings"
+        return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/browserSettings"
     }
 }
 
@@ -196,7 +196,7 @@ extension AssociateIpAccessSettingsInput: ClientRuntime.URLPathProvider {
         guard let portalArn = portalArn else {
             return nil
         }
-        return "/portals/\(portalArn)/ipAccessSettings"
+        return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/ipAccessSettings"
     }
 }
 
@@ -315,7 +315,7 @@ extension AssociateNetworkSettingsInput: ClientRuntime.URLPathProvider {
         guard let portalArn = portalArn else {
             return nil
         }
-        return "/portals/\(portalArn)/networkSettings"
+        return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/networkSettings"
     }
 }
 
@@ -434,7 +434,7 @@ extension AssociateTrustStoreInput: ClientRuntime.URLPathProvider {
         guard let portalArn = portalArn else {
             return nil
         }
-        return "/portals/\(portalArn)/trustStores"
+        return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/trustStores"
     }
 }
 
@@ -552,7 +552,7 @@ extension AssociateUserAccessLoggingSettingsInput: ClientRuntime.URLPathProvider
         guard let portalArn = portalArn else {
             return nil
         }
-        return "/portals/\(portalArn)/userAccessLoggingSettings"
+        return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/userAccessLoggingSettings"
     }
 }
 
@@ -671,7 +671,7 @@ extension AssociateUserSettingsInput: ClientRuntime.URLPathProvider {
         guard let portalArn = portalArn else {
             return nil
         }
-        return "/portals/\(portalArn)/userSettings"
+        return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/userSettings"
     }
 }
 
@@ -2729,7 +2729,7 @@ extension DeleteBrowserSettingsInput: ClientRuntime.URLPathProvider {
         guard let browserSettingsArn = browserSettingsArn else {
             return nil
         }
-        return "/browserSettings/\(browserSettingsArn)"
+        return "/browserSettings/\(browserSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -2785,7 +2785,7 @@ extension DeleteIdentityProviderInput: ClientRuntime.URLPathProvider {
         guard let identityProviderArn = identityProviderArn else {
             return nil
         }
-        return "/identityProviders/\(identityProviderArn)"
+        return "/identityProviders/\(identityProviderArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -2841,7 +2841,7 @@ extension DeleteIpAccessSettingsInput: ClientRuntime.URLPathProvider {
         guard let ipAccessSettingsArn = ipAccessSettingsArn else {
             return nil
         }
-        return "/ipAccessSettings/\(ipAccessSettingsArn)"
+        return "/ipAccessSettings/\(ipAccessSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -2897,7 +2897,7 @@ extension DeleteNetworkSettingsInput: ClientRuntime.URLPathProvider {
         guard let networkSettingsArn = networkSettingsArn else {
             return nil
         }
-        return "/networkSettings/\(networkSettingsArn)"
+        return "/networkSettings/\(networkSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -2953,7 +2953,7 @@ extension DeletePortalInput: ClientRuntime.URLPathProvider {
         guard let portalArn = portalArn else {
             return nil
         }
-        return "/portals/\(portalArn)"
+        return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -3009,7 +3009,7 @@ extension DeleteTrustStoreInput: ClientRuntime.URLPathProvider {
         guard let trustStoreArn = trustStoreArn else {
             return nil
         }
-        return "/trustStores/\(trustStoreArn)"
+        return "/trustStores/\(trustStoreArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -3065,7 +3065,7 @@ extension DeleteUserAccessLoggingSettingsInput: ClientRuntime.URLPathProvider {
         guard let userAccessLoggingSettingsArn = userAccessLoggingSettingsArn else {
             return nil
         }
-        return "/userAccessLoggingSettings/\(userAccessLoggingSettingsArn)"
+        return "/userAccessLoggingSettings/\(userAccessLoggingSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -3121,7 +3121,7 @@ extension DeleteUserSettingsInput: ClientRuntime.URLPathProvider {
         guard let userSettingsArn = userSettingsArn else {
             return nil
         }
-        return "/userSettings/\(userSettingsArn)"
+        return "/userSettings/\(userSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -3177,7 +3177,7 @@ extension DisassociateBrowserSettingsInput: ClientRuntime.URLPathProvider {
         guard let portalArn = portalArn else {
             return nil
         }
-        return "/portals/\(portalArn)/browserSettings"
+        return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/browserSettings"
     }
 }
 
@@ -3233,7 +3233,7 @@ extension DisassociateIpAccessSettingsInput: ClientRuntime.URLPathProvider {
         guard let portalArn = portalArn else {
             return nil
         }
-        return "/portals/\(portalArn)/ipAccessSettings"
+        return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/ipAccessSettings"
     }
 }
 
@@ -3289,7 +3289,7 @@ extension DisassociateNetworkSettingsInput: ClientRuntime.URLPathProvider {
         guard let portalArn = portalArn else {
             return nil
         }
-        return "/portals/\(portalArn)/networkSettings"
+        return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/networkSettings"
     }
 }
 
@@ -3345,7 +3345,7 @@ extension DisassociateTrustStoreInput: ClientRuntime.URLPathProvider {
         guard let portalArn = portalArn else {
             return nil
         }
-        return "/portals/\(portalArn)/trustStores"
+        return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/trustStores"
     }
 }
 
@@ -3401,7 +3401,7 @@ extension DisassociateUserAccessLoggingSettingsInput: ClientRuntime.URLPathProvi
         guard let portalArn = portalArn else {
             return nil
         }
-        return "/portals/\(portalArn)/userAccessLoggingSettings"
+        return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/userAccessLoggingSettings"
     }
 }
 
@@ -3457,7 +3457,7 @@ extension DisassociateUserSettingsInput: ClientRuntime.URLPathProvider {
         guard let portalArn = portalArn else {
             return nil
         }
-        return "/portals/\(portalArn)/userSettings"
+        return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/userSettings"
     }
 }
 
@@ -3545,7 +3545,7 @@ extension GetBrowserSettingsInput: ClientRuntime.URLPathProvider {
         guard let browserSettingsArn = browserSettingsArn else {
             return nil
         }
-        return "/browserSettings/\(browserSettingsArn)"
+        return "/browserSettings/\(browserSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -3631,7 +3631,7 @@ extension GetIdentityProviderInput: ClientRuntime.URLPathProvider {
         guard let identityProviderArn = identityProviderArn else {
             return nil
         }
-        return "/identityProviders/\(identityProviderArn)"
+        return "/identityProviders/\(identityProviderArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -3717,7 +3717,7 @@ extension GetIpAccessSettingsInput: ClientRuntime.URLPathProvider {
         guard let ipAccessSettingsArn = ipAccessSettingsArn else {
             return nil
         }
-        return "/ipAccessSettings/\(ipAccessSettingsArn)"
+        return "/ipAccessSettings/\(ipAccessSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -3803,7 +3803,7 @@ extension GetNetworkSettingsInput: ClientRuntime.URLPathProvider {
         guard let networkSettingsArn = networkSettingsArn else {
             return nil
         }
-        return "/networkSettings/\(networkSettingsArn)"
+        return "/networkSettings/\(networkSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -3889,7 +3889,7 @@ extension GetPortalInput: ClientRuntime.URLPathProvider {
         guard let portalArn = portalArn else {
             return nil
         }
-        return "/portals/\(portalArn)"
+        return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -3975,7 +3975,7 @@ extension GetPortalServiceProviderMetadataInput: ClientRuntime.URLPathProvider {
         guard let portalArn = portalArn else {
             return nil
         }
-        return "/portalIdp/\(portalArn)"
+        return "/portalIdp/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -4087,7 +4087,7 @@ extension GetTrustStoreCertificateInput: ClientRuntime.URLPathProvider {
         guard let trustStoreArn = trustStoreArn else {
             return nil
         }
-        return "/trustStores/\(trustStoreArn)/certificate"
+        return "/trustStores/\(trustStoreArn.urlPercentEncoding(encodeForwardSlash: false))/certificate"
     }
 }
 
@@ -4188,7 +4188,7 @@ extension GetTrustStoreInput: ClientRuntime.URLPathProvider {
         guard let trustStoreArn = trustStoreArn else {
             return nil
         }
-        return "/trustStores/\(trustStoreArn)"
+        return "/trustStores/\(trustStoreArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -4274,7 +4274,7 @@ extension GetUserAccessLoggingSettingsInput: ClientRuntime.URLPathProvider {
         guard let userAccessLoggingSettingsArn = userAccessLoggingSettingsArn else {
             return nil
         }
-        return "/userAccessLoggingSettings/\(userAccessLoggingSettingsArn)"
+        return "/userAccessLoggingSettings/\(userAccessLoggingSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -4360,7 +4360,7 @@ extension GetUserSettingsInput: ClientRuntime.URLPathProvider {
         guard let userSettingsArn = userSettingsArn else {
             return nil
         }
-        return "/userSettings/\(userSettingsArn)"
+        return "/userSettings/\(userSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -5139,7 +5139,7 @@ extension ListIdentityProvidersInput: ClientRuntime.URLPathProvider {
         guard let portalArn = portalArn else {
             return nil
         }
-        return "/portals/\(portalArn)/identityProviders"
+        return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/identityProviders"
     }
 }
 
@@ -5614,7 +5614,7 @@ extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
         guard let resourceArn = resourceArn else {
             return nil
         }
-        return "/tags/\(resourceArn)"
+        return "/tags/\(resourceArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -5726,7 +5726,7 @@ extension ListTrustStoreCertificatesInput: ClientRuntime.URLPathProvider {
         guard let trustStoreArn = trustStoreArn else {
             return nil
         }
-        return "/trustStores/\(trustStoreArn)/certificates"
+        return "/trustStores/\(trustStoreArn.urlPercentEncoding(encodeForwardSlash: false))/certificates"
     }
 }
 
@@ -7026,7 +7026,7 @@ extension TagResourceInput: ClientRuntime.URLPathProvider {
         guard let resourceArn = resourceArn else {
             return nil
         }
-        return "/tags/\(resourceArn)"
+        return "/tags/\(resourceArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -7370,7 +7370,7 @@ extension UntagResourceInput: ClientRuntime.URLPathProvider {
         guard let resourceArn = resourceArn else {
             return nil
         }
-        return "/tags/\(resourceArn)"
+        return "/tags/\(resourceArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -7453,7 +7453,7 @@ extension UpdateBrowserSettingsInput: ClientRuntime.URLPathProvider {
         guard let browserSettingsArn = browserSettingsArn else {
             return nil
         }
-        return "/browserSettings/\(browserSettingsArn)"
+        return "/browserSettings/\(browserSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -7592,7 +7592,7 @@ extension UpdateIdentityProviderInput: ClientRuntime.URLPathProvider {
         guard let identityProviderArn = identityProviderArn else {
             return nil
         }
-        return "/identityProviders/\(identityProviderArn)"
+        return "/identityProviders/\(identityProviderArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -7824,7 +7824,7 @@ extension UpdateIpAccessSettingsInput: ClientRuntime.URLPathProvider {
         guard let ipAccessSettingsArn = ipAccessSettingsArn else {
             return nil
         }
-        return "/ipAccessSettings/\(ipAccessSettingsArn)"
+        return "/ipAccessSettings/\(ipAccessSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -7986,7 +7986,7 @@ extension UpdateNetworkSettingsInput: ClientRuntime.URLPathProvider {
         guard let networkSettingsArn = networkSettingsArn else {
             return nil
         }
-        return "/networkSettings/\(networkSettingsArn)"
+        return "/networkSettings/\(networkSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -8148,7 +8148,7 @@ extension UpdatePortalInput: ClientRuntime.URLPathProvider {
         guard let portalArn = portalArn else {
             return nil
         }
-        return "/portals/\(portalArn)"
+        return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -8281,7 +8281,7 @@ extension UpdateTrustStoreInput: ClientRuntime.URLPathProvider {
         guard let trustStoreArn = trustStoreArn else {
             return nil
         }
-        return "/trustStores/\(trustStoreArn)"
+        return "/trustStores/\(trustStoreArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -8431,7 +8431,7 @@ extension UpdateUserAccessLoggingSettingsInput: ClientRuntime.URLPathProvider {
         guard let userAccessLoggingSettingsArn = userAccessLoggingSettingsArn else {
             return nil
         }
-        return "/userAccessLoggingSettings/\(userAccessLoggingSettingsArn)"
+        return "/userAccessLoggingSettings/\(userAccessLoggingSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -8578,7 +8578,7 @@ extension UpdateUserSettingsInput: ClientRuntime.URLPathProvider {
         guard let userSettingsArn = userSettingsArn else {
             return nil
         }
-        return "/userSettings/\(userSettingsArn)"
+        return "/userSettings/\(userSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 

@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-/// Comprehend Medical; extracts structured information from unstructured clinical text. Use these actions to gain insight in your documents.
+/// Amazon Comprehend Medical extracts structured information from unstructured clinical text. Use these actions to gain insight in your documents. Amazon Comprehend Medical only detects entities in English language texts. Amazon Comprehend Medical places limits on the sizes of files allowed for different API operations. To learn more, see [Guidelines and quotas](https://docs.aws.amazon.com/comprehend-medical/latest/dev/comprehendmedical-quotas.html) in the Amazon Comprehend Medical Developer Guide.
 public protocol ComprehendMedicalClientProtocol {
     /// Gets the properties associated with a medical entities detection job. Use this operation to get the status of a detection job.
     func describeEntitiesDetectionV2Job(input: DescribeEntitiesDetectionV2JobInput) async throws -> DescribeEntitiesDetectionV2JobOutputResponse
@@ -14,7 +14,7 @@ public protocol ComprehendMedicalClientProtocol {
     func describeRxNormInferenceJob(input: DescribeRxNormInferenceJobInput) async throws -> DescribeRxNormInferenceJobOutputResponse
     /// Gets the properties associated with an InferSNOMEDCT job. Use this operation to get the status of an inference job.
     func describeSNOMEDCTInferenceJob(input: DescribeSNOMEDCTInferenceJobInput) async throws -> DescribeSNOMEDCTInferenceJobOutputResponse
-    /// The DetectEntities operation is deprecated. You should use the [DetectEntitiesV2] operation instead. Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information .
+    /// The DetectEntities operation is deprecated. You should use the [DetectEntitiesV2] operation instead. Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information.
     @available(*, deprecated, message: "This operation is deprecated, use DetectEntitiesV2 instead.")
     func detectEntities(input: DetectEntitiesInput) async throws -> DetectEntitiesOutputResponse
     /// Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information. Amazon Comprehend Medical only detects medical entities in English language texts. The DetectEntitiesV2 operation replaces the [DetectEntities] operation. This new action uses a different model for determining the entities in your medical text and changes the way that some entities are returned in the output. You should use the DetectEntitiesV2 operation in all new applications. The DetectEntitiesV2 operation returns the Acuity and Direction entities as attributes instead of types.
@@ -31,7 +31,7 @@ public protocol ComprehendMedicalClientProtocol {
     func listEntitiesDetectionV2Jobs(input: ListEntitiesDetectionV2JobsInput) async throws -> ListEntitiesDetectionV2JobsOutputResponse
     /// Gets a list of InferICD10CM jobs that you have submitted.
     func listICD10CMInferenceJobs(input: ListICD10CMInferenceJobsInput) async throws -> ListICD10CMInferenceJobsOutputResponse
-    /// Gets a list of protected health information (PHI) detection jobs that you have submitted.
+    /// Gets a list of protected health information (PHI) detection jobs you have submitted.
     func listPHIDetectionJobs(input: ListPHIDetectionJobsInput) async throws -> ListPHIDetectionJobsOutputResponse
     /// Gets a list of InferRxNorm jobs that you have submitted.
     func listRxNormInferenceJobs(input: ListRxNormInferenceJobsInput) async throws -> ListRxNormInferenceJobsOutputResponse

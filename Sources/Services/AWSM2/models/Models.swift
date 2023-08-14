@@ -999,7 +999,7 @@ public struct CreateApplicationInput: Swift.Equatable {
     /// The unique identifier of the application.
     /// This member is required.
     public var name: Swift.String?
-    /// The Amazon Resource Name (ARN) of the role associated with the application.
+    /// The Amazon Resource Name (ARN) that identifies a role that the application uses to access Amazon Web Services resources that are not part of the application or are in a different Amazon Web Services account.
     public var roleArn: Swift.String?
     /// A list of tags to apply to the application.
     public var tags: [Swift.String:Swift.String]?
@@ -4753,6 +4753,80 @@ extension GetEnvironmentOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetSignedBluinsightsUrlInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/signed-bi-url"
+    }
+}
+
+public struct GetSignedBluinsightsUrlInput: Swift.Equatable {
+
+    public init() { }
+}
+
+struct GetSignedBluinsightsUrlInputBody: Swift.Equatable {
+}
+
+extension GetSignedBluinsightsUrlInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetSignedBluinsightsUrlOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetSignedBluinsightsUrlOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetSignedBluinsightsUrlOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.signedBiUrl = output.signedBiUrl
+        } else {
+            self.signedBiUrl = nil
+        }
+    }
+}
+
+public struct GetSignedBluinsightsUrlOutputResponse: Swift.Equatable {
+    /// Single sign-on AWS Blu Insights URL.
+    /// This member is required.
+    public var signedBiUrl: Swift.String?
+
+    public init(
+        signedBiUrl: Swift.String? = nil
+    )
+    {
+        self.signedBiUrl = signedBiUrl
+    }
+}
+
+struct GetSignedBluinsightsUrlOutputResponseBody: Swift.Equatable {
+    let signedBiUrl: Swift.String?
+}
+
+extension GetSignedBluinsightsUrlOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case signedBiUrl
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let signedBiUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .signedBiUrl)
+        signedBiUrl = signedBiUrlDecoded
+    }
+}
+
 extension M2ClientTypes.HighAvailabilityConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case desiredCapacity
@@ -4775,7 +4849,7 @@ extension M2ClientTypes.HighAvailabilityConfig: Swift.Codable {
 extension M2ClientTypes {
     /// Defines the details of a high availability configuration.
     public struct HighAvailabilityConfig: Swift.Equatable {
-        /// The number of instances in a high availability configuration.
+        /// The number of instances in a high availability configuration. The minimum possible value is 1 and the maximum is 100.
         /// This member is required.
         public var desiredCapacity: Swift.Int?
 
@@ -7655,7 +7729,7 @@ extension UpdateEnvironmentInput: ClientRuntime.URLPathProvider {
 public struct UpdateEnvironmentInput: Swift.Equatable {
     /// Indicates whether to update the runtime environment during the maintenance window. The default is false. Currently, Amazon Web Services Mainframe Modernization accepts the engineVersion parameter only if applyDuringMaintenanceWindow is true. If any parameter other than engineVersion is provided in UpdateEnvironmentRequest, it will fail if applyDuringMaintenanceWindow is set to true.
     public var applyDuringMaintenanceWindow: Swift.Bool
-    /// The desired capacity for the runtime environment to update.
+    /// The desired capacity for the runtime environment to update. The minimum possible value is 0 and the maximum is 100.
     public var desiredCapacity: Swift.Int?
     /// The version of the runtime engine for the runtime environment.
     public var engineVersion: Swift.String?

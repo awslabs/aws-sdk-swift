@@ -193,6 +193,34 @@ extension ListModelsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LookoutEquipmentClient {
+    /// Paginate over `[ListModelVersionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListModelVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListModelVersionsOutputResponse`
+    public func listModelVersionsPaginated(input: ListModelVersionsInput) -> ClientRuntime.PaginatorSequence<ListModelVersionsInput, ListModelVersionsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListModelVersionsInput, ListModelVersionsOutputResponse>(input: input, inputKey: \ListModelVersionsInput.nextToken, outputKey: \ListModelVersionsOutputResponse.nextToken, paginationFunction: self.listModelVersions(input:))
+    }
+}
+
+extension ListModelVersionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListModelVersionsInput {
+        return ListModelVersionsInput(
+            createdAtEndTime: self.createdAtEndTime,
+            createdAtStartTime: self.createdAtStartTime,
+            maxModelVersion: self.maxModelVersion,
+            maxResults: self.maxResults,
+            minModelVersion: self.minModelVersion,
+            modelName: self.modelName,
+            nextToken: token,
+            sourceType: self.sourceType,
+            status: self.status
+        )}
+}
+extension LookoutEquipmentClient {
     /// Paginate over `[ListSensorStatisticsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

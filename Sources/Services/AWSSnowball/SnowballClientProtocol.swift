@@ -66,7 +66,7 @@ public protocol SnowballClientProtocol {
     /// * Description: Snowball Edge Storage Optimized with EC2 Compute
     ///
     ///
-    ///
+    /// This device is replaced with T98.
     ///
     /// * Device type: STANDARD
     ///
@@ -86,11 +86,11 @@ public protocol SnowballClientProtocol {
     ///
     ///
     ///
-    /// * Device type: V3_5C
+    /// * Snow Family device type: RACK_5U_C
     ///
-    /// * Capacity: T32
+    /// * Capacity: T13
     ///
-    /// * Description: Snowball Edge Compute Optimized without GPU
+    /// * Description: Snowblade.
     ///
     ///
     ///
@@ -127,12 +127,14 @@ public protocol SnowballClientProtocol {
     func listClusterJobs(input: ListClusterJobsInput) async throws -> ListClusterJobsOutputResponse
     /// Returns an array of ClusterListEntry objects of the specified length. Each ClusterListEntry object contains a cluster's state, a cluster's ID, and other important status information.
     func listClusters(input: ListClustersInput) async throws -> ListClustersOutputResponse
-    /// This action returns a list of the different Amazon EC2 Amazon Machine Images (AMIs) that are owned by your Amazon Web Services accountthat would be supported for use on a Snow device. Currently, supported AMIs are based on the Amazon Linux-2, Ubuntu 20.04 LTS - Focal, or Ubuntu 22.04 LTS - Jammy images, available on the Amazon Web Services Marketplace. Ubuntu 16.04 LTS - Xenial (HVM) images are no longer supported in the Market, but still supported for use on devices through Amazon EC2 VM Import/Export and running locally in AMIs.
+    /// This action returns a list of the different Amazon EC2-compatible Amazon Machine Images (AMIs) that are owned by your Amazon Web Services accountthat would be supported for use on a Snow device. Currently, supported AMIs are based on the Amazon Linux-2, Ubuntu 20.04 LTS - Focal, or Ubuntu 22.04 LTS - Jammy images, available on the Amazon Web Services Marketplace. Ubuntu 16.04 LTS - Xenial (HVM) images are no longer supported in the Market, but still supported for use on devices through Amazon EC2 VM Import/Export and running locally in AMIs.
     func listCompatibleImages(input: ListCompatibleImagesInput) async throws -> ListCompatibleImagesOutputResponse
     /// Returns an array of JobListEntry objects of the specified length. Each JobListEntry object contains a job's state, a job's ID, and a value that indicates whether the job is a job part, in the case of export jobs. Calling this API action in one of the US regions will return jobs from the list of all jobs associated with this account in all US regions.
     func listJobs(input: ListJobsInput) async throws -> ListJobsOutputResponse
     /// Lists all long-term pricing types.
     func listLongTermPricing(input: ListLongTermPricingInput) async throws -> ListLongTermPricingOutputResponse
+    /// A list of locations from which the customer can choose to pickup a device.
+    func listPickupLocations(input: ListPickupLocationsInput) async throws -> ListPickupLocationsOutputResponse
     /// Lists all supported versions for Snow on-device services. Returns an array of ServiceVersion object containing the supported versions for a particular service.
     func listServiceVersions(input: ListServiceVersionsInput) async throws -> ListServiceVersionsOutputResponse
     /// While a cluster's ClusterState value is in the AwaitingQuorum state, you can update some of the information associated with a cluster. Once the cluster changes to a different job state, usually 60 minutes after the cluster being created, this action is no longer available.

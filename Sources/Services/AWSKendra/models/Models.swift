@@ -450,7 +450,7 @@ extension KendraClientTypes.AlfrescoConfiguration: Swift.Codable {
 }
 
 extension KendraClientTypes {
-    /// Provides the configuration information to connect to Alfresco as your data source. Alfresco data source connector is currently in preview mode. Basic authentication is currently supported. If you would like to use Alfresco connector in production, contact [Support](http://aws.amazon.com/contact-us/).
+    /// Provides the configuration information to connect to Alfresco as your data source. Support for AlfrescoConfiguration ended May 2023. We recommend migrating to or using the Alfresco data source template schema / [TemplateConfiguration](https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html) API.
     public struct AlfrescoConfiguration: Swift.Equatable {
         /// A list of DataSourceToIndexFieldMapping objects that map attributes or field names of Alfresco blogs to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Alfresco fields. For more information, see [ Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The Alfresco data source field names must exist in your Alfresco custom metadata.
         public var blogFieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]?
@@ -4757,7 +4757,7 @@ public struct CreateFaqInput: Swift.Equatable {
     public var clientToken: Swift.String?
     /// A description for the FAQ.
     public var description: Swift.String?
-    /// The format of the FAQ input file. You can choose between a basic CSV format, a CSV format that includes customs attributes in a header, and a JSON format that includes custom attributes. The format must match the format of the file stored in the S3 bucket identified in the S3Path parameter. For more information, see [Adding questions and answers](https://docs.aws.amazon.com/kendra/latest/dg/in-creating-faq.html).
+    /// The format of the FAQ input file. You can choose between a basic CSV format, a CSV format that includes customs attributes in a header, and a JSON format that includes custom attributes. The default format is CSV. The format must match the format of the file stored in the S3 bucket identified in the S3Path parameter. For more information, see [Adding questions and answers](https://docs.aws.amazon.com/kendra/latest/dg/in-creating-faq.html).
     public var fileFormat: KendraClientTypes.FaqFileFormat?
     /// The identifier of the index for the FAQ.
     /// This member is required.
@@ -5963,7 +5963,8 @@ extension KendraClientTypes.DataSourceConfiguration: Swift.Codable {
 extension KendraClientTypes {
     /// Provides the configuration information for an Amazon Kendra data source.
     public struct DataSourceConfiguration: Swift.Equatable {
-        /// Provides the configuration information to connect to Alfresco as your data source.
+        /// Provides the configuration information to connect to Alfresco as your data source. Support for AlfrescoConfiguration ended May 2023. We recommend migrating to or using the Alfresco data source template schema / [TemplateConfiguration](https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html) API.
+        @available(*, deprecated, message: "Deprecated AlfrescoConfiguration in favor of TemplateConfiguration")
         public var alfrescoConfiguration: KendraClientTypes.AlfrescoConfiguration?
         /// Provides the configuration information to connect to Box as your data source.
         public var boxConfiguration: KendraClientTypes.BoxConfiguration?
@@ -10166,7 +10167,7 @@ extension KendraClientTypes {
         public var attributes: [KendraClientTypes.DocumentAttribute]?
         /// The contents of the document. Documents passed to the Blob parameter must be base64 encoded. Your code might not need to encode the document file bytes if you're using an Amazon Web Services SDK to call Amazon Kendra APIs. If you are calling the Amazon Kendra endpoint directly using REST, you must base64 encode the contents before sending.
         public var blob: ClientRuntime.Data?
-        /// The file type of the document in the Blob field.
+        /// The file type of the document in the Blob field. If you want to index snippets or subsets of HTML documents instead of the entirety of the HTML documents, you must add the HTML start and closing tags (content) around the content.
         public var contentType: KendraClientTypes.ContentType?
         /// The list of [principal](https://docs.aws.amazon.com/kendra/latest/dg/API_Principal.html) lists that define the hierarchy for which documents users should have access to.
         public var hierarchicalAccessControlList: [KendraClientTypes.HierarchicalPrincipal]?
@@ -17828,24 +17829,24 @@ extension QueryInput: ClientRuntime.URLPathProvider {
 }
 
 public struct QueryInput: Swift.Equatable {
-    /// Enables filtered searches based on document attributes. You can only provide one attribute filter; however, the AndAllFilters, NotFilter, and OrAllFilters parameters contain a list of other filters. The AttributeFilter parameter enables you to create a set of filtering rules that a document must satisfy to be included in the query results.
+    /// Filters search results by document fields/attributes. You can only provide one attribute filter; however, the AndAllFilters, NotFilter, and OrAllFilters parameters contain a list of other filters. The AttributeFilter parameter means you can create a set of filtering rules that a document must satisfy to be included in the query results.
     public var attributeFilter: KendraClientTypes.AttributeFilter?
-    /// Overrides relevance tuning configurations of fields or attributes set at the index level. If you use this API to override the relevance tuning configured at the index level, but there is no relevance tuning configured at the index level, then Amazon Kendra does not apply any relevance tuning. If there is relevance tuning configured at the index level, but you do not use this API to override any relevance tuning in the index, then Amazon Kendra uses the relevance tuning that is configured at the index level. If there is relevance tuning configured for fields at the index level, but you use this API to override only some of these fields, then for the fields you did not override, the importance is set to 1.
+    /// Overrides relevance tuning configurations of fields/attributes set at the index level. If you use this API to override the relevance tuning configured at the index level, but there is no relevance tuning configured at the index level, then Amazon Kendra does not apply any relevance tuning. If there is relevance tuning configured for fields at the index level, and you use this API to override only some of these fields, then for the fields you did not override, the importance is set to 1.
     public var documentRelevanceOverrideConfigurations: [KendraClientTypes.DocumentRelevanceConfiguration]?
-    /// An array of documents attributes. Amazon Kendra returns a count for each attribute key specified. This helps your users narrow their search.
+    /// An array of documents fields/attributes for faceted search. Amazon Kendra returns a count for each field key specified. This helps your users narrow their search.
     public var facets: [KendraClientTypes.Facet]?
-    /// The identifier of the index to search. The identifier is returned in the response from the CreateIndex API.
+    /// The identifier of the index for the search.
     /// This member is required.
     public var indexId: Swift.String?
     /// Query results are returned in pages the size of the PageSize parameter. By default, Amazon Kendra returns the first page of results. Use this parameter to get result pages after the first one.
     public var pageNumber: Swift.Int?
     /// Sets the number of results that are returned in each page of results. The default page size is 10. The maximum number of results returned is 100. If you ask for more than 100 results, only 100 are returned.
     public var pageSize: Swift.Int?
-    /// Sets the type of query. Only results for the specified query type are returned.
+    /// Sets the type of query result or response. Only results for the specified type are returned.
     public var queryResultTypeFilter: KendraClientTypes.QueryResultType?
     /// The input query text for the search. Amazon Kendra truncates queries at 30 token words, which excludes punctuation and stop words. Truncation still applies if you use Boolean or more advanced, complex queries.
     public var queryText: Swift.String?
-    /// An array of document attributes to include in the response. You can limit the response to include certain document attributes. By default all document attributes are included in the response.
+    /// An array of document fields/attributes to include in the response. You can limit the response to include certain document fields. By default, all document attributes are included in the response.
     public var requestedDocumentAttributes: [Swift.String]?
     /// Provides information that determines how the results of the query are sorted. You can set the field that Amazon Kendra should sort the results on, and specify whether the results should be sorted in ascending or descending order. In the case of ties in sorting the results, the results are sorted by relevance. If you don't provide sorting configuration, the results are sorted by the relevance that Amazon Kendra determines for the result.
     public var sortingConfiguration: KendraClientTypes.SortingConfiguration?
@@ -18021,17 +18022,17 @@ extension QueryOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct QueryOutputResponse: Swift.Equatable {
-    /// Contains the facet results. A FacetResult contains the counts for each attribute key that was specified in the Facets input parameter.
+    /// Contains the facet results. A FacetResult contains the counts for each field/attribute key that was specified in the Facets input parameter.
     public var facetResults: [KendraClientTypes.FacetResult]?
     /// The list of featured result items. Featured results are displayed at the top of the search results page, placed above all other results for certain queries. If there's an exact match of a query, then certain documents are featured in the search results.
     public var featuredResultsItems: [KendraClientTypes.FeaturedResultsItem]?
-    /// The identifier for the search. You use QueryId to identify the search when using the feedback API.
+    /// The identifier for the search. You also use QueryId to identify the search when using the [SubmitFeedback](https://docs.aws.amazon.com/kendra/latest/APIReference/API_SubmitFeedback.html) API.
     public var queryId: Swift.String?
     /// The results of the search.
     public var resultItems: [KendraClientTypes.QueryResultItem]?
     /// A list of information related to suggested spell corrections for a query.
     public var spellCorrectedQueries: [KendraClientTypes.SpellCorrectedQuery]?
-    /// The total number of items found by the search; however, you can only retrieve up to 100 items. For example, if the search found 192 items, you can only retrieve the first 100 of the items.
+    /// The total number of items found by the search. However, you can only retrieve up to 100 items. For example, if the search found 192 items, you can only retrieve the first 100 of the items.
     public var totalNumberOfResults: Swift.Int?
     /// A list of warning codes and their messages on problems with your query. Amazon Kendra currently only supports one type of warning, which is a warning on invalid syntax used in the query. For examples of invalid query syntax, see [Searching with advanced query syntax](https://docs.aws.amazon.com/kendra/latest/dg/searching-example.html#searching-index-query-syntax).
     public var warnings: [KendraClientTypes.Warning]?
@@ -18285,9 +18286,9 @@ extension KendraClientTypes.QueryResultItem: Swift.Codable {
 extension KendraClientTypes {
     /// A single query result. A query result contains information about a document returned by the query. This includes the original location of the document, a list of attributes assigned to the document, and relevant text from the document that satisfies the query.
     public struct QueryResultItem: Swift.Equatable {
-        /// One or more additional attributes associated with the query result.
+        /// One or more additional fields/attributes associated with the query result.
         public var additionalAttributes: [KendraClientTypes.AdditionalResultAttribute]?
-        /// An array of document attributes assigned to a document in the search results. For example, the document author (_author) or the source URI (_source_uri) of the document.
+        /// An array of document fields/attributes assigned to a document in the search results. For example, the document author (_author) or the source URI (_source_uri) of the document.
         public var documentAttributes: [KendraClientTypes.DocumentAttribute]?
         /// An extract of the text in the document. Contains information about highlighting the relevant terms in the excerpt.
         public var documentExcerpt: KendraClientTypes.TextWithHighlights?
@@ -18297,13 +18298,13 @@ extension KendraClientTypes {
         public var documentTitle: KendraClientTypes.TextWithHighlights?
         /// The URI of the original location of the document.
         public var documentURI: Swift.String?
-        /// A token that identifies a particular result from a particular query. Use this token to provide click-through feedback for the result. For more information, see [Submitting feedback ](https://docs.aws.amazon.com/kendra/latest/dg/submitting-feedback.html).
+        /// A token that identifies a particular result from a particular query. Use this token to provide click-through feedback for the result. For more information, see [Submitting feedback](https://docs.aws.amazon.com/kendra/latest/dg/submitting-feedback.html).
         public var feedbackToken: Swift.String?
         /// If the Type of document within the response is ANSWER, then it is either a TABLE answer or TEXT answer. If it's a table answer, a table excerpt is returned in TableExcerpt. If it's a text answer, a text excerpt is returned in DocumentExcerpt.
         public var format: KendraClientTypes.QueryResultFormat?
         /// The identifier for the query result.
         public var id: Swift.String?
-        /// Indicates the confidence that Amazon Kendra has that a result matches the query that you provided. Each result is placed into a bin that indicates the confidence, VERY_HIGH, HIGH, MEDIUM and LOW. You can use the score to determine if a response meets the confidence needed for your application. The field is only set to LOW when the Type field is set to DOCUMENT and Amazon Kendra is not confident that the result matches the query.
+        /// Indicates the confidence level of Amazon Kendra providing a relevant result for the query. Each result is placed into a bin that indicates the confidence, VERY_HIGH, HIGH, MEDIUM and LOW. You can use the score to determine if a response meets the confidence needed for your application. The field is only set to LOW when the Type field is set to DOCUMENT and Amazon Kendra is not confident that the result is relevant to the query.
         public var scoreAttributes: KendraClientTypes.ScoreAttributes?
         /// An excerpt from a table within a document.
         public var tableExcerpt: KendraClientTypes.TableExcerpt?
@@ -19175,6 +19176,336 @@ extension ResourceUnavailableExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension RetrieveInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeFilter = "AttributeFilter"
+        case documentRelevanceOverrideConfigurations = "DocumentRelevanceOverrideConfigurations"
+        case indexId = "IndexId"
+        case pageNumber = "PageNumber"
+        case pageSize = "PageSize"
+        case queryText = "QueryText"
+        case requestedDocumentAttributes = "RequestedDocumentAttributes"
+        case userContext = "UserContext"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributeFilter = self.attributeFilter {
+            try encodeContainer.encode(attributeFilter, forKey: .attributeFilter)
+        }
+        if let documentRelevanceOverrideConfigurations = documentRelevanceOverrideConfigurations {
+            var documentRelevanceOverrideConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .documentRelevanceOverrideConfigurations)
+            for documentrelevanceconfiguration0 in documentRelevanceOverrideConfigurations {
+                try documentRelevanceOverrideConfigurationsContainer.encode(documentrelevanceconfiguration0)
+            }
+        }
+        if let indexId = self.indexId {
+            try encodeContainer.encode(indexId, forKey: .indexId)
+        }
+        if let pageNumber = self.pageNumber {
+            try encodeContainer.encode(pageNumber, forKey: .pageNumber)
+        }
+        if let pageSize = self.pageSize {
+            try encodeContainer.encode(pageSize, forKey: .pageSize)
+        }
+        if let queryText = self.queryText {
+            try encodeContainer.encode(queryText, forKey: .queryText)
+        }
+        if let requestedDocumentAttributes = requestedDocumentAttributes {
+            var requestedDocumentAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .requestedDocumentAttributes)
+            for documentattributekey0 in requestedDocumentAttributes {
+                try requestedDocumentAttributesContainer.encode(documentattributekey0)
+            }
+        }
+        if let userContext = self.userContext {
+            try encodeContainer.encode(userContext, forKey: .userContext)
+        }
+    }
+}
+
+extension RetrieveInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct RetrieveInput: Swift.Equatable {
+    /// Filters search results by document fields/attributes. You can only provide one attribute filter; however, the AndAllFilters, NotFilter, and OrAllFilters parameters contain a list of other filters. The AttributeFilter parameter means you can create a set of filtering rules that a document must satisfy to be included in the query results.
+    public var attributeFilter: KendraClientTypes.AttributeFilter?
+    /// Overrides relevance tuning configurations of fields/attributes set at the index level. If you use this API to override the relevance tuning configured at the index level, but there is no relevance tuning configured at the index level, then Amazon Kendra does not apply any relevance tuning. If there is relevance tuning configured for fields at the index level, and you use this API to override only some of these fields, then for the fields you did not override, the importance is set to 1.
+    public var documentRelevanceOverrideConfigurations: [KendraClientTypes.DocumentRelevanceConfiguration]?
+    /// The identifier of the index to retrieve relevant passages for the search.
+    /// This member is required.
+    public var indexId: Swift.String?
+    /// Retrieved relevant passages are returned in pages the size of the PageSize parameter. By default, Amazon Kendra returns the first page of results. Use this parameter to get result pages after the first one.
+    public var pageNumber: Swift.Int?
+    /// Sets the number of retrieved relevant passages that are returned in each page of results. The default page size is 10. The maximum number of results returned is 100. If you ask for more than 100 results, only 100 are returned.
+    public var pageSize: Swift.Int?
+    /// The input query text to retrieve relevant passages for the search. Amazon Kendra truncates queries at 30 token words, which excludes punctuation and stop words. Truncation still applies if you use Boolean or more advanced, complex queries.
+    /// This member is required.
+    public var queryText: Swift.String?
+    /// A list of document fields/attributes to include in the response. You can limit the response to include certain document fields. By default, all document fields are included in the response.
+    public var requestedDocumentAttributes: [Swift.String]?
+    /// The user context token or user and group information.
+    public var userContext: KendraClientTypes.UserContext?
+
+    public init(
+        attributeFilter: KendraClientTypes.AttributeFilter? = nil,
+        documentRelevanceOverrideConfigurations: [KendraClientTypes.DocumentRelevanceConfiguration]? = nil,
+        indexId: Swift.String? = nil,
+        pageNumber: Swift.Int? = nil,
+        pageSize: Swift.Int? = nil,
+        queryText: Swift.String? = nil,
+        requestedDocumentAttributes: [Swift.String]? = nil,
+        userContext: KendraClientTypes.UserContext? = nil
+    )
+    {
+        self.attributeFilter = attributeFilter
+        self.documentRelevanceOverrideConfigurations = documentRelevanceOverrideConfigurations
+        self.indexId = indexId
+        self.pageNumber = pageNumber
+        self.pageSize = pageSize
+        self.queryText = queryText
+        self.requestedDocumentAttributes = requestedDocumentAttributes
+        self.userContext = userContext
+    }
+}
+
+struct RetrieveInputBody: Swift.Equatable {
+    let indexId: Swift.String?
+    let queryText: Swift.String?
+    let attributeFilter: KendraClientTypes.AttributeFilter?
+    let requestedDocumentAttributes: [Swift.String]?
+    let documentRelevanceOverrideConfigurations: [KendraClientTypes.DocumentRelevanceConfiguration]?
+    let pageNumber: Swift.Int?
+    let pageSize: Swift.Int?
+    let userContext: KendraClientTypes.UserContext?
+}
+
+extension RetrieveInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeFilter = "AttributeFilter"
+        case documentRelevanceOverrideConfigurations = "DocumentRelevanceOverrideConfigurations"
+        case indexId = "IndexId"
+        case pageNumber = "PageNumber"
+        case pageSize = "PageSize"
+        case queryText = "QueryText"
+        case requestedDocumentAttributes = "RequestedDocumentAttributes"
+        case userContext = "UserContext"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
+        indexId = indexIdDecoded
+        let queryTextDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryText)
+        queryText = queryTextDecoded
+        let attributeFilterDecoded = try containerValues.decodeIfPresent(KendraClientTypes.AttributeFilter.self, forKey: .attributeFilter)
+        attributeFilter = attributeFilterDecoded
+        let requestedDocumentAttributesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .requestedDocumentAttributes)
+        var requestedDocumentAttributesDecoded0:[Swift.String]? = nil
+        if let requestedDocumentAttributesContainer = requestedDocumentAttributesContainer {
+            requestedDocumentAttributesDecoded0 = [Swift.String]()
+            for string0 in requestedDocumentAttributesContainer {
+                if let string0 = string0 {
+                    requestedDocumentAttributesDecoded0?.append(string0)
+                }
+            }
+        }
+        requestedDocumentAttributes = requestedDocumentAttributesDecoded0
+        let documentRelevanceOverrideConfigurationsContainer = try containerValues.decodeIfPresent([KendraClientTypes.DocumentRelevanceConfiguration?].self, forKey: .documentRelevanceOverrideConfigurations)
+        var documentRelevanceOverrideConfigurationsDecoded0:[KendraClientTypes.DocumentRelevanceConfiguration]? = nil
+        if let documentRelevanceOverrideConfigurationsContainer = documentRelevanceOverrideConfigurationsContainer {
+            documentRelevanceOverrideConfigurationsDecoded0 = [KendraClientTypes.DocumentRelevanceConfiguration]()
+            for structure0 in documentRelevanceOverrideConfigurationsContainer {
+                if let structure0 = structure0 {
+                    documentRelevanceOverrideConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        documentRelevanceOverrideConfigurations = documentRelevanceOverrideConfigurationsDecoded0
+        let pageNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageNumber)
+        pageNumber = pageNumberDecoded
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
+        pageSize = pageSizeDecoded
+        let userContextDecoded = try containerValues.decodeIfPresent(KendraClientTypes.UserContext.self, forKey: .userContext)
+        userContext = userContextDecoded
+    }
+}
+
+public enum RetrieveOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension RetrieveOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: RetrieveOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.queryId = output.queryId
+            self.resultItems = output.resultItems
+        } else {
+            self.queryId = nil
+            self.resultItems = nil
+        }
+    }
+}
+
+public struct RetrieveOutputResponse: Swift.Equatable {
+    /// The identifier of query used for the search. You also use QueryId to identify the search when using the [Submitfeedback](https://docs.aws.amazon.com/kendra/latest/APIReference/API_SubmitFeedback.html) API.
+    public var queryId: Swift.String?
+    /// The results of the retrieved relevant passages for the search.
+    public var resultItems: [KendraClientTypes.RetrieveResultItem]?
+
+    public init(
+        queryId: Swift.String? = nil,
+        resultItems: [KendraClientTypes.RetrieveResultItem]? = nil
+    )
+    {
+        self.queryId = queryId
+        self.resultItems = resultItems
+    }
+}
+
+struct RetrieveOutputResponseBody: Swift.Equatable {
+    let queryId: Swift.String?
+    let resultItems: [KendraClientTypes.RetrieveResultItem]?
+}
+
+extension RetrieveOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case queryId = "QueryId"
+        case resultItems = "ResultItems"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let queryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryId)
+        queryId = queryIdDecoded
+        let resultItemsContainer = try containerValues.decodeIfPresent([KendraClientTypes.RetrieveResultItem?].self, forKey: .resultItems)
+        var resultItemsDecoded0:[KendraClientTypes.RetrieveResultItem]? = nil
+        if let resultItemsContainer = resultItemsContainer {
+            resultItemsDecoded0 = [KendraClientTypes.RetrieveResultItem]()
+            for structure0 in resultItemsContainer {
+                if let structure0 = structure0 {
+                    resultItemsDecoded0?.append(structure0)
+                }
+            }
+        }
+        resultItems = resultItemsDecoded0
+    }
+}
+
+extension KendraClientTypes.RetrieveResultItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case content = "Content"
+        case documentAttributes = "DocumentAttributes"
+        case documentId = "DocumentId"
+        case documentTitle = "DocumentTitle"
+        case documentURI = "DocumentURI"
+        case id = "Id"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let content = self.content {
+            try encodeContainer.encode(content, forKey: .content)
+        }
+        if let documentAttributes = documentAttributes {
+            var documentAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .documentAttributes)
+            for documentattribute0 in documentAttributes {
+                try documentAttributesContainer.encode(documentattribute0)
+            }
+        }
+        if let documentId = self.documentId {
+            try encodeContainer.encode(documentId, forKey: .documentId)
+        }
+        if let documentTitle = self.documentTitle {
+            try encodeContainer.encode(documentTitle, forKey: .documentTitle)
+        }
+        if let documentURI = self.documentURI {
+            try encodeContainer.encode(documentURI, forKey: .documentURI)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let documentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentId)
+        documentId = documentIdDecoded
+        let documentTitleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentTitle)
+        documentTitle = documentTitleDecoded
+        let contentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .content)
+        content = contentDecoded
+        let documentURIDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentURI)
+        documentURI = documentURIDecoded
+        let documentAttributesContainer = try containerValues.decodeIfPresent([KendraClientTypes.DocumentAttribute?].self, forKey: .documentAttributes)
+        var documentAttributesDecoded0:[KendraClientTypes.DocumentAttribute]? = nil
+        if let documentAttributesContainer = documentAttributesContainer {
+            documentAttributesDecoded0 = [KendraClientTypes.DocumentAttribute]()
+            for structure0 in documentAttributesContainer {
+                if let structure0 = structure0 {
+                    documentAttributesDecoded0?.append(structure0)
+                }
+            }
+        }
+        documentAttributes = documentAttributesDecoded0
+    }
+}
+
+extension KendraClientTypes {
+    /// A single retrieved relevant passage result.
+    public struct RetrieveResultItem: Swift.Equatable {
+        /// The contents of the relevant passage.
+        public var content: Swift.String?
+        /// An array of document fields/attributes assigned to a document in the search results. For example, the document author (_author) or the source URI (_source_uri) of the document.
+        public var documentAttributes: [KendraClientTypes.DocumentAttribute]?
+        /// The identifier of the document.
+        public var documentId: Swift.String?
+        /// The title of the document.
+        public var documentTitle: Swift.String?
+        /// The URI of the original location of the document.
+        public var documentURI: Swift.String?
+        /// The identifier of the relevant passage result.
+        public var id: Swift.String?
+
+        public init(
+            content: Swift.String? = nil,
+            documentAttributes: [KendraClientTypes.DocumentAttribute]? = nil,
+            documentId: Swift.String? = nil,
+            documentTitle: Swift.String? = nil,
+            documentURI: Swift.String? = nil,
+            id: Swift.String? = nil
+        )
+        {
+            self.content = content
+            self.documentAttributes = documentAttributes
+            self.documentId = documentId
+            self.documentTitle = documentTitle
+            self.documentURI = documentURI
+            self.id = id
+        }
+    }
+
 }
 
 extension KendraClientTypes.S3DataSourceConfiguration: Swift.Codable {
@@ -20187,9 +20518,9 @@ extension KendraClientTypes.ScoreAttributes: Swift.Codable {
 }
 
 extension KendraClientTypes {
-    /// Provides a relative ranking that indicates how confident Amazon Kendra is that the response matches the query.
+    /// Provides a relative ranking that indicates how confident Amazon Kendra is that the response is relevant to the query.
     public struct ScoreAttributes: Swift.Equatable {
-        /// A relative ranking for how well the response matches the query.
+        /// A relative ranking for how relevant the response is to the query.
         public var scoreConfidence: KendraClientTypes.ScoreConfidence?
 
         public init(
@@ -20354,11 +20685,11 @@ extension KendraClientTypes {
         public var seedUrls: [Swift.String]?
         /// You can choose one of the following modes:
         ///
-        /// * HOST_ONLY – crawl only the website host names. For example, if the seed URL is "abc.example.com", then only URLs with host name "abc.example.com" are crawled.
+        /// * HOST_ONLY—crawl only the website host names. For example, if the seed URL is "abc.example.com", then only URLs with host name "abc.example.com" are crawled.
         ///
-        /// * SUBDOMAINS – crawl the website host names with subdomains. For example, if the seed URL is "abc.example.com", then "a.abc.example.com" and "b.abc.example.com" are also crawled.
+        /// * SUBDOMAINS—crawl the website host names with subdomains. For example, if the seed URL is "abc.example.com", then "a.abc.example.com" and "b.abc.example.com" are also crawled.
         ///
-        /// * EVERYTHING – crawl the website host names with subdomains and other domains that the web pages link to.
+        /// * EVERYTHING—crawl the website host names with subdomains and other domains that the web pages link to.
         ///
         ///
         /// The default mode is set to HOST_ONLY.
@@ -20669,13 +21000,13 @@ extension KendraClientTypes {
         public var documentDataFieldName: Swift.String?
         /// The name of the ServiceNow field that is mapped to the index document title field.
         public var documentTitleFieldName: Swift.String?
-        /// A list of regular expression patterns to exclude certain attachments of knowledge articles in your ServiceNow. Item that match the patterns are excluded from the index. Items that don't match the patterns are included in the index. If an item matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the item isn't included in the index. The regex is applied to the field specified in the PatternTargetField.
+        /// A list of regular expression patterns applied to exclude certain knowledge article attachments. Attachments that match the patterns are excluded from the index. Items that don't match the patterns are included in the index. If an item matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the item isn't included in the index.
         public var excludeAttachmentFilePatterns: [Swift.String]?
         /// Maps attributes or field names of knoweldge articles to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to ServiceNow fields. For more information, see [Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The ServiceNow data source field names must exist in your ServiceNow custom metadata.
         public var fieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]?
         /// A query that selects the knowledge articles to index. The query can return articles from multiple knowledge bases, and the knowledge bases can be public or private. The query string must be one generated by the ServiceNow console. For more information, see [Specifying documents to index with a query](https://docs.aws.amazon.com/kendra/latest/dg/servicenow-query.html).
         public var filterQuery: Swift.String?
-        /// A list of regular expression patterns to include certain attachments of knowledge articles in your ServiceNow. Item that match the patterns are included in the index. Items that don't match the patterns are excluded from the index. If an item matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the item isn't included in the index. The regex is applied to the field specified in the PatternTargetField.
+        /// A list of regular expression patterns applied to include knowledge article attachments. Attachments that match the patterns are included in the index. Items that don't match the patterns are excluded from the index. If an item matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the item isn't included in the index.
         public var includeAttachmentFilePatterns: [Swift.String]?
 
         public init(
@@ -25122,7 +25453,7 @@ extension KendraClientTypes {
     public struct WebCrawlerConfiguration: Swift.Equatable {
         /// Configuration information required to connect to websites using authentication. You can connect to websites using basic authentication of user name and password. You use a secret in [Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html) to store your authentication credentials. You must provide the website host name and port number. For example, the host name of https://a.example.com/page1.html is "a.example.com" and the port is 443, the standard port for HTTPS.
         public var authenticationConfiguration: KendraClientTypes.AuthenticationConfiguration?
-        /// Specifies the number of levels in a website that you want to crawl. The first level begins from the website seed or starting point URL. For example, if a website has three levels—index level (the seed in this example), sections level, and subsections level—and you are only interested in crawling information up to the sections level (levels 0-1), you can set your depth to 1. The default crawl depth is set to 2.
+        /// The 'depth' or number of levels from the seed level to crawl. For example, the seed URL page is depth 1 and any hyperlinks on this page that are also crawled are depth 2.
         public var crawlDepth: Swift.Int?
         /// The maximum size (in MB) of a web page or attachment to crawl. Files larger than this size (in MB) are skipped/not crawled. The default maximum size of a web page or attachment is set to 50 MB.
         public var maxContentSizePerPageInMegaBytes: Swift.Float?

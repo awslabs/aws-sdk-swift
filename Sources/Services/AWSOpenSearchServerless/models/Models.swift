@@ -988,12 +988,15 @@ extension OpenSearchServerlessClientTypes {
         case search
         /// Timeseries collection type
         case timeseries
+        /// Vectorsearch collection type
+        case vectorsearch
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CollectionType] {
             return [
                 .search,
                 .timeseries,
+                .vectorsearch,
                 .sdkUnknown("")
             ]
         }
@@ -1005,6 +1008,7 @@ extension OpenSearchServerlessClientTypes {
             switch self {
             case .search: return "SEARCH"
             case .timeseries: return "TIMESERIES"
+            case .vectorsearch: return "VECTORSEARCH"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4110,7 +4114,7 @@ extension OcuLimitExceededException {
     }
 }
 
-/// OCU Limit Exceeded for service limits
+/// Thrown when the collection you're attempting to create results in a number of search or indexing OCUs that exceeds the account limit.
 public struct OcuLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {

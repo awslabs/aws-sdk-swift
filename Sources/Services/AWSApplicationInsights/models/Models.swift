@@ -57,6 +57,144 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
+extension AddWorkloadInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case componentName = "ComponentName"
+        case resourceGroupName = "ResourceGroupName"
+        case workloadConfiguration = "WorkloadConfiguration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let componentName = self.componentName {
+            try encodeContainer.encode(componentName, forKey: .componentName)
+        }
+        if let resourceGroupName = self.resourceGroupName {
+            try encodeContainer.encode(resourceGroupName, forKey: .resourceGroupName)
+        }
+        if let workloadConfiguration = self.workloadConfiguration {
+            try encodeContainer.encode(workloadConfiguration, forKey: .workloadConfiguration)
+        }
+    }
+}
+
+extension AddWorkloadInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct AddWorkloadInput: Swift.Equatable {
+    /// The name of the component.
+    /// This member is required.
+    public var componentName: Swift.String?
+    /// The name of the resource group.
+    /// This member is required.
+    public var resourceGroupName: Swift.String?
+    /// The configuration settings of the workload. The value is the escaped JSON of the configuration.
+    /// This member is required.
+    public var workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration?
+
+    public init(
+        componentName: Swift.String? = nil,
+        resourceGroupName: Swift.String? = nil,
+        workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration? = nil
+    )
+    {
+        self.componentName = componentName
+        self.resourceGroupName = resourceGroupName
+        self.workloadConfiguration = workloadConfiguration
+    }
+}
+
+struct AddWorkloadInputBody: Swift.Equatable {
+    let resourceGroupName: Swift.String?
+    let componentName: Swift.String?
+    let workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration?
+}
+
+extension AddWorkloadInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case componentName = "ComponentName"
+        case resourceGroupName = "ResourceGroupName"
+        case workloadConfiguration = "WorkloadConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceGroupName)
+        resourceGroupName = resourceGroupNameDecoded
+        let componentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentName)
+        componentName = componentNameDecoded
+        let workloadConfigurationDecoded = try containerValues.decodeIfPresent(ApplicationInsightsClientTypes.WorkloadConfiguration.self, forKey: .workloadConfiguration)
+        workloadConfiguration = workloadConfigurationDecoded
+    }
+}
+
+public enum AddWorkloadOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension AddWorkloadOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: AddWorkloadOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.workloadConfiguration = output.workloadConfiguration
+            self.workloadId = output.workloadId
+        } else {
+            self.workloadConfiguration = nil
+            self.workloadId = nil
+        }
+    }
+}
+
+public struct AddWorkloadOutputResponse: Swift.Equatable {
+    /// The configuration settings of the workload. The value is the escaped JSON of the configuration.
+    public var workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration?
+    /// The ID of the workload.
+    public var workloadId: Swift.String?
+
+    public init(
+        workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration? = nil,
+        workloadId: Swift.String? = nil
+    )
+    {
+        self.workloadConfiguration = workloadConfiguration
+        self.workloadId = workloadId
+    }
+}
+
+struct AddWorkloadOutputResponseBody: Swift.Equatable {
+    let workloadId: Swift.String?
+    let workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration?
+}
+
+extension AddWorkloadOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case workloadConfiguration = "WorkloadConfiguration"
+        case workloadId = "WorkloadId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workloadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workloadId)
+        workloadId = workloadIdDecoded
+        let workloadConfigurationDecoded = try containerValues.decodeIfPresent(ApplicationInsightsClientTypes.WorkloadConfiguration.self, forKey: .workloadConfiguration)
+        workloadConfiguration = workloadConfigurationDecoded
+    }
+}
+
 extension ApplicationInsightsClientTypes.ApplicationComponent: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case componentName = "ComponentName"
@@ -176,6 +314,7 @@ extension ApplicationInsightsClientTypes {
 
 extension ApplicationInsightsClientTypes.ApplicationInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case autoConfigEnabled = "AutoConfigEnabled"
         case cweMonitorEnabled = "CWEMonitorEnabled"
         case discoveryType = "DiscoveryType"
@@ -188,6 +327,9 @@ extension ApplicationInsightsClientTypes.ApplicationInfo: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
         if let autoConfigEnabled = self.autoConfigEnabled {
             try encodeContainer.encode(autoConfigEnabled, forKey: .autoConfigEnabled)
         }
@@ -216,6 +358,8 @@ extension ApplicationInsightsClientTypes.ApplicationInfo: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
         let resourceGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceGroupName)
         resourceGroupName = resourceGroupNameDecoded
         let lifeCycleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lifeCycle)
@@ -238,6 +382,8 @@ extension ApplicationInsightsClientTypes.ApplicationInfo: Swift.Codable {
 extension ApplicationInsightsClientTypes {
     /// Describes the status of the application.
     public struct ApplicationInfo: Swift.Equatable {
+        /// The AWS account ID for the owner of the application.
+        public var accountId: Swift.String?
         /// Indicates whether auto-configuration is turned on for this application.
         public var autoConfigEnabled: Swift.Bool?
         /// Indicates whether Application Insights can listen to CloudWatch events for the application resources, such as instance terminated, failed deployment, and others.
@@ -260,6 +406,7 @@ extension ApplicationInsightsClientTypes {
         public var resourceGroupName: Swift.String?
 
         public init(
+            accountId: Swift.String? = nil,
             autoConfigEnabled: Swift.Bool? = nil,
             cweMonitorEnabled: Swift.Bool? = nil,
             discoveryType: ApplicationInsightsClientTypes.DiscoveryType? = nil,
@@ -270,6 +417,7 @@ extension ApplicationInsightsClientTypes {
             resourceGroupName: Swift.String? = nil
         )
         {
+            self.accountId = accountId
             self.autoConfigEnabled = autoConfigEnabled
             self.cweMonitorEnabled = cweMonitorEnabled
             self.discoveryType = discoveryType
@@ -378,16 +526,21 @@ extension ApplicationInsightsClientTypes {
 
 extension ApplicationInsightsClientTypes.ConfigurationEvent: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case eventDetail = "EventDetail"
         case eventResourceName = "EventResourceName"
         case eventResourceType = "EventResourceType"
         case eventStatus = "EventStatus"
         case eventTime = "EventTime"
         case monitoredResourceARN = "MonitoredResourceARN"
+        case resourceGroupName = "ResourceGroupName"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
         if let eventDetail = self.eventDetail {
             try encodeContainer.encode(eventDetail, forKey: .eventDetail)
         }
@@ -406,10 +559,17 @@ extension ApplicationInsightsClientTypes.ConfigurationEvent: Swift.Codable {
         if let monitoredResourceARN = self.monitoredResourceARN {
             try encodeContainer.encode(monitoredResourceARN, forKey: .monitoredResourceARN)
         }
+        if let resourceGroupName = self.resourceGroupName {
+            try encodeContainer.encode(resourceGroupName, forKey: .resourceGroupName)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceGroupName)
+        resourceGroupName = resourceGroupNameDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
         let monitoredResourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .monitoredResourceARN)
         monitoredResourceARN = monitoredResourceARNDecoded
         let eventStatusDecoded = try containerValues.decodeIfPresent(ApplicationInsightsClientTypes.ConfigurationEventStatus.self, forKey: .eventStatus)
@@ -428,6 +588,8 @@ extension ApplicationInsightsClientTypes.ConfigurationEvent: Swift.Codable {
 extension ApplicationInsightsClientTypes {
     /// The event information.
     public struct ConfigurationEvent: Swift.Equatable {
+        /// The AWS account ID for the owner of the application to which the configuration event belongs.
+        public var accountId: Swift.String?
         /// The details of the event in plain text.
         public var eventDetail: Swift.String?
         /// The name of the resource Application Insights attempted to configure.
@@ -440,22 +602,28 @@ extension ApplicationInsightsClientTypes {
         public var eventTime: ClientRuntime.Date?
         /// The resource monitored by Application Insights.
         public var monitoredResourceARN: Swift.String?
+        /// The name of the resource group of the application to which the configuration event belongs.
+        public var resourceGroupName: Swift.String?
 
         public init(
+            accountId: Swift.String? = nil,
             eventDetail: Swift.String? = nil,
             eventResourceName: Swift.String? = nil,
             eventResourceType: ApplicationInsightsClientTypes.ConfigurationEventResourceType? = nil,
             eventStatus: ApplicationInsightsClientTypes.ConfigurationEventStatus? = nil,
             eventTime: ClientRuntime.Date? = nil,
-            monitoredResourceARN: Swift.String? = nil
+            monitoredResourceARN: Swift.String? = nil,
+            resourceGroupName: Swift.String? = nil
         )
         {
+            self.accountId = accountId
             self.eventDetail = eventDetail
             self.eventResourceName = eventResourceName
             self.eventResourceType = eventResourceType
             self.eventStatus = eventStatus
             self.eventTime = eventTime
             self.monitoredResourceARN = monitoredResourceARN
+            self.resourceGroupName = resourceGroupName
         }
     }
 
@@ -863,7 +1031,7 @@ extension CreateLogPatternInput: Swift.Encodable {
         if let patternSetName = self.patternSetName {
             try encodeContainer.encode(patternSetName, forKey: .patternSetName)
         }
-        if rank != 0 {
+        if let rank = self.rank {
             try encodeContainer.encode(rank, forKey: .rank)
         }
         if let resourceGroupName = self.resourceGroupName {
@@ -890,7 +1058,7 @@ public struct CreateLogPatternInput: Swift.Equatable {
     public var patternSetName: Swift.String?
     /// Rank of the log pattern. Must be a value between 1 and 1,000,000. The patterns are sorted by rank, so we recommend that you set your highest priority patterns with the lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern of rank 1,000,000 will be last to get matched. When you configure custom log patterns from the console, a Low severity pattern translates to a 750,000 rank. A Medium severity pattern translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank. Rank values less than 1 or greater than 1,000,000 are reserved for AWS-provided patterns.
     /// This member is required.
-    public var rank: Swift.Int
+    public var rank: Swift.Int?
     /// The name of the resource group.
     /// This member is required.
     public var resourceGroupName: Swift.String?
@@ -899,7 +1067,7 @@ public struct CreateLogPatternInput: Swift.Equatable {
         pattern: Swift.String? = nil,
         patternName: Swift.String? = nil,
         patternSetName: Swift.String? = nil,
-        rank: Swift.Int = 0,
+        rank: Swift.Int? = nil,
         resourceGroupName: Swift.String? = nil
     )
     {
@@ -916,7 +1084,7 @@ struct CreateLogPatternInputBody: Swift.Equatable {
     let patternSetName: Swift.String?
     let patternName: Swift.String?
     let pattern: Swift.String?
-    let rank: Swift.Int
+    let rank: Swift.Int?
 }
 
 extension CreateLogPatternInputBody: Swift.Decodable {
@@ -938,7 +1106,7 @@ extension CreateLogPatternInputBody: Swift.Decodable {
         patternName = patternNameDecoded
         let patternDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pattern)
         pattern = patternDecoded
-        let rankDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rank) ?? 0
+        let rankDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rank)
         rank = rankDecoded
     }
 }
@@ -1263,11 +1431,15 @@ public struct DeleteLogPatternOutputResponse: Swift.Equatable {
 
 extension DescribeApplicationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case resourceGroupName = "ResourceGroupName"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
         if let resourceGroupName = self.resourceGroupName {
             try encodeContainer.encode(resourceGroupName, forKey: .resourceGroupName)
         }
@@ -1281,24 +1453,30 @@ extension DescribeApplicationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeApplicationInput: Swift.Equatable {
+    /// The AWS account ID for the resource group owner.
+    public var accountId: Swift.String?
     /// The name of the resource group.
     /// This member is required.
     public var resourceGroupName: Swift.String?
 
     public init(
+        accountId: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil
     )
     {
+        self.accountId = accountId
         self.resourceGroupName = resourceGroupName
     }
 }
 
 struct DescribeApplicationInputBody: Swift.Equatable {
     let resourceGroupName: Swift.String?
+    let accountId: Swift.String?
 }
 
 extension DescribeApplicationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case resourceGroupName = "ResourceGroupName"
     }
 
@@ -1306,6 +1484,8 @@ extension DescribeApplicationInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceGroupName)
         resourceGroupName = resourceGroupNameDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
     }
 }
 
@@ -1364,12 +1544,16 @@ extension DescribeApplicationOutputResponseBody: Swift.Decodable {
 
 extension DescribeComponentConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case componentName = "ComponentName"
         case resourceGroupName = "ResourceGroupName"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
         if let componentName = self.componentName {
             try encodeContainer.encode(componentName, forKey: .componentName)
         }
@@ -1386,6 +1570,8 @@ extension DescribeComponentConfigurationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeComponentConfigurationInput: Swift.Equatable {
+    /// The AWS account ID for the resource group owner.
+    public var accountId: Swift.String?
     /// The name of the component.
     /// This member is required.
     public var componentName: Swift.String?
@@ -1394,10 +1580,12 @@ public struct DescribeComponentConfigurationInput: Swift.Equatable {
     public var resourceGroupName: Swift.String?
 
     public init(
+        accountId: Swift.String? = nil,
         componentName: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil
     )
     {
+        self.accountId = accountId
         self.componentName = componentName
         self.resourceGroupName = resourceGroupName
     }
@@ -1406,10 +1594,12 @@ public struct DescribeComponentConfigurationInput: Swift.Equatable {
 struct DescribeComponentConfigurationInputBody: Swift.Equatable {
     let resourceGroupName: Swift.String?
     let componentName: Swift.String?
+    let accountId: Swift.String?
 }
 
 extension DescribeComponentConfigurationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case componentName = "ComponentName"
         case resourceGroupName = "ResourceGroupName"
     }
@@ -1420,6 +1610,8 @@ extension DescribeComponentConfigurationInputBody: Swift.Decodable {
         resourceGroupName = resourceGroupNameDecoded
         let componentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentName)
         componentName = componentNameDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
     }
 }
 
@@ -1499,6 +1691,7 @@ extension DescribeComponentConfigurationOutputResponseBody: Swift.Decodable {
 extension DescribeComponentConfigurationRecommendationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case componentName = "ComponentName"
+        case recommendationType = "RecommendationType"
         case resourceGroupName = "ResourceGroupName"
         case tier = "Tier"
     }
@@ -1507,6 +1700,9 @@ extension DescribeComponentConfigurationRecommendationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let componentName = self.componentName {
             try encodeContainer.encode(componentName, forKey: .componentName)
+        }
+        if let recommendationType = self.recommendationType {
+            try encodeContainer.encode(recommendationType.rawValue, forKey: .recommendationType)
         }
         if let resourceGroupName = self.resourceGroupName {
             try encodeContainer.encode(resourceGroupName, forKey: .resourceGroupName)
@@ -1527,6 +1723,8 @@ public struct DescribeComponentConfigurationRecommendationInput: Swift.Equatable
     /// The name of the component.
     /// This member is required.
     public var componentName: Swift.String?
+    /// The recommended configuration type.
+    public var recommendationType: ApplicationInsightsClientTypes.RecommendationType?
     /// The name of the resource group.
     /// This member is required.
     public var resourceGroupName: Swift.String?
@@ -1536,11 +1734,13 @@ public struct DescribeComponentConfigurationRecommendationInput: Swift.Equatable
 
     public init(
         componentName: Swift.String? = nil,
+        recommendationType: ApplicationInsightsClientTypes.RecommendationType? = nil,
         resourceGroupName: Swift.String? = nil,
         tier: ApplicationInsightsClientTypes.Tier? = nil
     )
     {
         self.componentName = componentName
+        self.recommendationType = recommendationType
         self.resourceGroupName = resourceGroupName
         self.tier = tier
     }
@@ -1550,11 +1750,13 @@ struct DescribeComponentConfigurationRecommendationInputBody: Swift.Equatable {
     let resourceGroupName: Swift.String?
     let componentName: Swift.String?
     let tier: ApplicationInsightsClientTypes.Tier?
+    let recommendationType: ApplicationInsightsClientTypes.RecommendationType?
 }
 
 extension DescribeComponentConfigurationRecommendationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case componentName = "ComponentName"
+        case recommendationType = "RecommendationType"
         case resourceGroupName = "ResourceGroupName"
         case tier = "Tier"
     }
@@ -1567,6 +1769,8 @@ extension DescribeComponentConfigurationRecommendationInputBody: Swift.Decodable
         componentName = componentNameDecoded
         let tierDecoded = try containerValues.decodeIfPresent(ApplicationInsightsClientTypes.Tier.self, forKey: .tier)
         tier = tierDecoded
+        let recommendationTypeDecoded = try containerValues.decodeIfPresent(ApplicationInsightsClientTypes.RecommendationType.self, forKey: .recommendationType)
+        recommendationType = recommendationTypeDecoded
     }
 }
 
@@ -1625,12 +1829,16 @@ extension DescribeComponentConfigurationRecommendationOutputResponseBody: Swift.
 
 extension DescribeComponentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case componentName = "ComponentName"
         case resourceGroupName = "ResourceGroupName"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
         if let componentName = self.componentName {
             try encodeContainer.encode(componentName, forKey: .componentName)
         }
@@ -1647,6 +1855,8 @@ extension DescribeComponentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeComponentInput: Swift.Equatable {
+    /// The AWS account ID for the resource group owner.
+    public var accountId: Swift.String?
     /// The name of the component.
     /// This member is required.
     public var componentName: Swift.String?
@@ -1655,10 +1865,12 @@ public struct DescribeComponentInput: Swift.Equatable {
     public var resourceGroupName: Swift.String?
 
     public init(
+        accountId: Swift.String? = nil,
         componentName: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil
     )
     {
+        self.accountId = accountId
         self.componentName = componentName
         self.resourceGroupName = resourceGroupName
     }
@@ -1667,10 +1879,12 @@ public struct DescribeComponentInput: Swift.Equatable {
 struct DescribeComponentInputBody: Swift.Equatable {
     let resourceGroupName: Swift.String?
     let componentName: Swift.String?
+    let accountId: Swift.String?
 }
 
 extension DescribeComponentInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case componentName = "ComponentName"
         case resourceGroupName = "ResourceGroupName"
     }
@@ -1681,6 +1895,8 @@ extension DescribeComponentInputBody: Swift.Decodable {
         resourceGroupName = resourceGroupNameDecoded
         let componentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentName)
         componentName = componentNameDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
     }
 }
 
@@ -1758,6 +1974,7 @@ extension DescribeComponentOutputResponseBody: Swift.Decodable {
 
 extension DescribeLogPatternInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case patternName = "PatternName"
         case patternSetName = "PatternSetName"
         case resourceGroupName = "ResourceGroupName"
@@ -1765,6 +1982,9 @@ extension DescribeLogPatternInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
         if let patternName = self.patternName {
             try encodeContainer.encode(patternName, forKey: .patternName)
         }
@@ -1784,6 +2004,8 @@ extension DescribeLogPatternInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeLogPatternInput: Swift.Equatable {
+    /// The AWS account ID for the resource group owner.
+    public var accountId: Swift.String?
     /// The name of the log pattern.
     /// This member is required.
     public var patternName: Swift.String?
@@ -1795,11 +2017,13 @@ public struct DescribeLogPatternInput: Swift.Equatable {
     public var resourceGroupName: Swift.String?
 
     public init(
+        accountId: Swift.String? = nil,
         patternName: Swift.String? = nil,
         patternSetName: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil
     )
     {
+        self.accountId = accountId
         self.patternName = patternName
         self.patternSetName = patternSetName
         self.resourceGroupName = resourceGroupName
@@ -1810,10 +2034,12 @@ struct DescribeLogPatternInputBody: Swift.Equatable {
     let resourceGroupName: Swift.String?
     let patternSetName: Swift.String?
     let patternName: Swift.String?
+    let accountId: Swift.String?
 }
 
 extension DescribeLogPatternInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case patternName = "PatternName"
         case patternSetName = "PatternSetName"
         case resourceGroupName = "ResourceGroupName"
@@ -1827,6 +2053,8 @@ extension DescribeLogPatternInputBody: Swift.Decodable {
         patternSetName = patternSetNameDecoded
         let patternNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .patternName)
         patternName = patternNameDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
     }
 }
 
@@ -1848,9 +2076,11 @@ extension DescribeLogPatternOutputResponse: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeLogPatternOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.accountId = output.accountId
             self.logPattern = output.logPattern
             self.resourceGroupName = output.resourceGroupName
         } else {
+            self.accountId = nil
             self.logPattern = nil
             self.resourceGroupName = nil
         }
@@ -1858,16 +2088,20 @@ extension DescribeLogPatternOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DescribeLogPatternOutputResponse: Swift.Equatable {
+    /// The AWS account ID for the resource group owner.
+    public var accountId: Swift.String?
     /// The successfully created log pattern.
     public var logPattern: ApplicationInsightsClientTypes.LogPattern?
     /// The name of the resource group.
     public var resourceGroupName: Swift.String?
 
     public init(
+        accountId: Swift.String? = nil,
         logPattern: ApplicationInsightsClientTypes.LogPattern? = nil,
         resourceGroupName: Swift.String? = nil
     )
     {
+        self.accountId = accountId
         self.logPattern = logPattern
         self.resourceGroupName = resourceGroupName
     }
@@ -1875,11 +2109,13 @@ public struct DescribeLogPatternOutputResponse: Swift.Equatable {
 
 struct DescribeLogPatternOutputResponseBody: Swift.Equatable {
     let resourceGroupName: Swift.String?
+    let accountId: Swift.String?
     let logPattern: ApplicationInsightsClientTypes.LogPattern?
 }
 
 extension DescribeLogPatternOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case logPattern = "LogPattern"
         case resourceGroupName = "ResourceGroupName"
     }
@@ -1888,6 +2124,8 @@ extension DescribeLogPatternOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceGroupName)
         resourceGroupName = resourceGroupNameDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
         let logPatternDecoded = try containerValues.decodeIfPresent(ApplicationInsightsClientTypes.LogPattern.self, forKey: .logPattern)
         logPattern = logPatternDecoded
     }
@@ -1895,11 +2133,15 @@ extension DescribeLogPatternOutputResponseBody: Swift.Decodable {
 
 extension DescribeObservationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case observationId = "ObservationId"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
         if let observationId = self.observationId {
             try encodeContainer.encode(observationId, forKey: .observationId)
         }
@@ -1913,24 +2155,30 @@ extension DescribeObservationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeObservationInput: Swift.Equatable {
+    /// The AWS account ID for the resource group owner.
+    public var accountId: Swift.String?
     /// The ID of the observation.
     /// This member is required.
     public var observationId: Swift.String?
 
     public init(
+        accountId: Swift.String? = nil,
         observationId: Swift.String? = nil
     )
     {
+        self.accountId = accountId
         self.observationId = observationId
     }
 }
 
 struct DescribeObservationInputBody: Swift.Equatable {
     let observationId: Swift.String?
+    let accountId: Swift.String?
 }
 
 extension DescribeObservationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case observationId = "ObservationId"
     }
 
@@ -1938,6 +2186,8 @@ extension DescribeObservationInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let observationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .observationId)
         observationId = observationIdDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
     }
 }
 
@@ -1996,11 +2246,15 @@ extension DescribeObservationOutputResponseBody: Swift.Decodable {
 
 extension DescribeProblemInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case problemId = "ProblemId"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
         if let problemId = self.problemId {
             try encodeContainer.encode(problemId, forKey: .problemId)
         }
@@ -2014,24 +2268,30 @@ extension DescribeProblemInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeProblemInput: Swift.Equatable {
+    /// The AWS account ID for the owner of the resource group affected by the problem.
+    public var accountId: Swift.String?
     /// The ID of the problem.
     /// This member is required.
     public var problemId: Swift.String?
 
     public init(
+        accountId: Swift.String? = nil,
         problemId: Swift.String? = nil
     )
     {
+        self.accountId = accountId
         self.problemId = problemId
     }
 }
 
 struct DescribeProblemInputBody: Swift.Equatable {
     let problemId: Swift.String?
+    let accountId: Swift.String?
 }
 
 extension DescribeProblemInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case problemId = "ProblemId"
     }
 
@@ -2039,16 +2299,22 @@ extension DescribeProblemInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let problemIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .problemId)
         problemId = problemIdDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
     }
 }
 
 extension DescribeProblemObservationsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case problemId = "ProblemId"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
         if let problemId = self.problemId {
             try encodeContainer.encode(problemId, forKey: .problemId)
         }
@@ -2062,24 +2328,30 @@ extension DescribeProblemObservationsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeProblemObservationsInput: Swift.Equatable {
+    /// The AWS account ID for the resource group owner.
+    public var accountId: Swift.String?
     /// The ID of the problem.
     /// This member is required.
     public var problemId: Swift.String?
 
     public init(
+        accountId: Swift.String? = nil,
         problemId: Swift.String? = nil
     )
     {
+        self.accountId = accountId
         self.problemId = problemId
     }
 }
 
 struct DescribeProblemObservationsInputBody: Swift.Equatable {
     let problemId: Swift.String?
+    let accountId: Swift.String?
 }
 
 extension DescribeProblemObservationsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case problemId = "ProblemId"
     }
 
@@ -2087,6 +2359,8 @@ extension DescribeProblemObservationsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let problemIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .problemId)
         problemId = problemIdDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
     }
 }
 
@@ -2193,6 +2467,165 @@ extension DescribeProblemOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let problemDecoded = try containerValues.decodeIfPresent(ApplicationInsightsClientTypes.Problem.self, forKey: .problem)
         problem = problemDecoded
+    }
+}
+
+extension DescribeWorkloadInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
+        case componentName = "ComponentName"
+        case resourceGroupName = "ResourceGroupName"
+        case workloadId = "WorkloadId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let componentName = self.componentName {
+            try encodeContainer.encode(componentName, forKey: .componentName)
+        }
+        if let resourceGroupName = self.resourceGroupName {
+            try encodeContainer.encode(resourceGroupName, forKey: .resourceGroupName)
+        }
+        if let workloadId = self.workloadId {
+            try encodeContainer.encode(workloadId, forKey: .workloadId)
+        }
+    }
+}
+
+extension DescribeWorkloadInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeWorkloadInput: Swift.Equatable {
+    /// The AWS account ID for the workload owner.
+    public var accountId: Swift.String?
+    /// The name of the component.
+    /// This member is required.
+    public var componentName: Swift.String?
+    /// The name of the resource group.
+    /// This member is required.
+    public var resourceGroupName: Swift.String?
+    /// The ID of the workload.
+    /// This member is required.
+    public var workloadId: Swift.String?
+
+    public init(
+        accountId: Swift.String? = nil,
+        componentName: Swift.String? = nil,
+        resourceGroupName: Swift.String? = nil,
+        workloadId: Swift.String? = nil
+    )
+    {
+        self.accountId = accountId
+        self.componentName = componentName
+        self.resourceGroupName = resourceGroupName
+        self.workloadId = workloadId
+    }
+}
+
+struct DescribeWorkloadInputBody: Swift.Equatable {
+    let resourceGroupName: Swift.String?
+    let componentName: Swift.String?
+    let workloadId: Swift.String?
+    let accountId: Swift.String?
+}
+
+extension DescribeWorkloadInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
+        case componentName = "ComponentName"
+        case resourceGroupName = "ResourceGroupName"
+        case workloadId = "WorkloadId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceGroupName)
+        resourceGroupName = resourceGroupNameDecoded
+        let componentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentName)
+        componentName = componentNameDecoded
+        let workloadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workloadId)
+        workloadId = workloadIdDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+    }
+}
+
+public enum DescribeWorkloadOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeWorkloadOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeWorkloadOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.workloadConfiguration = output.workloadConfiguration
+            self.workloadId = output.workloadId
+            self.workloadRemarks = output.workloadRemarks
+        } else {
+            self.workloadConfiguration = nil
+            self.workloadId = nil
+            self.workloadRemarks = nil
+        }
+    }
+}
+
+public struct DescribeWorkloadOutputResponse: Swift.Equatable {
+    /// The configuration settings of the workload. The value is the escaped JSON of the configuration.
+    public var workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration?
+    /// The ID of the workload.
+    public var workloadId: Swift.String?
+    /// If logging is supported for the resource type, shows whether the component has configured logs to be monitored.
+    public var workloadRemarks: Swift.String?
+
+    public init(
+        workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration? = nil,
+        workloadId: Swift.String? = nil,
+        workloadRemarks: Swift.String? = nil
+    )
+    {
+        self.workloadConfiguration = workloadConfiguration
+        self.workloadId = workloadId
+        self.workloadRemarks = workloadRemarks
+    }
+}
+
+struct DescribeWorkloadOutputResponseBody: Swift.Equatable {
+    let workloadId: Swift.String?
+    let workloadRemarks: Swift.String?
+    let workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration?
+}
+
+extension DescribeWorkloadOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case workloadConfiguration = "WorkloadConfiguration"
+        case workloadId = "WorkloadId"
+        case workloadRemarks = "WorkloadRemarks"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workloadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workloadId)
+        workloadId = workloadIdDecoded
+        let workloadRemarksDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workloadRemarks)
+        workloadRemarks = workloadRemarksDecoded
+        let workloadConfigurationDecoded = try containerValues.decodeIfPresent(ApplicationInsightsClientTypes.WorkloadConfiguration.self, forKey: .workloadConfiguration)
+        workloadConfiguration = workloadConfigurationDecoded
     }
 }
 
@@ -2378,12 +2811,16 @@ extension InternalServerExceptionBody: Swift.Decodable {
 
 extension ListApplicationsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
         if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
@@ -2400,16 +2837,20 @@ extension ListApplicationsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListApplicationsInput: Swift.Equatable {
+    /// The AWS account ID for the resource group owner.
+    public var accountId: Swift.String?
     /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
     public var maxResults: Swift.Int?
     /// The token to request the next page of results.
     public var nextToken: Swift.String?
 
     public init(
+        accountId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
+        self.accountId = accountId
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2418,10 +2859,12 @@ public struct ListApplicationsInput: Swift.Equatable {
 struct ListApplicationsInputBody: Swift.Equatable {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
+    let accountId: Swift.String?
 }
 
 extension ListApplicationsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
     }
@@ -2432,6 +2875,8 @@ extension ListApplicationsInputBody: Swift.Decodable {
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
     }
 }
 
@@ -2508,6 +2953,7 @@ extension ListApplicationsOutputResponseBody: Swift.Decodable {
 
 extension ListComponentsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case resourceGroupName = "ResourceGroupName"
@@ -2515,6 +2961,9 @@ extension ListComponentsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
         if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
@@ -2534,6 +2983,8 @@ extension ListComponentsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListComponentsInput: Swift.Equatable {
+    /// The AWS account ID for the resource group owner.
+    public var accountId: Swift.String?
     /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
     public var maxResults: Swift.Int?
     /// The token to request the next page of results.
@@ -2543,11 +2994,13 @@ public struct ListComponentsInput: Swift.Equatable {
     public var resourceGroupName: Swift.String?
 
     public init(
+        accountId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil
     )
     {
+        self.accountId = accountId
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceGroupName = resourceGroupName
@@ -2558,10 +3011,12 @@ struct ListComponentsInputBody: Swift.Equatable {
     let resourceGroupName: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
+    let accountId: Swift.String?
 }
 
 extension ListComponentsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case resourceGroupName = "ResourceGroupName"
@@ -2575,6 +3030,8 @@ extension ListComponentsInputBody: Swift.Decodable {
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
     }
 }
 
@@ -2652,6 +3109,7 @@ extension ListComponentsOutputResponseBody: Swift.Decodable {
 
 extension ListConfigurationHistoryInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case endTime = "EndTime"
         case eventStatus = "EventStatus"
         case maxResults = "MaxResults"
@@ -2662,6 +3120,9 @@ extension ListConfigurationHistoryInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
         if let endTime = self.endTime {
             try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
         }
@@ -2690,6 +3151,8 @@ extension ListConfigurationHistoryInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListConfigurationHistoryInput: Swift.Equatable {
+    /// The AWS account ID for the resource group owner.
+    public var accountId: Swift.String?
     /// The end time of the event.
     public var endTime: ClientRuntime.Date?
     /// The status of the configuration update event. Possible values include INFO, WARN, and ERROR.
@@ -2704,6 +3167,7 @@ public struct ListConfigurationHistoryInput: Swift.Equatable {
     public var startTime: ClientRuntime.Date?
 
     public init(
+        accountId: Swift.String? = nil,
         endTime: ClientRuntime.Date? = nil,
         eventStatus: ApplicationInsightsClientTypes.ConfigurationEventStatus? = nil,
         maxResults: Swift.Int? = nil,
@@ -2712,6 +3176,7 @@ public struct ListConfigurationHistoryInput: Swift.Equatable {
         startTime: ClientRuntime.Date? = nil
     )
     {
+        self.accountId = accountId
         self.endTime = endTime
         self.eventStatus = eventStatus
         self.maxResults = maxResults
@@ -2728,10 +3193,12 @@ struct ListConfigurationHistoryInputBody: Swift.Equatable {
     let eventStatus: ApplicationInsightsClientTypes.ConfigurationEventStatus?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
+    let accountId: Swift.String?
 }
 
 extension ListConfigurationHistoryInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case endTime = "EndTime"
         case eventStatus = "EventStatus"
         case maxResults = "MaxResults"
@@ -2754,6 +3221,8 @@ extension ListConfigurationHistoryInputBody: Swift.Decodable {
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
     }
 }
 
@@ -2831,6 +3300,7 @@ extension ListConfigurationHistoryOutputResponseBody: Swift.Decodable {
 
 extension ListLogPatternSetsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case resourceGroupName = "ResourceGroupName"
@@ -2838,6 +3308,9 @@ extension ListLogPatternSetsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
         if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
@@ -2857,6 +3330,8 @@ extension ListLogPatternSetsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListLogPatternSetsInput: Swift.Equatable {
+    /// The AWS account ID for the resource group owner.
+    public var accountId: Swift.String?
     /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
     public var maxResults: Swift.Int?
     /// The token to request the next page of results.
@@ -2866,11 +3341,13 @@ public struct ListLogPatternSetsInput: Swift.Equatable {
     public var resourceGroupName: Swift.String?
 
     public init(
+        accountId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil
     )
     {
+        self.accountId = accountId
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceGroupName = resourceGroupName
@@ -2881,10 +3358,12 @@ struct ListLogPatternSetsInputBody: Swift.Equatable {
     let resourceGroupName: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
+    let accountId: Swift.String?
 }
 
 extension ListLogPatternSetsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case resourceGroupName = "ResourceGroupName"
@@ -2898,6 +3377,8 @@ extension ListLogPatternSetsInputBody: Swift.Decodable {
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
     }
 }
 
@@ -2919,10 +3400,12 @@ extension ListLogPatternSetsOutputResponse: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListLogPatternSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.accountId = output.accountId
             self.logPatternSets = output.logPatternSets
             self.nextToken = output.nextToken
             self.resourceGroupName = output.resourceGroupName
         } else {
+            self.accountId = nil
             self.logPatternSets = nil
             self.nextToken = nil
             self.resourceGroupName = nil
@@ -2931,6 +3414,8 @@ extension ListLogPatternSetsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListLogPatternSetsOutputResponse: Swift.Equatable {
+    /// The AWS account ID for the resource group owner.
+    public var accountId: Swift.String?
     /// The list of log pattern sets.
     public var logPatternSets: [Swift.String]?
     /// The token used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -2939,11 +3424,13 @@ public struct ListLogPatternSetsOutputResponse: Swift.Equatable {
     public var resourceGroupName: Swift.String?
 
     public init(
+        accountId: Swift.String? = nil,
         logPatternSets: [Swift.String]? = nil,
         nextToken: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil
     )
     {
+        self.accountId = accountId
         self.logPatternSets = logPatternSets
         self.nextToken = nextToken
         self.resourceGroupName = resourceGroupName
@@ -2952,12 +3439,14 @@ public struct ListLogPatternSetsOutputResponse: Swift.Equatable {
 
 struct ListLogPatternSetsOutputResponseBody: Swift.Equatable {
     let resourceGroupName: Swift.String?
+    let accountId: Swift.String?
     let logPatternSets: [Swift.String]?
     let nextToken: Swift.String?
 }
 
 extension ListLogPatternSetsOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case logPatternSets = "LogPatternSets"
         case nextToken = "NextToken"
         case resourceGroupName = "ResourceGroupName"
@@ -2967,6 +3456,8 @@ extension ListLogPatternSetsOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceGroupName)
         resourceGroupName = resourceGroupNameDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
         let logPatternSetsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .logPatternSets)
         var logPatternSetsDecoded0:[Swift.String]? = nil
         if let logPatternSetsContainer = logPatternSetsContainer {
@@ -2985,6 +3476,7 @@ extension ListLogPatternSetsOutputResponseBody: Swift.Decodable {
 
 extension ListLogPatternsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case patternSetName = "PatternSetName"
@@ -2993,6 +3485,9 @@ extension ListLogPatternsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
         if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
@@ -3015,6 +3510,8 @@ extension ListLogPatternsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListLogPatternsInput: Swift.Equatable {
+    /// The AWS account ID for the resource group owner.
+    public var accountId: Swift.String?
     /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
     public var maxResults: Swift.Int?
     /// The token to request the next page of results.
@@ -3026,12 +3523,14 @@ public struct ListLogPatternsInput: Swift.Equatable {
     public var resourceGroupName: Swift.String?
 
     public init(
+        accountId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         patternSetName: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil
     )
     {
+        self.accountId = accountId
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.patternSetName = patternSetName
@@ -3044,10 +3543,12 @@ struct ListLogPatternsInputBody: Swift.Equatable {
     let patternSetName: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
+    let accountId: Swift.String?
 }
 
 extension ListLogPatternsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case patternSetName = "PatternSetName"
@@ -3064,6 +3565,8 @@ extension ListLogPatternsInputBody: Swift.Decodable {
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
     }
 }
 
@@ -3085,10 +3588,12 @@ extension ListLogPatternsOutputResponse: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListLogPatternsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.accountId = output.accountId
             self.logPatterns = output.logPatterns
             self.nextToken = output.nextToken
             self.resourceGroupName = output.resourceGroupName
         } else {
+            self.accountId = nil
             self.logPatterns = nil
             self.nextToken = nil
             self.resourceGroupName = nil
@@ -3097,6 +3602,8 @@ extension ListLogPatternsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListLogPatternsOutputResponse: Swift.Equatable {
+    /// The AWS account ID for the resource group owner.
+    public var accountId: Swift.String?
     /// The list of log patterns.
     public var logPatterns: [ApplicationInsightsClientTypes.LogPattern]?
     /// The token used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -3105,11 +3612,13 @@ public struct ListLogPatternsOutputResponse: Swift.Equatable {
     public var resourceGroupName: Swift.String?
 
     public init(
+        accountId: Swift.String? = nil,
         logPatterns: [ApplicationInsightsClientTypes.LogPattern]? = nil,
         nextToken: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil
     )
     {
+        self.accountId = accountId
         self.logPatterns = logPatterns
         self.nextToken = nextToken
         self.resourceGroupName = resourceGroupName
@@ -3118,12 +3627,14 @@ public struct ListLogPatternsOutputResponse: Swift.Equatable {
 
 struct ListLogPatternsOutputResponseBody: Swift.Equatable {
     let resourceGroupName: Swift.String?
+    let accountId: Swift.String?
     let logPatterns: [ApplicationInsightsClientTypes.LogPattern]?
     let nextToken: Swift.String?
 }
 
 extension ListLogPatternsOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case logPatterns = "LogPatterns"
         case nextToken = "NextToken"
         case resourceGroupName = "ResourceGroupName"
@@ -3133,6 +3644,8 @@ extension ListLogPatternsOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceGroupName)
         resourceGroupName = resourceGroupNameDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
         let logPatternsContainer = try containerValues.decodeIfPresent([ApplicationInsightsClientTypes.LogPattern?].self, forKey: .logPatterns)
         var logPatternsDecoded0:[ApplicationInsightsClientTypes.LogPattern]? = nil
         if let logPatternsContainer = logPatternsContainer {
@@ -3151,16 +3664,21 @@ extension ListLogPatternsOutputResponseBody: Swift.Decodable {
 
 extension ListProblemsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case componentName = "ComponentName"
         case endTime = "EndTime"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case resourceGroupName = "ResourceGroupName"
         case startTime = "StartTime"
+        case visibility = "Visibility"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
         if let componentName = self.componentName {
             try encodeContainer.encode(componentName, forKey: .componentName)
         }
@@ -3179,6 +3697,9 @@ extension ListProblemsInput: Swift.Encodable {
         if let startTime = self.startTime {
             try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
         }
+        if let visibility = self.visibility {
+            try encodeContainer.encode(visibility.rawValue, forKey: .visibility)
+        }
     }
 }
 
@@ -3189,6 +3710,8 @@ extension ListProblemsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListProblemsInput: Swift.Equatable {
+    /// The AWS account ID for the resource group owner.
+    public var accountId: Swift.String?
     /// The name of the component.
     public var componentName: Swift.String?
     /// The time when the problem ended, in epoch seconds. If not specified, problems within the past seven days are returned.
@@ -3201,46 +3724,58 @@ public struct ListProblemsInput: Swift.Equatable {
     public var resourceGroupName: Swift.String?
     /// The time when the problem was detected, in epoch seconds. If you don't specify a time frame for the request, problems within the past seven days are returned.
     public var startTime: ClientRuntime.Date?
+    /// Specifies whether or not you can view the problem. If not specified, visible and ignored problems are returned.
+    public var visibility: ApplicationInsightsClientTypes.Visibility?
 
     public init(
+        accountId: Swift.String? = nil,
         componentName: Swift.String? = nil,
         endTime: ClientRuntime.Date? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: ClientRuntime.Date? = nil,
+        visibility: ApplicationInsightsClientTypes.Visibility? = nil
     )
     {
+        self.accountId = accountId
         self.componentName = componentName
         self.endTime = endTime
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceGroupName = resourceGroupName
         self.startTime = startTime
+        self.visibility = visibility
     }
 }
 
 struct ListProblemsInputBody: Swift.Equatable {
+    let accountId: Swift.String?
     let resourceGroupName: Swift.String?
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let componentName: Swift.String?
+    let visibility: ApplicationInsightsClientTypes.Visibility?
 }
 
 extension ListProblemsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case componentName = "ComponentName"
         case endTime = "EndTime"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case resourceGroupName = "ResourceGroupName"
         case startTime = "StartTime"
+        case visibility = "Visibility"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
         let resourceGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceGroupName)
         resourceGroupName = resourceGroupNameDecoded
         let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
@@ -3253,6 +3788,8 @@ extension ListProblemsInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let componentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentName)
         componentName = componentNameDecoded
+        let visibilityDecoded = try containerValues.decodeIfPresent(ApplicationInsightsClientTypes.Visibility.self, forKey: .visibility)
+        visibility = visibilityDecoded
     }
 }
 
@@ -3274,10 +3811,12 @@ extension ListProblemsOutputResponse: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListProblemsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.accountId = output.accountId
             self.nextToken = output.nextToken
             self.problemList = output.problemList
             self.resourceGroupName = output.resourceGroupName
         } else {
+            self.accountId = nil
             self.nextToken = nil
             self.problemList = nil
             self.resourceGroupName = nil
@@ -3286,6 +3825,8 @@ extension ListProblemsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListProblemsOutputResponse: Swift.Equatable {
+    /// The AWS account ID for the resource group owner.
+    public var accountId: Swift.String?
     /// The token used to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// The list of problems.
@@ -3294,11 +3835,13 @@ public struct ListProblemsOutputResponse: Swift.Equatable {
     public var resourceGroupName: Swift.String?
 
     public init(
+        accountId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         problemList: [ApplicationInsightsClientTypes.Problem]? = nil,
         resourceGroupName: Swift.String? = nil
     )
     {
+        self.accountId = accountId
         self.nextToken = nextToken
         self.problemList = problemList
         self.resourceGroupName = resourceGroupName
@@ -3309,10 +3852,12 @@ struct ListProblemsOutputResponseBody: Swift.Equatable {
     let problemList: [ApplicationInsightsClientTypes.Problem]?
     let nextToken: Swift.String?
     let resourceGroupName: Swift.String?
+    let accountId: Swift.String?
 }
 
 extension ListProblemsOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case nextToken = "NextToken"
         case problemList = "ProblemList"
         case resourceGroupName = "ResourceGroupName"
@@ -3335,6 +3880,8 @@ extension ListProblemsOutputResponseBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let resourceGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceGroupName)
         resourceGroupName = resourceGroupNameDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
     }
 }
 
@@ -3444,6 +3991,175 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+extension ListWorkloadsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
+        case componentName = "ComponentName"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case resourceGroupName = "ResourceGroupName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let componentName = self.componentName {
+            try encodeContainer.encode(componentName, forKey: .componentName)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let resourceGroupName = self.resourceGroupName {
+            try encodeContainer.encode(resourceGroupName, forKey: .resourceGroupName)
+        }
+    }
+}
+
+extension ListWorkloadsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListWorkloadsInput: Swift.Equatable {
+    /// The AWS account ID of the owner of the workload.
+    public var accountId: Swift.String?
+    /// The name of the component.
+    /// This member is required.
+    public var componentName: Swift.String?
+    /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
+    public var maxResults: Swift.Int?
+    /// The token to request the next page of results.
+    public var nextToken: Swift.String?
+    /// The name of the resource group.
+    /// This member is required.
+    public var resourceGroupName: Swift.String?
+
+    public init(
+        accountId: Swift.String? = nil,
+        componentName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceGroupName: Swift.String? = nil
+    )
+    {
+        self.accountId = accountId
+        self.componentName = componentName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceGroupName = resourceGroupName
+    }
+}
+
+struct ListWorkloadsInputBody: Swift.Equatable {
+    let resourceGroupName: Swift.String?
+    let componentName: Swift.String?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+    let accountId: Swift.String?
+}
+
+extension ListWorkloadsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
+        case componentName = "ComponentName"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case resourceGroupName = "ResourceGroupName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceGroupName)
+        resourceGroupName = resourceGroupNameDecoded
+        let componentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentName)
+        componentName = componentNameDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+    }
+}
+
+public enum ListWorkloadsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListWorkloadsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListWorkloadsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.workloadList = output.workloadList
+        } else {
+            self.nextToken = nil
+            self.workloadList = nil
+        }
+    }
+}
+
+public struct ListWorkloadsOutputResponse: Swift.Equatable {
+    /// The token to request the next page of results.
+    public var nextToken: Swift.String?
+    /// The list of workloads.
+    public var workloadList: [ApplicationInsightsClientTypes.Workload]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        workloadList: [ApplicationInsightsClientTypes.Workload]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.workloadList = workloadList
+    }
+}
+
+struct ListWorkloadsOutputResponseBody: Swift.Equatable {
+    let workloadList: [ApplicationInsightsClientTypes.Workload]?
+    let nextToken: Swift.String?
+}
+
+extension ListWorkloadsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case workloadList = "WorkloadList"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workloadListContainer = try containerValues.decodeIfPresent([ApplicationInsightsClientTypes.Workload?].self, forKey: .workloadList)
+        var workloadListDecoded0:[ApplicationInsightsClientTypes.Workload]? = nil
+        if let workloadListContainer = workloadListContainer {
+            workloadListDecoded0 = [ApplicationInsightsClientTypes.Workload]()
+            for structure0 in workloadListContainer {
+                if let structure0 = structure0 {
+                    workloadListDecoded0?.append(structure0)
+                }
+            }
+        }
+        workloadList = workloadListDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
     }
 }
 
@@ -4056,6 +4772,7 @@ extension ApplicationInsightsClientTypes {
 
 extension ApplicationInsightsClientTypes.Problem: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case affectedResource = "AffectedResource"
         case endTime = "EndTime"
         case feedback = "Feedback"
@@ -4063,15 +4780,20 @@ extension ApplicationInsightsClientTypes.Problem: Swift.Codable {
         case insights = "Insights"
         case lastRecurrenceTime = "LastRecurrenceTime"
         case recurringCount = "RecurringCount"
+        case resolutionMethod = "ResolutionMethod"
         case resourceGroupName = "ResourceGroupName"
         case severityLevel = "SeverityLevel"
         case startTime = "StartTime"
         case status = "Status"
         case title = "Title"
+        case visibility = "Visibility"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
         if let affectedResource = self.affectedResource {
             try encodeContainer.encode(affectedResource, forKey: .affectedResource)
         }
@@ -4096,6 +4818,9 @@ extension ApplicationInsightsClientTypes.Problem: Swift.Codable {
         if let recurringCount = self.recurringCount {
             try encodeContainer.encode(recurringCount, forKey: .recurringCount)
         }
+        if let resolutionMethod = self.resolutionMethod {
+            try encodeContainer.encode(resolutionMethod.rawValue, forKey: .resolutionMethod)
+        }
         if let resourceGroupName = self.resourceGroupName {
             try encodeContainer.encode(resourceGroupName, forKey: .resourceGroupName)
         }
@@ -4110,6 +4835,9 @@ extension ApplicationInsightsClientTypes.Problem: Swift.Codable {
         }
         if let title = self.title {
             try encodeContainer.encode(title, forKey: .title)
+        }
+        if let visibility = self.visibility {
+            try encodeContainer.encode(visibility.rawValue, forKey: .visibility)
         }
     }
 
@@ -4131,6 +4859,8 @@ extension ApplicationInsightsClientTypes.Problem: Swift.Codable {
         endTime = endTimeDecoded
         let severityLevelDecoded = try containerValues.decodeIfPresent(ApplicationInsightsClientTypes.SeverityLevel.self, forKey: .severityLevel)
         severityLevel = severityLevelDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
         let resourceGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceGroupName)
         resourceGroupName = resourceGroupNameDecoded
         let feedbackContainer = try containerValues.decodeIfPresent([Swift.String: ApplicationInsightsClientTypes.FeedbackValue?].self, forKey: .feedback)
@@ -4148,12 +4878,18 @@ extension ApplicationInsightsClientTypes.Problem: Swift.Codable {
         recurringCount = recurringCountDecoded
         let lastRecurrenceTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastRecurrenceTime)
         lastRecurrenceTime = lastRecurrenceTimeDecoded
+        let visibilityDecoded = try containerValues.decodeIfPresent(ApplicationInsightsClientTypes.Visibility.self, forKey: .visibility)
+        visibility = visibilityDecoded
+        let resolutionMethodDecoded = try containerValues.decodeIfPresent(ApplicationInsightsClientTypes.ResolutionMethod.self, forKey: .resolutionMethod)
+        resolutionMethod = resolutionMethodDecoded
     }
 }
 
 extension ApplicationInsightsClientTypes {
     /// Describes a problem that is detected by correlating observations.
     public struct Problem: Swift.Equatable {
+        /// The AWS account ID for the owner of the resource group affected by the problem.
+        public var accountId: Swift.String?
         /// The resource affected by the problem.
         public var affectedResource: Swift.String?
         /// The time when the problem ended, in epoch seconds.
@@ -4168,6 +4904,8 @@ extension ApplicationInsightsClientTypes {
         public var lastRecurrenceTime: ClientRuntime.Date?
         /// The number of times that the same problem reoccurred after the first time it was resolved.
         public var recurringCount: Swift.Int?
+        /// Specifies how the problem was resolved. If the value is AUTOMATIC, the system resolved the problem. If the value is MANUAL, the user resolved the problem. If the value is UNRESOLVED, then the problem is not resolved.
+        public var resolutionMethod: ApplicationInsightsClientTypes.ResolutionMethod?
         /// The name of the resource group affected by the problem.
         public var resourceGroupName: Swift.String?
         /// A measure of the level of impact of the problem.
@@ -4178,8 +4916,11 @@ extension ApplicationInsightsClientTypes {
         public var status: ApplicationInsightsClientTypes.Status?
         /// The name of the problem.
         public var title: Swift.String?
+        /// Specifies whether or not you can view the problem. Updates to ignored problems do not generate notifications.
+        public var visibility: ApplicationInsightsClientTypes.Visibility?
 
         public init(
+            accountId: Swift.String? = nil,
             affectedResource: Swift.String? = nil,
             endTime: ClientRuntime.Date? = nil,
             feedback: [Swift.String:ApplicationInsightsClientTypes.FeedbackValue]? = nil,
@@ -4187,13 +4928,16 @@ extension ApplicationInsightsClientTypes {
             insights: Swift.String? = nil,
             lastRecurrenceTime: ClientRuntime.Date? = nil,
             recurringCount: Swift.Int? = nil,
+            resolutionMethod: ApplicationInsightsClientTypes.ResolutionMethod? = nil,
             resourceGroupName: Swift.String? = nil,
             severityLevel: ApplicationInsightsClientTypes.SeverityLevel? = nil,
             startTime: ClientRuntime.Date? = nil,
             status: ApplicationInsightsClientTypes.Status? = nil,
-            title: Swift.String? = nil
+            title: Swift.String? = nil,
+            visibility: ApplicationInsightsClientTypes.Visibility? = nil
         )
         {
+            self.accountId = accountId
             self.affectedResource = affectedResource
             self.endTime = endTime
             self.feedback = feedback
@@ -4201,14 +4945,51 @@ extension ApplicationInsightsClientTypes {
             self.insights = insights
             self.lastRecurrenceTime = lastRecurrenceTime
             self.recurringCount = recurringCount
+            self.resolutionMethod = resolutionMethod
             self.resourceGroupName = resourceGroupName
             self.severityLevel = severityLevel
             self.startTime = startTime
             self.status = status
             self.title = title
+            self.visibility = visibility
         }
     }
 
+}
+
+extension ApplicationInsightsClientTypes {
+    public enum RecommendationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case all
+        case infraOnly
+        case workloadOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecommendationType] {
+            return [
+                .all,
+                .infraOnly,
+                .workloadOnly,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .infraOnly: return "INFRA_ONLY"
+            case .workloadOnly: return "WORKLOAD_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RecommendationType(rawValue: rawValue) ?? RecommendationType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ApplicationInsightsClientTypes.RelatedObservations: Swift.Codable {
@@ -4256,6 +5037,138 @@ extension ApplicationInsightsClientTypes {
         }
     }
 
+}
+
+extension RemoveWorkloadInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case componentName = "ComponentName"
+        case resourceGroupName = "ResourceGroupName"
+        case workloadId = "WorkloadId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let componentName = self.componentName {
+            try encodeContainer.encode(componentName, forKey: .componentName)
+        }
+        if let resourceGroupName = self.resourceGroupName {
+            try encodeContainer.encode(resourceGroupName, forKey: .resourceGroupName)
+        }
+        if let workloadId = self.workloadId {
+            try encodeContainer.encode(workloadId, forKey: .workloadId)
+        }
+    }
+}
+
+extension RemoveWorkloadInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct RemoveWorkloadInput: Swift.Equatable {
+    /// The name of the component.
+    /// This member is required.
+    public var componentName: Swift.String?
+    /// The name of the resource group.
+    /// This member is required.
+    public var resourceGroupName: Swift.String?
+    /// The ID of the workload.
+    /// This member is required.
+    public var workloadId: Swift.String?
+
+    public init(
+        componentName: Swift.String? = nil,
+        resourceGroupName: Swift.String? = nil,
+        workloadId: Swift.String? = nil
+    )
+    {
+        self.componentName = componentName
+        self.resourceGroupName = resourceGroupName
+        self.workloadId = workloadId
+    }
+}
+
+struct RemoveWorkloadInputBody: Swift.Equatable {
+    let resourceGroupName: Swift.String?
+    let componentName: Swift.String?
+    let workloadId: Swift.String?
+}
+
+extension RemoveWorkloadInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case componentName = "ComponentName"
+        case resourceGroupName = "ResourceGroupName"
+        case workloadId = "WorkloadId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceGroupName)
+        resourceGroupName = resourceGroupNameDecoded
+        let componentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentName)
+        componentName = componentNameDecoded
+        let workloadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workloadId)
+        workloadId = workloadIdDecoded
+    }
+}
+
+public enum RemoveWorkloadOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension RemoveWorkloadOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RemoveWorkloadOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension ApplicationInsightsClientTypes {
+    public enum ResolutionMethod: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case automatic
+        case manual
+        case unresolved
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResolutionMethod] {
+            return [
+                .automatic,
+                .manual,
+                .unresolved,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .automatic: return "AUTOMATIC"
+            case .manual: return "MANUAL"
+            case .unresolved: return "UNRESOLVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ResolutionMethod(rawValue: rawValue) ?? ResolutionMethod.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ResourceInUseException {
@@ -4410,6 +5323,7 @@ extension ApplicationInsightsClientTypes {
     public enum Status: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case ignore
         case pending
+        case recovering
         case recurring
         case resolved
         case sdkUnknown(Swift.String)
@@ -4418,6 +5332,7 @@ extension ApplicationInsightsClientTypes {
             return [
                 .ignore,
                 .pending,
+                .recovering,
                 .recurring,
                 .resolved,
                 .sdkUnknown("")
@@ -4431,6 +5346,7 @@ extension ApplicationInsightsClientTypes {
             switch self {
             case .ignore: return "IGNORE"
             case .pending: return "PENDING"
+            case .recovering: return "RECOVERING"
             case .recurring: return "RECURRING"
             case .resolved: return "RESOLVED"
             case let .sdkUnknown(s): return s
@@ -4664,6 +5580,9 @@ extension ApplicationInsightsClientTypes {
         case sapHanaHighAvailability
         case sapHanaMultiNode
         case sapHanaSingleNode
+        case sapNetweaverDistributed
+        case sapNetweaverHighAvailability
+        case sapNetweaverStandard
         case sharepoint
         case sqlServer
         case sqlServerAlwaysonAvailabilityGroup
@@ -4686,6 +5605,9 @@ extension ApplicationInsightsClientTypes {
                 .sapHanaHighAvailability,
                 .sapHanaMultiNode,
                 .sapHanaSingleNode,
+                .sapNetweaverDistributed,
+                .sapNetweaverHighAvailability,
+                .sapNetweaverStandard,
                 .sharepoint,
                 .sqlServer,
                 .sqlServerAlwaysonAvailabilityGroup,
@@ -4713,6 +5635,9 @@ extension ApplicationInsightsClientTypes {
             case .sapHanaHighAvailability: return "SAP_HANA_HIGH_AVAILABILITY"
             case .sapHanaMultiNode: return "SAP_HANA_MULTI_NODE"
             case .sapHanaSingleNode: return "SAP_HANA_SINGLE_NODE"
+            case .sapNetweaverDistributed: return "SAP_NETWEAVER_DISTRIBUTED"
+            case .sapNetweaverHighAvailability: return "SAP_NETWEAVER_HIGH_AVAILABILITY"
+            case .sapNetweaverStandard: return "SAP_NETWEAVER_STANDARD"
             case .sharepoint: return "SHAREPOINT"
             case .sqlServer: return "SQL_SERVER"
             case .sqlServerAlwaysonAvailabilityGroup: return "SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP"
@@ -5322,7 +6247,7 @@ extension UpdateLogPatternInput: Swift.Encodable {
         if let patternSetName = self.patternSetName {
             try encodeContainer.encode(patternSetName, forKey: .patternSetName)
         }
-        if rank != 0 {
+        if let rank = self.rank {
             try encodeContainer.encode(rank, forKey: .rank)
         }
         if let resourceGroupName = self.resourceGroupName {
@@ -5347,7 +6272,7 @@ public struct UpdateLogPatternInput: Swift.Equatable {
     /// This member is required.
     public var patternSetName: Swift.String?
     /// Rank of the log pattern. Must be a value between 1 and 1,000,000. The patterns are sorted by rank, so we recommend that you set your highest priority patterns with the lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern of rank 1,000,000 will be last to get matched. When you configure custom log patterns from the console, a Low severity pattern translates to a 750,000 rank. A Medium severity pattern translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank. Rank values less than 1 or greater than 1,000,000 are reserved for AWS-provided patterns.
-    public var rank: Swift.Int
+    public var rank: Swift.Int?
     /// The name of the resource group.
     /// This member is required.
     public var resourceGroupName: Swift.String?
@@ -5356,7 +6281,7 @@ public struct UpdateLogPatternInput: Swift.Equatable {
         pattern: Swift.String? = nil,
         patternName: Swift.String? = nil,
         patternSetName: Swift.String? = nil,
-        rank: Swift.Int = 0,
+        rank: Swift.Int? = nil,
         resourceGroupName: Swift.String? = nil
     )
     {
@@ -5373,7 +6298,7 @@ struct UpdateLogPatternInputBody: Swift.Equatable {
     let patternSetName: Swift.String?
     let patternName: Swift.String?
     let pattern: Swift.String?
-    let rank: Swift.Int
+    let rank: Swift.Int?
 }
 
 extension UpdateLogPatternInputBody: Swift.Decodable {
@@ -5395,7 +6320,7 @@ extension UpdateLogPatternInputBody: Swift.Decodable {
         patternName = patternNameDecoded
         let patternDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pattern)
         pattern = patternDecoded
-        let rankDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rank) ?? 0
+        let rankDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rank)
         rank = rankDecoded
     }
 }
@@ -5464,6 +6389,279 @@ extension UpdateLogPatternOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension UpdateProblemInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case problemId = "ProblemId"
+        case updateStatus = "UpdateStatus"
+        case visibility = "Visibility"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let problemId = self.problemId {
+            try encodeContainer.encode(problemId, forKey: .problemId)
+        }
+        if let updateStatus = self.updateStatus {
+            try encodeContainer.encode(updateStatus.rawValue, forKey: .updateStatus)
+        }
+        if let visibility = self.visibility {
+            try encodeContainer.encode(visibility.rawValue, forKey: .visibility)
+        }
+    }
+}
+
+extension UpdateProblemInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateProblemInput: Swift.Equatable {
+    /// The ID of the problem.
+    /// This member is required.
+    public var problemId: Swift.String?
+    /// The status of the problem. Arguments can be passed for only problems that show a status of RECOVERING.
+    public var updateStatus: ApplicationInsightsClientTypes.UpdateStatus?
+    /// The visibility of a problem. When you pass a value of IGNORED, the problem is removed from the default view, and all notifications for the problem are suspended. When VISIBLE is passed, the IGNORED action is reversed.
+    public var visibility: ApplicationInsightsClientTypes.Visibility?
+
+    public init(
+        problemId: Swift.String? = nil,
+        updateStatus: ApplicationInsightsClientTypes.UpdateStatus? = nil,
+        visibility: ApplicationInsightsClientTypes.Visibility? = nil
+    )
+    {
+        self.problemId = problemId
+        self.updateStatus = updateStatus
+        self.visibility = visibility
+    }
+}
+
+struct UpdateProblemInputBody: Swift.Equatable {
+    let problemId: Swift.String?
+    let updateStatus: ApplicationInsightsClientTypes.UpdateStatus?
+    let visibility: ApplicationInsightsClientTypes.Visibility?
+}
+
+extension UpdateProblemInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case problemId = "ProblemId"
+        case updateStatus = "UpdateStatus"
+        case visibility = "Visibility"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let problemIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .problemId)
+        problemId = problemIdDecoded
+        let updateStatusDecoded = try containerValues.decodeIfPresent(ApplicationInsightsClientTypes.UpdateStatus.self, forKey: .updateStatus)
+        updateStatus = updateStatusDecoded
+        let visibilityDecoded = try containerValues.decodeIfPresent(ApplicationInsightsClientTypes.Visibility.self, forKey: .visibility)
+        visibility = visibilityDecoded
+    }
+}
+
+public enum UpdateProblemOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateProblemOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateProblemOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension ApplicationInsightsClientTypes {
+    public enum UpdateStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case resolved
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdateStatus] {
+            return [
+                .resolved,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .resolved: return "RESOLVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = UpdateStatus(rawValue: rawValue) ?? UpdateStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension UpdateWorkloadInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case componentName = "ComponentName"
+        case resourceGroupName = "ResourceGroupName"
+        case workloadConfiguration = "WorkloadConfiguration"
+        case workloadId = "WorkloadId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let componentName = self.componentName {
+            try encodeContainer.encode(componentName, forKey: .componentName)
+        }
+        if let resourceGroupName = self.resourceGroupName {
+            try encodeContainer.encode(resourceGroupName, forKey: .resourceGroupName)
+        }
+        if let workloadConfiguration = self.workloadConfiguration {
+            try encodeContainer.encode(workloadConfiguration, forKey: .workloadConfiguration)
+        }
+        if let workloadId = self.workloadId {
+            try encodeContainer.encode(workloadId, forKey: .workloadId)
+        }
+    }
+}
+
+extension UpdateWorkloadInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateWorkloadInput: Swift.Equatable {
+    /// The name of the component.
+    /// This member is required.
+    public var componentName: Swift.String?
+    /// The name of the resource group.
+    /// This member is required.
+    public var resourceGroupName: Swift.String?
+    /// The configuration settings of the workload. The value is the escaped JSON of the configuration.
+    /// This member is required.
+    public var workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration?
+    /// The ID of the workload.
+    public var workloadId: Swift.String?
+
+    public init(
+        componentName: Swift.String? = nil,
+        resourceGroupName: Swift.String? = nil,
+        workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration? = nil,
+        workloadId: Swift.String? = nil
+    )
+    {
+        self.componentName = componentName
+        self.resourceGroupName = resourceGroupName
+        self.workloadConfiguration = workloadConfiguration
+        self.workloadId = workloadId
+    }
+}
+
+struct UpdateWorkloadInputBody: Swift.Equatable {
+    let resourceGroupName: Swift.String?
+    let componentName: Swift.String?
+    let workloadId: Swift.String?
+    let workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration?
+}
+
+extension UpdateWorkloadInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case componentName = "ComponentName"
+        case resourceGroupName = "ResourceGroupName"
+        case workloadConfiguration = "WorkloadConfiguration"
+        case workloadId = "WorkloadId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceGroupName)
+        resourceGroupName = resourceGroupNameDecoded
+        let componentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentName)
+        componentName = componentNameDecoded
+        let workloadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workloadId)
+        workloadId = workloadIdDecoded
+        let workloadConfigurationDecoded = try containerValues.decodeIfPresent(ApplicationInsightsClientTypes.WorkloadConfiguration.self, forKey: .workloadConfiguration)
+        workloadConfiguration = workloadConfigurationDecoded
+    }
+}
+
+public enum UpdateWorkloadOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateWorkloadOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateWorkloadOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.workloadConfiguration = output.workloadConfiguration
+            self.workloadId = output.workloadId
+        } else {
+            self.workloadConfiguration = nil
+            self.workloadId = nil
+        }
+    }
+}
+
+public struct UpdateWorkloadOutputResponse: Swift.Equatable {
+    /// The configuration settings of the workload. The value is the escaped JSON of the configuration.
+    public var workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration?
+    /// The ID of the workload.
+    public var workloadId: Swift.String?
+
+    public init(
+        workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration? = nil,
+        workloadId: Swift.String? = nil
+    )
+    {
+        self.workloadConfiguration = workloadConfiguration
+        self.workloadId = workloadId
+    }
+}
+
+struct UpdateWorkloadOutputResponseBody: Swift.Equatable {
+    let workloadId: Swift.String?
+    let workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration?
+}
+
+extension UpdateWorkloadOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case workloadConfiguration = "WorkloadConfiguration"
+        case workloadId = "WorkloadId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workloadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workloadId)
+        workloadId = workloadIdDecoded
+        let workloadConfigurationDecoded = try containerValues.decodeIfPresent(ApplicationInsightsClientTypes.WorkloadConfiguration.self, forKey: .workloadConfiguration)
+        workloadConfiguration = workloadConfigurationDecoded
+    }
+}
+
 extension ValidationException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -5517,4 +6715,166 @@ extension ValidationExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension ApplicationInsightsClientTypes {
+    public enum Visibility: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ignored
+        case visible
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Visibility] {
+            return [
+                .ignored,
+                .visible,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .ignored: return "IGNORED"
+            case .visible: return "VISIBLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Visibility(rawValue: rawValue) ?? Visibility.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ApplicationInsightsClientTypes.Workload: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case componentName = "ComponentName"
+        case tier = "Tier"
+        case workloadId = "WorkloadId"
+        case workloadName = "WorkloadName"
+        case workloadRemarks = "WorkloadRemarks"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let componentName = self.componentName {
+            try encodeContainer.encode(componentName, forKey: .componentName)
+        }
+        if let tier = self.tier {
+            try encodeContainer.encode(tier.rawValue, forKey: .tier)
+        }
+        if let workloadId = self.workloadId {
+            try encodeContainer.encode(workloadId, forKey: .workloadId)
+        }
+        if let workloadName = self.workloadName {
+            try encodeContainer.encode(workloadName, forKey: .workloadName)
+        }
+        if let workloadRemarks = self.workloadRemarks {
+            try encodeContainer.encode(workloadRemarks, forKey: .workloadRemarks)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workloadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workloadId)
+        workloadId = workloadIdDecoded
+        let componentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentName)
+        componentName = componentNameDecoded
+        let workloadNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workloadName)
+        workloadName = workloadNameDecoded
+        let tierDecoded = try containerValues.decodeIfPresent(ApplicationInsightsClientTypes.Tier.self, forKey: .tier)
+        tier = tierDecoded
+        let workloadRemarksDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workloadRemarks)
+        workloadRemarks = workloadRemarksDecoded
+    }
+}
+
+extension ApplicationInsightsClientTypes {
+    /// Describes the workloads on a component.
+    public struct Workload: Swift.Equatable {
+        /// The name of the component.
+        public var componentName: Swift.String?
+        /// The tier of the workload.
+        public var tier: ApplicationInsightsClientTypes.Tier?
+        /// The ID of the workload.
+        public var workloadId: Swift.String?
+        /// The name of the workload.
+        public var workloadName: Swift.String?
+        /// If logging is supported for the resource type, shows whether the component has configured logs to be monitored.
+        public var workloadRemarks: Swift.String?
+
+        public init(
+            componentName: Swift.String? = nil,
+            tier: ApplicationInsightsClientTypes.Tier? = nil,
+            workloadId: Swift.String? = nil,
+            workloadName: Swift.String? = nil,
+            workloadRemarks: Swift.String? = nil
+        )
+        {
+            self.componentName = componentName
+            self.tier = tier
+            self.workloadId = workloadId
+            self.workloadName = workloadName
+            self.workloadRemarks = workloadRemarks
+        }
+    }
+
+}
+
+extension ApplicationInsightsClientTypes.WorkloadConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configuration = "Configuration"
+        case tier = "Tier"
+        case workloadName = "WorkloadName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let configuration = self.configuration {
+            try encodeContainer.encode(configuration, forKey: .configuration)
+        }
+        if let tier = self.tier {
+            try encodeContainer.encode(tier.rawValue, forKey: .tier)
+        }
+        if let workloadName = self.workloadName {
+            try encodeContainer.encode(workloadName, forKey: .workloadName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workloadNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workloadName)
+        workloadName = workloadNameDecoded
+        let tierDecoded = try containerValues.decodeIfPresent(ApplicationInsightsClientTypes.Tier.self, forKey: .tier)
+        tier = tierDecoded
+        let configurationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configuration)
+        configuration = configurationDecoded
+    }
+}
+
+extension ApplicationInsightsClientTypes {
+    /// The configuration of the workload.
+    public struct WorkloadConfiguration: Swift.Equatable {
+        /// The configuration settings of the workload.
+        public var configuration: Swift.String?
+        /// The configuration of the workload tier.
+        public var tier: ApplicationInsightsClientTypes.Tier?
+        /// The name of the workload.
+        public var workloadName: Swift.String?
+
+        public init(
+            configuration: Swift.String? = nil,
+            tier: ApplicationInsightsClientTypes.Tier? = nil,
+            workloadName: Swift.String? = nil
+        )
+        {
+            self.configuration = configuration
+            self.tier = tier
+            self.workloadName = workloadName
+        }
+    }
+
 }

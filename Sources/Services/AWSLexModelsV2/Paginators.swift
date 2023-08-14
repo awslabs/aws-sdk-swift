@@ -270,6 +270,34 @@ extension ListImportsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LexModelsV2Client {
+    /// Paginate over `[ListIntentMetricsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListIntentMetricsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListIntentMetricsOutputResponse`
+    public func listIntentMetricsPaginated(input: ListIntentMetricsInput) -> ClientRuntime.PaginatorSequence<ListIntentMetricsInput, ListIntentMetricsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListIntentMetricsInput, ListIntentMetricsOutputResponse>(input: input, inputKey: \ListIntentMetricsInput.nextToken, outputKey: \ListIntentMetricsOutputResponse.nextToken, paginationFunction: self.listIntentMetrics(input:))
+    }
+}
+
+extension ListIntentMetricsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListIntentMetricsInput {
+        return ListIntentMetricsInput(
+            binBy: self.binBy,
+            botId: self.botId,
+            endDateTime: self.endDateTime,
+            filters: self.filters,
+            groupBy: self.groupBy,
+            maxResults: self.maxResults,
+            metrics: self.metrics,
+            nextToken: token,
+            startDateTime: self.startDateTime
+        )}
+}
+extension LexModelsV2Client {
     /// Paginate over `[ListIntentsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -296,6 +324,34 @@ extension ListIntentsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LexModelsV2Client {
+    /// Paginate over `[ListIntentStageMetricsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListIntentStageMetricsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListIntentStageMetricsOutputResponse`
+    public func listIntentStageMetricsPaginated(input: ListIntentStageMetricsInput) -> ClientRuntime.PaginatorSequence<ListIntentStageMetricsInput, ListIntentStageMetricsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListIntentStageMetricsInput, ListIntentStageMetricsOutputResponse>(input: input, inputKey: \ListIntentStageMetricsInput.nextToken, outputKey: \ListIntentStageMetricsOutputResponse.nextToken, paginationFunction: self.listIntentStageMetrics(input:))
+    }
+}
+
+extension ListIntentStageMetricsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListIntentStageMetricsInput {
+        return ListIntentStageMetricsInput(
+            binBy: self.binBy,
+            botId: self.botId,
+            endDateTime: self.endDateTime,
+            filters: self.filters,
+            groupBy: self.groupBy,
+            maxResults: self.maxResults,
+            metrics: self.metrics,
+            nextToken: token,
+            startDateTime: self.startDateTime
+        )}
+}
+extension LexModelsV2Client {
     /// Paginate over `[ListRecommendedIntentsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -318,6 +374,60 @@ extension ListRecommendedIntentsInput: ClientRuntime.PaginateToken {
             localeId: self.localeId,
             maxResults: self.maxResults,
             nextToken: token
+        )}
+}
+extension LexModelsV2Client {
+    /// Paginate over `[ListSessionAnalyticsDataOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSessionAnalyticsDataInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSessionAnalyticsDataOutputResponse`
+    public func listSessionAnalyticsDataPaginated(input: ListSessionAnalyticsDataInput) -> ClientRuntime.PaginatorSequence<ListSessionAnalyticsDataInput, ListSessionAnalyticsDataOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListSessionAnalyticsDataInput, ListSessionAnalyticsDataOutputResponse>(input: input, inputKey: \ListSessionAnalyticsDataInput.nextToken, outputKey: \ListSessionAnalyticsDataOutputResponse.nextToken, paginationFunction: self.listSessionAnalyticsData(input:))
+    }
+}
+
+extension ListSessionAnalyticsDataInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSessionAnalyticsDataInput {
+        return ListSessionAnalyticsDataInput(
+            botId: self.botId,
+            endDateTime: self.endDateTime,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy,
+            startDateTime: self.startDateTime
+        )}
+}
+extension LexModelsV2Client {
+    /// Paginate over `[ListSessionMetricsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSessionMetricsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSessionMetricsOutputResponse`
+    public func listSessionMetricsPaginated(input: ListSessionMetricsInput) -> ClientRuntime.PaginatorSequence<ListSessionMetricsInput, ListSessionMetricsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListSessionMetricsInput, ListSessionMetricsOutputResponse>(input: input, inputKey: \ListSessionMetricsInput.nextToken, outputKey: \ListSessionMetricsOutputResponse.nextToken, paginationFunction: self.listSessionMetrics(input:))
+    }
+}
+
+extension ListSessionMetricsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSessionMetricsInput {
+        return ListSessionMetricsInput(
+            binBy: self.binBy,
+            botId: self.botId,
+            endDateTime: self.endDateTime,
+            filters: self.filters,
+            groupBy: self.groupBy,
+            maxResults: self.maxResults,
+            metrics: self.metrics,
+            nextToken: token,
+            startDateTime: self.startDateTime
         )}
 }
 extension LexModelsV2Client {
@@ -460,5 +570,60 @@ extension ListTestSetsInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             sortBy: self.sortBy
+        )}
+}
+extension LexModelsV2Client {
+    /// Paginate over `[ListUtteranceAnalyticsDataOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListUtteranceAnalyticsDataInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListUtteranceAnalyticsDataOutputResponse`
+    public func listUtteranceAnalyticsDataPaginated(input: ListUtteranceAnalyticsDataInput) -> ClientRuntime.PaginatorSequence<ListUtteranceAnalyticsDataInput, ListUtteranceAnalyticsDataOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListUtteranceAnalyticsDataInput, ListUtteranceAnalyticsDataOutputResponse>(input: input, inputKey: \ListUtteranceAnalyticsDataInput.nextToken, outputKey: \ListUtteranceAnalyticsDataOutputResponse.nextToken, paginationFunction: self.listUtteranceAnalyticsData(input:))
+    }
+}
+
+extension ListUtteranceAnalyticsDataInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListUtteranceAnalyticsDataInput {
+        return ListUtteranceAnalyticsDataInput(
+            botId: self.botId,
+            endDateTime: self.endDateTime,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy,
+            startDateTime: self.startDateTime
+        )}
+}
+extension LexModelsV2Client {
+    /// Paginate over `[ListUtteranceMetricsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListUtteranceMetricsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListUtteranceMetricsOutputResponse`
+    public func listUtteranceMetricsPaginated(input: ListUtteranceMetricsInput) -> ClientRuntime.PaginatorSequence<ListUtteranceMetricsInput, ListUtteranceMetricsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListUtteranceMetricsInput, ListUtteranceMetricsOutputResponse>(input: input, inputKey: \ListUtteranceMetricsInput.nextToken, outputKey: \ListUtteranceMetricsOutputResponse.nextToken, paginationFunction: self.listUtteranceMetrics(input:))
+    }
+}
+
+extension ListUtteranceMetricsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListUtteranceMetricsInput {
+        return ListUtteranceMetricsInput(
+            attributes: self.attributes,
+            binBy: self.binBy,
+            botId: self.botId,
+            endDateTime: self.endDateTime,
+            filters: self.filters,
+            groupBy: self.groupBy,
+            maxResults: self.maxResults,
+            metrics: self.metrics,
+            nextToken: token,
+            startDateTime: self.startDateTime
         )}
 }

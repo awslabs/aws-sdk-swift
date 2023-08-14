@@ -3,6 +3,38 @@ import AWSClientRuntime
 import ClientRuntime
 
 extension SchedulerClientTypes {
+    public enum ActionAfterCompletion: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case delete
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ActionAfterCompletion] {
+            return [
+                .delete,
+                .none,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .delete: return "DELETE"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ActionAfterCompletion(rawValue: rawValue) ?? ActionAfterCompletion.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension SchedulerClientTypes {
     public enum AssignPublicIp: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
         case enabled
@@ -363,6 +395,7 @@ extension CreateScheduleGroupOutputResponseBody: Swift.Decodable {
 
 extension CreateScheduleInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actionAfterCompletion = "ActionAfterCompletion"
         case clientToken = "ClientToken"
         case description = "Description"
         case endDate = "EndDate"
@@ -378,6 +411,9 @@ extension CreateScheduleInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actionAfterCompletion = self.actionAfterCompletion {
+            try encodeContainer.encode(actionAfterCompletion.rawValue, forKey: .actionAfterCompletion)
+        }
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
         }
@@ -424,6 +460,8 @@ extension CreateScheduleInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateScheduleInput: Swift.Equatable {
+    /// Specifies the action that EventBridge Scheduler applies to the schedule after the schedule completes invoking the target.
+    public var actionAfterCompletion: SchedulerClientTypes.ActionAfterCompletion?
     /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If you do not specify a client token, EventBridge Scheduler uses a randomly generated token for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The description you specify for the schedule.
@@ -444,7 +482,7 @@ public struct CreateScheduleInput: Swift.Equatable {
     ///
     /// * at expression - at(yyyy-mm-ddThh:mm:ss)
     ///
-    /// * rate expression - rate(unit value)
+    /// * rate expression - rate(value unit)
     ///
     /// * cron expression - cron(fields)
     ///
@@ -463,6 +501,7 @@ public struct CreateScheduleInput: Swift.Equatable {
     public var target: SchedulerClientTypes.Target?
 
     public init(
+        actionAfterCompletion: SchedulerClientTypes.ActionAfterCompletion? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         endDate: ClientRuntime.Date? = nil,
@@ -477,6 +516,7 @@ public struct CreateScheduleInput: Swift.Equatable {
         target: SchedulerClientTypes.Target? = nil
     )
     {
+        self.actionAfterCompletion = actionAfterCompletion
         self.clientToken = clientToken
         self.description = description
         self.endDate = endDate
@@ -504,10 +544,12 @@ struct CreateScheduleInputBody: Swift.Equatable {
     let target: SchedulerClientTypes.Target?
     let flexibleTimeWindow: SchedulerClientTypes.FlexibleTimeWindow?
     let clientToken: Swift.String?
+    let actionAfterCompletion: SchedulerClientTypes.ActionAfterCompletion?
 }
 
 extension CreateScheduleInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actionAfterCompletion = "ActionAfterCompletion"
         case clientToken = "ClientToken"
         case description = "Description"
         case endDate = "EndDate"
@@ -545,6 +587,8 @@ extension CreateScheduleInputBody: Swift.Decodable {
         flexibleTimeWindow = flexibleTimeWindowDecoded
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
+        let actionAfterCompletionDecoded = try containerValues.decodeIfPresent(SchedulerClientTypes.ActionAfterCompletion.self, forKey: .actionAfterCompletion)
+        actionAfterCompletion = actionAfterCompletionDecoded
     }
 }
 
@@ -1337,6 +1381,7 @@ extension GetScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.actionAfterCompletion = output.actionAfterCompletion
             self.arn = output.arn
             self.creationDate = output.creationDate
             self.description = output.description
@@ -1352,6 +1397,7 @@ extension GetScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
             self.state = output.state
             self.target = output.target
         } else {
+            self.actionAfterCompletion = nil
             self.arn = nil
             self.creationDate = nil
             self.description = nil
@@ -1371,6 +1417,8 @@ extension GetScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetScheduleOutputResponse: Swift.Equatable {
+    /// Indicates the action that EventBridge Scheduler applies to the schedule after the schedule completes invoking the target.
+    public var actionAfterCompletion: SchedulerClientTypes.ActionAfterCompletion?
     /// The Amazon Resource Name (ARN) of the schedule.
     public var arn: Swift.String?
     /// The time at which the schedule was created.
@@ -1393,7 +1441,7 @@ public struct GetScheduleOutputResponse: Swift.Equatable {
     ///
     /// * at expression - at(yyyy-mm-ddThh:mm:ss)
     ///
-    /// * rate expression - rate(unit value)
+    /// * rate expression - rate(value unit)
     ///
     /// * cron expression - cron(fields)
     ///
@@ -1410,6 +1458,7 @@ public struct GetScheduleOutputResponse: Swift.Equatable {
     public var target: SchedulerClientTypes.Target?
 
     public init(
+        actionAfterCompletion: SchedulerClientTypes.ActionAfterCompletion? = nil,
         arn: Swift.String? = nil,
         creationDate: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
@@ -1426,6 +1475,7 @@ public struct GetScheduleOutputResponse: Swift.Equatable {
         target: SchedulerClientTypes.Target? = nil
     )
     {
+        self.actionAfterCompletion = actionAfterCompletion
         self.arn = arn
         self.creationDate = creationDate
         self.description = description
@@ -1458,10 +1508,12 @@ struct GetScheduleOutputResponseBody: Swift.Equatable {
     let kmsKeyArn: Swift.String?
     let target: SchedulerClientTypes.Target?
     let flexibleTimeWindow: SchedulerClientTypes.FlexibleTimeWindow?
+    let actionAfterCompletion: SchedulerClientTypes.ActionAfterCompletion?
 }
 
 extension GetScheduleOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actionAfterCompletion = "ActionAfterCompletion"
         case arn = "Arn"
         case creationDate = "CreationDate"
         case description = "Description"
@@ -1508,6 +1560,8 @@ extension GetScheduleOutputResponseBody: Swift.Decodable {
         target = targetDecoded
         let flexibleTimeWindowDecoded = try containerValues.decodeIfPresent(SchedulerClientTypes.FlexibleTimeWindow.self, forKey: .flexibleTimeWindow)
         flexibleTimeWindow = flexibleTimeWindowDecoded
+        let actionAfterCompletionDecoded = try containerValues.decodeIfPresent(SchedulerClientTypes.ActionAfterCompletion.self, forKey: .actionAfterCompletion)
+        actionAfterCompletion = actionAfterCompletionDecoded
     }
 }
 
@@ -3187,6 +3241,7 @@ public struct UntagResourceOutputResponse: Swift.Equatable {
 
 extension UpdateScheduleInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actionAfterCompletion = "ActionAfterCompletion"
         case clientToken = "ClientToken"
         case description = "Description"
         case endDate = "EndDate"
@@ -3202,6 +3257,9 @@ extension UpdateScheduleInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actionAfterCompletion = self.actionAfterCompletion {
+            try encodeContainer.encode(actionAfterCompletion.rawValue, forKey: .actionAfterCompletion)
+        }
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
         }
@@ -3248,6 +3306,8 @@ extension UpdateScheduleInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateScheduleInput: Swift.Equatable {
+    /// Specifies the action that EventBridge Scheduler applies to the schedule after the schedule completes invoking the target.
+    public var actionAfterCompletion: SchedulerClientTypes.ActionAfterCompletion?
     /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If you do not specify a client token, EventBridge Scheduler uses a randomly generated token for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The description you specify for the schedule.
@@ -3268,7 +3328,7 @@ public struct UpdateScheduleInput: Swift.Equatable {
     ///
     /// * at expression - at(yyyy-mm-ddThh:mm:ss)
     ///
-    /// * rate expression - rate(unit value)
+    /// * rate expression - rate(value unit)
     ///
     /// * cron expression - cron(fields)
     ///
@@ -3287,6 +3347,7 @@ public struct UpdateScheduleInput: Swift.Equatable {
     public var target: SchedulerClientTypes.Target?
 
     public init(
+        actionAfterCompletion: SchedulerClientTypes.ActionAfterCompletion? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         endDate: ClientRuntime.Date? = nil,
@@ -3301,6 +3362,7 @@ public struct UpdateScheduleInput: Swift.Equatable {
         target: SchedulerClientTypes.Target? = nil
     )
     {
+        self.actionAfterCompletion = actionAfterCompletion
         self.clientToken = clientToken
         self.description = description
         self.endDate = endDate
@@ -3328,10 +3390,12 @@ struct UpdateScheduleInputBody: Swift.Equatable {
     let target: SchedulerClientTypes.Target?
     let flexibleTimeWindow: SchedulerClientTypes.FlexibleTimeWindow?
     let clientToken: Swift.String?
+    let actionAfterCompletion: SchedulerClientTypes.ActionAfterCompletion?
 }
 
 extension UpdateScheduleInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actionAfterCompletion = "ActionAfterCompletion"
         case clientToken = "ClientToken"
         case description = "Description"
         case endDate = "EndDate"
@@ -3369,6 +3433,8 @@ extension UpdateScheduleInputBody: Swift.Decodable {
         flexibleTimeWindow = flexibleTimeWindowDecoded
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
+        let actionAfterCompletionDecoded = try containerValues.decodeIfPresent(SchedulerClientTypes.ActionAfterCompletion.self, forKey: .actionAfterCompletion)
+        actionAfterCompletion = actionAfterCompletionDecoded
     }
 }
 

@@ -2,41 +2,61 @@
 
 import ClientRuntime
 
-/// Welcome to the Amazon CodeCatalyst API reference. This reference provides descriptions of operations and data types for Amazon CodeCatalyst. You can use the Amazon CodeCatalyst API to work with the following objects. Dev Environments and the Amazon Web Services Toolkits, by calling the following:
+/// Welcome to the Amazon CodeCatalyst API reference. This reference provides descriptions of operations and data types for Amazon CodeCatalyst. You can use the Amazon CodeCatalyst API to work with the following objects. Spaces, by calling the following:
 ///
-/// * [CreateAccessToken], which creates a personal access token (PAT) for the current user.
-///
-/// * [CreateDevEnvironment], which creates a Dev Environment, where you can quickly work on the code stored in the source repositories of your project.
-///
-/// * [CreateProject] which creates a project in a specified space.
-///
-/// * [CreateSourceRepositoryBranch], which creates a branch in a specified repository where you can work on code.
-///
-/// * [DeleteDevEnvironment], which deletes a Dev Environment.
-///
-/// * [GetDevEnvironment], which returns information about a Dev Environment.
-///
-/// * [GetProject], which returns information about a project.
-///
-/// * [GetSourceRepositoryCloneUrls], which returns information about the URLs that can be used with a Git client to clone a source repository.
+/// * [DeleteSpace], which deletes a space.
 ///
 /// * [GetSpace], which returns information about a space.
 ///
 /// * [GetSubscription], which returns information about the Amazon Web Services account used for billing purposes and the billing plan for the space.
 ///
-/// * [GetUserDetails], which returns information about a user in Amazon CodeCatalyst.
+/// * [ListSpaces], which retrieves a list of spaces.
 ///
-/// * [ListDevEnvironments], which retrieves a list of Dev Environments in a project.
+/// * [UpdateSpace], which hanges one or more values for a space.
 ///
-/// * [ListDevEnvironmentSessions], which retrieves a list of active Dev Environment sessions in a project.
+///
+/// Projects, by calling the following:
+///
+/// * [CreateProject] which creates a project in a specified space.
+///
+/// * [GetProject], which returns information about a project.
 ///
 /// * [ListProjects], which retrieves a list of projects in a space.
+///
+///
+/// Users, by calling the following:
+///
+/// * [GetUserDetails], which returns information about a user in Amazon CodeCatalyst.
+///
+///
+/// Source repositories, by calling the following:
+///
+/// * [CreateSourceRepository], which creates an empty Git-based source repository in a specified project.
+///
+/// * [CreateSourceRepositoryBranch], which creates a branch in a specified repository where you can work on code.
+///
+/// * [DeleteSourceRepository], which deletes a source repository.
+///
+/// * [GetSourceRepository], which returns information about a source repository.
+///
+/// * [GetSourceRepositoryCloneUrls], which returns information about the URLs that can be used with a Git client to clone a source repository.
 ///
 /// * [ListSourceRepositories], which retrieves a list of source repositories in a project.
 ///
 /// * [ListSourceRepositoryBranches], which retrieves a list of branches in a source repository.
 ///
-/// * [ListSpaces], which retrieves a list of spaces.
+///
+/// Dev Environments and the Amazon Web Services Toolkits, by calling the following:
+///
+/// * [CreateDevEnvironment], which creates a Dev Environment, where you can quickly work on the code stored in the source repositories of your project.
+///
+/// * [DeleteDevEnvironment], which deletes a Dev Environment.
+///
+/// * [GetDevEnvironment], which returns information about a Dev Environment.
+///
+/// * [ListDevEnvironments], which retrieves a list of Dev Environments in a project.
+///
+/// * [ListDevEnvironmentSessions], which retrieves a list of active Dev Environment sessions in a project.
 ///
 /// * [StartDevEnvironment], which starts a specified Dev Environment and puts it into an active state.
 ///
@@ -48,16 +68,18 @@ import ClientRuntime
 ///
 /// * [UpdateDevEnvironment], which changes one or more values for a Dev Environment.
 ///
-/// * [VerifySession], which verifies whether the calling user has a valid Amazon CodeCatalyst login and session.
-///
 ///
 /// Security, activity, and resource management in Amazon CodeCatalyst, by calling the following:
+///
+/// * [CreateAccessToken], which creates a personal access token (PAT) for the current user.
 ///
 /// * [DeleteAccessToken], which deletes a specified personal access token (PAT).
 ///
 /// * [ListAccessTokens], which lists all personal access tokens (PATs) associated with a user.
 ///
 /// * [ListEventLogs], which retrieves a list of events that occurred during a specified time period in a space.
+///
+/// * [VerifySession], which verifies whether the calling user has a valid Amazon CodeCatalyst login and session.
 ///
 ///
 /// If you are using the Amazon CodeCatalyst APIs with an SDK or the CLI, you must configure your computer to work with Amazon CodeCatalyst and single sign-on (SSO). For more information, see [Setting up to use the CLI with Amazon CodeCatalyst](https://docs.aws.amazon.com/codecatalyst/latest/userguide/set-up-cli.html) and the SSO documentation for your SDK.
@@ -68,16 +90,26 @@ public protocol CodeCatalystClientProtocol {
     func createDevEnvironment(input: CreateDevEnvironmentInput) async throws -> CreateDevEnvironmentOutputResponse
     /// Creates a project in a specified space.
     func createProject(input: CreateProjectInput) async throws -> CreateProjectOutputResponse
+    /// Creates an empty Git-based source repository in a specified project. The repository is created with an initial empty commit with a default branch named main.
+    func createSourceRepository(input: CreateSourceRepositoryInput) async throws -> CreateSourceRepositoryOutputResponse
     /// Creates a branch in a specified source repository in Amazon CodeCatalyst. This API only creates a branch in a source repository hosted in Amazon CodeCatalyst. You cannot use this API to create a branch in a linked repository.
     func createSourceRepositoryBranch(input: CreateSourceRepositoryBranchInput) async throws -> CreateSourceRepositoryBranchOutputResponse
     /// Deletes a specified personal access token (PAT). A personal access token can only be deleted by the user who created it.
     func deleteAccessToken(input: DeleteAccessTokenInput) async throws -> DeleteAccessTokenOutputResponse
     /// Deletes a Dev Environment.
     func deleteDevEnvironment(input: DeleteDevEnvironmentInput) async throws -> DeleteDevEnvironmentOutputResponse
+    /// Deletes a project in a space.
+    func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutputResponse
+    /// Deletes a source repository in Amazon CodeCatalyst. You cannot use this API to delete a linked repository. It can only be used to delete a Amazon CodeCatalyst source repository.
+    func deleteSourceRepository(input: DeleteSourceRepositoryInput) async throws -> DeleteSourceRepositoryOutputResponse
+    /// Deletes a space. Deleting a space cannot be undone. Additionally, since space names must be unique across Amazon CodeCatalyst, you cannot reuse names of deleted spaces.
+    func deleteSpace(input: DeleteSpaceInput) async throws -> DeleteSpaceOutputResponse
     /// Returns information about a Dev Environment for a source repository in a project. Dev Environments are specific to the user who creates them.
     func getDevEnvironment(input: GetDevEnvironmentInput) async throws -> GetDevEnvironmentOutputResponse
     /// Returns information about a project.
     func getProject(input: GetProjectInput) async throws -> GetProjectOutputResponse
+    /// Returns information about a source repository.
+    func getSourceRepository(input: GetSourceRepositoryInput) async throws -> GetSourceRepositoryOutputResponse
     /// Returns information about the URLs that can be used with a Git client to clone a source repository.
     func getSourceRepositoryCloneUrls(input: GetSourceRepositoryCloneUrlsInput) async throws -> GetSourceRepositoryCloneUrlsOutputResponse
     /// Returns information about an space.
@@ -112,6 +144,10 @@ public protocol CodeCatalystClientProtocol {
     func stopDevEnvironmentSession(input: StopDevEnvironmentSessionInput) async throws -> StopDevEnvironmentSessionOutputResponse
     /// Changes one or more values for a Dev Environment. Updating certain values of the Dev Environment will cause a restart.
     func updateDevEnvironment(input: UpdateDevEnvironmentInput) async throws -> UpdateDevEnvironmentOutputResponse
+    /// Changes one or more values for a project.
+    func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutputResponse
+    /// Changes one or more values for a space.
+    func updateSpace(input: UpdateSpaceInput) async throws -> UpdateSpaceOutputResponse
     /// Verifies whether the calling user has a valid Amazon CodeCatalyst login and session. If successful, this returns the ID of the user in Amazon CodeCatalyst.
     func verifySession(input: VerifySessionInput) async throws -> VerifySessionOutputResponse
 }

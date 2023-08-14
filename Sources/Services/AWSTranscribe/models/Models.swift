@@ -6959,6 +6959,7 @@ extension StartTranscriptionJobInput: Swift.Encodable {
         case settings = "Settings"
         case subtitles = "Subtitles"
         case tags = "Tags"
+        case toxicityDetection = "ToxicityDetection"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -7027,6 +7028,12 @@ extension StartTranscriptionJobInput: Swift.Encodable {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
             for tag0 in tags {
                 try tagsContainer.encode(tag0)
+            }
+        }
+        if let toxicityDetection = toxicityDetection {
+            var toxicityDetectionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .toxicityDetection)
+            for toxicitydetectionsettings0 in toxicityDetection {
+                try toxicityDetectionContainer.encode(toxicitydetectionsettings0)
             }
         }
     }
@@ -7105,6 +7112,8 @@ public struct StartTranscriptionJobInput: Swift.Equatable {
     public var subtitles: TranscribeClientTypes.Subtitles?
     /// Adds one or more custom tags, each in the form of a key:value pair, to a new transcription job at the time you start this new job. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
     public var tags: [TranscribeClientTypes.Tag]?
+    /// Enables toxic speech detection in your transcript. If you include ToxicityDetection in your request, you must also include ToxicityCategories. For information on the types of toxic speech Amazon Transcribe can detect, see [Detecting toxic speech](https://docs.aws.amazon.com/transcribe/latest/dg/toxic-language.html).
+    public var toxicityDetection: [TranscribeClientTypes.ToxicityDetectionSettings]?
     /// A unique name, chosen by you, for your transcription job. The name that you specify is also used as the default name of your transcription output file. If you want to specify a different name for your transcription output, use the OutputKey parameter. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new job with the same name as an existing job, you get a ConflictException error.
     /// This member is required.
     public var transcriptionJobName: Swift.String?
@@ -7128,6 +7137,7 @@ public struct StartTranscriptionJobInput: Swift.Equatable {
         settings: TranscribeClientTypes.Settings? = nil,
         subtitles: TranscribeClientTypes.Subtitles? = nil,
         tags: [TranscribeClientTypes.Tag]? = nil,
+        toxicityDetection: [TranscribeClientTypes.ToxicityDetectionSettings]? = nil,
         transcriptionJobName: Swift.String? = nil
     )
     {
@@ -7149,6 +7159,7 @@ public struct StartTranscriptionJobInput: Swift.Equatable {
         self.settings = settings
         self.subtitles = subtitles
         self.tags = tags
+        self.toxicityDetection = toxicityDetection
         self.transcriptionJobName = transcriptionJobName
     }
 }
@@ -7172,6 +7183,7 @@ struct StartTranscriptionJobInputBody: Swift.Equatable {
     let subtitles: TranscribeClientTypes.Subtitles?
     let tags: [TranscribeClientTypes.Tag]?
     let languageIdSettings: [Swift.String:TranscribeClientTypes.LanguageIdSettings]?
+    let toxicityDetection: [TranscribeClientTypes.ToxicityDetectionSettings]?
 }
 
 extension StartTranscriptionJobInputBody: Swift.Decodable {
@@ -7194,6 +7206,7 @@ extension StartTranscriptionJobInputBody: Swift.Decodable {
         case settings = "Settings"
         case subtitles = "Subtitles"
         case tags = "Tags"
+        case toxicityDetection = "ToxicityDetection"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -7270,6 +7283,17 @@ extension StartTranscriptionJobInputBody: Swift.Decodable {
             }
         }
         languageIdSettings = languageIdSettingsDecoded0
+        let toxicityDetectionContainer = try containerValues.decodeIfPresent([TranscribeClientTypes.ToxicityDetectionSettings?].self, forKey: .toxicityDetection)
+        var toxicityDetectionDecoded0:[TranscribeClientTypes.ToxicityDetectionSettings]? = nil
+        if let toxicityDetectionContainer = toxicityDetectionContainer {
+            toxicityDetectionDecoded0 = [TranscribeClientTypes.ToxicityDetectionSettings]()
+            for structure0 in toxicityDetectionContainer {
+                if let structure0 = structure0 {
+                    toxicityDetectionDecoded0?.append(structure0)
+                }
+            }
+        }
+        toxicityDetection = toxicityDetectionDecoded0
     }
 }
 
@@ -7632,6 +7656,83 @@ public struct TagResourceOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension TranscribeClientTypes {
+    public enum ToxicityCategory: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case all
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ToxicityCategory] {
+            return [
+                .all,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ToxicityCategory(rawValue: rawValue) ?? ToxicityCategory.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension TranscribeClientTypes.ToxicityDetectionSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case toxicityCategories = "ToxicityCategories"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let toxicityCategories = toxicityCategories {
+            var toxicityCategoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .toxicityCategories)
+            for toxicitycategory0 in toxicityCategories {
+                try toxicityCategoriesContainer.encode(toxicitycategory0.rawValue)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let toxicityCategoriesContainer = try containerValues.decodeIfPresent([TranscribeClientTypes.ToxicityCategory?].self, forKey: .toxicityCategories)
+        var toxicityCategoriesDecoded0:[TranscribeClientTypes.ToxicityCategory]? = nil
+        if let toxicityCategoriesContainer = toxicityCategoriesContainer {
+            toxicityCategoriesDecoded0 = [TranscribeClientTypes.ToxicityCategory]()
+            for enum0 in toxicityCategoriesContainer {
+                if let enum0 = enum0 {
+                    toxicityCategoriesDecoded0?.append(enum0)
+                }
+            }
+        }
+        toxicityCategories = toxicityCategoriesDecoded0
+    }
+}
+
+extension TranscribeClientTypes {
+    /// Contains ToxicityCategories, which is a required parameter if you want to enable toxicity detection (ToxicityDetection) in your transcription request.
+    public struct ToxicityDetectionSettings: Swift.Equatable {
+        /// If you include ToxicityDetection in your transcription request, you must also include ToxicityCategories. The only accepted value for this parameter is ALL.
+        /// This member is required.
+        public var toxicityCategories: [TranscribeClientTypes.ToxicityCategory]?
+
+        public init(
+            toxicityCategories: [TranscribeClientTypes.ToxicityCategory]? = nil
+        )
+        {
+            self.toxicityCategories = toxicityCategories
+        }
+    }
+
+}
+
 extension TranscribeClientTypes.Transcript: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case redactedTranscriptFileUri = "RedactedTranscriptFileUri"
@@ -7836,6 +7937,7 @@ extension TranscribeClientTypes.TranscriptionJob: Swift.Codable {
         case startTime = "StartTime"
         case subtitles = "Subtitles"
         case tags = "Tags"
+        case toxicityDetection = "ToxicityDetection"
         case transcript = "Transcript"
         case transcriptionJobName = "TranscriptionJobName"
         case transcriptionJobStatus = "TranscriptionJobStatus"
@@ -7913,6 +8015,12 @@ extension TranscribeClientTypes.TranscriptionJob: Swift.Codable {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
             for tag0 in tags {
                 try tagsContainer.encode(tag0)
+            }
+        }
+        if let toxicityDetection = toxicityDetection {
+            var toxicityDetectionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .toxicityDetection)
+            for toxicitydetectionsettings0 in toxicityDetection {
+                try toxicityDetectionContainer.encode(toxicitydetectionsettings0)
             }
         }
         if let transcript = self.transcript {
@@ -8010,6 +8118,17 @@ extension TranscribeClientTypes.TranscriptionJob: Swift.Codable {
             }
         }
         languageIdSettings = languageIdSettingsDecoded0
+        let toxicityDetectionContainer = try containerValues.decodeIfPresent([TranscribeClientTypes.ToxicityDetectionSettings?].self, forKey: .toxicityDetection)
+        var toxicityDetectionDecoded0:[TranscribeClientTypes.ToxicityDetectionSettings]? = nil
+        if let toxicityDetectionContainer = toxicityDetectionContainer {
+            toxicityDetectionDecoded0 = [TranscribeClientTypes.ToxicityDetectionSettings]()
+            for structure0 in toxicityDetectionContainer {
+                if let structure0 = structure0 {
+                    toxicityDetectionDecoded0?.append(structure0)
+                }
+            }
+        }
+        toxicityDetection = toxicityDetectionDecoded0
     }
 }
 
@@ -8068,6 +8187,8 @@ extension TranscribeClientTypes {
         public var subtitles: TranscribeClientTypes.SubtitlesOutput?
         /// The tags, each in the form of a key:value pair, assigned to the specified transcription job.
         public var tags: [TranscribeClientTypes.Tag]?
+        /// Provides information about the toxicity detection settings applied to your transcription.
+        public var toxicityDetection: [TranscribeClientTypes.ToxicityDetectionSettings]?
         /// Provides you with the Amazon S3 URI you can use to access your transcript.
         public var transcript: TranscribeClientTypes.Transcript?
         /// The name of the transcription job. Job names are case sensitive and must be unique within an Amazon Web Services account.
@@ -8096,6 +8217,7 @@ extension TranscribeClientTypes {
             startTime: ClientRuntime.Date? = nil,
             subtitles: TranscribeClientTypes.SubtitlesOutput? = nil,
             tags: [TranscribeClientTypes.Tag]? = nil,
+            toxicityDetection: [TranscribeClientTypes.ToxicityDetectionSettings]? = nil,
             transcript: TranscribeClientTypes.Transcript? = nil,
             transcriptionJobName: Swift.String? = nil,
             transcriptionJobStatus: TranscribeClientTypes.TranscriptionJobStatus? = nil
@@ -8121,6 +8243,7 @@ extension TranscribeClientTypes {
             self.startTime = startTime
             self.subtitles = subtitles
             self.tags = tags
+            self.toxicityDetection = toxicityDetection
             self.transcript = transcript
             self.transcriptionJobName = transcriptionJobName
             self.transcriptionJobStatus = transcriptionJobStatus
@@ -8181,6 +8304,7 @@ extension TranscribeClientTypes.TranscriptionJobSummary: Swift.Codable {
         case modelSettings = "ModelSettings"
         case outputLocationType = "OutputLocationType"
         case startTime = "StartTime"
+        case toxicityDetection = "ToxicityDetection"
         case transcriptionJobName = "TranscriptionJobName"
         case transcriptionJobStatus = "TranscriptionJobStatus"
     }
@@ -8225,6 +8349,12 @@ extension TranscribeClientTypes.TranscriptionJobSummary: Swift.Codable {
         }
         if let startTime = self.startTime {
             try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+        if let toxicityDetection = toxicityDetection {
+            var toxicityDetectionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .toxicityDetection)
+            for toxicitydetectionsettings0 in toxicityDetection {
+                try toxicityDetectionContainer.encode(toxicitydetectionsettings0)
+            }
         }
         if let transcriptionJobName = self.transcriptionJobName {
             try encodeContainer.encode(transcriptionJobName, forKey: .transcriptionJobName)
@@ -8273,6 +8403,17 @@ extension TranscribeClientTypes.TranscriptionJobSummary: Swift.Codable {
             }
         }
         languageCodes = languageCodesDecoded0
+        let toxicityDetectionContainer = try containerValues.decodeIfPresent([TranscribeClientTypes.ToxicityDetectionSettings?].self, forKey: .toxicityDetection)
+        var toxicityDetectionDecoded0:[TranscribeClientTypes.ToxicityDetectionSettings]? = nil
+        if let toxicityDetectionContainer = toxicityDetectionContainer {
+            toxicityDetectionDecoded0 = [TranscribeClientTypes.ToxicityDetectionSettings]()
+            for structure0 in toxicityDetectionContainer {
+                if let structure0 = structure0 {
+                    toxicityDetectionDecoded0?.append(structure0)
+                }
+            }
+        }
+        toxicityDetection = toxicityDetectionDecoded0
     }
 }
 
@@ -8303,6 +8444,8 @@ extension TranscribeClientTypes {
         public var outputLocationType: TranscribeClientTypes.OutputLocationType?
         /// The date and time your transcription job began processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.789000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
         public var startTime: ClientRuntime.Date?
+        /// Indicates whether toxicity detection was enabled for the specified transcription job.
+        public var toxicityDetection: [TranscribeClientTypes.ToxicityDetectionSettings]?
         /// The name of the transcription job. Job names are case sensitive and must be unique within an Amazon Web Services account.
         public var transcriptionJobName: Swift.String?
         /// Provides the status of your transcription job. If the status is COMPLETED, the job is finished and you can find the results at the location specified in TranscriptFileUri (or RedactedTranscriptFileUri, if you requested transcript redaction). If the status is FAILED, FailureReason provides details on why your transcription job failed.
@@ -8321,6 +8464,7 @@ extension TranscribeClientTypes {
             modelSettings: TranscribeClientTypes.ModelSettings? = nil,
             outputLocationType: TranscribeClientTypes.OutputLocationType? = nil,
             startTime: ClientRuntime.Date? = nil,
+            toxicityDetection: [TranscribeClientTypes.ToxicityDetectionSettings]? = nil,
             transcriptionJobName: Swift.String? = nil,
             transcriptionJobStatus: TranscribeClientTypes.TranscriptionJobStatus? = nil
         )
@@ -8337,6 +8481,7 @@ extension TranscribeClientTypes {
             self.modelSettings = modelSettings
             self.outputLocationType = outputLocationType
             self.startTime = startTime
+            self.toxicityDetection = toxicityDetection
             self.transcriptionJobName = transcriptionJobName
             self.transcriptionJobStatus = transcriptionJobStatus
         }

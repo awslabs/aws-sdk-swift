@@ -18,6 +18,8 @@ public protocol Route53ResolverClientProtocol {
     func createFirewallRule(input: CreateFirewallRuleInput) async throws -> CreateFirewallRuleOutputResponse
     /// Creates an empty DNS Firewall rule group for filtering DNS network traffic in a VPC. You can add rules to the new rule group by calling [CreateFirewallRule].
     func createFirewallRuleGroup(input: CreateFirewallRuleGroupInput) async throws -> CreateFirewallRuleGroupOutputResponse
+    /// Creates an Route 53 Resolver on an Outpost.
+    func createOutpostResolver(input: CreateOutpostResolverInput) async throws -> CreateOutpostResolverOutputResponse
     /// Creates a Resolver endpoint. There are two types of Resolver endpoints, inbound and outbound:
     ///
     /// * An inbound Resolver endpoint forwards DNS queries to the DNS service for a VPC from your network.
@@ -34,6 +36,8 @@ public protocol Route53ResolverClientProtocol {
     func deleteFirewallRule(input: DeleteFirewallRuleInput) async throws -> DeleteFirewallRuleOutputResponse
     /// Deletes the specified firewall rule group.
     func deleteFirewallRuleGroup(input: DeleteFirewallRuleGroupInput) async throws -> DeleteFirewallRuleGroupOutputResponse
+    /// Deletes a Resolver on the Outpost.
+    func deleteOutpostResolver(input: DeleteOutpostResolverInput) async throws -> DeleteOutpostResolverOutputResponse
     /// Deletes a Resolver endpoint. The effect of deleting a Resolver endpoint depends on whether it's an inbound or an outbound Resolver endpoint:
     ///
     /// * Inbound: DNS queries from your network are no longer routed to the DNS service for the specified VPC.
@@ -66,6 +70,8 @@ public protocol Route53ResolverClientProtocol {
     func getFirewallRuleGroupAssociation(input: GetFirewallRuleGroupAssociationInput) async throws -> GetFirewallRuleGroupAssociationOutputResponse
     /// Returns the Identity and Access Management (Amazon Web Services IAM) policy for sharing the specified rule group. You can use the policy to share the rule group using Resource Access Manager (RAM).
     func getFirewallRuleGroupPolicy(input: GetFirewallRuleGroupPolicyInput) async throws -> GetFirewallRuleGroupPolicyOutputResponse
+    /// Gets information about a specified Resolver on the Outpost, such as its instance count and type, name, and the current status of the Resolver.
+    func getOutpostResolver(input: GetOutpostResolverInput) async throws -> GetOutpostResolverOutputResponse
     /// Retrieves the behavior configuration of Route 53 Resolver behavior for a single VPC from Amazon Virtual Private Cloud.
     func getResolverConfig(input: GetResolverConfigInput) async throws -> GetResolverConfigOutputResponse
     /// Gets DNSSEC validation information for a specified resource.
@@ -104,6 +110,8 @@ public protocol Route53ResolverClientProtocol {
     func listFirewallRuleGroups(input: ListFirewallRuleGroupsInput) async throws -> ListFirewallRuleGroupsOutputResponse
     /// Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC. A single call might return only a partial list of the rules. For information, see MaxResults.
     func listFirewallRules(input: ListFirewallRulesInput) async throws -> ListFirewallRulesOutputResponse
+    /// Lists all the Resolvers on Outposts that were created using the current Amazon Web Services account.
+    func listOutpostResolvers(input: ListOutpostResolversInput) async throws -> ListOutpostResolversOutputResponse
     /// Retrieves the Resolver configurations that you have defined. Route 53 Resolver uses the configurations to manage DNS resolution behavior for your VPCs.
     func listResolverConfigs(input: ListResolverConfigsInput) async throws -> ListResolverConfigsOutputResponse
     /// Lists the configurations for DNSSEC validation that are associated with the current Amazon Web Services account.
@@ -140,6 +148,8 @@ public protocol Route53ResolverClientProtocol {
     func updateFirewallRule(input: UpdateFirewallRuleInput) async throws -> UpdateFirewallRuleOutputResponse
     /// Changes the association of a [FirewallRuleGroup] with a VPC. The association enables DNS filtering for the VPC.
     func updateFirewallRuleGroupAssociation(input: UpdateFirewallRuleGroupAssociationInput) async throws -> UpdateFirewallRuleGroupAssociationOutputResponse
+    /// You can use UpdateOutpostResolver to update the instance count, type, or name of a Resolver on an Outpost.
+    func updateOutpostResolver(input: UpdateOutpostResolverInput) async throws -> UpdateOutpostResolverOutputResponse
     /// Updates the behavior configuration of Route 53 Resolver behavior for a single VPC from Amazon Virtual Private Cloud.
     func updateResolverConfig(input: UpdateResolverConfigInput) async throws -> UpdateResolverConfigOutputResponse
     /// Updates an existing DNSSEC validation configuration. If there is no existing DNSSEC validation configuration, one is created.

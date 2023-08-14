@@ -1838,9 +1838,9 @@ public struct CreateEventSourceMappingInput: Swift.Equatable {
     public var selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
     /// An array of authentication protocols or VPC components required to secure your event source.
     public var sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]?
-    /// The position in a stream from which to start reading. Required for Amazon Kinesis, Amazon DynamoDB, and Amazon MSK Streams sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams and Amazon DocumentDB.
+    /// The position in a stream from which to start reading. Required for Amazon Kinesis and Amazon DynamoDB Stream event sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams, Amazon DocumentDB, Amazon MSK, and self-managed Apache Kafka.
     public var startingPosition: LambdaClientTypes.EventSourcePosition?
-    /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading.
+    /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading. StartingPositionTimestamp cannot be in the future.
     public var startingPositionTimestamp: ClientRuntime.Date?
     /// The name of the Kafka topic.
     public var topics: [Swift.String]?
@@ -2160,9 +2160,9 @@ public struct CreateEventSourceMappingOutputResponse: Swift.Equatable {
     public var selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
     /// An array of the authentication protocol, VPC components, or virtual host to secure and define your event source.
     public var sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]?
-    /// The position in a stream from which to start reading. Required for Amazon Kinesis, Amazon DynamoDB, and Amazon MSK stream sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams and Amazon DocumentDB.
+    /// The position in a stream from which to start reading. Required for Amazon Kinesis and Amazon DynamoDB Stream event sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams, Amazon DocumentDB, Amazon MSK, and self-managed Apache Kafka.
     public var startingPosition: LambdaClientTypes.EventSourcePosition?
-    /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading.
+    /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading. StartingPositionTimestamp cannot be in the future.
     public var startingPositionTimestamp: ClientRuntime.Date?
     /// The state of the event source mapping. It can be one of the following: Creating, Enabling, Enabled, Disabling, Disabled, Updating, or Deleting.
     public var state: Swift.String?
@@ -3611,6 +3611,7 @@ public enum DeleteEventSourceMappingOutputError: ClientRuntime.HttpResponseError
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceConflictException": return try await ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -3726,9 +3727,9 @@ public struct DeleteEventSourceMappingOutputResponse: Swift.Equatable {
     public var selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
     /// An array of the authentication protocol, VPC components, or virtual host to secure and define your event source.
     public var sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]?
-    /// The position in a stream from which to start reading. Required for Amazon Kinesis, Amazon DynamoDB, and Amazon MSK stream sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams and Amazon DocumentDB.
+    /// The position in a stream from which to start reading. Required for Amazon Kinesis and Amazon DynamoDB Stream event sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams, Amazon DocumentDB, Amazon MSK, and self-managed Apache Kafka.
     public var startingPosition: LambdaClientTypes.EventSourcePosition?
-    /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading.
+    /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading. StartingPositionTimestamp cannot be in the future.
     public var startingPositionTimestamp: ClientRuntime.Date?
     /// The state of the event source mapping. It can be one of the following: Creating, Enabling, Enabled, Disabling, Disabled, Updating, or Deleting.
     public var state: Swift.String?
@@ -5595,9 +5596,9 @@ extension LambdaClientTypes {
         public var selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
         /// An array of the authentication protocol, VPC components, or virtual host to secure and define your event source.
         public var sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]?
-        /// The position in a stream from which to start reading. Required for Amazon Kinesis, Amazon DynamoDB, and Amazon MSK stream sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams and Amazon DocumentDB.
+        /// The position in a stream from which to start reading. Required for Amazon Kinesis and Amazon DynamoDB Stream event sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams, Amazon DocumentDB, Amazon MSK, and self-managed Apache Kafka.
         public var startingPosition: LambdaClientTypes.EventSourcePosition?
-        /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading.
+        /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading. StartingPositionTimestamp cannot be in the future.
         public var startingPositionTimestamp: ClientRuntime.Date?
         /// The state of the event source mapping. It can be one of the following: Creating, Enabling, Enabled, Disabling, Disabled, Updating, or Deleting.
         public var state: Swift.String?
@@ -7171,9 +7172,9 @@ public struct GetEventSourceMappingOutputResponse: Swift.Equatable {
     public var selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
     /// An array of the authentication protocol, VPC components, or virtual host to secure and define your event source.
     public var sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]?
-    /// The position in a stream from which to start reading. Required for Amazon Kinesis, Amazon DynamoDB, and Amazon MSK stream sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams and Amazon DocumentDB.
+    /// The position in a stream from which to start reading. Required for Amazon Kinesis and Amazon DynamoDB Stream event sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams, Amazon DocumentDB, Amazon MSK, and self-managed Apache Kafka.
     public var startingPosition: LambdaClientTypes.EventSourcePosition?
-    /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading.
+    /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading. StartingPositionTimestamp cannot be in the future.
     public var startingPositionTimestamp: ClientRuntime.Date?
     /// The state of the event source mapping. It can be one of the following: Creating, Enabling, Enabled, Disabling, Disabled, Updating, or Deleting.
     public var state: Swift.String?
@@ -16081,6 +16082,7 @@ extension LambdaClientTypes {
         case providedal2
         case python27
         case python310
+        case python311
         case python36
         case python37
         case python38
@@ -16116,6 +16118,7 @@ extension LambdaClientTypes {
                 .providedal2,
                 .python27,
                 .python310,
+                .python311,
                 .python36,
                 .python37,
                 .python38,
@@ -16156,6 +16159,7 @@ extension LambdaClientTypes {
             case .providedal2: return "provided.al2"
             case .python27: return "python2.7"
             case .python310: return "python3.10"
+            case .python311: return "python3.11"
             case .python36: return "python3.6"
             case .python37: return "python3.7"
             case .python38: return "python3.8"
@@ -16480,7 +16484,7 @@ extension LambdaClientTypes.SnapStart: Swift.Codable {
 }
 
 extension LambdaClientTypes {
-    /// The function's Lambda SnapStart setting. Set ApplyOn to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version. SnapStart is supported with the java11 runtime. For more information, see [Improving startup performance with Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html).
+    /// The function's [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html) setting. Set ApplyOn to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version.
     public struct SnapStart: Swift.Equatable {
         /// Set to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version.
         public var applyOn: LambdaClientTypes.SnapStartApplyOn?
@@ -18314,9 +18318,9 @@ public struct UpdateEventSourceMappingOutputResponse: Swift.Equatable {
     public var selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
     /// An array of the authentication protocol, VPC components, or virtual host to secure and define your event source.
     public var sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]?
-    /// The position in a stream from which to start reading. Required for Amazon Kinesis, Amazon DynamoDB, and Amazon MSK stream sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams and Amazon DocumentDB.
+    /// The position in a stream from which to start reading. Required for Amazon Kinesis and Amazon DynamoDB Stream event sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams, Amazon DocumentDB, Amazon MSK, and self-managed Apache Kafka.
     public var startingPosition: LambdaClientTypes.EventSourcePosition?
-    /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading.
+    /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading. StartingPositionTimestamp cannot be in the future.
     public var startingPositionTimestamp: ClientRuntime.Date?
     /// The state of the event source mapping. It can be one of the following: Creating, Enabling, Enabled, Disabling, Disabled, Updating, or Deleting.
     public var state: Swift.String?

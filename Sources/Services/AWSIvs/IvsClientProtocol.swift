@@ -79,7 +79,7 @@ import ClientRuntime
 /// * [PutMetadata] — Inserts metadata into the active stream of the specified channel. At most 5 requests per second per channel are allowed, each with a maximum 1 KB payload. (If 5 TPS is not sufficient for your needs, we recommend batching your data into a single PutMetadata call.) At most 155 requests per second per account are allowed.
 ///
 ///
-/// PlaybackKeyPair Endpoints For more information, see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html) in the Amazon IVS User Guide.
+/// Private Channel Endpoints For more information, see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html) in the Amazon IVS User Guide.
 ///
 /// * [ImportPlaybackKeyPair] — Imports the public portion of a new key pair and returns its arn and fingerprint. The privateKey can then be used to generate viewer authorization tokens, to grant viewers access to private channels (channels enabled for playback authorization).
 ///
@@ -88,6 +88,10 @@ import ClientRuntime
 /// * [ListPlaybackKeyPairs] — Gets summary information about playback key pairs.
 ///
 /// * [DeletePlaybackKeyPair] — Deletes a specified authorization key pair. This invalidates future viewer tokens generated using the key pair’s privateKey.
+///
+/// * [StartViewerSessionRevocation] — Starts the process of revoking the viewer session associated with a specified channel ARN and viewer ID. Optionally, you can provide a version to revoke viewer sessions less than and including that version.
+///
+/// * [BatchStartViewerSessionRevocation] — Performs [StartViewerSessionRevocation] on multiple channel ARN and viewer ID pairs simultaneously.
 ///
 ///
 /// RecordingConfiguration Endpoints
@@ -113,6 +117,8 @@ public protocol IvsClientProtocol {
     func batchGetChannel(input: BatchGetChannelInput) async throws -> BatchGetChannelOutputResponse
     /// Performs [GetStreamKey] on multiple ARNs simultaneously.
     func batchGetStreamKey(input: BatchGetStreamKeyInput) async throws -> BatchGetStreamKeyOutputResponse
+    /// Performs [StartViewerSessionRevocation] on multiple channel ARN and viewer ID pairs simultaneously.
+    func batchStartViewerSessionRevocation(input: BatchStartViewerSessionRevocationInput) async throws -> BatchStartViewerSessionRevocationOutputResponse
     /// Creates a new channel and an associated stream key to start streaming.
     func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutputResponse
     /// Creates a new recording configuration, used to enable recording to Amazon S3. Known issue: In the us-east-1 region, if you use the Amazon Web Services CLI to create a recording configuration, it returns success even if the S3 bucket is in a different region. In this case, the state of the recording configuration is CREATE_FAILED (instead of ACTIVE). (In other regions, the CLI correctly returns failure if the bucket is in a different region.) Workaround: Ensure that your S3 bucket is in the same region as the recording configuration. If you create a recording configuration in a different region as your S3 bucket, delete that recording configuration and create a new one with an S3 bucket from the correct region.
@@ -157,6 +163,8 @@ public protocol IvsClientProtocol {
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Inserts metadata into the active stream of the specified channel. At most 5 requests per second per channel are allowed, each with a maximum 1 KB payload. (If 5 TPS is not sufficient for your needs, we recommend batching your data into a single PutMetadata call.) At most 155 requests per second per account are allowed. Also see [Embedding Metadata within a Video Stream](https://docs.aws.amazon.com/ivs/latest/userguide/metadata.html) in the Amazon IVS User Guide.
     func putMetadata(input: PutMetadataInput) async throws -> PutMetadataOutputResponse
+    /// Starts the process of revoking the viewer session associated with a specified channel ARN and viewer ID. Optionally, you can provide a version to revoke viewer sessions less than and including that version. For instructions on associating a viewer ID with a viewer session, see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html).
+    func startViewerSessionRevocation(input: StartViewerSessionRevocationInput) async throws -> StartViewerSessionRevocationOutputResponse
     /// Disconnects the incoming RTMPS stream for the specified channel. Can be used in conjunction with [DeleteStreamKey] to prevent further streaming to a channel. Many streaming client-software libraries automatically reconnect a dropped RTMPS session, so to stop the stream permanently, you may want to first revoke the streamKey attached to the channel.
     func stopStream(input: StopStreamInput) async throws -> StopStreamOutputResponse
     /// Adds or updates tags for the Amazon Web Services resource with the specified ARN.

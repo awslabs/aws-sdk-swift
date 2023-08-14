@@ -350,7 +350,7 @@ extension CostExplorerClientTypes {
         ///
         /// * For example, you can filter for REGION==us-east-1 OR REGION==us-west-1. For GetRightsizingRecommendation, the Region is a full name (for example, REGION==US East (N. Virginia).
         ///
-        /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", “us-west-1” ] } }
+        /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ] } }
         ///
         /// * As shown in the previous example, lists of dimension values are combined with OR when applying the filter.
         ///
@@ -359,7 +359,7 @@ extension CostExplorerClientTypes {
         ///
         /// * You can also set different match options to further control how the filter behaves. Not all APIs support match options. Refer to the documentation for each specific API to see what is supported.
         ///
-        /// * For example, you can filter for linked account names that start with “a”.
+        /// * For example, you can filter for linked account names that start with "a".
         ///
         /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "LINKED_ACCOUNT_NAME", "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] } }
         ///
@@ -546,11 +546,11 @@ extension CostExplorerClientTypes.AnomalySubscription: Swift.Codable {
 }
 
 extension CostExplorerClientTypes {
-    /// The association between a monitor, threshold, and list of subscribers used to deliver notifications about anomalies detected by a monitor that exceeds a threshold. The content consists of the detailed metadata and the current status of the AnomalySubscription object.
+    /// An AnomalySubscription resource (also referred to as an alert subscription) sends notifications about specific anomalies that meet an alerting criteria defined by you. You can specify the frequency of the alerts and the subscribers to notify. Anomaly subscriptions can be associated with one or more [AnomalyMonitor](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AnomalyMonitor.html) resources, and they only send notifications about anomalies detected by those associated monitors. You can also configure a threshold to further control which anomalies are included in the notifications. Anomalies that don’t exceed the chosen threshold and therefore don’t trigger notifications from an anomaly subscription will still be available on the console and from the [GetAnomalies](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_GetAnomalies.html) API.
     public struct AnomalySubscription: Swift.Equatable {
         /// Your unique account identifier.
         public var accountId: Swift.String?
-        /// The frequency that anomaly reports are sent over email.
+        /// The frequency that anomaly notifications are sent. Notifications are sent either over email (for DAILY and WEEKLY frequencies) or SNS (for IMMEDIATE frequency). For more information, see [Creating an Amazon SNS topic for anomaly notifications](https://docs.aws.amazon.com/cost-management/latest/userguide/ad-SNS.html).
         /// This member is required.
         public var frequency: CostExplorerClientTypes.AnomalySubscriptionFrequency?
         /// A list of cost anomaly monitors.
@@ -564,10 +564,10 @@ extension CostExplorerClientTypes {
         /// The name for the subscription.
         /// This member is required.
         public var subscriptionName: Swift.String?
-        /// (deprecated) The dollar value that triggers a notification if the threshold is exceeded. This field has been deprecated. To specify a threshold, use ThresholdExpression. Continued use of Threshold will be treated as shorthand syntax for a ThresholdExpression. One of Threshold or ThresholdExpression is required for this resource.
+        /// (deprecated) An absolute dollar value that must be exceeded by the anomaly's total impact (see [Impact](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Impact.html) for more details) for an anomaly notification to be generated. This field has been deprecated. To specify a threshold, use ThresholdExpression. Continued use of Threshold will be treated as shorthand syntax for a ThresholdExpression. One of Threshold or ThresholdExpression is required for this resource. You cannot specify both.
         @available(*, deprecated, message: "Threshold has been deprecated in favor of ThresholdExpression")
         public var threshold: Swift.Double?
-        /// An [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html) object used to specify the anomalies that you want to generate alerts for. This supports dimensions and nested expressions. The supported dimensions are ANOMALY_TOTAL_IMPACT_ABSOLUTE and ANOMALY_TOTAL_IMPACT_PERCENTAGE. The supported nested expression types are AND and OR. The match option GREATER_THAN_OR_EQUAL is required. Values must be numbers between 0 and 10,000,000,000. One of Threshold or ThresholdExpression is required for this resource. The following are examples of valid ThresholdExpressions:
+        /// An [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html) object used to specify the anomalies that you want to generate alerts for. This supports dimensions and nested expressions. The supported dimensions are ANOMALY_TOTAL_IMPACT_ABSOLUTE and ANOMALY_TOTAL_IMPACT_PERCENTAGE, corresponding to an anomaly’s TotalImpact and TotalImpactPercentage, respectively (see [Impact](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Impact.html) for more details). The supported nested expression types are AND and OR. The match option GREATER_THAN_OR_EQUAL is required. Values must be numbers between 0 and 10,000,000,000 in string format. One of Threshold or ThresholdExpression is required for this resource. You cannot specify both. The following are examples of valid ThresholdExpressions:
         ///
         /// * Absolute threshold: { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }
         ///
@@ -1345,7 +1345,7 @@ extension CostExplorerClientTypes {
     public struct CostCategoryRule: Swift.Equatable {
         /// The value the line item is categorized as if the line item contains the matched dimension.
         public var inheritedValue: CostExplorerClientTypes.CostCategoryInheritedValueDimension?
-        /// An [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html) object used to categorize costs. This supports dimensions, tags, and nested expressions. Currently the only dimensions supported are LINKED_ACCOUNT, SERVICE_CODE, RECORD_TYPE, and LINKED_ACCOUNT_NAME. Root level OR isn't supported. We recommend that you create a separate rule instead. RECORD_TYPE is a dimension used for Cost Explorer APIs, and is also supported for Cost Category expressions. This dimension uses different terms, depending on whether you're using the console or API/JSON editor. For a detailed comparison, see [Term Comparisons](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-cost-categories.html#cost-categories-terms) in the Billing and Cost Management User Guide.
+        /// An [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html) object used to categorize costs. This supports dimensions, tags, and nested expressions. Currently the only dimensions supported are LINKED_ACCOUNT, SERVICE_CODE, RECORD_TYPE, LINKED_ACCOUNT_NAME, REGION, and USAGE_TYPE. RECORD_TYPE is a dimension used for Cost Explorer APIs, and is also supported for Cost Category expressions. This dimension uses different terms, depending on whether you're using the console or API/JSON editor. For a detailed comparison, see [Term Comparisons](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-cost-categories.html#cost-categories-terms) in the Billing and Cost Management User Guide.
         public var rule: CostExplorerClientTypes.Expression?
         /// You can define the CostCategoryRule rule type as either REGULAR or INHERITED_VALUE. The INHERITED_VALUE rule type adds the flexibility to define a rule that dynamically inherits the cost category value. This value is from the dimension value that's defined by CostCategoryInheritedValueDimension. For example, suppose that you want to costs to be dynamically grouped based on the value of a specific tag key. First, choose an inherited value rule type, and then choose the tag dimension and specify the tag key to use.
         public var type: CostExplorerClientTypes.CostCategoryRuleType?
@@ -4181,7 +4181,7 @@ extension CostExplorerClientTypes {
     ///
     /// * For example, you can filter for REGION==us-east-1 OR REGION==us-west-1. For GetRightsizingRecommendation, the Region is a full name (for example, REGION==US East (N. Virginia).
     ///
-    /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", “us-west-1” ] } }
+    /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ] } }
     ///
     /// * As shown in the previous example, lists of dimension values are combined with OR when applying the filter.
     ///
@@ -4190,7 +4190,7 @@ extension CostExplorerClientTypes {
     ///
     /// * You can also set different match options to further control how the filter behaves. Not all APIs support match options. Refer to the documentation for each specific API to see what is supported.
     ///
-    /// * For example, you can filter for linked account names that start with “a”.
+    /// * For example, you can filter for linked account names that start with "a".
     ///
     /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "LINKED_ACCOUNT_NAME", "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] } }
     ///
@@ -5566,7 +5566,7 @@ extension GetCostCategoriesInput: Swift.Encodable {
         if let filter = self.filter {
             try encodeContainer.encode(filter, forKey: .filter)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextPageToken = self.nextPageToken {
@@ -5615,7 +5615,7 @@ public struct GetCostCategoriesInput: Swift.Equatable {
     ///
     /// * For example, you can filter for REGION==us-east-1 OR REGION==us-west-1. For GetRightsizingRecommendation, the Region is a full name (for example, REGION==US East (N. Virginia).
     ///
-    /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", “us-west-1” ] } }
+    /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ] } }
     ///
     /// * As shown in the previous example, lists of dimension values are combined with OR when applying the filter.
     ///
@@ -5624,7 +5624,7 @@ public struct GetCostCategoriesInput: Swift.Equatable {
     ///
     /// * You can also set different match options to further control how the filter behaves. Not all APIs support match options. Refer to the documentation for each specific API to see what is supported.
     ///
-    /// * For example, you can filter for linked account names that start with “a”.
+    /// * For example, you can filter for linked account names that start with "a".
     ///
     /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "LINKED_ACCOUNT_NAME", "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] } }
     ///
@@ -5649,7 +5649,7 @@ public struct GetCostCategoriesInput: Swift.Equatable {
     /// For the GetRightsizingRecommendation action, a combination of OR and NOT isn't supported. OR isn't supported between different dimensions, or dimensions and tags. NOT operators aren't supported. Dimensions are also limited to LINKED_ACCOUNT, REGION, or RIGHTSIZING_TYPE. For the GetReservationPurchaseRecommendation action, only NOT is supported. AND and OR aren't supported. Dimensions are limited to LINKED_ACCOUNT.
     public var filter: CostExplorerClientTypes.Expression?
     /// This field is only used when the SortBy value is provided in the request. The maximum number of objects that are returned for this request. If MaxResults isn't specified with the SortBy value, the request returns 1000 results as the default value for this parameter. For GetCostCategories, MaxResults has an upper quota of 1000.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// If the number of objects that are still available for retrieval exceeds the quota, Amazon Web Services returns a NextPageToken value in the response. To retrieve the next batch of objects, provide the NextPageToken from the previous call in your next request.
     public var nextPageToken: Swift.String?
     /// The value that you want to search the filter values for. If you don't specify a CostCategoryName, SearchString is used to filter Cost Category names that match the SearchString pattern. If you specify a CostCategoryName, SearchString is used to filter Cost Category values that match the SearchString pattern.
@@ -5680,7 +5680,7 @@ public struct GetCostCategoriesInput: Swift.Equatable {
     public init(
         costCategoryName: Swift.String? = nil,
         filter: CostExplorerClientTypes.Expression? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextPageToken: Swift.String? = nil,
         searchString: Swift.String? = nil,
         sortBy: [CostExplorerClientTypes.SortDefinition]? = nil,
@@ -5703,7 +5703,7 @@ struct GetCostCategoriesInputBody: Swift.Equatable {
     let costCategoryName: Swift.String?
     let filter: CostExplorerClientTypes.Expression?
     let sortBy: [CostExplorerClientTypes.SortDefinition]?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextPageToken: Swift.String?
 }
 
@@ -5739,7 +5739,7 @@ extension GetCostCategoriesInputBody: Swift.Decodable {
             }
         }
         sortBy = sortByDecoded0
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextPageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextPageToken)
         nextPageToken = nextPageTokenDecoded
@@ -6109,7 +6109,7 @@ extension GetDimensionValuesInput: Swift.Encodable {
         if let filter = self.filter {
             try encodeContainer.encode(filter, forKey: .filter)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextPageToken = self.nextPageToken {
@@ -6247,7 +6247,7 @@ public struct GetDimensionValuesInput: Swift.Equatable {
     ///
     /// * For example, you can filter for REGION==us-east-1 OR REGION==us-west-1. For GetRightsizingRecommendation, the Region is a full name (for example, REGION==US East (N. Virginia).
     ///
-    /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", “us-west-1” ] } }
+    /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ] } }
     ///
     /// * As shown in the previous example, lists of dimension values are combined with OR when applying the filter.
     ///
@@ -6256,7 +6256,7 @@ public struct GetDimensionValuesInput: Swift.Equatable {
     ///
     /// * You can also set different match options to further control how the filter behaves. Not all APIs support match options. Refer to the documentation for each specific API to see what is supported.
     ///
-    /// * For example, you can filter for linked account names that start with “a”.
+    /// * For example, you can filter for linked account names that start with "a".
     ///
     /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "LINKED_ACCOUNT_NAME", "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] } }
     ///
@@ -6281,7 +6281,7 @@ public struct GetDimensionValuesInput: Swift.Equatable {
     /// For the GetRightsizingRecommendation action, a combination of OR and NOT isn't supported. OR isn't supported between different dimensions, or dimensions and tags. NOT operators aren't supported. Dimensions are also limited to LINKED_ACCOUNT, REGION, or RIGHTSIZING_TYPE. For the GetReservationPurchaseRecommendation action, only NOT is supported. AND and OR aren't supported. Dimensions are limited to LINKED_ACCOUNT.
     public var filter: CostExplorerClientTypes.Expression?
     /// This field is only used when SortBy is provided in the request. The maximum number of objects that are returned for this request. If MaxResults isn't specified with SortBy, the request returns 1000 results as the default value for this parameter. For GetDimensionValues, MaxResults has an upper limit of 1000.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
     public var nextPageToken: Swift.String?
     /// The value that you want to search the filter values for.
@@ -6313,7 +6313,7 @@ public struct GetDimensionValuesInput: Swift.Equatable {
         context: CostExplorerClientTypes.Context? = nil,
         dimension: CostExplorerClientTypes.Dimension? = nil,
         filter: CostExplorerClientTypes.Expression? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextPageToken: Swift.String? = nil,
         searchString: Swift.String? = nil,
         sortBy: [CostExplorerClientTypes.SortDefinition]? = nil,
@@ -6338,7 +6338,7 @@ struct GetDimensionValuesInputBody: Swift.Equatable {
     let context: CostExplorerClientTypes.Context?
     let filter: CostExplorerClientTypes.Expression?
     let sortBy: [CostExplorerClientTypes.SortDefinition]?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextPageToken: Swift.String?
 }
 
@@ -6377,7 +6377,7 @@ extension GetDimensionValuesInputBody: Swift.Decodable {
             }
         }
         sortBy = sortByDecoded0
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextPageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextPageToken)
         nextPageToken = nextPageTokenDecoded
@@ -6890,7 +6890,7 @@ extension GetReservationPurchaseRecommendationInput: Swift.Encodable {
         if let nextPageToken = self.nextPageToken {
             try encodeContainer.encode(nextPageToken, forKey: .nextPageToken)
         }
-        if pageSize != 0 {
+        if let pageSize = self.pageSize {
             try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
         if let paymentOption = self.paymentOption {
@@ -6938,7 +6938,7 @@ public struct GetReservationPurchaseRecommendationInput: Swift.Equatable {
     ///
     /// * For example, you can filter for REGION==us-east-1 OR REGION==us-west-1. For GetRightsizingRecommendation, the Region is a full name (for example, REGION==US East (N. Virginia).
     ///
-    /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", “us-west-1” ] } }
+    /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ] } }
     ///
     /// * As shown in the previous example, lists of dimension values are combined with OR when applying the filter.
     ///
@@ -6947,7 +6947,7 @@ public struct GetReservationPurchaseRecommendationInput: Swift.Equatable {
     ///
     /// * You can also set different match options to further control how the filter behaves. Not all APIs support match options. Refer to the documentation for each specific API to see what is supported.
     ///
-    /// * For example, you can filter for linked account names that start with “a”.
+    /// * For example, you can filter for linked account names that start with "a".
     ///
     /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "LINKED_ACCOUNT_NAME", "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] } }
     ///
@@ -6976,7 +6976,7 @@ public struct GetReservationPurchaseRecommendationInput: Swift.Equatable {
     /// The pagination token that indicates the next set of results that you want to retrieve.
     public var nextPageToken: Swift.String?
     /// The number of recommendations that you want returned in a single response object.
-    public var pageSize: Swift.Int
+    public var pageSize: Swift.Int?
     /// The reservation purchase option that you want recommendations for.
     public var paymentOption: CostExplorerClientTypes.PaymentOption?
     /// The specific service that you want recommendations for.
@@ -6993,7 +6993,7 @@ public struct GetReservationPurchaseRecommendationInput: Swift.Equatable {
         filter: CostExplorerClientTypes.Expression? = nil,
         lookbackPeriodInDays: CostExplorerClientTypes.LookbackPeriodInDays? = nil,
         nextPageToken: Swift.String? = nil,
-        pageSize: Swift.Int = 0,
+        pageSize: Swift.Int? = nil,
         paymentOption: CostExplorerClientTypes.PaymentOption? = nil,
         service: Swift.String? = nil,
         serviceSpecification: CostExplorerClientTypes.ServiceSpecification? = nil,
@@ -7022,7 +7022,7 @@ struct GetReservationPurchaseRecommendationInputBody: Swift.Equatable {
     let termInYears: CostExplorerClientTypes.TermInYears?
     let paymentOption: CostExplorerClientTypes.PaymentOption?
     let serviceSpecification: CostExplorerClientTypes.ServiceSpecification?
-    let pageSize: Swift.Int
+    let pageSize: Swift.Int?
     let nextPageToken: Swift.String?
 }
 
@@ -7058,7 +7058,7 @@ extension GetReservationPurchaseRecommendationInputBody: Swift.Decodable {
         paymentOption = paymentOptionDecoded
         let serviceSpecificationDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.ServiceSpecification.self, forKey: .serviceSpecification)
         serviceSpecification = serviceSpecificationDecoded
-        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize) ?? 0
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
         pageSize = pageSizeDecoded
         let nextPageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextPageToken)
         nextPageToken = nextPageTokenDecoded
@@ -7444,7 +7444,7 @@ extension GetRightsizingRecommendationInput: Swift.Encodable {
         if let nextPageToken = self.nextPageToken {
             try encodeContainer.encode(nextPageToken, forKey: .nextPageToken)
         }
-        if pageSize != 0 {
+        if let pageSize = self.pageSize {
             try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
         if let service = self.service {
@@ -7481,7 +7481,7 @@ public struct GetRightsizingRecommendationInput: Swift.Equatable {
     ///
     /// * For example, you can filter for REGION==us-east-1 OR REGION==us-west-1. For GetRightsizingRecommendation, the Region is a full name (for example, REGION==US East (N. Virginia).
     ///
-    /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", “us-west-1” ] } }
+    /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ] } }
     ///
     /// * As shown in the previous example, lists of dimension values are combined with OR when applying the filter.
     ///
@@ -7490,7 +7490,7 @@ public struct GetRightsizingRecommendationInput: Swift.Equatable {
     ///
     /// * You can also set different match options to further control how the filter behaves. Not all APIs support match options. Refer to the documentation for each specific API to see what is supported.
     ///
-    /// * For example, you can filter for linked account names that start with “a”.
+    /// * For example, you can filter for linked account names that start with "a".
     ///
     /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "LINKED_ACCOUNT_NAME", "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] } }
     ///
@@ -7517,7 +7517,7 @@ public struct GetRightsizingRecommendationInput: Swift.Equatable {
     /// The pagination token that indicates the next set of results that you want to retrieve.
     public var nextPageToken: Swift.String?
     /// The number of recommendations that you want returned in a single response object.
-    public var pageSize: Swift.Int
+    public var pageSize: Swift.Int?
     /// The specific service that you want recommendations for. The only valid value for GetRightsizingRecommendation is "AmazonEC2".
     /// This member is required.
     public var service: Swift.String?
@@ -7526,7 +7526,7 @@ public struct GetRightsizingRecommendationInput: Swift.Equatable {
         configuration: CostExplorerClientTypes.RightsizingRecommendationConfiguration? = nil,
         filter: CostExplorerClientTypes.Expression? = nil,
         nextPageToken: Swift.String? = nil,
-        pageSize: Swift.Int = 0,
+        pageSize: Swift.Int? = nil,
         service: Swift.String? = nil
     )
     {
@@ -7542,7 +7542,7 @@ struct GetRightsizingRecommendationInputBody: Swift.Equatable {
     let filter: CostExplorerClientTypes.Expression?
     let configuration: CostExplorerClientTypes.RightsizingRecommendationConfiguration?
     let service: Swift.String?
-    let pageSize: Swift.Int
+    let pageSize: Swift.Int?
     let nextPageToken: Swift.String?
 }
 
@@ -7563,7 +7563,7 @@ extension GetRightsizingRecommendationInputBody: Swift.Decodable {
         configuration = configurationDecoded
         let serviceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .service)
         service = serviceDecoded
-        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize) ?? 0
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
         pageSize = pageSizeDecoded
         let nextPageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextPageToken)
         nextPageToken = nextPageTokenDecoded
@@ -7668,6 +7668,116 @@ extension GetRightsizingRecommendationOutputResponseBody: Swift.Decodable {
         nextPageToken = nextPageTokenDecoded
         let configurationDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.RightsizingRecommendationConfiguration.self, forKey: .configuration)
         configuration = configurationDecoded
+    }
+}
+
+extension GetSavingsPlanPurchaseRecommendationDetailsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case recommendationDetailId = "RecommendationDetailId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let recommendationDetailId = self.recommendationDetailId {
+            try encodeContainer.encode(recommendationDetailId, forKey: .recommendationDetailId)
+        }
+    }
+}
+
+extension GetSavingsPlanPurchaseRecommendationDetailsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetSavingsPlanPurchaseRecommendationDetailsInput: Swift.Equatable {
+    /// The ID that is associated with the Savings Plan recommendation.
+    /// This member is required.
+    public var recommendationDetailId: Swift.String?
+
+    public init(
+        recommendationDetailId: Swift.String? = nil
+    )
+    {
+        self.recommendationDetailId = recommendationDetailId
+    }
+}
+
+struct GetSavingsPlanPurchaseRecommendationDetailsInputBody: Swift.Equatable {
+    let recommendationDetailId: Swift.String?
+}
+
+extension GetSavingsPlanPurchaseRecommendationDetailsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case recommendationDetailId = "RecommendationDetailId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recommendationDetailIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recommendationDetailId)
+        recommendationDetailId = recommendationDetailIdDecoded
+    }
+}
+
+public enum GetSavingsPlanPurchaseRecommendationDetailsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DataUnavailableException": return try await DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetSavingsPlanPurchaseRecommendationDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetSavingsPlanPurchaseRecommendationDetailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.recommendationDetailData = output.recommendationDetailData
+            self.recommendationDetailId = output.recommendationDetailId
+        } else {
+            self.recommendationDetailData = nil
+            self.recommendationDetailId = nil
+        }
+    }
+}
+
+public struct GetSavingsPlanPurchaseRecommendationDetailsOutputResponse: Swift.Equatable {
+    /// Contains detailed information about a specific Savings Plan recommendation.
+    public var recommendationDetailData: CostExplorerClientTypes.RecommendationDetailData?
+    /// The ID that is associated with the Savings Plan recommendation.
+    public var recommendationDetailId: Swift.String?
+
+    public init(
+        recommendationDetailData: CostExplorerClientTypes.RecommendationDetailData? = nil,
+        recommendationDetailId: Swift.String? = nil
+    )
+    {
+        self.recommendationDetailData = recommendationDetailData
+        self.recommendationDetailId = recommendationDetailId
+    }
+}
+
+struct GetSavingsPlanPurchaseRecommendationDetailsOutputResponseBody: Swift.Equatable {
+    let recommendationDetailId: Swift.String?
+    let recommendationDetailData: CostExplorerClientTypes.RecommendationDetailData?
+}
+
+extension GetSavingsPlanPurchaseRecommendationDetailsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case recommendationDetailData = "RecommendationDetailData"
+        case recommendationDetailId = "RecommendationDetailId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recommendationDetailIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recommendationDetailId)
+        recommendationDetailId = recommendationDetailIdDecoded
+        let recommendationDetailDataDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.RecommendationDetailData.self, forKey: .recommendationDetailData)
+        recommendationDetailData = recommendationDetailDataDecoded
     }
 }
 
@@ -7954,7 +8064,7 @@ extension GetSavingsPlansPurchaseRecommendationInput: Swift.Encodable {
         if let nextPageToken = self.nextPageToken {
             try encodeContainer.encode(nextPageToken, forKey: .nextPageToken)
         }
-        if pageSize != 0 {
+        if let pageSize = self.pageSize {
             try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
         if let paymentOption = self.paymentOption {
@@ -7986,7 +8096,7 @@ public struct GetSavingsPlansPurchaseRecommendationInput: Swift.Equatable {
     /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
     public var nextPageToken: Swift.String?
     /// The number of recommendations that you want returned in a single response object.
-    public var pageSize: Swift.Int
+    public var pageSize: Swift.Int?
     /// The payment option that's used to generate these recommendations.
     /// This member is required.
     public var paymentOption: CostExplorerClientTypes.PaymentOption?
@@ -8002,7 +8112,7 @@ public struct GetSavingsPlansPurchaseRecommendationInput: Swift.Equatable {
         filter: CostExplorerClientTypes.Expression? = nil,
         lookbackPeriodInDays: CostExplorerClientTypes.LookbackPeriodInDays? = nil,
         nextPageToken: Swift.String? = nil,
-        pageSize: Swift.Int = 0,
+        pageSize: Swift.Int? = nil,
         paymentOption: CostExplorerClientTypes.PaymentOption? = nil,
         savingsPlansType: CostExplorerClientTypes.SupportedSavingsPlansType? = nil,
         termInYears: CostExplorerClientTypes.TermInYears? = nil
@@ -8025,7 +8135,7 @@ struct GetSavingsPlansPurchaseRecommendationInputBody: Swift.Equatable {
     let paymentOption: CostExplorerClientTypes.PaymentOption?
     let accountScope: CostExplorerClientTypes.AccountScope?
     let nextPageToken: Swift.String?
-    let pageSize: Swift.Int
+    let pageSize: Swift.Int?
     let lookbackPeriodInDays: CostExplorerClientTypes.LookbackPeriodInDays?
     let filter: CostExplorerClientTypes.Expression?
 }
@@ -8054,7 +8164,7 @@ extension GetSavingsPlansPurchaseRecommendationInputBody: Swift.Decodable {
         accountScope = accountScopeDecoded
         let nextPageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextPageToken)
         nextPageToken = nextPageTokenDecoded
-        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize) ?? 0
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
         pageSize = pageSizeDecoded
         let lookbackPeriodInDaysDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.LookbackPeriodInDays.self, forKey: .lookbackPeriodInDays)
         lookbackPeriodInDays = lookbackPeriodInDaysDecoded
@@ -8579,7 +8689,7 @@ extension GetTagsInput: Swift.Encodable {
         if let filter = self.filter {
             try encodeContainer.encode(filter, forKey: .filter)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextPageToken = self.nextPageToken {
@@ -8629,7 +8739,7 @@ public struct GetTagsInput: Swift.Equatable {
     ///
     /// * For example, you can filter for REGION==us-east-1 OR REGION==us-west-1. For GetRightsizingRecommendation, the Region is a full name (for example, REGION==US East (N. Virginia).
     ///
-    /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", “us-west-1” ] } }
+    /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ] } }
     ///
     /// * As shown in the previous example, lists of dimension values are combined with OR when applying the filter.
     ///
@@ -8638,7 +8748,7 @@ public struct GetTagsInput: Swift.Equatable {
     ///
     /// * You can also set different match options to further control how the filter behaves. Not all APIs support match options. Refer to the documentation for each specific API to see what is supported.
     ///
-    /// * For example, you can filter for linked account names that start with “a”.
+    /// * For example, you can filter for linked account names that start with "a".
     ///
     /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "LINKED_ACCOUNT_NAME", "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] } }
     ///
@@ -8663,7 +8773,7 @@ public struct GetTagsInput: Swift.Equatable {
     /// For the GetRightsizingRecommendation action, a combination of OR and NOT isn't supported. OR isn't supported between different dimensions, or dimensions and tags. NOT operators aren't supported. Dimensions are also limited to LINKED_ACCOUNT, REGION, or RIGHTSIZING_TYPE. For the GetReservationPurchaseRecommendation action, only NOT is supported. AND and OR aren't supported. Dimensions are limited to LINKED_ACCOUNT.
     public var filter: CostExplorerClientTypes.Expression?
     /// This field is only used when SortBy is provided in the request. The maximum number of objects that are returned for this request. If MaxResults isn't specified with SortBy, the request returns 1000 results as the default value for this parameter. For GetTags, MaxResults has an upper quota of 1000.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
     public var nextPageToken: Swift.String?
     /// The value that you want to search for.
@@ -8695,7 +8805,7 @@ public struct GetTagsInput: Swift.Equatable {
 
     public init(
         filter: CostExplorerClientTypes.Expression? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextPageToken: Swift.String? = nil,
         searchString: Swift.String? = nil,
         sortBy: [CostExplorerClientTypes.SortDefinition]? = nil,
@@ -8719,7 +8829,7 @@ struct GetTagsInputBody: Swift.Equatable {
     let tagKey: Swift.String?
     let filter: CostExplorerClientTypes.Expression?
     let sortBy: [CostExplorerClientTypes.SortDefinition]?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextPageToken: Swift.String?
 }
 
@@ -8755,7 +8865,7 @@ extension GetTagsInputBody: Swift.Decodable {
             }
         }
         sortBy = sortByDecoded0
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextPageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextPageToken)
         nextPageToken = nextPageTokenDecoded
@@ -9859,7 +9969,7 @@ extension ListSavingsPlansPurchaseRecommendationGenerationInput: Swift.Encodable
         if let nextPageToken = self.nextPageToken {
             try encodeContainer.encode(nextPageToken, forKey: .nextPageToken)
         }
-        if pageSize != 0 {
+        if let pageSize = self.pageSize {
             try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
         if let recommendationIds = recommendationIds {
@@ -9883,14 +9993,14 @@ public struct ListSavingsPlansPurchaseRecommendationGenerationInput: Swift.Equat
     /// The token to retrieve the next set of results.
     public var nextPageToken: Swift.String?
     /// The number of recommendations that you want returned in a single response object.
-    public var pageSize: Swift.Int
+    public var pageSize: Swift.Int?
     /// The IDs for each specific recommendation.
     public var recommendationIds: [Swift.String]?
 
     public init(
         generationStatus: CostExplorerClientTypes.GenerationStatus? = nil,
         nextPageToken: Swift.String? = nil,
-        pageSize: Swift.Int = 0,
+        pageSize: Swift.Int? = nil,
         recommendationIds: [Swift.String]? = nil
     )
     {
@@ -9904,7 +10014,7 @@ public struct ListSavingsPlansPurchaseRecommendationGenerationInput: Swift.Equat
 struct ListSavingsPlansPurchaseRecommendationGenerationInputBody: Swift.Equatable {
     let generationStatus: CostExplorerClientTypes.GenerationStatus?
     let recommendationIds: [Swift.String]?
-    let pageSize: Swift.Int
+    let pageSize: Swift.Int?
     let nextPageToken: Swift.String?
 }
 
@@ -9931,7 +10041,7 @@ extension ListSavingsPlansPurchaseRecommendationGenerationInputBody: Swift.Decod
             }
         }
         recommendationIds = recommendationIdsDecoded0
-        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize) ?? 0
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
         pageSize = pageSizeDecoded
         let nextPageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextPageToken)
         nextPageToken = nextPageTokenDecoded
@@ -9943,6 +10053,7 @@ public enum ListSavingsPlansPurchaseRecommendationGenerationOutputError: ClientR
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "DataUnavailableException": return try await DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -10852,6 +10963,408 @@ extension CostExplorerClientTypes {
             self.licenseModel = licenseModel
             self.region = region
             self.sizeFlexEligible = sizeFlexEligible
+        }
+    }
+
+}
+
+extension CostExplorerClientTypes.RecommendationDetailData: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
+        case accountScope = "AccountScope"
+        case currencyCode = "CurrencyCode"
+        case currentAverageCoverage = "CurrentAverageCoverage"
+        case currentAverageHourlyOnDemandSpend = "CurrentAverageHourlyOnDemandSpend"
+        case currentMaximumHourlyOnDemandSpend = "CurrentMaximumHourlyOnDemandSpend"
+        case currentMinimumHourlyOnDemandSpend = "CurrentMinimumHourlyOnDemandSpend"
+        case estimatedAverageCoverage = "EstimatedAverageCoverage"
+        case estimatedAverageUtilization = "EstimatedAverageUtilization"
+        case estimatedMonthlySavingsAmount = "EstimatedMonthlySavingsAmount"
+        case estimatedOnDemandCost = "EstimatedOnDemandCost"
+        case estimatedOnDemandCostWithCurrentCommitment = "EstimatedOnDemandCostWithCurrentCommitment"
+        case estimatedROI = "EstimatedROI"
+        case estimatedSPCost = "EstimatedSPCost"
+        case estimatedSavingsAmount = "EstimatedSavingsAmount"
+        case estimatedSavingsPercentage = "EstimatedSavingsPercentage"
+        case existingHourlyCommitment = "ExistingHourlyCommitment"
+        case generationTimestamp = "GenerationTimestamp"
+        case hourlyCommitmentToPurchase = "HourlyCommitmentToPurchase"
+        case instanceFamily = "InstanceFamily"
+        case latestUsageTimestamp = "LatestUsageTimestamp"
+        case lookbackPeriodInDays = "LookbackPeriodInDays"
+        case metricsOverLookbackPeriod = "MetricsOverLookbackPeriod"
+        case offeringId = "OfferingId"
+        case paymentOption = "PaymentOption"
+        case region = "Region"
+        case savingsPlansType = "SavingsPlansType"
+        case termInYears = "TermInYears"
+        case upfrontCost = "UpfrontCost"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let accountScope = self.accountScope {
+            try encodeContainer.encode(accountScope.rawValue, forKey: .accountScope)
+        }
+        if let currencyCode = self.currencyCode {
+            try encodeContainer.encode(currencyCode, forKey: .currencyCode)
+        }
+        if let currentAverageCoverage = self.currentAverageCoverage {
+            try encodeContainer.encode(currentAverageCoverage, forKey: .currentAverageCoverage)
+        }
+        if let currentAverageHourlyOnDemandSpend = self.currentAverageHourlyOnDemandSpend {
+            try encodeContainer.encode(currentAverageHourlyOnDemandSpend, forKey: .currentAverageHourlyOnDemandSpend)
+        }
+        if let currentMaximumHourlyOnDemandSpend = self.currentMaximumHourlyOnDemandSpend {
+            try encodeContainer.encode(currentMaximumHourlyOnDemandSpend, forKey: .currentMaximumHourlyOnDemandSpend)
+        }
+        if let currentMinimumHourlyOnDemandSpend = self.currentMinimumHourlyOnDemandSpend {
+            try encodeContainer.encode(currentMinimumHourlyOnDemandSpend, forKey: .currentMinimumHourlyOnDemandSpend)
+        }
+        if let estimatedAverageCoverage = self.estimatedAverageCoverage {
+            try encodeContainer.encode(estimatedAverageCoverage, forKey: .estimatedAverageCoverage)
+        }
+        if let estimatedAverageUtilization = self.estimatedAverageUtilization {
+            try encodeContainer.encode(estimatedAverageUtilization, forKey: .estimatedAverageUtilization)
+        }
+        if let estimatedMonthlySavingsAmount = self.estimatedMonthlySavingsAmount {
+            try encodeContainer.encode(estimatedMonthlySavingsAmount, forKey: .estimatedMonthlySavingsAmount)
+        }
+        if let estimatedOnDemandCost = self.estimatedOnDemandCost {
+            try encodeContainer.encode(estimatedOnDemandCost, forKey: .estimatedOnDemandCost)
+        }
+        if let estimatedOnDemandCostWithCurrentCommitment = self.estimatedOnDemandCostWithCurrentCommitment {
+            try encodeContainer.encode(estimatedOnDemandCostWithCurrentCommitment, forKey: .estimatedOnDemandCostWithCurrentCommitment)
+        }
+        if let estimatedROI = self.estimatedROI {
+            try encodeContainer.encode(estimatedROI, forKey: .estimatedROI)
+        }
+        if let estimatedSPCost = self.estimatedSPCost {
+            try encodeContainer.encode(estimatedSPCost, forKey: .estimatedSPCost)
+        }
+        if let estimatedSavingsAmount = self.estimatedSavingsAmount {
+            try encodeContainer.encode(estimatedSavingsAmount, forKey: .estimatedSavingsAmount)
+        }
+        if let estimatedSavingsPercentage = self.estimatedSavingsPercentage {
+            try encodeContainer.encode(estimatedSavingsPercentage, forKey: .estimatedSavingsPercentage)
+        }
+        if let existingHourlyCommitment = self.existingHourlyCommitment {
+            try encodeContainer.encode(existingHourlyCommitment, forKey: .existingHourlyCommitment)
+        }
+        if let generationTimestamp = self.generationTimestamp {
+            try encodeContainer.encode(generationTimestamp, forKey: .generationTimestamp)
+        }
+        if let hourlyCommitmentToPurchase = self.hourlyCommitmentToPurchase {
+            try encodeContainer.encode(hourlyCommitmentToPurchase, forKey: .hourlyCommitmentToPurchase)
+        }
+        if let instanceFamily = self.instanceFamily {
+            try encodeContainer.encode(instanceFamily, forKey: .instanceFamily)
+        }
+        if let latestUsageTimestamp = self.latestUsageTimestamp {
+            try encodeContainer.encode(latestUsageTimestamp, forKey: .latestUsageTimestamp)
+        }
+        if let lookbackPeriodInDays = self.lookbackPeriodInDays {
+            try encodeContainer.encode(lookbackPeriodInDays.rawValue, forKey: .lookbackPeriodInDays)
+        }
+        if let metricsOverLookbackPeriod = metricsOverLookbackPeriod {
+            var metricsOverLookbackPeriodContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricsOverLookbackPeriod)
+            for recommendationdetailhourlymetrics0 in metricsOverLookbackPeriod {
+                try metricsOverLookbackPeriodContainer.encode(recommendationdetailhourlymetrics0)
+            }
+        }
+        if let offeringId = self.offeringId {
+            try encodeContainer.encode(offeringId, forKey: .offeringId)
+        }
+        if let paymentOption = self.paymentOption {
+            try encodeContainer.encode(paymentOption.rawValue, forKey: .paymentOption)
+        }
+        if let region = self.region {
+            try encodeContainer.encode(region, forKey: .region)
+        }
+        if let savingsPlansType = self.savingsPlansType {
+            try encodeContainer.encode(savingsPlansType.rawValue, forKey: .savingsPlansType)
+        }
+        if let termInYears = self.termInYears {
+            try encodeContainer.encode(termInYears.rawValue, forKey: .termInYears)
+        }
+        if let upfrontCost = self.upfrontCost {
+            try encodeContainer.encode(upfrontCost, forKey: .upfrontCost)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountScopeDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.AccountScope.self, forKey: .accountScope)
+        accountScope = accountScopeDecoded
+        let lookbackPeriodInDaysDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.LookbackPeriodInDays.self, forKey: .lookbackPeriodInDays)
+        lookbackPeriodInDays = lookbackPeriodInDaysDecoded
+        let savingsPlansTypeDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.SupportedSavingsPlansType.self, forKey: .savingsPlansType)
+        savingsPlansType = savingsPlansTypeDecoded
+        let termInYearsDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.TermInYears.self, forKey: .termInYears)
+        termInYears = termInYearsDecoded
+        let paymentOptionDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.PaymentOption.self, forKey: .paymentOption)
+        paymentOption = paymentOptionDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let currencyCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .currencyCode)
+        currencyCode = currencyCodeDecoded
+        let instanceFamilyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceFamily)
+        instanceFamily = instanceFamilyDecoded
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
+        let offeringIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .offeringId)
+        offeringId = offeringIdDecoded
+        let generationTimestampDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .generationTimestamp)
+        generationTimestamp = generationTimestampDecoded
+        let latestUsageTimestampDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .latestUsageTimestamp)
+        latestUsageTimestamp = latestUsageTimestampDecoded
+        let currentAverageHourlyOnDemandSpendDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .currentAverageHourlyOnDemandSpend)
+        currentAverageHourlyOnDemandSpend = currentAverageHourlyOnDemandSpendDecoded
+        let currentMaximumHourlyOnDemandSpendDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .currentMaximumHourlyOnDemandSpend)
+        currentMaximumHourlyOnDemandSpend = currentMaximumHourlyOnDemandSpendDecoded
+        let currentMinimumHourlyOnDemandSpendDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .currentMinimumHourlyOnDemandSpend)
+        currentMinimumHourlyOnDemandSpend = currentMinimumHourlyOnDemandSpendDecoded
+        let estimatedAverageUtilizationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .estimatedAverageUtilization)
+        estimatedAverageUtilization = estimatedAverageUtilizationDecoded
+        let estimatedMonthlySavingsAmountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .estimatedMonthlySavingsAmount)
+        estimatedMonthlySavingsAmount = estimatedMonthlySavingsAmountDecoded
+        let estimatedOnDemandCostDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .estimatedOnDemandCost)
+        estimatedOnDemandCost = estimatedOnDemandCostDecoded
+        let estimatedOnDemandCostWithCurrentCommitmentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .estimatedOnDemandCostWithCurrentCommitment)
+        estimatedOnDemandCostWithCurrentCommitment = estimatedOnDemandCostWithCurrentCommitmentDecoded
+        let estimatedROIDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .estimatedROI)
+        estimatedROI = estimatedROIDecoded
+        let estimatedSPCostDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .estimatedSPCost)
+        estimatedSPCost = estimatedSPCostDecoded
+        let estimatedSavingsAmountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .estimatedSavingsAmount)
+        estimatedSavingsAmount = estimatedSavingsAmountDecoded
+        let estimatedSavingsPercentageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .estimatedSavingsPercentage)
+        estimatedSavingsPercentage = estimatedSavingsPercentageDecoded
+        let existingHourlyCommitmentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .existingHourlyCommitment)
+        existingHourlyCommitment = existingHourlyCommitmentDecoded
+        let hourlyCommitmentToPurchaseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hourlyCommitmentToPurchase)
+        hourlyCommitmentToPurchase = hourlyCommitmentToPurchaseDecoded
+        let upfrontCostDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .upfrontCost)
+        upfrontCost = upfrontCostDecoded
+        let currentAverageCoverageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .currentAverageCoverage)
+        currentAverageCoverage = currentAverageCoverageDecoded
+        let estimatedAverageCoverageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .estimatedAverageCoverage)
+        estimatedAverageCoverage = estimatedAverageCoverageDecoded
+        let metricsOverLookbackPeriodContainer = try containerValues.decodeIfPresent([CostExplorerClientTypes.RecommendationDetailHourlyMetrics?].self, forKey: .metricsOverLookbackPeriod)
+        var metricsOverLookbackPeriodDecoded0:[CostExplorerClientTypes.RecommendationDetailHourlyMetrics]? = nil
+        if let metricsOverLookbackPeriodContainer = metricsOverLookbackPeriodContainer {
+            metricsOverLookbackPeriodDecoded0 = [CostExplorerClientTypes.RecommendationDetailHourlyMetrics]()
+            for structure0 in metricsOverLookbackPeriodContainer {
+                if let structure0 = structure0 {
+                    metricsOverLookbackPeriodDecoded0?.append(structure0)
+                }
+            }
+        }
+        metricsOverLookbackPeriod = metricsOverLookbackPeriodDecoded0
+    }
+}
+
+extension CostExplorerClientTypes {
+    /// The details and metrics for the given recommendation.
+    public struct RecommendationDetailData: Swift.Equatable {
+        /// The AccountID that the recommendation is generated for.
+        public var accountId: Swift.String?
+        /// The account scope that you want your recommendations for. Amazon Web Services calculates recommendations including the management account and member accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual member accounts only.
+        public var accountScope: CostExplorerClientTypes.AccountScope?
+        /// The currency code that Amazon Web Services used to generate the recommendation and present potential savings.
+        public var currencyCode: Swift.String?
+        /// The average value of hourly coverage over the lookback period.
+        public var currentAverageCoverage: Swift.String?
+        /// The average value of hourly On-Demand spend over the lookback period of the applicable usage type.
+        public var currentAverageHourlyOnDemandSpend: Swift.String?
+        /// The highest value of hourly On-Demand spend over the lookback period of the applicable usage type.
+        public var currentMaximumHourlyOnDemandSpend: Swift.String?
+        /// The lowest value of hourly On-Demand spend over the lookback period of the applicable usage type.
+        public var currentMinimumHourlyOnDemandSpend: Swift.String?
+        /// The estimated coverage of the recommended Savings Plan.
+        public var estimatedAverageCoverage: Swift.String?
+        /// The estimated utilization of the recommended Savings Plan.
+        public var estimatedAverageUtilization: Swift.String?
+        /// The estimated monthly savings amount based on the recommended Savings Plan.
+        public var estimatedMonthlySavingsAmount: Swift.String?
+        /// The remaining On-Demand cost estimated to not be covered by the recommended Savings Plan, over the length of the lookback period.
+        public var estimatedOnDemandCost: Swift.String?
+        /// The estimated On-Demand costs you expect with no additional commitment, based on your usage of the selected time period and the Savings Plan you own.
+        public var estimatedOnDemandCostWithCurrentCommitment: Swift.String?
+        /// The estimated return on investment that's based on the recommended Savings Plan that you purchased. This is calculated as estimatedSavingsAmount/estimatedSPCost*100.
+        public var estimatedROI: Swift.String?
+        /// The cost of the recommended Savings Plan over the length of the lookback period.
+        public var estimatedSPCost: Swift.String?
+        /// The estimated savings amount that's based on the recommended Savings Plan over the length of the lookback period.
+        public var estimatedSavingsAmount: Swift.String?
+        /// The estimated savings percentage relative to the total cost of applicable On-Demand usage over the lookback period.
+        public var estimatedSavingsPercentage: Swift.String?
+        /// The existing hourly commitment for the Savings Plan type.
+        public var existingHourlyCommitment: Swift.String?
+        /// The period of time that you want the usage and costs for.
+        public var generationTimestamp: Swift.String?
+        /// The recommended hourly commitment level for the Savings Plan type and the configuration that's based on the usage during the lookback period.
+        public var hourlyCommitmentToPurchase: Swift.String?
+        /// The instance family of the recommended Savings Plan.
+        public var instanceFamily: Swift.String?
+        /// The period of time that you want the usage and costs for.
+        public var latestUsageTimestamp: Swift.String?
+        /// How many days of previous usage that Amazon Web Services considers when making this recommendation.
+        public var lookbackPeriodInDays: CostExplorerClientTypes.LookbackPeriodInDays?
+        /// The related hourly cost, coverage, and utilization metrics over the lookback period.
+        public var metricsOverLookbackPeriod: [CostExplorerClientTypes.RecommendationDetailHourlyMetrics]?
+        /// The unique ID that's used to distinguish Savings Plans from one another.
+        public var offeringId: Swift.String?
+        /// The payment option for the commitment (for example, All Upfront or No Upfront).
+        public var paymentOption: CostExplorerClientTypes.PaymentOption?
+        /// The region the recommendation is generated for.
+        public var region: Swift.String?
+        /// The requested Savings Plan recommendation type.
+        public var savingsPlansType: CostExplorerClientTypes.SupportedSavingsPlansType?
+        /// The term of the commitment in years.
+        public var termInYears: CostExplorerClientTypes.TermInYears?
+        /// The upfront cost of the recommended Savings Plan, based on the selected payment option.
+        public var upfrontCost: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            accountScope: CostExplorerClientTypes.AccountScope? = nil,
+            currencyCode: Swift.String? = nil,
+            currentAverageCoverage: Swift.String? = nil,
+            currentAverageHourlyOnDemandSpend: Swift.String? = nil,
+            currentMaximumHourlyOnDemandSpend: Swift.String? = nil,
+            currentMinimumHourlyOnDemandSpend: Swift.String? = nil,
+            estimatedAverageCoverage: Swift.String? = nil,
+            estimatedAverageUtilization: Swift.String? = nil,
+            estimatedMonthlySavingsAmount: Swift.String? = nil,
+            estimatedOnDemandCost: Swift.String? = nil,
+            estimatedOnDemandCostWithCurrentCommitment: Swift.String? = nil,
+            estimatedROI: Swift.String? = nil,
+            estimatedSPCost: Swift.String? = nil,
+            estimatedSavingsAmount: Swift.String? = nil,
+            estimatedSavingsPercentage: Swift.String? = nil,
+            existingHourlyCommitment: Swift.String? = nil,
+            generationTimestamp: Swift.String? = nil,
+            hourlyCommitmentToPurchase: Swift.String? = nil,
+            instanceFamily: Swift.String? = nil,
+            latestUsageTimestamp: Swift.String? = nil,
+            lookbackPeriodInDays: CostExplorerClientTypes.LookbackPeriodInDays? = nil,
+            metricsOverLookbackPeriod: [CostExplorerClientTypes.RecommendationDetailHourlyMetrics]? = nil,
+            offeringId: Swift.String? = nil,
+            paymentOption: CostExplorerClientTypes.PaymentOption? = nil,
+            region: Swift.String? = nil,
+            savingsPlansType: CostExplorerClientTypes.SupportedSavingsPlansType? = nil,
+            termInYears: CostExplorerClientTypes.TermInYears? = nil,
+            upfrontCost: Swift.String? = nil
+        )
+        {
+            self.accountId = accountId
+            self.accountScope = accountScope
+            self.currencyCode = currencyCode
+            self.currentAverageCoverage = currentAverageCoverage
+            self.currentAverageHourlyOnDemandSpend = currentAverageHourlyOnDemandSpend
+            self.currentMaximumHourlyOnDemandSpend = currentMaximumHourlyOnDemandSpend
+            self.currentMinimumHourlyOnDemandSpend = currentMinimumHourlyOnDemandSpend
+            self.estimatedAverageCoverage = estimatedAverageCoverage
+            self.estimatedAverageUtilization = estimatedAverageUtilization
+            self.estimatedMonthlySavingsAmount = estimatedMonthlySavingsAmount
+            self.estimatedOnDemandCost = estimatedOnDemandCost
+            self.estimatedOnDemandCostWithCurrentCommitment = estimatedOnDemandCostWithCurrentCommitment
+            self.estimatedROI = estimatedROI
+            self.estimatedSPCost = estimatedSPCost
+            self.estimatedSavingsAmount = estimatedSavingsAmount
+            self.estimatedSavingsPercentage = estimatedSavingsPercentage
+            self.existingHourlyCommitment = existingHourlyCommitment
+            self.generationTimestamp = generationTimestamp
+            self.hourlyCommitmentToPurchase = hourlyCommitmentToPurchase
+            self.instanceFamily = instanceFamily
+            self.latestUsageTimestamp = latestUsageTimestamp
+            self.lookbackPeriodInDays = lookbackPeriodInDays
+            self.metricsOverLookbackPeriod = metricsOverLookbackPeriod
+            self.offeringId = offeringId
+            self.paymentOption = paymentOption
+            self.region = region
+            self.savingsPlansType = savingsPlansType
+            self.termInYears = termInYears
+            self.upfrontCost = upfrontCost
+        }
+    }
+
+}
+
+extension CostExplorerClientTypes.RecommendationDetailHourlyMetrics: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case currentCoverage = "CurrentCoverage"
+        case estimatedCoverage = "EstimatedCoverage"
+        case estimatedNewCommitmentUtilization = "EstimatedNewCommitmentUtilization"
+        case estimatedOnDemandCost = "EstimatedOnDemandCost"
+        case startTime = "StartTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let currentCoverage = self.currentCoverage {
+            try encodeContainer.encode(currentCoverage, forKey: .currentCoverage)
+        }
+        if let estimatedCoverage = self.estimatedCoverage {
+            try encodeContainer.encode(estimatedCoverage, forKey: .estimatedCoverage)
+        }
+        if let estimatedNewCommitmentUtilization = self.estimatedNewCommitmentUtilization {
+            try encodeContainer.encode(estimatedNewCommitmentUtilization, forKey: .estimatedNewCommitmentUtilization)
+        }
+        if let estimatedOnDemandCost = self.estimatedOnDemandCost {
+            try encodeContainer.encode(estimatedOnDemandCost, forKey: .estimatedOnDemandCost)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encode(startTime, forKey: .startTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startTime)
+        startTime = startTimeDecoded
+        let estimatedOnDemandCostDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .estimatedOnDemandCost)
+        estimatedOnDemandCost = estimatedOnDemandCostDecoded
+        let currentCoverageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .currentCoverage)
+        currentCoverage = currentCoverageDecoded
+        let estimatedCoverageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .estimatedCoverage)
+        estimatedCoverage = estimatedCoverageDecoded
+        let estimatedNewCommitmentUtilizationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .estimatedNewCommitmentUtilization)
+        estimatedNewCommitmentUtilization = estimatedNewCommitmentUtilizationDecoded
+    }
+}
+
+extension CostExplorerClientTypes {
+    /// Contains the hourly metrics for the given recommendation over the lookback period.
+    public struct RecommendationDetailHourlyMetrics: Swift.Equatable {
+        /// The current amount of Savings Plans eligible usage that the Savings Plan covered.
+        public var currentCoverage: Swift.String?
+        /// The estimated coverage amount based on the recommended Savings Plan.
+        public var estimatedCoverage: Swift.String?
+        /// The estimated utilization for the recommended Savings Plan.
+        public var estimatedNewCommitmentUtilization: Swift.String?
+        /// The remaining On-Demand cost estimated to not be covered by the recommended Savings Plan, over the length of the lookback period.
+        public var estimatedOnDemandCost: Swift.String?
+        /// The period of time that you want the usage and costs for.
+        public var startTime: Swift.String?
+
+        public init(
+            currentCoverage: Swift.String? = nil,
+            estimatedCoverage: Swift.String? = nil,
+            estimatedNewCommitmentUtilization: Swift.String? = nil,
+            estimatedOnDemandCost: Swift.String? = nil,
+            startTime: Swift.String? = nil
+        )
+        {
+            self.currentCoverage = currentCoverage
+            self.estimatedCoverage = estimatedCoverage
+            self.estimatedNewCommitmentUtilization = estimatedNewCommitmentUtilization
+            self.estimatedOnDemandCost = estimatedOnDemandCost
+            self.startTime = startTime
         }
     }
 
@@ -12824,6 +13337,7 @@ extension CostExplorerClientTypes.SavingsPlansPurchaseRecommendationDetail: Swif
         case estimatedSavingsAmount = "EstimatedSavingsAmount"
         case estimatedSavingsPercentage = "EstimatedSavingsPercentage"
         case hourlyCommitmentToPurchase = "HourlyCommitmentToPurchase"
+        case recommendationDetailId = "RecommendationDetailId"
         case savingsPlansDetails = "SavingsPlansDetails"
         case upfrontCost = "UpfrontCost"
     }
@@ -12872,6 +13386,9 @@ extension CostExplorerClientTypes.SavingsPlansPurchaseRecommendationDetail: Swif
         if let hourlyCommitmentToPurchase = self.hourlyCommitmentToPurchase {
             try encodeContainer.encode(hourlyCommitmentToPurchase, forKey: .hourlyCommitmentToPurchase)
         }
+        if let recommendationDetailId = self.recommendationDetailId {
+            try encodeContainer.encode(recommendationDetailId, forKey: .recommendationDetailId)
+        }
         if let savingsPlansDetails = self.savingsPlansDetails {
             try encodeContainer.encode(savingsPlansDetails, forKey: .savingsPlansDetails)
         }
@@ -12914,6 +13431,8 @@ extension CostExplorerClientTypes.SavingsPlansPurchaseRecommendationDetail: Swif
         currentMaximumHourlyOnDemandSpend = currentMaximumHourlyOnDemandSpendDecoded
         let currentAverageHourlyOnDemandSpendDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .currentAverageHourlyOnDemandSpend)
         currentAverageHourlyOnDemandSpend = currentAverageHourlyOnDemandSpendDecoded
+        let recommendationDetailIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recommendationDetailId)
+        recommendationDetailId = recommendationDetailIdDecoded
     }
 }
 
@@ -12948,6 +13467,8 @@ extension CostExplorerClientTypes {
         public var estimatedSavingsPercentage: Swift.String?
         /// The recommended hourly commitment level for the Savings Plans type and the configuration that's based on the usage during the lookback period.
         public var hourlyCommitmentToPurchase: Swift.String?
+        /// Contains detailed information about a specific Savings Plan recommendation.
+        public var recommendationDetailId: Swift.String?
         /// Details for your recommended Savings Plans.
         public var savingsPlansDetails: CostExplorerClientTypes.SavingsPlansDetails?
         /// The upfront cost of the recommended Savings Plans, based on the selected payment option.
@@ -12968,6 +13489,7 @@ extension CostExplorerClientTypes {
             estimatedSavingsAmount: Swift.String? = nil,
             estimatedSavingsPercentage: Swift.String? = nil,
             hourlyCommitmentToPurchase: Swift.String? = nil,
+            recommendationDetailId: Swift.String? = nil,
             savingsPlansDetails: CostExplorerClientTypes.SavingsPlansDetails? = nil,
             upfrontCost: Swift.String? = nil
         )
@@ -12986,6 +13508,7 @@ extension CostExplorerClientTypes {
             self.estimatedSavingsAmount = estimatedSavingsAmount
             self.estimatedSavingsPercentage = estimatedSavingsPercentage
             self.hourlyCommitmentToPurchase = hourlyCommitmentToPurchase
+            self.recommendationDetailId = recommendationDetailId
             self.savingsPlansDetails = savingsPlansDetails
             self.upfrontCost = upfrontCost
         }
@@ -13704,6 +14227,7 @@ public enum StartSavingsPlansPurchaseRecommendationGenerationOutputError: Client
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "DataUnavailableException": return try await DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "GenerationExistsException": return try await GenerationExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -14854,10 +15378,10 @@ public struct UpdateAnomalySubscriptionInput: Swift.Equatable {
     public var subscriptionArn: Swift.String?
     /// The new name of the subscription.
     public var subscriptionName: Swift.String?
-    /// (deprecated) The update to the threshold value for receiving notifications. This field has been deprecated. To update a threshold, use ThresholdExpression. Continued use of Threshold will be treated as shorthand syntax for a ThresholdExpression.
+    /// (deprecated) The update to the threshold value for receiving notifications. This field has been deprecated. To update a threshold, use ThresholdExpression. Continued use of Threshold will be treated as shorthand syntax for a ThresholdExpression. You can specify either Threshold or ThresholdExpression, but not both.
     @available(*, deprecated, message: "Threshold has been deprecated in favor of ThresholdExpression")
     public var threshold: Swift.Double?
-    /// The update to the [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html) object used to specify the anomalies that you want to generate alerts for. This supports dimensions and nested expressions. The supported dimensions are ANOMALY_TOTAL_IMPACT_ABSOLUTE and ANOMALY_TOTAL_IMPACT_PERCENTAGE. The supported nested expression types are AND and OR. The match option GREATER_THAN_OR_EQUAL is required. Values must be numbers between 0 and 10,000,000,000. The following are examples of valid ThresholdExpressions:
+    /// The update to the [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html) object used to specify the anomalies that you want to generate alerts for. This supports dimensions and nested expressions. The supported dimensions are ANOMALY_TOTAL_IMPACT_ABSOLUTE and ANOMALY_TOTAL_IMPACT_PERCENTAGE, corresponding to an anomaly’s TotalImpact and TotalImpactPercentage, respectively (see [Impact](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Impact.html) for more details). The supported nested expression types are AND and OR. The match option GREATER_THAN_OR_EQUAL is required. Values must be numbers between 0 and 10,000,000,000 in string format. You can specify either Threshold or ThresholdExpression, but not both. The following are examples of valid ThresholdExpressions:
     ///
     /// * Absolute threshold: { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }
     ///

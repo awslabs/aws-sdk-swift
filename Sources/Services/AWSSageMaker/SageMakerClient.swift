@@ -400,7 +400,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         return result
     }
 
-    /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job. Find the best-performing model after you run an AutoML job by calling [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html) (recommended) or [DescribeAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJob.html). CreateAutoMLJob only accepts tabular input data. We recommend using [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html) for all problem types. CreateAutoMLJobV2 can process the same tabular data as its previous version CreateAutoMLJob, as well as non-tabular data for problem types such as image or text classification. Find guidelines about how to migrate CreateAutoMLJob to CreateAutoMLJobV2 in [Migrate a CreateAutoMLJob to CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development-create-experiment-api.html#autopilot-create-experiment-api-migrate-v1-v2).
+    /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job. We recommend using the new versions [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html) and [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html), which offer backward compatibility. CreateAutoMLJobV2 can manage tabular problem types identical to those of its previous version CreateAutoMLJob, as well as non-tabular problem types such as image or text classification. Find guidelines about how to migrate a CreateAutoMLJob to CreateAutoMLJobV2 in [Migrate a CreateAutoMLJob to CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development-create-experiment-api.html#autopilot-create-experiment-api-migrate-v1-v2). You can find the best-performing model after you run an AutoML job by calling [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html) (recommended) or [DescribeAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJob.html).
     public func createAutoMLJob(input: CreateAutoMLJobInput) async throws -> CreateAutoMLJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -437,7 +437,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         return result
     }
 
-    /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job V2. We recommend using [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html) for all problem types. CreateAutoMLJobV2 can process the same tabular data as its previous version CreateAutoMLJob, as well as non-tabular data for problem types such as image or text classification. Find guidelines about how to migrate CreateAutoMLJob to CreateAutoMLJobV2 in [Migrate a CreateAutoMLJob to CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development-create-experiment-api.html#autopilot-create-experiment-api-migrate-v1-v2). For the list of available problem types supported by CreateAutoMLJobV2, see [AutoMLProblemTypeConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLProblemTypeConfig.html). Find the best-performing model after you run an AutoML job V2 by calling [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html). Calling [DescribeAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJob.html) on a AutoML job V2 results in an error.
+    /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job V2. [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html) and [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html) are new versions of [CreateAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJob.html) and [DescribeAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJob.html) which offer backward compatibility. CreateAutoMLJobV2 can manage tabular problem types identical to those of its previous version CreateAutoMLJob, as well as non-tabular problem types such as image or text classification. Find guidelines about how to migrate a CreateAutoMLJob to CreateAutoMLJobV2 in [Migrate a CreateAutoMLJob to CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development-create-experiment-api.html#autopilot-create-experiment-api-migrate-v1-v2). For the list of available problem types supported by CreateAutoMLJobV2, see [AutoMLProblemTypeConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLProblemTypeConfig.html). You can find the best-performing model after you run an AutoML job V2 by calling [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html).
     public func createAutoMLJobV2(input: CreateAutoMLJobV2Input) async throws -> CreateAutoMLJobV2OutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4212,7 +4212,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         return result
     }
 
-    /// Returns information about an AutoML job created by calling [CreateAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJob.html).
+    /// Returns information about an AutoML job created by calling [CreateAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJob.html). AutoML jobs created by calling [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html) cannot be described by DescribeAutoMLJob.
     public func describeAutoMLJob(input: DescribeAutoMLJobInput) async throws -> DescribeAutoMLJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4249,7 +4249,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         return result
     }
 
-    /// Returns information about an AutoML job V2 created by calling [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html).
+    /// Returns information about an AutoML job created by calling [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html) or [CreateAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJob.html).
     public func describeAutoMLJobV2(input: DescribeAutoMLJobV2Input) async throws -> DescribeAutoMLJobV2OutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6428,6 +6428,43 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSagemakerServicecatalogPortfolioStatusOutputResponse, GetSagemakerServicecatalogPortfolioStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSagemakerServicecatalogPortfolioStatusOutputResponse, GetSagemakerServicecatalogPortfolioStatusOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSagemakerServicecatalogPortfolioStatusOutputResponse, GetSagemakerServicecatalogPortfolioStatusOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Starts an Amazon SageMaker Inference Recommender autoscaling recommendation job. Returns recommendations for autoscaling policies that you can apply to your SageMaker endpoint.
+    public func getScalingConfigurationRecommendation(input: GetScalingConfigurationRecommendationInput) async throws -> GetScalingConfigurationRecommendationOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getScalingConfigurationRecommendation")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "sagemaker")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetScalingConfigurationRecommendationInput, GetScalingConfigurationRecommendationOutputResponse, GetScalingConfigurationRecommendationOutputError>(id: "getScalingConfigurationRecommendation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetScalingConfigurationRecommendationInput, GetScalingConfigurationRecommendationOutputResponse, GetScalingConfigurationRecommendationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetScalingConfigurationRecommendationInput, GetScalingConfigurationRecommendationOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetScalingConfigurationRecommendationOutputResponse, GetScalingConfigurationRecommendationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetScalingConfigurationRecommendationInput, GetScalingConfigurationRecommendationOutputResponse>(xAmzTarget: "SageMaker.GetScalingConfigurationRecommendation"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetScalingConfigurationRecommendationInput, GetScalingConfigurationRecommendationOutputResponse>(xmlName: "GetScalingConfigurationRecommendationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetScalingConfigurationRecommendationInput, GetScalingConfigurationRecommendationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetScalingConfigurationRecommendationOutputResponse, GetScalingConfigurationRecommendationOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetScalingConfigurationRecommendationOutputResponse, GetScalingConfigurationRecommendationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetScalingConfigurationRecommendationOutputResponse, GetScalingConfigurationRecommendationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetScalingConfigurationRecommendationOutputResponse, GetScalingConfigurationRecommendationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -8652,6 +8689,43 @@ extension SageMakerClient: SageMakerClientProtocol {
         return result
     }
 
+    /// Lists Amazon SageMaker Catalogs based on given filters and orders. The maximum number of ResourceCatalogs viewable is 1000.
+    public func listResourceCatalogs(input: ListResourceCatalogsInput) async throws -> ListResourceCatalogsOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listResourceCatalogs")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "sagemaker")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListResourceCatalogsInput, ListResourceCatalogsOutputResponse, ListResourceCatalogsOutputError>(id: "listResourceCatalogs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourceCatalogsInput, ListResourceCatalogsOutputResponse, ListResourceCatalogsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourceCatalogsInput, ListResourceCatalogsOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListResourceCatalogsOutputResponse, ListResourceCatalogsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListResourceCatalogsInput, ListResourceCatalogsOutputResponse>(xAmzTarget: "SageMaker.ListResourceCatalogs"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListResourceCatalogsInput, ListResourceCatalogsOutputResponse>(xmlName: "ListResourceCatalogsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListResourceCatalogsInput, ListResourceCatalogsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListResourceCatalogsOutputResponse, ListResourceCatalogsOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResourceCatalogsOutputResponse, ListResourceCatalogsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourceCatalogsOutputResponse, ListResourceCatalogsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListResourceCatalogsOutputResponse, ListResourceCatalogsOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Lists spaces.
     public func listSpaces(input: ListSpacesInput) async throws -> ListSpacesOutputResponse
     {
@@ -10585,7 +10659,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         return result
     }
 
-    /// Updates the feature group.
+    /// Updates the feature group by either adding features or updating the online store configuration. Use one of the following request parameters at a time while using the UpdateFeatureGroup API. You can add features for your feature group using the FeatureAdditions request parameter. Features cannot be removed from a feature group. You can update the online store configuration by using the OnlineStoreConfig request parameter. If a TtlDuration is specified, the default TtlDuration applies for all records added to the feature group after the feature group is updated. If a record level TtlDuration exists from using the PutRecord API, the record level TtlDuration applies to that record instead of the default TtlDuration.
     public func updateFeatureGroup(input: UpdateFeatureGroupInput) async throws -> UpdateFeatureGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

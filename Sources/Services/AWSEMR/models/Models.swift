@@ -10920,6 +10920,137 @@ extension ListStudiosOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListSupportedInstanceTypesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case marker = "Marker"
+        case releaseLabel = "ReleaseLabel"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let marker = self.marker {
+            try encodeContainer.encode(marker, forKey: .marker)
+        }
+        if let releaseLabel = self.releaseLabel {
+            try encodeContainer.encode(releaseLabel, forKey: .releaseLabel)
+        }
+    }
+}
+
+extension ListSupportedInstanceTypesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListSupportedInstanceTypesInput: Swift.Equatable {
+    /// The pagination token that marks the next set of results to retrieve.
+    public var marker: Swift.String?
+    /// The Amazon EMR release label determines the [versions of open-source application packages](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-app-versions-6.x.html) that Amazon EMR has installed on the cluster. Release labels are in the format emr-x.x.x, where x.x.x is an Amazon EMR release number such as emr-6.10.0. For more information about Amazon EMR releases and their included application versions and features, see the [Amazon EMR Release Guide](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-components.html) .
+    /// This member is required.
+    public var releaseLabel: Swift.String?
+
+    public init(
+        marker: Swift.String? = nil,
+        releaseLabel: Swift.String? = nil
+    )
+    {
+        self.marker = marker
+        self.releaseLabel = releaseLabel
+    }
+}
+
+struct ListSupportedInstanceTypesInputBody: Swift.Equatable {
+    let releaseLabel: Swift.String?
+    let marker: Swift.String?
+}
+
+extension ListSupportedInstanceTypesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case marker = "Marker"
+        case releaseLabel = "ReleaseLabel"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let releaseLabelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .releaseLabel)
+        releaseLabel = releaseLabelDecoded
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+    }
+}
+
+public enum ListSupportedInstanceTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListSupportedInstanceTypesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListSupportedInstanceTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.marker = output.marker
+            self.supportedInstanceTypes = output.supportedInstanceTypes
+        } else {
+            self.marker = nil
+            self.supportedInstanceTypes = nil
+        }
+    }
+}
+
+public struct ListSupportedInstanceTypesOutputResponse: Swift.Equatable {
+    /// The pagination token that marks the next set of results to retrieve.
+    public var marker: Swift.String?
+    /// The list of instance types that the release specified in ListSupportedInstanceTypesInput$ReleaseLabel supports, filtered by Amazon Web Services Region.
+    public var supportedInstanceTypes: [EMRClientTypes.SupportedInstanceType]?
+
+    public init(
+        marker: Swift.String? = nil,
+        supportedInstanceTypes: [EMRClientTypes.SupportedInstanceType]? = nil
+    )
+    {
+        self.marker = marker
+        self.supportedInstanceTypes = supportedInstanceTypes
+    }
+}
+
+struct ListSupportedInstanceTypesOutputResponseBody: Swift.Equatable {
+    let supportedInstanceTypes: [EMRClientTypes.SupportedInstanceType]?
+    let marker: Swift.String?
+}
+
+extension ListSupportedInstanceTypesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case marker = "Marker"
+        case supportedInstanceTypes = "SupportedInstanceTypes"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let supportedInstanceTypesContainer = try containerValues.decodeIfPresent([EMRClientTypes.SupportedInstanceType?].self, forKey: .supportedInstanceTypes)
+        var supportedInstanceTypesDecoded0:[EMRClientTypes.SupportedInstanceType]? = nil
+        if let supportedInstanceTypesContainer = supportedInstanceTypesContainer {
+            supportedInstanceTypesDecoded0 = [EMRClientTypes.SupportedInstanceType]()
+            for structure0 in supportedInstanceTypesContainer {
+                if let structure0 = structure0 {
+                    supportedInstanceTypesDecoded0?.append(structure0)
+                }
+            }
+        }
+        supportedInstanceTypes = supportedInstanceTypesDecoded0
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+    }
+}
+
 extension EMRClientTypes.ManagedScalingPolicy: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case computeLimits = "ComputeLimits"
@@ -14700,7 +14831,7 @@ extension EMRClientTypes.SpotProvisioningSpecification: Swift.Codable {
 extension EMRClientTypes {
     /// The launch specification for Spot Instances in the instance fleet, which determines the defined duration, provisioning timeout behavior, and allocation strategy. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions. Spot Instance allocation strategy is available in Amazon EMR releases 5.12.1 and later. Spot Instances with a defined duration (also known as Spot blocks) are no longer available to new customers from July 1, 2021. For customers who have previously used the feature, we will continue to support Spot Instances with a defined duration until December 31, 2022.
     public struct SpotProvisioningSpecification: Swift.Equatable {
-        /// Specifies one of the following strategies to launch Spot Instance fleets: price-capacity-optimized, capacity-optimized, lowest-price, or diversified. For more information on the provisioning strategies, see [Allocation strategies for Spot Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-allocation-strategy.html) in the Amazon EC2 User Guide for Linux Instances. When you launch a Spot Instance fleet with the old console, it automatically launches with the capacity-optimized strategy. You can't change the allocation strategy from the old console.
+        /// Specifies the strategy to use in launching Spot Instance fleets. Currently, the only option is capacity-optimized (the default), which launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching.
         public var allocationStrategy: EMRClientTypes.SpotProvisioningAllocationStrategy?
         /// The defined duration for Spot Instances (also known as Spot blocks) in minutes. When specified, the Spot Instance does not terminate before the defined duration expires, and defined duration pricing for Spot Instances applies. Valid values are 60, 120, 180, 240, 300, or 360. The duration period starts as soon as a Spot Instance receives its instance ID. At the end of the duration, Amazon EC2 marks the Spot Instance for termination and provides a Spot Instance termination notice, which gives the instance a two-minute warning before it terminates. Spot Instances with a defined duration (also known as Spot blocks) are no longer available to new customers from July 1, 2021. For customers who have previously used the feature, we will continue to support Spot Instances with a defined duration until December 31, 2022.
         public var blockDurationMinutes: Swift.Int?
@@ -16144,6 +16275,141 @@ extension EMRClientTypes {
             self.studioId = studioId
             self.url = url
             self.vpcId = vpcId
+        }
+    }
+
+}
+
+extension EMRClientTypes.SupportedInstanceType: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case architecture = "Architecture"
+        case ebsOptimizedAvailable = "EbsOptimizedAvailable"
+        case ebsOptimizedByDefault = "EbsOptimizedByDefault"
+        case ebsStorageOnly = "EbsStorageOnly"
+        case instanceFamilyId = "InstanceFamilyId"
+        case is64BitsOnly = "Is64BitsOnly"
+        case memoryGB = "MemoryGB"
+        case numberOfDisks = "NumberOfDisks"
+        case storageGB = "StorageGB"
+        case type = "Type"
+        case vcpu = "VCPU"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let architecture = self.architecture {
+            try encodeContainer.encode(architecture, forKey: .architecture)
+        }
+        if ebsOptimizedAvailable != false {
+            try encodeContainer.encode(ebsOptimizedAvailable, forKey: .ebsOptimizedAvailable)
+        }
+        if ebsOptimizedByDefault != false {
+            try encodeContainer.encode(ebsOptimizedByDefault, forKey: .ebsOptimizedByDefault)
+        }
+        if ebsStorageOnly != false {
+            try encodeContainer.encode(ebsStorageOnly, forKey: .ebsStorageOnly)
+        }
+        if let instanceFamilyId = self.instanceFamilyId {
+            try encodeContainer.encode(instanceFamilyId, forKey: .instanceFamilyId)
+        }
+        if is64BitsOnly != false {
+            try encodeContainer.encode(is64BitsOnly, forKey: .is64BitsOnly)
+        }
+        if memoryGB != 0.0 {
+            try encodeContainer.encode(memoryGB, forKey: .memoryGB)
+        }
+        if let numberOfDisks = self.numberOfDisks {
+            try encodeContainer.encode(numberOfDisks, forKey: .numberOfDisks)
+        }
+        if let storageGB = self.storageGB {
+            try encodeContainer.encode(storageGB, forKey: .storageGB)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type, forKey: .type)
+        }
+        if let vcpu = self.vcpu {
+            try encodeContainer.encode(vcpu, forKey: .vcpu)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
+        type = typeDecoded
+        let memoryGBDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .memoryGB) ?? 0.0
+        memoryGB = memoryGBDecoded
+        let storageGBDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .storageGB)
+        storageGB = storageGBDecoded
+        let vcpuDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .vcpu)
+        vcpu = vcpuDecoded
+        let is64BitsOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .is64BitsOnly) ?? false
+        is64BitsOnly = is64BitsOnlyDecoded
+        let instanceFamilyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceFamilyId)
+        instanceFamilyId = instanceFamilyIdDecoded
+        let ebsOptimizedAvailableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsOptimizedAvailable) ?? false
+        ebsOptimizedAvailable = ebsOptimizedAvailableDecoded
+        let ebsOptimizedByDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsOptimizedByDefault) ?? false
+        ebsOptimizedByDefault = ebsOptimizedByDefaultDecoded
+        let numberOfDisksDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfDisks)
+        numberOfDisks = numberOfDisksDecoded
+        let ebsStorageOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsStorageOnly) ?? false
+        ebsStorageOnly = ebsStorageOnlyDecoded
+        let architectureDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .architecture)
+        architecture = architectureDecoded
+    }
+}
+
+extension EMRClientTypes {
+    /// An instance type that the specified Amazon EMR release supports.
+    public struct SupportedInstanceType: Swift.Equatable {
+        /// The CPU architecture, for example X86_64 or AARCH64.
+        public var architecture: Swift.String?
+        /// Indicates whether the SupportedInstanceType supports Amazon EBS optimization.
+        public var ebsOptimizedAvailable: Swift.Bool
+        /// Indicates whether the SupportedInstanceType uses Amazon EBS optimization by default.
+        public var ebsOptimizedByDefault: Swift.Bool
+        /// Indicates whether the SupportedInstanceType only supports Amazon EBS.
+        public var ebsStorageOnly: Swift.Bool
+        /// The Amazon EC2 family and generation for the SupportedInstanceType.
+        public var instanceFamilyId: Swift.String?
+        /// Indicates whether the SupportedInstanceType only supports 64-bit architecture.
+        public var is64BitsOnly: Swift.Bool
+        /// The amount of memory that is available to Amazon EMR from the SupportedInstanceType. The kernel and hypervisor software consume some memory, so this value might be lower than the overall memory for the instance type.
+        public var memoryGB: Swift.Float
+        /// Number of disks for the SupportedInstanceType. This value is 0 for Amazon EBS-only instance types.
+        public var numberOfDisks: Swift.Int?
+        /// StorageGB represents the storage capacity of the SupportedInstanceType. This value is 0 for Amazon EBS-only instance types.
+        public var storageGB: Swift.Int?
+        /// The [Amazon EC2 instance type](http://aws.amazon.com/ec2/instance-types/), for example m5.xlarge, of the SupportedInstanceType.
+        public var type: Swift.String?
+        /// The number of vCPUs available for the SupportedInstanceType.
+        public var vcpu: Swift.Int?
+
+        public init(
+            architecture: Swift.String? = nil,
+            ebsOptimizedAvailable: Swift.Bool = false,
+            ebsOptimizedByDefault: Swift.Bool = false,
+            ebsStorageOnly: Swift.Bool = false,
+            instanceFamilyId: Swift.String? = nil,
+            is64BitsOnly: Swift.Bool = false,
+            memoryGB: Swift.Float = 0.0,
+            numberOfDisks: Swift.Int? = nil,
+            storageGB: Swift.Int? = nil,
+            type: Swift.String? = nil,
+            vcpu: Swift.Int? = nil
+        )
+        {
+            self.architecture = architecture
+            self.ebsOptimizedAvailable = ebsOptimizedAvailable
+            self.ebsOptimizedByDefault = ebsOptimizedByDefault
+            self.ebsStorageOnly = ebsStorageOnly
+            self.instanceFamilyId = instanceFamilyId
+            self.is64BitsOnly = is64BitsOnly
+            self.memoryGB = memoryGB
+            self.numberOfDisks = numberOfDisks
+            self.storageGB = storageGB
+            self.type = type
+            self.vcpu = vcpu
         }
     }
 

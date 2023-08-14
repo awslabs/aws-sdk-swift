@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-/// Amazon DocumentDB API documentation
+/// Amazon DocumentDB is a fast, reliable, and fully managed database service. Amazon DocumentDB makes it easy to set up, operate, and scale MongoDB-compatible databases in the cloud. With Amazon DocumentDB, you can run the same application code and use the same drivers and tools that you use with MongoDB.
 public protocol DocDBClientProtocol {
     /// Adds a source identifier to an existing event notification subscription.
     func addSourceIdentifierToSubscription(input: AddSourceIdentifierToSubscriptionInput) async throws -> AddSourceIdentifierToSubscriptionOutputResponse

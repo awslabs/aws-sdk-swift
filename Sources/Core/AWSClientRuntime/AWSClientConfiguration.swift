@@ -92,7 +92,7 @@ public class AWSClientConfiguration<ServiceSpecificConfiguration: AWSServiceSpec
 
     /// Internal designated init
     /// All convenience inits should call this.
-    init(
+    private init(
         // these params have no labels to distinguish this init from the similar convenience inits below
         _ credentialsProvider: AWSClientRuntime.CredentialsProviding,
         _ endpoint: Swift.String?,
@@ -148,7 +148,8 @@ extension AWSClientConfiguration {
         signingRegion: Swift.String? = nil,
         useDualStack: Swift.Bool? = nil,
         useFIPS: Swift.Bool? = nil,
-        retryStrategyOptions: RetryStrategyOptions? = nil
+        retryMode: AWSRetryMode? = nil,
+        maxAttempts: Int? = nil
     ) async throws {
         let fileBasedConfig = try await CRTFileBasedConfiguration.makeAsync()
         let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver { _, _ in fileBasedConfig }
@@ -164,6 +165,12 @@ extension AWSClientConfiguration {
         } else {
             resolvedCredentialsProvider = try DefaultChainCredentialsProvider(fileBasedConfig: fileBasedConfig)
         }
+        let retryStrategyOptions = Self.retryStrategyOptions(
+            retryMode: retryMode,
+            maxAttempts: maxAttempts,
+            profileName: nil,
+            fileBasedConfig: fileBasedConfig
+        )
         try self.init(
             resolvedCredentialsProvider,
             endpoint,
@@ -186,15 +193,22 @@ extension AWSClientConfiguration {
         signingRegion: Swift.String? = nil,
         useDualStack: Swift.Bool? = nil,
         useFIPS: Swift.Bool? = nil,
-        retryStrategyOptions: RetryStrategyOptions? = nil
+        retryMode: AWSRetryMode? = nil,
+        maxAttempts: Int? = nil
     ) throws {
+        let fileBasedConfig = try CRTFileBasedConfiguration.make()
         let resolvedCredentialsProvider: CredentialsProviding
         if let credentialsProvider = credentialsProvider {
             resolvedCredentialsProvider = credentialsProvider
         } else {
-            let fileBasedConfig = try CRTFileBasedConfiguration.make()
             resolvedCredentialsProvider = try DefaultChainCredentialsProvider(fileBasedConfig: fileBasedConfig)
         }
+        let retryStrategyOptions = Self.retryStrategyOptions(
+            retryMode: retryMode,
+            maxAttempts: maxAttempts,
+            profileName: nil,
+            fileBasedConfig: fileBasedConfig
+        )
         try self.init(
             resolvedCredentialsProvider,
             endpoint,
@@ -210,5 +224,31 @@ extension AWSClientConfiguration {
 
     public var partitionID: String? {
         return "\(serviceSpecific.clientName) - \(region ?? "")"
+    }
+
+    private static func retryStrategyOptions(
+        retryMode: AWSRetryMode?,
+        maxAttempts: Int?,
+        profileName: String?,
+        fileBasedConfig: FileBasedConfiguration
+    ) -> RetryStrategyOptions {
+        let resolvedRetryMode = AWSRetryConfig.retryMode(
+            configValue: retryMode,
+            profileName: profileName,
+            fileBasedConfig: fileBasedConfig
+        )
+        let resolvedMaxAttempts = AWSRetryConfig.maxAttempts(
+            configValue: maxAttempts,
+            profileName: profileName,
+            fileBasedConfig: fileBasedConfig
+        )
+        let resolvedRateLimitingMode: RetryStrategyOptions.RateLimitingMode
+        switch resolvedRetryMode {
+        case .legacy, .standard:
+            resolvedRateLimitingMode = .standard
+        case .adaptive:
+            resolvedRateLimitingMode = .adaptive
+        }
+        return RetryStrategyOptions(maxRetriesBase: resolvedMaxAttempts - 1, rateLimitingMode: resolvedRateLimitingMode)
     }
 }

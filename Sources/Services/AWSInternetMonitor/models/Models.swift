@@ -89,13 +89,13 @@ extension InternetMonitorClientTypes.AvailabilityMeasurement: Swift.Codable {
 }
 
 extension InternetMonitorClientTypes {
-    /// Measurements about the availability for your application on the internet, calculated by Amazon CloudWatch Internet Monitor. Amazon Web Services has substantial historical data about internet performance and availability between Amazon Web Services services and different network providers and geographies. By applying statistical analysis to the data, Internet Monitor can detect when the performance and availability for your application has dropped, compared to an estimated baseline that's already calculated. To make it easier to see those drops, we report that information to you in the form of health scores: a performance score and an availability score. Availability in Internet Monitor represents the estimated percentage of traffic that is not seeing an availability drop. For example, an availability score of 99% for an end user and service location pair is equivalent to 1% of the traffic experiencing an availability drop for that pair. For more information, see [How Internet Monitor calculates performance and availability scores](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMExperienceScores) in the Amazon CloudWatch Internet Monitor section of the Amazon CloudWatch User Guide.
+    /// Amazon CloudWatch Internet Monitor calculates measurements about the availability for your application's internet traffic between client locations and Amazon Web Services. Amazon Web Services has substantial historical data about internet performance and availability between Amazon Web Services services and different network providers and geographies. By applying statistical analysis to the data, Internet Monitor can detect when the performance and availability for your application has dropped, compared to an estimated baseline that's already calculated. To make it easier to see those drops, we report that information to you in the form of health scores: a performance score and an availability score. Availability in Internet Monitor represents the estimated percentage of traffic that is not seeing an availability drop. For example, an availability score of 99% for an end user and service location pair is equivalent to 1% of the traffic experiencing an availability drop for that pair. For more information, see [How Internet Monitor calculates performance and availability scores](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMExperienceScores) in the Amazon CloudWatch Internet Monitor section of the Amazon CloudWatch User Guide.
     public struct AvailabilityMeasurement: Swift.Equatable {
         /// Experience scores, or health scores are calculated for different geographic and network provider combinations (that is, different granularities) and also summed into global scores. If you view performance or availability scores without filtering for any specific geography or service provider, Amazon CloudWatch Internet Monitor provides global health scores. The Amazon CloudWatch Internet Monitor chapter in the CloudWatch User Guide includes detailed information about how Internet Monitor calculates health scores, including performance and availability scores, and when it creates and resolves health events. For more information, see [How Amazon Web Services calculates performance and availability scores](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMExperienceScores) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
         public var experienceScore: Swift.Double?
         /// The percentage of impact caused by a health event for client location traffic globally. For information about how Internet Monitor calculates impact, see [Inside Internet Monitor](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html) in the Amazon CloudWatch Internet Monitor section of the Amazon CloudWatch User Guide.
         public var percentOfClientLocationImpacted: Swift.Double?
-        /// The percentage of impact caused by a health event for total traffic globally. For information about how Internet Monitor calculates impact, see [Inside Internet Monitor](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html) in the Amazon CloudWatch Internet Monitor section of the Amazon CloudWatch User Guide.
+        /// The impact on total traffic that a health event has, in increased latency or reduced availability. This is the percentage of how much latency has increased or availability has decreased during the event, compared to what is typical for traffic from this client location to the Amazon Web Services location using this client network. For information about how Internet Monitor calculates impact, see [How Internet Monitor works](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html) in the Amazon CloudWatch Internet Monitor section of the Amazon CloudWatch User Guide.
         public var percentOfTotalTrafficImpacted: Swift.Double?
 
         public init(
@@ -225,6 +225,7 @@ extension ConflictExceptionBody: Swift.Decodable {
 extension CreateMonitorInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken = "ClientToken"
+        case healthEventsConfig = "HealthEventsConfig"
         case internetMeasurementsLogDelivery = "InternetMeasurementsLogDelivery"
         case maxCityNetworksToMonitor = "MaxCityNetworksToMonitor"
         case monitorName = "MonitorName"
@@ -237,6 +238,9 @@ extension CreateMonitorInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let healthEventsConfig = self.healthEventsConfig {
+            try encodeContainer.encode(healthEventsConfig, forKey: .healthEventsConfig)
         }
         if let internetMeasurementsLogDelivery = self.internetMeasurementsLogDelivery {
             try encodeContainer.encode(internetMeasurementsLogDelivery, forKey: .internetMeasurementsLogDelivery)
@@ -274,22 +278,25 @@ extension CreateMonitorInput: ClientRuntime.URLPathProvider {
 public struct CreateMonitorInput: Swift.Equatable {
     /// A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. Don't reuse the same client token for other API requests.
     public var clientToken: Swift.String?
+    /// Defines the threshold percentages and other configuration information for when Amazon CloudWatch Internet Monitor creates a health event. Internet Monitor creates a health event when an internet issue that affects your application end users has a health score percentage that is at or below a specific threshold, and, sometimes, when other criteria are met. If you don't set a health event threshold, the default value is 95%. For more information, see [ Change health event thresholds](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-overview.html#IMUpdateThresholdFromOverview) in the Internet Monitor section of the CloudWatch User Guide.
+    public var healthEventsConfig: InternetMonitorClientTypes.HealthEventsConfig?
     /// Publish internet measurements for Internet Monitor to an Amazon S3 bucket in addition to CloudWatch Logs.
     public var internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?
-    /// The maximum number of city-networks to monitor for your resources. A city-network is the location (city) where clients access your application resources from and the network or ASN, such as an internet service provider (ISP), that clients access the resources through. This limit helps control billing costs. To learn more, see [Choosing a city-network maximum value ](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
+    /// The maximum number of city-networks to monitor for your resources. A city-network is the location (city) where clients access your application resources from and the ASN or network provider, such as an internet service provider (ISP), that clients access the resources through. Setting this limit can help control billing costs. To learn more, see [Choosing a city-network maximum value ](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
     public var maxCityNetworksToMonitor: Swift.Int
     /// The name of the monitor.
     /// This member is required.
     public var monitorName: Swift.String?
-    /// The resources to include in a monitor, which you provide as a set of Amazon Resource Names (ARNs). You can add a combination of Amazon Virtual Private Clouds (VPCs) and Amazon CloudFront distributions, or you can add Amazon WorkSpaces directories. You can't add all three types of resources. If you add only VPC resources, at least one VPC must have an Internet Gateway attached to it, to make sure that it has internet connectivity.
+    /// The resources to include in a monitor, which you provide as a set of Amazon Resource Names (ARNs). Resources can be VPCs, NLBs, Amazon CloudFront distributions, or Amazon WorkSpaces directories. You can add a combination of VPCs and CloudFront distributions, or you can add WorkSpaces directories, or you can add NLBs. You can't add NLBs or WorkSpaces directories together with any other resources. If you add only Amazon VPC resources, at least one VPC must have an Internet Gateway attached to it, to make sure that it has internet connectivity.
     public var resources: [Swift.String]?
     /// The tags for a monitor. You can add a maximum of 50 tags in Internet Monitor.
     public var tags: [Swift.String:Swift.String]?
-    /// The percentage of the internet-facing traffic for your application that you want to monitor with this monitor.
+    /// The percentage of the internet-facing traffic for your application that you want to monitor with this monitor. If you set a city-networks maximum, that limit overrides the traffic percentage that you set. To learn more, see [Choosing an application traffic percentage to monitor ](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMTrafficPercentage.html) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
     public var trafficPercentageToMonitor: Swift.Int
 
     public init(
         clientToken: Swift.String? = nil,
+        healthEventsConfig: InternetMonitorClientTypes.HealthEventsConfig? = nil,
         internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery? = nil,
         maxCityNetworksToMonitor: Swift.Int = 0,
         monitorName: Swift.String? = nil,
@@ -299,6 +306,7 @@ public struct CreateMonitorInput: Swift.Equatable {
     )
     {
         self.clientToken = clientToken
+        self.healthEventsConfig = healthEventsConfig
         self.internetMeasurementsLogDelivery = internetMeasurementsLogDelivery
         self.maxCityNetworksToMonitor = maxCityNetworksToMonitor
         self.monitorName = monitorName
@@ -316,11 +324,13 @@ struct CreateMonitorInputBody: Swift.Equatable {
     let maxCityNetworksToMonitor: Swift.Int
     let internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?
     let trafficPercentageToMonitor: Swift.Int
+    let healthEventsConfig: InternetMonitorClientTypes.HealthEventsConfig?
 }
 
 extension CreateMonitorInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken = "ClientToken"
+        case healthEventsConfig = "HealthEventsConfig"
         case internetMeasurementsLogDelivery = "InternetMeasurementsLogDelivery"
         case maxCityNetworksToMonitor = "MaxCityNetworksToMonitor"
         case monitorName = "MonitorName"
@@ -363,6 +373,8 @@ extension CreateMonitorInputBody: Swift.Decodable {
         internetMeasurementsLogDelivery = internetMeasurementsLogDeliveryDecoded
         let trafficPercentageToMonitorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .trafficPercentageToMonitor) ?? 0
         trafficPercentageToMonitor = trafficPercentageToMonitorDecoded
+        let healthEventsConfigDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.HealthEventsConfig.self, forKey: .healthEventsConfig)
+        healthEventsConfig = healthEventsConfigDecoded
     }
 }
 
@@ -551,6 +563,7 @@ extension GetHealthEventOutputResponse: ClientRuntime.HttpResponseBinding {
             self.endedAt = output.endedAt
             self.eventArn = output.eventArn
             self.eventId = output.eventId
+            self.healthScoreThreshold = output.healthScoreThreshold
             self.impactType = output.impactType
             self.impactedLocations = output.impactedLocations
             self.lastUpdatedAt = output.lastUpdatedAt
@@ -562,6 +575,7 @@ extension GetHealthEventOutputResponse: ClientRuntime.HttpResponseBinding {
             self.endedAt = nil
             self.eventArn = nil
             self.eventId = nil
+            self.healthScoreThreshold = 0.0
             self.impactType = nil
             self.impactedLocations = nil
             self.lastUpdatedAt = nil
@@ -583,6 +597,8 @@ public struct GetHealthEventOutputResponse: Swift.Equatable {
     /// The internally generated identifier of a health event.
     /// This member is required.
     public var eventId: Swift.String?
+    /// The threshold percentage for a health score that determines, along with other configuration information, when Internet Monitor creates a health event when there's an internet issue that affects your application end users.
+    public var healthScoreThreshold: Swift.Double
     /// The type of impairment of a specific health event.
     /// This member is required.
     public var impactType: InternetMonitorClientTypes.HealthEventImpactType?
@@ -592,7 +608,7 @@ public struct GetHealthEventOutputResponse: Swift.Equatable {
     /// The time when a health event was last updated or recalculated.
     /// This member is required.
     public var lastUpdatedAt: ClientRuntime.Date?
-    /// The impact on total traffic that a health event has.
+    /// The impact on total traffic that a health event has, in increased latency or reduced availability. This is the percentage of how much latency has increased or availability has decreased during the event, compared to what is typical for traffic from this client location to the Amazon Web Services location using this client network.
     public var percentOfTotalTrafficImpacted: Swift.Double?
     /// The time when a health event started.
     /// This member is required.
@@ -606,6 +622,7 @@ public struct GetHealthEventOutputResponse: Swift.Equatable {
         endedAt: ClientRuntime.Date? = nil,
         eventArn: Swift.String? = nil,
         eventId: Swift.String? = nil,
+        healthScoreThreshold: Swift.Double = 0.0,
         impactType: InternetMonitorClientTypes.HealthEventImpactType? = nil,
         impactedLocations: [InternetMonitorClientTypes.ImpactedLocation]? = nil,
         lastUpdatedAt: ClientRuntime.Date? = nil,
@@ -618,6 +635,7 @@ public struct GetHealthEventOutputResponse: Swift.Equatable {
         self.endedAt = endedAt
         self.eventArn = eventArn
         self.eventId = eventId
+        self.healthScoreThreshold = healthScoreThreshold
         self.impactType = impactType
         self.impactedLocations = impactedLocations
         self.lastUpdatedAt = lastUpdatedAt
@@ -638,6 +656,7 @@ struct GetHealthEventOutputResponseBody: Swift.Equatable {
     let status: InternetMonitorClientTypes.HealthEventStatus?
     let percentOfTotalTrafficImpacted: Swift.Double?
     let impactType: InternetMonitorClientTypes.HealthEventImpactType?
+    let healthScoreThreshold: Swift.Double
 }
 
 extension GetHealthEventOutputResponseBody: Swift.Decodable {
@@ -646,6 +665,7 @@ extension GetHealthEventOutputResponseBody: Swift.Decodable {
         case endedAt = "EndedAt"
         case eventArn = "EventArn"
         case eventId = "EventId"
+        case healthScoreThreshold = "HealthScoreThreshold"
         case impactType = "ImpactType"
         case impactedLocations = "ImpactedLocations"
         case lastUpdatedAt = "LastUpdatedAt"
@@ -685,6 +705,8 @@ extension GetHealthEventOutputResponseBody: Swift.Decodable {
         percentOfTotalTrafficImpacted = percentOfTotalTrafficImpactedDecoded
         let impactTypeDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.HealthEventImpactType.self, forKey: .impactType)
         impactType = impactTypeDecoded
+        let healthScoreThresholdDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .healthScoreThreshold) ?? 0.0
+        healthScoreThreshold = healthScoreThresholdDecoded
     }
 }
 
@@ -739,6 +761,7 @@ extension GetMonitorOutputResponse: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: GetMonitorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdAt = output.createdAt
+            self.healthEventsConfig = output.healthEventsConfig
             self.internetMeasurementsLogDelivery = output.internetMeasurementsLogDelivery
             self.maxCityNetworksToMonitor = output.maxCityNetworksToMonitor
             self.modifiedAt = output.modifiedAt
@@ -752,6 +775,7 @@ extension GetMonitorOutputResponse: ClientRuntime.HttpResponseBinding {
             self.trafficPercentageToMonitor = output.trafficPercentageToMonitor
         } else {
             self.createdAt = nil
+            self.healthEventsConfig = nil
             self.internetMeasurementsLogDelivery = nil
             self.maxCityNetworksToMonitor = 0
             self.modifiedAt = nil
@@ -771,9 +795,11 @@ public struct GetMonitorOutputResponse: Swift.Equatable {
     /// The time when the monitor was created.
     /// This member is required.
     public var createdAt: ClientRuntime.Date?
+    /// The list of health event threshold configurations. The threshold percentage for a health score determines, along with other configuration information, when Internet Monitor creates a health event when there's an internet issue that affects your application end users. For more information, see [ Change health event thresholds](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-overview.html#IMUpdateThresholdFromOverview) in the Internet Monitor section of the CloudWatch User Guide.
+    public var healthEventsConfig: InternetMonitorClientTypes.HealthEventsConfig?
     /// Publish internet measurements for Internet Monitor to another location, such as an Amazon S3 bucket. The measurements are also published to Amazon CloudWatch Logs.
     public var internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?
-    /// The maximum number of city-networks to monitor for your resources. A city-network is the location (city) where clients access your application resources from and the network or ASN, such as an internet service provider (ISP), that clients access the resources through. This limit helps control billing costs. To learn more, see [Choosing a city-network maximum value ](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
+    /// The maximum number of city-networks to monitor for your resources. A city-network is the location (city) where clients access your application resources from and the ASN or network provider, such as an internet service provider (ISP), that clients access the resources through. This limit can help control billing costs. To learn more, see [Choosing a city-network maximum value ](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
     public var maxCityNetworksToMonitor: Swift.Int
     /// The last time that the monitor was modified.
     /// This member is required.
@@ -788,7 +814,7 @@ public struct GetMonitorOutputResponse: Swift.Equatable {
     public var processingStatus: InternetMonitorClientTypes.MonitorProcessingStatusCode?
     /// Additional information about the health of the data processing for the monitor.
     public var processingStatusInfo: Swift.String?
-    /// The resources that have been added for the monitor. Resources are listed by their Amazon Resource Names (ARNs).
+    /// The resources monitored by the monitor. Resources are listed by their Amazon Resource Names (ARNs).
     /// This member is required.
     public var resources: [Swift.String]?
     /// The status of the monitor.
@@ -796,11 +822,12 @@ public struct GetMonitorOutputResponse: Swift.Equatable {
     public var status: InternetMonitorClientTypes.MonitorConfigState?
     /// The tags that have been added to monitor.
     public var tags: [Swift.String:Swift.String]?
-    /// The percentage of the internet-facing traffic for your application that you want to monitor with this monitor.
+    /// The percentage of the internet-facing traffic for your application to monitor with this monitor. If you set a city-networks maximum, that limit overrides the traffic percentage that you set. To learn more, see [Choosing an application traffic percentage to monitor ](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMTrafficPercentage.html) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
     public var trafficPercentageToMonitor: Swift.Int
 
     public init(
         createdAt: ClientRuntime.Date? = nil,
+        healthEventsConfig: InternetMonitorClientTypes.HealthEventsConfig? = nil,
         internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery? = nil,
         maxCityNetworksToMonitor: Swift.Int = 0,
         modifiedAt: ClientRuntime.Date? = nil,
@@ -815,6 +842,7 @@ public struct GetMonitorOutputResponse: Swift.Equatable {
     )
     {
         self.createdAt = createdAt
+        self.healthEventsConfig = healthEventsConfig
         self.internetMeasurementsLogDelivery = internetMeasurementsLogDelivery
         self.maxCityNetworksToMonitor = maxCityNetworksToMonitor
         self.modifiedAt = modifiedAt
@@ -842,11 +870,13 @@ struct GetMonitorOutputResponseBody: Swift.Equatable {
     let maxCityNetworksToMonitor: Swift.Int
     let internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?
     let trafficPercentageToMonitor: Swift.Int
+    let healthEventsConfig: InternetMonitorClientTypes.HealthEventsConfig?
 }
 
 extension GetMonitorOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdAt = "CreatedAt"
+        case healthEventsConfig = "HealthEventsConfig"
         case internetMeasurementsLogDelivery = "InternetMeasurementsLogDelivery"
         case maxCityNetworksToMonitor = "MaxCityNetworksToMonitor"
         case modifiedAt = "ModifiedAt"
@@ -904,6 +934,8 @@ extension GetMonitorOutputResponseBody: Swift.Decodable {
         internetMeasurementsLogDelivery = internetMeasurementsLogDeliveryDecoded
         let trafficPercentageToMonitorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .trafficPercentageToMonitor) ?? 0
         trafficPercentageToMonitor = trafficPercentageToMonitorDecoded
+        let healthEventsConfigDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.HealthEventsConfig.self, forKey: .healthEventsConfig)
+        healthEventsConfig = healthEventsConfigDecoded
     }
 }
 
@@ -913,6 +945,7 @@ extension InternetMonitorClientTypes.HealthEvent: Swift.Codable {
         case endedAt = "EndedAt"
         case eventArn = "EventArn"
         case eventId = "EventId"
+        case healthScoreThreshold = "HealthScoreThreshold"
         case impactType = "ImpactType"
         case impactedLocations = "ImpactedLocations"
         case lastUpdatedAt = "LastUpdatedAt"
@@ -934,6 +967,9 @@ extension InternetMonitorClientTypes.HealthEvent: Swift.Codable {
         }
         if let eventId = self.eventId {
             try encodeContainer.encode(eventId, forKey: .eventId)
+        }
+        if healthScoreThreshold != 0.0 {
+            try encodeContainer.encode(healthScoreThreshold, forKey: .healthScoreThreshold)
         }
         if let impactType = self.impactType {
             try encodeContainer.encode(impactType.rawValue, forKey: .impactType)
@@ -989,6 +1025,8 @@ extension InternetMonitorClientTypes.HealthEvent: Swift.Codable {
         percentOfTotalTrafficImpacted = percentOfTotalTrafficImpactedDecoded
         let impactTypeDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.HealthEventImpactType.self, forKey: .impactType)
         impactType = impactTypeDecoded
+        let healthScoreThresholdDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .healthScoreThreshold) ?? 0.0
+        healthScoreThreshold = healthScoreThresholdDecoded
     }
 }
 
@@ -1005,6 +1043,8 @@ extension InternetMonitorClientTypes {
         /// The internally generated identifier of a specific network traffic impairment health event.
         /// This member is required.
         public var eventId: Swift.String?
+        /// The value of the threshold percentage for performance or availability that was configured when Amazon CloudWatch Internet Monitor created the health event.
+        public var healthScoreThreshold: Swift.Double
         /// The type of impairment for a health event.
         /// This member is required.
         public var impactType: InternetMonitorClientTypes.HealthEventImpactType?
@@ -1014,7 +1054,7 @@ extension InternetMonitorClientTypes {
         /// When the health event was last updated.
         /// This member is required.
         public var lastUpdatedAt: ClientRuntime.Date?
-        /// The impact on global traffic monitored by this monitor for this health event.
+        /// The impact on total traffic that a health event has, in increased latency or reduced availability. This is the percentage of how much latency has increased or availability has decreased during the event, compared to what is typical for traffic from this client location to the Amazon Web Services location using this client network.
         public var percentOfTotalTrafficImpacted: Swift.Double?
         /// When a health event started.
         /// This member is required.
@@ -1028,6 +1068,7 @@ extension InternetMonitorClientTypes {
             endedAt: ClientRuntime.Date? = nil,
             eventArn: Swift.String? = nil,
             eventId: Swift.String? = nil,
+            healthScoreThreshold: Swift.Double = 0.0,
             impactType: InternetMonitorClientTypes.HealthEventImpactType? = nil,
             impactedLocations: [InternetMonitorClientTypes.ImpactedLocation]? = nil,
             lastUpdatedAt: ClientRuntime.Date? = nil,
@@ -1040,6 +1081,7 @@ extension InternetMonitorClientTypes {
             self.endedAt = endedAt
             self.eventArn = eventArn
             self.eventId = eventId
+            self.healthScoreThreshold = healthScoreThreshold
             self.impactType = impactType
             self.impactedLocations = impactedLocations
             self.lastUpdatedAt = lastUpdatedAt
@@ -1054,12 +1096,16 @@ extension InternetMonitorClientTypes {
 extension InternetMonitorClientTypes {
     public enum HealthEventImpactType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case availability
+        case localAvailability
+        case localPerformance
         case performance
         case sdkUnknown(Swift.String)
 
         public static var allCases: [HealthEventImpactType] {
             return [
                 .availability,
+                .localAvailability,
+                .localPerformance,
                 .performance,
                 .sdkUnknown("")
             ]
@@ -1071,6 +1117,8 @@ extension InternetMonitorClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .availability: return "AVAILABILITY"
+            case .localAvailability: return "LOCAL_AVAILABILITY"
+            case .localPerformance: return "LOCAL_PERFORMANCE"
             case .performance: return "PERFORMANCE"
             case let .sdkUnknown(s): return s
             }
@@ -1113,6 +1161,71 @@ extension InternetMonitorClientTypes {
             self = HealthEventStatus(rawValue: rawValue) ?? HealthEventStatus.sdkUnknown(rawValue)
         }
     }
+}
+
+extension InternetMonitorClientTypes.HealthEventsConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityLocalHealthEventsConfig = "AvailabilityLocalHealthEventsConfig"
+        case availabilityScoreThreshold = "AvailabilityScoreThreshold"
+        case performanceLocalHealthEventsConfig = "PerformanceLocalHealthEventsConfig"
+        case performanceScoreThreshold = "PerformanceScoreThreshold"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let availabilityLocalHealthEventsConfig = self.availabilityLocalHealthEventsConfig {
+            try encodeContainer.encode(availabilityLocalHealthEventsConfig, forKey: .availabilityLocalHealthEventsConfig)
+        }
+        if availabilityScoreThreshold != 0.0 {
+            try encodeContainer.encode(availabilityScoreThreshold, forKey: .availabilityScoreThreshold)
+        }
+        if let performanceLocalHealthEventsConfig = self.performanceLocalHealthEventsConfig {
+            try encodeContainer.encode(performanceLocalHealthEventsConfig, forKey: .performanceLocalHealthEventsConfig)
+        }
+        if performanceScoreThreshold != 0.0 {
+            try encodeContainer.encode(performanceScoreThreshold, forKey: .performanceScoreThreshold)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let availabilityScoreThresholdDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .availabilityScoreThreshold) ?? 0.0
+        availabilityScoreThreshold = availabilityScoreThresholdDecoded
+        let performanceScoreThresholdDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .performanceScoreThreshold) ?? 0.0
+        performanceScoreThreshold = performanceScoreThresholdDecoded
+        let availabilityLocalHealthEventsConfigDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.LocalHealthEventsConfig.self, forKey: .availabilityLocalHealthEventsConfig)
+        availabilityLocalHealthEventsConfig = availabilityLocalHealthEventsConfigDecoded
+        let performanceLocalHealthEventsConfigDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.LocalHealthEventsConfig.self, forKey: .performanceLocalHealthEventsConfig)
+        performanceLocalHealthEventsConfig = performanceLocalHealthEventsConfigDecoded
+    }
+}
+
+extension InternetMonitorClientTypes {
+    /// A complex type with the configuration information that determines the threshold and other conditions for when Internet Monitor creates a health event for an overall performance or availability issue, across an application's geographies. Defines the percentages, for overall performance scores and availability scores for an application, that are the thresholds for when Amazon CloudWatch Internet Monitor creates a health event. You can override the defaults to set a custom threshold for overall performance or availability scores, or both. You can also set thresholds for local health scores,, where Internet Monitor creates a health event when scores cross a threshold for one or more city-networks, in addition to creating an event when an overall score crosses a threshold. If you don't set a health event threshold, the default value is 95%. For local thresholds, you also set a minimum percentage of overall traffic that is impacted by an issue before Internet Monitor creates an event. In addition, you can disable local thresholds, for performance scores, availability scores, or both. For more information, see [ Change health event thresholds](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-overview.html#IMUpdateThresholdFromOverview) in the Internet Monitor section of the CloudWatch User Guide.
+    public struct HealthEventsConfig: Swift.Equatable {
+        /// The configuration that determines the threshold and other conditions for when Internet Monitor creates a health event for a local availability issue.
+        public var availabilityLocalHealthEventsConfig: InternetMonitorClientTypes.LocalHealthEventsConfig?
+        /// The health event threshold percentage set for availability scores.
+        public var availabilityScoreThreshold: Swift.Double
+        /// The configuration that determines the threshold and other conditions for when Internet Monitor creates a health event for a local performance issue.
+        public var performanceLocalHealthEventsConfig: InternetMonitorClientTypes.LocalHealthEventsConfig?
+        /// The health event threshold percentage set for performance scores.
+        public var performanceScoreThreshold: Swift.Double
+
+        public init(
+            availabilityLocalHealthEventsConfig: InternetMonitorClientTypes.LocalHealthEventsConfig? = nil,
+            availabilityScoreThreshold: Swift.Double = 0.0,
+            performanceLocalHealthEventsConfig: InternetMonitorClientTypes.LocalHealthEventsConfig? = nil,
+            performanceScoreThreshold: Swift.Double = 0.0
+        )
+        {
+            self.availabilityLocalHealthEventsConfig = availabilityLocalHealthEventsConfig
+            self.availabilityScoreThreshold = availabilityScoreThreshold
+            self.performanceLocalHealthEventsConfig = performanceLocalHealthEventsConfig
+            self.performanceScoreThreshold = performanceScoreThreshold
+        }
+    }
+
 }
 
 extension InternetMonitorClientTypes.ImpactedLocation: Swift.Codable {
@@ -1420,7 +1533,7 @@ extension InternetMonitorClientTypes.InternetHealth: Swift.Codable {
 }
 
 extension InternetMonitorClientTypes {
-    /// Internet health includes measurements calculated by Amazon CloudWatch Internet Monitor about the performance and availability for your application on the internet. Amazon Web Services has substantial historical data about internet performance and availability between Amazon Web Services services and different network providers and geographies. By applying statistical analysis to the data, Internet Monitor can detect when the performance and availability for your application has dropped, compared to an estimated baseline that's already calculated. To make it easier to see those drops, we report that information to you in the form of health scores: a performance score and an availability score.
+    /// Internet health includes measurements calculated by Amazon CloudWatch Internet Monitor about the performance and availability for your application on the internet. Amazon Web Services has substantial historical data about internet performance and availability between Amazon Web Services services and different network providers and geographies. By applying statistical analysis to the data, Internet Monitor can detect when the performance and availability for your application has dropped, compared to an estimated baseline that's already calculated. To make it easier to see those drops, Internet Monitor reports the information to you in the form of health scores: a performance score and an availability score.
     public struct InternetHealth: Swift.Equatable {
         /// Availability in Internet Monitor represents the estimated percentage of traffic that is not seeing an availability drop. For example, an availability score of 99% for an end user and service location pair is equivalent to 1% of the traffic experiencing an availability drop for that pair. For more information, see [How Internet Monitor calculates performance and availability scores](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMExperienceScores) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
         public var availability: InternetMonitorClientTypes.AvailabilityMeasurement?
@@ -1908,6 +2021,93 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension InternetMonitorClientTypes.LocalHealthEventsConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case healthScoreThreshold = "HealthScoreThreshold"
+        case minTrafficImpact = "MinTrafficImpact"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if healthScoreThreshold != 0.0 {
+            try encodeContainer.encode(healthScoreThreshold, forKey: .healthScoreThreshold)
+        }
+        if minTrafficImpact != 0.0 {
+            try encodeContainer.encode(minTrafficImpact, forKey: .minTrafficImpact)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.LocalHealthEventsConfigStatus.self, forKey: .status)
+        status = statusDecoded
+        let healthScoreThresholdDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .healthScoreThreshold) ?? 0.0
+        healthScoreThreshold = healthScoreThresholdDecoded
+        let minTrafficImpactDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .minTrafficImpact) ?? 0.0
+        minTrafficImpact = minTrafficImpactDecoded
+    }
+}
+
+extension InternetMonitorClientTypes {
+    /// A complex type with the configuration information that determines the threshold and other conditions for when Internet Monitor creates a health event for a local performance or availability issue, when scores cross a threshold for one or more city-networks. Defines the percentages, for performance scores or availability scores, that are the local thresholds for when Amazon CloudWatch Internet Monitor creates a health event. Also defines whether a local threshold is enabled or disabled, and the minimum percentage of overall traffic that must be impacted by an issue before Internet Monitor creates an event when a threshold is crossed for a local health score. For more information, see [ Change health event thresholds](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-overview.html#IMUpdateThresholdFromOverview) in the Internet Monitor section of the CloudWatch User Guide.
+    public struct LocalHealthEventsConfig: Swift.Equatable {
+        /// The health event threshold percentage set for a local health score.
+        public var healthScoreThreshold: Swift.Double
+        /// The minimum percentage of overall traffic for an application that must be impacted by an issue before Internet Monitor creates an event when a threshold is crossed for a local health score.
+        public var minTrafficImpact: Swift.Double
+        /// The status of whether Internet Monitor creates a health event based on a threshold percentage set for a local health score. The status can be ENABLED or DISABLED.
+        public var status: InternetMonitorClientTypes.LocalHealthEventsConfigStatus?
+
+        public init(
+            healthScoreThreshold: Swift.Double = 0.0,
+            minTrafficImpact: Swift.Double = 0.0,
+            status: InternetMonitorClientTypes.LocalHealthEventsConfigStatus? = nil
+        )
+        {
+            self.healthScoreThreshold = healthScoreThreshold
+            self.minTrafficImpact = minTrafficImpact
+            self.status = status
+        }
+    }
+
+}
+
+extension InternetMonitorClientTypes {
+    public enum LocalHealthEventsConfigStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LocalHealthEventsConfigStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LocalHealthEventsConfigStatus(rawValue: rawValue) ?? LocalHealthEventsConfigStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension InternetMonitorClientTypes {
     public enum LogDeliveryStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
@@ -2312,13 +2512,13 @@ extension InternetMonitorClientTypes.PerformanceMeasurement: Swift.Codable {
 }
 
 extension InternetMonitorClientTypes {
-    /// Measurements about the performance for your application on the internet calculated by Amazon CloudWatch Internet Monitor. Amazon Web Services has substantial historical data about internet performance and availability between Amazon Web Services services and different network providers and geographies. By applying statistical analysis to the data, Internet Monitor can detect when the performance and availability for your application has dropped, compared to an estimated baseline that's already calculated. To make it easier to see those drops, we report that information to you in the form of health scores: a performance score and an availability score. Performance in Internet Monitor represents the estimated percentage of traffic that is not seeing a performance drop. For example, a performance score of 99% for an end user and service location pair is equivalent to 1% of the traffic experiencing a performance drop for that pair. For more information, see [How Internet Monitor calculates performance and availability scores](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMExperienceScores) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
+    /// Amazon CloudWatch Internet Monitor calculates measurements about the performance for your application's internet traffic between client locations and Amazon Web Services. Amazon Web Services has substantial historical data about internet performance and availability between Amazon Web Services services and different network providers and geographies. By applying statistical analysis to the data, Internet Monitor can detect when the performance and availability for your application has dropped, compared to an estimated baseline that's already calculated. To make it easier to see those drops, we report that information to you in the form of health scores: a performance score and an availability score. Performance in Internet Monitor represents the estimated percentage of traffic that is not seeing a performance drop. For example, a performance score of 99% for an end user and service location pair is equivalent to 1% of the traffic experiencing a performance drop for that pair. For more information, see [How Internet Monitor calculates performance and availability scores](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMExperienceScores) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
     public struct PerformanceMeasurement: Swift.Equatable {
         /// Experience scores, or health scores, are calculated for different geographic and network provider combinations (that is, different granularities) and also totaled into global scores. If you view performance or availability scores without filtering for any specific geography or service provider, Amazon CloudWatch Internet Monitor provides global health scores. The Amazon CloudWatch Internet Monitor chapter in the CloudWatch User Guide includes detailed information about how Internet Monitor calculates health scores, including performance and availability scores, and when it creates and resolves health events. For more information, see [How Amazon Web Services calculates performance and availability scores](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMExperienceScores) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
         public var experienceScore: Swift.Double?
         /// How much performance impact was caused by a health event at a client location. For performance, this is the percentage of how much latency increased during the event compared to typical performance for traffic, from this client location to an Amazon Web Services location, using a specific client network. For more information, see [When Amazon Web Services creates and resolves health events](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMHealthEventStartStop) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
         public var percentOfClientLocationImpacted: Swift.Double?
-        /// How much performance impact was caused by a health event for total traffic globally. For performance, this is the percentage of how much latency increased during the event compared to typical performance for your application traffic globally. For more information, see [When Amazon Web Services creates and resolves health events](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMHealthEventStartStop) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
+        /// The impact on total traffic that a health event has, in increased latency or reduced availability. This is the percentage of how much latency has increased or availability has decreased during the event, compared to what is typical for traffic from this client location to the Amazon Web Services location using this client network. For more information, see [When Amazon Web Services creates and resolves health events](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMHealthEventStartStop) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
         public var percentOfTotalTrafficImpacted: Swift.Double?
         /// This is the percentage of how much round-trip time increased during the event compared to typical round-trip time for your application for traffic. For more information, see [When Amazon Web Services creates and resolves health events](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMHealthEventStartStop) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
         public var roundTripTime: InternetMonitorClientTypes.RoundTripTime?
@@ -2820,6 +3020,7 @@ public struct UntagResourceOutputResponse: Swift.Equatable {
 extension UpdateMonitorInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken = "ClientToken"
+        case healthEventsConfig = "HealthEventsConfig"
         case internetMeasurementsLogDelivery = "InternetMeasurementsLogDelivery"
         case maxCityNetworksToMonitor = "MaxCityNetworksToMonitor"
         case resourcesToAdd = "ResourcesToAdd"
@@ -2832,6 +3033,9 @@ extension UpdateMonitorInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let healthEventsConfig = self.healthEventsConfig {
+            try encodeContainer.encode(healthEventsConfig, forKey: .healthEventsConfig)
         }
         if let internetMeasurementsLogDelivery = self.internetMeasurementsLogDelivery {
             try encodeContainer.encode(internetMeasurementsLogDelivery, forKey: .internetMeasurementsLogDelivery)
@@ -2872,24 +3076,27 @@ extension UpdateMonitorInput: ClientRuntime.URLPathProvider {
 public struct UpdateMonitorInput: Swift.Equatable {
     /// A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. You should not reuse the same client token for other API requests.
     public var clientToken: Swift.String?
+    /// The list of health score thresholds. A threshold percentage for health scores, along with other configuration information, determines when Internet Monitor creates a health event when there's an internet issue that affects your application end users. For more information, see [ Change health event thresholds](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-overview.html#IMUpdateThresholdFromOverview) in the Internet Monitor section of the CloudWatch User Guide.
+    public var healthEventsConfig: InternetMonitorClientTypes.HealthEventsConfig?
     /// Publish internet measurements for Internet Monitor to another location, such as an Amazon S3 bucket. The measurements are also published to Amazon CloudWatch Logs.
     public var internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?
-    /// The maximum number of city-networks to monitor for your resources. A city-network is the location (city) where clients access your application resources from and the network or ASN, such as an internet service provider, that clients access the resources through.
+    /// The maximum number of city-networks to monitor for your application. A city-network is the location (city) where clients access your application resources from and the ASN or network provider, such as an internet service provider (ISP), that clients access the resources through. Setting this limit can help control billing costs.
     public var maxCityNetworksToMonitor: Swift.Int
     /// The name of the monitor.
     /// This member is required.
     public var monitorName: Swift.String?
-    /// The resources to include in a monitor, which you provide as a set of Amazon Resource Names (ARNs). You can add a combination of Amazon Virtual Private Clouds (VPCs) and Amazon CloudFront distributions, or you can add Amazon WorkSpaces directories. You can't add all three types of resources. If you add only VPC resources, at least one VPC must have an Internet Gateway attached to it, to make sure that it has internet connectivity.
+    /// The resources to include in a monitor, which you provide as a set of Amazon Resource Names (ARNs). Resources can be VPCs, NLBs, Amazon CloudFront distributions, or Amazon WorkSpaces directories. You can add a combination of VPCs and CloudFront distributions, or you can add WorkSpaces directories, or you can add NLBs. You can't add NLBs or WorkSpaces directories together with any other resources. If you add only Amazon Virtual Private Clouds resources, at least one VPC must have an Internet Gateway attached to it, to make sure that it has internet connectivity.
     public var resourcesToAdd: [Swift.String]?
     /// The resources to remove from a monitor, which you provide as a set of Amazon Resource Names (ARNs).
     public var resourcesToRemove: [Swift.String]?
     /// The status for a monitor. The accepted values for Status with the UpdateMonitor API call are the following: ACTIVE and INACTIVE. The following values are not accepted: PENDING, and ERROR.
     public var status: InternetMonitorClientTypes.MonitorConfigState?
-    /// The percentage of the internet-facing traffic for your application that you want to monitor with this monitor.
+    /// The percentage of the internet-facing traffic for your application that you want to monitor with this monitor. If you set a city-networks maximum, that limit overrides the traffic percentage that you set. To learn more, see [Choosing an application traffic percentage to monitor ](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMTrafficPercentage.html) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
     public var trafficPercentageToMonitor: Swift.Int
 
     public init(
         clientToken: Swift.String? = nil,
+        healthEventsConfig: InternetMonitorClientTypes.HealthEventsConfig? = nil,
         internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery? = nil,
         maxCityNetworksToMonitor: Swift.Int = 0,
         monitorName: Swift.String? = nil,
@@ -2900,6 +3107,7 @@ public struct UpdateMonitorInput: Swift.Equatable {
     )
     {
         self.clientToken = clientToken
+        self.healthEventsConfig = healthEventsConfig
         self.internetMeasurementsLogDelivery = internetMeasurementsLogDelivery
         self.maxCityNetworksToMonitor = maxCityNetworksToMonitor
         self.monitorName = monitorName
@@ -2918,11 +3126,13 @@ struct UpdateMonitorInputBody: Swift.Equatable {
     let maxCityNetworksToMonitor: Swift.Int
     let internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?
     let trafficPercentageToMonitor: Swift.Int
+    let healthEventsConfig: InternetMonitorClientTypes.HealthEventsConfig?
 }
 
 extension UpdateMonitorInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken = "ClientToken"
+        case healthEventsConfig = "HealthEventsConfig"
         case internetMeasurementsLogDelivery = "InternetMeasurementsLogDelivery"
         case maxCityNetworksToMonitor = "MaxCityNetworksToMonitor"
         case resourcesToAdd = "ResourcesToAdd"
@@ -2965,6 +3175,8 @@ extension UpdateMonitorInputBody: Swift.Decodable {
         internetMeasurementsLogDelivery = internetMeasurementsLogDeliveryDecoded
         let trafficPercentageToMonitorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .trafficPercentageToMonitor) ?? 0
         trafficPercentageToMonitor = trafficPercentageToMonitorDecoded
+        let healthEventsConfigDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.HealthEventsConfig.self, forKey: .healthEventsConfig)
+        healthEventsConfig = healthEventsConfigDecoded
     }
 }
 

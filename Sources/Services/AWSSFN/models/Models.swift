@@ -669,6 +669,61 @@ extension SFNClientTypes {
 
 }
 
+extension ConflictException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// Updating or deleting a resource can cause an inconsistent state. This error occurs when there're concurrent requests for [DeleteStateMachineVersion], [PublishStateMachineVersion], or [UpdateStateMachine] with the publish parameter set to true. HTTP Status Code: 409
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ConflictExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ConflictExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension CreateActivityInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name
@@ -819,9 +874,168 @@ extension CreateActivityOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateStateMachineAliasInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateStateMachineAliasInput(name: \(Swift.String(describing: name)), routingConfiguration: \(Swift.String(describing: routingConfiguration)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension CreateStateMachineAliasInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case name
+        case routingConfiguration
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let routingConfiguration = routingConfiguration {
+            var routingConfigurationContainer = encodeContainer.nestedUnkeyedContainer(forKey: .routingConfiguration)
+            for routingconfigurationlistitem0 in routingConfiguration {
+                try routingConfigurationContainer.encode(routingconfigurationlistitem0)
+            }
+        }
+    }
+}
+
+extension CreateStateMachineAliasInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateStateMachineAliasInput: Swift.Equatable {
+    /// A description for the state machine alias.
+    public var description: Swift.String?
+    /// The name of the state machine alias. To avoid conflict with version ARNs, don't use an integer in the name of the alias.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The routing configuration of a state machine alias. The routing configuration shifts execution traffic between two state machine versions. routingConfiguration contains an array of RoutingConfig objects that specify up to two state machine versions. Step Functions then randomly choses which version to run an execution with based on the weight assigned to each RoutingConfig.
+    /// This member is required.
+    public var routingConfiguration: [SFNClientTypes.RoutingConfigurationListItem]?
+
+    public init(
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        routingConfiguration: [SFNClientTypes.RoutingConfigurationListItem]? = nil
+    )
+    {
+        self.description = description
+        self.name = name
+        self.routingConfiguration = routingConfiguration
+    }
+}
+
+struct CreateStateMachineAliasInputBody: Swift.Equatable {
+    let description: Swift.String?
+    let name: Swift.String?
+    let routingConfiguration: [SFNClientTypes.RoutingConfigurationListItem]?
+}
+
+extension CreateStateMachineAliasInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case name
+        case routingConfiguration
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let routingConfigurationContainer = try containerValues.decodeIfPresent([SFNClientTypes.RoutingConfigurationListItem?].self, forKey: .routingConfiguration)
+        var routingConfigurationDecoded0:[SFNClientTypes.RoutingConfigurationListItem]? = nil
+        if let routingConfigurationContainer = routingConfigurationContainer {
+            routingConfigurationDecoded0 = [SFNClientTypes.RoutingConfigurationListItem]()
+            for structure0 in routingConfigurationContainer {
+                if let structure0 = structure0 {
+                    routingConfigurationDecoded0?.append(structure0)
+                }
+            }
+        }
+        routingConfiguration = routingConfigurationDecoded0
+    }
+}
+
+public enum CreateStateMachineAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArn": return try await InvalidArn(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidName": return try await InvalidName(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFound": return try await ResourceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "StateMachineDeleting": return try await StateMachineDeleting(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateStateMachineAliasOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateStateMachineAliasOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.creationDate = output.creationDate
+            self.stateMachineAliasArn = output.stateMachineAliasArn
+        } else {
+            self.creationDate = nil
+            self.stateMachineAliasArn = nil
+        }
+    }
+}
+
+public struct CreateStateMachineAliasOutputResponse: Swift.Equatable {
+    /// The date the state machine alias was created.
+    /// This member is required.
+    public var creationDate: ClientRuntime.Date?
+    /// The Amazon Resource Name (ARN) that identifies the created state machine alias.
+    /// This member is required.
+    public var stateMachineAliasArn: Swift.String?
+
+    public init(
+        creationDate: ClientRuntime.Date? = nil,
+        stateMachineAliasArn: Swift.String? = nil
+    )
+    {
+        self.creationDate = creationDate
+        self.stateMachineAliasArn = stateMachineAliasArn
+    }
+}
+
+struct CreateStateMachineAliasOutputResponseBody: Swift.Equatable {
+    let stateMachineAliasArn: Swift.String?
+    let creationDate: ClientRuntime.Date?
+}
+
+extension CreateStateMachineAliasOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationDate
+        case stateMachineAliasArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stateMachineAliasArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stateMachineAliasArn)
+        stateMachineAliasArn = stateMachineAliasArnDecoded
+        let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
+        creationDate = creationDateDecoded
+    }
+}
+
 extension CreateStateMachineInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateStateMachineInput(loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), name: \(Swift.String(describing: name)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), tracingConfiguration: \(Swift.String(describing: tracingConfiguration)), type: \(Swift.String(describing: type)), definition: \"CONTENT_REDACTED\")"}
+        "CreateStateMachineInput(loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), name: \(Swift.String(describing: name)), publish: \(Swift.String(describing: publish)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), tracingConfiguration: \(Swift.String(describing: tracingConfiguration)), type: \(Swift.String(describing: type)), definition: \"CONTENT_REDACTED\", versionDescription: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateStateMachineInput: Swift.Encodable {
@@ -829,10 +1043,12 @@ extension CreateStateMachineInput: Swift.Encodable {
         case definition
         case loggingConfiguration
         case name
+        case publish
         case roleArn
         case tags
         case tracingConfiguration
         case type
+        case versionDescription
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -845,6 +1061,9 @@ extension CreateStateMachineInput: Swift.Encodable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let publish = self.publish {
+            try encodeContainer.encode(publish, forKey: .publish)
         }
         if let roleArn = self.roleArn {
             try encodeContainer.encode(roleArn, forKey: .roleArn)
@@ -860,6 +1079,9 @@ extension CreateStateMachineInput: Swift.Encodable {
         }
         if let type = self.type {
             try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+        if let versionDescription = self.versionDescription {
+            try encodeContainer.encode(versionDescription, forKey: .versionDescription)
         }
     }
 }
@@ -892,6 +1114,8 @@ public struct CreateStateMachineInput: Swift.Equatable {
     /// To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
     /// This member is required.
     public var name: Swift.String?
+    /// Set to true to publish the first version of the state machine during creation. The default is false.
+    public var publish: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the IAM role to use for this state machine.
     /// This member is required.
     public var roleArn: Swift.String?
@@ -901,24 +1125,30 @@ public struct CreateStateMachineInput: Swift.Equatable {
     public var tracingConfiguration: SFNClientTypes.TracingConfiguration?
     /// Determines whether a Standard or Express state machine is created. The default is STANDARD. You cannot update the type of a state machine once it has been created.
     public var type: SFNClientTypes.StateMachineType?
+    /// Sets description about the state machine version. You can only set the description if the publish parameter is set to true. Otherwise, if you set versionDescription, but publish to false, this API action throws ValidationException.
+    public var versionDescription: Swift.String?
 
     public init(
         definition: Swift.String? = nil,
         loggingConfiguration: SFNClientTypes.LoggingConfiguration? = nil,
         name: Swift.String? = nil,
+        publish: Swift.Bool? = nil,
         roleArn: Swift.String? = nil,
         tags: [SFNClientTypes.Tag]? = nil,
         tracingConfiguration: SFNClientTypes.TracingConfiguration? = nil,
-        type: SFNClientTypes.StateMachineType? = nil
+        type: SFNClientTypes.StateMachineType? = nil,
+        versionDescription: Swift.String? = nil
     )
     {
         self.definition = definition
         self.loggingConfiguration = loggingConfiguration
         self.name = name
+        self.publish = publish
         self.roleArn = roleArn
         self.tags = tags
         self.tracingConfiguration = tracingConfiguration
         self.type = type
+        self.versionDescription = versionDescription
     }
 }
 
@@ -930,6 +1160,8 @@ struct CreateStateMachineInputBody: Swift.Equatable {
     let loggingConfiguration: SFNClientTypes.LoggingConfiguration?
     let tags: [SFNClientTypes.Tag]?
     let tracingConfiguration: SFNClientTypes.TracingConfiguration?
+    let publish: Swift.Bool?
+    let versionDescription: Swift.String?
 }
 
 extension CreateStateMachineInputBody: Swift.Decodable {
@@ -937,10 +1169,12 @@ extension CreateStateMachineInputBody: Swift.Decodable {
         case definition
         case loggingConfiguration
         case name
+        case publish
         case roleArn
         case tags
         case tracingConfiguration
         case type
+        case versionDescription
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -968,6 +1202,10 @@ extension CreateStateMachineInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let tracingConfigurationDecoded = try containerValues.decodeIfPresent(SFNClientTypes.TracingConfiguration.self, forKey: .tracingConfiguration)
         tracingConfiguration = tracingConfigurationDecoded
+        let publishDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publish)
+        publish = publishDecoded
+        let versionDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionDescription)
+        versionDescription = versionDescriptionDecoded
     }
 }
 
@@ -976,6 +1214,7 @@ public enum CreateStateMachineOutputError: ClientRuntime.HttpResponseErrorBindin
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidArn": return try await InvalidArn(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidDefinition": return try await InvalidDefinition(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidLoggingConfiguration": return try await InvalidLoggingConfiguration(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -986,6 +1225,7 @@ public enum CreateStateMachineOutputError: ClientRuntime.HttpResponseErrorBindin
             case "StateMachineLimitExceeded": return try await StateMachineLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "StateMachineTypeNotSupported": return try await StateMachineTypeNotSupported(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "TooManyTags": return try await TooManyTags(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -998,9 +1238,11 @@ extension CreateStateMachineOutputResponse: ClientRuntime.HttpResponseBinding {
             let output: CreateStateMachineOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationDate = output.creationDate
             self.stateMachineArn = output.stateMachineArn
+            self.stateMachineVersionArn = output.stateMachineVersionArn
         } else {
             self.creationDate = nil
             self.stateMachineArn = nil
+            self.stateMachineVersionArn = nil
         }
     }
 }
@@ -1012,26 +1254,32 @@ public struct CreateStateMachineOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) that identifies the created state machine.
     /// This member is required.
     public var stateMachineArn: Swift.String?
+    /// The Amazon Resource Name (ARN) that identifies the created state machine version. If you do not set the publish parameter to true, this field returns null value.
+    public var stateMachineVersionArn: Swift.String?
 
     public init(
         creationDate: ClientRuntime.Date? = nil,
-        stateMachineArn: Swift.String? = nil
+        stateMachineArn: Swift.String? = nil,
+        stateMachineVersionArn: Swift.String? = nil
     )
     {
         self.creationDate = creationDate
         self.stateMachineArn = stateMachineArn
+        self.stateMachineVersionArn = stateMachineVersionArn
     }
 }
 
 struct CreateStateMachineOutputResponseBody: Swift.Equatable {
     let stateMachineArn: Swift.String?
     let creationDate: ClientRuntime.Date?
+    let stateMachineVersionArn: Swift.String?
 }
 
 extension CreateStateMachineOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case creationDate
         case stateMachineArn
+        case stateMachineVersionArn
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -1040,6 +1288,8 @@ extension CreateStateMachineOutputResponseBody: Swift.Decodable {
         stateMachineArn = stateMachineArnDecoded
         let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
         creationDate = creationDateDecoded
+        let stateMachineVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stateMachineVersionArn)
+        stateMachineVersionArn = stateMachineVersionArnDecoded
     }
 }
 
@@ -1112,6 +1362,78 @@ public struct DeleteActivityOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension DeleteStateMachineAliasInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case stateMachineAliasArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let stateMachineAliasArn = self.stateMachineAliasArn {
+            try encodeContainer.encode(stateMachineAliasArn, forKey: .stateMachineAliasArn)
+        }
+    }
+}
+
+extension DeleteStateMachineAliasInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteStateMachineAliasInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the state machine alias to delete.
+    /// This member is required.
+    public var stateMachineAliasArn: Swift.String?
+
+    public init(
+        stateMachineAliasArn: Swift.String? = nil
+    )
+    {
+        self.stateMachineAliasArn = stateMachineAliasArn
+    }
+}
+
+struct DeleteStateMachineAliasInputBody: Swift.Equatable {
+    let stateMachineAliasArn: Swift.String?
+}
+
+extension DeleteStateMachineAliasInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case stateMachineAliasArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stateMachineAliasArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stateMachineAliasArn)
+        stateMachineAliasArn = stateMachineAliasArnDecoded
+    }
+}
+
+public enum DeleteStateMachineAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArn": return try await InvalidArn(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFound": return try await ResourceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteStateMachineAliasOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteStateMachineAliasOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
 extension DeleteStateMachineInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case stateMachineArn
@@ -1178,6 +1500,77 @@ extension DeleteStateMachineOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DeleteStateMachineOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension DeleteStateMachineVersionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case stateMachineVersionArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let stateMachineVersionArn = self.stateMachineVersionArn {
+            try encodeContainer.encode(stateMachineVersionArn, forKey: .stateMachineVersionArn)
+        }
+    }
+}
+
+extension DeleteStateMachineVersionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteStateMachineVersionInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the state machine version to delete.
+    /// This member is required.
+    public var stateMachineVersionArn: Swift.String?
+
+    public init(
+        stateMachineVersionArn: Swift.String? = nil
+    )
+    {
+        self.stateMachineVersionArn = stateMachineVersionArn
+    }
+}
+
+struct DeleteStateMachineVersionInputBody: Swift.Equatable {
+    let stateMachineVersionArn: Swift.String?
+}
+
+extension DeleteStateMachineVersionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case stateMachineVersionArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stateMachineVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stateMachineVersionArn)
+        stateMachineVersionArn = stateMachineVersionArnDecoded
+    }
+}
+
+public enum DeleteStateMachineVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArn": return try await InvalidArn(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteStateMachineVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteStateMachineVersionOutputResponse: Swift.Equatable {
 
     public init() { }
 }
@@ -1380,7 +1773,7 @@ public enum DescribeExecutionOutputError: ClientRuntime.HttpResponseErrorBinding
 
 extension DescribeExecutionOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DescribeExecutionOutputResponse(executionArn: \(Swift.String(describing: executionArn)), inputDetails: \(Swift.String(describing: inputDetails)), mapRunArn: \(Swift.String(describing: mapRunArn)), name: \(Swift.String(describing: name)), outputDetails: \(Swift.String(describing: outputDetails)), startDate: \(Swift.String(describing: startDate)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), status: \(Swift.String(describing: status)), stopDate: \(Swift.String(describing: stopDate)), traceHeader: \(Swift.String(describing: traceHeader)), cause: \"CONTENT_REDACTED\", error: \"CONTENT_REDACTED\", input: \"CONTENT_REDACTED\", output: \"CONTENT_REDACTED\")"}
+        "DescribeExecutionOutputResponse(executionArn: \(Swift.String(describing: executionArn)), inputDetails: \(Swift.String(describing: inputDetails)), mapRunArn: \(Swift.String(describing: mapRunArn)), name: \(Swift.String(describing: name)), outputDetails: \(Swift.String(describing: outputDetails)), startDate: \(Swift.String(describing: startDate)), stateMachineAliasArn: \(Swift.String(describing: stateMachineAliasArn)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), stateMachineVersionArn: \(Swift.String(describing: stateMachineVersionArn)), status: \(Swift.String(describing: status)), stopDate: \(Swift.String(describing: stopDate)), traceHeader: \(Swift.String(describing: traceHeader)), cause: \"CONTENT_REDACTED\", error: \"CONTENT_REDACTED\", input: \"CONTENT_REDACTED\", output: \"CONTENT_REDACTED\")"}
 }
 
 extension DescribeExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1398,7 +1791,9 @@ extension DescribeExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
             self.output = output.output
             self.outputDetails = output.outputDetails
             self.startDate = output.startDate
+            self.stateMachineAliasArn = output.stateMachineAliasArn
             self.stateMachineArn = output.stateMachineArn
+            self.stateMachineVersionArn = output.stateMachineVersionArn
             self.status = output.status
             self.stopDate = output.stopDate
             self.traceHeader = output.traceHeader
@@ -1413,7 +1808,9 @@ extension DescribeExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
             self.output = nil
             self.outputDetails = nil
             self.startDate = nil
+            self.stateMachineAliasArn = nil
             self.stateMachineArn = nil
+            self.stateMachineVersionArn = nil
             self.status = nil
             self.stopDate = nil
             self.traceHeader = nil
@@ -1457,13 +1854,17 @@ public struct DescribeExecutionOutputResponse: Swift.Equatable {
     /// The date the execution is started.
     /// This member is required.
     public var startDate: ClientRuntime.Date?
+    /// The Amazon Resource Name (ARN) of the state machine alias associated with the execution. The alias ARN is a combination of state machine ARN and the alias name separated by a colon (:). For example, stateMachineARN:PROD. If you start an execution from a StartExecution request with a state machine version ARN, this field will be null.
+    public var stateMachineAliasArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the executed stated machine.
     /// This member is required.
     public var stateMachineArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the state machine version associated with the execution. The version ARN is a combination of state machine ARN and the version number separated by a colon (:). For example, stateMachineARN:1. If you start an execution from a StartExecution request without specifying a state machine version or alias ARN, Step Functions returns a null value.
+    public var stateMachineVersionArn: Swift.String?
     /// The current status of the execution.
     /// This member is required.
     public var status: SFNClientTypes.ExecutionStatus?
-    /// If the execution has already ended, the date the execution stopped.
+    /// If the execution ended, the date the execution stopped.
     public var stopDate: ClientRuntime.Date?
     /// The X-Ray trace header that was passed to the execution.
     public var traceHeader: Swift.String?
@@ -1479,7 +1880,9 @@ public struct DescribeExecutionOutputResponse: Swift.Equatable {
         output: Swift.String? = nil,
         outputDetails: SFNClientTypes.CloudWatchEventsExecutionDataDetails? = nil,
         startDate: ClientRuntime.Date? = nil,
+        stateMachineAliasArn: Swift.String? = nil,
         stateMachineArn: Swift.String? = nil,
+        stateMachineVersionArn: Swift.String? = nil,
         status: SFNClientTypes.ExecutionStatus? = nil,
         stopDate: ClientRuntime.Date? = nil,
         traceHeader: Swift.String? = nil
@@ -1495,7 +1898,9 @@ public struct DescribeExecutionOutputResponse: Swift.Equatable {
         self.output = output
         self.outputDetails = outputDetails
         self.startDate = startDate
+        self.stateMachineAliasArn = stateMachineAliasArn
         self.stateMachineArn = stateMachineArn
+        self.stateMachineVersionArn = stateMachineVersionArn
         self.status = status
         self.stopDate = stopDate
         self.traceHeader = traceHeader
@@ -1517,6 +1922,8 @@ struct DescribeExecutionOutputResponseBody: Swift.Equatable {
     let mapRunArn: Swift.String?
     let error: Swift.String?
     let cause: Swift.String?
+    let stateMachineVersionArn: Swift.String?
+    let stateMachineAliasArn: Swift.String?
 }
 
 extension DescribeExecutionOutputResponseBody: Swift.Decodable {
@@ -1531,7 +1938,9 @@ extension DescribeExecutionOutputResponseBody: Swift.Decodable {
         case output
         case outputDetails
         case startDate
+        case stateMachineAliasArn
         case stateMachineArn
+        case stateMachineVersionArn
         case status
         case stopDate
         case traceHeader
@@ -1567,6 +1976,10 @@ extension DescribeExecutionOutputResponseBody: Swift.Decodable {
         error = errorDecoded
         let causeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cause)
         cause = causeDecoded
+        let stateMachineVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stateMachineVersionArn)
+        stateMachineVersionArn = stateMachineVersionArnDecoded
+        let stateMachineAliasArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stateMachineAliasArn)
+        stateMachineAliasArn = stateMachineAliasArnDecoded
     }
 }
 
@@ -1769,6 +2182,171 @@ extension DescribeMapRunOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DescribeStateMachineAliasInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case stateMachineAliasArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let stateMachineAliasArn = self.stateMachineAliasArn {
+            try encodeContainer.encode(stateMachineAliasArn, forKey: .stateMachineAliasArn)
+        }
+    }
+}
+
+extension DescribeStateMachineAliasInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeStateMachineAliasInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the state machine alias.
+    /// This member is required.
+    public var stateMachineAliasArn: Swift.String?
+
+    public init(
+        stateMachineAliasArn: Swift.String? = nil
+    )
+    {
+        self.stateMachineAliasArn = stateMachineAliasArn
+    }
+}
+
+struct DescribeStateMachineAliasInputBody: Swift.Equatable {
+    let stateMachineAliasArn: Swift.String?
+}
+
+extension DescribeStateMachineAliasInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case stateMachineAliasArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stateMachineAliasArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stateMachineAliasArn)
+        stateMachineAliasArn = stateMachineAliasArnDecoded
+    }
+}
+
+public enum DescribeStateMachineAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArn": return try await InvalidArn(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFound": return try await ResourceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeStateMachineAliasOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DescribeStateMachineAliasOutputResponse(creationDate: \(Swift.String(describing: creationDate)), name: \(Swift.String(describing: name)), routingConfiguration: \(Swift.String(describing: routingConfiguration)), stateMachineAliasArn: \(Swift.String(describing: stateMachineAliasArn)), updateDate: \(Swift.String(describing: updateDate)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension DescribeStateMachineAliasOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeStateMachineAliasOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.creationDate = output.creationDate
+            self.description = output.description
+            self.name = output.name
+            self.routingConfiguration = output.routingConfiguration
+            self.stateMachineAliasArn = output.stateMachineAliasArn
+            self.updateDate = output.updateDate
+        } else {
+            self.creationDate = nil
+            self.description = nil
+            self.name = nil
+            self.routingConfiguration = nil
+            self.stateMachineAliasArn = nil
+            self.updateDate = nil
+        }
+    }
+}
+
+public struct DescribeStateMachineAliasOutputResponse: Swift.Equatable {
+    /// The date the state machine alias was created.
+    public var creationDate: ClientRuntime.Date?
+    /// A description of the alias.
+    public var description: Swift.String?
+    /// The name of the state machine alias.
+    public var name: Swift.String?
+    /// The routing configuration of the alias.
+    public var routingConfiguration: [SFNClientTypes.RoutingConfigurationListItem]?
+    /// The Amazon Resource Name (ARN) of the state machine alias.
+    public var stateMachineAliasArn: Swift.String?
+    /// The date the state machine alias was last updated. For a newly created state machine, this is the same as the creation date.
+    public var updateDate: ClientRuntime.Date?
+
+    public init(
+        creationDate: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        routingConfiguration: [SFNClientTypes.RoutingConfigurationListItem]? = nil,
+        stateMachineAliasArn: Swift.String? = nil,
+        updateDate: ClientRuntime.Date? = nil
+    )
+    {
+        self.creationDate = creationDate
+        self.description = description
+        self.name = name
+        self.routingConfiguration = routingConfiguration
+        self.stateMachineAliasArn = stateMachineAliasArn
+        self.updateDate = updateDate
+    }
+}
+
+struct DescribeStateMachineAliasOutputResponseBody: Swift.Equatable {
+    let stateMachineAliasArn: Swift.String?
+    let name: Swift.String?
+    let description: Swift.String?
+    let routingConfiguration: [SFNClientTypes.RoutingConfigurationListItem]?
+    let creationDate: ClientRuntime.Date?
+    let updateDate: ClientRuntime.Date?
+}
+
+extension DescribeStateMachineAliasOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationDate
+        case description
+        case name
+        case routingConfiguration
+        case stateMachineAliasArn
+        case updateDate
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stateMachineAliasArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stateMachineAliasArn)
+        stateMachineAliasArn = stateMachineAliasArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let routingConfigurationContainer = try containerValues.decodeIfPresent([SFNClientTypes.RoutingConfigurationListItem?].self, forKey: .routingConfiguration)
+        var routingConfigurationDecoded0:[SFNClientTypes.RoutingConfigurationListItem]? = nil
+        if let routingConfigurationContainer = routingConfigurationContainer {
+            routingConfigurationDecoded0 = [SFNClientTypes.RoutingConfigurationListItem]()
+            for structure0 in routingConfigurationContainer {
+                if let structure0 = structure0 {
+                    routingConfigurationDecoded0?.append(structure0)
+                }
+            }
+        }
+        routingConfiguration = routingConfigurationDecoded0
+        let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
+        creationDate = creationDateDecoded
+        let updateDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateDate)
+        updateDate = updateDateDecoded
+    }
+}
+
 extension DescribeStateMachineForExecutionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case executionArn
@@ -1831,7 +2409,7 @@ public enum DescribeStateMachineForExecutionOutputError: ClientRuntime.HttpRespo
 
 extension DescribeStateMachineForExecutionOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DescribeStateMachineForExecutionOutputResponse(label: \(Swift.String(describing: label)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), mapRunArn: \(Swift.String(describing: mapRunArn)), name: \(Swift.String(describing: name)), roleArn: \(Swift.String(describing: roleArn)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), tracingConfiguration: \(Swift.String(describing: tracingConfiguration)), updateDate: \(Swift.String(describing: updateDate)), definition: \"CONTENT_REDACTED\")"}
+        "DescribeStateMachineForExecutionOutputResponse(label: \(Swift.String(describing: label)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), mapRunArn: \(Swift.String(describing: mapRunArn)), name: \(Swift.String(describing: name)), revisionId: \(Swift.String(describing: revisionId)), roleArn: \(Swift.String(describing: roleArn)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), tracingConfiguration: \(Swift.String(describing: tracingConfiguration)), updateDate: \(Swift.String(describing: updateDate)), definition: \"CONTENT_REDACTED\")"}
 }
 
 extension DescribeStateMachineForExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1844,6 +2422,7 @@ extension DescribeStateMachineForExecutionOutputResponse: ClientRuntime.HttpResp
             self.loggingConfiguration = output.loggingConfiguration
             self.mapRunArn = output.mapRunArn
             self.name = output.name
+            self.revisionId = output.revisionId
             self.roleArn = output.roleArn
             self.stateMachineArn = output.stateMachineArn
             self.tracingConfiguration = output.tracingConfiguration
@@ -1854,6 +2433,7 @@ extension DescribeStateMachineForExecutionOutputResponse: ClientRuntime.HttpResp
             self.loggingConfiguration = nil
             self.mapRunArn = nil
             self.name = nil
+            self.revisionId = nil
             self.roleArn = nil
             self.stateMachineArn = nil
             self.tracingConfiguration = nil
@@ -1875,6 +2455,8 @@ public struct DescribeStateMachineForExecutionOutputResponse: Swift.Equatable {
     /// The name of the state machine associated with the execution.
     /// This member is required.
     public var name: Swift.String?
+    /// The revision identifier for the state machine. The first revision ID when you create the state machine is null. Use the state machine revisionId parameter to compare the revision of a state machine with the configuration of the state machine used for executions without performing a diff of the properties, such as definition and roleArn.
+    public var revisionId: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role of the State Machine for the execution.
     /// This member is required.
     public var roleArn: Swift.String?
@@ -1893,6 +2475,7 @@ public struct DescribeStateMachineForExecutionOutputResponse: Swift.Equatable {
         loggingConfiguration: SFNClientTypes.LoggingConfiguration? = nil,
         mapRunArn: Swift.String? = nil,
         name: Swift.String? = nil,
+        revisionId: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         stateMachineArn: Swift.String? = nil,
         tracingConfiguration: SFNClientTypes.TracingConfiguration? = nil,
@@ -1904,6 +2487,7 @@ public struct DescribeStateMachineForExecutionOutputResponse: Swift.Equatable {
         self.loggingConfiguration = loggingConfiguration
         self.mapRunArn = mapRunArn
         self.name = name
+        self.revisionId = revisionId
         self.roleArn = roleArn
         self.stateMachineArn = stateMachineArn
         self.tracingConfiguration = tracingConfiguration
@@ -1921,6 +2505,7 @@ struct DescribeStateMachineForExecutionOutputResponseBody: Swift.Equatable {
     let tracingConfiguration: SFNClientTypes.TracingConfiguration?
     let mapRunArn: Swift.String?
     let label: Swift.String?
+    let revisionId: Swift.String?
 }
 
 extension DescribeStateMachineForExecutionOutputResponseBody: Swift.Decodable {
@@ -1930,6 +2515,7 @@ extension DescribeStateMachineForExecutionOutputResponseBody: Swift.Decodable {
         case loggingConfiguration
         case mapRunArn
         case name
+        case revisionId
         case roleArn
         case stateMachineArn
         case tracingConfiguration
@@ -1956,6 +2542,8 @@ extension DescribeStateMachineForExecutionOutputResponseBody: Swift.Decodable {
         mapRunArn = mapRunArnDecoded
         let labelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .label)
         label = labelDecoded
+        let revisionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .revisionId)
+        revisionId = revisionIdDecoded
     }
 }
 
@@ -1979,7 +2567,7 @@ extension DescribeStateMachineInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeStateMachineInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the state machine to describe.
+    /// The Amazon Resource Name (ARN) of the state machine for which you want the information. If you specify a state machine version ARN, this API returns details about that version. The version ARN is a combination of state machine ARN and the version number separated by a colon (:). For example, stateMachineARN:1.
     /// This member is required.
     public var stateMachineArn: Swift.String?
 
@@ -2021,7 +2609,7 @@ public enum DescribeStateMachineOutputError: ClientRuntime.HttpResponseErrorBind
 
 extension DescribeStateMachineOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DescribeStateMachineOutputResponse(creationDate: \(Swift.String(describing: creationDate)), label: \(Swift.String(describing: label)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), name: \(Swift.String(describing: name)), roleArn: \(Swift.String(describing: roleArn)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), status: \(Swift.String(describing: status)), tracingConfiguration: \(Swift.String(describing: tracingConfiguration)), type: \(Swift.String(describing: type)), definition: \"CONTENT_REDACTED\")"}
+        "DescribeStateMachineOutputResponse(creationDate: \(Swift.String(describing: creationDate)), label: \(Swift.String(describing: label)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), name: \(Swift.String(describing: name)), revisionId: \(Swift.String(describing: revisionId)), roleArn: \(Swift.String(describing: roleArn)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), status: \(Swift.String(describing: status)), tracingConfiguration: \(Swift.String(describing: tracingConfiguration)), type: \(Swift.String(describing: type)), definition: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
 }
 
 extension DescribeStateMachineOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2031,9 +2619,11 @@ extension DescribeStateMachineOutputResponse: ClientRuntime.HttpResponseBinding 
             let output: DescribeStateMachineOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationDate = output.creationDate
             self.definition = output.definition
+            self.description = output.description
             self.label = output.label
             self.loggingConfiguration = output.loggingConfiguration
             self.name = output.name
+            self.revisionId = output.revisionId
             self.roleArn = output.roleArn
             self.stateMachineArn = output.stateMachineArn
             self.status = output.status
@@ -2042,9 +2632,11 @@ extension DescribeStateMachineOutputResponse: ClientRuntime.HttpResponseBinding 
         } else {
             self.creationDate = nil
             self.definition = nil
+            self.description = nil
             self.label = nil
             self.loggingConfiguration = nil
             self.name = nil
+            self.revisionId = nil
             self.roleArn = nil
             self.stateMachineArn = nil
             self.status = nil
@@ -2055,12 +2647,14 @@ extension DescribeStateMachineOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 public struct DescribeStateMachineOutputResponse: Swift.Equatable {
-    /// The date the state machine is created.
+    /// The date the state machine is created. For a state machine version, creationDate is the date the version was created.
     /// This member is required.
     public var creationDate: ClientRuntime.Date?
     /// The Amazon States Language definition of the state machine. See [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html).
     /// This member is required.
     public var definition: Swift.String?
+    /// The description of the state machine version.
+    public var description: Swift.String?
     /// A user-defined or an auto-generated string that identifies a Map state. This parameter is present only if the stateMachineArn specified in input is a qualified state machine ARN.
     public var label: Swift.String?
     /// The LoggingConfiguration data type is used to set CloudWatch Logs options.
@@ -2081,10 +2675,12 @@ public struct DescribeStateMachineOutputResponse: Swift.Equatable {
     /// To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
     /// This member is required.
     public var name: Swift.String?
+    /// The revision identifier for the state machine. Use the revisionId parameter to compare between versions of a state machine configuration used for executions without performing a diff of the properties, such as definition and roleArn.
+    public var revisionId: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role used when creating this state machine. (The IAM role maintains security by granting Step Functions access to Amazon Web Services resources.)
     /// This member is required.
     public var roleArn: Swift.String?
-    /// The Amazon Resource Name (ARN) that identifies the state machine.
+    /// The Amazon Resource Name (ARN) that identifies the state machine. If you specified a state machine version ARN in your request, the API returns the version ARN. The version ARN is a combination of state machine ARN and the version number separated by a colon (:). For example, stateMachineARN:1.
     /// This member is required.
     public var stateMachineArn: Swift.String?
     /// The current status of the state machine.
@@ -2098,9 +2694,11 @@ public struct DescribeStateMachineOutputResponse: Swift.Equatable {
     public init(
         creationDate: ClientRuntime.Date? = nil,
         definition: Swift.String? = nil,
+        description: Swift.String? = nil,
         label: Swift.String? = nil,
         loggingConfiguration: SFNClientTypes.LoggingConfiguration? = nil,
         name: Swift.String? = nil,
+        revisionId: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         stateMachineArn: Swift.String? = nil,
         status: SFNClientTypes.StateMachineStatus? = nil,
@@ -2110,9 +2708,11 @@ public struct DescribeStateMachineOutputResponse: Swift.Equatable {
     {
         self.creationDate = creationDate
         self.definition = definition
+        self.description = description
         self.label = label
         self.loggingConfiguration = loggingConfiguration
         self.name = name
+        self.revisionId = revisionId
         self.roleArn = roleArn
         self.stateMachineArn = stateMachineArn
         self.status = status
@@ -2132,15 +2732,19 @@ struct DescribeStateMachineOutputResponseBody: Swift.Equatable {
     let loggingConfiguration: SFNClientTypes.LoggingConfiguration?
     let tracingConfiguration: SFNClientTypes.TracingConfiguration?
     let label: Swift.String?
+    let revisionId: Swift.String?
+    let description: Swift.String?
 }
 
 extension DescribeStateMachineOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case creationDate
         case definition
+        case description
         case label
         case loggingConfiguration
         case name
+        case revisionId
         case roleArn
         case stateMachineArn
         case status
@@ -2170,6 +2774,10 @@ extension DescribeStateMachineOutputResponseBody: Swift.Decodable {
         tracingConfiguration = tracingConfigurationDecoded
         let labelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .label)
         label = labelDecoded
+        let revisionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .revisionId)
+        revisionId = revisionIdDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
     }
 }
 
@@ -2445,7 +3053,9 @@ extension SFNClientTypes.ExecutionListItem: Swift.Codable {
         case mapRunArn
         case name
         case startDate
+        case stateMachineAliasArn
         case stateMachineArn
+        case stateMachineVersionArn
         case status
         case stopDate
     }
@@ -2467,8 +3077,14 @@ extension SFNClientTypes.ExecutionListItem: Swift.Codable {
         if let startDate = self.startDate {
             try encodeContainer.encodeTimestamp(startDate, format: .epochSeconds, forKey: .startDate)
         }
+        if let stateMachineAliasArn = self.stateMachineAliasArn {
+            try encodeContainer.encode(stateMachineAliasArn, forKey: .stateMachineAliasArn)
+        }
         if let stateMachineArn = self.stateMachineArn {
             try encodeContainer.encode(stateMachineArn, forKey: .stateMachineArn)
+        }
+        if let stateMachineVersionArn = self.stateMachineVersionArn {
+            try encodeContainer.encode(stateMachineVersionArn, forKey: .stateMachineVersionArn)
         }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
@@ -2496,6 +3112,10 @@ extension SFNClientTypes.ExecutionListItem: Swift.Codable {
         mapRunArn = mapRunArnDecoded
         let itemCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .itemCount)
         itemCount = itemCountDecoded
+        let stateMachineVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stateMachineVersionArn)
+        stateMachineVersionArn = stateMachineVersionArnDecoded
+        let stateMachineAliasArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stateMachineAliasArn)
+        stateMachineAliasArn = stateMachineAliasArnDecoded
     }
 }
 
@@ -2528,9 +3148,13 @@ extension SFNClientTypes {
         /// The date the execution started.
         /// This member is required.
         public var startDate: ClientRuntime.Date?
-        /// The Amazon Resource Name (ARN) of the executed state machine.
+        /// The Amazon Resource Name (ARN) of the state machine alias used to start an execution. If the state machine execution was started with an unqualified ARN or a version ARN, it returns null.
+        public var stateMachineAliasArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the state machine that ran the execution.
         /// This member is required.
         public var stateMachineArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the state machine version associated with the execution. If the state machine execution was started with an unqualified ARN, it returns null. If the execution was started using a stateMachineAliasArn, both the stateMachineAliasArn and stateMachineVersionArn parameters contain the respective values.
+        public var stateMachineVersionArn: Swift.String?
         /// The current status of the execution.
         /// This member is required.
         public var status: SFNClientTypes.ExecutionStatus?
@@ -2543,7 +3167,9 @@ extension SFNClientTypes {
             mapRunArn: Swift.String? = nil,
             name: Swift.String? = nil,
             startDate: ClientRuntime.Date? = nil,
+            stateMachineAliasArn: Swift.String? = nil,
             stateMachineArn: Swift.String? = nil,
+            stateMachineVersionArn: Swift.String? = nil,
             status: SFNClientTypes.ExecutionStatus? = nil,
             stopDate: ClientRuntime.Date? = nil
         )
@@ -2553,7 +3179,9 @@ extension SFNClientTypes {
             self.mapRunArn = mapRunArn
             self.name = name
             self.startDate = startDate
+            self.stateMachineAliasArn = stateMachineAliasArn
             self.stateMachineArn = stateMachineArn
+            self.stateMachineVersionArn = stateMachineVersionArn
             self.status = status
             self.stopDate = stopDate
         }
@@ -2566,6 +3194,8 @@ extension SFNClientTypes.ExecutionStartedEventDetails: Swift.Codable {
         case input
         case inputDetails
         case roleArn
+        case stateMachineAliasArn
+        case stateMachineVersionArn
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2579,6 +3209,12 @@ extension SFNClientTypes.ExecutionStartedEventDetails: Swift.Codable {
         if let roleArn = self.roleArn {
             try encodeContainer.encode(roleArn, forKey: .roleArn)
         }
+        if let stateMachineAliasArn = self.stateMachineAliasArn {
+            try encodeContainer.encode(stateMachineAliasArn, forKey: .stateMachineAliasArn)
+        }
+        if let stateMachineVersionArn = self.stateMachineVersionArn {
+            try encodeContainer.encode(stateMachineVersionArn, forKey: .stateMachineVersionArn)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -2589,12 +3225,16 @@ extension SFNClientTypes.ExecutionStartedEventDetails: Swift.Codable {
         inputDetails = inputDetailsDecoded
         let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
         roleArn = roleArnDecoded
+        let stateMachineAliasArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stateMachineAliasArn)
+        stateMachineAliasArn = stateMachineAliasArnDecoded
+        let stateMachineVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stateMachineVersionArn)
+        stateMachineVersionArn = stateMachineVersionArnDecoded
     }
 }
 
 extension SFNClientTypes.ExecutionStartedEventDetails: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ExecutionStartedEventDetails(inputDetails: \(Swift.String(describing: inputDetails)), roleArn: \(Swift.String(describing: roleArn)), input: \"CONTENT_REDACTED\")"}
+        "ExecutionStartedEventDetails(inputDetails: \(Swift.String(describing: inputDetails)), roleArn: \(Swift.String(describing: roleArn)), stateMachineAliasArn: \(Swift.String(describing: stateMachineAliasArn)), stateMachineVersionArn: \(Swift.String(describing: stateMachineVersionArn)), input: \"CONTENT_REDACTED\")"}
 }
 
 extension SFNClientTypes {
@@ -2606,16 +3246,24 @@ extension SFNClientTypes {
         public var inputDetails: SFNClientTypes.HistoryEventExecutionDataDetails?
         /// The Amazon Resource Name (ARN) of the IAM role used for executing Lambda tasks.
         public var roleArn: Swift.String?
+        /// The Amazon Resource Name (ARN) that identifies a state machine alias used for starting the state machine execution.
+        public var stateMachineAliasArn: Swift.String?
+        /// The Amazon Resource Name (ARN) that identifies a state machine version used for starting the state machine execution.
+        public var stateMachineVersionArn: Swift.String?
 
         public init(
             input: Swift.String? = nil,
             inputDetails: SFNClientTypes.HistoryEventExecutionDataDetails? = nil,
-            roleArn: Swift.String? = nil
+            roleArn: Swift.String? = nil,
+            stateMachineAliasArn: Swift.String? = nil,
+            stateMachineVersionArn: Swift.String? = nil
         )
         {
             self.input = input
             self.inputDetails = inputDetails
             self.roleArn = roleArn
+            self.stateMachineAliasArn = stateMachineAliasArn
+            self.stateMachineVersionArn = stateMachineVersionArn
         }
     }
 
@@ -2907,13 +3555,13 @@ extension GetExecutionHistoryInput: Swift.Encodable {
         if let includeExecutionData = self.includeExecutionData {
             try encodeContainer.encode(includeExecutionData, forKey: .includeExecutionData)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
         }
-        if reverseOrder != false {
+        if let reverseOrder = self.reverseOrder {
             try encodeContainer.encode(reverseOrder, forKey: .reverseOrder)
         }
     }
@@ -2932,18 +3580,18 @@ public struct GetExecutionHistoryInput: Swift.Equatable {
     /// You can select whether execution data (input or output of a history event) is returned. The default is true.
     public var includeExecutionData: Swift.Bool?
     /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
     /// Lists events in descending order of their timeStamp.
-    public var reverseOrder: Swift.Bool
+    public var reverseOrder: Swift.Bool?
 
     public init(
         executionArn: Swift.String? = nil,
         includeExecutionData: Swift.Bool? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        reverseOrder: Swift.Bool = false
+        reverseOrder: Swift.Bool? = nil
     )
     {
         self.executionArn = executionArn
@@ -2956,8 +3604,8 @@ public struct GetExecutionHistoryInput: Swift.Equatable {
 
 struct GetExecutionHistoryInputBody: Swift.Equatable {
     let executionArn: Swift.String?
-    let maxResults: Swift.Int
-    let reverseOrder: Swift.Bool
+    let maxResults: Swift.Int?
+    let reverseOrder: Swift.Bool?
     let nextToken: Swift.String?
     let includeExecutionData: Swift.Bool?
 }
@@ -2975,9 +3623,9 @@ extension GetExecutionHistoryInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let executionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionArn)
         executionArn = executionArnDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
-        let reverseOrderDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .reverseOrder) ?? false
+        let reverseOrderDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .reverseOrder)
         reverseOrder = reverseOrderDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -4484,7 +5132,7 @@ extension ListActivitiesInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -4501,12 +5149,12 @@ extension ListActivitiesInput: ClientRuntime.URLPathProvider {
 
 public struct ListActivitiesInput: Swift.Equatable {
     /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -4516,7 +5164,7 @@ public struct ListActivitiesInput: Swift.Equatable {
 }
 
 struct ListActivitiesInputBody: Swift.Equatable {
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -4528,7 +5176,7 @@ extension ListActivitiesInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -4620,7 +5268,7 @@ extension ListExecutionsInput: Swift.Encodable {
         if let mapRunArn = self.mapRunArn {
             try encodeContainer.encode(mapRunArn, forKey: .mapRunArn)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -4645,17 +5293,17 @@ public struct ListExecutionsInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the Map Run that started the child workflow executions. If the mapRunArn field is specified, a list of all of the child workflow executions started by a Map Run is returned. For more information, see [Examining Map Run](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-examine-map-run.html) in the Step Functions Developer Guide. You can specify either a mapRunArn or a stateMachineArn, but not both.
     public var mapRunArn: Swift.String?
     /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the state machine whose executions is listed. You can specify either a mapRunArn or a stateMachineArn, but not both.
+    /// The Amazon Resource Name (ARN) of the state machine whose executions is listed. You can specify either a mapRunArn or a stateMachineArn, but not both. You can also return a list of executions associated with a specific [alias](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html) or [version](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html), by specifying an alias ARN or a version ARN in the stateMachineArn parameter.
     public var stateMachineArn: Swift.String?
     /// If specified, only list the executions whose current execution status matches the given filter.
     public var statusFilter: SFNClientTypes.ExecutionStatus?
 
     public init(
         mapRunArn: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         stateMachineArn: Swift.String? = nil,
         statusFilter: SFNClientTypes.ExecutionStatus? = nil
@@ -4672,7 +5320,7 @@ public struct ListExecutionsInput: Swift.Equatable {
 struct ListExecutionsInputBody: Swift.Equatable {
     let stateMachineArn: Swift.String?
     let statusFilter: SFNClientTypes.ExecutionStatus?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let mapRunArn: Swift.String?
 }
@@ -4692,7 +5340,7 @@ extension ListExecutionsInputBody: Swift.Decodable {
         stateMachineArn = stateMachineArnDecoded
         let statusFilterDecoded = try containerValues.decodeIfPresent(SFNClientTypes.ExecutionStatus.self, forKey: .statusFilter)
         statusFilter = statusFilterDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -4789,7 +5437,7 @@ extension ListMapRunsInput: Swift.Encodable {
         if let executionArn = self.executionArn {
             try encodeContainer.encode(executionArn, forKey: .executionArn)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -4809,13 +5457,13 @@ public struct ListMapRunsInput: Swift.Equatable {
     /// This member is required.
     public var executionArn: Swift.String?
     /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
 
     public init(
         executionArn: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -4827,7 +5475,7 @@ public struct ListMapRunsInput: Swift.Equatable {
 
 struct ListMapRunsInputBody: Swift.Equatable {
     let executionArn: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -4842,7 +5490,7 @@ extension ListMapRunsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let executionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionArn)
         executionArn = executionArnDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -4922,6 +5570,298 @@ extension ListMapRunsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListStateMachineAliasesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+        case stateMachineArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let stateMachineArn = self.stateMachineArn {
+            try encodeContainer.encode(stateMachineArn, forKey: .stateMachineArn)
+        }
+    }
+}
+
+extension ListStateMachineAliasesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListStateMachineAliasesInput: Swift.Equatable {
+    /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
+    public var maxResults: Swift.Int?
+    /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the state machine for which you want to list aliases. If you specify a state machine version ARN, this API returns a list of aliases for that version.
+    /// This member is required.
+    public var stateMachineArn: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        stateMachineArn: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.stateMachineArn = stateMachineArn
+    }
+}
+
+struct ListStateMachineAliasesInputBody: Swift.Equatable {
+    let stateMachineArn: Swift.String?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListStateMachineAliasesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+        case stateMachineArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stateMachineArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stateMachineArn)
+        stateMachineArn = stateMachineArnDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+public enum ListStateMachineAliasesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArn": return try await InvalidArn(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidToken": return try await InvalidToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFound": return try await ResourceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "StateMachineDeleting": return try await StateMachineDeleting(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "StateMachineDoesNotExist": return try await StateMachineDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListStateMachineAliasesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListStateMachineAliasesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.stateMachineAliases = output.stateMachineAliases
+        } else {
+            self.nextToken = nil
+            self.stateMachineAliases = nil
+        }
+    }
+}
+
+public struct ListStateMachineAliasesOutputResponse: Swift.Equatable {
+    /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    public var nextToken: Swift.String?
+    /// Aliases for the state machine.
+    /// This member is required.
+    public var stateMachineAliases: [SFNClientTypes.StateMachineAliasListItem]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        stateMachineAliases: [SFNClientTypes.StateMachineAliasListItem]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.stateMachineAliases = stateMachineAliases
+    }
+}
+
+struct ListStateMachineAliasesOutputResponseBody: Swift.Equatable {
+    let stateMachineAliases: [SFNClientTypes.StateMachineAliasListItem]?
+    let nextToken: Swift.String?
+}
+
+extension ListStateMachineAliasesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case stateMachineAliases
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stateMachineAliasesContainer = try containerValues.decodeIfPresent([SFNClientTypes.StateMachineAliasListItem?].self, forKey: .stateMachineAliases)
+        var stateMachineAliasesDecoded0:[SFNClientTypes.StateMachineAliasListItem]? = nil
+        if let stateMachineAliasesContainer = stateMachineAliasesContainer {
+            stateMachineAliasesDecoded0 = [SFNClientTypes.StateMachineAliasListItem]()
+            for structure0 in stateMachineAliasesContainer {
+                if let structure0 = structure0 {
+                    stateMachineAliasesDecoded0?.append(structure0)
+                }
+            }
+        }
+        stateMachineAliases = stateMachineAliasesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListStateMachineVersionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+        case stateMachineArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let stateMachineArn = self.stateMachineArn {
+            try encodeContainer.encode(stateMachineArn, forKey: .stateMachineArn)
+        }
+    }
+}
+
+extension ListStateMachineVersionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListStateMachineVersionsInput: Swift.Equatable {
+    /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
+    public var maxResults: Swift.Int?
+    /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the state machine.
+    /// This member is required.
+    public var stateMachineArn: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        stateMachineArn: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.stateMachineArn = stateMachineArn
+    }
+}
+
+struct ListStateMachineVersionsInputBody: Swift.Equatable {
+    let stateMachineArn: Swift.String?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListStateMachineVersionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+        case stateMachineArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stateMachineArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stateMachineArn)
+        stateMachineArn = stateMachineArnDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+public enum ListStateMachineVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArn": return try await InvalidArn(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidToken": return try await InvalidToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListStateMachineVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListStateMachineVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.stateMachineVersions = output.stateMachineVersions
+        } else {
+            self.nextToken = nil
+            self.stateMachineVersions = nil
+        }
+    }
+}
+
+public struct ListStateMachineVersionsOutputResponse: Swift.Equatable {
+    /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    public var nextToken: Swift.String?
+    /// Versions for the state machine.
+    /// This member is required.
+    public var stateMachineVersions: [SFNClientTypes.StateMachineVersionListItem]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        stateMachineVersions: [SFNClientTypes.StateMachineVersionListItem]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.stateMachineVersions = stateMachineVersions
+    }
+}
+
+struct ListStateMachineVersionsOutputResponseBody: Swift.Equatable {
+    let stateMachineVersions: [SFNClientTypes.StateMachineVersionListItem]?
+    let nextToken: Swift.String?
+}
+
+extension ListStateMachineVersionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case stateMachineVersions
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stateMachineVersionsContainer = try containerValues.decodeIfPresent([SFNClientTypes.StateMachineVersionListItem?].self, forKey: .stateMachineVersions)
+        var stateMachineVersionsDecoded0:[SFNClientTypes.StateMachineVersionListItem]? = nil
+        if let stateMachineVersionsContainer = stateMachineVersionsContainer {
+            stateMachineVersionsDecoded0 = [SFNClientTypes.StateMachineVersionListItem]()
+            for structure0 in stateMachineVersionsContainer {
+                if let structure0 = structure0 {
+                    stateMachineVersionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        stateMachineVersions = stateMachineVersionsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension ListStateMachinesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults
@@ -4930,7 +5870,7 @@ extension ListStateMachinesInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -4947,12 +5887,12 @@ extension ListStateMachinesInput: ClientRuntime.URLPathProvider {
 
 public struct ListStateMachinesInput: Swift.Equatable {
     /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -4962,7 +5902,7 @@ public struct ListStateMachinesInput: Swift.Equatable {
 }
 
 struct ListStateMachinesInputBody: Swift.Equatable {
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -4974,7 +5914,7 @@ extension ListStateMachinesInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -5863,6 +6803,151 @@ extension MissingRequiredParameterBody: Swift.Decodable {
     }
 }
 
+extension PublishStateMachineVersionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PublishStateMachineVersionInput(revisionId: \(Swift.String(describing: revisionId)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension PublishStateMachineVersionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case revisionId
+        case stateMachineArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let revisionId = self.revisionId {
+            try encodeContainer.encode(revisionId, forKey: .revisionId)
+        }
+        if let stateMachineArn = self.stateMachineArn {
+            try encodeContainer.encode(stateMachineArn, forKey: .stateMachineArn)
+        }
+    }
+}
+
+extension PublishStateMachineVersionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct PublishStateMachineVersionInput: Swift.Equatable {
+    /// An optional description of the state machine version.
+    public var description: Swift.String?
+    /// Only publish the state machine version if the current state machine's revision ID matches the specified ID. Use this option to avoid publishing a version if the state machine changed since you last updated it. If the specified revision ID doesn't match the state machine's current revision ID, the API returns ConflictException. To specify an initial revision ID for a state machine with no revision ID assigned, specify the string INITIAL for the revisionId parameter. For example, you can specify a revisionID of INITIAL when you create a state machine using the [CreateStateMachine] API action.
+    public var revisionId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the state machine.
+    /// This member is required.
+    public var stateMachineArn: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        revisionId: Swift.String? = nil,
+        stateMachineArn: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.revisionId = revisionId
+        self.stateMachineArn = stateMachineArn
+    }
+}
+
+struct PublishStateMachineVersionInputBody: Swift.Equatable {
+    let stateMachineArn: Swift.String?
+    let revisionId: Swift.String?
+    let description: Swift.String?
+}
+
+extension PublishStateMachineVersionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case revisionId
+        case stateMachineArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stateMachineArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stateMachineArn)
+        stateMachineArn = stateMachineArnDecoded
+        let revisionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .revisionId)
+        revisionId = revisionIdDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+public enum PublishStateMachineVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArn": return try await InvalidArn(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "StateMachineDeleting": return try await StateMachineDeleting(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "StateMachineDoesNotExist": return try await StateMachineDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension PublishStateMachineVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PublishStateMachineVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.creationDate = output.creationDate
+            self.stateMachineVersionArn = output.stateMachineVersionArn
+        } else {
+            self.creationDate = nil
+            self.stateMachineVersionArn = nil
+        }
+    }
+}
+
+public struct PublishStateMachineVersionOutputResponse: Swift.Equatable {
+    /// The date the version was created.
+    /// This member is required.
+    public var creationDate: ClientRuntime.Date?
+    /// The Amazon Resource Name (ARN) (ARN) that identifies the state machine version.
+    /// This member is required.
+    public var stateMachineVersionArn: Swift.String?
+
+    public init(
+        creationDate: ClientRuntime.Date? = nil,
+        stateMachineVersionArn: Swift.String? = nil
+    )
+    {
+        self.creationDate = creationDate
+        self.stateMachineVersionArn = stateMachineVersionArn
+    }
+}
+
+struct PublishStateMachineVersionOutputResponseBody: Swift.Equatable {
+    let creationDate: ClientRuntime.Date?
+    let stateMachineVersionArn: Swift.String?
+}
+
+extension PublishStateMachineVersionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationDate
+        case stateMachineVersionArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
+        creationDate = creationDateDecoded
+        let stateMachineVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stateMachineVersionArn)
+        stateMachineVersionArn = stateMachineVersionArnDecoded
+    }
+}
+
 extension ResourceNotFound {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -5880,7 +6965,7 @@ extension ResourceNotFound {
     }
 }
 
-/// Could not find the referenced resource. Only state machine and activity ARNs are supported.
+/// Could not find the referenced resource.
 public struct ResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -5925,6 +7010,53 @@ extension ResourceNotFoundBody: Swift.Decodable {
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
     }
+}
+
+extension SFNClientTypes.RoutingConfigurationListItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case stateMachineVersionArn
+        case weight
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let stateMachineVersionArn = self.stateMachineVersionArn {
+            try encodeContainer.encode(stateMachineVersionArn, forKey: .stateMachineVersionArn)
+        }
+        if weight != 0 {
+            try encodeContainer.encode(weight, forKey: .weight)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stateMachineVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stateMachineVersionArn)
+        stateMachineVersionArn = stateMachineVersionArnDecoded
+        let weightDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .weight) ?? 0
+        weight = weightDecoded
+    }
+}
+
+extension SFNClientTypes {
+    /// Contains details about the routing configuration of a state machine alias. In a routing configuration, you define an array of objects that specify up to two state machine versions. You also specify the percentage of traffic to be routed to each version.
+    public struct RoutingConfigurationListItem: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) that identifies one or two state machine versions defined in the routing configuration. If you specify the ARN of a second version, it must belong to the same state machine as the first version.
+        /// This member is required.
+        public var stateMachineVersionArn: Swift.String?
+        /// The percentage of traffic you want to route to the second state machine version. The sum of the weights in the routing configuration must be equal to 100.
+        /// This member is required.
+        public var weight: Swift.Int
+
+        public init(
+            stateMachineVersionArn: Swift.String? = nil,
+            weight: Swift.Int = 0
+        )
+        {
+            self.stateMachineVersionArn = stateMachineVersionArn
+            self.weight = weight
+        }
+    }
+
 }
 
 extension SendTaskFailureInput: Swift.CustomDebugStringConvertible {
@@ -6188,6 +7320,61 @@ public struct SendTaskSuccessOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension ServiceQuotaExceededException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The request would cause a service quota to be exceeded. HTTP Status Code: 402
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension StartExecutionInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "StartExecutionInput(name: \(Swift.String(describing: name)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), traceHeader: \(Swift.String(describing: traceHeader)), input: \"CONTENT_REDACTED\")"}
@@ -6227,7 +7414,7 @@ extension StartExecutionInput: ClientRuntime.URLPathProvider {
 public struct StartExecutionInput: Swift.Equatable {
     /// The string that contains the JSON input data for the execution, for example: "input": "{\"first_name\" : \"test\"}" If you don't include any JSON input data, you still must include the two braces, for example: "input": "{}" Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
     public var input: Swift.String?
-    /// The name of the execution. This name must be unique for your Amazon Web Services account, region, and state machine for 90 days. For more information, see [ Limits Related to State Machine Executions](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html#service-limits-state-machine-executions) in the Step Functions Developer Guide. A name must not contain:
+    /// Optional name of the execution. This name must be unique for your Amazon Web Services account, Region, and state machine for 90 days. For more information, see [ Limits Related to State Machine Executions](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html#service-limits-state-machine-executions) in the Step Functions Developer Guide. A name must not contain:
     ///
     /// * white space
     ///
@@ -6242,7 +7429,13 @@ public struct StartExecutionInput: Swift.Equatable {
     ///
     /// To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
     public var name: Swift.String?
-    /// The Amazon Resource Name (ARN) of the state machine to execute.
+    /// The Amazon Resource Name (ARN) of the state machine to execute. The stateMachineArn parameter accepts one of the following inputs:
+    ///
+    /// * An unqualified state machine ARN – Refers to a state machine ARN that isn't qualified with a version or alias ARN. The following is an example of an unqualified state machine ARN. arn::states:::stateMachine: Step Functions doesn't associate state machine executions that you start with an unqualified ARN with a version. This is true even if that version uses the same revision that the execution used.
+    ///
+    /// * A state machine version ARN – Refers to a version ARN, which is a combination of state machine ARN and the version number separated by a colon (:). The following is an example of the ARN for version 10. arn::states:::stateMachine::10 Step Functions doesn't associate executions that you start with a version ARN with any aliases that point to that version.
+    ///
+    /// * A state machine alias ARN – Refers to an alias ARN, which is a combination of state machine ARN and the alias name separated by a colon (:). The following is an example of the ARN for an alias named PROD. arn::states:::stateMachine: Step Functions associates executions that you start with an alias ARN with that alias and the state machine version used for that execution.
     /// This member is required.
     public var stateMachineArn: Swift.String?
     /// Passes the X-Ray trace header. The trace header can also be passed in the request payload.
@@ -6779,6 +7972,53 @@ extension SFNClientTypes {
 
 }
 
+extension SFNClientTypes.StateMachineAliasListItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationDate
+        case stateMachineAliasArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationDate = self.creationDate {
+            try encodeContainer.encodeTimestamp(creationDate, format: .epochSeconds, forKey: .creationDate)
+        }
+        if let stateMachineAliasArn = self.stateMachineAliasArn {
+            try encodeContainer.encode(stateMachineAliasArn, forKey: .stateMachineAliasArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stateMachineAliasArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stateMachineAliasArn)
+        stateMachineAliasArn = stateMachineAliasArnDecoded
+        let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
+        creationDate = creationDateDecoded
+    }
+}
+
+extension SFNClientTypes {
+    /// Contains details about a specific state machine alias.
+    public struct StateMachineAliasListItem: Swift.Equatable {
+        /// The creation date of a state machine alias.
+        /// This member is required.
+        public var creationDate: ClientRuntime.Date?
+        /// The Amazon Resource Name (ARN) that identifies a state machine alias. The alias ARN is a combination of state machine ARN and the alias name separated by a colon (:). For example, stateMachineARN:PROD.
+        /// This member is required.
+        public var stateMachineAliasArn: Swift.String?
+
+        public init(
+            creationDate: ClientRuntime.Date? = nil,
+            stateMachineAliasArn: Swift.String? = nil
+        )
+        {
+            self.creationDate = creationDate
+            self.stateMachineAliasArn = stateMachineAliasArn
+        }
+    }
+
+}
+
 extension StateMachineAlreadyExists {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -7198,6 +8438,53 @@ extension StateMachineTypeNotSupportedBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension SFNClientTypes.StateMachineVersionListItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationDate
+        case stateMachineVersionArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationDate = self.creationDate {
+            try encodeContainer.encodeTimestamp(creationDate, format: .epochSeconds, forKey: .creationDate)
+        }
+        if let stateMachineVersionArn = self.stateMachineVersionArn {
+            try encodeContainer.encode(stateMachineVersionArn, forKey: .stateMachineVersionArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stateMachineVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stateMachineVersionArn)
+        stateMachineVersionArn = stateMachineVersionArnDecoded
+        let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
+        creationDate = creationDateDecoded
+    }
+}
+
+extension SFNClientTypes {
+    /// Contains details about a specific state machine version.
+    public struct StateMachineVersionListItem: Swift.Equatable {
+        /// The creation date of a state machine version.
+        /// This member is required.
+        public var creationDate: ClientRuntime.Date?
+        /// The Amazon Resource Name (ARN) that identifies a state machine version. The version ARN is a combination of state machine ARN and the version number separated by a colon (:). For example, stateMachineARN:1.
+        /// This member is required.
+        public var stateMachineVersionArn: Swift.String?
+
+        public init(
+            creationDate: ClientRuntime.Date? = nil,
+            stateMachineVersionArn: Swift.String? = nil
+        )
+        {
+            self.creationDate = creationDate
+            self.stateMachineVersionArn = stateMachineVersionArn
+        }
+    }
+
 }
 
 extension StopExecutionInput: Swift.CustomDebugStringConvertible {
@@ -8534,18 +9821,164 @@ public struct UpdateMapRunOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension UpdateStateMachineAliasInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateStateMachineAliasInput(routingConfiguration: \(Swift.String(describing: routingConfiguration)), stateMachineAliasArn: \(Swift.String(describing: stateMachineAliasArn)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension UpdateStateMachineAliasInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case routingConfiguration
+        case stateMachineAliasArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let routingConfiguration = routingConfiguration {
+            var routingConfigurationContainer = encodeContainer.nestedUnkeyedContainer(forKey: .routingConfiguration)
+            for routingconfigurationlistitem0 in routingConfiguration {
+                try routingConfigurationContainer.encode(routingconfigurationlistitem0)
+            }
+        }
+        if let stateMachineAliasArn = self.stateMachineAliasArn {
+            try encodeContainer.encode(stateMachineAliasArn, forKey: .stateMachineAliasArn)
+        }
+    }
+}
+
+extension UpdateStateMachineAliasInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateStateMachineAliasInput: Swift.Equatable {
+    /// A description of the state machine alias.
+    public var description: Swift.String?
+    /// The routing configuration of the state machine alias. An array of RoutingConfig objects that specifies up to two state machine versions that the alias starts executions for.
+    public var routingConfiguration: [SFNClientTypes.RoutingConfigurationListItem]?
+    /// The Amazon Resource Name (ARN) of the state machine alias.
+    /// This member is required.
+    public var stateMachineAliasArn: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        routingConfiguration: [SFNClientTypes.RoutingConfigurationListItem]? = nil,
+        stateMachineAliasArn: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.routingConfiguration = routingConfiguration
+        self.stateMachineAliasArn = stateMachineAliasArn
+    }
+}
+
+struct UpdateStateMachineAliasInputBody: Swift.Equatable {
+    let stateMachineAliasArn: Swift.String?
+    let description: Swift.String?
+    let routingConfiguration: [SFNClientTypes.RoutingConfigurationListItem]?
+}
+
+extension UpdateStateMachineAliasInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case routingConfiguration
+        case stateMachineAliasArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stateMachineAliasArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stateMachineAliasArn)
+        stateMachineAliasArn = stateMachineAliasArnDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let routingConfigurationContainer = try containerValues.decodeIfPresent([SFNClientTypes.RoutingConfigurationListItem?].self, forKey: .routingConfiguration)
+        var routingConfigurationDecoded0:[SFNClientTypes.RoutingConfigurationListItem]? = nil
+        if let routingConfigurationContainer = routingConfigurationContainer {
+            routingConfigurationDecoded0 = [SFNClientTypes.RoutingConfigurationListItem]()
+            for structure0 in routingConfigurationContainer {
+                if let structure0 = structure0 {
+                    routingConfigurationDecoded0?.append(structure0)
+                }
+            }
+        }
+        routingConfiguration = routingConfigurationDecoded0
+    }
+}
+
+public enum UpdateStateMachineAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArn": return try await InvalidArn(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFound": return try await ResourceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateStateMachineAliasOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateStateMachineAliasOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.updateDate = output.updateDate
+        } else {
+            self.updateDate = nil
+        }
+    }
+}
+
+public struct UpdateStateMachineAliasOutputResponse: Swift.Equatable {
+    /// The date and time the state machine alias was updated.
+    /// This member is required.
+    public var updateDate: ClientRuntime.Date?
+
+    public init(
+        updateDate: ClientRuntime.Date? = nil
+    )
+    {
+        self.updateDate = updateDate
+    }
+}
+
+struct UpdateStateMachineAliasOutputResponseBody: Swift.Equatable {
+    let updateDate: ClientRuntime.Date?
+}
+
+extension UpdateStateMachineAliasOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case updateDate
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let updateDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateDate)
+        updateDate = updateDateDecoded
+    }
+}
+
 extension UpdateStateMachineInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateStateMachineInput(loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), roleArn: \(Swift.String(describing: roleArn)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), tracingConfiguration: \(Swift.String(describing: tracingConfiguration)), definition: \"CONTENT_REDACTED\")"}
+        "UpdateStateMachineInput(loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), publish: \(Swift.String(describing: publish)), roleArn: \(Swift.String(describing: roleArn)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), tracingConfiguration: \(Swift.String(describing: tracingConfiguration)), definition: \"CONTENT_REDACTED\", versionDescription: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateStateMachineInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case definition
         case loggingConfiguration
+        case publish
         case roleArn
         case stateMachineArn
         case tracingConfiguration
+        case versionDescription
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -8556,6 +9989,9 @@ extension UpdateStateMachineInput: Swift.Encodable {
         if let loggingConfiguration = self.loggingConfiguration {
             try encodeContainer.encode(loggingConfiguration, forKey: .loggingConfiguration)
         }
+        if let publish = self.publish {
+            try encodeContainer.encode(publish, forKey: .publish)
+        }
         if let roleArn = self.roleArn {
             try encodeContainer.encode(roleArn, forKey: .roleArn)
         }
@@ -8564,6 +10000,9 @@ extension UpdateStateMachineInput: Swift.Encodable {
         }
         if let tracingConfiguration = self.tracingConfiguration {
             try encodeContainer.encode(tracingConfiguration, forKey: .tracingConfiguration)
+        }
+        if let versionDescription = self.versionDescription {
+            try encodeContainer.encode(versionDescription, forKey: .versionDescription)
         }
     }
 }
@@ -8577,8 +10016,10 @@ extension UpdateStateMachineInput: ClientRuntime.URLPathProvider {
 public struct UpdateStateMachineInput: Swift.Equatable {
     /// The Amazon States Language definition of the state machine. See [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html).
     public var definition: Swift.String?
-    /// The LoggingConfiguration data type is used to set CloudWatch Logs options.
+    /// Use the LoggingConfiguration data type to set CloudWatch Logs options.
     public var loggingConfiguration: SFNClientTypes.LoggingConfiguration?
+    /// Specifies whether the state machine version is published. The default is false. To publish a version after updating the state machine, set publish to true.
+    public var publish: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the IAM role of the state machine.
     public var roleArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the state machine.
@@ -8586,20 +10027,26 @@ public struct UpdateStateMachineInput: Swift.Equatable {
     public var stateMachineArn: Swift.String?
     /// Selects whether X-Ray tracing is enabled.
     public var tracingConfiguration: SFNClientTypes.TracingConfiguration?
+    /// An optional description of the state machine version to publish. You can only specify the versionDescription parameter if you've set publish to true.
+    public var versionDescription: Swift.String?
 
     public init(
         definition: Swift.String? = nil,
         loggingConfiguration: SFNClientTypes.LoggingConfiguration? = nil,
+        publish: Swift.Bool? = nil,
         roleArn: Swift.String? = nil,
         stateMachineArn: Swift.String? = nil,
-        tracingConfiguration: SFNClientTypes.TracingConfiguration? = nil
+        tracingConfiguration: SFNClientTypes.TracingConfiguration? = nil,
+        versionDescription: Swift.String? = nil
     )
     {
         self.definition = definition
         self.loggingConfiguration = loggingConfiguration
+        self.publish = publish
         self.roleArn = roleArn
         self.stateMachineArn = stateMachineArn
         self.tracingConfiguration = tracingConfiguration
+        self.versionDescription = versionDescription
     }
 }
 
@@ -8609,15 +10056,19 @@ struct UpdateStateMachineInputBody: Swift.Equatable {
     let roleArn: Swift.String?
     let loggingConfiguration: SFNClientTypes.LoggingConfiguration?
     let tracingConfiguration: SFNClientTypes.TracingConfiguration?
+    let publish: Swift.Bool?
+    let versionDescription: Swift.String?
 }
 
 extension UpdateStateMachineInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case definition
         case loggingConfiguration
+        case publish
         case roleArn
         case stateMachineArn
         case tracingConfiguration
+        case versionDescription
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -8632,6 +10083,10 @@ extension UpdateStateMachineInputBody: Swift.Decodable {
         loggingConfiguration = loggingConfigurationDecoded
         let tracingConfigurationDecoded = try containerValues.decodeIfPresent(SFNClientTypes.TracingConfiguration.self, forKey: .tracingConfiguration)
         tracingConfiguration = tracingConfigurationDecoded
+        let publishDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publish)
+        publish = publishDecoded
+        let versionDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionDescription)
+        versionDescription = versionDescriptionDecoded
     }
 }
 
@@ -8640,11 +10095,13 @@ public enum UpdateStateMachineOutputError: ClientRuntime.HttpResponseErrorBindin
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidArn": return try await InvalidArn(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidDefinition": return try await InvalidDefinition(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidLoggingConfiguration": return try await InvalidLoggingConfiguration(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidTracingConfiguration": return try await InvalidTracingConfiguration(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "MissingRequiredParameter": return try await MissingRequiredParameter(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "StateMachineDeleting": return try await StateMachineDeleting(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "StateMachineDoesNotExist": return try await StateMachineDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -8658,32 +10115,48 @@ extension UpdateStateMachineOutputResponse: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateStateMachineOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.revisionId = output.revisionId
+            self.stateMachineVersionArn = output.stateMachineVersionArn
             self.updateDate = output.updateDate
         } else {
+            self.revisionId = nil
+            self.stateMachineVersionArn = nil
             self.updateDate = nil
         }
     }
 }
 
 public struct UpdateStateMachineOutputResponse: Swift.Equatable {
+    /// The revision identifier for the updated state machine.
+    public var revisionId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the published state machine version. If the publish parameter isn't set to true, this field returns null.
+    public var stateMachineVersionArn: Swift.String?
     /// The date and time the state machine was updated.
     /// This member is required.
     public var updateDate: ClientRuntime.Date?
 
     public init(
+        revisionId: Swift.String? = nil,
+        stateMachineVersionArn: Swift.String? = nil,
         updateDate: ClientRuntime.Date? = nil
     )
     {
+        self.revisionId = revisionId
+        self.stateMachineVersionArn = stateMachineVersionArn
         self.updateDate = updateDate
     }
 }
 
 struct UpdateStateMachineOutputResponseBody: Swift.Equatable {
     let updateDate: ClientRuntime.Date?
+    let revisionId: Swift.String?
+    let stateMachineVersionArn: Swift.String?
 }
 
 extension UpdateStateMachineOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case revisionId
+        case stateMachineVersionArn
         case updateDate
     }
 
@@ -8691,6 +10164,10 @@ extension UpdateStateMachineOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let updateDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateDate)
         updateDate = updateDateDecoded
+        let revisionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .revisionId)
+        revisionId = revisionIdDecoded
+        let stateMachineVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stateMachineVersionArn)
+        stateMachineVersionArn = stateMachineVersionArnDecoded
     }
 }
 
@@ -8763,6 +10240,7 @@ extension SFNClientTypes {
     public enum ValidationExceptionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case apiDoesNotSupportLabeledArns
         case cannotUpdateCompletedMapRun
+        case invalidRoutingConfiguration
         case missingRequiredParameter
         case sdkUnknown(Swift.String)
 
@@ -8770,6 +10248,7 @@ extension SFNClientTypes {
             return [
                 .apiDoesNotSupportLabeledArns,
                 .cannotUpdateCompletedMapRun,
+                .invalidRoutingConfiguration,
                 .missingRequiredParameter,
                 .sdkUnknown("")
             ]
@@ -8782,6 +10261,7 @@ extension SFNClientTypes {
             switch self {
             case .apiDoesNotSupportLabeledArns: return "API_DOES_NOT_SUPPORT_LABELED_ARNS"
             case .cannotUpdateCompletedMapRun: return "CANNOT_UPDATE_COMPLETED_MAP_RUN"
+            case .invalidRoutingConfiguration: return "INVALID_ROUTING_CONFIGURATION"
             case .missingRequiredParameter: return "MISSING_REQUIRED_PARAMETER"
             case let .sdkUnknown(s): return s
             }

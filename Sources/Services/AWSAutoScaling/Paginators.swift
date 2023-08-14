@@ -281,3 +281,34 @@ extension DescribeTrafficSourcesInput: ClientRuntime.PaginateToken {
             trafficSourceType: self.trafficSourceType
         )}
 }
+extension AutoScalingClient {
+    /// Paginate over `[DescribeWarmPoolOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeWarmPoolInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeWarmPoolOutputResponse`
+    public func describeWarmPoolPaginated(input: DescribeWarmPoolInput) -> ClientRuntime.PaginatorSequence<DescribeWarmPoolInput, DescribeWarmPoolOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeWarmPoolInput, DescribeWarmPoolOutputResponse>(input: input, inputKey: \DescribeWarmPoolInput.nextToken, outputKey: \DescribeWarmPoolOutputResponse.nextToken, paginationFunction: self.describeWarmPool(input:))
+    }
+}
+
+extension DescribeWarmPoolInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeWarmPoolInput {
+        return DescribeWarmPoolInput(
+            autoScalingGroupName: self.autoScalingGroupName,
+            maxRecords: self.maxRecords,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == DescribeWarmPoolInput, Output == DescribeWarmPoolOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeWarmPoolPaginated`
+    /// to access the nested member `[AutoScalingClientTypes.Instance]`
+    /// - Returns: `[AutoScalingClientTypes.Instance]`
+    public func instances() async throws -> [AutoScalingClientTypes.Instance] {
+        return try await self.asyncCompactMap { item in item.instances }
+    }
+}
