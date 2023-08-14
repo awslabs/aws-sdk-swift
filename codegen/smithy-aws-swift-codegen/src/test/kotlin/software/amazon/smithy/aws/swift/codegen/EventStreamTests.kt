@@ -198,6 +198,11 @@ extension EventStreamTestClient: EventStreamTestClientProtocol {
     /// - Parameter TestStreamOpInput : [no documentation found]
     ///
     /// - Returns: `TestStreamOpOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `SomeError` : You don't have permission.
     public func testStreamOp(input: TestStreamOpInput) async throws -> TestStreamOpOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
