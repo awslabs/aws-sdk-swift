@@ -22,6 +22,11 @@ class AWSQueryOperationStackTest {
         val expectedContents =
             """
 extension QueryProtocolClient: QueryProtocolClientProtocol {
+    /// This is a very cool operation.
+    ///
+    /// - Parameter NoInputAndOutputInput : [no documentation found]
+    ///
+    /// - Returns: `NoInputAndOutputOutputResponse` : [no documentation found]
     public func noInputAndOutput(input: NoInputAndOutputInput) async throws -> NoInputAndOutputOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
