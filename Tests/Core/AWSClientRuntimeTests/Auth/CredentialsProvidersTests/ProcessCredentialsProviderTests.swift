@@ -25,7 +25,6 @@ class ProcessCredentialsProviderTests: XCTestCase {
         )
         let credentials = try! await subject.getCredentials()
 
-        XCTAssertNotNil(credentials)
         XCTAssertEqual("AccessKey123", credentials.accessKey)
         XCTAssertEqual("SecretAccessKey123", credentials.secret)
         XCTAssertEqual("SessionToken123", credentials.sessionToken)
@@ -39,7 +38,6 @@ class ProcessCredentialsProviderTests: XCTestCase {
         )
         let credentials = try! await subject.getCredentials()
 
-        XCTAssertNotNil(credentials)
         XCTAssertEqual("AccessKey123", credentials.accessKey)
         XCTAssertEqual("SecretAccessKey123", credentials.secret)
         XCTAssertEqual("SessionToken123", credentials.sessionToken)
