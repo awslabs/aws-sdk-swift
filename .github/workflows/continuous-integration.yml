@@ -92,7 +92,6 @@ jobs:
           NSUnbufferedIO=YES xcodebuild \
             -scheme aws-sdk-swift \
             -destination '${{ matrix.destination }}' \
-            -parallel-testing-enabled NO \
             test 2>&1 \
             | xcpretty
 
