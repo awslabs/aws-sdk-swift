@@ -9,6 +9,7 @@ use aws.auth#sigv4
 @service(sdkId: "EventStreamTest")
 service TestService { version: "123", operations: [TestStreamOp] }
 
+@documentation("This operation is cool.")
 @http(method: "POST", uri: "/test")
 operation TestStreamOp {
     input: TestStreamInputOutput,
@@ -22,6 +23,7 @@ structure TestStreamInputOutput {
     value: TestStream
 }
 
+@documentation("You don't have permission.")
 @error("client")
 structure SomeError {
     Message: String,
