@@ -9,23 +9,15 @@ import AwsCommonRuntimeKit
 import ClientRuntime
 import Foundation
 
-/// Creates a provider that that sources credentials using GetRoleCredentialsRequest to the AWS Single
-/// Sign-On Service to maintain short-lived sessions.
+/// A credentials provider that sources credentials using GetRoleCredentialsRequest to the AWS Single Sign-On Service to maintain short-lived sessions.
 /// [Details link](https://docs.aws.amazon.com/sdkref/latest/guide/feature-sso-credentials.html)
-/// - Parameters:
-///   - profileName: name of profile to use
-///   - configFilePath: name of 
-///   - credentialsFilePath:
-///   - bootstrap: Connection bootstrap to use for any network connections made while sourcing credentials.
-///   - tlsContext: Client TLS context to use when querying STS web identity provider.
-///   - fileBasedConfiguration: The file based configuration to read the configuration from.
-///   - profileFileNameOverride: (Optional) Override of what profile to use to source credentials from ('default' by default)
-///   - shutdownCallback:  (Optional) shutdown callback
-/// - Returns: `CredentialsProvider`
-/// - Throws: CommonRuntimeError.crtError
-///
 public struct SSOCredentialsProvider: CredentialsSourcedByCRT {
     let crtCredentialsProvider: CRTCredentialsProvider
+    
+    /// - Parameters:
+    ///   - profileName: The profile name to use. If not provided it will be resolved internally via the `AWS_PROFILE` environment variable or defaulted to `default` if not configured.
+    ///   - configFilePath: The path to the configuration file to use. If not provided it will be resolved internally via the `AWS_CONFIG_FILE` environment variable or defaulted  to `~/.aws/config` if not configured.
+    ///   - credentialsFilePath: The path to the shared credentials file to use. If not provided it will be resolved internally via the `AWS_SHARED_CREDENTIALS_FILE` environment variable or defaulted `~/.aws/credentials` if not configured.
     public init(
         profileName: String? = nil,
         configFilePath: String? = nil,

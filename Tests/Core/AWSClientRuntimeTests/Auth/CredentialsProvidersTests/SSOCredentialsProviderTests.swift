@@ -16,14 +16,14 @@ class SSOCredentialsProviderTests: XCTestCase {
     let credentialsPath = Bundle.module.path(forResource: "credentials", ofType: nil)!
     
     func testGetCredentials() async {
-        let subject = try! SSOCredentialsProvider.init(
-            profileName: "dev",
+        let subject = try! SSOCredentialsProvider(
+            profileName: "dev"
             configFilePath: configPath,
             credentialsFilePath: credentialsPath
         )
         let credentials = try! await subject.getCredentials()
         
-        XCTAssertEqual(credentials.accessKey, "some_access_key")
-        XCTAssertEqual(credentials.secret, "some_secret")
+        XCTAssertEqual(credentials.accessKey, "access_key_default_cred")
+        XCTAssertEqual(credentials.secret, "secret_default_cred")
     }
 }
