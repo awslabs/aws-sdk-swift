@@ -170,7 +170,7 @@ func addProtocolTests() {
 
 addDependencies(
     clientRuntimeVersion: "0.26.0",
-    crtVersion: "0.12.0"
+    crtVersion: "0.13.0"
 )
 
 let serviceTargets: [String] = [
