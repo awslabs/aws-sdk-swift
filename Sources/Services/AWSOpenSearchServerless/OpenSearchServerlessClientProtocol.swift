@@ -5,66 +5,414 @@ import ClientRuntime
 /// Use the Amazon OpenSearch Serverless API to create, configure, and manage OpenSearch Serverless collections and security policies. OpenSearch Serverless is an on-demand, pre-provisioned serverless configuration for Amazon OpenSearch Service. OpenSearch Serverless removes the operational complexities of provisioning, configuring, and tuning your OpenSearch clusters. It enables you to easily search and analyze petabytes of data without having to worry about the underlying infrastructure and data management. To learn more about OpenSearch Serverless, see [What is Amazon OpenSearch Serverless?](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-overview.html)
 public protocol OpenSearchServerlessClientProtocol {
     /// Returns attributes for one or more collections, including the collection endpoint and the OpenSearch Dashboards endpoint. For more information, see [Creating and managing Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html).
+    ///
+    /// - Parameter BatchGetCollectionInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetCollectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func batchGetCollection(input: BatchGetCollectionInput) async throws -> BatchGetCollectionOutputResponse
     /// Returns attributes for one or more VPC endpoints associated with the current account. For more information, see [Access Amazon OpenSearch Serverless using an interface endpoint](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-vpc.html).
+    ///
+    /// - Parameter BatchGetVpcEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetVpcEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func batchGetVpcEndpoint(input: BatchGetVpcEndpointInput) async throws -> BatchGetVpcEndpointOutputResponse
     /// Creates a data access policy for OpenSearch Serverless. Access policies limit access to collections and the resources within them, and allow a user to access that data irrespective of the access mechanism or network source. For more information, see [Data access control for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-data-access.html).
+    ///
+    /// - Parameter CreateAccessPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAccessPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func createAccessPolicy(input: CreateAccessPolicyInput) async throws -> CreateAccessPolicyOutputResponse
     /// Creates a new OpenSearch Serverless collection. For more information, see [Creating and managing Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html).
+    ///
+    /// - Parameter CreateCollectionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCollectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `OcuLimitExceededException` : Thrown when the collection you're attempting to create results in a number of search or indexing OCUs that exceeds the account limit.
+    /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func createCollection(input: CreateCollectionInput) async throws -> CreateCollectionOutputResponse
     /// Specifies a security configuration for OpenSearch Serverless. For more information, see [SAML authentication for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-saml.html).
+    ///
+    /// - Parameter CreateSecurityConfigInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSecurityConfigOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func createSecurityConfig(input: CreateSecurityConfigInput) async throws -> CreateSecurityConfigOutputResponse
     /// Creates a security policy to be used by one or more OpenSearch Serverless collections. Security policies provide access to a collection and its OpenSearch Dashboards endpoint from public networks or specific VPC endpoints. They also allow you to secure a collection with a KMS encryption key. For more information, see [Network access for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-network.html) and [Encryption at rest for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-encryption.html).
+    ///
+    /// - Parameter CreateSecurityPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSecurityPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func createSecurityPolicy(input: CreateSecurityPolicyInput) async throws -> CreateSecurityPolicyOutputResponse
     /// Creates an OpenSearch Serverless-managed interface VPC endpoint. For more information, see [Access Amazon OpenSearch Serverless using an interface endpoint](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-vpc.html).
+    ///
+    /// - Parameter CreateVpcEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `CreateVpcEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func createVpcEndpoint(input: CreateVpcEndpointInput) async throws -> CreateVpcEndpointOutputResponse
     /// Deletes an OpenSearch Serverless access policy. For more information, see [Data access control for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-data-access.html).
+    ///
+    /// - Parameter DeleteAccessPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAccessPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func deleteAccessPolicy(input: DeleteAccessPolicyInput) async throws -> DeleteAccessPolicyOutputResponse
     /// Deletes an OpenSearch Serverless collection. For more information, see [Creating and managing Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html).
+    ///
+    /// - Parameter DeleteCollectionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCollectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func deleteCollection(input: DeleteCollectionInput) async throws -> DeleteCollectionOutputResponse
     /// Deletes a security configuration for OpenSearch Serverless. For more information, see [SAML authentication for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-saml.html).
+    ///
+    /// - Parameter DeleteSecurityConfigInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSecurityConfigOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func deleteSecurityConfig(input: DeleteSecurityConfigInput) async throws -> DeleteSecurityConfigOutputResponse
     /// Deletes an OpenSearch Serverless security policy.
+    ///
+    /// - Parameter DeleteSecurityPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSecurityPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func deleteSecurityPolicy(input: DeleteSecurityPolicyInput) async throws -> DeleteSecurityPolicyOutputResponse
     /// Deletes an OpenSearch Serverless-managed interface endpoint. For more information, see [Access Amazon OpenSearch Serverless using an interface endpoint](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-vpc.html).
+    ///
+    /// - Parameter DeleteVpcEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteVpcEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func deleteVpcEndpoint(input: DeleteVpcEndpointInput) async throws -> DeleteVpcEndpointOutputResponse
     /// Returns an OpenSearch Serverless access policy. For more information, see [Data access control for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-data-access.html).
+    ///
+    /// - Parameter GetAccessPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetAccessPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func getAccessPolicy(input: GetAccessPolicyInput) async throws -> GetAccessPolicyOutputResponse
     /// Returns account-level settings related to OpenSearch Serverless.
+    ///
+    /// - Parameter GetAccountSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `GetAccountSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func getAccountSettings(input: GetAccountSettingsInput) async throws -> GetAccountSettingsOutputResponse
     /// Returns statistical information about your OpenSearch Serverless access policies, security configurations, and security policies.
+    ///
+    /// - Parameter GetPoliciesStatsInput : [no documentation found]
+    ///
+    /// - Returns: `GetPoliciesStatsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     func getPoliciesStats(input: GetPoliciesStatsInput) async throws -> GetPoliciesStatsOutputResponse
     /// Returns information about an OpenSearch Serverless security configuration. For more information, see [SAML authentication for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-saml.html).
+    ///
+    /// - Parameter GetSecurityConfigInput : [no documentation found]
+    ///
+    /// - Returns: `GetSecurityConfigOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func getSecurityConfig(input: GetSecurityConfigInput) async throws -> GetSecurityConfigOutputResponse
     /// Returns information about a configured OpenSearch Serverless security policy. For more information, see [Network access for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-network.html) and [Encryption at rest for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-encryption.html).
+    ///
+    /// - Parameter GetSecurityPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetSecurityPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func getSecurityPolicy(input: GetSecurityPolicyInput) async throws -> GetSecurityPolicyOutputResponse
     /// Returns information about a list of OpenSearch Serverless access policies.
+    ///
+    /// - Parameter ListAccessPoliciesInput : [no documentation found]
+    ///
+    /// - Returns: `ListAccessPoliciesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func listAccessPolicies(input: ListAccessPoliciesInput) async throws -> ListAccessPoliciesOutputResponse
     /// Lists all OpenSearch Serverless collections. For more information, see [Creating and managing Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html). Make sure to include an empty request body {} if you don't include any collection filters in the request.
+    ///
+    /// - Parameter ListCollectionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCollectionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func listCollections(input: ListCollectionsInput) async throws -> ListCollectionsOutputResponse
     /// Returns information about configured OpenSearch Serverless security configurations. For more information, see [SAML authentication for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-saml.html).
+    ///
+    /// - Parameter ListSecurityConfigsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSecurityConfigsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func listSecurityConfigs(input: ListSecurityConfigsInput) async throws -> ListSecurityConfigsOutputResponse
     /// Returns information about configured OpenSearch Serverless security policies.
+    ///
+    /// - Parameter ListSecurityPoliciesInput : [no documentation found]
+    ///
+    /// - Returns: `ListSecurityPoliciesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func listSecurityPolicies(input: ListSecurityPoliciesInput) async throws -> ListSecurityPoliciesOutputResponse
     /// Returns the tags for an OpenSearch Serverless resource. For more information, see [Tagging Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-collection.html).
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Returns the OpenSearch Serverless-managed interface VPC endpoints associated with the current account. For more information, see [Access Amazon OpenSearch Serverless using an interface endpoint](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-vpc.html).
+    ///
+    /// - Parameter ListVpcEndpointsInput : [no documentation found]
+    ///
+    /// - Returns: `ListVpcEndpointsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func listVpcEndpoints(input: ListVpcEndpointsInput) async throws -> ListVpcEndpointsOutputResponse
     /// Associates tags with an OpenSearch Serverless resource. For more information, see [Tagging Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-collection.html).
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
+    /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes a tag or set of tags from an OpenSearch Serverless resource. For more information, see [Tagging Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-collection.html).
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates an OpenSearch Serverless access policy. For more information, see [Data access control for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-data-access.html).
+    ///
+    /// - Parameter UpdateAccessPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAccessPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func updateAccessPolicy(input: UpdateAccessPolicyInput) async throws -> UpdateAccessPolicyOutputResponse
     /// Update the OpenSearch Serverless settings for the current Amazon Web Services account. For more information, see [Managing capacity limits for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-scaling.html).
+    ///
+    /// - Parameter UpdateAccountSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAccountSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func updateAccountSettings(input: UpdateAccountSettingsInput) async throws -> UpdateAccountSettingsOutputResponse
     /// Updates an OpenSearch Serverless collection.
+    ///
+    /// - Parameter UpdateCollectionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateCollectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func updateCollection(input: UpdateCollectionInput) async throws -> UpdateCollectionOutputResponse
     /// Updates a security configuration for OpenSearch Serverless. For more information, see [SAML authentication for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-saml.html).
+    ///
+    /// - Parameter UpdateSecurityConfigInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSecurityConfigOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func updateSecurityConfig(input: UpdateSecurityConfigInput) async throws -> UpdateSecurityConfigOutputResponse
     /// Updates an OpenSearch Serverless security policy. For more information, see [Network access for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-network.html) and [Encryption at rest for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-encryption.html).
+    ///
+    /// - Parameter UpdateSecurityPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSecurityPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
+    /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func updateSecurityPolicy(input: UpdateSecurityPolicyInput) async throws -> UpdateSecurityPolicyOutputResponse
     /// Updates an OpenSearch Serverless-managed interface endpoint. For more information, see [Access Amazon OpenSearch Serverless using an interface endpoint](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-vpc.html).
+    ///
+    /// - Parameter UpdateVpcEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateVpcEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func updateVpcEndpoint(input: UpdateVpcEndpointInput) async throws -> UpdateVpcEndpointOutputResponse
 }
 

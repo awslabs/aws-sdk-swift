@@ -3474,6 +3474,11 @@ extension MediaPackageClientTypes.IngestEndpoint: Swift.Codable {
     }
 }
 
+extension MediaPackageClientTypes.IngestEndpoint: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "IngestEndpoint(id: \(Swift.String(describing: id)), url: \(Swift.String(describing: url)), password: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
+}
+
 extension MediaPackageClientTypes {
     /// An endpoint for ingesting source content for a Channel.
     public struct IngestEndpoint: Swift.Equatable {

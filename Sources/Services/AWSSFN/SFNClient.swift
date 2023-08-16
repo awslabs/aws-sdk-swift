@@ -68,6 +68,17 @@ public struct SFNClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
 
 extension SFNClient: SFNClientProtocol {
     /// Creates an activity. An activity is a task that you write in any programming language and host on any machine that has access to Step Functions. Activities must poll Step Functions using the GetActivityTask API action and respond using SendTask* API actions. This function lets Step Functions know the existence of your activity and returns an identifier for use in a state machine and when polling from the activity. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. CreateActivity is an idempotent API. Subsequent requests won’t create a duplicate resource if it was already created. CreateActivity's idempotency check is based on the activity name. If a following request has different tags values, Step Functions will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
+    ///
+    /// - Parameter CreateActivityInput : [no documentation found]
+    ///
+    /// - Returns: `CreateActivityOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ActivityLimitExceeded` : The maximum number of activities has been reached. Existing activities must be deleted before a new activity can be created.
+    /// - `InvalidName` : The provided name is not valid.
+    /// - `TooManyTags` : You've exceeded the number of tags allowed for a resource. See the [ Limits Topic](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html) in the Step Functions Developer Guide.
     public func createActivity(input: CreateActivityInput) async throws -> CreateActivityOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -105,6 +116,26 @@ extension SFNClient: SFNClientProtocol {
     }
 
     /// Creates a state machine. A state machine consists of a collection of states that can do work (Task states), determine to which states to transition next (Choice states), stop an execution with an error (Fail states), and so on. State machines are specified using a JSON-based, structured language. For more information, see [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html) in the Step Functions User Guide. If you set the publish parameter of this API action to true, it publishes version 1 as the first revision of the state machine. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. CreateStateMachine is an idempotent API. Subsequent requests won’t create a duplicate resource if it was already created. CreateStateMachine's idempotency check is based on the state machine name, definition, type, LoggingConfiguration, and TracingConfiguration. The check is also based on the publish and versionDescription parameters. If a following request has a different roleArn or tags, Step Functions will ignore these differences and treat it as an idempotent request of the previous. In this case, roleArn and tags will not be updated, even if they are different.
+    ///
+    /// - Parameter CreateStateMachineInput : [no documentation found]
+    ///
+    /// - Returns: `CreateStateMachineOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state. This error occurs when there're concurrent requests for [DeleteStateMachineVersion], [PublishStateMachineVersion], or [UpdateStateMachine] with the publish parameter set to true. HTTP Status Code: 409
+    /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
+    /// - `InvalidDefinition` : The provided Amazon States Language definition is not valid.
+    /// - `InvalidLoggingConfiguration` :
+    /// - `InvalidName` : The provided name is not valid.
+    /// - `InvalidTracingConfiguration` : Your tracingConfiguration key does not match, or enabled has not been set to true or false.
+    /// - `StateMachineAlreadyExists` : A state machine with the same name but a different definition or role ARN already exists.
+    /// - `StateMachineDeleting` : The specified state machine is being deleted.
+    /// - `StateMachineLimitExceeded` : The maximum number of state machines has been reached. Existing state machines must be deleted before a new state machine can be created.
+    /// - `StateMachineTypeNotSupported` :
+    /// - `TooManyTags` : You've exceeded the number of tags allowed for a resource. See the [ Limits Topic](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html) in the Step Functions Developer Guide.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     public func createStateMachine(input: CreateStateMachineInput) async throws -> CreateStateMachineOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -150,6 +181,21 @@ extension SFNClient: SFNClientProtocol {
     /// * [UpdateStateMachineAlias]
     ///
     /// * [DeleteStateMachineAlias]
+    ///
+    /// - Parameter CreateStateMachineAliasInput : [no documentation found]
+    ///
+    /// - Returns: `CreateStateMachineAliasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state. This error occurs when there're concurrent requests for [DeleteStateMachineVersion], [PublishStateMachineVersion], or [UpdateStateMachine] with the publish parameter set to true. HTTP Status Code: 409
+    /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
+    /// - `InvalidName` : The provided name is not valid.
+    /// - `ResourceNotFound` : Could not find the referenced resource.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded. HTTP Status Code: 402
+    /// - `StateMachineDeleting` : The specified state machine is being deleted.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     public func createStateMachineAlias(input: CreateStateMachineAliasInput) async throws -> CreateStateMachineAliasOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -187,6 +233,15 @@ extension SFNClient: SFNClientProtocol {
     }
 
     /// Deletes an activity.
+    ///
+    /// - Parameter DeleteActivityInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteActivityOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     public func deleteActivity(input: DeleteActivityInput) async throws -> DeleteActivityOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -231,6 +286,16 @@ extension SFNClient: SFNClientProtocol {
     ///
     ///
     /// This API action also deletes all [versions](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html) and [aliases](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html) associated with a state machine. For EXPRESS state machines, the deletion happens eventually (usually in less than a minute). Running executions may emit logs after DeleteStateMachine API is called.
+    ///
+    /// - Parameter DeleteStateMachineInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteStateMachineOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     public func deleteStateMachine(input: DeleteStateMachineInput) async throws -> DeleteStateMachineOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -276,6 +341,18 @@ extension SFNClient: SFNClientProtocol {
     /// * [ListStateMachineAliases]
     ///
     /// * [UpdateStateMachineAlias]
+    ///
+    /// - Parameter DeleteStateMachineAliasInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteStateMachineAliasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state. This error occurs when there're concurrent requests for [DeleteStateMachineVersion], [PublishStateMachineVersion], or [UpdateStateMachine] with the publish parameter set to true. HTTP Status Code: 409
+    /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
+    /// - `ResourceNotFound` : Could not find the referenced resource.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     public func deleteStateMachineAlias(input: DeleteStateMachineAliasInput) async throws -> DeleteStateMachineAliasOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -317,6 +394,17 @@ extension SFNClient: SFNClientProtocol {
     /// * [PublishStateMachineVersion]
     ///
     /// * [ListStateMachineVersions]
+    ///
+    /// - Parameter DeleteStateMachineVersionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteStateMachineVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state. This error occurs when there're concurrent requests for [DeleteStateMachineVersion], [PublishStateMachineVersion], or [UpdateStateMachine] with the publish parameter set to true. HTTP Status Code: 409
+    /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     public func deleteStateMachineVersion(input: DeleteStateMachineVersionInput) async throws -> DeleteStateMachineVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -354,6 +442,16 @@ extension SFNClient: SFNClientProtocol {
     }
 
     /// Describes an activity. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
+    ///
+    /// - Parameter DescribeActivityInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeActivityOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ActivityDoesNotExist` : The specified activity does not exist.
+    /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     public func describeActivity(input: DescribeActivityInput) async throws -> DescribeActivityOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -391,6 +489,16 @@ extension SFNClient: SFNClientProtocol {
     }
 
     /// Provides information about a state machine execution, such as the state machine associated with the execution, the execution input and output, and relevant execution metadata. Use this API action to return the Map Run Amazon Resource Name (ARN) if the execution was dispatched by a Map Run. If you specify a version or alias ARN when you call the [StartExecution] API action, DescribeExecution returns that ARN. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. Executions of an EXPRESS state machinearen't supported by DescribeExecution unless a Map Run dispatched them.
+    ///
+    /// - Parameter DescribeExecutionInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeExecutionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ExecutionDoesNotExist` : The specified execution does not exist.
+    /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     public func describeExecution(input: DescribeExecutionInput) async throws -> DescribeExecutionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -428,6 +536,16 @@ extension SFNClient: SFNClientProtocol {
     }
 
     /// Provides information about a Map Run's configuration, progress, and results. For more information, see [Examining Map Run](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-examine-map-run.html) in the Step Functions Developer Guide.
+    ///
+    /// - Parameter DescribeMapRunInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeMapRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
+    /// - `ResourceNotFound` : Could not find the referenced resource.
     public func describeMapRun(input: DescribeMapRunInput) async throws -> DescribeMapRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -474,6 +592,16 @@ extension SFNClient: SFNClientProtocol {
     ///
     ///
     /// This API action returns the details for a state machine version if the stateMachineArn you specify is a state machine version ARN. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
+    ///
+    /// - Parameter DescribeStateMachineInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeStateMachineOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
+    /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
     public func describeStateMachine(input: DescribeStateMachineInput) async throws -> DescribeStateMachineOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -519,6 +647,17 @@ extension SFNClient: SFNClientProtocol {
     /// * [UpdateStateMachineAlias]
     ///
     /// * [DeleteStateMachineAlias]
+    ///
+    /// - Parameter DescribeStateMachineAliasInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeStateMachineAliasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
+    /// - `ResourceNotFound` : Could not find the referenced resource.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     public func describeStateMachineAlias(input: DescribeStateMachineAliasInput) async throws -> DescribeStateMachineAliasOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -556,6 +695,16 @@ extension SFNClient: SFNClientProtocol {
     }
 
     /// Provides information about a state machine's definition, its execution role ARN, and configuration. If a Map Run dispatched the execution, this action returns the Map Run Amazon Resource Name (ARN) in the response. The state machine returned is the state machine associated with the Map Run. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. This API action is not supported by EXPRESS state machines.
+    ///
+    /// - Parameter DescribeStateMachineForExecutionInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeStateMachineForExecutionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ExecutionDoesNotExist` : The specified execution does not exist.
+    /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     public func describeStateMachineForExecution(input: DescribeStateMachineForExecutionInput) async throws -> DescribeStateMachineForExecutionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -593,6 +742,17 @@ extension SFNClient: SFNClientProtocol {
     }
 
     /// Used by workers to retrieve a task (with the specified activity ARN) which has been scheduled for execution by a running state machine. This initiates a long poll, where the service holds the HTTP connection open and responds as soon as a task becomes available (i.e. an execution of a task of this type is needed.) The maximum time the service holds on to the request before responding is 60 seconds. If no task is available within 60 seconds, the poll returns a taskToken with a null string. This API action isn't logged in CloudTrail. Workers should set their client side socket timeout to at least 65 seconds (5 seconds higher than the maximum time the service may hold the poll request). Polling with GetActivityTask can cause latency in some implementations. See [Avoid Latency When Polling for Activity Tasks](https://docs.aws.amazon.com/step-functions/latest/dg/bp-activity-pollers.html) in the Step Functions Developer Guide.
+    ///
+    /// - Parameter GetActivityTaskInput : [no documentation found]
+    ///
+    /// - Returns: `GetActivityTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ActivityDoesNotExist` : The specified activity does not exist.
+    /// - `ActivityWorkerLimitExceeded` : The maximum number of workers concurrently polling for activity tasks has been reached.
+    /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     public func getActivityTask(input: GetActivityTaskInput) async throws -> GetActivityTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -630,6 +790,17 @@ extension SFNClient: SFNClientProtocol {
     }
 
     /// Returns the history of the specified execution as a list of events. By default, the results are returned in ascending order of the timeStamp of the events. Use the reverseOrder parameter to get the latest events first. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error. This API action is not supported by EXPRESS state machines.
+    ///
+    /// - Parameter GetExecutionHistoryInput : [no documentation found]
+    ///
+    /// - Returns: `GetExecutionHistoryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ExecutionDoesNotExist` : The specified execution does not exist.
+    /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
+    /// - `InvalidToken` : The provided token is not valid.
     public func getExecutionHistory(input: GetExecutionHistoryInput) async throws -> GetExecutionHistoryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -667,6 +838,15 @@ extension SFNClient: SFNClientProtocol {
     }
 
     /// Lists the existing activities. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
+    ///
+    /// - Parameter ListActivitiesInput : [no documentation found]
+    ///
+    /// - Returns: `ListActivitiesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidToken` : The provided token is not valid.
     public func listActivities(input: ListActivitiesInput) async throws -> ListActivitiesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -704,6 +884,20 @@ extension SFNClient: SFNClientProtocol {
     }
 
     /// Lists all executions of a state machine or a Map Run. You can list all executions related to a state machine by specifying a state machine Amazon Resource Name (ARN), or those related to a Map Run by specifying a Map Run ARN. You can also provide a state machine [alias](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html) ARN or [version](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html) ARN to list the executions associated with a specific alias or version. Results are sorted by time, with the most recent execution first. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. This API action is not supported by EXPRESS state machines.
+    ///
+    /// - Parameter ListExecutionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListExecutionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
+    /// - `InvalidToken` : The provided token is not valid.
+    /// - `ResourceNotFound` : Could not find the referenced resource.
+    /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
+    /// - `StateMachineTypeNotSupported` :
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     public func listExecutions(input: ListExecutionsInput) async throws -> ListExecutionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -741,6 +935,17 @@ extension SFNClient: SFNClientProtocol {
     }
 
     /// Lists all Map Runs that were started by a given state machine execution. Use this API action to obtain Map Run ARNs, and then call DescribeMapRun to obtain more information, if needed.
+    ///
+    /// - Parameter ListMapRunsInput : [no documentation found]
+    ///
+    /// - Returns: `ListMapRunsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ExecutionDoesNotExist` : The specified execution does not exist.
+    /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
+    /// - `InvalidToken` : The provided token is not valid.
     public func listMapRuns(input: ListMapRunsInput) async throws -> ListMapRunsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -786,6 +991,19 @@ extension SFNClient: SFNClientProtocol {
     /// * [UpdateStateMachineAlias]
     ///
     /// * [DeleteStateMachineAlias]
+    ///
+    /// - Parameter ListStateMachineAliasesInput : [no documentation found]
+    ///
+    /// - Returns: `ListStateMachineAliasesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
+    /// - `InvalidToken` : The provided token is not valid.
+    /// - `ResourceNotFound` : Could not find the referenced resource.
+    /// - `StateMachineDeleting` : The specified state machine is being deleted.
+    /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
     public func listStateMachineAliases(input: ListStateMachineAliasesInput) async throws -> ListStateMachineAliasesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -827,6 +1045,17 @@ extension SFNClient: SFNClientProtocol {
     /// * [PublishStateMachineVersion]
     ///
     /// * [DeleteStateMachineVersion]
+    ///
+    /// - Parameter ListStateMachineVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListStateMachineVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
+    /// - `InvalidToken` : The provided token is not valid.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     public func listStateMachineVersions(input: ListStateMachineVersionsInput) async throws -> ListStateMachineVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -864,6 +1093,15 @@ extension SFNClient: SFNClientProtocol {
     }
 
     /// Lists the existing state machines. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
+    ///
+    /// - Parameter ListStateMachinesInput : [no documentation found]
+    ///
+    /// - Returns: `ListStateMachinesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidToken` : The provided token is not valid.
     public func listStateMachines(input: ListStateMachinesInput) async throws -> ListStateMachinesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -901,6 +1139,16 @@ extension SFNClient: SFNClientProtocol {
     }
 
     /// List tags for a given resource. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
+    /// - `ResourceNotFound` : Could not find the referenced resource.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -942,6 +1190,20 @@ extension SFNClient: SFNClientProtocol {
     /// * [DeleteStateMachineVersion]
     ///
     /// * [ListStateMachineVersions]
+    ///
+    /// - Parameter PublishStateMachineVersionInput : [no documentation found]
+    ///
+    /// - Returns: `PublishStateMachineVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state. This error occurs when there're concurrent requests for [DeleteStateMachineVersion], [PublishStateMachineVersion], or [UpdateStateMachine] with the publish parameter set to true. HTTP Status Code: 409
+    /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded. HTTP Status Code: 402
+    /// - `StateMachineDeleting` : The specified state machine is being deleted.
+    /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     public func publishStateMachineVersion(input: PublishStateMachineVersionInput) async throws -> PublishStateMachineVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -979,6 +1241,17 @@ extension SFNClient: SFNClientProtocol {
     }
 
     /// Used by activity workers and task states using the [callback](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-wait-token) pattern to report that the task identified by the taskToken failed.
+    ///
+    /// - Parameter SendTaskFailureInput : [no documentation found]
+    ///
+    /// - Returns: `SendTaskFailureOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidToken` : The provided token is not valid.
+    /// - `TaskDoesNotExist` : [no documentation found]
+    /// - `TaskTimedOut` : [no documentation found]
     public func sendTaskFailure(input: SendTaskFailureInput) async throws -> SendTaskFailureOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1016,6 +1289,17 @@ extension SFNClient: SFNClientProtocol {
     }
 
     /// Used by activity workers and task states using the [callback](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-wait-token) pattern to report to Step Functions that the task represented by the specified taskToken is still making progress. This action resets the Heartbeat clock. The Heartbeat threshold is specified in the state machine's Amazon States Language definition (HeartbeatSeconds). This action does not in itself create an event in the execution history. However, if the task times out, the execution history contains an ActivityTimedOut entry for activities, or a TaskTimedOut entry for for tasks using the [job run](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-sync) or [callback](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-wait-token) pattern. The Timeout of a task, defined in the state machine's Amazon States Language definition, is its maximum allowed duration, regardless of the number of [SendTaskHeartbeat] requests received. Use HeartbeatSeconds to configure the timeout interval for heartbeats.
+    ///
+    /// - Parameter SendTaskHeartbeatInput : [no documentation found]
+    ///
+    /// - Returns: `SendTaskHeartbeatOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidToken` : The provided token is not valid.
+    /// - `TaskDoesNotExist` : [no documentation found]
+    /// - `TaskTimedOut` : [no documentation found]
     public func sendTaskHeartbeat(input: SendTaskHeartbeatInput) async throws -> SendTaskHeartbeatOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1053,6 +1337,18 @@ extension SFNClient: SFNClientProtocol {
     }
 
     /// Used by activity workers and task states using the [callback](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-wait-token) pattern to report that the task identified by the taskToken completed successfully.
+    ///
+    /// - Parameter SendTaskSuccessInput : [no documentation found]
+    ///
+    /// - Returns: `SendTaskSuccessOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidOutput` : The provided JSON output data is not valid.
+    /// - `InvalidToken` : The provided token is not valid.
+    /// - `TaskDoesNotExist` : [no documentation found]
+    /// - `TaskTimedOut` : [no documentation found]
     public func sendTaskSuccess(input: SendTaskSuccessInput) async throws -> SendTaskSuccessOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1099,6 +1395,22 @@ extension SFNClient: SFNClientProtocol {
     ///
     ///
     /// If you start an execution with an unqualified state machine ARN, Step Functions uses the latest revision of the state machine for the execution. To start executions of a state machine [version](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html), call StartExecution and provide the version ARN or the ARN of an [alias](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html) that points to the version. StartExecution is idempotent for STANDARD workflows. For a STANDARD workflow, if you call StartExecution with the same name and input as a running execution, the call succeeds and return the same response as the original request. If the execution is closed or if the input is different, it returns a 400 ExecutionAlreadyExists error. You can reuse names after 90 days. StartExecution isn't idempotent for EXPRESS workflows.
+    ///
+    /// - Parameter StartExecutionInput : [no documentation found]
+    ///
+    /// - Returns: `StartExecutionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ExecutionAlreadyExists` : The execution has the same name as another execution (but a different input). Executions with the same name and input are considered idempotent.
+    /// - `ExecutionLimitExceeded` : The maximum number of running executions has been reached. Running executions must end or be stopped before a new execution can be started.
+    /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
+    /// - `InvalidExecutionInput` : The provided JSON input data is not valid.
+    /// - `InvalidName` : The provided name is not valid.
+    /// - `StateMachineDeleting` : The specified state machine is being deleted.
+    /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     public func startExecution(input: StartExecutionInput) async throws -> StartExecutionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1136,6 +1448,20 @@ extension SFNClient: SFNClientProtocol {
     }
 
     /// Starts a Synchronous Express state machine execution. StartSyncExecution is not available for STANDARD workflows. StartSyncExecution will return a 200 OK response, even if your execution fails, because the status code in the API response doesn't reflect function errors. Error codes are reserved for errors that prevent your execution from running, such as permissions errors, limit errors, or issues with your state machine code and configuration. This API action isn't logged in CloudTrail.
+    ///
+    /// - Parameter StartSyncExecutionInput : [no documentation found]
+    ///
+    /// - Returns: `StartSyncExecutionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
+    /// - `InvalidExecutionInput` : The provided JSON input data is not valid.
+    /// - `InvalidName` : The provided name is not valid.
+    /// - `StateMachineDeleting` : The specified state machine is being deleted.
+    /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
+    /// - `StateMachineTypeNotSupported` :
     public func startSyncExecution(input: StartSyncExecutionInput) async throws -> StartSyncExecutionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1173,6 +1499,17 @@ extension SFNClient: SFNClientProtocol {
     }
 
     /// Stops an execution. This API action is not supported by EXPRESS state machines.
+    ///
+    /// - Parameter StopExecutionInput : [no documentation found]
+    ///
+    /// - Returns: `StopExecutionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ExecutionDoesNotExist` : The specified execution does not exist.
+    /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     public func stopExecution(input: StopExecutionInput) async throws -> StopExecutionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1210,6 +1547,17 @@ extension SFNClient: SFNClientProtocol {
     }
 
     /// Add a tag to a Step Functions resource. An array of key-value pairs. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Amazon Web Services Billing and Cost Management User Guide, and [Controlling Access Using IAM Tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_iam-tags.html). Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
+    /// - `ResourceNotFound` : Could not find the referenced resource.
+    /// - `TooManyTags` : You've exceeded the number of tags allowed for a resource. See the [ Limits Topic](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html) in the Step Functions Developer Guide.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1247,6 +1595,16 @@ extension SFNClient: SFNClientProtocol {
     }
 
     /// Remove a tag from a Step Functions resource
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
+    /// - `ResourceNotFound` : Could not find the referenced resource.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1284,6 +1642,17 @@ extension SFNClient: SFNClientProtocol {
     }
 
     /// Updates an in-progress Map Run's configuration to include changes to the settings that control maximum concurrency and Map Run failure.
+    ///
+    /// - Parameter UpdateMapRunInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateMapRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
+    /// - `ResourceNotFound` : Could not find the referenced resource.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     public func updateMapRun(input: UpdateMapRunInput) async throws -> UpdateMapRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1330,6 +1699,24 @@ extension SFNClient: SFNClientProtocol {
     ///
     ///
     /// After you update your state machine, you can set the publish parameter to true in the same action to publish a new [version](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html). This way, you can opt-in to strict versioning of your state machine. Step Functions assigns monotonically increasing integers for state machine versions, starting at version number 1. All StartExecution calls within a few seconds use the updated definition and roleArn. Executions started immediately after you call UpdateStateMachine may use the previous state machine definition and roleArn.
+    ///
+    /// - Parameter UpdateStateMachineInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateStateMachineOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state. This error occurs when there're concurrent requests for [DeleteStateMachineVersion], [PublishStateMachineVersion], or [UpdateStateMachine] with the publish parameter set to true. HTTP Status Code: 409
+    /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
+    /// - `InvalidDefinition` : The provided Amazon States Language definition is not valid.
+    /// - `InvalidLoggingConfiguration` :
+    /// - `InvalidTracingConfiguration` : Your tracingConfiguration key does not match, or enabled has not been set to true or false.
+    /// - `MissingRequiredParameter` : Request is missing a required parameter. This error occurs if both definition and roleArn are not specified.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded. HTTP Status Code: 402
+    /// - `StateMachineDeleting` : The specified state machine is being deleted.
+    /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     public func updateStateMachine(input: UpdateStateMachineInput) async throws -> UpdateStateMachineOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1375,6 +1762,18 @@ extension SFNClient: SFNClientProtocol {
     /// * [ListStateMachineAliases]
     ///
     /// * [DeleteStateMachineAlias]
+    ///
+    /// - Parameter UpdateStateMachineAliasInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateStateMachineAliasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state. This error occurs when there're concurrent requests for [DeleteStateMachineVersion], [PublishStateMachineVersion], or [UpdateStateMachine] with the publish parameter set to true. HTTP Status Code: 409
+    /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
+    /// - `ResourceNotFound` : Could not find the referenced resource.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     public func updateStateMachineAlias(input: UpdateStateMachineAliasInput) async throws -> UpdateStateMachineAliasOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

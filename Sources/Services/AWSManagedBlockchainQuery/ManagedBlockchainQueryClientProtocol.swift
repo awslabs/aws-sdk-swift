@@ -5,10 +5,52 @@ import ClientRuntime
 /// Amazon Managed Blockchain (AMB) Query provides you with convenient access to multi-blockchain network data, which makes it easier for you to extract contextual data related to blockchain activity. You can use AMB Query to read data from public blockchain networks, such as Bitcoin Mainnet and Ethereum Mainnet. You can also get information such as the current and historical balances of addresses, or you can get a list of blockchain transactions for a given time period. Additionally, you can get details of a given transaction, such as transaction events, which you can further analyze or use in business logic for your applications.
 public protocol ManagedBlockchainQueryClientProtocol {
     /// Gets the token balance for a batch of tokens by using the GetTokenBalance action for every token in the request. Only the native tokens BTC,ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported.
+    ///
+    /// - Parameter BatchGetTokenBalanceInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetTokenBalanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The Amazon Web Services account doesn’t have access to this resource.
+    /// - `InternalServerException` : The request processing has failed because of an internal error in the service.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded for this resource.
+    /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is when you create resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources, if possible.
+    /// - `ValidationException` : The resource passed is invalid.
     func batchGetTokenBalance(input: BatchGetTokenBalanceInput) async throws -> BatchGetTokenBalanceOutputResponse
     /// Gets the balance of a specific token, including native tokens, for a given address (wallet or contract) on the blockchain. Only the native tokens BTC,ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported.
+    ///
+    /// - Parameter GetTokenBalanceInput : [no documentation found]
+    ///
+    /// - Returns: `GetTokenBalanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The Amazon Web Services account doesn’t have access to this resource.
+    /// - `InternalServerException` : The request processing has failed because of an internal error in the service.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded for this resource.
+    /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is when you create resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources, if possible.
+    /// - `ValidationException` : The resource passed is invalid.
     func getTokenBalance(input: GetTokenBalanceInput) async throws -> GetTokenBalanceOutputResponse
     /// Get the details of a transaction.
+    ///
+    /// - Parameter GetTransactionInput : [no documentation found]
+    ///
+    /// - Returns: `GetTransactionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The Amazon Web Services account doesn’t have access to this resource.
+    /// - `InternalServerException` : The request processing has failed because of an internal error in the service.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded for this resource.
+    /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is when you create resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources, if possible.
+    /// - `ValidationException` : The resource passed is invalid.
     func getTransaction(input: GetTransactionInput) async throws -> GetTransactionOutputResponse
     /// This action returns the following for a given a blockchain network:
     ///
@@ -20,10 +62,49 @@ public protocol ManagedBlockchainQueryClientProtocol {
     ///
     ///
     /// You must always specify the network property of the tokenFilter when using this operation.
+    ///
+    /// - Parameter ListTokenBalancesInput : [no documentation found]
+    ///
+    /// - Returns: `ListTokenBalancesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The Amazon Web Services account doesn’t have access to this resource.
+    /// - `InternalServerException` : The request processing has failed because of an internal error in the service.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded for this resource.
+    /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is when you create resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources, if possible.
+    /// - `ValidationException` : The resource passed is invalid.
     func listTokenBalances(input: ListTokenBalancesInput) async throws -> ListTokenBalancesOutputResponse
     /// An array of TransactionEvent objects. Each object contains details about the transaction event.
+    ///
+    /// - Parameter ListTransactionEventsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTransactionEventsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The Amazon Web Services account doesn’t have access to this resource.
+    /// - `InternalServerException` : The request processing has failed because of an internal error in the service.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded for this resource.
+    /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is when you create resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources, if possible.
+    /// - `ValidationException` : The resource passed is invalid.
     func listTransactionEvents(input: ListTransactionEventsInput) async throws -> ListTransactionEventsOutputResponse
     /// Lists all of the transactions on a given wallet address or to a specific contract.
+    ///
+    /// - Parameter ListTransactionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTransactionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The Amazon Web Services account doesn’t have access to this resource.
+    /// - `InternalServerException` : The request processing has failed because of an internal error in the service.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded for this resource.
+    /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is when you create resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources, if possible.
+    /// - `ValidationException` : The resource passed is invalid.
     func listTransactions(input: ListTransactionsInput) async throws -> ListTransactionsOutputResponse
 }
 

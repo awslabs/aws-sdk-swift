@@ -593,7 +593,11 @@ extension CloudTrailClientTypes {
         ///
         /// * AWS::KendraRanking::ExecutionPlan
         ///
+        /// * AWS::ManagedBlockchain::Network
+        ///
         /// * AWS::ManagedBlockchain::Node
+        ///
+        /// * AWS::MedicalImaging::Datastore
         ///
         /// * AWS::SageMaker::ExperimentTrialComponent
         ///
@@ -604,6 +608,10 @@ extension CloudTrailClientTypes {
         /// * AWS::S3ObjectLambda::AccessPoint
         ///
         /// * AWS::S3Outposts::Object
+        ///
+        /// * AWS::SSMMessages::ControlChannel
+        ///
+        /// * AWS::VerifiedPermissions::PolicyStore
         ///
         ///
         /// You can have only one resources.type ﬁeld per selector. To log data events on more than one resource type, add another selector.
@@ -675,9 +683,19 @@ extension CloudTrailClientTypes {
         /// * arn::kendra-ranking:::rescore-execution-plan/
         ///
         ///
+        /// When resources.type equals AWS::ManagedBlockchain::Network, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::managedblockchain:::networks/
+        ///
+        ///
         /// When resources.type equals AWS::ManagedBlockchain::Node, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
         /// * arn::managedblockchain:::nodes/
+        ///
+        ///
+        /// When resources.type equals AWS::MedicalImaging::Datastore, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::medical-imaging:::datastore/
         ///
         ///
         /// When resources.type equals AWS::SageMaker::ExperimentTrialComponent, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
@@ -705,6 +723,16 @@ extension CloudTrailClientTypes {
         /// When resources.type equals AWS::S3Outposts::Object, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
         /// * arn::s3-outposts:::
+        ///
+        ///
+        /// When resources.type equals AWS::SSMMessages::ControlChannel, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::ssmmessages:::control-channel/
+        ///
+        ///
+        /// When resources.type equals AWS::VerifiedPermissions::PolicyStore, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::verifiedpermissions:::policy-store/
         /// This member is required.
         public var field: Swift.String?
         /// An operator that excludes events that match the last few characters of the event record field specified as the value of Field.
@@ -1839,7 +1867,7 @@ public struct CreateEventDataStoreInput: Swift.Equatable {
     public var name: Swift.String?
     /// Specifies whether an event data store collects events logged for an organization in Organizations.
     public var organizationEnabled: Swift.Bool?
-    /// The retention period of the event data store, in days. You can set a retention period of up to 2557 days, the equivalent of seven years.
+    /// The retention period of the event data store, in days. You can set a retention period of up to 2557 days, the equivalent of seven years. CloudTrail Lake determines whether to retain an event by checking if the eventTime of the event is within the specified retention period. For example, if you set a retention period of 90 days, CloudTrail will remove events when the eventTime is older than 90 days. If you plan to copy trail events to this event data store, we recommend that you consider both the age of the events that you want to copy as well as how long you want to keep the copied events in your event data store. For example, if you copy trail events that are 5 years old and specify a retention period of 7 years, the event data store will retain those events for two years.
     public var retentionPeriod: Swift.Int?
     /// Specifies whether the event data store should start ingesting live events. The default is true.
     public var startIngestion: Swift.Bool?
@@ -2637,7 +2665,11 @@ extension CloudTrailClientTypes {
         ///
         /// * AWS::KendraRanking::ExecutionPlan
         ///
+        /// * AWS::ManagedBlockchain::Network
+        ///
         /// * AWS::ManagedBlockchain::Node
+        ///
+        /// * AWS::MedicalImaging::Datastore
         ///
         /// * AWS::SageMaker::ExperimentTrialComponent
         ///
@@ -2648,6 +2680,10 @@ extension CloudTrailClientTypes {
         /// * AWS::S3ObjectLambda::AccessPoint
         ///
         /// * AWS::S3Outposts::Object
+        ///
+        /// * AWS::SSMMessages::ControlChannel
+        ///
+        /// * AWS::VerifiedPermissions::PolicyStore
         public var type: Swift.String?
         /// An array of Amazon Resource Name (ARN) strings or partial ARN strings for the specified objects.
         ///
@@ -9969,7 +10005,7 @@ extension MaxConcurrentQueriesException {
     }
 }
 
-/// You are already running the maximum number of concurrent queries. Wait a minute for some queries to finish, and then run the query again.
+/// You are already running the maximum number of concurrent queries. The maximum number of concurrent queries is 10. Wait a minute for some queries to finish, and then run the query again.
 public struct MaxConcurrentQueriesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -13990,7 +14026,7 @@ public struct UpdateEventDataStoreInput: Swift.Equatable {
     public var name: Swift.String?
     /// Specifies whether an event data store collects events logged for an organization in Organizations.
     public var organizationEnabled: Swift.Bool?
-    /// The retention period, in days.
+    /// The retention period of the event data store, in days. You can set a retention period of up to 2557 days, the equivalent of seven years. CloudTrail Lake determines whether to retain an event by checking if the eventTime of the event is within the specified retention period. For example, if you set a retention period of 90 days, CloudTrail will remove events when the eventTime is older than 90 days. If you decrease the retention period of an event data store, CloudTrail will remove any events with an eventTime older than the new retention period. For example, if the previous retention period was 365 days and you decrease it to 100 days, CloudTrail will remove events with an eventTime older than 100 days.
     public var retentionPeriod: Swift.Int?
     /// Indicates that termination protection is enabled and the event data store cannot be automatically deleted.
     public var terminationProtectionEnabled: Swift.Bool?

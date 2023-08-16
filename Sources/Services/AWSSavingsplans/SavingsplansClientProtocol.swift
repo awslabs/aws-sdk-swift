@@ -5,22 +5,120 @@ import ClientRuntime
 /// Savings Plans are a pricing model that offer significant savings on AWS usage (for example, on Amazon EC2 instances). You commit to a consistent amount of usage, in USD per hour, for a term of 1 or 3 years, and receive a lower price for that usage. For more information, see the [AWS Savings Plans User Guide](https://docs.aws.amazon.com/savingsplans/latest/userguide/).
 public protocol SavingsplansClientProtocol {
     /// Creates a Savings Plan.
+    ///
+    /// - Parameter CreateSavingsPlanInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSavingsPlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : A service quota has been exceeded.
+    /// - `ValidationException` : One of the input parameters is not valid.
     func createSavingsPlan(input: CreateSavingsPlanInput) async throws -> CreateSavingsPlanOutputResponse
     /// Deletes the queued purchase for the specified Savings Plan.
+    ///
+    /// - Parameter DeleteQueuedSavingsPlanInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteQueuedSavingsPlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : A service quota has been exceeded.
+    /// - `ValidationException` : One of the input parameters is not valid.
     func deleteQueuedSavingsPlan(input: DeleteQueuedSavingsPlanInput) async throws -> DeleteQueuedSavingsPlanOutputResponse
     /// Describes the specified Savings Plans rates.
+    ///
+    /// - Parameter DescribeSavingsPlanRatesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeSavingsPlanRatesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : One of the input parameters is not valid.
     func describeSavingsPlanRates(input: DescribeSavingsPlanRatesInput) async throws -> DescribeSavingsPlanRatesOutputResponse
     /// Describes the specified Savings Plans.
+    ///
+    /// - Parameter DescribeSavingsPlansInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeSavingsPlansOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ValidationException` : One of the input parameters is not valid.
     func describeSavingsPlans(input: DescribeSavingsPlansInput) async throws -> DescribeSavingsPlansOutputResponse
     /// Describes the specified Savings Plans offering rates.
+    ///
+    /// - Parameter DescribeSavingsPlansOfferingRatesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeSavingsPlansOfferingRatesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ValidationException` : One of the input parameters is not valid.
     func describeSavingsPlansOfferingRates(input: DescribeSavingsPlansOfferingRatesInput) async throws -> DescribeSavingsPlansOfferingRatesOutputResponse
     /// Describes the specified Savings Plans offerings.
+    ///
+    /// - Parameter DescribeSavingsPlansOfferingsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeSavingsPlansOfferingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ValidationException` : One of the input parameters is not valid.
     func describeSavingsPlansOfferings(input: DescribeSavingsPlansOfferingsInput) async throws -> DescribeSavingsPlansOfferingsOutputResponse
     /// Lists the tags for the specified resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : One of the input parameters is not valid.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Adds the specified tags to the specified resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : A service quota has been exceeded.
+    /// - `ValidationException` : One of the input parameters is not valid.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes the specified tags from the specified resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : One of the input parameters is not valid.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
 }
 

@@ -68,6 +68,17 @@ public struct RbinClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
 
 extension RbinClient: RbinClientProtocol {
     /// Creates a Recycle Bin retention rule. For more information, see [ Create Recycle Bin retention rules](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin-working-with-rules.html#recycle-bin-create-rule) in the Amazon Elastic Compute Cloud User Guide.
+    ///
+    /// - Parameter CreateRuleInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service could not respond to the request due to an internal problem.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota for the number of tags per resource to be exceeded.
+    /// - `ValidationException` : One or more of the parameters in the request is not valid.
     public func createRule(input: CreateRuleInput) async throws -> CreateRuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +115,18 @@ extension RbinClient: RbinClientProtocol {
     }
 
     /// Deletes a Recycle Bin retention rule. For more information, see [ Delete Recycle Bin retention rules](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin-working-with-rules.html#recycle-bin-delete-rule) in the Amazon Elastic Compute Cloud User Guide.
+    ///
+    /// - Parameter DeleteRuleInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The specified retention rule lock request can't be completed.
+    /// - `InternalServerException` : The service could not respond to the request due to an internal problem.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : One or more of the parameters in the request is not valid.
     public func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -137,6 +160,17 @@ extension RbinClient: RbinClientProtocol {
     }
 
     /// Gets information about a Recycle Bin retention rule.
+    ///
+    /// - Parameter GetRuleInput : [no documentation found]
+    ///
+    /// - Returns: `GetRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service could not respond to the request due to an internal problem.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : One or more of the parameters in the request is not valid.
     public func getRule(input: GetRuleInput) async throws -> GetRuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -170,6 +204,16 @@ extension RbinClient: RbinClientProtocol {
     }
 
     /// Lists the Recycle Bin retention rules in the Region.
+    ///
+    /// - Parameter ListRulesInput : [no documentation found]
+    ///
+    /// - Returns: `ListRulesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service could not respond to the request due to an internal problem.
+    /// - `ValidationException` : One or more of the parameters in the request is not valid.
     public func listRules(input: ListRulesInput) async throws -> ListRulesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -206,6 +250,17 @@ extension RbinClient: RbinClientProtocol {
     }
 
     /// Lists the tags assigned to a retention rule.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service could not respond to the request due to an internal problem.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : One or more of the parameters in the request is not valid.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -239,6 +294,18 @@ extension RbinClient: RbinClientProtocol {
     }
 
     /// Locks a retention rule. A locked retention rule can't be modified or deleted.
+    ///
+    /// - Parameter LockRuleInput : [no documentation found]
+    ///
+    /// - Returns: `LockRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The specified retention rule lock request can't be completed.
+    /// - `InternalServerException` : The service could not respond to the request due to an internal problem.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : One or more of the parameters in the request is not valid.
     public func lockRule(input: LockRuleInput) async throws -> LockRuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -275,6 +342,18 @@ extension RbinClient: RbinClientProtocol {
     }
 
     /// Assigns tags to the specified retention rule.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service could not respond to the request due to an internal problem.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota for the number of tags per resource to be exceeded.
+    /// - `ValidationException` : One or more of the parameters in the request is not valid.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -311,6 +390,18 @@ extension RbinClient: RbinClientProtocol {
     }
 
     /// Unlocks a retention rule. After a retention rule is unlocked, it can be modified or deleted only after the unlock delay period expires.
+    ///
+    /// - Parameter UnlockRuleInput : [no documentation found]
+    ///
+    /// - Returns: `UnlockRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The specified retention rule lock request can't be completed.
+    /// - `InternalServerException` : The service could not respond to the request due to an internal problem.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : One or more of the parameters in the request is not valid.
     public func unlockRule(input: UnlockRuleInput) async throws -> UnlockRuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -344,6 +435,17 @@ extension RbinClient: RbinClientProtocol {
     }
 
     /// Unassigns a tag from a retention rule.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service could not respond to the request due to an internal problem.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : One or more of the parameters in the request is not valid.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -378,6 +480,18 @@ extension RbinClient: RbinClientProtocol {
     }
 
     /// Updates an existing Recycle Bin retention rule. You can update a retention rule's description, resource tags, and retention period at any time after creation. You can't update a retention rule's resource type after creation. For more information, see [ Update Recycle Bin retention rules](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin-working-with-rules.html#recycle-bin-update-rule) in the Amazon Elastic Compute Cloud User Guide.
+    ///
+    /// - Parameter UpdateRuleInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The specified retention rule lock request can't be completed.
+    /// - `InternalServerException` : The service could not respond to the request due to an internal problem.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : One or more of the parameters in the request is not valid.
     public func updateRule(input: UpdateRuleInput) async throws -> UpdateRuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

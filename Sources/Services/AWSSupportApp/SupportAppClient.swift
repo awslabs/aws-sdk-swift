@@ -75,6 +75,31 @@ extension SupportAppClient: SupportAppClientProtocol {
     ///
     ///
     /// A Slack channel can have up to 100 Amazon Web Services accounts. This means that only 100 accounts can add the same Slack channel to the Amazon Web Services Support App. We recommend that you only add the accounts that you need to manage support cases for your organization. This can reduce the notifications about case updates that you receive in the Slack channel. We recommend that you choose a private Slack channel so that only members in that channel have read and write access to your support cases. Anyone in your Slack channel can create, update, or resolve support cases for your account. Users require an invitation to join private channels.
+    ///
+    /// - Parameter CreateSlackChannelConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSlackChannelConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : Your request has a conflict. For example, you might receive this error if you try the following:
+    ///
+    /// * Add, update, or delete a Slack channel configuration before you add a Slack workspace to your Amazon Web Services account.
+    ///
+    /// * Add a Slack channel configuration that already exists in your Amazon Web Services account.
+    ///
+    /// * Delete a Slack channel configuration for a live chat channel.
+    ///
+    /// * Delete a Slack workspace from your Amazon Web Services account that has an active live chat channel.
+    ///
+    /// * Call the RegisterSlackWorkspaceForOrganization API from an Amazon Web Services account that doesn't belong to an organization.
+    ///
+    /// * Call the RegisterSlackWorkspaceForOrganization API from a member account, but the management account hasn't registered that workspace yet for the organization.
+    /// - `InternalServerException` : We can’t process your request right now because of a server issue. Try again later.
+    /// - `ServiceQuotaExceededException` : Your Service Quotas request exceeds the quota for the service. For example, your Service Quotas request to Amazon Web Services Support App might exceed the maximum number of workspaces or channels per account, or the maximum number of accounts per Slack channel.
+    /// - `ValidationException` : Your request input doesn't meet the constraints that the Amazon Web Services Support App specifies.
     public func createSlackChannelConfiguration(input: CreateSlackChannelConfigurationInput) async throws -> CreateSlackChannelConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -111,6 +136,17 @@ extension SupportAppClient: SupportAppClientProtocol {
     }
 
     /// Deletes an alias for an Amazon Web Services account ID. The alias appears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App.
+    ///
+    /// - Parameter DeleteAccountAliasInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAccountAliasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : We can’t process your request right now because of a server issue. Try again later.
+    /// - `ResourceNotFoundException` : The specified resource is missing or doesn't exist, such as an account alias, Slack channel configuration, or Slack workspace configuration.
     public func deleteAccountAlias(input: DeleteAccountAliasInput) async throws -> DeleteAccountAliasOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -144,6 +180,31 @@ extension SupportAppClient: SupportAppClientProtocol {
     }
 
     /// Deletes a Slack channel configuration from your Amazon Web Services account. This operation doesn't delete your Slack channel.
+    ///
+    /// - Parameter DeleteSlackChannelConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSlackChannelConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : Your request has a conflict. For example, you might receive this error if you try the following:
+    ///
+    /// * Add, update, or delete a Slack channel configuration before you add a Slack workspace to your Amazon Web Services account.
+    ///
+    /// * Add a Slack channel configuration that already exists in your Amazon Web Services account.
+    ///
+    /// * Delete a Slack channel configuration for a live chat channel.
+    ///
+    /// * Delete a Slack workspace from your Amazon Web Services account that has an active live chat channel.
+    ///
+    /// * Call the RegisterSlackWorkspaceForOrganization API from an Amazon Web Services account that doesn't belong to an organization.
+    ///
+    /// * Call the RegisterSlackWorkspaceForOrganization API from a member account, but the management account hasn't registered that workspace yet for the organization.
+    /// - `InternalServerException` : We can’t process your request right now because of a server issue. Try again later.
+    /// - `ResourceNotFoundException` : The specified resource is missing or doesn't exist, such as an account alias, Slack channel configuration, or Slack workspace configuration.
+    /// - `ValidationException` : Your request input doesn't meet the constraints that the Amazon Web Services Support App specifies.
     public func deleteSlackChannelConfiguration(input: DeleteSlackChannelConfigurationInput) async throws -> DeleteSlackChannelConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -180,6 +241,31 @@ extension SupportAppClient: SupportAppClientProtocol {
     }
 
     /// Deletes a Slack workspace configuration from your Amazon Web Services account. This operation doesn't delete your Slack workspace.
+    ///
+    /// - Parameter DeleteSlackWorkspaceConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSlackWorkspaceConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : Your request has a conflict. For example, you might receive this error if you try the following:
+    ///
+    /// * Add, update, or delete a Slack channel configuration before you add a Slack workspace to your Amazon Web Services account.
+    ///
+    /// * Add a Slack channel configuration that already exists in your Amazon Web Services account.
+    ///
+    /// * Delete a Slack channel configuration for a live chat channel.
+    ///
+    /// * Delete a Slack workspace from your Amazon Web Services account that has an active live chat channel.
+    ///
+    /// * Call the RegisterSlackWorkspaceForOrganization API from an Amazon Web Services account that doesn't belong to an organization.
+    ///
+    /// * Call the RegisterSlackWorkspaceForOrganization API from a member account, but the management account hasn't registered that workspace yet for the organization.
+    /// - `InternalServerException` : We can’t process your request right now because of a server issue. Try again later.
+    /// - `ResourceNotFoundException` : The specified resource is missing or doesn't exist, such as an account alias, Slack channel configuration, or Slack workspace configuration.
+    /// - `ValidationException` : Your request input doesn't meet the constraints that the Amazon Web Services Support App specifies.
     public func deleteSlackWorkspaceConfiguration(input: DeleteSlackWorkspaceConfigurationInput) async throws -> DeleteSlackWorkspaceConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -216,6 +302,15 @@ extension SupportAppClient: SupportAppClientProtocol {
     }
 
     /// Retrieves the alias from an Amazon Web Services account ID. The alias appears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App.
+    ///
+    /// - Parameter GetAccountAliasInput : [no documentation found]
+    ///
+    /// - Returns: `GetAccountAliasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : We can’t process your request right now because of a server issue. Try again later.
     public func getAccountAlias(input: GetAccountAliasInput) async throws -> GetAccountAliasOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -249,6 +344,16 @@ extension SupportAppClient: SupportAppClientProtocol {
     }
 
     /// Lists the Slack channel configurations for an Amazon Web Services account.
+    ///
+    /// - Parameter ListSlackChannelConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSlackChannelConfigurationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : We can’t process your request right now because of a server issue. Try again later.
     public func listSlackChannelConfigurations(input: ListSlackChannelConfigurationsInput) async throws -> ListSlackChannelConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -285,6 +390,16 @@ extension SupportAppClient: SupportAppClientProtocol {
     }
 
     /// Lists the Slack workspace configurations for an Amazon Web Services account.
+    ///
+    /// - Parameter ListSlackWorkspaceConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSlackWorkspaceConfigurationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : We can’t process your request right now because of a server issue. Try again later.
     public func listSlackWorkspaceConfigurations(input: ListSlackWorkspaceConfigurationsInput) async throws -> ListSlackWorkspaceConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -321,6 +436,17 @@ extension SupportAppClient: SupportAppClientProtocol {
     }
 
     /// Creates or updates an individual alias for each Amazon Web Services account ID. The alias appears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App.
+    ///
+    /// - Parameter PutAccountAliasInput : [no documentation found]
+    ///
+    /// - Returns: `PutAccountAliasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : We can’t process your request right now because of a server issue. Try again later.
+    /// - `ValidationException` : Your request input doesn't meet the constraints that the Amazon Web Services Support App specifies.
     public func putAccountAlias(input: PutAccountAliasInput) async throws -> PutAccountAliasOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -368,6 +494,31 @@ extension SupportAppClient: SupportAppClientProtocol {
     /// * Create an Identity and Access Management (IAM) role with the required permission. For more information, see [Managing access to the Amazon Web Services Support App](https://docs.aws.amazon.com/awssupport/latest/user/support-app-permissions.html).
     ///
     /// * Configure a Slack channel to use the Amazon Web Services Support App for support cases for that account. For more information, see [Configuring a Slack channel](https://docs.aws.amazon.com/awssupport/latest/user/add-your-slack-channel.html).
+    ///
+    /// - Parameter RegisterSlackWorkspaceForOrganizationInput : [no documentation found]
+    ///
+    /// - Returns: `RegisterSlackWorkspaceForOrganizationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : Your request has a conflict. For example, you might receive this error if you try the following:
+    ///
+    /// * Add, update, or delete a Slack channel configuration before you add a Slack workspace to your Amazon Web Services account.
+    ///
+    /// * Add a Slack channel configuration that already exists in your Amazon Web Services account.
+    ///
+    /// * Delete a Slack channel configuration for a live chat channel.
+    ///
+    /// * Delete a Slack workspace from your Amazon Web Services account that has an active live chat channel.
+    ///
+    /// * Call the RegisterSlackWorkspaceForOrganization API from an Amazon Web Services account that doesn't belong to an organization.
+    ///
+    /// * Call the RegisterSlackWorkspaceForOrganization API from a member account, but the management account hasn't registered that workspace yet for the organization.
+    /// - `InternalServerException` : We can’t process your request right now because of a server issue. Try again later.
+    /// - `ResourceNotFoundException` : The specified resource is missing or doesn't exist, such as an account alias, Slack channel configuration, or Slack workspace configuration.
+    /// - `ValidationException` : Your request input doesn't meet the constraints that the Amazon Web Services Support App specifies.
     public func registerSlackWorkspaceForOrganization(input: RegisterSlackWorkspaceForOrganizationInput) async throws -> RegisterSlackWorkspaceForOrganizationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -404,6 +555,31 @@ extension SupportAppClient: SupportAppClientProtocol {
     }
 
     /// Updates the configuration for a Slack channel, such as case update notifications.
+    ///
+    /// - Parameter UpdateSlackChannelConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSlackChannelConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : Your request has a conflict. For example, you might receive this error if you try the following:
+    ///
+    /// * Add, update, or delete a Slack channel configuration before you add a Slack workspace to your Amazon Web Services account.
+    ///
+    /// * Add a Slack channel configuration that already exists in your Amazon Web Services account.
+    ///
+    /// * Delete a Slack channel configuration for a live chat channel.
+    ///
+    /// * Delete a Slack workspace from your Amazon Web Services account that has an active live chat channel.
+    ///
+    /// * Call the RegisterSlackWorkspaceForOrganization API from an Amazon Web Services account that doesn't belong to an organization.
+    ///
+    /// * Call the RegisterSlackWorkspaceForOrganization API from a member account, but the management account hasn't registered that workspace yet for the organization.
+    /// - `InternalServerException` : We can’t process your request right now because of a server issue. Try again later.
+    /// - `ResourceNotFoundException` : The specified resource is missing or doesn't exist, such as an account alias, Slack channel configuration, or Slack workspace configuration.
+    /// - `ValidationException` : Your request input doesn't meet the constraints that the Amazon Web Services Support App specifies.
     public func updateSlackChannelConfiguration(input: UpdateSlackChannelConfigurationInput) async throws -> UpdateSlackChannelConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

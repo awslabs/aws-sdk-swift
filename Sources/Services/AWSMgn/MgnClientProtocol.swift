@@ -5,134 +5,861 @@ import ClientRuntime
 /// The Application Migration Service service.
 public protocol MgnClientProtocol {
     /// Archive application.
+    ///
+    /// - Parameter ArchiveApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `ArchiveApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
     func archiveApplication(input: ArchiveApplicationInput) async throws -> ArchiveApplicationOutputResponse
     /// Archive wave.
+    ///
+    /// - Parameter ArchiveWaveInput : [no documentation found]
+    ///
+    /// - Returns: `ArchiveWaveOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
     func archiveWave(input: ArchiveWaveInput) async throws -> ArchiveWaveOutputResponse
     /// Associate applications to wave.
+    ///
+    /// - Parameter AssociateApplicationsInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateApplicationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
     func associateApplications(input: AssociateApplicationsInput) async throws -> AssociateApplicationsOutputResponse
     /// Associate source servers to application.
+    ///
+    /// - Parameter AssociateSourceServersInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateSourceServersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
     func associateSourceServers(input: AssociateSourceServersInput) async throws -> AssociateSourceServersOutputResponse
     /// Allows the user to set the SourceServer.LifeCycle.state property for specific Source Server IDs to one of the following: READY_FOR_TEST or READY_FOR_CUTOVER. This command only works if the Source Server is already launchable (dataReplicationInfo.lagDuration is not null.)
+    ///
+    /// - Parameter ChangeServerLifeCycleStateInput : [no documentation found]
+    ///
+    /// - Returns: `ChangeServerLifeCycleStateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func changeServerLifeCycleState(input: ChangeServerLifeCycleStateInput) async throws -> ChangeServerLifeCycleStateOutputResponse
     /// Create application.
+    ///
+    /// - Parameter CreateApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
     func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutputResponse
     /// Creates a new Launch Configuration Template.
+    ///
+    /// - Parameter CreateLaunchConfigurationTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLaunchConfigurationTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func createLaunchConfigurationTemplate(input: CreateLaunchConfigurationTemplateInput) async throws -> CreateLaunchConfigurationTemplateOutputResponse
     /// Creates a new ReplicationConfigurationTemplate.
+    ///
+    /// - Parameter CreateReplicationConfigurationTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `CreateReplicationConfigurationTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func createReplicationConfigurationTemplate(input: CreateReplicationConfigurationTemplateInput) async throws -> CreateReplicationConfigurationTemplateOutputResponse
     /// Create wave.
+    ///
+    /// - Parameter CreateWaveInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWaveOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
     func createWave(input: CreateWaveInput) async throws -> CreateWaveOutputResponse
     /// Delete application.
+    ///
+    /// - Parameter DeleteApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
     func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutputResponse
     /// Deletes a single Job by ID.
+    ///
+    /// - Parameter DeleteJobInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
     func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutputResponse
     /// Deletes a single Launch Configuration Template by ID.
+    ///
+    /// - Parameter DeleteLaunchConfigurationTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteLaunchConfigurationTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
     func deleteLaunchConfigurationTemplate(input: DeleteLaunchConfigurationTemplateInput) async throws -> DeleteLaunchConfigurationTemplateOutputResponse
     /// Deletes a single Replication Configuration Template by ID
+    ///
+    /// - Parameter DeleteReplicationConfigurationTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteReplicationConfigurationTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
     func deleteReplicationConfigurationTemplate(input: DeleteReplicationConfigurationTemplateInput) async throws -> DeleteReplicationConfigurationTemplateOutputResponse
     /// Deletes a single source server by ID.
+    ///
+    /// - Parameter DeleteSourceServerInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSourceServerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
     func deleteSourceServer(input: DeleteSourceServerInput) async throws -> DeleteSourceServerOutputResponse
     /// Deletes a given vCenter client by ID.
+    ///
+    /// - Parameter DeleteVcenterClientInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteVcenterClientOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func deleteVcenterClient(input: DeleteVcenterClientInput) async throws -> DeleteVcenterClientOutputResponse
     /// Delete wave.
+    ///
+    /// - Parameter DeleteWaveInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWaveOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
     func deleteWave(input: DeleteWaveInput) async throws -> DeleteWaveOutputResponse
     /// Retrieves detailed job log items with paging.
+    ///
+    /// - Parameter DescribeJobLogItemsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeJobLogItemsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func describeJobLogItems(input: DescribeJobLogItemsInput) async throws -> DescribeJobLogItemsOutputResponse
     /// Returns a list of Jobs. Use the JobsID and fromDate and toData filters to limit which jobs are returned. The response is sorted by creationDataTime - latest date first. Jobs are normally created by the StartTest, StartCutover, and TerminateTargetInstances APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
+    ///
+    /// - Parameter DescribeJobsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func describeJobs(input: DescribeJobsInput) async throws -> DescribeJobsOutputResponse
     /// Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs
+    ///
+    /// - Parameter DescribeLaunchConfigurationTemplatesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeLaunchConfigurationTemplatesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func describeLaunchConfigurationTemplates(input: DescribeLaunchConfigurationTemplatesInput) async throws -> DescribeLaunchConfigurationTemplatesOutputResponse
     /// Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
+    ///
+    /// - Parameter DescribeReplicationConfigurationTemplatesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeReplicationConfigurationTemplatesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func describeReplicationConfigurationTemplates(input: DescribeReplicationConfigurationTemplatesInput) async throws -> DescribeReplicationConfigurationTemplatesOutputResponse
     /// Retrieves all SourceServers or multiple SourceServers by ID.
+    ///
+    /// - Parameter DescribeSourceServersInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeSourceServersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func describeSourceServers(input: DescribeSourceServersInput) async throws -> DescribeSourceServersOutputResponse
     /// Returns a list of the installed vCenter clients.
+    ///
+    /// - Parameter DescribeVcenterClientsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeVcenterClientsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func describeVcenterClients(input: DescribeVcenterClientsInput) async throws -> DescribeVcenterClientsOutputResponse
     /// Disassociate applications from wave.
+    ///
+    /// - Parameter DisassociateApplicationsInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateApplicationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
     func disassociateApplications(input: DisassociateApplicationsInput) async throws -> DisassociateApplicationsOutputResponse
     /// Disassociate source servers from application.
+    ///
+    /// - Parameter DisassociateSourceServersInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateSourceServersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
     func disassociateSourceServers(input: DisassociateSourceServersInput) async throws -> DisassociateSourceServersOutputResponse
     /// Disconnects specific Source Servers from Application Migration Service. Data replication is stopped immediately. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the source server has not been prevented from communicating with the Application Migration Service service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
+    ///
+    /// - Parameter DisconnectFromServiceInput : [no documentation found]
+    ///
+    /// - Returns: `DisconnectFromServiceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
     func disconnectFromService(input: DisconnectFromServiceInput) async throws -> DisconnectFromServiceOutputResponse
     /// Finalizes the cutover immediately for specific Source Servers. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. The AWS Replication Agent will receive a command to uninstall itself (within 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be changed to DISCONNECTED; The SourceServer.lifeCycle.state will be changed to CUTOVER; The totalStorageBytes property fo each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
+    ///
+    /// - Parameter FinalizeCutoverInput : [no documentation found]
+    ///
+    /// - Returns: `FinalizeCutoverOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func finalizeCutover(input: FinalizeCutoverInput) async throws -> FinalizeCutoverOutputResponse
     /// Lists all LaunchConfigurations available, filtered by Source Server IDs.
+    ///
+    /// - Parameter GetLaunchConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetLaunchConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
     func getLaunchConfiguration(input: GetLaunchConfigurationInput) async throws -> GetLaunchConfigurationOutputResponse
     /// Lists all ReplicationConfigurations, filtered by Source Server ID.
+    ///
+    /// - Parameter GetReplicationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetReplicationConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
     func getReplicationConfiguration(input: GetReplicationConfigurationInput) async throws -> GetReplicationConfigurationOutputResponse
     /// Initialize Application Migration Service.
+    ///
+    /// - Parameter InitializeServiceInput : [no documentation found]
+    ///
+    /// - Returns: `InitializeServiceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `ValidationException` : Validate exception.
     func initializeService(input: InitializeServiceInput) async throws -> InitializeServiceOutputResponse
     /// Retrieves all applications or multiple applications by ID.
+    ///
+    /// - Parameter ListApplicationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListApplicationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `UninitializedAccountException` : Uninitialized account exception.
     func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutputResponse
     /// List export errors.
+    ///
+    /// - Parameter ListExportErrorsInput : List export errors request.
+    ///
+    /// - Returns: `ListExportErrorsOutputResponse` : List export errors response.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func listExportErrors(input: ListExportErrorsInput) async throws -> ListExportErrorsOutputResponse
     /// List exports.
+    ///
+    /// - Parameter ListExportsInput : List export request.
+    ///
+    /// - Returns: `ListExportsOutputResponse` : List export response.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `UninitializedAccountException` : Uninitialized account exception.
     func listExports(input: ListExportsInput) async throws -> ListExportsOutputResponse
     /// List import errors.
+    ///
+    /// - Parameter ListImportErrorsInput : List import errors request.
+    ///
+    /// - Returns: `ListImportErrorsOutputResponse` : List imports errors response.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func listImportErrors(input: ListImportErrorsInput) async throws -> ListImportErrorsOutputResponse
     /// List imports.
+    ///
+    /// - Parameter ListImportsInput : List imports request.
+    ///
+    /// - Returns: `ListImportsOutputResponse` : List import response.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func listImports(input: ListImportsInput) async throws -> ListImportsOutputResponse
     /// List Managed Accounts.
+    ///
+    /// - Parameter ListManagedAccountsInput : List managed accounts request.
+    ///
+    /// - Returns: `ListManagedAccountsOutputResponse` : List managed accounts response.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func listManagedAccounts(input: ListManagedAccountsInput) async throws -> ListManagedAccountsOutputResponse
     /// List source server post migration custom actions.
+    ///
+    /// - Parameter ListSourceServerActionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSourceServerActionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
     func listSourceServerActions(input: ListSourceServerActionsInput) async throws -> ListSourceServerActionsOutputResponse
     /// List all tags for your Application Migration Service resources.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `InternalServerException` : The server encountered an unexpected condition that prevented it from fulfilling the request.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `ThrottlingException` : Reached throttling quota exception.
+    /// - `ValidationException` : Validate exception.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// List template post migration custom actions.
+    ///
+    /// - Parameter ListTemplateActionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTemplateActionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
     func listTemplateActions(input: ListTemplateActionsInput) async throws -> ListTemplateActionsOutputResponse
     /// Retrieves all waves or multiple waves by ID.
+    ///
+    /// - Parameter ListWavesInput : [no documentation found]
+    ///
+    /// - Returns: `ListWavesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `UninitializedAccountException` : Uninitialized account exception.
     func listWaves(input: ListWavesInput) async throws -> ListWavesOutputResponse
     /// Archives specific Source Servers by setting the SourceServer.isArchived property to true for specified SourceServers by ID. This command only works for SourceServers with a lifecycle. state which equals DISCONNECTED or CUTOVER.
+    ///
+    /// - Parameter MarkAsArchivedInput : [no documentation found]
+    ///
+    /// - Returns: `MarkAsArchivedOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
     func markAsArchived(input: MarkAsArchivedInput) async throws -> MarkAsArchivedOutputResponse
     /// Pause Replication.
+    ///
+    /// - Parameter PauseReplicationInput : [no documentation found]
+    ///
+    /// - Returns: `PauseReplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func pauseReplication(input: PauseReplicationInput) async throws -> PauseReplicationOutputResponse
     /// Put source server post migration custom action.
+    ///
+    /// - Parameter PutSourceServerActionInput : [no documentation found]
+    ///
+    /// - Returns: `PutSourceServerActionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func putSourceServerAction(input: PutSourceServerActionInput) async throws -> PutSourceServerActionOutputResponse
     /// Put template post migration custom action.
+    ///
+    /// - Parameter PutTemplateActionInput : [no documentation found]
+    ///
+    /// - Returns: `PutTemplateActionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func putTemplateAction(input: PutTemplateActionInput) async throws -> PutTemplateActionOutputResponse
     /// Remove source server post migration custom action.
+    ///
+    /// - Parameter RemoveSourceServerActionInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveSourceServerActionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func removeSourceServerAction(input: RemoveSourceServerActionInput) async throws -> RemoveSourceServerActionOutputResponse
     /// Remove template post migration custom action.
+    ///
+    /// - Parameter RemoveTemplateActionInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveTemplateActionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func removeTemplateAction(input: RemoveTemplateActionInput) async throws -> RemoveTemplateActionOutputResponse
     /// Resume Replication.
+    ///
+    /// - Parameter ResumeReplicationInput : [no documentation found]
+    ///
+    /// - Returns: `ResumeReplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func resumeReplication(input: ResumeReplicationInput) async throws -> ResumeReplicationOutputResponse
     /// Causes the data replication initiation sequence to begin immediately upon next Handshake for specified SourceServer IDs, regardless of when the previous initiation started. This command will not work if the SourceServer is not stalled or is in a DISCONNECTED or STOPPED state.
+    ///
+    /// - Parameter RetryDataReplicationInput : [no documentation found]
+    ///
+    /// - Returns: `RetryDataReplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func retryDataReplication(input: RetryDataReplicationInput) async throws -> RetryDataReplicationOutputResponse
     /// Launches a Cutover Instance for specific Source Servers. This command starts a LAUNCH job whose initiatedBy property is StartCutover and changes the SourceServer.lifeCycle.state property to CUTTING_OVER.
+    ///
+    /// - Parameter StartCutoverInput : [no documentation found]
+    ///
+    /// - Returns: `StartCutoverOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func startCutover(input: StartCutoverInput) async throws -> StartCutoverOutputResponse
     /// Start export.
+    ///
+    /// - Parameter StartExportInput : Start export request.
+    ///
+    /// - Returns: `StartExportOutputResponse` : Start export response.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func startExport(input: StartExportInput) async throws -> StartExportOutputResponse
     /// Start import.
+    ///
+    /// - Parameter StartImportInput : Start import request.
+    ///
+    /// - Returns: `StartImportOutputResponse` : Start import response.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func startImport(input: StartImportInput) async throws -> StartImportOutputResponse
     /// Starts replication for SNAPSHOT_SHIPPING agents.
+    ///
+    /// - Parameter StartReplicationInput : [no documentation found]
+    ///
+    /// - Returns: `StartReplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func startReplication(input: StartReplicationInput) async throws -> StartReplicationOutputResponse
     /// Launches a Test Instance for specific Source Servers. This command starts a LAUNCH job whose initiatedBy property is StartTest and changes the SourceServer.lifeCycle.state property to TESTING.
+    ///
+    /// - Parameter StartTestInput : [no documentation found]
+    ///
+    /// - Returns: `StartTestOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func startTest(input: StartTestInput) async throws -> StartTestOutputResponse
     /// Stop Replication.
+    ///
+    /// - Parameter StopReplicationInput : [no documentation found]
+    ///
+    /// - Returns: `StopReplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func stopReplication(input: StopReplicationInput) async throws -> StopReplicationOutputResponse
     /// Adds or overwrites only the specified tags for the specified Application Migration Service resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `InternalServerException` : The server encountered an unexpected condition that prevented it from fulfilling the request.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `ThrottlingException` : Reached throttling quota exception.
+    /// - `ValidationException` : Validate exception.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Starts a job that terminates specific launched EC2 Test and Cutover instances. This command will not work for any Source Server with a lifecycle.state of TESTING, CUTTING_OVER, or CUTOVER.
+    ///
+    /// - Parameter TerminateTargetInstancesInput : [no documentation found]
+    ///
+    /// - Returns: `TerminateTargetInstancesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func terminateTargetInstances(input: TerminateTargetInstancesInput) async throws -> TerminateTargetInstancesOutputResponse
     /// Unarchive application.
+    ///
+    /// - Parameter UnarchiveApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `UnarchiveApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
     func unarchiveApplication(input: UnarchiveApplicationInput) async throws -> UnarchiveApplicationOutputResponse
     /// Unarchive wave.
+    ///
+    /// - Parameter UnarchiveWaveInput : [no documentation found]
+    ///
+    /// - Returns: `UnarchiveWaveOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
     func unarchiveWave(input: UnarchiveWaveInput) async throws -> UnarchiveWaveOutputResponse
     /// Deletes the specified set of tags from the specified set of Application Migration Service resources.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `InternalServerException` : The server encountered an unexpected condition that prevented it from fulfilling the request.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `ThrottlingException` : Reached throttling quota exception.
+    /// - `ValidationException` : Validate exception.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Update application.
+    ///
+    /// - Parameter UpdateApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
     func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutputResponse
     /// Updates multiple LaunchConfigurations by Source Server ID.
+    ///
+    /// - Parameter UpdateLaunchConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateLaunchConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func updateLaunchConfiguration(input: UpdateLaunchConfigurationInput) async throws -> UpdateLaunchConfigurationOutputResponse
     /// Updates an existing Launch Configuration Template by ID.
+    ///
+    /// - Parameter UpdateLaunchConfigurationTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateLaunchConfigurationTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func updateLaunchConfigurationTemplate(input: UpdateLaunchConfigurationTemplateInput) async throws -> UpdateLaunchConfigurationTemplateOutputResponse
     /// Allows you to update multiple ReplicationConfigurations by Source Server ID.
+    ///
+    /// - Parameter UpdateReplicationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateReplicationConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func updateReplicationConfiguration(input: UpdateReplicationConfigurationInput) async throws -> UpdateReplicationConfigurationOutputResponse
     /// Updates multiple ReplicationConfigurationTemplates by ID.
+    ///
+    /// - Parameter UpdateReplicationConfigurationTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateReplicationConfigurationTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func updateReplicationConfigurationTemplate(input: UpdateReplicationConfigurationTemplateInput) async throws -> UpdateReplicationConfigurationTemplateOutputResponse
     /// Allows you to change between the AGENT_BASED replication type and the SNAPSHOT_SHIPPING replication type.
+    ///
+    /// - Parameter UpdateSourceServerReplicationTypeInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSourceServerReplicationTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
     func updateSourceServerReplicationType(input: UpdateSourceServerReplicationTypeInput) async throws -> UpdateSourceServerReplicationTypeOutputResponse
     /// Update wave.
+    ///
+    /// - Parameter UpdateWaveInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWaveOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
     func updateWave(input: UpdateWaveInput) async throws -> UpdateWaveOutputResponse
 }
 

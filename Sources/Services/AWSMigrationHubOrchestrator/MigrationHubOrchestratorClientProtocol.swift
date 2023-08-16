@@ -5,60 +5,402 @@ import ClientRuntime
 /// This API reference provides descriptions, syntax, and other details about each of the actions and data types for AWS Migration Hub Orchestrator. he topic for each action shows the API request parameters and the response. Alternatively, you can use one of the AWS SDKs to access an API that is tailored to the programming language or platform that you're using.
 public protocol MigrationHubOrchestratorClientProtocol {
     /// Create a workflow to orchestrate your migrations.
+    ///
+    /// - Parameter CreateWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWorkflowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createWorkflow(input: CreateWorkflowInput) async throws -> CreateWorkflowOutputResponse
     /// Create a step in the migration workflow.
+    ///
+    /// - Parameter CreateWorkflowStepInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWorkflowStepOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createWorkflowStep(input: CreateWorkflowStepInput) async throws -> CreateWorkflowStepOutputResponse
     /// Create a step group in a migration workflow.
+    ///
+    /// - Parameter CreateWorkflowStepGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWorkflowStepGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createWorkflowStepGroup(input: CreateWorkflowStepGroupInput) async throws -> CreateWorkflowStepGroupOutputResponse
     /// Delete a migration workflow. You must pause a running workflow in Migration Hub Orchestrator console to delete it.
+    ///
+    /// - Parameter DeleteWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWorkflowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutputResponse
     /// Delete a step in a migration workflow. Pause the workflow to delete a running step.
+    ///
+    /// - Parameter DeleteWorkflowStepInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWorkflowStepOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteWorkflowStep(input: DeleteWorkflowStepInput) async throws -> DeleteWorkflowStepOutputResponse
     /// Delete a step group in a migration workflow.
+    ///
+    /// - Parameter DeleteWorkflowStepGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWorkflowStepGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteWorkflowStepGroup(input: DeleteWorkflowStepGroupInput) async throws -> DeleteWorkflowStepGroupOutputResponse
     /// Get the template you want to use for creating a migration workflow.
+    ///
+    /// - Parameter GetTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GetTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     func getTemplate(input: GetTemplateInput) async throws -> GetTemplateOutputResponse
     /// Get a specific step in a template.
+    ///
+    /// - Parameter GetTemplateStepInput : [no documentation found]
+    ///
+    /// - Returns: `GetTemplateStepOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getTemplateStep(input: GetTemplateStepInput) async throws -> GetTemplateStepOutputResponse
     /// Get a step group in a template.
+    ///
+    /// - Parameter GetTemplateStepGroupInput : [no documentation found]
+    ///
+    /// - Returns: `GetTemplateStepGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getTemplateStepGroup(input: GetTemplateStepGroupInput) async throws -> GetTemplateStepGroupOutputResponse
     /// Get migration workflow.
+    ///
+    /// - Parameter GetWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkflowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getWorkflow(input: GetWorkflowInput) async throws -> GetWorkflowOutputResponse
     /// Get a step in the migration workflow.
+    ///
+    /// - Parameter GetWorkflowStepInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkflowStepOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     func getWorkflowStep(input: GetWorkflowStepInput) async throws -> GetWorkflowStepOutputResponse
     /// Get the step group of a migration workflow.
+    ///
+    /// - Parameter GetWorkflowStepGroupInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkflowStepGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getWorkflowStepGroup(input: GetWorkflowStepGroupInput) async throws -> GetWorkflowStepGroupOutputResponse
     /// List AWS Migration Hub Orchestrator plugins.
+    ///
+    /// - Parameter ListPluginsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPluginsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listPlugins(input: ListPluginsInput) async throws -> ListPluginsOutputResponse
     /// List the tags added to a resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// List the templates available in Migration Hub Orchestrator to create a migration workflow.
+    ///
+    /// - Parameter ListTemplatesInput : [no documentation found]
+    ///
+    /// - Returns: `ListTemplatesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     func listTemplates(input: ListTemplatesInput) async throws -> ListTemplatesOutputResponse
     /// List the step groups in a template.
+    ///
+    /// - Parameter ListTemplateStepGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTemplateStepGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     func listTemplateStepGroups(input: ListTemplateStepGroupsInput) async throws -> ListTemplateStepGroupsOutputResponse
     /// List the steps in a template.
+    ///
+    /// - Parameter ListTemplateStepsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTemplateStepsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listTemplateSteps(input: ListTemplateStepsInput) async throws -> ListTemplateStepsOutputResponse
     /// List the migration workflows.
+    ///
+    /// - Parameter ListWorkflowsInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorkflowsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutputResponse
     /// List the step groups in a migration workflow.
+    ///
+    /// - Parameter ListWorkflowStepGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorkflowStepGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listWorkflowStepGroups(input: ListWorkflowStepGroupsInput) async throws -> ListWorkflowStepGroupsOutputResponse
     /// List the steps in a workflow.
+    ///
+    /// - Parameter ListWorkflowStepsInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorkflowStepsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listWorkflowSteps(input: ListWorkflowStepsInput) async throws -> ListWorkflowStepsOutputResponse
     /// Retry a failed step in a migration workflow.
+    ///
+    /// - Parameter RetryWorkflowStepInput : [no documentation found]
+    ///
+    /// - Returns: `RetryWorkflowStepOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     func retryWorkflowStep(input: RetryWorkflowStepInput) async throws -> RetryWorkflowStepOutputResponse
     /// Start a migration workflow.
+    ///
+    /// - Parameter StartWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `StartWorkflowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func startWorkflow(input: StartWorkflowInput) async throws -> StartWorkflowOutputResponse
     /// Stop an ongoing migration workflow.
+    ///
+    /// - Parameter StopWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `StopWorkflowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func stopWorkflow(input: StopWorkflowInput) async throws -> StopWorkflowOutputResponse
     /// Tag a resource by specifying its Amazon Resource Name (ARN).
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Deletes the tags for a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Update a migration workflow.
+    ///
+    /// - Parameter UpdateWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWorkflowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateWorkflow(input: UpdateWorkflowInput) async throws -> UpdateWorkflowOutputResponse
     /// Update a step in a migration workflow.
+    ///
+    /// - Parameter UpdateWorkflowStepInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWorkflowStepOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateWorkflowStep(input: UpdateWorkflowStepInput) async throws -> UpdateWorkflowStepOutputResponse
     /// Update the step group in a migration workflow.
+    ///
+    /// - Parameter UpdateWorkflowStepGroupInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWorkflowStepGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateWorkflowStepGroup(input: UpdateWorkflowStepGroupInput) async throws -> UpdateWorkflowStepGroupOutputResponse
 }
 

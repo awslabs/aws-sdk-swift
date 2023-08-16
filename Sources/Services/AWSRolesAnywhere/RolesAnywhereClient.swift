@@ -68,6 +68,16 @@ public struct RolesAnywhereClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
 
 extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     /// Creates a profile, a list of the roles that Roles Anywhere service is trusted to assume. You use profiles to intersect permissions with IAM managed policies. Required permissions: rolesanywhere:CreateProfile.
+    ///
+    /// - Parameter CreateProfileInput : [no documentation found]
+    ///
+    /// - Returns: `CreateProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ValidationException` : Validation exception error.
     public func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +114,16 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     }
 
     /// Creates a trust anchor to establish trust between IAM Roles Anywhere and your certificate authority (CA). You can define a trust anchor as a reference to an Private Certificate Authority (Private CA) or by uploading a CA certificate. Your Amazon Web Services workloads can authenticate with the trust anchor using certificates issued by the CA in exchange for temporary Amazon Web Services credentials. Required permissions: rolesanywhere:CreateTrustAnchor.
+    ///
+    /// - Parameter CreateTrustAnchorInput : [no documentation found]
+    ///
+    /// - Returns: `CreateTrustAnchorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ValidationException` : Validation exception error.
     public func createTrustAnchor(input: CreateTrustAnchorInput) async throws -> CreateTrustAnchorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -140,6 +160,16 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     }
 
     /// Deletes a certificate revocation list (CRL). Required permissions: rolesanywhere:DeleteCrl.
+    ///
+    /// - Parameter DeleteCrlInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCrlOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The resource could not be found.
     public func deleteCrl(input: DeleteCrlInput) async throws -> DeleteCrlOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -173,6 +203,16 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     }
 
     /// Deletes a profile. Required permissions: rolesanywhere:DeleteProfile.
+    ///
+    /// - Parameter DeleteProfileInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The resource could not be found.
     public func deleteProfile(input: DeleteProfileInput) async throws -> DeleteProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -206,6 +246,16 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     }
 
     /// Deletes a trust anchor. Required permissions: rolesanywhere:DeleteTrustAnchor.
+    ///
+    /// - Parameter DeleteTrustAnchorInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteTrustAnchorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The resource could not be found.
     public func deleteTrustAnchor(input: DeleteTrustAnchorInput) async throws -> DeleteTrustAnchorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -239,6 +289,16 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     }
 
     /// Disables a certificate revocation list (CRL). Required permissions: rolesanywhere:DisableCrl.
+    ///
+    /// - Parameter DisableCrlInput : [no documentation found]
+    ///
+    /// - Returns: `DisableCrlOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The resource could not be found.
     public func disableCrl(input: DisableCrlInput) async throws -> DisableCrlOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -272,6 +332,16 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     }
 
     /// Disables a profile. When disabled, temporary credential requests with this profile fail. Required permissions: rolesanywhere:DisableProfile.
+    ///
+    /// - Parameter DisableProfileInput : [no documentation found]
+    ///
+    /// - Returns: `DisableProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The resource could not be found.
     public func disableProfile(input: DisableProfileInput) async throws -> DisableProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -305,6 +375,16 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     }
 
     /// Disables a trust anchor. When disabled, temporary credential requests specifying this trust anchor are unauthorized. Required permissions: rolesanywhere:DisableTrustAnchor.
+    ///
+    /// - Parameter DisableTrustAnchorInput : [no documentation found]
+    ///
+    /// - Returns: `DisableTrustAnchorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The resource could not be found.
     public func disableTrustAnchor(input: DisableTrustAnchorInput) async throws -> DisableTrustAnchorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -338,6 +418,16 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     }
 
     /// Enables a certificate revocation list (CRL). When enabled, certificates stored in the CRL are unauthorized to receive session credentials. Required permissions: rolesanywhere:EnableCrl.
+    ///
+    /// - Parameter EnableCrlInput : [no documentation found]
+    ///
+    /// - Returns: `EnableCrlOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The resource could not be found.
     public func enableCrl(input: EnableCrlInput) async throws -> EnableCrlOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -371,6 +461,16 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     }
 
     /// Enables temporary credential requests for a profile. Required permissions: rolesanywhere:EnableProfile.
+    ///
+    /// - Parameter EnableProfileInput : [no documentation found]
+    ///
+    /// - Returns: `EnableProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The resource could not be found.
     public func enableProfile(input: EnableProfileInput) async throws -> EnableProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -404,6 +504,16 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     }
 
     /// Enables a trust anchor. When enabled, certificates in the trust anchor chain are authorized for trust validation. Required permissions: rolesanywhere:EnableTrustAnchor.
+    ///
+    /// - Parameter EnableTrustAnchorInput : [no documentation found]
+    ///
+    /// - Returns: `EnableTrustAnchorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The resource could not be found.
     public func enableTrustAnchor(input: EnableTrustAnchorInput) async throws -> EnableTrustAnchorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -437,6 +547,15 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     }
 
     /// Gets a certificate revocation list (CRL). Required permissions: rolesanywhere:GetCrl.
+    ///
+    /// - Parameter GetCrlInput : [no documentation found]
+    ///
+    /// - Returns: `GetCrlOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The resource could not be found.
     public func getCrl(input: GetCrlInput) async throws -> GetCrlOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -470,6 +589,16 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     }
 
     /// Gets a profile. Required permissions: rolesanywhere:GetProfile.
+    ///
+    /// - Parameter GetProfileInput : [no documentation found]
+    ///
+    /// - Returns: `GetProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The resource could not be found.
     public func getProfile(input: GetProfileInput) async throws -> GetProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -503,6 +632,16 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     }
 
     /// Gets a subject, which associates a certificate identity with authentication attempts. The subject stores auditing information such as the status of the last authentication attempt, the certificate data used in the attempt, and the last time the associated identity attempted authentication. Required permissions: rolesanywhere:GetSubject.
+    ///
+    /// - Parameter GetSubjectInput : [no documentation found]
+    ///
+    /// - Returns: `GetSubjectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The resource could not be found.
     public func getSubject(input: GetSubjectInput) async throws -> GetSubjectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -536,6 +675,17 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     }
 
     /// Gets a trust anchor. Required permissions: rolesanywhere:GetTrustAnchor.
+    ///
+    /// - Parameter GetTrustAnchorInput : [no documentation found]
+    ///
+    /// - Returns: `GetTrustAnchorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ValidationException` : Validation exception error.
     public func getTrustAnchor(input: GetTrustAnchorInput) async throws -> GetTrustAnchorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -569,6 +719,16 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     }
 
     /// Imports the certificate revocation list (CRL). A CRL is a list of certificates that have been revoked by the issuing certificate Authority (CA). IAM Roles Anywhere validates against the CRL before issuing credentials. Required permissions: rolesanywhere:ImportCrl.
+    ///
+    /// - Parameter ImportCrlInput : [no documentation found]
+    ///
+    /// - Returns: `ImportCrlOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ValidationException` : Validation exception error.
     public func importCrl(input: ImportCrlInput) async throws -> ImportCrlOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -605,6 +765,16 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     }
 
     /// Lists all certificate revocation lists (CRL) in the authenticated account and Amazon Web Services Region. Required permissions: rolesanywhere:ListCrls.
+    ///
+    /// - Parameter ListCrlsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCrlsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ValidationException` : Validation exception error.
     public func listCrls(input: ListCrlsInput) async throws -> ListCrlsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -639,6 +809,16 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     }
 
     /// Lists all profiles in the authenticated account and Amazon Web Services Region. Required permissions: rolesanywhere:ListProfiles.
+    ///
+    /// - Parameter ListProfilesInput : [no documentation found]
+    ///
+    /// - Returns: `ListProfilesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ValidationException` : Validation exception error.
     public func listProfiles(input: ListProfilesInput) async throws -> ListProfilesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -673,6 +853,16 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     }
 
     /// Lists the subjects in the authenticated account and Amazon Web Services Region. Required permissions: rolesanywhere:ListSubjects.
+    ///
+    /// - Parameter ListSubjectsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSubjectsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ValidationException` : Validation exception error.
     public func listSubjects(input: ListSubjectsInput) async throws -> ListSubjectsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -707,6 +897,17 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     }
 
     /// Lists the tags attached to the resource. Required permissions: rolesanywhere:ListTagsForResource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ValidationException` : Validation exception error.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -741,6 +942,16 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     }
 
     /// Lists the trust anchors in the authenticated account and Amazon Web Services Region. Required permissions: rolesanywhere:ListTrustAnchors.
+    ///
+    /// - Parameter ListTrustAnchorsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTrustAnchorsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ValidationException` : Validation exception error.
     public func listTrustAnchors(input: ListTrustAnchorsInput) async throws -> ListTrustAnchorsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -775,6 +986,17 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     }
 
     /// Attaches a list of notification settings to a trust anchor. A notification setting includes information such as event name, threshold, status of the notification setting, and the channel to notify. Required permissions: rolesanywhere:PutNotificationSettings.
+    ///
+    /// - Parameter PutNotificationSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `PutNotificationSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ValidationException` : Validation exception error.
     public func putNotificationSettings(input: PutNotificationSettingsInput) async throws -> PutNotificationSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -811,6 +1033,17 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     }
 
     /// Resets the custom notification setting to IAM Roles Anywhere default setting. Required permissions: rolesanywhere:ResetNotificationSettings.
+    ///
+    /// - Parameter ResetNotificationSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `ResetNotificationSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ValidationException` : Validation exception error.
     public func resetNotificationSettings(input: ResetNotificationSettingsInput) async throws -> ResetNotificationSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -847,6 +1080,18 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     }
 
     /// Attaches tags to a resource. Required permissions: rolesanywhere:TagResource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `TooManyTagsException` : Too many tags.
+    /// - `ValidationException` : Validation exception error.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -883,6 +1128,17 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     }
 
     /// Removes tags from the resource. Required permissions: rolesanywhere:UntagResource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ValidationException` : Validation exception error.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -919,6 +1175,17 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     }
 
     /// Updates the certificate revocation list (CRL). A CRL is a list of certificates that have been revoked by the issuing certificate authority (CA). IAM Roles Anywhere validates against the CRL before issuing credentials. Required permissions: rolesanywhere:UpdateCrl.
+    ///
+    /// - Parameter UpdateCrlInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateCrlOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ValidationException` : Validation exception error.
     public func updateCrl(input: UpdateCrlInput) async throws -> UpdateCrlOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -955,6 +1222,17 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     }
 
     /// Updates a profile, a list of the roles that IAM Roles Anywhere service is trusted to assume. You use profiles to intersect permissions with IAM managed policies. Required permissions: rolesanywhere:UpdateProfile.
+    ///
+    /// - Parameter UpdateProfileInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ValidationException` : Validation exception error.
     public func updateProfile(input: UpdateProfileInput) async throws -> UpdateProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -991,6 +1269,17 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     }
 
     /// Updates a trust anchor. You establish trust between IAM Roles Anywhere and your certificate authority (CA) by configuring a trust anchor. You can define a trust anchor as a reference to an Private Certificate Authority (Private CA) or by uploading a CA certificate. Your Amazon Web Services workloads can authenticate with the trust anchor using certificates issued by the CA in exchange for temporary Amazon Web Services credentials. Required permissions: rolesanywhere:UpdateTrustAnchor.
+    ///
+    /// - Parameter UpdateTrustAnchorInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateTrustAnchorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ValidationException` : Validation exception error.
     public func updateTrustAnchor(input: UpdateTrustAnchorInput) async throws -> UpdateTrustAnchorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

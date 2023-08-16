@@ -5,42 +5,301 @@ import ClientRuntime
 /// Provides APIs for creating and managing SageMaker geospatial resources.
 public protocol SageMakerGeospatialClientProtocol {
     /// Use this operation to delete an Earth Observation job.
+    ///
+    /// - Parameter DeleteEarthObservationJobInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEarthObservationJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func deleteEarthObservationJob(input: DeleteEarthObservationJobInput) async throws -> DeleteEarthObservationJobOutputResponse
     /// Use this operation to delete a Vector Enrichment job.
+    ///
+    /// - Parameter DeleteVectorEnrichmentJobInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteVectorEnrichmentJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func deleteVectorEnrichmentJob(input: DeleteVectorEnrichmentJobInput) async throws -> DeleteVectorEnrichmentJobOutputResponse
     /// Use this operation to export results of an Earth Observation job and optionally source images used as input to the EOJ to an Amazon S3 location.
+    ///
+    /// - Parameter ExportEarthObservationJobInput : [no documentation found]
+    ///
+    /// - Returns: `ExportEarthObservationJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : You have exceeded the service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func exportEarthObservationJob(input: ExportEarthObservationJobInput) async throws -> ExportEarthObservationJobOutputResponse
     /// Use this operation to copy results of a Vector Enrichment job to an Amazon S3 location.
+    ///
+    /// - Parameter ExportVectorEnrichmentJobInput : [no documentation found]
+    ///
+    /// - Returns: `ExportVectorEnrichmentJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : You have exceeded the service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func exportVectorEnrichmentJob(input: ExportVectorEnrichmentJobInput) async throws -> ExportVectorEnrichmentJobOutputResponse
     /// Get the details for a previously initiated Earth Observation job.
+    ///
+    /// - Parameter GetEarthObservationJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetEarthObservationJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getEarthObservationJob(input: GetEarthObservationJobInput) async throws -> GetEarthObservationJobOutputResponse
     /// Use this operation to get details of a specific raster data collection.
+    ///
+    /// - Parameter GetRasterDataCollectionInput : [no documentation found]
+    ///
+    /// - Returns: `GetRasterDataCollectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getRasterDataCollection(input: GetRasterDataCollectionInput) async throws -> GetRasterDataCollectionOutputResponse
     /// Gets a web mercator tile for the given Earth Observation job.
+    ///
+    /// - Parameter GetTileInput : [no documentation found]
+    ///
+    /// - Returns: `GetTileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getTile(input: GetTileInput) async throws -> GetTileOutputResponse
     /// Retrieves details of a Vector Enrichment Job for a given job Amazon Resource Name (ARN).
+    ///
+    /// - Parameter GetVectorEnrichmentJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetVectorEnrichmentJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getVectorEnrichmentJob(input: GetVectorEnrichmentJobInput) async throws -> GetVectorEnrichmentJobOutputResponse
     /// Use this operation to get a list of the Earth Observation jobs associated with the calling Amazon Web Services account.
+    ///
+    /// - Parameter ListEarthObservationJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListEarthObservationJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listEarthObservationJobs(input: ListEarthObservationJobsInput) async throws -> ListEarthObservationJobsOutputResponse
     /// Use this operation to get raster data collections.
+    ///
+    /// - Parameter ListRasterDataCollectionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListRasterDataCollectionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listRasterDataCollections(input: ListRasterDataCollectionsInput) async throws -> ListRasterDataCollectionsOutputResponse
     /// Lists the tags attached to the resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Retrieves a list of vector enrichment jobs.
+    ///
+    /// - Parameter ListVectorEnrichmentJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListVectorEnrichmentJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listVectorEnrichmentJobs(input: ListVectorEnrichmentJobsInput) async throws -> ListVectorEnrichmentJobsOutputResponse
     /// Allows you run image query on a specific raster data collection to get a list of the satellite imagery matching the selected filters.
+    ///
+    /// - Parameter SearchRasterDataCollectionInput : [no documentation found]
+    ///
+    /// - Returns: `SearchRasterDataCollectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func searchRasterDataCollection(input: SearchRasterDataCollectionInput) async throws -> SearchRasterDataCollectionOutputResponse
     /// Use this operation to create an Earth observation job.
+    ///
+    /// - Parameter StartEarthObservationJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartEarthObservationJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : You have exceeded the service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func startEarthObservationJob(input: StartEarthObservationJobInput) async throws -> StartEarthObservationJobOutputResponse
     /// Creates a Vector Enrichment job for the supplied job type. Currently, there are two supported job types: reverse geocoding and map matching.
+    ///
+    /// - Parameter StartVectorEnrichmentJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartVectorEnrichmentJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : You have exceeded the service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func startVectorEnrichmentJob(input: StartVectorEnrichmentJobInput) async throws -> StartVectorEnrichmentJobOutputResponse
     /// Use this operation to stop an existing earth observation job.
+    ///
+    /// - Parameter StopEarthObservationJobInput : [no documentation found]
+    ///
+    /// - Returns: `StopEarthObservationJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func stopEarthObservationJob(input: StopEarthObservationJobInput) async throws -> StopEarthObservationJobOutputResponse
     /// Stops the Vector Enrichment job for a given job ARN.
+    ///
+    /// - Parameter StopVectorEnrichmentJobInput : [no documentation found]
+    ///
+    /// - Returns: `StopVectorEnrichmentJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func stopVectorEnrichmentJob(input: StopVectorEnrichmentJobInput) async throws -> StopVectorEnrichmentJobOutputResponse
     /// The resource you want to tag.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// The resource you want to untag.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
 }
 

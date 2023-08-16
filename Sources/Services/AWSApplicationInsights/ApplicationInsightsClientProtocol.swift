@@ -5,40 +5,245 @@ import ClientRuntime
 /// Amazon CloudWatch Application Insights Amazon CloudWatch Application Insights is a service that helps you detect common problems with your applications. It enables you to pinpoint the source of issues in your applications (built with technologies such as Microsoft IIS, .NET, and Microsoft SQL Server), by providing key insights into detected problems. After you onboard your application, CloudWatch Application Insights identifies, recommends, and sets up metrics and logs. It continuously analyzes and correlates your metrics and logs for unusual behavior to surface actionable problems with your application. For example, if your application is slow and unresponsive and leading to HTTP 500 errors in your Application Load Balancer (ALB), Application Insights informs you that a memory pressure problem with your SQL Server database is occurring. It bases this analysis on impactful metrics and log errors.
 public protocol ApplicationInsightsClientProtocol {
     /// Adds a workload to a component. Each component can have at most five workloads.
+    ///
+    /// - Parameter AddWorkloadInput : [no documentation found]
+    ///
+    /// - Returns: `AddWorkloadOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceInUseException` : The resource is already created or in use.
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func addWorkload(input: AddWorkloadInput) async throws -> AddWorkloadOutputResponse
     /// Adds an application that is created from a resource group.
+    ///
+    /// - Parameter CreateApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permissions to perform this action.
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceInUseException` : The resource is already created or in use.
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `TagsAlreadyExistException` : Tags are already registered for the specified application ARN.
+    /// - `ValidationException` : The parameter is not valid.
     func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutputResponse
     /// Creates a custom component by grouping similar standalone instances to monitor.
+    ///
+    /// - Parameter CreateComponentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateComponentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceInUseException` : The resource is already created or in use.
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func createComponent(input: CreateComponentInput) async throws -> CreateComponentOutputResponse
     /// Adds an log pattern to a LogPatternSet.
+    ///
+    /// - Parameter CreateLogPatternInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLogPatternOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceInUseException` : The resource is already created or in use.
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func createLogPattern(input: CreateLogPatternInput) async throws -> CreateLogPatternOutputResponse
     /// Removes the specified application from monitoring. Does not delete the application.
+    ///
+    /// - Parameter DeleteApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not understood by the server.
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutputResponse
     /// Ungroups a custom component. When you ungroup custom components, all applicable monitors that are set up for the component are removed and the instances revert to their standalone status.
+    ///
+    /// - Parameter DeleteComponentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteComponentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func deleteComponent(input: DeleteComponentInput) async throws -> DeleteComponentOutputResponse
     /// Removes the specified log pattern from a LogPatternSet.
+    ///
+    /// - Parameter DeleteLogPatternInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteLogPatternOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not understood by the server.
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func deleteLogPattern(input: DeleteLogPatternInput) async throws -> DeleteLogPatternOutputResponse
     /// Describes the application.
+    ///
+    /// - Parameter DescribeApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func describeApplication(input: DescribeApplicationInput) async throws -> DescribeApplicationOutputResponse
     /// Describes a component and lists the resources that are grouped together in a component.
+    ///
+    /// - Parameter DescribeComponentInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeComponentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func describeComponent(input: DescribeComponentInput) async throws -> DescribeComponentOutputResponse
     /// Describes the monitoring configuration of the component.
+    ///
+    /// - Parameter DescribeComponentConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeComponentConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func describeComponentConfiguration(input: DescribeComponentConfigurationInput) async throws -> DescribeComponentConfigurationOutputResponse
     /// Describes the recommended monitoring configuration of the component.
+    ///
+    /// - Parameter DescribeComponentConfigurationRecommendationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeComponentConfigurationRecommendationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func describeComponentConfigurationRecommendation(input: DescribeComponentConfigurationRecommendationInput) async throws -> DescribeComponentConfigurationRecommendationOutputResponse
     /// Describe a specific log pattern from a LogPatternSet.
+    ///
+    /// - Parameter DescribeLogPatternInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeLogPatternOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func describeLogPattern(input: DescribeLogPatternInput) async throws -> DescribeLogPatternOutputResponse
     /// Describes an anomaly or error with the application.
+    ///
+    /// - Parameter DescribeObservationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeObservationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func describeObservation(input: DescribeObservationInput) async throws -> DescribeObservationOutputResponse
     /// Describes an application problem.
+    ///
+    /// - Parameter DescribeProblemInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeProblemOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func describeProblem(input: DescribeProblemInput) async throws -> DescribeProblemOutputResponse
     /// Describes the anomalies or errors associated with the problem.
+    ///
+    /// - Parameter DescribeProblemObservationsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeProblemObservationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func describeProblemObservations(input: DescribeProblemObservationsInput) async throws -> DescribeProblemObservationsOutputResponse
     /// Describes a workload and its configuration.
+    ///
+    /// - Parameter DescribeWorkloadInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeWorkloadOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func describeWorkload(input: DescribeWorkloadInput) async throws -> DescribeWorkloadOutputResponse
     /// Lists the IDs of the applications that you are monitoring.
+    ///
+    /// - Parameter ListApplicationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListApplicationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ValidationException` : The parameter is not valid.
     func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutputResponse
     /// Lists the auto-grouped, standalone, and custom components of the application.
+    ///
+    /// - Parameter ListComponentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListComponentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutputResponse
     /// Lists the INFO, WARN, and ERROR events for periodic configuration updates performed by Application Insights. Examples of events represented are:
     ///
@@ -47,34 +252,199 @@ public protocol ApplicationInsightsClientProtocol {
     /// * WARN: alarm not created due to insufficient data points used to predict thresholds.
     ///
     /// * ERROR: alarm not created due to permission errors or exceeding quotas.
+    ///
+    /// - Parameter ListConfigurationHistoryInput : [no documentation found]
+    ///
+    /// - Returns: `ListConfigurationHistoryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func listConfigurationHistory(input: ListConfigurationHistoryInput) async throws -> ListConfigurationHistoryOutputResponse
     /// Lists the log patterns in the specific log LogPatternSet.
+    ///
+    /// - Parameter ListLogPatternsInput : [no documentation found]
+    ///
+    /// - Returns: `ListLogPatternsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func listLogPatterns(input: ListLogPatternsInput) async throws -> ListLogPatternsOutputResponse
     /// Lists the log pattern sets in the specific application.
+    ///
+    /// - Parameter ListLogPatternSetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListLogPatternSetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func listLogPatternSets(input: ListLogPatternSetsInput) async throws -> ListLogPatternSetsOutputResponse
     /// Lists the problems with your application.
+    ///
+    /// - Parameter ListProblemsInput : [no documentation found]
+    ///
+    /// - Returns: `ListProblemsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func listProblems(input: ListProblemsInput) async throws -> ListProblemsOutputResponse
     /// Retrieve a list of the tags (keys and values) that are associated with a specified application. A tag is a label that you optionally define and associate with an application. Each tag consists of a required tag key and an optional associated tag value. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Lists the workloads that are configured on a given component.
+    ///
+    /// - Parameter ListWorkloadsInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorkloadsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func listWorkloads(input: ListWorkloadsInput) async throws -> ListWorkloadsOutputResponse
     /// Remove workload from a component.
+    ///
+    /// - Parameter RemoveWorkloadInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveWorkloadOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func removeWorkload(input: RemoveWorkloadInput) async throws -> RemoveWorkloadOutputResponse
     /// Add one or more tags (keys and values) to a specified application. A tag is a label that you optionally define and associate with an application. Tags can help you categorize and manage application in different ways, such as by purpose, owner, environment, or other criteria. Each tag consists of a required tag key and an associated tag value, both of which you define. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `TooManyTagsException` : The number of the provided tags is beyond the limit, or the number of total tags you are trying to attach to the specified resource exceeds the limit.
+    /// - `ValidationException` : The parameter is not valid.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Remove one or more tags (keys and values) from a specified application.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates the application.
+    ///
+    /// - Parameter UpdateApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutputResponse
     /// Updates the custom component name and/or the list of resources that make up the component.
+    ///
+    /// - Parameter UpdateComponentInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateComponentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceInUseException` : The resource is already created or in use.
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func updateComponent(input: UpdateComponentInput) async throws -> UpdateComponentOutputResponse
     /// Updates the monitoring configurations for the component. The configuration input parameter is an escaped JSON of the configuration and should match the schema of what is returned by DescribeComponentConfigurationRecommendation.
+    ///
+    /// - Parameter UpdateComponentConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateComponentConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func updateComponentConfiguration(input: UpdateComponentConfigurationInput) async throws -> UpdateComponentConfigurationOutputResponse
     /// Adds a log pattern to a LogPatternSet.
+    ///
+    /// - Parameter UpdateLogPatternInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateLogPatternOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceInUseException` : The resource is already created or in use.
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func updateLogPattern(input: UpdateLogPatternInput) async throws -> UpdateLogPatternOutputResponse
     /// Updates the visibility of the problem or specifies the problem as RESOLVED.
+    ///
+    /// - Parameter UpdateProblemInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateProblemOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func updateProblem(input: UpdateProblemInput) async throws -> UpdateProblemOutputResponse
     /// Adds a workload to a component. Each component can have at most five workloads.
+    ///
+    /// - Parameter UpdateWorkloadInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWorkloadOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
+    /// - `ValidationException` : The parameter is not valid.
     func updateWorkload(input: UpdateWorkloadInput) async throws -> UpdateWorkloadOutputResponse
 }
 

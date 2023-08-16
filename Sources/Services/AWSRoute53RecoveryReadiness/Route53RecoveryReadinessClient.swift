@@ -68,6 +68,19 @@ public struct Route53RecoveryReadinessClientLogHandlerFactory: ClientRuntime.SDK
 
 extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol {
     /// Creates a cell in an account.
+    ///
+    /// - Parameter CreateCellInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCellOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func createCell(input: CreateCellInput) async throws -> CreateCellOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +117,19 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Creates a cross-account readiness authorization. This lets you authorize another account to work with Route 53 Application Recovery Controller, for example, to check the readiness status of resources in a separate account.
+    ///
+    /// - Parameter CreateCrossAccountAuthorizationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCrossAccountAuthorizationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func createCrossAccountAuthorization(input: CreateCrossAccountAuthorizationInput) async throws -> CreateCrossAccountAuthorizationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -140,6 +166,19 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Creates a readiness check in an account. A readiness check monitors a resource set in your application, such as a set of Amazon Aurora instances, that Application Recovery Controller is auditing recovery readiness for. The audits run once every minute on every resource that's associated with a readiness check.
+    ///
+    /// - Parameter CreateReadinessCheckInput : [no documentation found]
+    ///
+    /// - Returns: `CreateReadinessCheckOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func createReadinessCheck(input: CreateReadinessCheckInput) async throws -> CreateReadinessCheckOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -176,6 +215,19 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Creates a recovery group in an account. A recovery group corresponds to an application and includes a list of the cells that make up the application.
+    ///
+    /// - Parameter CreateRecoveryGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRecoveryGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func createRecoveryGroup(input: CreateRecoveryGroupInput) async throws -> CreateRecoveryGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -212,6 +264,19 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Creates a resource set. A resource set is a set of resources of one type that span multiple cells. You can associate a resource set with a readiness check to monitor the resources for failover readiness.
+    ///
+    /// - Parameter CreateResourceSetInput : [no documentation found]
+    ///
+    /// - Returns: `CreateResourceSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func createResourceSet(input: CreateResourceSetInput) async throws -> CreateResourceSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -248,6 +313,19 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Delete a cell. When successful, the response code is 204, with no response body.
+    ///
+    /// - Parameter DeleteCellInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCellOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func deleteCell(input: DeleteCellInput) async throws -> DeleteCellOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -281,6 +359,18 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Deletes cross account readiness authorization.
+    ///
+    /// - Parameter DeleteCrossAccountAuthorizationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCrossAccountAuthorizationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func deleteCrossAccountAuthorization(input: DeleteCrossAccountAuthorizationInput) async throws -> DeleteCrossAccountAuthorizationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -314,6 +404,19 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Deletes a readiness check.
+    ///
+    /// - Parameter DeleteReadinessCheckInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteReadinessCheckOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func deleteReadinessCheck(input: DeleteReadinessCheckInput) async throws -> DeleteReadinessCheckOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -347,6 +450,19 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Deletes a recovery group.
+    ///
+    /// - Parameter DeleteRecoveryGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRecoveryGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func deleteRecoveryGroup(input: DeleteRecoveryGroupInput) async throws -> DeleteRecoveryGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -380,6 +496,19 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Deletes a resource set.
+    ///
+    /// - Parameter DeleteResourceSetInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteResourceSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func deleteResourceSet(input: DeleteResourceSetInput) async throws -> DeleteResourceSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -413,6 +542,19 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Gets recommendations about architecture designs for improving resiliency for an application, based on a recovery group.
+    ///
+    /// - Parameter GetArchitectureRecommendationsInput : [no documentation found]
+    ///
+    /// - Returns: `GetArchitectureRecommendationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getArchitectureRecommendations(input: GetArchitectureRecommendationsInput) async throws -> GetArchitectureRecommendationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -447,6 +589,19 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Gets information about a cell including cell name, cell Amazon Resource Name (ARN), ARNs of nested cells for this cell, and a list of those cell ARNs with their associated recovery group ARNs.
+    ///
+    /// - Parameter GetCellInput : [no documentation found]
+    ///
+    /// - Returns: `GetCellOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getCell(input: GetCellInput) async throws -> GetCellOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -480,6 +635,19 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Gets readiness for a cell. Aggregates the readiness of all the resources that are associated with the cell into a single value.
+    ///
+    /// - Parameter GetCellReadinessSummaryInput : [no documentation found]
+    ///
+    /// - Returns: `GetCellReadinessSummaryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getCellReadinessSummary(input: GetCellReadinessSummaryInput) async throws -> GetCellReadinessSummaryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -514,6 +682,19 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Gets details about a readiness check.
+    ///
+    /// - Parameter GetReadinessCheckInput : [no documentation found]
+    ///
+    /// - Returns: `GetReadinessCheckOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getReadinessCheck(input: GetReadinessCheckInput) async throws -> GetReadinessCheckOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -547,6 +728,19 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Gets individual readiness status for a readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in the recovery group, use GetRecoveryGroupReadinessSummary.
+    ///
+    /// - Parameter GetReadinessCheckResourceStatusInput : [no documentation found]
+    ///
+    /// - Returns: `GetReadinessCheckResourceStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getReadinessCheckResourceStatus(input: GetReadinessCheckResourceStatusInput) async throws -> GetReadinessCheckResourceStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -581,6 +775,19 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Gets the readiness status for an individual readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in a recovery group, use GetRecoveryGroupReadinessSummary.
+    ///
+    /// - Parameter GetReadinessCheckStatusInput : [no documentation found]
+    ///
+    /// - Returns: `GetReadinessCheckStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getReadinessCheckStatus(input: GetReadinessCheckStatusInput) async throws -> GetReadinessCheckStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -615,6 +822,19 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Gets details about a recovery group, including a list of the cells that are included in it.
+    ///
+    /// - Parameter GetRecoveryGroupInput : [no documentation found]
+    ///
+    /// - Returns: `GetRecoveryGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getRecoveryGroup(input: GetRecoveryGroupInput) async throws -> GetRecoveryGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -648,6 +868,19 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Displays a summary of information about a recovery group's readiness status. Includes the readiness checks for resources in the recovery group and the readiness status of each one.
+    ///
+    /// - Parameter GetRecoveryGroupReadinessSummaryInput : [no documentation found]
+    ///
+    /// - Returns: `GetRecoveryGroupReadinessSummaryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getRecoveryGroupReadinessSummary(input: GetRecoveryGroupReadinessSummaryInput) async throws -> GetRecoveryGroupReadinessSummaryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -682,6 +915,19 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Displays the details about a resource set, including a list of the resources in the set.
+    ///
+    /// - Parameter GetResourceSetInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourceSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getResourceSet(input: GetResourceSetInput) async throws -> GetResourceSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -715,6 +961,18 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Lists the cells for an account.
+    ///
+    /// - Parameter ListCellsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCellsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listCells(input: ListCellsInput) async throws -> ListCellsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -749,6 +1007,18 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Lists the cross-account readiness authorizations that are in place for an account.
+    ///
+    /// - Parameter ListCrossAccountAuthorizationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCrossAccountAuthorizationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listCrossAccountAuthorizations(input: ListCrossAccountAuthorizationsInput) async throws -> ListCrossAccountAuthorizationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -783,6 +1053,18 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Lists the readiness checks for an account.
+    ///
+    /// - Parameter ListReadinessChecksInput : [no documentation found]
+    ///
+    /// - Returns: `ListReadinessChecksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listReadinessChecks(input: ListReadinessChecksInput) async throws -> ListReadinessChecksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -817,6 +1099,18 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Lists the recovery groups in an account.
+    ///
+    /// - Parameter ListRecoveryGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `ListRecoveryGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listRecoveryGroups(input: ListRecoveryGroupsInput) async throws -> ListRecoveryGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -851,6 +1145,18 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Lists the resource sets in an account.
+    ///
+    /// - Parameter ListResourceSetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListResourceSetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listResourceSets(input: ListResourceSetsInput) async throws -> ListResourceSetsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -885,6 +1191,18 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Lists all readiness rules, or lists the readiness rules for a specific resource type.
+    ///
+    /// - Parameter ListRulesInput : [no documentation found]
+    ///
+    /// - Returns: `ListRulesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listRules(input: ListRulesInput) async throws -> ListRulesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -919,6 +1237,17 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Lists the tags for a resource.
+    ///
+    /// - Parameter ListTagsForResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourcesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listTagsForResources(input: ListTagsForResourcesInput) async throws -> ListTagsForResourcesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -952,6 +1281,17 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Adds a tag to a resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -988,6 +1328,17 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Removes a tag from a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1022,6 +1373,19 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Updates a cell to replace the list of nested cells with a new list of nested cells.
+    ///
+    /// - Parameter UpdateCellInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateCellOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func updateCell(input: UpdateCellInput) async throws -> UpdateCellOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1058,6 +1422,19 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Updates a readiness check.
+    ///
+    /// - Parameter UpdateReadinessCheckInput : Name of a readiness check to describe.
+    ///
+    /// - Returns: `UpdateReadinessCheckOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func updateReadinessCheck(input: UpdateReadinessCheckInput) async throws -> UpdateReadinessCheckOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1094,6 +1471,19 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Updates a recovery group.
+    ///
+    /// - Parameter UpdateRecoveryGroupInput : Name of a recovery group.
+    ///
+    /// - Returns: `UpdateRecoveryGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func updateRecoveryGroup(input: UpdateRecoveryGroupInput) async throws -> UpdateRecoveryGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1130,6 +1520,19 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     }
 
     /// Updates a resource set.
+    ///
+    /// - Parameter UpdateResourceSetInput : Name of a resource set.
+    ///
+    /// - Returns: `UpdateResourceSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func updateResourceSet(input: UpdateResourceSetInput) async throws -> UpdateResourceSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

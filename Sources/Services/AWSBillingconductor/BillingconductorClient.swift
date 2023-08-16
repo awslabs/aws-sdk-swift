@@ -68,6 +68,21 @@ public struct BillingconductorClientLogHandlerFactory: ClientRuntime.SDKLogHandl
 
 extension BillingconductorClient: BillingconductorClientProtocol {
     /// Connects an array of account IDs in a consolidated billing family to a predefined billing group. The account IDs must be a part of the consolidated billing family during the current month, and not already associated with another billing group. The maximum number of accounts that can be associated in one call is 30.
+    ///
+    /// - Parameter AssociateAccountsInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateAccountsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : You can cause an inconsistent state by updating or deleting a resource.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
+    /// - `ServiceLimitExceededException` : The request would cause a service limit to exceed.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func associateAccounts(input: AssociateAccountsInput) async throws -> AssociateAccountsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +119,21 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// Connects an array of PricingRuleArns to a defined PricingPlan. The maximum number PricingRuleArn that can be associated in one call is 30.
+    ///
+    /// - Parameter AssociatePricingRulesInput : [no documentation found]
+    ///
+    /// - Returns: `AssociatePricingRulesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : You can cause an inconsistent state by updating or deleting a resource.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
+    /// - `ServiceLimitExceededException` : The request would cause a service limit to exceed.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func associatePricingRules(input: AssociatePricingRulesInput) async throws -> AssociatePricingRulesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -140,6 +170,21 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// Associates a batch of resources to a percentage custom line item.
+    ///
+    /// - Parameter BatchAssociateResourcesToCustomLineItemInput : [no documentation found]
+    ///
+    /// - Returns: `BatchAssociateResourcesToCustomLineItemOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : You can cause an inconsistent state by updating or deleting a resource.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
+    /// - `ServiceLimitExceededException` : The request would cause a service limit to exceed.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func batchAssociateResourcesToCustomLineItem(input: BatchAssociateResourcesToCustomLineItemInput) async throws -> BatchAssociateResourcesToCustomLineItemOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -176,6 +221,20 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// Disassociates a batch of resources from a percentage custom line item.
+    ///
+    /// - Parameter BatchDisassociateResourcesFromCustomLineItemInput : [no documentation found]
+    ///
+    /// - Returns: `BatchDisassociateResourcesFromCustomLineItemOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : You can cause an inconsistent state by updating or deleting a resource.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func batchDisassociateResourcesFromCustomLineItem(input: BatchDisassociateResourcesFromCustomLineItemInput) async throws -> BatchDisassociateResourcesFromCustomLineItemOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -212,6 +271,20 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// Creates a billing group that resembles a consolidated billing family that Amazon Web Services charges, based off of the predefined pricing plan computation.
+    ///
+    /// - Parameter CreateBillingGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CreateBillingGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : You can cause an inconsistent state by updating or deleting a resource.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ServiceLimitExceededException` : The request would cause a service limit to exceed.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func createBillingGroup(input: CreateBillingGroupInput) async throws -> CreateBillingGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -257,6 +330,20 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// Creates a custom line item that can be used to create a one-time fixed charge that can be applied to a single billing group for the current or previous billing period. The one-time fixed charge is either a fee or discount.
+    ///
+    /// - Parameter CreateCustomLineItemInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCustomLineItemOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : You can cause an inconsistent state by updating or deleting a resource.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ServiceLimitExceededException` : The request would cause a service limit to exceed.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func createCustomLineItem(input: CreateCustomLineItemInput) async throws -> CreateCustomLineItemOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -302,6 +389,21 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// Creates a pricing plan that is used for computing Amazon Web Services charges for billing groups.
+    ///
+    /// - Parameter CreatePricingPlanInput : [no documentation found]
+    ///
+    /// - Returns: `CreatePricingPlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : You can cause an inconsistent state by updating or deleting a resource.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
+    /// - `ServiceLimitExceededException` : The request would cause a service limit to exceed.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func createPricingPlan(input: CreatePricingPlanInput) async throws -> CreatePricingPlanOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -347,6 +449,20 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// Creates a pricing rule can be associated to a pricing plan, or a set of pricing plans.
+    ///
+    /// - Parameter CreatePricingRuleInput : [no documentation found]
+    ///
+    /// - Returns: `CreatePricingRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : You can cause an inconsistent state by updating or deleting a resource.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ServiceLimitExceededException` : The request would cause a service limit to exceed.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func createPricingRule(input: CreatePricingRuleInput) async throws -> CreatePricingRuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -392,6 +508,18 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// Deletes a billing group.
+    ///
+    /// - Parameter DeleteBillingGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBillingGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func deleteBillingGroup(input: DeleteBillingGroupInput) async throws -> DeleteBillingGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -428,6 +556,19 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// Deletes the custom line item identified by the given ARN in the current, or previous billing period.
+    ///
+    /// - Parameter DeleteCustomLineItemInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCustomLineItemOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : You can cause an inconsistent state by updating or deleting a resource.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func deleteCustomLineItem(input: DeleteCustomLineItemInput) async throws -> DeleteCustomLineItemOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -464,6 +605,19 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// Deletes a pricing plan. The pricing plan must not be associated with any billing groups to delete successfully.
+    ///
+    /// - Parameter DeletePricingPlanInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePricingPlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : You can cause an inconsistent state by updating or deleting a resource.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func deletePricingPlan(input: DeletePricingPlanInput) async throws -> DeletePricingPlanOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -500,6 +654,19 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// Deletes the pricing rule that's identified by the input Amazon Resource Name (ARN).
+    ///
+    /// - Parameter DeletePricingRuleInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePricingRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : You can cause an inconsistent state by updating or deleting a resource.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func deletePricingRule(input: DeletePricingRuleInput) async throws -> DeletePricingRuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -536,6 +703,20 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// Removes the specified list of account IDs from the given billing group.
+    ///
+    /// - Parameter DisassociateAccountsInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateAccountsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : You can cause an inconsistent state by updating or deleting a resource.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func disassociateAccounts(input: DisassociateAccountsInput) async throws -> DisassociateAccountsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -572,6 +753,20 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// Disassociates a list of pricing rules from a pricing plan.
+    ///
+    /// - Parameter DisassociatePricingRulesInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociatePricingRulesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : You can cause an inconsistent state by updating or deleting a resource.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func disassociatePricingRules(input: DisassociatePricingRulesInput) async throws -> DisassociatePricingRulesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -608,6 +803,19 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// This is a paginated call to list linked accounts that are linked to the payer account for the specified time period. If no information is provided, the current billing period is used. The response will optionally include the billing group that's associated with the linked account.
+    ///
+    /// - Parameter ListAccountAssociationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAccountAssociationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func listAccountAssociations(input: ListAccountAssociationsInput) async throws -> ListAccountAssociationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -644,6 +852,19 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// A paginated call to retrieve a summary report of actual Amazon Web Services charges and the calculated Amazon Web Services charges based on the associated pricing plan of a billing group.
+    ///
+    /// - Parameter ListBillingGroupCostReportsInput : [no documentation found]
+    ///
+    /// - Returns: `ListBillingGroupCostReportsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func listBillingGroupCostReports(input: ListBillingGroupCostReportsInput) async throws -> ListBillingGroupCostReportsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -680,6 +901,19 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// A paginated call to retrieve a list of billing groups for the given billing period. If you don't provide a billing group, the current billing period is used.
+    ///
+    /// - Parameter ListBillingGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `ListBillingGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func listBillingGroups(input: ListBillingGroupsInput) async throws -> ListBillingGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -716,6 +950,18 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// A paginated call to get a list of all custom line item versions.
+    ///
+    /// - Parameter ListCustomLineItemVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCustomLineItemVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func listCustomLineItemVersions(input: ListCustomLineItemVersionsInput) async throws -> ListCustomLineItemVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -752,6 +998,19 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// A paginated call to get a list of all custom line items (FFLIs) for the given billing period. If you don't provide a billing period, the current billing period is used.
+    ///
+    /// - Parameter ListCustomLineItemsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCustomLineItemsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func listCustomLineItems(input: ListCustomLineItemsInput) async throws -> ListCustomLineItemsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -788,6 +1047,18 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// A paginated call to get pricing plans for the given billing period. If you don't provide a billing period, the current billing period is used.
+    ///
+    /// - Parameter ListPricingPlansInput : [no documentation found]
+    ///
+    /// - Returns: `ListPricingPlansOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func listPricingPlans(input: ListPricingPlansInput) async throws -> ListPricingPlansOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -824,6 +1095,19 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// A list of the pricing plans that are associated with a pricing rule.
+    ///
+    /// - Parameter ListPricingPlansAssociatedWithPricingRuleInput : [no documentation found]
+    ///
+    /// - Returns: `ListPricingPlansAssociatedWithPricingRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func listPricingPlansAssociatedWithPricingRule(input: ListPricingPlansAssociatedWithPricingRuleInput) async throws -> ListPricingPlansAssociatedWithPricingRuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -860,6 +1144,18 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// Describes a pricing rule that can be associated to a pricing plan, or set of pricing plans.
+    ///
+    /// - Parameter ListPricingRulesInput : [no documentation found]
+    ///
+    /// - Returns: `ListPricingRulesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func listPricingRules(input: ListPricingRulesInput) async throws -> ListPricingRulesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -896,6 +1192,19 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// Lists the pricing rules that are associated with a pricing plan.
+    ///
+    /// - Parameter ListPricingRulesAssociatedToPricingPlanInput : [no documentation found]
+    ///
+    /// - Returns: `ListPricingRulesAssociatedToPricingPlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func listPricingRulesAssociatedToPricingPlan(input: ListPricingRulesAssociatedToPricingPlanInput) async throws -> ListPricingRulesAssociatedToPricingPlanOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -932,6 +1241,19 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// List the resources that are associated to a custom line item.
+    ///
+    /// - Parameter ListResourcesAssociatedToCustomLineItemInput : [no documentation found]
+    ///
+    /// - Returns: `ListResourcesAssociatedToCustomLineItemOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func listResourcesAssociatedToCustomLineItem(input: ListResourcesAssociatedToCustomLineItemInput) async throws -> ListResourcesAssociatedToCustomLineItemOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -968,6 +1290,19 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// A list the tags for a resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1001,6 +1336,19 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1037,6 +1385,19 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// Deletes specified tags from a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1071,6 +1432,20 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// This updates an existing billing group.
+    ///
+    /// - Parameter UpdateBillingGroupInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateBillingGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : You can cause an inconsistent state by updating or deleting a resource.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func updateBillingGroup(input: UpdateBillingGroupInput) async throws -> UpdateBillingGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1107,6 +1482,19 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// Update an existing custom line item in the current or previous billing period.
+    ///
+    /// - Parameter UpdateCustomLineItemInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateCustomLineItemOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func updateCustomLineItem(input: UpdateCustomLineItemInput) async throws -> UpdateCustomLineItemOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1143,6 +1531,20 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// This updates an existing pricing plan.
+    ///
+    /// - Parameter UpdatePricingPlanInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePricingPlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : You can cause an inconsistent state by updating or deleting a resource.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func updatePricingPlan(input: UpdatePricingPlanInput) async throws -> UpdatePricingPlanOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1179,6 +1581,20 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     }
 
     /// Updates an existing pricing rule.
+    ///
+    /// - Parameter UpdatePricingRuleInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePricingRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : You can cause an inconsistent state by updating or deleting a resource.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     public func updatePricingRule(input: UpdatePricingRuleInput) async throws -> UpdatePricingRuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

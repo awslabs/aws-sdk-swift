@@ -68,6 +68,20 @@ public struct EBSClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
 
 extension EBSClient: EBSClientProtocol {
     /// Seals and completes the snapshot after all of the required blocks of data have been written to it. Completing the snapshot changes the status to completed. You cannot write new blocks to a snapshot after it has been completed. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
+    ///
+    /// - Parameter CompleteSnapshotInput : [no documentation found]
+    ///
+    /// - Returns: `CompleteSnapshotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html).
+    /// - `RequestThrottledException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the snapshot. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html).
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceQuotaExceededException` : Your current service quotas do not allow you to perform this action.
+    /// - `ValidationException` : The input fails to satisfy the constraints of the EBS direct APIs.
     public func completeSnapshot(input: CompleteSnapshotInput) async throws -> CompleteSnapshotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -102,6 +116,20 @@ extension EBSClient: EBSClientProtocol {
     }
 
     /// Returns the data in a block in an Amazon Elastic Block Store snapshot. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
+    ///
+    /// - Parameter GetSnapshotBlockInput : [no documentation found]
+    ///
+    /// - Returns: `GetSnapshotBlockOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html).
+    /// - `RequestThrottledException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the snapshot. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html).
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceQuotaExceededException` : Your current service quotas do not allow you to perform this action.
+    /// - `ValidationException` : The input fails to satisfy the constraints of the EBS direct APIs.
     public func getSnapshotBlock(input: GetSnapshotBlockInput) async throws -> GetSnapshotBlockOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -136,6 +164,20 @@ extension EBSClient: EBSClientProtocol {
     }
 
     /// Returns information about the blocks that are different between two Amazon Elastic Block Store snapshots of the same volume/snapshot lineage. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
+    ///
+    /// - Parameter ListChangedBlocksInput : [no documentation found]
+    ///
+    /// - Returns: `ListChangedBlocksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html).
+    /// - `RequestThrottledException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the snapshot. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html).
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceQuotaExceededException` : Your current service quotas do not allow you to perform this action.
+    /// - `ValidationException` : The input fails to satisfy the constraints of the EBS direct APIs.
     public func listChangedBlocks(input: ListChangedBlocksInput) async throws -> ListChangedBlocksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -170,6 +212,20 @@ extension EBSClient: EBSClientProtocol {
     }
 
     /// Returns information about the blocks in an Amazon Elastic Block Store snapshot. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
+    ///
+    /// - Parameter ListSnapshotBlocksInput : [no documentation found]
+    ///
+    /// - Returns: `ListSnapshotBlocksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html).
+    /// - `RequestThrottledException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the snapshot. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html).
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceQuotaExceededException` : Your current service quotas do not allow you to perform this action.
+    /// - `ValidationException` : The input fails to satisfy the constraints of the EBS direct APIs.
     public func listSnapshotBlocks(input: ListSnapshotBlocksInput) async throws -> ListSnapshotBlocksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -204,6 +260,20 @@ extension EBSClient: EBSClientProtocol {
     }
 
     /// Writes a block of data to a snapshot. If the specified block contains data, the existing data is overwritten. The target snapshot must be in the pending state. Data written to a snapshot must be aligned with 512-KiB sectors. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
+    ///
+    /// - Parameter PutSnapshotBlockInput : [no documentation found]
+    ///
+    /// - Returns: `PutSnapshotBlockOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html).
+    /// - `RequestThrottledException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the snapshot. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html).
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceQuotaExceededException` : Your current service quotas do not allow you to perform this action.
+    /// - `ValidationException` : The input fails to satisfy the constraints of the EBS direct APIs.
     public func putSnapshotBlock(input: PutSnapshotBlockInput) async throws -> PutSnapshotBlockOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -241,6 +311,22 @@ extension EBSClient: EBSClientProtocol {
     }
 
     /// Creates a new Amazon EBS snapshot. The new snapshot enters the pending state after the request completes. After creating the snapshot, use [ PutSnapshotBlock](https://docs.aws.amazon.com/ebs/latest/APIReference/API_PutSnapshotBlock.html) to write blocks of data to the snapshot. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
+    ///
+    /// - Parameter StartSnapshotInput : [no documentation found]
+    ///
+    /// - Returns: `StartSnapshotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConcurrentLimitExceededException` : You have reached the limit for concurrent API requests. For more information, see [Optimizing performance of the EBS direct APIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-accessing-snapshot.html#ebsapi-performance) in the Amazon Elastic Compute Cloud User Guide.
+    /// - `ConflictException` : The request uses the same client token as a previous, but non-identical request.
+    /// - `InternalServerException` : An internal error has occurred. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html).
+    /// - `RequestThrottledException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the snapshot. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html).
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceQuotaExceededException` : Your current service quotas do not allow you to perform this action.
+    /// - `ValidationException` : The input fails to satisfy the constraints of the EBS direct APIs.
     public func startSnapshot(input: StartSnapshotInput) async throws -> StartSnapshotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

@@ -68,6 +68,18 @@ public struct HealthLakeClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
 
 extension HealthLakeClient: HealthLakeClientProtocol {
     /// Creates a data store that can ingest and export FHIR formatted data.
+    ///
+    /// - Parameter CreateFHIRDatastoreInput : [no documentation found]
+    ///
+    /// - Returns: `CreateFHIRDatastoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
+    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
     public func createFHIRDatastore(input: CreateFHIRDatastoreInput) async throws -> CreateFHIRDatastoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -113,6 +125,20 @@ extension HealthLakeClient: HealthLakeClientProtocol {
     }
 
     /// Deletes a data store.
+    ///
+    /// - Parameter DeleteFHIRDatastoreInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteFHIRDatastoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
+    /// - `ConflictException` : The data store is in a transition state and the user requested action can not be performed.
+    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
     public func deleteFHIRDatastore(input: DeleteFHIRDatastoreInput) async throws -> DeleteFHIRDatastoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -150,6 +176,18 @@ extension HealthLakeClient: HealthLakeClientProtocol {
     }
 
     /// Gets the properties associated with the FHIR data store, including the data store ID, data store ARN, data store name, data store status, when the data store was created, data store type version, and the data store's endpoint.
+    ///
+    /// - Parameter DescribeFHIRDatastoreInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeFHIRDatastoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
     public func describeFHIRDatastore(input: DescribeFHIRDatastoreInput) async throws -> DescribeFHIRDatastoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -187,6 +225,18 @@ extension HealthLakeClient: HealthLakeClientProtocol {
     }
 
     /// Displays the properties of a FHIR export job, including the ID, ARN, name, and the status of the job.
+    ///
+    /// - Parameter DescribeFHIRExportJobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeFHIRExportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
     public func describeFHIRExportJob(input: DescribeFHIRExportJobInput) async throws -> DescribeFHIRExportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -224,6 +274,18 @@ extension HealthLakeClient: HealthLakeClientProtocol {
     }
 
     /// Displays the properties of a FHIR import job, including the ID, ARN, name, and the status of the job.
+    ///
+    /// - Parameter DescribeFHIRImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeFHIRImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
     public func describeFHIRImportJob(input: DescribeFHIRImportJobInput) async throws -> DescribeFHIRImportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -261,6 +323,17 @@ extension HealthLakeClient: HealthLakeClientProtocol {
     }
 
     /// Lists all FHIR data stores that are in the user’s account, regardless of data store status.
+    ///
+    /// - Parameter ListFHIRDatastoresInput : [no documentation found]
+    ///
+    /// - Returns: `ListFHIRDatastoresOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
     public func listFHIRDatastores(input: ListFHIRDatastoresInput) async throws -> ListFHIRDatastoresOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -298,6 +371,19 @@ extension HealthLakeClient: HealthLakeClientProtocol {
     }
 
     /// Lists all FHIR export jobs associated with an account and their statuses.
+    ///
+    /// - Parameter ListFHIRExportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListFHIRExportJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
+    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
     public func listFHIRExportJobs(input: ListFHIRExportJobsInput) async throws -> ListFHIRExportJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -335,6 +421,19 @@ extension HealthLakeClient: HealthLakeClientProtocol {
     }
 
     /// Lists all FHIR import jobs associated with an account and their statuses.
+    ///
+    /// - Parameter ListFHIRImportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListFHIRImportJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
+    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
     public func listFHIRImportJobs(input: ListFHIRImportJobsInput) async throws -> ListFHIRImportJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -372,6 +471,16 @@ extension HealthLakeClient: HealthLakeClientProtocol {
     }
 
     /// Returns a list of all existing tags associated with a data store.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ValidationException` : The user input parameter was invalid.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -409,6 +518,19 @@ extension HealthLakeClient: HealthLakeClientProtocol {
     }
 
     /// Begins a FHIR export job.
+    ///
+    /// - Parameter StartFHIRExportJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartFHIRExportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
+    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
     public func startFHIRExportJob(input: StartFHIRExportJobInput) async throws -> StartFHIRExportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -454,6 +576,19 @@ extension HealthLakeClient: HealthLakeClientProtocol {
     }
 
     /// Begins a FHIR Import job.
+    ///
+    /// - Parameter StartFHIRImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartFHIRImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
+    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
     public func startFHIRImportJob(input: StartFHIRImportJobInput) async throws -> StartFHIRImportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -499,6 +634,16 @@ extension HealthLakeClient: HealthLakeClientProtocol {
     }
 
     /// Adds a user specified key and value tag to a data store.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ValidationException` : The user input parameter was invalid.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -536,6 +681,16 @@ extension HealthLakeClient: HealthLakeClientProtocol {
     }
 
     /// Removes tags from a data store.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ValidationException` : The user input parameter was invalid.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

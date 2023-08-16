@@ -64,6 +64,18 @@ public struct RDSClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
 
 extension RDSClient: RDSClientProtocol {
     /// Associates an Identity and Access Management (IAM) role with a DB cluster.
+    ///
+    /// - Parameter AddRoleToDBClusterInput : [no documentation found]
+    ///
+    /// - Returns: `AddRoleToDBClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `DBClusterRoleAlreadyExistsFault` : The specified IAM role Amazon Resource Name (ARN) is already associated with the specified DB cluster.
+    /// - `DBClusterRoleQuotaExceededFault` : You have exceeded the maximum number of IAM roles that can be associated with the specified DB cluster.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     public func addRoleToDBCluster(input: AddRoleToDBClusterInput) async throws -> AddRoleToDBClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -100,6 +112,18 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Associates an Amazon Web Services Identity and Access Management (IAM) role with a DB instance. To add a role to a DB instance, the status of the DB instance must be available. This command doesn't apply to RDS Custom.
+    ///
+    /// - Parameter AddRoleToDBInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `AddRoleToDBInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `DBInstanceRoleAlreadyExistsFault` : The specified RoleArn or FeatureName value is already associated with the DB instance.
+    /// - `DBInstanceRoleQuotaExceededFault` : You can't associate any more Amazon Web Services Identity and Access Management (IAM) roles with the DB instance because the quota has been reached.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     public func addRoleToDBInstance(input: AddRoleToDBInstanceInput) async throws -> AddRoleToDBInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -136,6 +160,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Adds a source identifier to an existing RDS event notification subscription.
+    ///
+    /// - Parameter AddSourceIdentifierToSubscriptionInput :
+    ///
+    /// - Returns: `AddSourceIdentifierToSubscriptionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `SourceNotFoundFault` : The requested source could not be found.
+    /// - `SubscriptionNotFoundFault` : The subscription name does not exist.
     public func addSourceIdentifierToSubscription(input: AddSourceIdentifierToSubscriptionInput) async throws -> AddSourceIdentifierToSubscriptionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -172,6 +206,20 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Adds metadata tags to an Amazon RDS resource. These tags can also be used with cost allocation reporting to track cost associated with Amazon RDS resources, or used in a Condition statement in an IAM policy for Amazon RDS. For an overview on tagging Amazon RDS resources, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.Tagging.html).
+    ///
+    /// - Parameter AddTagsToResourceInput :
+    ///
+    /// - Returns: `AddTagsToResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BlueGreenDeploymentNotFoundFault` : BlueGreenDeploymentIdentifier doesn't refer to an existing blue/green deployment.
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `DBProxyNotFoundFault` : The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// - `DBProxyTargetGroupNotFoundFault` : The specified target group isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier doesn't refer to an existing DB snapshot.
     public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -208,6 +256,17 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Applies a pending maintenance action to a resource (for example, to a DB instance).
+    ///
+    /// - Parameter ApplyPendingMaintenanceActionInput :
+    ///
+    /// - Returns: `ApplyPendingMaintenanceActionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
+    /// - `ResourceNotFoundFault` : The specified resource ID was not found.
     public func applyPendingMaintenanceAction(input: ApplyPendingMaintenanceActionInput) async throws -> ApplyPendingMaintenanceActionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -244,6 +303,18 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Enables ingress to a DBSecurityGroup using one of two forms of authorization. First, EC2 or VPC security groups can be added to the DBSecurityGroup if the application using the database is running on EC2 or VPC instances. Second, IP ranges are available if the application accessing your database is running on the internet. Required parameters for this API are one of CIDR range, EC2SecurityGroupId for VPC, or (EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId for non-VPC). You can't authorize ingress from an EC2 security group in one Amazon Web Services Region to an Amazon RDS DB instance in another. You can't authorize ingress from a VPC security group in one VPC to an Amazon RDS DB instance in another. For an overview of CIDR ranges, go to the [Wikipedia Tutorial](http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing). EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more information, see [Migrate from EC2-Classic to a VPC](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-migrate.html) in the Amazon EC2 User Guide, the blog [EC2-Classic Networking is Retiring – Here’s How to Prepare](http://aws.amazon.com/blogs/aws/ec2-classic-is-retiring-heres-how-to-prepare/), and [Moving a DB instance not in a VPC into a VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.Non-VPC2VPC.html) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter AuthorizeDBSecurityGroupIngressInput :
+    ///
+    /// - Returns: `AuthorizeDBSecurityGroupIngressOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationAlreadyExistsFault` : The specified CIDR IP range or Amazon EC2 security group is already authorized for the specified DB security group.
+    /// - `AuthorizationQuotaExceededFault` : The DB security group authorization quota has been reached.
+    /// - `DBSecurityGroupNotFoundFault` : DBSecurityGroupName doesn't refer to an existing DB security group.
+    /// - `InvalidDBSecurityGroupStateFault` : The state of the DB security group doesn't allow deletion.
     public func authorizeDBSecurityGroupIngress(input: AuthorizeDBSecurityGroupIngressInput) async throws -> AuthorizeDBSecurityGroupIngressOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -280,6 +351,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Backtracks a DB cluster to a specific time, without creating a new DB cluster. For more information on backtracking, see [ Backtracking an Aurora DB Cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQL.Managing.Backtrack.html) in the Amazon Aurora User Guide. This action applies only to Aurora MySQL DB clusters.
+    ///
+    /// - Parameter BacktrackDBClusterInput :
+    ///
+    /// - Returns: `BacktrackDBClusterOutputResponse` : This data type is used as a response element in the DescribeDBClusterBacktracks action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     public func backtrackDBCluster(input: BacktrackDBClusterInput) async throws -> BacktrackDBClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -316,6 +397,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Cancels an export task in progress that is exporting a snapshot or cluster to Amazon S3. Any data that has already been written to the S3 bucket isn't removed.
+    ///
+    /// - Parameter CancelExportTaskInput : [no documentation found]
+    ///
+    /// - Returns: `CancelExportTaskOutputResponse` : Contains the details of a snapshot or cluster export to Amazon S3. This data type is used as a response element in the DescribeExportTasks action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ExportTaskNotFoundFault` : The export task doesn't exist.
+    /// - `InvalidExportTaskStateFault` : You can't cancel an export task that has completed.
     public func cancelExportTask(input: CancelExportTaskInput) async throws -> CancelExportTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -352,6 +443,17 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Copies the specified DB cluster parameter group.
+    ///
+    /// - Parameter CopyDBClusterParameterGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CopyDBClusterParameterGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBParameterGroupAlreadyExistsFault` : A DB parameter group with the same name exists.
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
+    /// - `DBParameterGroupQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB parameter groups.
     public func copyDBClusterParameterGroup(input: CopyDBClusterParameterGroupInput) async throws -> CopyDBClusterParameterGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -397,6 +499,20 @@ extension RDSClient: RDSClientProtocol {
     ///
     ///
     /// To cancel the copy operation once it is in progress, delete the target DB cluster snapshot identified by TargetDBClusterSnapshotIdentifier while that DB cluster snapshot is in "copying" status. For more information on copying encrypted Amazon Aurora DB cluster snapshots from one Amazon Web Services Region to another, see [ Copying a Snapshot](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_CopySnapshot.html) in the Amazon Aurora User Guide. For more information on Amazon Aurora DB clusters, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter CopyDBClusterSnapshotInput :
+    ///
+    /// - Returns: `CopyDBClusterSnapshotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterSnapshotAlreadyExistsFault` : The user already has a DB cluster snapshot with the given identifier.
+    /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier doesn't refer to an existing DB cluster snapshot.
+    /// - `InvalidDBClusterSnapshotStateFault` : The supplied value isn't a valid DB cluster snapshot state.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
+    /// - `SnapshotQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB snapshots.
     public func copyDBClusterSnapshot(input: CopyDBClusterSnapshotInput) async throws -> CopyDBClusterSnapshotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -433,6 +549,17 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Copies the specified DB parameter group.
+    ///
+    /// - Parameter CopyDBParameterGroupInput :
+    ///
+    /// - Returns: `CopyDBParameterGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBParameterGroupAlreadyExistsFault` : A DB parameter group with the same name exists.
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
+    /// - `DBParameterGroupQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB parameter groups.
     public func copyDBParameterGroup(input: CopyDBParameterGroupInput) async throws -> CopyDBParameterGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -469,6 +596,20 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Copies the specified DB snapshot. The source DB snapshot must be in the available state. You can copy a snapshot from one Amazon Web Services Region to another. In that case, the Amazon Web Services Region where you call the CopyDBSnapshot operation is the destination Amazon Web Services Region for the DB snapshot copy. This command doesn't apply to RDS Custom. For more information about copying snapshots, see [Copying a DB Snapshot](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CopySnapshot.html#USER_CopyDBSnapshot) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter CopyDBSnapshotInput :
+    ///
+    /// - Returns: `CopyDBSnapshotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CustomAvailabilityZoneNotFoundFault` : CustomAvailabilityZoneId doesn't refer to an existing custom Availability Zone identifier.
+    /// - `DBSnapshotAlreadyExistsFault` : DBSnapshotIdentifier is already used by an existing snapshot.
+    /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier doesn't refer to an existing DB snapshot.
+    /// - `InvalidDBSnapshotStateFault` : The state of the DB snapshot doesn't allow deletion.
+    /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
+    /// - `SnapshotQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB snapshots.
     public func copyDBSnapshot(input: CopyDBSnapshotInput) async throws -> CopyDBSnapshotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -505,6 +646,17 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Copies the specified option group.
+    ///
+    /// - Parameter CopyOptionGroupInput :
+    ///
+    /// - Returns: `CopyOptionGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OptionGroupAlreadyExistsFault` : The option group you are trying to create already exists.
+    /// - `OptionGroupNotFoundFault` : The specified option group could not be found.
+    /// - `OptionGroupQuotaExceededFault` : The quota of 20 option groups was exceeded for this Amazon Web Services account.
     public func copyOptionGroup(input: CopyOptionGroupInput) async throws -> CopyOptionGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -541,6 +693,25 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Creates a blue/green deployment. A blue/green deployment creates a staging environment that copies the production environment. In a blue/green deployment, the blue environment is the current production environment. The green environment is the staging environment. The staging environment stays in sync with the current production environment using logical replication. You can make changes to the databases in the green environment without affecting production workloads. For example, you can upgrade the major or minor DB engine version, change database parameters, or make schema changes in the staging environment. You can thoroughly test changes in the green environment. When ready, you can switch over the environments to promote the green environment to be the new production environment. The switchover typically takes under a minute. For more information, see [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html) in the Amazon RDS User Guide and [ Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html) in the Amazon Aurora User Guide.
+    ///
+    /// - Parameter CreateBlueGreenDeploymentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateBlueGreenDeploymentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BlueGreenDeploymentAlreadyExistsFault` : A blue/green deployment with the specified name already exists.
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `DBClusterParameterGroupNotFoundFault` : DBClusterParameterGroupName doesn't refer to an existing DB cluster parameter group.
+    /// - `DBClusterQuotaExceededFault` : The user attempted to create a new DB cluster and the user has already reached the maximum allowed DB cluster quota.
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
+    /// - `InstanceQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB instances.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
+    /// - `SourceClusterNotSupportedFault` : The source DB cluster isn't supported for a blue/green deployment.
+    /// - `SourceDatabaseNotSupportedFault` : The source DB instance isn't supported for a blue/green deployment.
     public func createBlueGreenDeployment(input: CreateBlueGreenDeploymentInput) async throws -> CreateBlueGreenDeploymentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -577,6 +748,19 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Creates a custom DB engine version (CEV).
+    ///
+    /// - Parameter CreateCustomDBEngineVersionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCustomDBEngineVersionOutputResponse` : This data type is used as a response element in the action DescribeDBEngineVersions.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CreateCustomDBEngineVersionFault` : An error occurred while trying to create the CEV.
+    /// - `CustomDBEngineVersionAlreadyExistsFault` : A CEV with the specified name already exists.
+    /// - `CustomDBEngineVersionQuotaExceededFault` : You have exceeded your CEV quota.
+    /// - `Ec2ImagePropertiesNotSupportedFault` : The AMI configuration prerequisite has not been met.
+    /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
     public func createCustomDBEngineVersion(input: CreateCustomDBEngineVersionInput) async throws -> CreateCustomDBEngineVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -613,6 +797,32 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Creates a new Amazon Aurora DB cluster or Multi-AZ DB cluster. If you create an Aurora DB cluster, the request creates an empty cluster. You must explicitly create the writer instance for your DB cluster using the [CreateDBInstance](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_CreateDBInstance.html) operation. If you create a Multi-AZ DB cluster, the request creates a writer and two reader DB instances for you, each in a different Availability Zone. You can use the ReplicationSourceIdentifier parameter to create an Amazon Aurora DB cluster as a read replica of another DB cluster or Amazon RDS for MySQL or PostgreSQL DB instance. For more information about Amazon Aurora, see [What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. You can also use the ReplicationSourceIdentifier parameter to create a Multi-AZ DB cluster read replica with an RDS for MySQL or PostgreSQL DB instance as the source. For more information about Multi-AZ DB clusters, see [Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter CreateDBClusterInput :
+    ///
+    /// - Returns: `CreateDBClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterAlreadyExistsFault` : The user already has a DB cluster with the given identifier.
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `DBClusterParameterGroupNotFoundFault` : DBClusterParameterGroupName doesn't refer to an existing DB cluster parameter group.
+    /// - `DBClusterQuotaExceededFault` : The user attempted to create a new DB cluster and the user has already reached the maximum allowed DB cluster quota.
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `DBSubnetGroupDoesNotCoverEnoughAZs` : Subnets in the DB subnet group should cover at least two Availability Zones unless there is only one Availability Zone.
+    /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName doesn't refer to an existing DB subnet group.
+    /// - `DomainNotFoundFault` : Domain doesn't refer to an existing Active Directory domain.
+    /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
+    /// - `InsufficientStorageClusterCapacityFault` : There is insufficient storage available for the current action. You might be able to resolve this error by updating your subnet group to use different Availability Zones that have more storage available.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
+    /// - `InvalidDBSubnetGroupStateFault` : The DB subnet group cannot be deleted because it's in use.
+    /// - `InvalidGlobalClusterStateFault` : The global cluster is in an invalid state and can't perform the requested operation.
+    /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
+    /// - `InvalidVPCNetworkStateFault` : The DB subnet group doesn't cover all Availability Zones after it's created because of users' change.
+    /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
+    /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
     public func createDBCluster(input: CreateDBClusterInput) async throws -> CreateDBClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -649,6 +859,31 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Creates a new custom endpoint and associates it with an Amazon Aurora DB cluster. This action applies only to Aurora DB clusters.
+    ///
+    /// - Parameter CreateDBClusterEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDBClusterEndpointOutputResponse` : This data type represents the information you need to connect to an Amazon Aurora DB cluster. This data type is used as a response element in the following actions:
+    ///
+    /// * CreateDBClusterEndpoint
+    ///
+    /// * DescribeDBClusterEndpoints
+    ///
+    /// * ModifyDBClusterEndpoint
+    ///
+    /// * DeleteDBClusterEndpoint
+    ///
+    ///
+    /// For the data structure that represents Amazon RDS DB instance endpoints, see Endpoint.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterEndpointAlreadyExistsFault` : The specified custom endpoint can't be created because it already exists.
+    /// - `DBClusterEndpointQuotaExceededFault` : The cluster already has the maximum number of custom endpoints.
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     public func createDBClusterEndpoint(input: CreateDBClusterEndpointInput) async throws -> CreateDBClusterEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -685,6 +920,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Creates a new DB cluster parameter group. Parameters in a DB cluster parameter group apply to all of the instances in a DB cluster. A DB cluster parameter group is initially created with the default parameters for the database engine used by instances in the DB cluster. To provide custom values for any of the parameters, you must modify the group after creating it using ModifyDBClusterParameterGroup. Once you've created a DB cluster parameter group, you need to associate it with your DB cluster using ModifyDBCluster. When you associate a new DB cluster parameter group with a running Aurora DB cluster, reboot the DB instances in the DB cluster without failover for the new DB cluster parameter group and associated settings to take effect. When you associate a new DB cluster parameter group with a running Multi-AZ DB cluster, reboot the DB cluster without failover for the new DB cluster parameter group and associated settings to take effect. After you create a DB cluster parameter group, you should wait at least 5 minutes before creating your first DB cluster that uses that DB cluster parameter group as the default parameter group. This allows Amazon RDS to fully complete the create action before the DB cluster parameter group is used as the default for a new DB cluster. This is especially important for parameters that are critical when creating the default database for a DB cluster, such as the character set for the default database defined by the character_set_database parameter. You can use the Parameter Groups option of the [Amazon RDS console](https://console.aws.amazon.com/rds/) or the DescribeDBClusterParameters operation to verify that your DB cluster parameter group has been created or modified. For more information on Amazon Aurora, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter CreateDBClusterParameterGroupInput :
+    ///
+    /// - Returns: `CreateDBClusterParameterGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBParameterGroupAlreadyExistsFault` : A DB parameter group with the same name exists.
+    /// - `DBParameterGroupQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB parameter groups.
     public func createDBClusterParameterGroup(input: CreateDBClusterParameterGroupInput) async throws -> CreateDBClusterParameterGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -721,6 +966,19 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Creates a snapshot of a DB cluster. For more information on Amazon Aurora, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter CreateDBClusterSnapshotInput :
+    ///
+    /// - Returns: `CreateDBClusterSnapshotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `DBClusterSnapshotAlreadyExistsFault` : The user already has a DB cluster snapshot with the given identifier.
+    /// - `InvalidDBClusterSnapshotStateFault` : The supplied value isn't a valid DB cluster snapshot state.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `SnapshotQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB snapshots.
     public func createDBClusterSnapshot(input: CreateDBClusterSnapshotInput) async throws -> CreateDBClusterSnapshotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -757,6 +1015,35 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Creates a new DB instance. The new DB instance can be an RDS DB instance, or it can be a DB instance in an Aurora DB cluster. For an Aurora DB cluster, you can call this operation multiple times to add more than one DB instance to the cluster. For more information about creating an RDS DB instance, see [ Creating an Amazon RDS DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CreateDBInstance.html) in the Amazon RDS User Guide. For more information about creating a DB instance in an Aurora DB cluster, see [ Creating an Amazon Aurora DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.CreateInstance.html) in the Amazon Aurora User Guide.
+    ///
+    /// - Parameter CreateDBInstanceInput :
+    ///
+    /// - Returns: `CreateDBInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationNotFoundFault` : The specified CIDR IP range or Amazon EC2 security group might not be authorized for the specified DB security group. Or, RDS might not be authorized to perform necessary actions using IAM on your behalf.
+    /// - `BackupPolicyNotFoundFault` : [no documentation found]
+    /// - `CertificateNotFoundFault` : CertificateIdentifier doesn't refer to an existing certificate.
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `DBInstanceAlreadyExistsFault` : The user already has a DB instance with the given identifier.
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
+    /// - `DBSecurityGroupNotFoundFault` : DBSecurityGroupName doesn't refer to an existing DB security group.
+    /// - `DBSubnetGroupDoesNotCoverEnoughAZs` : Subnets in the DB subnet group should cover at least two Availability Zones unless there is only one Availability Zone.
+    /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName doesn't refer to an existing DB subnet group.
+    /// - `DomainNotFoundFault` : Domain doesn't refer to an existing Active Directory domain.
+    /// - `InstanceQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB instances.
+    /// - `InsufficientDBInstanceCapacityFault` : The specified DB instance class isn't available in the specified Availability Zone.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
+    /// - `InvalidVPCNetworkStateFault` : The DB subnet group doesn't cover all Availability Zones after it's created because of users' change.
+    /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
+    /// - `NetworkTypeNotSupported` : The network type is invalid for the DB instance. Valid nework type values are IPV4 and DUAL.
+    /// - `OptionGroupNotFoundFault` : The specified option group could not be found.
+    /// - `ProvisionedIopsNotAvailableInAZFault` : Provisioned IOPS not available in the specified Availability Zone.
+    /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
+    /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
     public func createDBInstance(input: CreateDBInstanceInput) async throws -> CreateDBInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -793,6 +1080,36 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Creates a new DB instance that acts as a read replica for an existing source DB instance or Multi-AZ DB cluster. You can create a read replica for a DB instance running MySQL, MariaDB, Oracle, PostgreSQL, or SQL Server. You can create a read replica for a Multi-AZ DB cluster running MySQL or PostgreSQL. For more information, see [Working with read replicas](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReadRepl.html) and [Migrating from a Multi-AZ DB cluster to a DB instance using a read replica](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html#multi-az-db-clusters-migrating-to-instance-with-read-replica) in the Amazon RDS User Guide. Amazon Aurora doesn't support this operation. Call the CreateDBInstance operation to create a DB instance for an Aurora DB cluster. All read replica DB instances are created with backups disabled. All other attributes (including DB security groups and DB parameter groups) are inherited from the source DB instance or cluster, except as specified. Your source DB instance or cluster must have backup retention enabled.
+    ///
+    /// - Parameter CreateDBInstanceReadReplicaInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDBInstanceReadReplicaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `DBInstanceAlreadyExistsFault` : The user already has a DB instance with the given identifier.
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
+    /// - `DBSecurityGroupNotFoundFault` : DBSecurityGroupName doesn't refer to an existing DB security group.
+    /// - `DBSubnetGroupDoesNotCoverEnoughAZs` : Subnets in the DB subnet group should cover at least two Availability Zones unless there is only one Availability Zone.
+    /// - `DBSubnetGroupNotAllowedFault` : The DBSubnetGroup shouldn't be specified while creating read replicas that lie in the same region as the source instance.
+    /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName doesn't refer to an existing DB subnet group.
+    /// - `DomainNotFoundFault` : Domain doesn't refer to an existing Active Directory domain.
+    /// - `InstanceQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB instances.
+    /// - `InsufficientDBInstanceCapacityFault` : The specified DB instance class isn't available in the specified Availability Zone.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
+    /// - `InvalidDBSubnetGroupFault` : The DBSubnetGroup doesn't belong to the same VPC as that of an existing cross-region read replica of the same source instance.
+    /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
+    /// - `InvalidVPCNetworkStateFault` : The DB subnet group doesn't cover all Availability Zones after it's created because of users' change.
+    /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
+    /// - `NetworkTypeNotSupported` : The network type is invalid for the DB instance. Valid nework type values are IPV4 and DUAL.
+    /// - `OptionGroupNotFoundFault` : The specified option group could not be found.
+    /// - `ProvisionedIopsNotAvailableInAZFault` : Provisioned IOPS not available in the specified Availability Zone.
+    /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
+    /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
     public func createDBInstanceReadReplica(input: CreateDBInstanceReadReplicaInput) async throws -> CreateDBInstanceReadReplicaOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -829,6 +1146,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Creates a new DB parameter group. A DB parameter group is initially created with the default parameters for the database engine used by the DB instance. To provide custom values for any of the parameters, you must modify the group after creating it using ModifyDBParameterGroup. Once you've created a DB parameter group, you need to associate it with your DB instance using ModifyDBInstance. When you associate a new DB parameter group with a running DB instance, you need to reboot the DB instance without failover for the new DB parameter group and associated settings to take effect. This command doesn't apply to RDS Custom. After you create a DB parameter group, you should wait at least 5 minutes before creating your first DB instance that uses that DB parameter group as the default parameter group. This allows Amazon RDS to fully complete the create action before the parameter group is used as the default for a new DB instance. This is especially important for parameters that are critical when creating the default database for a DB instance, such as the character set for the default database defined by the character_set_database parameter. You can use the Parameter Groups option of the [Amazon RDS console](https://console.aws.amazon.com/rds/) or the DescribeDBParameters command to verify that your DB parameter group has been created or modified.
+    ///
+    /// - Parameter CreateDBParameterGroupInput :
+    ///
+    /// - Returns: `CreateDBParameterGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBParameterGroupAlreadyExistsFault` : A DB parameter group with the same name exists.
+    /// - `DBParameterGroupQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB parameter groups.
     public func createDBParameterGroup(input: CreateDBParameterGroupInput) async throws -> CreateDBParameterGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -865,6 +1192,17 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Creates a new DB proxy.
+    ///
+    /// - Parameter CreateDBProxyInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDBProxyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBProxyAlreadyExistsFault` : The specified proxy name must be unique for all proxies owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// - `DBProxyQuotaExceededFault` : Your Amazon Web Services account already has the maximum number of proxies in the specified Amazon Web Services Region.
+    /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
     public func createDBProxy(input: CreateDBProxyInput) async throws -> CreateDBProxyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -901,6 +1239,19 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Creates a DBProxyEndpoint. Only applies to proxies that are associated with Aurora DB clusters. You can use DB proxy endpoints to specify read/write or read-only access to the DB cluster. You can also use DB proxy endpoints to access a DB proxy through a different VPC than the proxy's default VPC.
+    ///
+    /// - Parameter CreateDBProxyEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDBProxyEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBProxyEndpointAlreadyExistsFault` : The specified DB proxy endpoint name must be unique for all DB proxy endpoints owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// - `DBProxyEndpointQuotaExceededFault` : The DB proxy already has the maximum number of endpoints.
+    /// - `DBProxyNotFoundFault` : The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// - `InvalidDBProxyStateFault` : The requested operation can't be performed while the proxy is in this state.
+    /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
     public func createDBProxyEndpoint(input: CreateDBProxyEndpointInput) async throws -> CreateDBProxyEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -937,6 +1288,17 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Creates a new DB security group. DB security groups control access to a DB instance. A DB security group controls access to EC2-Classic DB instances that are not in a VPC. EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more information, see [Migrate from EC2-Classic to a VPC](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-migrate.html) in the Amazon EC2 User Guide, the blog [EC2-Classic Networking is Retiring – Here’s How to Prepare](http://aws.amazon.com/blogs/aws/ec2-classic-is-retiring-heres-how-to-prepare/), and [Moving a DB instance not in a VPC into a VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.Non-VPC2VPC.html) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter CreateDBSecurityGroupInput :
+    ///
+    /// - Returns: `CreateDBSecurityGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBSecurityGroupAlreadyExistsFault` : A DB security group with the name specified in DBSecurityGroupName already exists.
+    /// - `DBSecurityGroupNotSupportedFault` : A DB security group isn't allowed for this action.
+    /// - `DBSecurityGroupQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB security groups.
     public func createDBSecurityGroup(input: CreateDBSecurityGroupInput) async throws -> CreateDBSecurityGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -973,6 +1335,18 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Creates a snapshot of a DB instance. The source DB instance must be in the available or storage-optimization state.
+    ///
+    /// - Parameter CreateDBSnapshotInput :
+    ///
+    /// - Returns: `CreateDBSnapshotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `DBSnapshotAlreadyExistsFault` : DBSnapshotIdentifier is already used by an existing snapshot.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
+    /// - `SnapshotQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB snapshots.
     public func createDBSnapshot(input: CreateDBSnapshotInput) async throws -> CreateDBSnapshotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1009,6 +1383,19 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Creates a new DB subnet group. DB subnet groups must contain at least one subnet in at least two AZs in the Amazon Web Services Region.
+    ///
+    /// - Parameter CreateDBSubnetGroupInput :
+    ///
+    /// - Returns: `CreateDBSubnetGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBSubnetGroupAlreadyExistsFault` : DBSubnetGroupName is already used by an existing DB subnet group.
+    /// - `DBSubnetGroupDoesNotCoverEnoughAZs` : Subnets in the DB subnet group should cover at least two Availability Zones unless there is only one Availability Zone.
+    /// - `DBSubnetGroupQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB subnet groups.
+    /// - `DBSubnetQuotaExceededFault` : The request would result in the user exceeding the allowed number of subnets in a DB subnet groups.
+    /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
     public func createDBSubnetGroup(input: CreateDBSubnetGroupInput) async throws -> CreateDBSubnetGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1045,6 +1432,21 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Creates an RDS event notification subscription. This operation requires a topic Amazon Resource Name (ARN) created by either the RDS console, the SNS console, or the SNS API. To obtain an ARN with SNS, you must create a topic in Amazon SNS and subscribe to the topic. The ARN is displayed in the SNS console. You can specify the type of source (SourceType) that you want to be notified of and provide a list of RDS sources (SourceIds) that triggers the events. You can also provide a list of event categories (EventCategories) for events that you want to be notified of. For example, you can specify SourceType = db-instance, SourceIds = mydbinstance1, mydbinstance2 and EventCategories = Availability, Backup. If you specify both the SourceType and SourceIds, such as SourceType = db-instance and SourceIds = myDBInstance1, you are notified of all the db-instance events for the specified source. If you specify a SourceType but do not specify SourceIds, you receive notice of the events for that source type for all your RDS sources. If you don't specify either the SourceType or the SourceIds, you are notified of events generated from all RDS sources belonging to your customer account. For more information about subscribing to an event for RDS DB engines, see [ Subscribing to Amazon RDS event notification](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.Subscribing.html) in the Amazon RDS User Guide. For more information about subscribing to an event for Aurora DB engines, see [ Subscribing to Amazon RDS event notification](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Events.Subscribing.html) in the Amazon Aurora User Guide.
+    ///
+    /// - Parameter CreateEventSubscriptionInput :
+    ///
+    /// - Returns: `CreateEventSubscriptionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EventSubscriptionQuotaExceededFault` : You have reached the maximum number of event subscriptions.
+    /// - `SNSInvalidTopicFault` : SNS has responded that there is a problem with the SNS topic specified.
+    /// - `SNSNoAuthorizationFault` : You do not have permission to publish to the SNS topic ARN.
+    /// - `SNSTopicArnNotFoundFault` : The SNS topic ARN does not exist.
+    /// - `SourceNotFoundFault` : The requested source could not be found.
+    /// - `SubscriptionAlreadyExistFault` : The supplied subscription name already exists.
+    /// - `SubscriptionCategoryNotFoundFault` : The supplied category does not exist.
     public func createEventSubscription(input: CreateEventSubscriptionInput) async throws -> CreateEventSubscriptionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1081,6 +1483,18 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Creates an Aurora global database spread across multiple Amazon Web Services Regions. The global database contains a single primary cluster with read-write capability, and a read-only secondary cluster that receives data from the primary cluster through high-speed replication performed by the Aurora storage subsystem. You can create a global database that is initially empty, and then create the primary and secondary DB clusters in the global database. Or you can specify an existing Aurora cluster during the create operation, and this cluster becomes the primary cluster of the global database. This operation applies only to Aurora DB clusters.
+    ///
+    /// - Parameter CreateGlobalClusterInput : [no documentation found]
+    ///
+    /// - Returns: `CreateGlobalClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `GlobalClusterAlreadyExistsFault` : The GlobalClusterIdentifier already exists. Choose a new global database identifier (unique name) to create a new global database cluster.
+    /// - `GlobalClusterQuotaExceededFault` : The number of global database clusters for this account is already at the maximum allowed.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     public func createGlobalCluster(input: CreateGlobalClusterInput) async throws -> CreateGlobalClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1117,6 +1531,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Creates a new option group. You can create up to 20 option groups. This command doesn't apply to RDS Custom.
+    ///
+    /// - Parameter CreateOptionGroupInput :
+    ///
+    /// - Returns: `CreateOptionGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OptionGroupAlreadyExistsFault` : The option group you are trying to create already exists.
+    /// - `OptionGroupQuotaExceededFault` : The quota of 20 option groups was exceeded for this Amazon Web Services account.
     public func createOptionGroup(input: CreateOptionGroupInput) async throws -> CreateOptionGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1153,6 +1577,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Deletes a blue/green deployment. For more information, see [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html) in the Amazon RDS User Guide and [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html) in the Amazon Aurora User Guide.
+    ///
+    /// - Parameter DeleteBlueGreenDeploymentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBlueGreenDeploymentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BlueGreenDeploymentNotFoundFault` : BlueGreenDeploymentIdentifier doesn't refer to an existing blue/green deployment.
+    /// - `InvalidBlueGreenDeploymentStateFault` : The blue/green deployment can't be switched over or deleted because there is an invalid configuration in the green environment.
     public func deleteBlueGreenDeployment(input: DeleteBlueGreenDeploymentInput) async throws -> DeleteBlueGreenDeploymentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1196,6 +1630,16 @@ extension RDSClient: RDSClientProtocol {
     ///
     ///
     /// Typically, deletion takes a few minutes. The MediaImport service that imports files from Amazon S3 to create CEVs isn't integrated with Amazon Web Services CloudTrail. If you turn on data logging for Amazon RDS in CloudTrail, calls to the DeleteCustomDbEngineVersion event aren't logged. However, you might see calls from the API gateway that accesses your Amazon S3 bucket. These calls originate from the MediaImport service for the DeleteCustomDbEngineVersion event. For more information, see [Deleting a CEV](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.html#custom-cev.delete) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter DeleteCustomDBEngineVersionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCustomDBEngineVersionOutputResponse` : This data type is used as a response element in the action DescribeDBEngineVersions.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CustomDBEngineVersionNotFoundFault` : The specified CEV was not found.
+    /// - `InvalidCustomDBEngineVersionStateFault` : You can't delete the CEV.
     public func deleteCustomDBEngineVersion(input: DeleteCustomDBEngineVersionInput) async throws -> DeleteCustomDBEngineVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1232,6 +1676,20 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// The DeleteDBCluster action deletes a previously provisioned DB cluster. When you delete a DB cluster, all automated backups for that DB cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified DB cluster are not deleted. If you're deleting a Multi-AZ DB cluster with read replicas, all cluster members are terminated and read replicas are promoted to standalone instances. For more information on Amazon Aurora, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter DeleteDBClusterInput :
+    ///
+    /// - Returns: `DeleteDBClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterAutomatedBackupQuotaExceededFault` : The quota for retained automated backups was exceeded. This prevents you from retaining any additional automated backups. The retained automated backups quota is the same as your DB cluster quota.
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `DBClusterSnapshotAlreadyExistsFault` : The user already has a DB cluster snapshot with the given identifier.
+    /// - `InvalidDBClusterSnapshotStateFault` : The supplied value isn't a valid DB cluster snapshot state.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `SnapshotQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB snapshots.
     public func deleteDBCluster(input: DeleteDBClusterInput) async throws -> DeleteDBClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1268,6 +1726,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Deletes automated backups using the DbClusterResourceId value of the source DB cluster or the Amazon Resource Name (ARN) of the automated backups.
+    ///
+    /// - Parameter DeleteDBClusterAutomatedBackupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDBClusterAutomatedBackupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterAutomatedBackupNotFoundFault` : No automated backup for this DB cluster was found.
+    /// - `InvalidDBClusterAutomatedBackupStateFault` : The automated backup is in an invalid state. For example, this automated backup is associated with an active cluster.
     public func deleteDBClusterAutomatedBackup(input: DeleteDBClusterAutomatedBackupInput) async throws -> DeleteDBClusterAutomatedBackupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1304,6 +1772,28 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Deletes a custom endpoint and removes it from an Amazon Aurora DB cluster. This action only applies to Aurora DB clusters.
+    ///
+    /// - Parameter DeleteDBClusterEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDBClusterEndpointOutputResponse` : This data type represents the information you need to connect to an Amazon Aurora DB cluster. This data type is used as a response element in the following actions:
+    ///
+    /// * CreateDBClusterEndpoint
+    ///
+    /// * DescribeDBClusterEndpoints
+    ///
+    /// * ModifyDBClusterEndpoint
+    ///
+    /// * DeleteDBClusterEndpoint
+    ///
+    ///
+    /// For the data structure that represents Amazon RDS DB instance endpoints, see Endpoint.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterEndpointNotFoundFault` : The specified custom endpoint doesn't exist.
+    /// - `InvalidDBClusterEndpointStateFault` : The requested operation can't be performed on the endpoint while the endpoint is in this state.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     public func deleteDBClusterEndpoint(input: DeleteDBClusterEndpointInput) async throws -> DeleteDBClusterEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1340,6 +1830,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Deletes a specified DB cluster parameter group. The DB cluster parameter group to be deleted can't be associated with any DB clusters. For more information on Amazon Aurora, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter DeleteDBClusterParameterGroupInput :
+    ///
+    /// - Returns: `DeleteDBClusterParameterGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
+    /// - `InvalidDBParameterGroupStateFault` : The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you can't delete it when the parameter group is in this state.
     public func deleteDBClusterParameterGroup(input: DeleteDBClusterParameterGroupInput) async throws -> DeleteDBClusterParameterGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1376,6 +1876,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Deletes a DB cluster snapshot. If the snapshot is being copied, the copy operation is terminated. The DB cluster snapshot must be in the available state to be deleted. For more information on Amazon Aurora, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter DeleteDBClusterSnapshotInput :
+    ///
+    /// - Returns: `DeleteDBClusterSnapshotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier doesn't refer to an existing DB cluster snapshot.
+    /// - `InvalidDBClusterSnapshotStateFault` : The supplied value isn't a valid DB cluster snapshot state.
     public func deleteDBClusterSnapshot(input: DeleteDBClusterSnapshotInput) async throws -> DeleteDBClusterSnapshotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1419,6 +1929,20 @@ extension RDSClient: RDSClientProtocol {
     ///
     ///
     /// To delete a DB instance in this case, first call the PromoteReadReplicaDBCluster API action to promote the DB cluster so it's no longer a read replica. After the promotion completes, then call the DeleteDBInstance API action to delete the final instance in the DB cluster.
+    ///
+    /// - Parameter DeleteDBInstanceInput :
+    ///
+    /// - Returns: `DeleteDBInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBInstanceAutomatedBackupQuotaExceededFault` : The quota for retained automated backups was exceeded. This prevents you from retaining any additional automated backups. The retained automated backups quota is the same as your DB instance quota.
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `DBSnapshotAlreadyExistsFault` : DBSnapshotIdentifier is already used by an existing snapshot.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
+    /// - `SnapshotQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB snapshots.
     public func deleteDBInstance(input: DeleteDBInstanceInput) async throws -> DeleteDBInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1455,6 +1979,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Deletes automated backups using the DbiResourceId value of the source DB instance or the Amazon Resource Name (ARN) of the automated backups.
+    ///
+    /// - Parameter DeleteDBInstanceAutomatedBackupInput : Parameter input for the DeleteDBInstanceAutomatedBackup operation.
+    ///
+    /// - Returns: `DeleteDBInstanceAutomatedBackupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBInstanceAutomatedBackupNotFoundFault` : No automated backup for this DB instance was found.
+    /// - `InvalidDBInstanceAutomatedBackupStateFault` : The automated backup is in an invalid state. For example, this automated backup is associated with an active instance.
     public func deleteDBInstanceAutomatedBackup(input: DeleteDBInstanceAutomatedBackupInput) async throws -> DeleteDBInstanceAutomatedBackupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1491,6 +2025,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Deletes a specified DB parameter group. The DB parameter group to be deleted can't be associated with any DB instances.
+    ///
+    /// - Parameter DeleteDBParameterGroupInput :
+    ///
+    /// - Returns: `DeleteDBParameterGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
+    /// - `InvalidDBParameterGroupStateFault` : The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you can't delete it when the parameter group is in this state.
     public func deleteDBParameterGroup(input: DeleteDBParameterGroupInput) async throws -> DeleteDBParameterGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1527,6 +2071,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Deletes an existing DB proxy.
+    ///
+    /// - Parameter DeleteDBProxyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDBProxyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBProxyNotFoundFault` : The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// - `InvalidDBProxyStateFault` : The requested operation can't be performed while the proxy is in this state.
     public func deleteDBProxy(input: DeleteDBProxyInput) async throws -> DeleteDBProxyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1563,6 +2117,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Deletes a DBProxyEndpoint. Doing so removes the ability to access the DB proxy using the endpoint that you defined. The endpoint that you delete might have provided capabilities such as read/write or read-only operations, or using a different VPC than the DB proxy's default VPC.
+    ///
+    /// - Parameter DeleteDBProxyEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDBProxyEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBProxyEndpointNotFoundFault` : The DB proxy endpoint doesn't exist.
+    /// - `InvalidDBProxyEndpointStateFault` : You can't perform this operation while the DB proxy endpoint is in a particular state.
     public func deleteDBProxyEndpoint(input: DeleteDBProxyEndpointInput) async throws -> DeleteDBProxyEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1599,6 +2163,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Deletes a DB security group. The specified DB security group must not be associated with any DB instances. EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more information, see [Migrate from EC2-Classic to a VPC](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-migrate.html) in the Amazon EC2 User Guide, the blog [EC2-Classic Networking is Retiring – Here’s How to Prepare](http://aws.amazon.com/blogs/aws/ec2-classic-is-retiring-heres-how-to-prepare/), and [Moving a DB instance not in a VPC into a VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.Non-VPC2VPC.html) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter DeleteDBSecurityGroupInput :
+    ///
+    /// - Returns: `DeleteDBSecurityGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBSecurityGroupNotFoundFault` : DBSecurityGroupName doesn't refer to an existing DB security group.
+    /// - `InvalidDBSecurityGroupStateFault` : The state of the DB security group doesn't allow deletion.
     public func deleteDBSecurityGroup(input: DeleteDBSecurityGroupInput) async throws -> DeleteDBSecurityGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1635,6 +2209,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Deletes a DB snapshot. If the snapshot is being copied, the copy operation is terminated. The DB snapshot must be in the available state to be deleted.
+    ///
+    /// - Parameter DeleteDBSnapshotInput :
+    ///
+    /// - Returns: `DeleteDBSnapshotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier doesn't refer to an existing DB snapshot.
+    /// - `InvalidDBSnapshotStateFault` : The state of the DB snapshot doesn't allow deletion.
     public func deleteDBSnapshot(input: DeleteDBSnapshotInput) async throws -> DeleteDBSnapshotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1671,6 +2255,17 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Deletes a DB subnet group. The specified database subnet group must not be associated with any DB instances.
+    ///
+    /// - Parameter DeleteDBSubnetGroupInput :
+    ///
+    /// - Returns: `DeleteDBSubnetGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName doesn't refer to an existing DB subnet group.
+    /// - `InvalidDBSubnetGroupStateFault` : The DB subnet group cannot be deleted because it's in use.
+    /// - `InvalidDBSubnetStateFault` : The DB subnet isn't in the available state.
     public func deleteDBSubnetGroup(input: DeleteDBSubnetGroupInput) async throws -> DeleteDBSubnetGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1707,6 +2302,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Deletes an RDS event notification subscription.
+    ///
+    /// - Parameter DeleteEventSubscriptionInput :
+    ///
+    /// - Returns: `DeleteEventSubscriptionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidEventSubscriptionStateFault` : This error can occur if someone else is modifying a subscription. You should retry the action.
+    /// - `SubscriptionNotFoundFault` : The subscription name does not exist.
     public func deleteEventSubscription(input: DeleteEventSubscriptionInput) async throws -> DeleteEventSubscriptionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1743,6 +2348,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Deletes a global database cluster. The primary and secondary clusters must already be detached or destroyed first. This action only applies to Aurora DB clusters.
+    ///
+    /// - Parameter DeleteGlobalClusterInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteGlobalClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
+    /// - `InvalidGlobalClusterStateFault` : The global cluster is in an invalid state and can't perform the requested operation.
     public func deleteGlobalCluster(input: DeleteGlobalClusterInput) async throws -> DeleteGlobalClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1779,6 +2394,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Deletes an existing option group.
+    ///
+    /// - Parameter DeleteOptionGroupInput :
+    ///
+    /// - Returns: `DeleteOptionGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidOptionGroupStateFault` : The option group isn't in the available state.
+    /// - `OptionGroupNotFoundFault` : The specified option group could not be found.
     public func deleteOptionGroup(input: DeleteOptionGroupInput) async throws -> DeleteOptionGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1815,6 +2440,18 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Remove the association between one or more DBProxyTarget data structures and a DBProxyTargetGroup.
+    ///
+    /// - Parameter DeregisterDBProxyTargetsInput : [no documentation found]
+    ///
+    /// - Returns: `DeregisterDBProxyTargetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBProxyNotFoundFault` : The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// - `DBProxyTargetGroupNotFoundFault` : The specified target group isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// - `DBProxyTargetNotFoundFault` : The specified RDS DB instance or Aurora DB cluster isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// - `InvalidDBProxyStateFault` : The requested operation can't be performed while the proxy is in this state.
     public func deregisterDBProxyTargets(input: DeregisterDBProxyTargetsInput) async throws -> DeregisterDBProxyTargetsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1851,6 +2488,10 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Lists all of the attributes for a customer account. The attributes include Amazon RDS quotas for the account, such as the number of DB instances allowed. The description for a quota includes the quota name, current usage toward that quota, and the quota's maximum value. This command doesn't take any parameters.
+    ///
+    /// - Parameter DescribeAccountAttributesInput :
+    ///
+    /// - Returns: `DescribeAccountAttributesOutputResponse` : Data returned by the DescribeAccountAttributes action.
     public func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1887,6 +2528,15 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Describes one or more blue/green deployments. For more information, see [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html) in the Amazon RDS User Guide and [ Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html) in the Amazon Aurora User Guide.
+    ///
+    /// - Parameter DescribeBlueGreenDeploymentsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeBlueGreenDeploymentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BlueGreenDeploymentNotFoundFault` : BlueGreenDeploymentIdentifier doesn't refer to an existing blue/green deployment.
     public func describeBlueGreenDeployments(input: DescribeBlueGreenDeploymentsInput) async throws -> DescribeBlueGreenDeploymentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1923,6 +2573,15 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Lists the set of CA certificates provided by Amazon RDS for this Amazon Web Services account. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
+    ///
+    /// - Parameter DescribeCertificatesInput :
+    ///
+    /// - Returns: `DescribeCertificatesOutputResponse` : Data returned by the DescribeCertificates action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CertificateNotFoundFault` : CertificateIdentifier doesn't refer to an existing certificate.
     public func describeCertificates(input: DescribeCertificatesInput) async throws -> DescribeCertificatesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1959,6 +2618,15 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Displays backups for both current and deleted DB clusters. For example, use this operation to find details about automated backups for previously deleted clusters. Current clusters are returned for both the DescribeDBClusterAutomatedBackups and DescribeDBClusters operations. All parameters are optional.
+    ///
+    /// - Parameter DescribeDBClusterAutomatedBackupsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDBClusterAutomatedBackupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterAutomatedBackupNotFoundFault` : No automated backup for this DB cluster was found.
     public func describeDBClusterAutomatedBackups(input: DescribeDBClusterAutomatedBackupsInput) async throws -> DescribeDBClusterAutomatedBackupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1995,6 +2663,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Returns information about backtracks for a DB cluster. For more information on Amazon Aurora, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. This action only applies to Aurora MySQL DB clusters.
+    ///
+    /// - Parameter DescribeDBClusterBacktracksInput :
+    ///
+    /// - Returns: `DescribeDBClusterBacktracksOutputResponse` : Contains the result of a successful invocation of the DescribeDBClusterBacktracks action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterBacktrackNotFoundFault` : BacktrackIdentifier doesn't refer to an existing backtrack.
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
     public func describeDBClusterBacktracks(input: DescribeDBClusterBacktracksInput) async throws -> DescribeDBClusterBacktracksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2031,6 +2709,15 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Returns information about endpoints for an Amazon Aurora DB cluster. This action only applies to Aurora DB clusters.
+    ///
+    /// - Parameter DescribeDBClusterEndpointsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDBClusterEndpointsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
     public func describeDBClusterEndpoints(input: DescribeDBClusterEndpointsInput) async throws -> DescribeDBClusterEndpointsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2067,6 +2754,15 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterGroupName parameter is specified, the list will contain only the description of the specified DB cluster parameter group. For more information on Amazon Aurora, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter DescribeDBClusterParameterGroupsInput :
+    ///
+    /// - Returns: `DescribeDBClusterParameterGroupsOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
     public func describeDBClusterParameterGroups(input: DescribeDBClusterParameterGroupsInput) async throws -> DescribeDBClusterParameterGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2103,6 +2799,15 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Returns the detailed parameter list for a particular DB cluster parameter group. For more information on Amazon Aurora, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter DescribeDBClusterParametersInput :
+    ///
+    /// - Returns: `DescribeDBClusterParametersOutputResponse` : Provides details about a DB cluster parameter group including the parameters in the DB cluster parameter group.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
     public func describeDBClusterParameters(input: DescribeDBClusterParametersInput) async throws -> DescribeDBClusterParametersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2139,6 +2844,15 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Returns a list of DB cluster snapshot attribute names and values for a manual DB cluster snapshot. When sharing snapshots with other Amazon Web Services accounts, DescribeDBClusterSnapshotAttributes returns the restore attribute and a list of IDs for the Amazon Web Services accounts that are authorized to copy or restore the manual DB cluster snapshot. If all is included in the list of values for the restore attribute, then the manual DB cluster snapshot is public and can be copied or restored by all Amazon Web Services accounts. To add or remove access for an Amazon Web Services account to copy or restore a manual DB cluster snapshot, or to make the manual DB cluster snapshot public or private, use the ModifyDBClusterSnapshotAttribute API action.
+    ///
+    /// - Parameter DescribeDBClusterSnapshotAttributesInput :
+    ///
+    /// - Returns: `DescribeDBClusterSnapshotAttributesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier doesn't refer to an existing DB cluster snapshot.
     public func describeDBClusterSnapshotAttributes(input: DescribeDBClusterSnapshotAttributesInput) async throws -> DescribeDBClusterSnapshotAttributesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2175,6 +2889,15 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Returns information about DB cluster snapshots. This API action supports pagination. For more information on Amazon Aurora DB clusters, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter DescribeDBClusterSnapshotsInput :
+    ///
+    /// - Returns: `DescribeDBClusterSnapshotsOutputResponse` : Provides a list of DB cluster snapshots for the user as the result of a call to the DescribeDBClusterSnapshots action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier doesn't refer to an existing DB cluster snapshot.
     public func describeDBClusterSnapshots(input: DescribeDBClusterSnapshotsInput) async throws -> DescribeDBClusterSnapshotsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2211,6 +2934,15 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Describes existing Amazon Aurora DB clusters and Multi-AZ DB clusters. This API supports pagination. For more information on Amazon Aurora DB clusters, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide. This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances.
+    ///
+    /// - Parameter DescribeDBClustersInput :
+    ///
+    /// - Returns: `DescribeDBClustersOutputResponse` : Contains the result of a successful invocation of the DescribeDBClusters action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
     public func describeDBClusters(input: DescribeDBClustersInput) async throws -> DescribeDBClustersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2247,6 +2979,10 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Returns a list of the available DB engines.
+    ///
+    /// - Parameter DescribeDBEngineVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDBEngineVersionsOutputResponse` : Contains the result of a successful invocation of the DescribeDBEngineVersions action.
     public func describeDBEngineVersions(input: DescribeDBEngineVersionsInput) async throws -> DescribeDBEngineVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2283,6 +3019,15 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Displays backups for both current and deleted instances. For example, use this operation to find details about automated backups for previously deleted instances. Current instances with retention periods greater than zero (0) are returned for both the DescribeDBInstanceAutomatedBackups and DescribeDBInstances operations. All parameters are optional.
+    ///
+    /// - Parameter DescribeDBInstanceAutomatedBackupsInput : Parameter input for DescribeDBInstanceAutomatedBackups.
+    ///
+    /// - Returns: `DescribeDBInstanceAutomatedBackupsOutputResponse` : Contains the result of a successful invocation of the DescribeDBInstanceAutomatedBackups action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBInstanceAutomatedBackupNotFoundFault` : No automated backup for this DB instance was found.
     public func describeDBInstanceAutomatedBackups(input: DescribeDBInstanceAutomatedBackupsInput) async throws -> DescribeDBInstanceAutomatedBackupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2319,6 +3064,15 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Describes provisioned RDS instances. This API supports pagination. This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances.
+    ///
+    /// - Parameter DescribeDBInstancesInput :
+    ///
+    /// - Returns: `DescribeDBInstancesOutputResponse` : Contains the result of a successful invocation of the DescribeDBInstances action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
     public func describeDBInstances(input: DescribeDBInstancesInput) async throws -> DescribeDBInstancesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2355,6 +3109,15 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Returns a list of DB log files for the DB instance. This command doesn't apply to RDS Custom.
+    ///
+    /// - Parameter DescribeDBLogFilesInput :
+    ///
+    /// - Returns: `DescribeDBLogFilesOutputResponse` : The response from a call to DescribeDBLogFiles.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
     public func describeDBLogFiles(input: DescribeDBLogFilesInput) async throws -> DescribeDBLogFilesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2391,6 +3154,15 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Returns a list of DBParameterGroup descriptions. If a DBParameterGroupName is specified, the list will contain only the description of the specified DB parameter group.
+    ///
+    /// - Parameter DescribeDBParameterGroupsInput :
+    ///
+    /// - Returns: `DescribeDBParameterGroupsOutputResponse` : Contains the result of a successful invocation of the DescribeDBParameterGroups action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
     public func describeDBParameterGroups(input: DescribeDBParameterGroupsInput) async throws -> DescribeDBParameterGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2427,6 +3199,15 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Returns the detailed parameter list for a particular DB parameter group.
+    ///
+    /// - Parameter DescribeDBParametersInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDBParametersOutputResponse` : Contains the result of a successful invocation of the DescribeDBParameters action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
     public func describeDBParameters(input: DescribeDBParametersInput) async throws -> DescribeDBParametersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2463,6 +3244,15 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Returns information about DB proxies.
+    ///
+    /// - Parameter DescribeDBProxiesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDBProxiesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBProxyNotFoundFault` : The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     public func describeDBProxies(input: DescribeDBProxiesInput) async throws -> DescribeDBProxiesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2499,6 +3289,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Returns information about DB proxy endpoints.
+    ///
+    /// - Parameter DescribeDBProxyEndpointsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDBProxyEndpointsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBProxyEndpointNotFoundFault` : The DB proxy endpoint doesn't exist.
+    /// - `DBProxyNotFoundFault` : The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     public func describeDBProxyEndpoints(input: DescribeDBProxyEndpointsInput) async throws -> DescribeDBProxyEndpointsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2535,6 +3335,17 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Returns information about DB proxy target groups, represented by DBProxyTargetGroup data structures.
+    ///
+    /// - Parameter DescribeDBProxyTargetGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDBProxyTargetGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBProxyNotFoundFault` : The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// - `DBProxyTargetGroupNotFoundFault` : The specified target group isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// - `InvalidDBProxyStateFault` : The requested operation can't be performed while the proxy is in this state.
     public func describeDBProxyTargetGroups(input: DescribeDBProxyTargetGroupsInput) async throws -> DescribeDBProxyTargetGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2571,6 +3382,18 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Returns information about DBProxyTarget objects. This API supports pagination.
+    ///
+    /// - Parameter DescribeDBProxyTargetsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDBProxyTargetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBProxyNotFoundFault` : The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// - `DBProxyTargetGroupNotFoundFault` : The specified target group isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// - `DBProxyTargetNotFoundFault` : The specified RDS DB instance or Aurora DB cluster isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// - `InvalidDBProxyStateFault` : The requested operation can't be performed while the proxy is in this state.
     public func describeDBProxyTargets(input: DescribeDBProxyTargetsInput) async throws -> DescribeDBProxyTargetsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2607,6 +3430,15 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Returns a list of DBSecurityGroup descriptions. If a DBSecurityGroupName is specified, the list will contain only the descriptions of the specified DB security group. EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more information, see [Migrate from EC2-Classic to a VPC](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-migrate.html) in the Amazon EC2 User Guide, the blog [EC2-Classic Networking is Retiring – Here’s How to Prepare](http://aws.amazon.com/blogs/aws/ec2-classic-is-retiring-heres-how-to-prepare/), and [Moving a DB instance not in a VPC into a VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.Non-VPC2VPC.html) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter DescribeDBSecurityGroupsInput :
+    ///
+    /// - Returns: `DescribeDBSecurityGroupsOutputResponse` : Contains the result of a successful invocation of the DescribeDBSecurityGroups action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBSecurityGroupNotFoundFault` : DBSecurityGroupName doesn't refer to an existing DB security group.
     public func describeDBSecurityGroups(input: DescribeDBSecurityGroupsInput) async throws -> DescribeDBSecurityGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2643,6 +3475,15 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Returns a list of DB snapshot attribute names and values for a manual DB snapshot. When sharing snapshots with other Amazon Web Services accounts, DescribeDBSnapshotAttributes returns the restore attribute and a list of IDs for the Amazon Web Services accounts that are authorized to copy or restore the manual DB snapshot. If all is included in the list of values for the restore attribute, then the manual DB snapshot is public and can be copied or restored by all Amazon Web Services accounts. To add or remove access for an Amazon Web Services account to copy or restore a manual DB snapshot, or to make the manual DB snapshot public or private, use the ModifyDBSnapshotAttribute API action.
+    ///
+    /// - Parameter DescribeDBSnapshotAttributesInput :
+    ///
+    /// - Returns: `DescribeDBSnapshotAttributesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier doesn't refer to an existing DB snapshot.
     public func describeDBSnapshotAttributes(input: DescribeDBSnapshotAttributesInput) async throws -> DescribeDBSnapshotAttributesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2679,6 +3520,15 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Returns information about DB snapshots. This API action supports pagination.
+    ///
+    /// - Parameter DescribeDBSnapshotsInput :
+    ///
+    /// - Returns: `DescribeDBSnapshotsOutputResponse` : Contains the result of a successful invocation of the DescribeDBSnapshots action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier doesn't refer to an existing DB snapshot.
     public func describeDBSnapshots(input: DescribeDBSnapshotsInput) async throws -> DescribeDBSnapshotsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2715,6 +3565,15 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup. For an overview of CIDR ranges, go to the [Wikipedia Tutorial](http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing).
+    ///
+    /// - Parameter DescribeDBSubnetGroupsInput :
+    ///
+    /// - Returns: `DescribeDBSubnetGroupsOutputResponse` : Contains the result of a successful invocation of the DescribeDBSubnetGroups action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName doesn't refer to an existing DB subnet group.
     public func describeDBSubnetGroups(input: DescribeDBSubnetGroupsInput) async throws -> DescribeDBSubnetGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2751,6 +3610,10 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Returns the default engine and system parameter information for the cluster database engine. For more information on Amazon Aurora, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide.
+    ///
+    /// - Parameter DescribeEngineDefaultClusterParametersInput :
+    ///
+    /// - Returns: `DescribeEngineDefaultClusterParametersOutputResponse` : [no documentation found]
     public func describeEngineDefaultClusterParameters(input: DescribeEngineDefaultClusterParametersInput) async throws -> DescribeEngineDefaultClusterParametersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2787,6 +3650,10 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Returns the default engine and system parameter information for the specified database engine.
+    ///
+    /// - Parameter DescribeEngineDefaultParametersInput :
+    ///
+    /// - Returns: `DescribeEngineDefaultParametersOutputResponse` : [no documentation found]
     public func describeEngineDefaultParameters(input: DescribeEngineDefaultParametersInput) async throws -> DescribeEngineDefaultParametersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2823,6 +3690,10 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Displays a list of categories for all event source types, or, if specified, for a specified source type. You can also see this list in the "Amazon RDS event categories and event messages" section of the [ Amazon RDS User Guide ](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.Messages.html) or the [ Amazon Aurora User Guide ](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Events.Messages.html).
+    ///
+    /// - Parameter DescribeEventCategoriesInput :
+    ///
+    /// - Returns: `DescribeEventCategoriesOutputResponse` : Data returned from the DescribeEventCategories operation.
     public func describeEventCategories(input: DescribeEventCategoriesInput) async throws -> DescribeEventCategoriesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2859,6 +3730,15 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Lists all the subscription descriptions for a customer account. The description for a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status. If you specify a SubscriptionName, lists the description for that subscription.
+    ///
+    /// - Parameter DescribeEventSubscriptionsInput :
+    ///
+    /// - Returns: `DescribeEventSubscriptionsOutputResponse` : Data returned by the DescribeEventSubscriptions action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `SubscriptionNotFoundFault` : The subscription name does not exist.
     public func describeEventSubscriptions(input: DescribeEventSubscriptionsInput) async throws -> DescribeEventSubscriptionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2895,6 +3775,10 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Returns events related to DB instances, DB clusters, DB parameter groups, DB security groups, DB snapshots, DB cluster snapshots, and RDS Proxies for the past 14 days. Events specific to a particular DB instance, DB cluster, DB parameter group, DB security group, DB snapshot, DB cluster snapshot group, or RDS Proxy can be obtained by providing the name as a parameter. For more information on working with events, see [Monitoring Amazon RDS events](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/working-with-events.html) in the Amazon RDS User Guide and [Monitoring Amazon Aurora events](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/working-with-events.html) in the Amazon Aurora User Guide. By default, RDS returns events that were generated in the past hour.
+    ///
+    /// - Parameter DescribeEventsInput :
+    ///
+    /// - Returns: `DescribeEventsOutputResponse` : Contains the result of a successful invocation of the DescribeEvents action.
     public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2931,6 +3815,15 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Returns information about a snapshot or cluster export to Amazon S3. This API operation supports pagination.
+    ///
+    /// - Parameter DescribeExportTasksInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeExportTasksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ExportTaskNotFoundFault` : The export task doesn't exist.
     public func describeExportTasks(input: DescribeExportTasksInput) async throws -> DescribeExportTasksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2967,6 +3860,15 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Returns information about Aurora global database clusters. This API supports pagination. For more information on Amazon Aurora, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. This action only applies to Aurora DB clusters.
+    ///
+    /// - Parameter DescribeGlobalClustersInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeGlobalClustersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
     public func describeGlobalClusters(input: DescribeGlobalClustersInput) async throws -> DescribeGlobalClustersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3003,6 +3905,10 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Describes all available options.
+    ///
+    /// - Parameter DescribeOptionGroupOptionsInput :
+    ///
+    /// - Returns: `DescribeOptionGroupOptionsOutputResponse` :
     public func describeOptionGroupOptions(input: DescribeOptionGroupOptionsInput) async throws -> DescribeOptionGroupOptionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3039,6 +3945,15 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Describes the available option groups.
+    ///
+    /// - Parameter DescribeOptionGroupsInput :
+    ///
+    /// - Returns: `DescribeOptionGroupsOutputResponse` : List of option groups.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OptionGroupNotFoundFault` : The specified option group could not be found.
     public func describeOptionGroups(input: DescribeOptionGroupsInput) async throws -> DescribeOptionGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3075,6 +3990,10 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Returns a list of orderable DB instance options for the specified DB engine, DB engine version, and DB instance class.
+    ///
+    /// - Parameter DescribeOrderableDBInstanceOptionsInput :
+    ///
+    /// - Returns: `DescribeOrderableDBInstanceOptionsOutputResponse` : Contains the result of a successful invocation of the DescribeOrderableDBInstanceOptions action.
     public func describeOrderableDBInstanceOptions(input: DescribeOrderableDBInstanceOptionsInput) async throws -> DescribeOrderableDBInstanceOptionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3111,6 +4030,15 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Returns a list of resources (for example, DB instances) that have at least one pending maintenance action.
+    ///
+    /// - Parameter DescribePendingMaintenanceActionsInput :
+    ///
+    /// - Returns: `DescribePendingMaintenanceActionsOutputResponse` : Data returned from the DescribePendingMaintenanceActions action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundFault` : The specified resource ID was not found.
     public func describePendingMaintenanceActions(input: DescribePendingMaintenanceActionsInput) async throws -> DescribePendingMaintenanceActionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3147,6 +4075,15 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Returns information about reserved DB instances for this account, or about a specified reserved DB instance.
+    ///
+    /// - Parameter DescribeReservedDBInstancesInput :
+    ///
+    /// - Returns: `DescribeReservedDBInstancesOutputResponse` : Contains the result of a successful invocation of the DescribeReservedDBInstances action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ReservedDBInstanceNotFoundFault` : The specified reserved DB Instance not found.
     public func describeReservedDBInstances(input: DescribeReservedDBInstancesInput) async throws -> DescribeReservedDBInstancesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3183,6 +4120,15 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Lists available reserved DB instance offerings.
+    ///
+    /// - Parameter DescribeReservedDBInstancesOfferingsInput :
+    ///
+    /// - Returns: `DescribeReservedDBInstancesOfferingsOutputResponse` : Contains the result of a successful invocation of the DescribeReservedDBInstancesOfferings action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ReservedDBInstancesOfferingNotFoundFault` : Specified offering does not exist.
     public func describeReservedDBInstancesOfferings(input: DescribeReservedDBInstancesOfferingsInput) async throws -> DescribeReservedDBInstancesOfferingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3219,6 +4165,10 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Returns a list of the source Amazon Web Services Regions where the current Amazon Web Services Region can create a read replica, copy a DB snapshot from, or replicate automated backups from. Use this operation to determine whether cross-Region features are supported between other Regions and your current Region. This operation supports pagination. To return information about the Regions that are enabled for your account, or all Regions, use the EC2 operation DescribeRegions. For more information, see [ DescribeRegions](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeRegions.html) in the Amazon EC2 API Reference.
+    ///
+    /// - Parameter DescribeSourceRegionsInput :
+    ///
+    /// - Returns: `DescribeSourceRegionsOutputResponse` : Contains the result of a successful invocation of the DescribeSourceRegions action.
     public func describeSourceRegions(input: DescribeSourceRegionsInput) async throws -> DescribeSourceRegionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3255,6 +4205,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// You can call DescribeValidDBInstanceModifications to learn what modifications you can make to your DB instance. You can use this information when you call ModifyDBInstance. This command doesn't apply to RDS Custom.
+    ///
+    /// - Parameter DescribeValidDBInstanceModificationsInput :
+    ///
+    /// - Returns: `DescribeValidDBInstanceModificationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     public func describeValidDBInstanceModifications(input: DescribeValidDBInstanceModificationsInput) async throws -> DescribeValidDBInstanceModificationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3291,6 +4251,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Downloads all or a portion of the specified log file, up to 1 MB in size. This command doesn't apply to RDS Custom.
+    ///
+    /// - Parameter DownloadDBLogFilePortionInput :
+    ///
+    /// - Returns: `DownloadDBLogFilePortionOutputResponse` : This data type is used as a response element to DownloadDBLogFilePortion.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `DBLogFileNotFoundFault` : LogFileName doesn't refer to an existing DB log file.
     public func downloadDBLogFilePortion(input: DownloadDBLogFilePortionInput) async throws -> DownloadDBLogFilePortionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3327,6 +4297,17 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Forces a failover for a DB cluster. For an Aurora DB cluster, failover for a DB cluster promotes one of the Aurora Replicas (read-only instances) in the DB cluster to be the primary DB instance (the cluster writer). For a Multi-AZ DB cluster, failover for a DB cluster promotes one of the readable standby DB instances (read-only instances) in the DB cluster to be the primary DB instance (the cluster writer). An Amazon Aurora DB cluster automatically fails over to an Aurora Replica, if one exists, when the primary DB instance fails. A Multi-AZ DB cluster automatically fails over to a readable standby DB instance when the primary DB instance fails. To simulate a failure of a primary instance for testing, you can force a failover. Because each instance in a DB cluster has its own endpoint address, make sure to clean up and re-establish any existing connections that use those endpoint addresses when the failover is complete. For more information on Amazon Aurora DB clusters, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter FailoverDBClusterInput :
+    ///
+    /// - Returns: `FailoverDBClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     public func failoverDBCluster(input: FailoverDBClusterInput) async throws -> FailoverDBClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3363,6 +4344,18 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Initiates the failover process for an Aurora global database ([GlobalCluster]). A failover for an Aurora global database promotes one of secondary read-only DB clusters to be the primary DB cluster and demotes the primary DB cluster to being a secondary (read-only) DB cluster. In other words, the role of the current primary DB cluster and the selected (target) DB cluster are switched. The selected secondary DB cluster assumes full read/write capabilities for the Aurora global database. For more information about failing over an Amazon Aurora global database, see [Managed planned failover for Amazon Aurora global databases](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database-disaster-recovery.html#aurora-global-database-disaster-recovery.managed-failover) in the Amazon Aurora User Guide. This action applies to [GlobalCluster] (Aurora global databases) only. Use this action only on healthy Aurora global databases with running Aurora DB clusters and no Region-wide outages, to test disaster recovery scenarios or to reconfigure your Aurora global database topology.
+    ///
+    /// - Parameter FailoverGlobalClusterInput : [no documentation found]
+    ///
+    /// - Returns: `FailoverGlobalClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `InvalidGlobalClusterStateFault` : The global cluster is in an invalid state and can't perform the requested operation.
     public func failoverGlobalCluster(input: FailoverGlobalClusterInput) async throws -> FailoverGlobalClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3399,6 +4392,20 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Lists all tags on an Amazon RDS resource. For an overview on tagging an Amazon RDS resource, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.Tagging.html) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter ListTagsForResourceInput :
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BlueGreenDeploymentNotFoundFault` : BlueGreenDeploymentIdentifier doesn't refer to an existing blue/green deployment.
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `DBProxyNotFoundFault` : The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// - `DBProxyTargetGroupNotFoundFault` : The specified target group isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier doesn't refer to an existing DB snapshot.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3435,6 +4442,17 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Changes the audit policy state of a database activity stream to either locked (default) or unlocked. A locked policy is read-only, whereas an unlocked policy is read/write. If your activity stream is started and locked, you can unlock it, customize your audit policy, and then lock your activity stream. Restarting the activity stream isn't required. For more information, see [ Modifying a database activity stream](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/DBActivityStreams.Modifying.html) in the Amazon RDS User Guide. This operation is supported for RDS for Oracle and Microsoft SQL Server.
+    ///
+    /// - Parameter ModifyActivityStreamInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyActivityStreamOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
+    /// - `ResourceNotFoundFault` : The specified resource ID was not found.
     public func modifyActivityStream(input: ModifyActivityStreamInput) async throws -> ModifyActivityStreamOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3478,6 +4496,15 @@ extension RDSClient: RDSClientProtocol {
     ///
     ///
     /// For more information about rotating your SSL/TLS certificate for RDS DB engines, see [ Rotating Your SSL/TLS Certificate](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL-certificate-rotation.html) in the Amazon RDS User Guide. For more information about rotating your SSL/TLS certificate for Aurora DB engines, see [ Rotating Your SSL/TLS Certificate](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL-certificate-rotation.html) in the Amazon Aurora User Guide.
+    ///
+    /// - Parameter ModifyCertificatesInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyCertificatesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CertificateNotFoundFault` : CertificateIdentifier doesn't refer to an existing certificate.
     public func modifyCertificates(input: ModifyCertificatesInput) async throws -> ModifyCertificatesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3514,6 +4541,17 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Set the capacity of an Aurora Serverless v1 DB cluster to a specific value. Aurora Serverless v1 scales seamlessly based on the workload on the DB cluster. In some cases, the capacity might not scale fast enough to meet a sudden change in workload, such as a large number of new transactions. Call ModifyCurrentDBClusterCapacity to set the capacity explicitly. After this call sets the DB cluster capacity, Aurora Serverless v1 can automatically scale the DB cluster based on the cooldown period for scaling up and the cooldown period for scaling down. For more information about Aurora Serverless v1, see [Using Amazon Aurora Serverless v1](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html) in the Amazon Aurora User Guide. If you call ModifyCurrentDBClusterCapacity with the default TimeoutAction, connections that prevent Aurora Serverless v1 from finding a scaling point might be dropped. For more information about scaling points, see [ Autoscaling for Aurora Serverless v1](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.how-it-works.html#aurora-serverless.how-it-works.auto-scaling) in the Amazon Aurora User Guide. This action only applies to Aurora Serverless v1 DB clusters.
+    ///
+    /// - Parameter ModifyCurrentDBClusterCapacityInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyCurrentDBClusterCapacityOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `InvalidDBClusterCapacityFault` : Capacity isn't a valid Aurora Serverless DB cluster capacity. Valid capacity values are 2, 4, 8, 16, 32, 64, 128, and 256.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     public func modifyCurrentDBClusterCapacity(input: ModifyCurrentDBClusterCapacityInput) async throws -> ModifyCurrentDBClusterCapacityOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3550,6 +4588,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Modifies the status of a custom engine version (CEV). You can find CEVs to modify by calling DescribeDBEngineVersions. The MediaImport service that imports files from Amazon S3 to create CEVs isn't integrated with Amazon Web Services CloudTrail. If you turn on data logging for Amazon RDS in CloudTrail, calls to the ModifyCustomDbEngineVersion event aren't logged. However, you might see calls from the API gateway that accesses your Amazon S3 bucket. These calls originate from the MediaImport service for the ModifyCustomDbEngineVersion event. For more information, see [Modifying CEV status](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.html#custom-cev.modify) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter ModifyCustomDBEngineVersionInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyCustomDBEngineVersionOutputResponse` : This data type is used as a response element in the action DescribeDBEngineVersions.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CustomDBEngineVersionNotFoundFault` : The specified CEV was not found.
+    /// - `InvalidCustomDBEngineVersionStateFault` : You can't delete the CEV.
     public func modifyCustomDBEngineVersion(input: ModifyCustomDBEngineVersionInput) async throws -> ModifyCustomDBEngineVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3586,6 +4634,28 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Modifies the settings of an Amazon Aurora DB cluster or a Multi-AZ DB cluster. You can change one or more settings by specifying these parameters and the new values in the request. For more information on Amazon Aurora DB clusters, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter ModifyDBClusterInput :
+    ///
+    /// - Returns: `ModifyDBClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterAlreadyExistsFault` : The user already has a DB cluster with the given identifier.
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `DBClusterParameterGroupNotFoundFault` : DBClusterParameterGroupName doesn't refer to an existing DB cluster parameter group.
+    /// - `DBInstanceAlreadyExistsFault` : The user already has a DB instance with the given identifier.
+    /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName doesn't refer to an existing DB subnet group.
+    /// - `DomainNotFoundFault` : Domain doesn't refer to an existing Active Directory domain.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
+    /// - `InvalidDBSecurityGroupStateFault` : The state of the DB security group doesn't allow deletion.
+    /// - `InvalidDBSubnetGroupStateFault` : The DB subnet group cannot be deleted because it's in use.
+    /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
+    /// - `InvalidVPCNetworkStateFault` : The DB subnet group doesn't cover all Availability Zones after it's created because of users' change.
+    /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
+    /// - `StorageTypeNotAvailableFault` : The aurora-iopt1 storage type isn't available, because you modified the DB cluster to use this storage type less than one month ago.
     public func modifyDBCluster(input: ModifyDBClusterInput) async throws -> ModifyDBClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3622,6 +4692,30 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Modifies the properties of an endpoint in an Amazon Aurora DB cluster. This action only applies to Aurora DB clusters.
+    ///
+    /// - Parameter ModifyDBClusterEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyDBClusterEndpointOutputResponse` : This data type represents the information you need to connect to an Amazon Aurora DB cluster. This data type is used as a response element in the following actions:
+    ///
+    /// * CreateDBClusterEndpoint
+    ///
+    /// * DescribeDBClusterEndpoints
+    ///
+    /// * ModifyDBClusterEndpoint
+    ///
+    /// * DeleteDBClusterEndpoint
+    ///
+    ///
+    /// For the data structure that represents Amazon RDS DB instance endpoints, see Endpoint.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterEndpointNotFoundFault` : The specified custom endpoint doesn't exist.
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `InvalidDBClusterEndpointStateFault` : The requested operation can't be performed on the endpoint while the endpoint is in this state.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     public func modifyDBClusterEndpoint(input: ModifyDBClusterEndpointInput) async throws -> ModifyDBClusterEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3658,6 +4752,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Modifies the parameters of a DB cluster parameter group. To modify more than one parameter, submit a list of the following: ParameterName, ParameterValue, and ApplyMethod. A maximum of 20 parameters can be modified in a single request. After you create a DB cluster parameter group, you should wait at least 5 minutes before creating your first DB cluster that uses that DB cluster parameter group as the default parameter group. This allows Amazon RDS to fully complete the create action before the parameter group is used as the default for a new DB cluster. This is especially important for parameters that are critical when creating the default database for a DB cluster, such as the character set for the default database defined by the character_set_database parameter. You can use the Parameter Groups option of the [Amazon RDS console](https://console.aws.amazon.com/rds/) or the DescribeDBClusterParameters operation to verify that your DB cluster parameter group has been created or modified. If the modified DB cluster parameter group is used by an Aurora Serverless v1 cluster, Aurora applies the update immediately. The cluster restart might interrupt your workload. In that case, your application must reopen any connections and retry any transactions that were active when the parameter changes took effect. For more information on Amazon Aurora DB clusters, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter ModifyDBClusterParameterGroupInput :
+    ///
+    /// - Returns: `ModifyDBClusterParameterGroupOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
+    /// - `InvalidDBParameterGroupStateFault` : The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you can't delete it when the parameter group is in this state.
     public func modifyDBClusterParameterGroup(input: ModifyDBClusterParameterGroupInput) async throws -> ModifyDBClusterParameterGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3694,6 +4798,17 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Adds an attribute and values to, or removes an attribute and values from, a manual DB cluster snapshot. To share a manual DB cluster snapshot with other Amazon Web Services accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the Amazon Web Services accounts that are authorized to restore the manual DB cluster snapshot. Use the value all to make the manual DB cluster snapshot public, which means that it can be copied or restored by all Amazon Web Services accounts. Don't add the all value for any manual DB cluster snapshots that contain private information that you don't want available to all Amazon Web Services accounts. If a manual DB cluster snapshot is encrypted, it can be shared, but only by specifying a list of authorized Amazon Web Services account IDs for the ValuesToAdd parameter. You can't use all as a value for that parameter in this case. To view which Amazon Web Services accounts have access to copy or restore a manual DB cluster snapshot, or whether a manual DB cluster snapshot is public or private, use the [DescribeDBClusterSnapshotAttributes] API operation. The accounts are returned as values for the restore attribute.
+    ///
+    /// - Parameter ModifyDBClusterSnapshotAttributeInput :
+    ///
+    /// - Returns: `ModifyDBClusterSnapshotAttributeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier doesn't refer to an existing DB cluster snapshot.
+    /// - `InvalidDBClusterSnapshotStateFault` : The supplied value isn't a valid DB cluster snapshot state.
+    /// - `SharedSnapshotQuotaExceededFault` : You have exceeded the maximum number of accounts that you can share a manual DB snapshot with.
     public func modifyDBClusterSnapshotAttribute(input: ModifyDBClusterSnapshotAttributeInput) async throws -> ModifyDBClusterSnapshotAttributeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3730,6 +4845,34 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Modifies settings for a DB instance. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. To learn what modifications you can make to your DB instance, call DescribeValidDBInstanceModifications before you call ModifyDBInstance.
+    ///
+    /// - Parameter ModifyDBInstanceInput :
+    ///
+    /// - Returns: `ModifyDBInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationNotFoundFault` : The specified CIDR IP range or Amazon EC2 security group might not be authorized for the specified DB security group. Or, RDS might not be authorized to perform necessary actions using IAM on your behalf.
+    /// - `BackupPolicyNotFoundFault` : [no documentation found]
+    /// - `CertificateNotFoundFault` : CertificateIdentifier doesn't refer to an existing certificate.
+    /// - `DBInstanceAlreadyExistsFault` : The user already has a DB instance with the given identifier.
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
+    /// - `DBSecurityGroupNotFoundFault` : DBSecurityGroupName doesn't refer to an existing DB security group.
+    /// - `DBUpgradeDependencyFailureFault` : The DB upgrade failed because a resource the DB depends on can't be modified.
+    /// - `DomainNotFoundFault` : Domain doesn't refer to an existing Active Directory domain.
+    /// - `InsufficientDBInstanceCapacityFault` : The specified DB instance class isn't available in the specified Availability Zone.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
+    /// - `InvalidDBSecurityGroupStateFault` : The state of the DB security group doesn't allow deletion.
+    /// - `InvalidVPCNetworkStateFault` : The DB subnet group doesn't cover all Availability Zones after it's created because of users' change.
+    /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
+    /// - `NetworkTypeNotSupported` : The network type is invalid for the DB instance. Valid nework type values are IPV4 and DUAL.
+    /// - `OptionGroupNotFoundFault` : The specified option group could not be found.
+    /// - `ProvisionedIopsNotAvailableInAZFault` : Provisioned IOPS not available in the specified Availability Zone.
+    /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
+    /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
     public func modifyDBInstance(input: ModifyDBInstanceInput) async throws -> ModifyDBInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3766,6 +4909,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Modifies the parameters of a DB parameter group. To modify more than one parameter, submit a list of the following: ParameterName, ParameterValue, and ApplyMethod. A maximum of 20 parameters can be modified in a single request. After you modify a DB parameter group, you should wait at least 5 minutes before creating your first DB instance that uses that DB parameter group as the default parameter group. This allows Amazon RDS to fully complete the modify action before the parameter group is used as the default for a new DB instance. This is especially important for parameters that are critical when creating the default database for a DB instance, such as the character set for the default database defined by the character_set_database parameter. You can use the Parameter Groups option of the [Amazon RDS console](https://console.aws.amazon.com/rds/) or the DescribeDBParameters command to verify that your DB parameter group has been created or modified.
+    ///
+    /// - Parameter ModifyDBParameterGroupInput :
+    ///
+    /// - Returns: `ModifyDBParameterGroupOutputResponse` : Contains the result of a successful invocation of the ModifyDBParameterGroup or ResetDBParameterGroup action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
+    /// - `InvalidDBParameterGroupStateFault` : The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you can't delete it when the parameter group is in this state.
     public func modifyDBParameterGroup(input: ModifyDBParameterGroupInput) async throws -> ModifyDBParameterGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3802,6 +4955,17 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Changes the settings for an existing DB proxy.
+    ///
+    /// - Parameter ModifyDBProxyInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyDBProxyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBProxyAlreadyExistsFault` : The specified proxy name must be unique for all proxies owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// - `DBProxyNotFoundFault` : The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// - `InvalidDBProxyStateFault` : The requested operation can't be performed while the proxy is in this state.
     public func modifyDBProxy(input: ModifyDBProxyInput) async throws -> ModifyDBProxyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3838,6 +5002,18 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Changes the settings for an existing DB proxy endpoint.
+    ///
+    /// - Parameter ModifyDBProxyEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyDBProxyEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBProxyEndpointAlreadyExistsFault` : The specified DB proxy endpoint name must be unique for all DB proxy endpoints owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// - `DBProxyEndpointNotFoundFault` : The DB proxy endpoint doesn't exist.
+    /// - `InvalidDBProxyEndpointStateFault` : You can't perform this operation while the DB proxy endpoint is in a particular state.
+    /// - `InvalidDBProxyStateFault` : The requested operation can't be performed while the proxy is in this state.
     public func modifyDBProxyEndpoint(input: ModifyDBProxyEndpointInput) async throws -> ModifyDBProxyEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3874,6 +5050,17 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Modifies the properties of a DBProxyTargetGroup.
+    ///
+    /// - Parameter ModifyDBProxyTargetGroupInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyDBProxyTargetGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBProxyNotFoundFault` : The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// - `DBProxyTargetGroupNotFoundFault` : The specified target group isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// - `InvalidDBProxyStateFault` : The requested operation can't be performed while the proxy is in this state.
     public func modifyDBProxyTargetGroup(input: ModifyDBProxyTargetGroupInput) async throws -> ModifyDBProxyTargetGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3910,6 +5097,15 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Updates a manual DB snapshot with a new engine version. The snapshot can be encrypted or unencrypted, but not shared or public. Amazon RDS supports upgrading DB snapshots for MySQL, PostgreSQL, and Oracle. This command doesn't apply to RDS Custom.
+    ///
+    /// - Parameter ModifyDBSnapshotInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyDBSnapshotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier doesn't refer to an existing DB snapshot.
     public func modifyDBSnapshot(input: ModifyDBSnapshotInput) async throws -> ModifyDBSnapshotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3946,6 +5142,17 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Adds an attribute and values to, or removes an attribute and values from, a manual DB snapshot. To share a manual DB snapshot with other Amazon Web Services accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the Amazon Web Services accounts that are authorized to restore the manual DB snapshot. Uses the value all to make the manual DB snapshot public, which means it can be copied or restored by all Amazon Web Services accounts. Don't add the all value for any manual DB snapshots that contain private information that you don't want available to all Amazon Web Services accounts. If the manual DB snapshot is encrypted, it can be shared, but only by specifying a list of authorized Amazon Web Services account IDs for the ValuesToAdd parameter. You can't use all as a value for that parameter in this case. To view which Amazon Web Services accounts have access to copy or restore a manual DB snapshot, or whether a manual DB snapshot public or private, use the [DescribeDBSnapshotAttributes] API operation. The accounts are returned as values for the restore attribute.
+    ///
+    /// - Parameter ModifyDBSnapshotAttributeInput :
+    ///
+    /// - Returns: `ModifyDBSnapshotAttributeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier doesn't refer to an existing DB snapshot.
+    /// - `InvalidDBSnapshotStateFault` : The state of the DB snapshot doesn't allow deletion.
+    /// - `SharedSnapshotQuotaExceededFault` : You have exceeded the maximum number of accounts that you can share a manual DB snapshot with.
     public func modifyDBSnapshotAttribute(input: ModifyDBSnapshotAttributeInput) async throws -> ModifyDBSnapshotAttributeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3982,6 +5189,19 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Modifies an existing DB subnet group. DB subnet groups must contain at least one subnet in at least two AZs in the Amazon Web Services Region.
+    ///
+    /// - Parameter ModifyDBSubnetGroupInput :
+    ///
+    /// - Returns: `ModifyDBSubnetGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBSubnetGroupDoesNotCoverEnoughAZs` : Subnets in the DB subnet group should cover at least two Availability Zones unless there is only one Availability Zone.
+    /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName doesn't refer to an existing DB subnet group.
+    /// - `DBSubnetQuotaExceededFault` : The request would result in the user exceeding the allowed number of subnets in a DB subnet groups.
+    /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
+    /// - `SubnetAlreadyInUse` : The DB subnet is already in use in the Availability Zone.
     public func modifyDBSubnetGroup(input: ModifyDBSubnetGroupInput) async throws -> ModifyDBSubnetGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4018,6 +5238,20 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Modifies an existing RDS event notification subscription. You can't modify the source identifiers using this call. To change source identifiers for a subscription, use the AddSourceIdentifierToSubscription and RemoveSourceIdentifierFromSubscription calls. You can see a list of the event categories for a given source type (SourceType) in [Events](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.html) in the Amazon RDS User Guide or by using the DescribeEventCategories operation.
+    ///
+    /// - Parameter ModifyEventSubscriptionInput :
+    ///
+    /// - Returns: `ModifyEventSubscriptionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EventSubscriptionQuotaExceededFault` : You have reached the maximum number of event subscriptions.
+    /// - `SNSInvalidTopicFault` : SNS has responded that there is a problem with the SNS topic specified.
+    /// - `SNSNoAuthorizationFault` : You do not have permission to publish to the SNS topic ARN.
+    /// - `SNSTopicArnNotFoundFault` : The SNS topic ARN does not exist.
+    /// - `SubscriptionCategoryNotFoundFault` : The supplied category does not exist.
+    /// - `SubscriptionNotFoundFault` : The subscription name does not exist.
     public func modifyEventSubscription(input: ModifyEventSubscriptionInput) async throws -> ModifyEventSubscriptionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4054,6 +5288,18 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Modifies a setting for an Amazon Aurora global cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. For more information on Amazon Aurora, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. This operation only applies to Aurora global database clusters.
+    ///
+    /// - Parameter ModifyGlobalClusterInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyGlobalClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
+    /// - `InvalidGlobalClusterStateFault` : The global cluster is in an invalid state and can't perform the requested operation.
     public func modifyGlobalCluster(input: ModifyGlobalClusterInput) async throws -> ModifyGlobalClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4090,6 +5336,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Modifies an existing option group.
+    ///
+    /// - Parameter ModifyOptionGroupInput :
+    ///
+    /// - Returns: `ModifyOptionGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidOptionGroupStateFault` : The option group isn't in the available state.
+    /// - `OptionGroupNotFoundFault` : The specified option group could not be found.
     public func modifyOptionGroup(input: ModifyOptionGroupInput) async throws -> ModifyOptionGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4130,6 +5386,16 @@ extension RDSClient: RDSClientProtocol {
     /// * Backup duration is a function of the amount of changes to the database since the previous backup. If you plan to promote a read replica to a standalone instance, we recommend that you enable backups and complete at least one backup prior to promotion. In addition, a read replica cannot be promoted to a standalone instance when it is in the backing-up status. If you have enabled backups on your read replica, configure the automated backup window so that daily backups do not interfere with read replica promotion.
     ///
     /// * This command doesn't apply to Aurora MySQL, Aurora PostgreSQL, or RDS Custom.
+    ///
+    /// - Parameter PromoteReadReplicaInput :
+    ///
+    /// - Returns: `PromoteReadReplicaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     public func promoteReadReplica(input: PromoteReadReplicaInput) async throws -> PromoteReadReplicaOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4166,6 +5432,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Promotes a read replica DB cluster to a standalone DB cluster.
+    ///
+    /// - Parameter PromoteReadReplicaDBClusterInput :
+    ///
+    /// - Returns: `PromoteReadReplicaDBClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     public func promoteReadReplicaDBCluster(input: PromoteReadReplicaDBClusterInput) async throws -> PromoteReadReplicaDBClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4202,6 +5478,17 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Purchases a reserved DB instance offering.
+    ///
+    /// - Parameter PurchaseReservedDBInstancesOfferingInput :
+    ///
+    /// - Returns: `PurchaseReservedDBInstancesOfferingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ReservedDBInstanceAlreadyExistsFault` : User already has a reservation with the given identifier.
+    /// - `ReservedDBInstanceQuotaExceededFault` : Request would exceed the user's DB Instance quota.
+    /// - `ReservedDBInstancesOfferingNotFoundFault` : Specified offering does not exist.
     public func purchaseReservedDBInstancesOffering(input: PurchaseReservedDBInstancesOfferingInput) async throws -> PurchaseReservedDBInstancesOfferingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4238,6 +5525,17 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// You might need to reboot your DB cluster, usually for maintenance reasons. For example, if you make certain modifications, or if you change the DB cluster parameter group associated with the DB cluster, reboot the DB cluster for the changes to take effect. Rebooting a DB cluster restarts the database engine service. Rebooting a DB cluster results in a momentary outage, during which the DB cluster status is set to rebooting. Use this operation only for a non-Aurora Multi-AZ DB cluster. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter RebootDBClusterInput : [no documentation found]
+    ///
+    /// - Returns: `RebootDBClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     public func rebootDBCluster(input: RebootDBClusterInput) async throws -> RebootDBClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4274,6 +5572,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// You might need to reboot your DB instance, usually for maintenance reasons. For example, if you make certain modifications, or if you change the DB parameter group associated with the DB instance, you must reboot the instance for the changes to take effect. Rebooting a DB instance restarts the database engine service. Rebooting a DB instance results in a momentary outage, during which the DB instance status is set to rebooting. For more information about rebooting, see [Rebooting a DB Instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_RebootInstance.html) in the Amazon RDS User Guide. This command doesn't apply to RDS Custom. If your DB instance is part of a Multi-AZ DB cluster, you can reboot the DB cluster with the RebootDBCluster operation.
+    ///
+    /// - Parameter RebootDBInstanceInput :
+    ///
+    /// - Returns: `RebootDBInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     public func rebootDBInstance(input: RebootDBInstanceInput) async throws -> RebootDBInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4310,6 +5618,23 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Associate one or more DBProxyTarget data structures with a DBProxyTargetGroup.
+    ///
+    /// - Parameter RegisterDBProxyTargetsInput : [no documentation found]
+    ///
+    /// - Returns: `RegisterDBProxyTargetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `DBProxyNotFoundFault` : The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// - `DBProxyTargetAlreadyRegisteredFault` : The proxy is already associated with the specified RDS DB instance or Aurora DB cluster.
+    /// - `DBProxyTargetGroupNotFoundFault` : The specified target group isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// - `InsufficientAvailableIPsInSubnetFault` : The requested operation can't be performed because there aren't enough available IP addresses in the proxy's subnets. Add more CIDR blocks to the VPC or remove IP address that aren't required from the subnets.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
+    /// - `InvalidDBProxyStateFault` : The requested operation can't be performed while the proxy is in this state.
     public func registerDBProxyTargets(input: RegisterDBProxyTargetsInput) async throws -> RegisterDBProxyTargetsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4346,6 +5671,17 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Detaches an Aurora secondary cluster from an Aurora global database cluster. The cluster becomes a standalone cluster with read-write capability instead of being read-only and receiving data from a primary cluster in a different Region. This action only applies to Aurora DB clusters.
+    ///
+    /// - Parameter RemoveFromGlobalClusterInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveFromGlobalClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
+    /// - `InvalidGlobalClusterStateFault` : The global cluster is in an invalid state and can't perform the requested operation.
     public func removeFromGlobalCluster(input: RemoveFromGlobalClusterInput) async throws -> RemoveFromGlobalClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4382,6 +5718,17 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Removes the asssociation of an Amazon Web Services Identity and Access Management (IAM) role from a DB cluster. For more information on Amazon Aurora DB clusters, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter RemoveRoleFromDBClusterInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveRoleFromDBClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `DBClusterRoleNotFoundFault` : The specified IAM role Amazon Resource Name (ARN) isn't associated with the specified DB cluster.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     public func removeRoleFromDBCluster(input: RemoveRoleFromDBClusterInput) async throws -> RemoveRoleFromDBClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4418,6 +5765,17 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Disassociates an Amazon Web Services Identity and Access Management (IAM) role from a DB instance.
+    ///
+    /// - Parameter RemoveRoleFromDBInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveRoleFromDBInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `DBInstanceRoleNotFoundFault` : The specified RoleArn value doesn't match the specified feature for the DB instance.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     public func removeRoleFromDBInstance(input: RemoveRoleFromDBInstanceInput) async throws -> RemoveRoleFromDBInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4454,6 +5812,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Removes a source identifier from an existing RDS event notification subscription.
+    ///
+    /// - Parameter RemoveSourceIdentifierFromSubscriptionInput :
+    ///
+    /// - Returns: `RemoveSourceIdentifierFromSubscriptionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `SourceNotFoundFault` : The requested source could not be found.
+    /// - `SubscriptionNotFoundFault` : The subscription name does not exist.
     public func removeSourceIdentifierFromSubscription(input: RemoveSourceIdentifierFromSubscriptionInput) async throws -> RemoveSourceIdentifierFromSubscriptionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4490,6 +5858,20 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Removes metadata tags from an Amazon RDS resource. For an overview on tagging an Amazon RDS resource, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.Tagging.html) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter RemoveTagsFromResourceInput :
+    ///
+    /// - Returns: `RemoveTagsFromResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BlueGreenDeploymentNotFoundFault` : BlueGreenDeploymentIdentifier doesn't refer to an existing blue/green deployment.
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `DBProxyNotFoundFault` : The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// - `DBProxyTargetGroupNotFoundFault` : The specified target group isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier doesn't refer to an existing DB snapshot.
     public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4526,6 +5908,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Modifies the parameters of a DB cluster parameter group to the default value. To reset specific parameters submit a list of the following: ParameterName and ApplyMethod. To reset the entire DB cluster parameter group, specify the DBClusterParameterGroupName and ResetAllParameters parameters. When resetting the entire group, dynamic parameters are updated immediately and static parameters are set to pending-reboot to take effect on the next DB instance restart or RebootDBInstance request. You must call RebootDBInstance for every DB instance in your DB cluster that you want the updated static parameter to apply to. For more information on Amazon Aurora DB clusters, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter ResetDBClusterParameterGroupInput :
+    ///
+    /// - Returns: `ResetDBClusterParameterGroupOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
+    /// - `InvalidDBParameterGroupStateFault` : The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you can't delete it when the parameter group is in this state.
     public func resetDBClusterParameterGroup(input: ResetDBClusterParameterGroupInput) async throws -> ResetDBClusterParameterGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4562,6 +5954,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Modifies the parameters of a DB parameter group to the engine/system default value. To reset specific parameters, provide a list of the following: ParameterName and ApplyMethod. To reset the entire DB parameter group, specify the DBParameterGroup name and ResetAllParameters parameters. When resetting the entire group, dynamic parameters are updated immediately and static parameters are set to pending-reboot to take effect on the next DB instance restart or RebootDBInstance request.
+    ///
+    /// - Parameter ResetDBParameterGroupInput :
+    ///
+    /// - Returns: `ResetDBParameterGroupOutputResponse` : Contains the result of a successful invocation of the ModifyDBParameterGroup or ResetDBParameterGroup action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
+    /// - `InvalidDBParameterGroupStateFault` : The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you can't delete it when the parameter group is in this state.
     public func resetDBParameterGroup(input: ResetDBParameterGroupInput) async throws -> ResetDBParameterGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4598,6 +6000,29 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Creates an Amazon Aurora DB cluster from MySQL data stored in an Amazon S3 bucket. Amazon RDS must be authorized to access the Amazon S3 bucket and the data must be created using the Percona XtraBackup utility as described in [ Migrating Data from MySQL by Using an Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQL.Migrating.ExtMySQL.html#AuroraMySQL.Migrating.ExtMySQL.S3) in the Amazon Aurora User Guide. This action only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the CreateDBInstance action to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in DBClusterIdentifier. You can create DB instances only after the RestoreDBClusterFromS3 action has completed and the DB cluster is available. For more information on Amazon Aurora, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. This action only applies to Aurora DB clusters. The source DB engine must be MySQL.
+    ///
+    /// - Parameter RestoreDBClusterFromS3Input : [no documentation found]
+    ///
+    /// - Returns: `RestoreDBClusterFromS3OutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterAlreadyExistsFault` : The user already has a DB cluster with the given identifier.
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `DBClusterParameterGroupNotFoundFault` : DBClusterParameterGroupName doesn't refer to an existing DB cluster parameter group.
+    /// - `DBClusterQuotaExceededFault` : The user attempted to create a new DB cluster and the user has already reached the maximum allowed DB cluster quota.
+    /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName doesn't refer to an existing DB subnet group.
+    /// - `DomainNotFoundFault` : Domain doesn't refer to an existing Active Directory domain.
+    /// - `InsufficientStorageClusterCapacityFault` : There is insufficient storage available for the current action. You might be able to resolve this error by updating your subnet group to use different Availability Zones that have more storage available.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `InvalidDBSubnetGroupStateFault` : The DB subnet group cannot be deleted because it's in use.
+    /// - `InvalidS3BucketFault` : The specified Amazon S3 bucket name can't be found or Amazon RDS isn't authorized to access the specified Amazon S3 bucket. Verify the SourceS3BucketName and S3IngestionRoleArn values and try again.
+    /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
+    /// - `InvalidVPCNetworkStateFault` : The DB subnet group doesn't cover all Availability Zones after it's created because of users' change.
+    /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
+    /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
+    /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
     public func restoreDBClusterFromS3(input: RestoreDBClusterFromS3Input) async throws -> RestoreDBClusterFromS3OutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4634,6 +6059,32 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Creates a new DB cluster from a DB snapshot or DB cluster snapshot. The target DB cluster is created from the source snapshot with a default configuration. If you don't specify a security group, the new DB cluster is associated with the default security group. This action only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the CreateDBInstance action to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in DBClusterIdentifier. You can create DB instances only after the RestoreDBClusterFromSnapshot action has completed and the DB cluster is available. For more information on Amazon Aurora DB clusters, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter RestoreDBClusterFromSnapshotInput :
+    ///
+    /// - Returns: `RestoreDBClusterFromSnapshotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterAlreadyExistsFault` : The user already has a DB cluster with the given identifier.
+    /// - `DBClusterParameterGroupNotFoundFault` : DBClusterParameterGroupName doesn't refer to an existing DB cluster parameter group.
+    /// - `DBClusterQuotaExceededFault` : The user attempted to create a new DB cluster and the user has already reached the maximum allowed DB cluster quota.
+    /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier doesn't refer to an existing DB cluster snapshot.
+    /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier doesn't refer to an existing DB snapshot.
+    /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName doesn't refer to an existing DB subnet group.
+    /// - `DomainNotFoundFault` : Domain doesn't refer to an existing Active Directory domain.
+    /// - `InsufficientDBClusterCapacityFault` : The DB cluster doesn't have enough capacity for the current operation.
+    /// - `InsufficientStorageClusterCapacityFault` : There is insufficient storage available for the current action. You might be able to resolve this error by updating your subnet group to use different Availability Zones that have more storage available.
+    /// - `InvalidDBClusterSnapshotStateFault` : The supplied value isn't a valid DB cluster snapshot state.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
+    /// - `InvalidDBSnapshotStateFault` : The state of the DB snapshot doesn't allow deletion.
+    /// - `InvalidRestoreFault` : Cannot restore from VPC backup to non-VPC DB instance.
+    /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
+    /// - `InvalidVPCNetworkStateFault` : The DB subnet group doesn't cover all Availability Zones after it's created because of users' change.
+    /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
+    /// - `OptionGroupNotFoundFault` : The specified option group could not be found.
+    /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
     public func restoreDBClusterFromSnapshot(input: RestoreDBClusterFromSnapshotInput) async throws -> RestoreDBClusterFromSnapshotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4670,6 +6121,33 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Restores a DB cluster to an arbitrary point in time. Users can restore to any point in time before LatestRestorableTime for up to BackupRetentionPeriod days. The target DB cluster is created from the source DB cluster with the same configuration as the original DB cluster, except that the new DB cluster is created with the default DB security group. For Aurora, this action only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the CreateDBInstance action to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in DBClusterIdentifier. You can create DB instances only after the RestoreDBClusterToPointInTime action has completed and the DB cluster is available. For more information on Amazon Aurora DB clusters, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter RestoreDBClusterToPointInTimeInput :
+    ///
+    /// - Returns: `RestoreDBClusterToPointInTimeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterAlreadyExistsFault` : The user already has a DB cluster with the given identifier.
+    /// - `DBClusterAutomatedBackupNotFoundFault` : No automated backup for this DB cluster was found.
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `DBClusterParameterGroupNotFoundFault` : DBClusterParameterGroupName doesn't refer to an existing DB cluster parameter group.
+    /// - `DBClusterQuotaExceededFault` : The user attempted to create a new DB cluster and the user has already reached the maximum allowed DB cluster quota.
+    /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier doesn't refer to an existing DB cluster snapshot.
+    /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName doesn't refer to an existing DB subnet group.
+    /// - `DomainNotFoundFault` : Domain doesn't refer to an existing Active Directory domain.
+    /// - `InsufficientDBClusterCapacityFault` : The DB cluster doesn't have enough capacity for the current operation.
+    /// - `InsufficientStorageClusterCapacityFault` : There is insufficient storage available for the current action. You might be able to resolve this error by updating your subnet group to use different Availability Zones that have more storage available.
+    /// - `InvalidDBClusterSnapshotStateFault` : The supplied value isn't a valid DB cluster snapshot state.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `InvalidDBSnapshotStateFault` : The state of the DB snapshot doesn't allow deletion.
+    /// - `InvalidRestoreFault` : Cannot restore from VPC backup to non-VPC DB instance.
+    /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
+    /// - `InvalidVPCNetworkStateFault` : The DB subnet group doesn't cover all Availability Zones after it's created because of users' change.
+    /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
+    /// - `OptionGroupNotFoundFault` : The specified option group could not be found.
+    /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
     public func restoreDBClusterToPointInTime(input: RestoreDBClusterToPointInTimeInput) async throws -> RestoreDBClusterToPointInTimeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4706,6 +6184,36 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Creates a new DB instance from a DB snapshot. The target database is created from the source database restore point with most of the source's original configuration, including the default security group and DB parameter group. By default, the new DB instance is created as a Single-AZ deployment, except when the instance is a SQL Server instance that has an option group associated with mirroring. In this case, the instance becomes a Multi-AZ deployment, not a Single-AZ deployment. If you want to replace your original DB instance with the new, restored DB instance, then rename your original DB instance before you call the RestoreDBInstanceFromDBSnapshot action. RDS doesn't allow two DB instances with the same name. After you have renamed your original DB instance with a different identifier, then you can pass the original name of the DB instance as the DBInstanceIdentifier in the call to the RestoreDBInstanceFromDBSnapshot action. The result is that you replace the original DB instance with the DB instance created from the snapshot. If you are restoring from a shared manual DB snapshot, the DBSnapshotIdentifier must be the ARN of the shared DB snapshot. This command doesn't apply to Aurora MySQL and Aurora PostgreSQL. For Aurora, use RestoreDBClusterFromSnapshot.
+    ///
+    /// - Parameter RestoreDBInstanceFromDBSnapshotInput :
+    ///
+    /// - Returns: `RestoreDBInstanceFromDBSnapshotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationNotFoundFault` : The specified CIDR IP range or Amazon EC2 security group might not be authorized for the specified DB security group. Or, RDS might not be authorized to perform necessary actions using IAM on your behalf.
+    /// - `BackupPolicyNotFoundFault` : [no documentation found]
+    /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier doesn't refer to an existing DB cluster snapshot.
+    /// - `DBInstanceAlreadyExistsFault` : The user already has a DB instance with the given identifier.
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
+    /// - `DBSecurityGroupNotFoundFault` : DBSecurityGroupName doesn't refer to an existing DB security group.
+    /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier doesn't refer to an existing DB snapshot.
+    /// - `DBSubnetGroupDoesNotCoverEnoughAZs` : Subnets in the DB subnet group should cover at least two Availability Zones unless there is only one Availability Zone.
+    /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName doesn't refer to an existing DB subnet group.
+    /// - `DomainNotFoundFault` : Domain doesn't refer to an existing Active Directory domain.
+    /// - `InstanceQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB instances.
+    /// - `InsufficientDBInstanceCapacityFault` : The specified DB instance class isn't available in the specified Availability Zone.
+    /// - `InvalidDBSnapshotStateFault` : The state of the DB snapshot doesn't allow deletion.
+    /// - `InvalidRestoreFault` : Cannot restore from VPC backup to non-VPC DB instance.
+    /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
+    /// - `InvalidVPCNetworkStateFault` : The DB subnet group doesn't cover all Availability Zones after it's created because of users' change.
+    /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
+    /// - `NetworkTypeNotSupported` : The network type is invalid for the DB instance. Valid nework type values are IPV4 and DUAL.
+    /// - `OptionGroupNotFoundFault` : The specified option group could not be found.
+    /// - `ProvisionedIopsNotAvailableInAZFault` : Provisioned IOPS not available in the specified Availability Zone.
+    /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
+    /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
     public func restoreDBInstanceFromDBSnapshot(input: RestoreDBInstanceFromDBSnapshotInput) async throws -> RestoreDBInstanceFromDBSnapshotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4742,6 +6250,32 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Amazon Relational Database Service (Amazon RDS) supports importing MySQL databases by using backup files. You can create a backup of your on-premises database, store it on Amazon Simple Storage Service (Amazon S3), and then restore the backup file onto a new Amazon RDS DB instance running MySQL. For more information, see [Importing Data into an Amazon RDS MySQL DB Instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/MySQL.Procedural.Importing.html) in the Amazon RDS User Guide. This command doesn't apply to RDS Custom.
+    ///
+    /// - Parameter RestoreDBInstanceFromS3Input : [no documentation found]
+    ///
+    /// - Returns: `RestoreDBInstanceFromS3OutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationNotFoundFault` : The specified CIDR IP range or Amazon EC2 security group might not be authorized for the specified DB security group. Or, RDS might not be authorized to perform necessary actions using IAM on your behalf.
+    /// - `BackupPolicyNotFoundFault` : [no documentation found]
+    /// - `DBInstanceAlreadyExistsFault` : The user already has a DB instance with the given identifier.
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
+    /// - `DBSecurityGroupNotFoundFault` : DBSecurityGroupName doesn't refer to an existing DB security group.
+    /// - `DBSubnetGroupDoesNotCoverEnoughAZs` : Subnets in the DB subnet group should cover at least two Availability Zones unless there is only one Availability Zone.
+    /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName doesn't refer to an existing DB subnet group.
+    /// - `InstanceQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB instances.
+    /// - `InsufficientDBInstanceCapacityFault` : The specified DB instance class isn't available in the specified Availability Zone.
+    /// - `InvalidS3BucketFault` : The specified Amazon S3 bucket name can't be found or Amazon RDS isn't authorized to access the specified Amazon S3 bucket. Verify the SourceS3BucketName and S3IngestionRoleArn values and try again.
+    /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
+    /// - `InvalidVPCNetworkStateFault` : The DB subnet group doesn't cover all Availability Zones after it's created because of users' change.
+    /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
+    /// - `NetworkTypeNotSupported` : The network type is invalid for the DB instance. Valid nework type values are IPV4 and DUAL.
+    /// - `OptionGroupNotFoundFault` : The specified option group could not be found.
+    /// - `ProvisionedIopsNotAvailableInAZFault` : Provisioned IOPS not available in the specified Availability Zone.
+    /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
+    /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
     public func restoreDBInstanceFromS3(input: RestoreDBInstanceFromS3Input) async throws -> RestoreDBInstanceFromS3OutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4778,6 +6312,37 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Restores a DB instance to an arbitrary point in time. You can restore to any point in time before the time identified by the LatestRestorableTime property. You can restore to a point up to the number of days specified by the BackupRetentionPeriod property. The target database is created with most of the original configuration, but in a system-selected Availability Zone, with the default security group, the default subnet group, and the default DB parameter group. By default, the new DB instance is created as a single-AZ deployment except when the instance is a SQL Server instance that has an option group that is associated with mirroring; in this case, the instance becomes a mirrored deployment and not a single-AZ deployment. This command doesn't apply to Aurora MySQL and Aurora PostgreSQL. For Aurora, use RestoreDBClusterToPointInTime.
+    ///
+    /// - Parameter RestoreDBInstanceToPointInTimeInput :
+    ///
+    /// - Returns: `RestoreDBInstanceToPointInTimeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationNotFoundFault` : The specified CIDR IP range or Amazon EC2 security group might not be authorized for the specified DB security group. Or, RDS might not be authorized to perform necessary actions using IAM on your behalf.
+    /// - `BackupPolicyNotFoundFault` : [no documentation found]
+    /// - `DBInstanceAlreadyExistsFault` : The user already has a DB instance with the given identifier.
+    /// - `DBInstanceAutomatedBackupNotFoundFault` : No automated backup for this DB instance was found.
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
+    /// - `DBSecurityGroupNotFoundFault` : DBSecurityGroupName doesn't refer to an existing DB security group.
+    /// - `DBSubnetGroupDoesNotCoverEnoughAZs` : Subnets in the DB subnet group should cover at least two Availability Zones unless there is only one Availability Zone.
+    /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName doesn't refer to an existing DB subnet group.
+    /// - `DomainNotFoundFault` : Domain doesn't refer to an existing Active Directory domain.
+    /// - `InstanceQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB instances.
+    /// - `InsufficientDBInstanceCapacityFault` : The specified DB instance class isn't available in the specified Availability Zone.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
+    /// - `InvalidRestoreFault` : Cannot restore from VPC backup to non-VPC DB instance.
+    /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
+    /// - `InvalidVPCNetworkStateFault` : The DB subnet group doesn't cover all Availability Zones after it's created because of users' change.
+    /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
+    /// - `NetworkTypeNotSupported` : The network type is invalid for the DB instance. Valid nework type values are IPV4 and DUAL.
+    /// - `OptionGroupNotFoundFault` : The specified option group could not be found.
+    /// - `PointInTimeRestoreNotEnabledFault` : SourceDBInstanceIdentifier refers to a DB instance with BackupRetentionPeriod equal to 0.
+    /// - `ProvisionedIopsNotAvailableInAZFault` : Provisioned IOPS not available in the specified Availability Zone.
+    /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
+    /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
     public func restoreDBInstanceToPointInTime(input: RestoreDBInstanceToPointInTimeInput) async throws -> RestoreDBInstanceToPointInTimeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4814,6 +6379,17 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Revokes ingress from a DBSecurityGroup for previously authorized IP ranges or EC2 or VPC security groups. Required parameters for this API are one of CIDRIP, EC2SecurityGroupId for VPC, or (EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId). EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more information, see [Migrate from EC2-Classic to a VPC](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-migrate.html) in the Amazon EC2 User Guide, the blog [EC2-Classic Networking is Retiring – Here’s How to Prepare](http://aws.amazon.com/blogs/aws/ec2-classic-is-retiring-heres-how-to-prepare/), and [Moving a DB instance not in a VPC into a VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.Non-VPC2VPC.html) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter RevokeDBSecurityGroupIngressInput :
+    ///
+    /// - Returns: `RevokeDBSecurityGroupIngressOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationNotFoundFault` : The specified CIDR IP range or Amazon EC2 security group might not be authorized for the specified DB security group. Or, RDS might not be authorized to perform necessary actions using IAM on your behalf.
+    /// - `DBSecurityGroupNotFoundFault` : DBSecurityGroupName doesn't refer to an existing DB security group.
+    /// - `InvalidDBSecurityGroupStateFault` : The state of the DB security group doesn't allow deletion.
     public func revokeDBSecurityGroupIngress(input: RevokeDBSecurityGroupIngressInput) async throws -> RevokeDBSecurityGroupIngressOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4850,6 +6426,20 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Starts a database activity stream to monitor activity on the database. For more information, see [ Monitoring Amazon Aurora with Database Activity Streams](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/DBActivityStreams.html) in the Amazon Aurora User Guide or [ Monitoring Amazon RDS with Database Activity Streams](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/DBActivityStreams.html) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter StartActivityStreamInput : [no documentation found]
+    ///
+    /// - Returns: `StartActivityStreamOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
+    /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
+    /// - `ResourceNotFoundFault` : The specified resource ID was not found.
     public func startActivityStream(input: StartActivityStreamInput) async throws -> StartActivityStreamOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4886,6 +6476,17 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Starts an Amazon Aurora DB cluster that was stopped using the Amazon Web Services console, the stop-db-cluster CLI command, or the StopDBCluster action. For more information, see [ Stopping and Starting an Aurora Cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-cluster-stop-start.html) in the Amazon Aurora User Guide. This action only applies to Aurora DB clusters.
+    ///
+    /// - Parameter StartDBClusterInput : [no documentation found]
+    ///
+    /// - Returns: `StartDBClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     public func startDBCluster(input: StartDBClusterInput) async throws -> StartDBClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4922,6 +6523,25 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Starts an Amazon RDS DB instance that was stopped using the Amazon Web Services console, the stop-db-instance CLI command, or the StopDBInstance action. For more information, see [ Starting an Amazon RDS DB instance That Was Previously Stopped](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_StartInstance.html) in the Amazon RDS User Guide. This command doesn't apply to RDS Custom, Aurora MySQL, and Aurora PostgreSQL. For Aurora DB clusters, use StartDBCluster instead.
+    ///
+    /// - Parameter StartDBInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `StartDBInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationNotFoundFault` : The specified CIDR IP range or Amazon EC2 security group might not be authorized for the specified DB security group. Or, RDS might not be authorized to perform necessary actions using IAM on your behalf.
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `DBSubnetGroupDoesNotCoverEnoughAZs` : Subnets in the DB subnet group should cover at least two Availability Zones unless there is only one Availability Zone.
+    /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName doesn't refer to an existing DB subnet group.
+    /// - `InsufficientDBInstanceCapacityFault` : The specified DB instance class isn't available in the specified Availability Zone.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
+    /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
+    /// - `InvalidVPCNetworkStateFault` : The DB subnet group doesn't cover all Availability Zones after it's created because of users' change.
+    /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
     public func startDBInstance(input: StartDBInstanceInput) async throws -> StartDBInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4958,6 +6578,19 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Enables replication of automated backups to a different Amazon Web Services Region. This command doesn't apply to RDS Custom. For more information, see [ Replicating Automated Backups to Another Amazon Web Services Region](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReplicateBackups.html) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter StartDBInstanceAutomatedBackupsReplicationInput : [no documentation found]
+    ///
+    /// - Returns: `StartDBInstanceAutomatedBackupsReplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBInstanceAutomatedBackupQuotaExceededFault` : The quota for retained automated backups was exceeded. This prevents you from retaining any additional automated backups. The retained automated backups quota is the same as your DB instance quota.
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
+    /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
+    /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
     public func startDBInstanceAutomatedBackupsReplication(input: StartDBInstanceAutomatedBackupsReplicationInput) async throws -> StartDBInstanceAutomatedBackupsReplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4994,6 +6627,24 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Starts an export of DB snapshot or DB cluster data to Amazon S3. The provided IAM role must have access to the S3 bucket. You can't export snapshot data from RDS Custom DB instances. You can't export cluster data from Multi-AZ DB clusters. For more information on exporting DB snapshot data, see [Exporting DB snapshot data to Amazon S3](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ExportSnapshot.html) in the Amazon RDS User Guide or [Exporting DB cluster snapshot data to Amazon S3](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-export-snapshot.html) in the Amazon Aurora User Guide. For more information on exporting DB cluster data, see [Exporting DB cluster data to Amazon S3](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/export-cluster-data.html) in the Amazon Aurora User Guide.
+    ///
+    /// - Parameter StartExportTaskInput : [no documentation found]
+    ///
+    /// - Returns: `StartExportTaskOutputResponse` : Contains the details of a snapshot or cluster export to Amazon S3. This data type is used as a response element in the DescribeExportTasks action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier doesn't refer to an existing DB cluster snapshot.
+    /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier doesn't refer to an existing DB snapshot.
+    /// - `ExportTaskAlreadyExistsFault` : You can't start an export task that's already running.
+    /// - `IamRoleMissingPermissionsFault` : The IAM role requires additional permissions to export to an Amazon S3 bucket.
+    /// - `IamRoleNotFoundFault` : The IAM role is missing for exporting to an Amazon S3 bucket.
+    /// - `InvalidExportOnlyFault` : The export is invalid for exporting to an Amazon S3 bucket.
+    /// - `InvalidExportSourceStateFault` : The state of the export snapshot is invalid for exporting to an Amazon S3 bucket.
+    /// - `InvalidS3BucketFault` : The specified Amazon S3 bucket name can't be found or Amazon RDS isn't authorized to access the specified Amazon S3 bucket. Verify the SourceS3BucketName and S3IngestionRoleArn values and try again.
+    /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
     public func startExportTask(input: StartExportTaskInput) async throws -> StartExportTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5030,6 +6681,19 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Stops a database activity stream that was started using the Amazon Web Services console, the start-activity-stream CLI command, or the StartActivityStream action. For more information, see [ Monitoring Amazon Aurora with Database Activity Streams](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/DBActivityStreams.html) in the Amazon Aurora User Guide or [ Monitoring Amazon RDS with Database Activity Streams](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/DBActivityStreams.html) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter StopActivityStreamInput : [no documentation found]
+    ///
+    /// - Returns: `StopActivityStreamOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
+    /// - `ResourceNotFoundFault` : The specified resource ID was not found.
     public func stopActivityStream(input: StopActivityStreamInput) async throws -> StopActivityStreamOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5066,6 +6730,17 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Stops an Amazon Aurora DB cluster. When you stop a DB cluster, Aurora retains the DB cluster's metadata, including its endpoints and DB parameter groups. Aurora also retains the transaction logs so you can do a point-in-time restore if necessary. For more information, see [ Stopping and Starting an Aurora Cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-cluster-stop-start.html) in the Amazon Aurora User Guide. This action only applies to Aurora DB clusters.
+    ///
+    /// - Parameter StopDBClusterInput : [no documentation found]
+    ///
+    /// - Returns: `StopDBClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     public func stopDBCluster(input: StopDBClusterInput) async throws -> StopDBClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5102,6 +6777,19 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Stops an Amazon RDS DB instance. When you stop a DB instance, Amazon RDS retains the DB instance's metadata, including its endpoint, DB parameter group, and option group membership. Amazon RDS also retains the transaction logs so you can do a point-in-time restore if necessary. For more information, see [ Stopping an Amazon RDS DB Instance Temporarily](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_StopInstance.html) in the Amazon RDS User Guide. This command doesn't apply to RDS Custom, Aurora MySQL, and Aurora PostgreSQL. For Aurora clusters, use StopDBCluster instead.
+    ///
+    /// - Parameter StopDBInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `StopDBInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `DBSnapshotAlreadyExistsFault` : DBSnapshotIdentifier is already used by an existing snapshot.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
+    /// - `SnapshotQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB snapshots.
     public func stopDBInstance(input: StopDBInstanceInput) async throws -> StopDBInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5138,6 +6826,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Stops automated backup replication for a DB instance. This command doesn't apply to RDS Custom, Aurora MySQL, and Aurora PostgreSQL. For more information, see [ Replicating Automated Backups to Another Amazon Web Services Region](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReplicateBackups.html) in the Amazon RDS User Guide.
+    ///
+    /// - Parameter StopDBInstanceAutomatedBackupsReplicationInput : [no documentation found]
+    ///
+    /// - Returns: `StopDBInstanceAutomatedBackupsReplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     public func stopDBInstanceAutomatedBackupsReplication(input: StopDBInstanceAutomatedBackupsReplicationInput) async throws -> StopDBInstanceAutomatedBackupsReplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5174,6 +6872,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Switches over a blue/green deployment. Before you switch over, production traffic is routed to the databases in the blue environment. After you switch over, production traffic is routed to the databases in the green environment. For more information, see [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html) in the Amazon RDS User Guide and [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html) in the Amazon Aurora User Guide.
+    ///
+    /// - Parameter SwitchoverBlueGreenDeploymentInput : [no documentation found]
+    ///
+    /// - Returns: `SwitchoverBlueGreenDeploymentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BlueGreenDeploymentNotFoundFault` : BlueGreenDeploymentIdentifier doesn't refer to an existing blue/green deployment.
+    /// - `InvalidBlueGreenDeploymentStateFault` : The blue/green deployment can't be switched over or deleted because there is an invalid configuration in the green environment.
     public func switchoverBlueGreenDeployment(input: SwitchoverBlueGreenDeploymentInput) async throws -> SwitchoverBlueGreenDeploymentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5210,6 +6918,16 @@ extension RDSClient: RDSClientProtocol {
     }
 
     /// Switches over an Oracle standby database in an Oracle Data Guard environment, making it the new primary database. Issue this command in the Region that hosts the current standby database.
+    ///
+    /// - Parameter SwitchoverReadReplicaInput : [no documentation found]
+    ///
+    /// - Returns: `SwitchoverReadReplicaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     public func switchoverReadReplica(input: SwitchoverReadReplicaInput) async throws -> SwitchoverReadReplicaOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

@@ -541,6 +541,7 @@ public struct CancelTaskExecutionOutputResponse: Swift.Equatable {
 
 extension DataSyncClientTypes.Capacity: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clusterCloudStorageUsed = "ClusterCloudStorageUsed"
         case logicalUsed = "LogicalUsed"
         case provisioned = "Provisioned"
         case used = "Used"
@@ -548,6 +549,9 @@ extension DataSyncClientTypes.Capacity: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clusterCloudStorageUsed = self.clusterCloudStorageUsed {
+            try encodeContainer.encode(clusterCloudStorageUsed, forKey: .clusterCloudStorageUsed)
+        }
         if let logicalUsed = self.logicalUsed {
             try encodeContainer.encode(logicalUsed, forKey: .logicalUsed)
         }
@@ -567,12 +571,16 @@ extension DataSyncClientTypes.Capacity: Swift.Codable {
         provisioned = provisionedDecoded
         let logicalUsedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .logicalUsed)
         logicalUsed = logicalUsedDecoded
+        let clusterCloudStorageUsedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .clusterCloudStorageUsed)
+        clusterCloudStorageUsed = clusterCloudStorageUsedDecoded
     }
 }
 
 extension DataSyncClientTypes {
     /// The storage capacity of an on-premises storage system resource (for example, a volume).
     public struct Capacity: Swift.Equatable {
+        /// The amount of space in the cluster that's in cloud storage (for example, if you're using data tiering).
+        public var clusterCloudStorageUsed: Swift.Int?
         /// The amount of space that's being used in a storage system resource without accounting for compression or deduplication.
         public var logicalUsed: Swift.Int?
         /// The total amount of space available in a storage system resource.
@@ -581,11 +589,13 @@ extension DataSyncClientTypes {
         public var used: Swift.Int?
 
         public init(
+            clusterCloudStorageUsed: Swift.Int? = nil,
             logicalUsed: Swift.Int? = nil,
             provisioned: Swift.Int? = nil,
             used: Swift.Int? = nil
         )
         {
+            self.clusterCloudStorageUsed = clusterCloudStorageUsed
             self.logicalUsed = logicalUsed
             self.provisioned = provisioned
             self.used = used
@@ -2235,15 +2245,15 @@ extension CreateLocationNfsInput: ClientRuntime.URLPathProvider {
 
 /// CreateLocationNfsRequest
 public struct CreateLocationNfsInput: Swift.Equatable {
-    /// Specifies the mount options that DataSync can use to mount your NFS share.
+    /// Specifies the options that DataSync can use to mount your NFS file server.
     public var mountOptions: DataSyncClientTypes.NfsMountOptions?
-    /// Specifies the Amazon Resource Names (ARNs) of agents that DataSync uses to connect to your NFS file server. If you are copying data to or from your Snowcone device, see [NFS Server on Snowcone](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone) for more information.
+    /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that want to connect to your NFS file server. You can specify more than one agent. For more information, see [Using multiple agents for transfers](https://docs.aws.amazon.com/datasync/latest/userguide/multiple-agents.html).
     /// This member is required.
     public var onPremConfig: DataSyncClientTypes.OnPremConfig?
-    /// Specifies the IP address or domain name of your NFS file server. An agent that is installed on-premises uses this hostname to mount the NFS server in a network. If you are copying data to or from your Snowcone device, see [NFS Server on Snowcone](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone) for more information. You must specify be an IP version 4 address or Domain Name System (DNS)-compliant name.
+    /// Specifies the Domain Name System (DNS) name or IP version 4 address of the NFS file server that your DataSync agent connects to.
     /// This member is required.
     public var serverHostname: Swift.String?
-    /// Specifies the subdirectory in the NFS file server that DataSync transfers to or from. The NFS path should be a path that's exported by the NFS server, or a subdirectory of that path. The path should be such that it can be mounted by other NFS clients in your network. To see all the paths exported by your NFS server, run "showmount -e nfs-server-name" from an NFS client that has access to your server. You can specify any directory that appears in the results, and any subdirectory of that directory. Ensure that the NFS export is accessible without Kerberos authentication. To transfer all the data in the folder you specified, DataSync needs to have permissions to read all the data. To ensure this, either configure the NFS export with no_root_squash, or ensure that the permissions for all of the files that you want DataSync allow read access for all users. Doing either enables the agent to read the files. For the agent to access directories, you must additionally enable all execute access. If you are copying data to or from your Snowcone device, see [NFS Server on Snowcone](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone) for more information.
+    /// Specifies the export path in your NFS file server that you want DataSync to mount. This path (or a subdirectory of the path) is where DataSync transfers data to or from. For information on configuring an export for DataSync, see [Accessing NFS file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#accessing-nfs).
     /// This member is required.
     public var subdirectory: Swift.String?
     /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location.
@@ -5025,7 +5035,7 @@ extension DescribeLocationNfsInput: ClientRuntime.URLPathProvider {
 
 /// DescribeLocationNfsRequest
 public struct DescribeLocationNfsInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the NFS location to describe.
+    /// Specifies the Amazon Resource Name (ARN) of the NFS location that you want information about.
     /// This member is required.
     public var locationArn: Swift.String?
 
@@ -5087,15 +5097,15 @@ extension DescribeLocationNfsOutputResponse: ClientRuntime.HttpResponseBinding {
 
 /// DescribeLocationNfsResponse
 public struct DescribeLocationNfsOutputResponse: Swift.Equatable {
-    /// The time that the NFS location was created.
+    /// The time when the NFS location was created.
     public var creationTime: ClientRuntime.Date?
-    /// The Amazon Resource Name (ARN) of the NFS location that was described.
+    /// The ARN of the NFS location.
     public var locationArn: Swift.String?
-    /// The URL of the source NFS location that was described.
+    /// The URL of the NFS location.
     public var locationUri: Swift.String?
-    /// The mount options that DataSync uses to mount your NFS share.
+    /// The mount options that DataSync uses to mount your NFS file server.
     public var mountOptions: DataSyncClientTypes.NfsMountOptions?
-    /// A list of Amazon Resource Names (ARNs) of agents to use for a Network File System (NFS) location.
+    /// The DataSync agents that are connecting to a Network File System (NFS) location.
     public var onPremConfig: DataSyncClientTypes.OnPremConfig?
 
     public init(
@@ -9306,6 +9316,7 @@ extension DataSyncClientTypes.NetAppONTAPCluster: Swift.Codable {
         case clusterBlockStorageLogicalUsed = "ClusterBlockStorageLogicalUsed"
         case clusterBlockStorageSize = "ClusterBlockStorageSize"
         case clusterBlockStorageUsed = "ClusterBlockStorageUsed"
+        case clusterCloudStorageUsed = "ClusterCloudStorageUsed"
         case clusterName = "ClusterName"
         case lunCount = "LunCount"
         case maxP95Performance = "MaxP95Performance"
@@ -9328,6 +9339,9 @@ extension DataSyncClientTypes.NetAppONTAPCluster: Swift.Codable {
         }
         if let clusterBlockStorageUsed = self.clusterBlockStorageUsed {
             try encodeContainer.encode(clusterBlockStorageUsed, forKey: .clusterBlockStorageUsed)
+        }
+        if let clusterCloudStorageUsed = self.clusterCloudStorageUsed {
+            try encodeContainer.encode(clusterCloudStorageUsed, forKey: .clusterCloudStorageUsed)
         }
         if let clusterName = self.clusterName {
             try encodeContainer.encode(clusterName, forKey: .clusterName)
@@ -9388,6 +9402,8 @@ extension DataSyncClientTypes.NetAppONTAPCluster: Swift.Codable {
         recommendationStatus = recommendationStatusDecoded
         let lunCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lunCount)
         lunCount = lunCountDecoded
+        let clusterCloudStorageUsedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .clusterCloudStorageUsed)
+        clusterCloudStorageUsed = clusterCloudStorageUsedDecoded
     }
 }
 
@@ -9402,6 +9418,8 @@ extension DataSyncClientTypes {
         public var clusterBlockStorageSize: Swift.Int?
         /// The storage space that's being used in a cluster.
         public var clusterBlockStorageUsed: Swift.Int?
+        /// The amount of space in the cluster that's in cloud storage (for example, if you're using data tiering).
+        public var clusterCloudStorageUsed: Swift.Int?
         /// The name of the cluster.
         public var clusterName: Swift.String?
         /// The number of LUNs (logical unit numbers) in the cluster.
@@ -9422,6 +9440,7 @@ extension DataSyncClientTypes {
             clusterBlockStorageLogicalUsed: Swift.Int? = nil,
             clusterBlockStorageSize: Swift.Int? = nil,
             clusterBlockStorageUsed: Swift.Int? = nil,
+            clusterCloudStorageUsed: Swift.Int? = nil,
             clusterName: Swift.String? = nil,
             lunCount: Swift.Int? = nil,
             maxP95Performance: DataSyncClientTypes.MaxP95Performance? = nil,
@@ -9435,6 +9454,7 @@ extension DataSyncClientTypes {
             self.clusterBlockStorageLogicalUsed = clusterBlockStorageLogicalUsed
             self.clusterBlockStorageSize = clusterBlockStorageSize
             self.clusterBlockStorageUsed = clusterBlockStorageUsed
+            self.clusterCloudStorageUsed = clusterCloudStorageUsed
             self.clusterName = clusterName
             self.lunCount = lunCount
             self.maxP95Performance = maxP95Performance
@@ -10003,9 +10023,9 @@ extension DataSyncClientTypes.OnPremConfig: Swift.Codable {
 }
 
 extension DataSyncClientTypes {
-    /// A list of Amazon Resource Names (ARNs) of agents to use for a Network File System (NFS) location.
+    /// The DataSync agents that are connecting to a Network File System (NFS) location.
     public struct OnPremConfig: Swift.Equatable {
-        /// ARNs of the agents to use for an NFS location.
+        /// The Amazon Resource Names (ARNs) of the agents connecting to a transfer location.
         /// This member is required.
         public var agentArns: [Swift.String]?
 
@@ -13088,14 +13108,14 @@ extension UpdateLocationNfsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateLocationNfsInput: Swift.Equatable {
-    /// Specifies the Amazon Resource Name (ARN) of the NFS location that you want to update.
+    /// Specifies the Amazon Resource Name (ARN) of the NFS transfer location that you want to update.
     /// This member is required.
     public var locationArn: Swift.String?
     /// Specifies how DataSync can access a location using the NFS protocol.
     public var mountOptions: DataSyncClientTypes.NfsMountOptions?
-    /// A list of Amazon Resource Names (ARNs) of agents to use for a Network File System (NFS) location.
+    /// The DataSync agents that are connecting to a Network File System (NFS) location.
     public var onPremConfig: DataSyncClientTypes.OnPremConfig?
-    /// Specifies the subdirectory in your NFS file system that DataSync uses to read from or write to during a transfer. The NFS path should be exported by the NFS server, or a subdirectory of that path. The path should be such that it can be mounted by other NFS clients in your network. To see all the paths exported by your NFS server, run "showmount -e nfs-server-name" from an NFS client that has access to your server. You can specify any directory that appears in the results, and any subdirectory of that directory. Ensure that the NFS export is accessible without Kerberos authentication. To transfer all the data in the folder that you specified, DataSync must have permissions to read all the data. To ensure this, either configure the NFS export with no_root_squash, or ensure that the files you want DataSync to access have permissions that allow read access for all users. Doing either option enables the agent to read the files. For the agent to access directories, you must additionally enable all execute access. If you are copying data to or from your Snowcone device, see [NFS Server on Snowcone](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone) for more information.
+    /// Specifies the export path in your NFS file server that you want DataSync to mount. This path (or a subdirectory of the path) is where DataSync transfers data to or from. For information on configuring an export for DataSync, see [Accessing NFS file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#accessing-nfs).
     public var subdirectory: Swift.String?
 
     public init(

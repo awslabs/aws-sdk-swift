@@ -5,70 +5,434 @@ import ClientRuntime
 /// Welcome to the AWS Ground Station API Reference. AWS Ground Station is a fully managed service that enables you to control satellite communications, downlink and process satellite data, and scale your satellite operations efficiently and cost-effectively without having to build or manage your own ground station infrastructure.
 public protocol GroundStationClientProtocol {
     /// Cancels a contact with a specified contact ID.
+    ///
+    /// - Parameter CancelContactInput :
+    ///
+    /// - Returns: `CancelContactOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func cancelContact(input: CancelContactInput) async throws -> CancelContactOutputResponse
     /// Creates a Config with the specified configData parameters. Only one type of configData can be specified.
+    ///
+    /// - Parameter CreateConfigInput :
+    ///
+    /// - Returns: `CreateConfigOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceLimitExceededException` : Account limits for this resource have been exceeded.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func createConfig(input: CreateConfigInput) async throws -> CreateConfigOutputResponse
     /// Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group.
+    ///
+    /// - Parameter CreateDataflowEndpointGroupInput :
+    ///
+    /// - Returns: `CreateDataflowEndpointGroupOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func createDataflowEndpointGroup(input: CreateDataflowEndpointGroupInput) async throws -> CreateDataflowEndpointGroupOutputResponse
     /// Creates an Ephemeris with the specified EphemerisData.
+    ///
+    /// - Parameter CreateEphemerisInput : [no documentation found]
+    ///
+    /// - Returns: `CreateEphemerisOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func createEphemeris(input: CreateEphemerisInput) async throws -> CreateEphemerisOutputResponse
     /// Creates a mission profile. dataflowEdges is a list of lists of strings. Each lower level list of strings has two elements: a from ARN and a to ARN.
+    ///
+    /// - Parameter CreateMissionProfileInput :
+    ///
+    /// - Returns: `CreateMissionProfileOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func createMissionProfile(input: CreateMissionProfileInput) async throws -> CreateMissionProfileOutputResponse
     /// Deletes a Config.
+    ///
+    /// - Parameter DeleteConfigInput :
+    ///
+    /// - Returns: `DeleteConfigOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func deleteConfig(input: DeleteConfigInput) async throws -> DeleteConfigOutputResponse
     /// Deletes a dataflow endpoint group.
+    ///
+    /// - Parameter DeleteDataflowEndpointGroupInput :
+    ///
+    /// - Returns: `DeleteDataflowEndpointGroupOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func deleteDataflowEndpointGroup(input: DeleteDataflowEndpointGroupInput) async throws -> DeleteDataflowEndpointGroupOutputResponse
     /// Deletes an ephemeris
+    ///
+    /// - Parameter DeleteEphemerisInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEphemerisOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func deleteEphemeris(input: DeleteEphemerisInput) async throws -> DeleteEphemerisOutputResponse
     /// Deletes a mission profile.
+    ///
+    /// - Parameter DeleteMissionProfileInput :
+    ///
+    /// - Returns: `DeleteMissionProfileOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func deleteMissionProfile(input: DeleteMissionProfileInput) async throws -> DeleteMissionProfileOutputResponse
     /// Describes an existing contact.
+    ///
+    /// - Parameter DescribeContactInput :
+    ///
+    /// - Returns: `DescribeContactOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func describeContact(input: DescribeContactInput) async throws -> DescribeContactOutputResponse
     /// Describes an existing ephemeris.
+    ///
+    /// - Parameter DescribeEphemerisInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeEphemerisOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func describeEphemeris(input: DescribeEphemerisInput) async throws -> DescribeEphemerisOutputResponse
     /// For use by AWS Ground Station Agent and shouldn't be called directly. Gets the latest configuration information for a registered agent.
+    ///
+    /// - Parameter GetAgentConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetAgentConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func getAgentConfiguration(input: GetAgentConfigurationInput) async throws -> GetAgentConfigurationOutputResponse
     /// Returns Config information. Only one Config response can be returned.
+    ///
+    /// - Parameter GetConfigInput :
+    ///
+    /// - Returns: `GetConfigOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func getConfig(input: GetConfigInput) async throws -> GetConfigOutputResponse
     /// Returns the dataflow endpoint group.
+    ///
+    /// - Parameter GetDataflowEndpointGroupInput :
+    ///
+    /// - Returns: `GetDataflowEndpointGroupOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func getDataflowEndpointGroup(input: GetDataflowEndpointGroupInput) async throws -> GetDataflowEndpointGroupOutputResponse
     /// Returns the number of reserved minutes used by account.
+    ///
+    /// - Parameter GetMinuteUsageInput :
+    ///
+    /// - Returns: `GetMinuteUsageOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func getMinuteUsage(input: GetMinuteUsageInput) async throws -> GetMinuteUsageOutputResponse
     /// Returns a mission profile.
+    ///
+    /// - Parameter GetMissionProfileInput :
+    ///
+    /// - Returns: `GetMissionProfileOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func getMissionProfile(input: GetMissionProfileInput) async throws -> GetMissionProfileOutputResponse
     /// Returns a satellite.
+    ///
+    /// - Parameter GetSatelliteInput :
+    ///
+    /// - Returns: `GetSatelliteOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func getSatellite(input: GetSatelliteInput) async throws -> GetSatelliteOutputResponse
     /// Returns a list of Config objects.
+    ///
+    /// - Parameter ListConfigsInput :
+    ///
+    /// - Returns: `ListConfigsOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func listConfigs(input: ListConfigsInput) async throws -> ListConfigsOutputResponse
     /// Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundStation, missionprofileArn, and satelliteArn.
+    ///
+    /// - Parameter ListContactsInput :
+    ///
+    /// - Returns: `ListContactsOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func listContacts(input: ListContactsInput) async throws -> ListContactsOutputResponse
     /// Returns a list of DataflowEndpoint groups.
+    ///
+    /// - Parameter ListDataflowEndpointGroupsInput :
+    ///
+    /// - Returns: `ListDataflowEndpointGroupsOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func listDataflowEndpointGroups(input: ListDataflowEndpointGroupsInput) async throws -> ListDataflowEndpointGroupsOutputResponse
     /// List existing ephemerides.
+    ///
+    /// - Parameter ListEphemeridesInput : [no documentation found]
+    ///
+    /// - Returns: `ListEphemeridesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func listEphemerides(input: ListEphemeridesInput) async throws -> ListEphemeridesOutputResponse
     /// Returns a list of ground stations.
+    ///
+    /// - Parameter ListGroundStationsInput :
+    ///
+    /// - Returns: `ListGroundStationsOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func listGroundStations(input: ListGroundStationsInput) async throws -> ListGroundStationsOutputResponse
     /// Returns a list of mission profiles.
+    ///
+    /// - Parameter ListMissionProfilesInput :
+    ///
+    /// - Returns: `ListMissionProfilesOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func listMissionProfiles(input: ListMissionProfilesInput) async throws -> ListMissionProfilesOutputResponse
     /// Returns a list of satellites.
+    ///
+    /// - Parameter ListSatellitesInput :
+    ///
+    /// - Returns: `ListSatellitesOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func listSatellites(input: ListSatellitesInput) async throws -> ListSatellitesOutputResponse
     /// Returns a list of tags for a specified resource.
+    ///
+    /// - Parameter ListTagsForResourceInput :
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// For use by AWS Ground Station Agent and shouldn't be called directly. Registers a new agent with AWS Ground Station.
+    ///
+    /// - Parameter RegisterAgentInput : [no documentation found]
+    ///
+    /// - Returns: `RegisterAgentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func registerAgent(input: RegisterAgentInput) async throws -> RegisterAgentOutputResponse
     /// Reserves a contact using specified parameters.
+    ///
+    /// - Parameter ReserveContactInput :
+    ///
+    /// - Returns: `ReserveContactOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func reserveContact(input: ReserveContactInput) async throws -> ReserveContactOutputResponse
     /// Assigns a tag to a resource.
+    ///
+    /// - Parameter TagResourceInput :
+    ///
+    /// - Returns: `TagResourceOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Deassigns a resource tag.
+    ///
+    /// - Parameter UntagResourceInput :
+    ///
+    /// - Returns: `UntagResourceOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// For use by AWS Ground Station Agent and shouldn't be called directly. Update the status of the agent.
+    ///
+    /// - Parameter UpdateAgentStatusInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAgentStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func updateAgentStatus(input: UpdateAgentStatusInput) async throws -> UpdateAgentStatusOutputResponse
     /// Updates the Config used when scheduling contacts. Updating a Config will not update the execution parameters for existing future contacts scheduled with this Config.
+    ///
+    /// - Parameter UpdateConfigInput :
+    ///
+    /// - Returns: `UpdateConfigOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func updateConfig(input: UpdateConfigInput) async throws -> UpdateConfigOutputResponse
     /// Updates an existing ephemeris
+    ///
+    /// - Parameter UpdateEphemerisInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEphemerisOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func updateEphemeris(input: UpdateEphemerisInput) async throws -> UpdateEphemerisOutputResponse
     /// Updates a mission profile. Updating a mission profile will not update the execution parameters for existing future contacts.
+    ///
+    /// - Parameter UpdateMissionProfileInput :
+    ///
+    /// - Returns: `UpdateMissionProfileOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     func updateMissionProfile(input: UpdateMissionProfileInput) async throws -> UpdateMissionProfileOutputResponse
 }
 

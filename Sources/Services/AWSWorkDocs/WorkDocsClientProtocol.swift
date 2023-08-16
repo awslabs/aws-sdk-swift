@@ -25,92 +25,728 @@ import ClientRuntime
 /// For information about Amazon WorkDocs API pricing, see [Amazon WorkDocs Pricing](https://aws.amazon.com/workdocs/pricing/).
 public protocol WorkDocsClientProtocol {
     /// Aborts the upload of the specified document version that was previously initiated by [InitiateDocumentVersionUpload]. The client should make this call only when it no longer intends to upload the document version, or fails to do so.
+    ///
+    /// - Parameter AbortDocumentVersionUploadInput : [no documentation found]
+    ///
+    /// - Returns: `AbortDocumentVersionUploadOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : The resource hierarchy is changing.
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func abortDocumentVersionUpload(input: AbortDocumentVersionUploadInput) async throws -> AbortDocumentVersionUploadOutputResponse
     /// Activates the specified user. Only active users can access Amazon WorkDocs.
+    ///
+    /// - Parameter ActivateUserInput : [no documentation found]
+    ///
+    /// - Returns: `ActivateUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func activateUser(input: ActivateUserInput) async throws -> ActivateUserOutputResponse
     /// Creates a set of permissions for the specified folder or document. The resource permissions are overwritten if the principals already have different permissions.
+    ///
+    /// - Parameter AddResourcePermissionsInput : [no documentation found]
+    ///
+    /// - Returns: `AddResourcePermissionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func addResourcePermissions(input: AddResourcePermissionsInput) async throws -> AddResourcePermissionsOutputResponse
     /// Adds a new comment to the specified document version.
+    ///
+    /// - Parameter CreateCommentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCommentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DocumentLockedForCommentsException` : This exception is thrown when the document is locked for comments and user tries to create or delete a comment on that document.
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `InvalidCommentOperationException` : The requested operation is not allowed on the specified comment object.
+    /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func createComment(input: CreateCommentInput) async throws -> CreateCommentOutputResponse
     /// Adds one or more custom properties to the specified resource (a folder, document, or version).
+    ///
+    /// - Parameter CreateCustomMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCustomMetadataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CustomMetadataLimitExceededException` : The limit has been reached on the number of custom properties for the specified resource.
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func createCustomMetadata(input: CreateCustomMetadataInput) async throws -> CreateCustomMetadataOutputResponse
     /// Creates a folder with the specified name and parent folder.
+    ///
+    /// - Parameter CreateFolderInput : [no documentation found]
+    ///
+    /// - Returns: `CreateFolderOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : The resource hierarchy is changing.
+    /// - `ConflictingOperationException` : Another operation is in progress on the resource that conflicts with the current operation.
+    /// - `EntityAlreadyExistsException` : The resource already exists.
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `LimitExceededException` : The maximum of 100,000 files and folders under the parent folder has been exceeded.
+    /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func createFolder(input: CreateFolderInput) async throws -> CreateFolderOutputResponse
     /// Adds the specified list of labels to the given resource (a document or folder)
+    ///
+    /// - Parameter CreateLabelsInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLabelsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `TooManyLabelsException` : The limit has been reached on the number of labels for the specified resource.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func createLabels(input: CreateLabelsInput) async throws -> CreateLabelsOutputResponse
     /// Configure Amazon WorkDocs to use Amazon SNS notifications. The endpoint receives a confirmation message, and must confirm the subscription. For more information, see [Setting up notifications for an IAM user or role](https://docs.aws.amazon.com/workdocs/latest/developerguide/manage-notifications.html) in the Amazon WorkDocs Developer Guide.
+    ///
+    /// - Parameter CreateNotificationSubscriptionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateNotificationSubscriptionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArgumentException` : The pagination marker or limit fields are not valid.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `TooManySubscriptionsException` : You've reached the limit on the number of subscriptions for the WorkDocs instance.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func createNotificationSubscription(input: CreateNotificationSubscriptionInput) async throws -> CreateNotificationSubscriptionOutputResponse
     /// Creates a user in a Simple AD or Microsoft AD directory. The status of a newly created user is "ACTIVE". New users can access Amazon WorkDocs.
+    ///
+    /// - Parameter CreateUserInput : [no documentation found]
+    ///
+    /// - Returns: `CreateUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityAlreadyExistsException` : The resource already exists.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func createUser(input: CreateUserInput) async throws -> CreateUserOutputResponse
     /// Deactivates the specified user, which revokes the user's access to Amazon WorkDocs.
+    ///
+    /// - Parameter DeactivateUserInput : [no documentation found]
+    ///
+    /// - Returns: `DeactivateUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func deactivateUser(input: DeactivateUserInput) async throws -> DeactivateUserOutputResponse
     /// Deletes the specified comment from the document version.
+    ///
+    /// - Parameter DeleteCommentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCommentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DocumentLockedForCommentsException` : This exception is thrown when the document is locked for comments and user tries to create or delete a comment on that document.
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func deleteComment(input: DeleteCommentInput) async throws -> DeleteCommentOutputResponse
     /// Deletes custom metadata from the specified resource.
+    ///
+    /// - Parameter DeleteCustomMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCustomMetadataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func deleteCustomMetadata(input: DeleteCustomMetadataInput) async throws -> DeleteCustomMetadataOutputResponse
     /// Permanently deletes the specified document and its associated metadata.
+    ///
+    /// - Parameter DeleteDocumentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDocumentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : The resource hierarchy is changing.
+    /// - `ConflictingOperationException` : Another operation is in progress on the resource that conflicts with the current operation.
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `LimitExceededException` : The maximum of 100,000 files and folders under the parent folder has been exceeded.
+    /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func deleteDocument(input: DeleteDocumentInput) async throws -> DeleteDocumentOutputResponse
     /// Deletes a specific version of a document.
+    ///
+    /// - Parameter DeleteDocumentVersionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDocumentVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : The resource hierarchy is changing.
+    /// - `ConflictingOperationException` : Another operation is in progress on the resource that conflicts with the current operation.
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `InvalidOperationException` : The operation is invalid.
+    /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func deleteDocumentVersion(input: DeleteDocumentVersionInput) async throws -> DeleteDocumentVersionOutputResponse
     /// Permanently deletes the specified folder and its contents.
+    ///
+    /// - Parameter DeleteFolderInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteFolderOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : The resource hierarchy is changing.
+    /// - `ConflictingOperationException` : Another operation is in progress on the resource that conflicts with the current operation.
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `LimitExceededException` : The maximum of 100,000 files and folders under the parent folder has been exceeded.
+    /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func deleteFolder(input: DeleteFolderInput) async throws -> DeleteFolderOutputResponse
     /// Deletes the contents of the specified folder.
+    ///
+    /// - Parameter DeleteFolderContentsInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteFolderContentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictingOperationException` : Another operation is in progress on the resource that conflicts with the current operation.
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func deleteFolderContents(input: DeleteFolderContentsInput) async throws -> DeleteFolderContentsOutputResponse
     /// Deletes the specified list of labels from a resource.
+    ///
+    /// - Parameter DeleteLabelsInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteLabelsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func deleteLabels(input: DeleteLabelsInput) async throws -> DeleteLabelsOutputResponse
     /// Deletes the specified subscription from the specified organization.
+    ///
+    /// - Parameter DeleteNotificationSubscriptionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteNotificationSubscriptionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func deleteNotificationSubscription(input: DeleteNotificationSubscriptionInput) async throws -> DeleteNotificationSubscriptionOutputResponse
     /// Deletes the specified user from a Simple AD or Microsoft AD directory. Deleting a user immediately and permanently deletes all content in that user's folder structure. Site retention policies do NOT apply to this type of deletion.
+    ///
+    /// - Parameter DeleteUserInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutputResponse
     /// Describes the user activities in a specified time period.
+    ///
+    /// - Parameter DescribeActivitiesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeActivitiesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `InvalidArgumentException` : The pagination marker or limit fields are not valid.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func describeActivities(input: DescribeActivitiesInput) async throws -> DescribeActivitiesOutputResponse
     /// List all the comments for the specified document version.
+    ///
+    /// - Parameter DescribeCommentsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeCommentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func describeComments(input: DescribeCommentsInput) async throws -> DescribeCommentsOutputResponse
     /// Retrieves the document versions for the specified document. By default, only active versions are returned.
+    ///
+    /// - Parameter DescribeDocumentVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDocumentVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `InvalidArgumentException` : The pagination marker or limit fields are not valid.
+    /// - `InvalidPasswordException` : The password is invalid.
+    /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func describeDocumentVersions(input: DescribeDocumentVersionsInput) async throws -> DescribeDocumentVersionsOutputResponse
     /// Describes the contents of the specified folder, including its documents and subfolders. By default, Amazon WorkDocs returns the first 100 active document and folder metadata items. If there are more results, the response includes a marker that you can use to request the next set of results. You can also request initialized documents.
+    ///
+    /// - Parameter DescribeFolderContentsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeFolderContentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `InvalidArgumentException` : The pagination marker or limit fields are not valid.
+    /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func describeFolderContents(input: DescribeFolderContentsInput) async throws -> DescribeFolderContentsOutputResponse
     /// Describes the groups specified by the query. Groups are defined by the underlying Active Directory.
+    ///
+    /// - Parameter DescribeGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func describeGroups(input: DescribeGroupsInput) async throws -> DescribeGroupsOutputResponse
     /// Lists the specified notification subscriptions.
+    ///
+    /// - Parameter DescribeNotificationSubscriptionsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeNotificationSubscriptionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func describeNotificationSubscriptions(input: DescribeNotificationSubscriptionsInput) async throws -> DescribeNotificationSubscriptionsOutputResponse
     /// Describes the permissions of a specified resource.
+    ///
+    /// - Parameter DescribeResourcePermissionsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeResourcePermissionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `InvalidArgumentException` : The pagination marker or limit fields are not valid.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func describeResourcePermissions(input: DescribeResourcePermissionsInput) async throws -> DescribeResourcePermissionsOutputResponse
     /// Describes the current user's special folders; the RootFolder and the RecycleBin. RootFolder is the root of user's files and folders and RecycleBin is the root of recycled items. This is not a valid action for SigV4 (administrative API) clients. This action requires an authentication token. To get an authentication token, register an application with Amazon WorkDocs. For more information, see [Authentication and Access Control for User Applications](https://docs.aws.amazon.com/workdocs/latest/developerguide/wd-auth-user.html) in the Amazon WorkDocs Developer Guide.
+    ///
+    /// - Parameter DescribeRootFoldersInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeRootFoldersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `InvalidArgumentException` : The pagination marker or limit fields are not valid.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func describeRootFolders(input: DescribeRootFoldersInput) async throws -> DescribeRootFoldersOutputResponse
     /// Describes the specified users. You can describe all users or filter the results (for example, by status or organization). By default, Amazon WorkDocs returns the first 24 active or pending users. If there are more results, the response includes a marker that you can use to request the next set of results.
+    ///
+    /// - Parameter DescribeUsersInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeUsersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `InvalidArgumentException` : The pagination marker or limit fields are not valid.
+    /// - `RequestedEntityTooLargeException` : The response is too large to return. The request must include a filter to reduce the size of the response.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func describeUsers(input: DescribeUsersInput) async throws -> DescribeUsersOutputResponse
     /// Retrieves details of the current user for whom the authentication token was generated. This is not a valid action for SigV4 (administrative API) clients. This action requires an authentication token. To get an authentication token, register an application with Amazon WorkDocs. For more information, see [Authentication and Access Control for User Applications](https://docs.aws.amazon.com/workdocs/latest/developerguide/wd-auth-user.html) in the Amazon WorkDocs Developer Guide.
+    ///
+    /// - Parameter GetCurrentUserInput : [no documentation found]
+    ///
+    /// - Returns: `GetCurrentUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func getCurrentUser(input: GetCurrentUserInput) async throws -> GetCurrentUserOutputResponse
     /// Retrieves details of a document.
+    ///
+    /// - Parameter GetDocumentInput : [no documentation found]
+    ///
+    /// - Returns: `GetDocumentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `InvalidArgumentException` : The pagination marker or limit fields are not valid.
+    /// - `InvalidPasswordException` : The password is invalid.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func getDocument(input: GetDocumentInput) async throws -> GetDocumentOutputResponse
     /// Retrieves the path information (the hierarchy from the root folder) for the requested document. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested document and only includes the IDs of the parent folders in the path. You can limit the maximum number of levels. You can also request the names of the parent folders.
+    ///
+    /// - Parameter GetDocumentPathInput : [no documentation found]
+    ///
+    /// - Returns: `GetDocumentPathOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func getDocumentPath(input: GetDocumentPathInput) async throws -> GetDocumentPathOutputResponse
     /// Retrieves version metadata for the specified document.
+    ///
+    /// - Parameter GetDocumentVersionInput : [no documentation found]
+    ///
+    /// - Returns: `GetDocumentVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `InvalidPasswordException` : The password is invalid.
+    /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func getDocumentVersion(input: GetDocumentVersionInput) async throws -> GetDocumentVersionOutputResponse
     /// Retrieves the metadata of the specified folder.
+    ///
+    /// - Parameter GetFolderInput : [no documentation found]
+    ///
+    /// - Returns: `GetFolderOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `InvalidArgumentException` : The pagination marker or limit fields are not valid.
+    /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func getFolder(input: GetFolderInput) async throws -> GetFolderOutputResponse
     /// Retrieves the path information (the hierarchy from the root folder) for the specified folder. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested folder and only includes the IDs of the parent folders in the path. You can limit the maximum number of levels. You can also request the parent folder names.
+    ///
+    /// - Parameter GetFolderPathInput : [no documentation found]
+    ///
+    /// - Returns: `GetFolderPathOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func getFolderPath(input: GetFolderPathInput) async throws -> GetFolderPathOutputResponse
     /// Retrieves a collection of resources, including folders and documents. The only CollectionType supported is SHARED_WITH_ME.
+    ///
+    /// - Parameter GetResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourcesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `InvalidArgumentException` : The pagination marker or limit fields are not valid.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func getResources(input: GetResourcesInput) async throws -> GetResourcesOutputResponse
     /// Creates a new document object and version object. The client specifies the parent folder ID and name of the document to upload. The ID is optionally specified when creating a new version of an existing document. This is the first step to upload a document. Next, upload the document to the URL returned from the call, and then call [UpdateDocumentVersion]. To cancel the document upload, call [AbortDocumentVersionUpload].
+    ///
+    /// - Parameter InitiateDocumentVersionUploadInput : [no documentation found]
+    ///
+    /// - Returns: `InitiateDocumentVersionUploadOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DraftUploadOutOfSyncException` : This exception is thrown when a valid checkout ID is not presented on document version upload calls for a document that has been checked out from Web client.
+    /// - `EntityAlreadyExistsException` : The resource already exists.
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `InvalidArgumentException` : The pagination marker or limit fields are not valid.
+    /// - `InvalidPasswordException` : The password is invalid.
+    /// - `LimitExceededException` : The maximum of 100,000 files and folders under the parent folder has been exceeded.
+    /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
+    /// - `ResourceAlreadyCheckedOutException` : The resource is already checked out.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `StorageLimitExceededException` : The storage limit has been exceeded.
+    /// - `StorageLimitWillExceedException` : The storage limit will be exceeded.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func initiateDocumentVersionUpload(input: InitiateDocumentVersionUploadInput) async throws -> InitiateDocumentVersionUploadOutputResponse
     /// Removes all the permissions from the specified resource.
+    ///
+    /// - Parameter RemoveAllResourcePermissionsInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveAllResourcePermissionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func removeAllResourcePermissions(input: RemoveAllResourcePermissionsInput) async throws -> RemoveAllResourcePermissionsOutputResponse
     /// Removes the permission for the specified principal from the specified resource.
+    ///
+    /// - Parameter RemoveResourcePermissionInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveResourcePermissionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func removeResourcePermission(input: RemoveResourcePermissionInput) async throws -> RemoveResourcePermissionOutputResponse
     /// Recovers a deleted version of an Amazon WorkDocs document.
+    ///
+    /// - Parameter RestoreDocumentVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `RestoreDocumentVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : The resource hierarchy is changing.
+    /// - `ConflictingOperationException` : Another operation is in progress on the resource that conflicts with the current operation.
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `InvalidOperationException` : The operation is invalid.
+    /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func restoreDocumentVersions(input: RestoreDocumentVersionsInput) async throws -> RestoreDocumentVersionsOutputResponse
     /// Searches metadata and the content of folders, documents, document versions, and comments.
+    ///
+    /// - Parameter SearchResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `SearchResourcesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArgumentException` : The pagination marker or limit fields are not valid.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func searchResources(input: SearchResourcesInput) async throws -> SearchResourcesOutputResponse
     /// Updates the specified attributes of a document. The user must have access to both the document and its parent folder, if applicable.
+    ///
+    /// - Parameter UpdateDocumentInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDocumentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : The resource hierarchy is changing.
+    /// - `ConflictingOperationException` : Another operation is in progress on the resource that conflicts with the current operation.
+    /// - `EntityAlreadyExistsException` : The resource already exists.
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `LimitExceededException` : The maximum of 100,000 files and folders under the parent folder has been exceeded.
+    /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func updateDocument(input: UpdateDocumentInput) async throws -> UpdateDocumentOutputResponse
     /// Changes the status of the document version to ACTIVE. Amazon WorkDocs also sets its document container to ACTIVE. This is the last step in a document upload, after the client uploads the document to an S3-presigned URL returned by [InitiateDocumentVersionUpload].
+    ///
+    /// - Parameter UpdateDocumentVersionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDocumentVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : The resource hierarchy is changing.
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `InvalidOperationException` : The operation is invalid.
+    /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func updateDocumentVersion(input: UpdateDocumentVersionInput) async throws -> UpdateDocumentVersionOutputResponse
     /// Updates the specified attributes of the specified folder. The user must have access to both the folder and its parent folder, if applicable.
+    ///
+    /// - Parameter UpdateFolderInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateFolderOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : The resource hierarchy is changing.
+    /// - `ConflictingOperationException` : Another operation is in progress on the resource that conflicts with the current operation.
+    /// - `EntityAlreadyExistsException` : The resource already exists.
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `LimitExceededException` : The maximum of 100,000 files and folders under the parent folder has been exceeded.
+    /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func updateFolder(input: UpdateFolderInput) async throws -> UpdateFolderOutputResponse
     /// Updates the specified attributes of the specified user, and grants or revokes administrative privileges to the Amazon WorkDocs site.
+    ///
+    /// - Parameter UpdateUserInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DeactivatingLastSystemUserException` : The last user in the organization is being deactivated.
+    /// - `EntityNotExistsException` : The resource does not exist.
+    /// - `FailedDependencyException` : The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// - `IllegalUserStateException` : The user is undergoing transfer of ownership.
+    /// - `InvalidArgumentException` : The pagination marker or limit fields are not valid.
+    /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
+    /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
+    /// - `UnauthorizedOperationException` : The operation is not permitted.
+    /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
     func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutputResponse
 }
 

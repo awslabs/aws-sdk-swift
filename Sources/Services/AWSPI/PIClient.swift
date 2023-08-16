@@ -67,7 +67,114 @@ public struct PIClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
 }
 
 extension PIClient: PIClientProtocol {
+    /// Creates a new performance analysis report for a specific time period for the DB instance.
+    ///
+    /// - Parameter CreatePerformanceAnalysisReportInput : [no documentation found]
+    ///
+    /// - Returns: `CreatePerformanceAnalysisReportOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceError` : The request failed due to an unknown error.
+    /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
+    /// - `NotAuthorizedException` : The user is not authorized to perform this request.
+    public func createPerformanceAnalysisReport(input: CreatePerformanceAnalysisReportInput) async throws -> CreatePerformanceAnalysisReportOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createPerformanceAnalysisReport")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "pi")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<CreatePerformanceAnalysisReportInput, CreatePerformanceAnalysisReportOutputResponse, CreatePerformanceAnalysisReportOutputError>(id: "createPerformanceAnalysisReport")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePerformanceAnalysisReportInput, CreatePerformanceAnalysisReportOutputResponse, CreatePerformanceAnalysisReportOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePerformanceAnalysisReportInput, CreatePerformanceAnalysisReportOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePerformanceAnalysisReportOutputResponse, CreatePerformanceAnalysisReportOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreatePerformanceAnalysisReportInput, CreatePerformanceAnalysisReportOutputResponse>(xAmzTarget: "PerformanceInsightsv20180227.CreatePerformanceAnalysisReport"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePerformanceAnalysisReportInput, CreatePerformanceAnalysisReportOutputResponse>(xmlName: "CreatePerformanceAnalysisReportRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePerformanceAnalysisReportInput, CreatePerformanceAnalysisReportOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePerformanceAnalysisReportOutputResponse, CreatePerformanceAnalysisReportOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePerformanceAnalysisReportOutputResponse, CreatePerformanceAnalysisReportOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePerformanceAnalysisReportOutputResponse, CreatePerformanceAnalysisReportOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePerformanceAnalysisReportOutputResponse, CreatePerformanceAnalysisReportOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Deletes a performance analysis report.
+    ///
+    /// - Parameter DeletePerformanceAnalysisReportInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePerformanceAnalysisReportOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceError` : The request failed due to an unknown error.
+    /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
+    /// - `NotAuthorizedException` : The user is not authorized to perform this request.
+    public func deletePerformanceAnalysisReport(input: DeletePerformanceAnalysisReportInput) async throws -> DeletePerformanceAnalysisReportOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deletePerformanceAnalysisReport")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "pi")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeletePerformanceAnalysisReportInput, DeletePerformanceAnalysisReportOutputResponse, DeletePerformanceAnalysisReportOutputError>(id: "deletePerformanceAnalysisReport")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePerformanceAnalysisReportInput, DeletePerformanceAnalysisReportOutputResponse, DeletePerformanceAnalysisReportOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePerformanceAnalysisReportInput, DeletePerformanceAnalysisReportOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePerformanceAnalysisReportOutputResponse, DeletePerformanceAnalysisReportOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeletePerformanceAnalysisReportInput, DeletePerformanceAnalysisReportOutputResponse>(xAmzTarget: "PerformanceInsightsv20180227.DeletePerformanceAnalysisReport"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeletePerformanceAnalysisReportInput, DeletePerformanceAnalysisReportOutputResponse>(xmlName: "DeletePerformanceAnalysisReportRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeletePerformanceAnalysisReportInput, DeletePerformanceAnalysisReportOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePerformanceAnalysisReportOutputResponse, DeletePerformanceAnalysisReportOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePerformanceAnalysisReportOutputResponse, DeletePerformanceAnalysisReportOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePerformanceAnalysisReportOutputResponse, DeletePerformanceAnalysisReportOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePerformanceAnalysisReportOutputResponse, DeletePerformanceAnalysisReportOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// For a specific time period, retrieve the top N dimension keys for a metric. Each response element returns a maximum of 500 bytes. For larger elements, such as SQL statements, only the first 500 bytes are returned.
+    ///
+    /// - Parameter DescribeDimensionKeysInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDimensionKeysOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceError` : The request failed due to an unknown error.
+    /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
+    /// - `NotAuthorizedException` : The user is not authorized to perform this request.
     public func describeDimensionKeys(input: DescribeDimensionKeysInput) async throws -> DescribeDimensionKeysOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -105,6 +212,17 @@ extension PIClient: PIClientProtocol {
     }
 
     /// Get the attributes of the specified dimension group for a DB instance or data source. For example, if you specify a SQL ID, GetDimensionKeyDetails retrieves the full text of the dimension db.sql.statement associated with this ID. This operation is useful because GetResourceMetrics and DescribeDimensionKeys don't support retrieval of large SQL statement text.
+    ///
+    /// - Parameter GetDimensionKeyDetailsInput : [no documentation found]
+    ///
+    /// - Returns: `GetDimensionKeyDetailsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceError` : The request failed due to an unknown error.
+    /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
+    /// - `NotAuthorizedException` : The user is not authorized to perform this request.
     public func getDimensionKeyDetails(input: GetDimensionKeyDetailsInput) async throws -> GetDimensionKeyDetailsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -141,7 +259,66 @@ extension PIClient: PIClientProtocol {
         return result
     }
 
+    /// Retrieves the report including the report ID, status, time details, and the insights with recommendations. The report status can be RUNNING, SUCCEEDED, or FAILED. The insights include the description and recommendation fields.
+    ///
+    /// - Parameter GetPerformanceAnalysisReportInput : [no documentation found]
+    ///
+    /// - Returns: `GetPerformanceAnalysisReportOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceError` : The request failed due to an unknown error.
+    /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
+    /// - `NotAuthorizedException` : The user is not authorized to perform this request.
+    public func getPerformanceAnalysisReport(input: GetPerformanceAnalysisReportInput) async throws -> GetPerformanceAnalysisReportOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getPerformanceAnalysisReport")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "pi")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetPerformanceAnalysisReportInput, GetPerformanceAnalysisReportOutputResponse, GetPerformanceAnalysisReportOutputError>(id: "getPerformanceAnalysisReport")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPerformanceAnalysisReportInput, GetPerformanceAnalysisReportOutputResponse, GetPerformanceAnalysisReportOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPerformanceAnalysisReportInput, GetPerformanceAnalysisReportOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPerformanceAnalysisReportOutputResponse, GetPerformanceAnalysisReportOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetPerformanceAnalysisReportInput, GetPerformanceAnalysisReportOutputResponse>(xAmzTarget: "PerformanceInsightsv20180227.GetPerformanceAnalysisReport"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetPerformanceAnalysisReportInput, GetPerformanceAnalysisReportOutputResponse>(xmlName: "GetPerformanceAnalysisReportRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetPerformanceAnalysisReportInput, GetPerformanceAnalysisReportOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPerformanceAnalysisReportOutputResponse, GetPerformanceAnalysisReportOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPerformanceAnalysisReportOutputResponse, GetPerformanceAnalysisReportOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPerformanceAnalysisReportOutputResponse, GetPerformanceAnalysisReportOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPerformanceAnalysisReportOutputResponse, GetPerformanceAnalysisReportOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Retrieve the metadata for different features. For example, the metadata might indicate that a feature is turned on or off on a specific DB instance.
+    ///
+    /// - Parameter GetResourceMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourceMetadataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceError` : The request failed due to an unknown error.
+    /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
+    /// - `NotAuthorizedException` : The user is not authorized to perform this request.
     public func getResourceMetadata(input: GetResourceMetadataInput) async throws -> GetResourceMetadataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -179,6 +356,17 @@ extension PIClient: PIClientProtocol {
     }
 
     /// Retrieve Performance Insights metrics for a set of data sources over a time period. You can provide specific dimension groups and dimensions, and provide aggregation and filtering criteria for each group. Each response element returns a maximum of 500 bytes. For larger elements, such as SQL statements, only the first 500 bytes are returned.
+    ///
+    /// - Parameter GetResourceMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourceMetricsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceError` : The request failed due to an unknown error.
+    /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
+    /// - `NotAuthorizedException` : The user is not authorized to perform this request.
     public func getResourceMetrics(input: GetResourceMetricsInput) async throws -> GetResourceMetricsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -216,6 +404,17 @@ extension PIClient: PIClientProtocol {
     }
 
     /// Retrieve the dimensions that can be queried for each specified metric type on a specified DB instance.
+    ///
+    /// - Parameter ListAvailableResourceDimensionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAvailableResourceDimensionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceError` : The request failed due to an unknown error.
+    /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
+    /// - `NotAuthorizedException` : The user is not authorized to perform this request.
     public func listAvailableResourceDimensions(input: ListAvailableResourceDimensionsInput) async throws -> ListAvailableResourceDimensionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -253,6 +452,17 @@ extension PIClient: PIClientProtocol {
     }
 
     /// Retrieve metrics of the specified types that can be queried for a specified DB instance.
+    ///
+    /// - Parameter ListAvailableResourceMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAvailableResourceMetricsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceError` : The request failed due to an unknown error.
+    /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
+    /// - `NotAuthorizedException` : The user is not authorized to perform this request.
     public func listAvailableResourceMetrics(input: ListAvailableResourceMetricsInput) async throws -> ListAvailableResourceMetricsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -285,6 +495,198 @@ extension PIClient: PIClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAvailableResourceMetricsOutputResponse, ListAvailableResourceMetricsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAvailableResourceMetricsOutputResponse, ListAvailableResourceMetricsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAvailableResourceMetricsOutputResponse, ListAvailableResourceMetricsOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Lists all the analysis reports created for the DB instance. The reports are sorted based on the start time of each report.
+    ///
+    /// - Parameter ListPerformanceAnalysisReportsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPerformanceAnalysisReportsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceError` : The request failed due to an unknown error.
+    /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
+    /// - `NotAuthorizedException` : The user is not authorized to perform this request.
+    public func listPerformanceAnalysisReports(input: ListPerformanceAnalysisReportsInput) async throws -> ListPerformanceAnalysisReportsOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listPerformanceAnalysisReports")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "pi")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListPerformanceAnalysisReportsInput, ListPerformanceAnalysisReportsOutputResponse, ListPerformanceAnalysisReportsOutputError>(id: "listPerformanceAnalysisReports")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPerformanceAnalysisReportsInput, ListPerformanceAnalysisReportsOutputResponse, ListPerformanceAnalysisReportsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPerformanceAnalysisReportsInput, ListPerformanceAnalysisReportsOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPerformanceAnalysisReportsOutputResponse, ListPerformanceAnalysisReportsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPerformanceAnalysisReportsInput, ListPerformanceAnalysisReportsOutputResponse>(xAmzTarget: "PerformanceInsightsv20180227.ListPerformanceAnalysisReports"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPerformanceAnalysisReportsInput, ListPerformanceAnalysisReportsOutputResponse>(xmlName: "ListPerformanceAnalysisReportsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPerformanceAnalysisReportsInput, ListPerformanceAnalysisReportsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPerformanceAnalysisReportsOutputResponse, ListPerformanceAnalysisReportsOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPerformanceAnalysisReportsOutputResponse, ListPerformanceAnalysisReportsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPerformanceAnalysisReportsOutputResponse, ListPerformanceAnalysisReportsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPerformanceAnalysisReportsOutputResponse, ListPerformanceAnalysisReportsOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Retrieves all the metadata tags associated with Amazon RDS Performance Insights resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceError` : The request failed due to an unknown error.
+    /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
+    /// - `NotAuthorizedException` : The user is not authorized to perform this request.
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listTagsForResource")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "pi")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xAmzTarget: "PerformanceInsightsv20180227.ListTagsForResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xmlName: "ListTagsForResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Adds metadata tags to the Amazon RDS Performance Insights resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceError` : The request failed due to an unknown error.
+    /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
+    /// - `NotAuthorizedException` : The user is not authorized to perform this request.
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "tagResource")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "pi")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutputResponse>(xAmzTarget: "PerformanceInsightsv20180227.TagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutputResponse>(xmlName: "TagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutputResponse, TagResourceOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Deletes the metadata tags from the Amazon RDS Performance Insights resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceError` : The request failed due to an unknown error.
+    /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
+    /// - `NotAuthorizedException` : The user is not authorized to perform this request.
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "untagResource")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "pi")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xAmzTarget: "PerformanceInsightsv20180227.UntagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xmlName: "UntagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutputResponse, UntagResourceOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

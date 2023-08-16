@@ -68,6 +68,18 @@ public struct IoTFleetHubClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFac
 
 extension IoTFleetHubClient: IoTFleetHubClientProtocol {
     /// Creates a Fleet Hub for AWS IoT Device Management web application. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
+    ///
+    /// - Parameter CreateApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -112,6 +124,18 @@ extension IoTFleetHubClient: IoTFleetHubClientProtocol {
     }
 
     /// Deletes a Fleet Hub for AWS IoT Device Management web application. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
+    ///
+    /// - Parameter DeleteApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -154,6 +178,18 @@ extension IoTFleetHubClient: IoTFleetHubClientProtocol {
     }
 
     /// Gets information about a Fleet Hub for AWS IoT Device Management web application. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
+    ///
+    /// - Parameter DescribeApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     public func describeApplication(input: DescribeApplicationInput) async throws -> DescribeApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -187,6 +223,17 @@ extension IoTFleetHubClient: IoTFleetHubClientProtocol {
     }
 
     /// Gets a list of Fleet Hub for AWS IoT Device Management web applications for the current account. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
+    ///
+    /// - Parameter ListApplicationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListApplicationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     public func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -221,6 +268,17 @@ extension IoTFleetHubClient: IoTFleetHubClientProtocol {
     }
 
     /// Lists the tags for the specified resource. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -254,6 +312,17 @@ extension IoTFleetHubClient: IoTFleetHubClientProtocol {
     }
 
     /// Adds to or modifies the tags of the specified resource. Tags are metadata which can be used to manage a resource. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -290,6 +359,17 @@ extension IoTFleetHubClient: IoTFleetHubClientProtocol {
     }
 
     /// Removes the specified tags (metadata) from the resource. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -324,6 +404,19 @@ extension IoTFleetHubClient: IoTFleetHubClientProtocol {
     }
 
     /// Updates information about a Fleet Hub for a AWS IoT Device Management web application. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
+    ///
+    /// - Parameter UpdateApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request conflicts with the current state of the resource.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

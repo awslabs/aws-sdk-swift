@@ -1202,7 +1202,7 @@ extension ElasticLoadBalancingv2ClientTypes.Cipher: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
-        let priorityDecoded = try containerValues.decode(Swift.Int.self, forKey: .priority)
+        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority) ?? 0
         priority = priorityDecoded
     }
 }
@@ -1640,7 +1640,7 @@ public struct CreateLoadBalancerInput: Swift.Equatable {
     public var name: Swift.String?
     /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can route requests only from clients with access to the VPC for the load balancer. The default is an Internet-facing load balancer. You cannot specify a scheme for a Gateway Load Balancer.
     public var scheme: ElasticLoadBalancingv2ClientTypes.LoadBalancerSchemeEnum?
-    /// [Application Load Balancers] The IDs of the security groups for the load balancer.
+    /// [Application Load Balancers and Network Load Balancers] The IDs of the security groups for the load balancer.
     public var securityGroups: [Swift.String]?
     /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings, but not both. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet. For internet-facing load balancer, you can specify one IPv6 address per subnet. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones. You cannot specify Elastic IP addresses for your subnets.
     public var subnetMappings: [ElasticLoadBalancingv2ClientTypes.SubnetMapping]?
@@ -4821,6 +4821,38 @@ extension DuplicateTargetGroupNameExceptionBody: Swift.Decodable {
     }
 }
 
+extension ElasticLoadBalancingv2ClientTypes {
+    public enum EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case off
+        case on
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum] {
+            return [
+                .off,
+                .on,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .off: return "off"
+            case .on: return "on"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum(rawValue: rawValue) ?? EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ElasticLoadBalancingv2ClientTypes.FixedResponseActionConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case contentType = "ContentType"
@@ -5631,7 +5663,13 @@ extension ElasticLoadBalancingv2ClientTypes.Limit: Swift.Codable {
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
-    /// Information about an Elastic Load Balancing resource limit for your Amazon Web Services account.
+    /// Information about an Elastic Load Balancing resource limit for your Amazon Web Services account. For more information, see the following:
+    ///
+    /// * [Quotas for your Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html)
+    ///
+    /// * [Quotas for your Network Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-limits.html)
+    ///
+    /// * [Quotas for your Gateway Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/quotas-limits.html)
     public struct Limit: Swift.Equatable {
         /// The maximum value of the limit.
         public var max: Swift.String?
@@ -5930,6 +5968,7 @@ extension ElasticLoadBalancingv2ClientTypes.LoadBalancer: Swift.Codable {
         case createdTime = "CreatedTime"
         case customerOwnedIpv4Pool = "CustomerOwnedIpv4Pool"
         case dnsName = "DNSName"
+        case enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = "EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic"
         case ipAddressType = "IpAddressType"
         case loadBalancerArn = "LoadBalancerArn"
         case loadBalancerName = "LoadBalancerName"
@@ -5965,6 +6004,9 @@ extension ElasticLoadBalancingv2ClientTypes.LoadBalancer: Swift.Codable {
         }
         if let dnsName = dnsName {
             try container.encode(dnsName, forKey: ClientRuntime.Key("DNSName"))
+        }
+        if let enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = enforceSecurityGroupInboundRulesOnPrivateLinkTraffic {
+            try container.encode(enforceSecurityGroupInboundRulesOnPrivateLinkTraffic, forKey: ClientRuntime.Key("EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic"))
         }
         if let ipAddressType = ipAddressType {
             try container.encode(ipAddressType, forKey: ClientRuntime.Key("IpAddressType"))
@@ -6063,6 +6105,8 @@ extension ElasticLoadBalancingv2ClientTypes.LoadBalancer: Swift.Codable {
         ipAddressType = ipAddressTypeDecoded
         let customerOwnedIpv4PoolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customerOwnedIpv4Pool)
         customerOwnedIpv4Pool = customerOwnedIpv4PoolDecoded
+        let enforceSecurityGroupInboundRulesOnPrivateLinkTrafficDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .enforceSecurityGroupInboundRulesOnPrivateLinkTraffic)
+        enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = enforceSecurityGroupInboundRulesOnPrivateLinkTrafficDecoded
     }
 }
 
@@ -6079,6 +6123,8 @@ extension ElasticLoadBalancingv2ClientTypes {
         public var customerOwnedIpv4Pool: Swift.String?
         /// The public DNS name of the load balancer.
         public var dnsName: Swift.String?
+        /// Indicates whether to evaluate inbound security group rules for traffic sent to a Network Load Balancer through Amazon Web Services PrivateLink.
+        public var enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: Swift.String?
         /// The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
         public var ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType?
         /// The Amazon Resource Name (ARN) of the load balancer.
@@ -6102,6 +6148,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             createdTime: ClientRuntime.Date? = nil,
             customerOwnedIpv4Pool: Swift.String? = nil,
             dnsName: Swift.String? = nil,
+            enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: Swift.String? = nil,
             ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType? = nil,
             loadBalancerArn: Swift.String? = nil,
             loadBalancerName: Swift.String? = nil,
@@ -6117,6 +6164,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.createdTime = createdTime
             self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
             self.dnsName = dnsName
+            self.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = enforceSecurityGroupInboundRulesOnPrivateLinkTraffic
             self.ipAddressType = ipAddressType
             self.loadBalancerArn = loadBalancerArn
             self.loadBalancerName = loadBalancerName
@@ -8482,7 +8530,7 @@ extension ElasticLoadBalancingv2ClientTypes.Rule: Swift.Codable {
         } else {
             actions = nil
         }
-        let isDefaultDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isDefault)
+        let isDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isDefault) ?? false
         isDefault = isDefaultDecoded
     }
 }
@@ -8607,7 +8655,7 @@ extension ElasticLoadBalancingv2ClientTypes.RuleCondition: Swift.Codable {
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
-    /// Information about a condition for a rule. Each rule can optionally include up to one of each of the following conditions: http-request-method, host-header, path-pattern, and source-ip. Each rule can also optionally include one or more of each of the following conditions: http-header and query-string. Note that the value for a condition cannot be empty.
+    /// Information about a condition for a rule. Each rule can optionally include up to one of each of the following conditions: http-request-method, host-header, path-pattern, and source-ip. Each rule can also optionally include one or more of each of the following conditions: http-header and query-string. Note that the value for a condition cannot be empty. For more information, see [Quotas for your Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html).
     public struct RuleCondition: Swift.Equatable {
         /// The field in the HTTP request. The following are the possible values:
         ///
@@ -9092,6 +9140,9 @@ extension SetRulePrioritiesOutputResponseBody: Swift.Decodable {
 extension SetSecurityGroupsInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = enforceSecurityGroupInboundRulesOnPrivateLinkTraffic {
+            try container.encode(enforceSecurityGroupInboundRulesOnPrivateLinkTraffic, forKey: ClientRuntime.Key("EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic"))
+        }
         if let loadBalancerArn = loadBalancerArn {
             try container.encode(loadBalancerArn, forKey: ClientRuntime.Key("LoadBalancerArn"))
         }
@@ -9119,6 +9170,8 @@ extension SetSecurityGroupsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct SetSecurityGroupsInput: Swift.Equatable {
+    /// Indicates whether to evaluate inbound security group rules for traffic sent to a Network Load Balancer through Amazon Web Services PrivateLink. The default is on.
+    public var enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: ElasticLoadBalancingv2ClientTypes.EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum?
     /// The Amazon Resource Name (ARN) of the load balancer.
     /// This member is required.
     public var loadBalancerArn: Swift.String?
@@ -9127,10 +9180,12 @@ public struct SetSecurityGroupsInput: Swift.Equatable {
     public var securityGroups: [Swift.String]?
 
     public init(
+        enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: ElasticLoadBalancingv2ClientTypes.EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum? = nil,
         loadBalancerArn: Swift.String? = nil,
         securityGroups: [Swift.String]? = nil
     )
     {
+        self.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = enforceSecurityGroupInboundRulesOnPrivateLinkTraffic
         self.loadBalancerArn = loadBalancerArn
         self.securityGroups = securityGroups
     }
@@ -9139,10 +9194,12 @@ public struct SetSecurityGroupsInput: Swift.Equatable {
 struct SetSecurityGroupsInputBody: Swift.Equatable {
     let loadBalancerArn: Swift.String?
     let securityGroups: [Swift.String]?
+    let enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: ElasticLoadBalancingv2ClientTypes.EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum?
 }
 
 extension SetSecurityGroupsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = "EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic"
         case loadBalancerArn = "LoadBalancerArn"
         case securityGroups = "SecurityGroups"
     }
@@ -9170,6 +9227,8 @@ extension SetSecurityGroupsInputBody: Swift.Decodable {
         } else {
             securityGroups = nil
         }
+        let enforceSecurityGroupInboundRulesOnPrivateLinkTrafficDecoded = try containerValues.decodeIfPresent(ElasticLoadBalancingv2ClientTypes.EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum.self, forKey: .enforceSecurityGroupInboundRulesOnPrivateLinkTraffic)
+        enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = enforceSecurityGroupInboundRulesOnPrivateLinkTrafficDecoded
     }
 }
 
@@ -9190,31 +9249,39 @@ extension SetSecurityGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: SetSecurityGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = output.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic
             self.securityGroupIds = output.securityGroupIds
         } else {
+            self.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = nil
             self.securityGroupIds = nil
         }
     }
 }
 
 public struct SetSecurityGroupsOutputResponse: Swift.Equatable {
+    /// Indicates whether to evaluate inbound security group rules for traffic sent to a Network Load Balancer through Amazon Web Services PrivateLink.
+    public var enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: ElasticLoadBalancingv2ClientTypes.EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum?
     /// The IDs of the security groups associated with the load balancer.
     public var securityGroupIds: [Swift.String]?
 
     public init(
+        enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: ElasticLoadBalancingv2ClientTypes.EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum? = nil,
         securityGroupIds: [Swift.String]? = nil
     )
     {
+        self.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = enforceSecurityGroupInboundRulesOnPrivateLinkTraffic
         self.securityGroupIds = securityGroupIds
     }
 }
 
 struct SetSecurityGroupsOutputResponseBody: Swift.Equatable {
     let securityGroupIds: [Swift.String]?
+    let enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: ElasticLoadBalancingv2ClientTypes.EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum?
 }
 
 extension SetSecurityGroupsOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = "EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic"
         case securityGroupIds = "SecurityGroupIds"
     }
 
@@ -9240,6 +9307,8 @@ extension SetSecurityGroupsOutputResponseBody: Swift.Decodable {
         } else {
             securityGroupIds = nil
         }
+        let enforceSecurityGroupInboundRulesOnPrivateLinkTrafficDecoded = try containerValues.decodeIfPresent(ElasticLoadBalancingv2ClientTypes.EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum.self, forKey: .enforceSecurityGroupInboundRulesOnPrivateLinkTraffic)
+        enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = enforceSecurityGroupInboundRulesOnPrivateLinkTrafficDecoded
     }
 }
 
@@ -9288,7 +9357,7 @@ extension SetSubnetsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct SetSubnetsInput: Swift.Equatable {
-    /// [Network Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer with a UDP or TCP_UDP listener. .
+    /// [Network Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer with a UDP or TCP_UDP listener.
     public var ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType?
     /// The Amazon Resource Name (ARN) of the load balancer.
     /// This member is required.
@@ -9936,7 +10005,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         /// The ID of the target. If the target type of the target group is instance, specify an instance ID. If the target type is ip, specify an IP address. If the target type is lambda, specify the ARN of the Lambda function. If the target type is alb, specify the ARN of the Application Load Balancer target.
         /// This member is required.
         public var id: Swift.String?
-        /// The port on which the target is listening. If the target group protocol is GENEVE, the supported port is 6081. If the target type is alb, the targeted Application Load Balancer must have at least one listener whose port matches the target group port. Not used if the target is a Lambda function.
+        /// The port on which the target is listening. If the target group protocol is GENEVE, the supported port is 6081. If the target type is alb, the targeted Application Load Balancer must have at least one listener whose port matches the target group port. This parameter is not used if the target is a Lambda function.
         public var port: Swift.Int?
 
         public init(
@@ -10119,11 +10188,11 @@ extension ElasticLoadBalancingv2ClientTypes {
         public var healthyThresholdCount: Swift.Int?
         /// The type of IP address used for this target group. The possible values are ipv4 and ipv6. This is an optional parameter. If not specified, the IP address type defaults to ipv4.
         public var ipAddressType: ElasticLoadBalancingv2ClientTypes.TargetGroupIpAddressTypeEnum?
-        /// The Amazon Resource Names (ARN) of the load balancers that route traffic to this target group.
+        /// The Amazon Resource Name (ARN) of the load balancer that routes traffic to this target group. You can use each target group with only one load balancer.
         public var loadBalancerArns: [Swift.String]?
         /// The HTTP or gRPC codes to use when checking for a successful response from a target.
         public var matcher: ElasticLoadBalancingv2ClientTypes.Matcher?
-        /// The port on which the targets are listening. Not used if the target is a Lambda function.
+        /// The port on which the targets are listening. This parameter is not used if the target is a Lambda function.
         public var port: Swift.Int?
         /// The protocol to use for routing traffic to the targets.
         public var `protocol`: ElasticLoadBalancingv2ClientTypes.ProtocolEnum?

@@ -241,6 +241,8 @@ extension FSxClientTypes {
         ///
         /// * FILE_SYSTEM_UPDATE - A file system update administrative action initiated from the Amazon FSx console, API (UpdateFileSystem), or CLI (update-file-system).
         ///
+        /// * THROUGHPUT_OPTIMIZATION - After the FILE_SYSTEM_UPDATE task to increase a file system's throughput capacity has been completed successfully, a THROUGHPUT_OPTIMIZATION task starts. You can track the storage-optimization progress using the ProgressPercent property. When THROUGHPUT_OPTIMIZATION has been completed successfully, the parent FILE_SYSTEM_UPDATE action status changes to COMPLETED. For more information, see [Managing throughput capacity](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-throughput-capacity.html) in the Amazon FSx for Windows File Server User Guide.
+        ///
         /// * STORAGE_OPTIMIZATION - After the FILE_SYSTEM_UPDATE task to increase a file system's storage capacity has been completed successfully, a STORAGE_OPTIMIZATION task starts.
         ///
         /// * For Windows and ONTAP, storage optimization is the process of migrating the file system data to newer larger disks.
@@ -253,6 +255,10 @@ extension FSxClientTypes {
         /// * FILE_SYSTEM_ALIAS_ASSOCIATION - A file system update to associate a new Domain Name System (DNS) alias with the file system. For more information, see [ AssociateFileSystemAliases](https://docs.aws.amazon.com/fsx/latest/APIReference/API_AssociateFileSystemAliases.html).
         ///
         /// * FILE_SYSTEM_ALIAS_DISASSOCIATION - A file system update to disassociate a DNS alias from the file system. For more information, see [DisassociateFileSystemAliases](https://docs.aws.amazon.com/fsx/latest/APIReference/API_DisassociateFileSystemAliases.html).
+        ///
+        /// * IOPS_OPTIMIZATION - After the FILE_SYSTEM_UPDATE task to increase a file system's throughput capacity has been completed successfully, a IOPS_OPTIMIZATION task starts. You can track the storage-optimization progress using the ProgressPercent property. When IOPS_OPTIMIZATION has been completed successfully, the parent FILE_SYSTEM_UPDATE action status changes to COMPLETED. For more information, see [Managing provisioned SSD IOPS](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-provisioned-ssd-iops.html) in the Amazon FSx for Windows File Server User Guide.
+        ///
+        /// * STORAGE_TYPE_OPTIMIZATION - After the FILE_SYSTEM_UPDATE task to increase a file system's throughput capacity has been completed successfully, a STORAGE_TYPE_OPTIMIZATION task starts. You can track the storage-optimization progress using the ProgressPercent property. When STORAGE_TYPE_OPTIMIZATION has been completed successfully, the parent FILE_SYSTEM_UPDATE action status changes to COMPLETED.
         ///
         /// * VOLUME_UPDATE - A volume update to an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS volume initiated from the Amazon FSx console, API (UpdateVolume), or CLI (update-volume).
         ///
@@ -351,6 +357,8 @@ extension FSxClientTypes {
     ///
     /// * FILE_SYSTEM_UPDATE - A file system update administrative action initiated from the Amazon FSx console, API (UpdateFileSystem), or CLI (update-file-system).
     ///
+    /// * THROUGHPUT_OPTIMIZATION - After the FILE_SYSTEM_UPDATE task to increase a file system's throughput capacity has been completed successfully, a THROUGHPUT_OPTIMIZATION task starts. You can track the storage-optimization progress using the ProgressPercent property. When THROUGHPUT_OPTIMIZATION has been completed successfully, the parent FILE_SYSTEM_UPDATE action status changes to COMPLETED. For more information, see [Managing throughput capacity](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-throughput-capacity.html) in the Amazon FSx for Windows File Server User Guide.
+    ///
     /// * STORAGE_OPTIMIZATION - After the FILE_SYSTEM_UPDATE task to increase a file system's storage capacity has been completed successfully, a STORAGE_OPTIMIZATION task starts.
     ///
     /// * For Windows and ONTAP, storage optimization is the process of migrating the file system data to newer larger disks.
@@ -364,6 +372,10 @@ extension FSxClientTypes {
     ///
     /// * FILE_SYSTEM_ALIAS_DISASSOCIATION - A file system update to disassociate a DNS alias from the file system. For more information, see [DisassociateFileSystemAliases](https://docs.aws.amazon.com/fsx/latest/APIReference/API_DisassociateFileSystemAliases.html).
     ///
+    /// * IOPS_OPTIMIZATION - After the FILE_SYSTEM_UPDATE task to increase a file system's throughput capacity has been completed successfully, a IOPS_OPTIMIZATION task starts. You can track the storage-optimization progress using the ProgressPercent property. When IOPS_OPTIMIZATION has been completed successfully, the parent FILE_SYSTEM_UPDATE action status changes to COMPLETED. For more information, see [Managing provisioned SSD IOPS](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-provisioned-ssd-iops.html) in the Amazon FSx for Windows File Server User Guide.
+    ///
+    /// * STORAGE_TYPE_OPTIMIZATION - After the FILE_SYSTEM_UPDATE task to increase a file system's throughput capacity has been completed successfully, a STORAGE_TYPE_OPTIMIZATION task starts. You can track the storage-optimization progress using the ProgressPercent property. When STORAGE_TYPE_OPTIMIZATION has been completed successfully, the parent FILE_SYSTEM_UPDATE action status changes to COMPLETED.
+    ///
     /// * VOLUME_UPDATE - A volume update to an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS volume initiated from the Amazon FSx console, API (UpdateVolume), or CLI (update-volume).
     ///
     /// * VOLUME_RESTORE - An Amazon FSx for OpenZFS volume is returned to the state saved by the specified snapshot, initiated from an API (RestoreVolumeFromSnapshot) or CLI (restore-volume-from-snapshot).
@@ -375,9 +387,12 @@ extension FSxClientTypes {
         case fileSystemAliasAssociation
         case fileSystemAliasDisassociation
         case fileSystemUpdate
+        case iopsOptimization
         case releaseNfsV3Locks
         case snapshotUpdate
         case storageOptimization
+        case storageTypeOptimization
+        case throughputOptimization
         case volumeRestore
         case volumeUpdate
         case sdkUnknown(Swift.String)
@@ -387,9 +402,12 @@ extension FSxClientTypes {
                 .fileSystemAliasAssociation,
                 .fileSystemAliasDisassociation,
                 .fileSystemUpdate,
+                .iopsOptimization,
                 .releaseNfsV3Locks,
                 .snapshotUpdate,
                 .storageOptimization,
+                .storageTypeOptimization,
+                .throughputOptimization,
                 .volumeRestore,
                 .volumeUpdate,
                 .sdkUnknown("")
@@ -404,9 +422,12 @@ extension FSxClientTypes {
             case .fileSystemAliasAssociation: return "FILE_SYSTEM_ALIAS_ASSOCIATION"
             case .fileSystemAliasDisassociation: return "FILE_SYSTEM_ALIAS_DISASSOCIATION"
             case .fileSystemUpdate: return "FILE_SYSTEM_UPDATE"
+            case .iopsOptimization: return "IOPS_OPTIMIZATION"
             case .releaseNfsV3Locks: return "RELEASE_NFS_V3_LOCKS"
             case .snapshotUpdate: return "SNAPSHOT_UPDATE"
             case .storageOptimization: return "STORAGE_OPTIMIZATION"
+            case .storageTypeOptimization: return "STORAGE_TYPE_OPTIMIZATION"
+            case .throughputOptimization: return "THROUGHPUT_OPTIMIZATION"
             case .volumeRestore: return "VOLUME_RESTORE"
             case .volumeUpdate: return "VOLUME_UPDATE"
             case let .sdkUnknown(s): return s
@@ -2332,6 +2353,7 @@ extension CreateDataRepositoryTaskInput: Swift.Encodable {
         case clientRequestToken = "ClientRequestToken"
         case fileSystemId = "FileSystemId"
         case paths = "Paths"
+        case releaseConfiguration = "ReleaseConfiguration"
         case report = "Report"
         case tags = "Tags"
         case type = "Type"
@@ -2353,6 +2375,9 @@ extension CreateDataRepositoryTaskInput: Swift.Encodable {
             for datarepositorytaskpath0 in paths {
                 try pathsContainer.encode(datarepositorytaskpath0)
             }
+        }
+        if let releaseConfiguration = self.releaseConfiguration {
+            try encodeContainer.encode(releaseConfiguration, forKey: .releaseConfiguration)
         }
         if let report = self.report {
             try encodeContainer.encode(report, forKey: .report)
@@ -2383,18 +2408,30 @@ public struct CreateDataRepositoryTaskInput: Swift.Equatable {
     /// The globally unique ID of the file system, assigned by Amazon FSx.
     /// This member is required.
     public var fileSystemId: Swift.String?
-    /// A list of paths for the data repository task to use when the task is processed. If a path that you provide isn't valid, the task fails.
+    /// A list of paths for the data repository task to use when the task is processed. If a path that you provide isn't valid, the task fails. If you don't provide paths, the default behavior is to export all files to S3 (for export tasks), import all files from S3 (for import tasks), or release all archived files that meet the last accessed time criteria (for release tasks).
     ///
-    /// * For export tasks, the list contains paths on the Amazon FSx file system from which the files are exported to the Amazon S3 bucket. The default path is the file system root directory. The paths you provide need to be relative to the mount point of the file system. If the mount point is /mnt/fsx and /mnt/fsx/path1 is a directory or file on the file system you want to export, then the path to provide is path1.
+    /// * For export tasks, the list contains paths on the FSx for Lustre file system from which the files are exported to the Amazon S3 bucket. The default path is the file system root directory. The paths you provide need to be relative to the mount point of the file system. If the mount point is /mnt/fsx and /mnt/fsx/path1 is a directory or file on the file system you want to export, then the path to provide is path1.
     ///
-    /// * For import tasks, the list contains paths in the Amazon S3 bucket from which POSIX metadata changes are imported to the Amazon FSx file system. The path can be an S3 bucket or prefix in the format s3://myBucket/myPrefix (where myPrefix is optional).
+    /// * For import tasks, the list contains paths in the Amazon S3 bucket from which POSIX metadata changes are imported to the FSx for Lustre file system. The path can be an S3 bucket or prefix in the format s3://myBucket/myPrefix (where myPrefix is optional).
+    ///
+    /// * For release tasks, the list contains directory or file paths on the FSx for Lustre file system from which to release archived files. If a directory is specified, files within the directory are released. If a file path is specified, only that file is released. To release all archived files in the file system, specify a forward slash (/) as the path. A file must also meet the last accessed time criteria specified in for the file to be released.
     public var paths: [Swift.String]?
+    /// The configuration that specifies the last accessed time criteria for files that will be released from an Amazon FSx for Lustre file system.
+    public var releaseConfiguration: FSxClientTypes.ReleaseConfiguration?
     /// Defines whether or not Amazon FSx provides a CompletionReport once the task has completed. A CompletionReport provides a detailed report on the files that Amazon FSx processed that meet the criteria specified by the Scope parameter. For more information, see [Working with Task Completion Reports](https://docs.aws.amazon.com/fsx/latest/LustreGuide/task-completion-report.html).
     /// This member is required.
     public var report: FSxClientTypes.CompletionReport?
     /// A list of Tag values, with a maximum of 50 elements.
     public var tags: [FSxClientTypes.Tag]?
     /// Specifies the type of data repository task to create.
+    ///
+    /// * EXPORT_TO_REPOSITORY tasks export from your Amazon FSx for Lustre file system to a linked data repository.
+    ///
+    /// * IMPORT_METADATA_FROM_REPOSITORY tasks import metadata changes from a linked S3 bucket to your Amazon FSx for Lustre file system.
+    ///
+    /// * RELEASE_DATA_FROM_FILESYSTEM tasks release files in your Amazon FSx for Lustre file system that are archived and that meet your specified release criteria.
+    ///
+    /// * AUTO_RELEASE_DATA tasks automatically release files from an Amazon File Cache resource.
     /// This member is required.
     public var type: FSxClientTypes.DataRepositoryTaskType?
 
@@ -2403,6 +2440,7 @@ public struct CreateDataRepositoryTaskInput: Swift.Equatable {
         clientRequestToken: Swift.String? = nil,
         fileSystemId: Swift.String? = nil,
         paths: [Swift.String]? = nil,
+        releaseConfiguration: FSxClientTypes.ReleaseConfiguration? = nil,
         report: FSxClientTypes.CompletionReport? = nil,
         tags: [FSxClientTypes.Tag]? = nil,
         type: FSxClientTypes.DataRepositoryTaskType? = nil
@@ -2412,6 +2450,7 @@ public struct CreateDataRepositoryTaskInput: Swift.Equatable {
         self.clientRequestToken = clientRequestToken
         self.fileSystemId = fileSystemId
         self.paths = paths
+        self.releaseConfiguration = releaseConfiguration
         self.report = report
         self.tags = tags
         self.type = type
@@ -2426,6 +2465,7 @@ struct CreateDataRepositoryTaskInputBody: Swift.Equatable {
     let clientRequestToken: Swift.String?
     let tags: [FSxClientTypes.Tag]?
     let capacityToRelease: Swift.Int?
+    let releaseConfiguration: FSxClientTypes.ReleaseConfiguration?
 }
 
 extension CreateDataRepositoryTaskInputBody: Swift.Decodable {
@@ -2434,6 +2474,7 @@ extension CreateDataRepositoryTaskInputBody: Swift.Decodable {
         case clientRequestToken = "ClientRequestToken"
         case fileSystemId = "FileSystemId"
         case paths = "Paths"
+        case releaseConfiguration = "ReleaseConfiguration"
         case report = "Report"
         case tags = "Tags"
         case type = "Type"
@@ -2473,6 +2514,8 @@ extension CreateDataRepositoryTaskInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let capacityToReleaseDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .capacityToRelease)
         capacityToRelease = capacityToReleaseDecoded
+        let releaseConfigurationDecoded = try containerValues.decodeIfPresent(FSxClientTypes.ReleaseConfiguration.self, forKey: .releaseConfiguration)
+        releaseConfiguration = releaseConfigurationDecoded
     }
 }
 
@@ -3821,7 +3864,10 @@ extension FSxClientTypes.CreateFileSystemOpenZFSConfiguration: Swift.Codable {
         case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
         case deploymentType = "DeploymentType"
         case diskIopsConfiguration = "DiskIopsConfiguration"
+        case endpointIpAddressRange = "EndpointIpAddressRange"
+        case preferredSubnetId = "PreferredSubnetId"
         case rootVolumeConfiguration = "RootVolumeConfiguration"
+        case routeTableIds = "RouteTableIds"
         case throughputCapacity = "ThroughputCapacity"
         case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
     }
@@ -3846,8 +3892,20 @@ extension FSxClientTypes.CreateFileSystemOpenZFSConfiguration: Swift.Codable {
         if let diskIopsConfiguration = self.diskIopsConfiguration {
             try encodeContainer.encode(diskIopsConfiguration, forKey: .diskIopsConfiguration)
         }
+        if let endpointIpAddressRange = self.endpointIpAddressRange {
+            try encodeContainer.encode(endpointIpAddressRange, forKey: .endpointIpAddressRange)
+        }
+        if let preferredSubnetId = self.preferredSubnetId {
+            try encodeContainer.encode(preferredSubnetId, forKey: .preferredSubnetId)
+        }
         if let rootVolumeConfiguration = self.rootVolumeConfiguration {
             try encodeContainer.encode(rootVolumeConfiguration, forKey: .rootVolumeConfiguration)
+        }
+        if let routeTableIds = routeTableIds {
+            var routeTableIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .routeTableIds)
+            for routetableid0 in routeTableIds {
+                try routeTableIdsContainer.encode(routetableid0)
+            }
         }
         if let throughputCapacity = self.throughputCapacity {
             try encodeContainer.encode(throughputCapacity, forKey: .throughputCapacity)
@@ -3877,6 +3935,21 @@ extension FSxClientTypes.CreateFileSystemOpenZFSConfiguration: Swift.Codable {
         diskIopsConfiguration = diskIopsConfigurationDecoded
         let rootVolumeConfigurationDecoded = try containerValues.decodeIfPresent(FSxClientTypes.OpenZFSCreateRootVolumeConfiguration.self, forKey: .rootVolumeConfiguration)
         rootVolumeConfiguration = rootVolumeConfigurationDecoded
+        let preferredSubnetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredSubnetId)
+        preferredSubnetId = preferredSubnetIdDecoded
+        let endpointIpAddressRangeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpointIpAddressRange)
+        endpointIpAddressRange = endpointIpAddressRangeDecoded
+        let routeTableIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .routeTableIds)
+        var routeTableIdsDecoded0:[Swift.String]? = nil
+        if let routeTableIdsContainer = routeTableIdsContainer {
+            routeTableIdsDecoded0 = [Swift.String]()
+            for string0 in routeTableIdsContainer {
+                if let string0 = string0 {
+                    routeTableIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        routeTableIds = routeTableIdsDecoded0
     }
 }
 
@@ -3893,7 +3966,9 @@ extension FSxClientTypes {
         public var dailyAutomaticBackupStartTime: Swift.String?
         /// Specifies the file system deployment type. Single AZ deployment types are configured for redundancy within a single Availability Zone in an Amazon Web Services Region . Valid values are the following:
         ///
-        /// * SINGLE_AZ_1- (Default) Creates file systems with throughput capacities of 64 - 4,096 MBps. Single_AZ_1 is available in all Amazon Web Services Regions where Amazon FSx for OpenZFS is available.
+        /// * MULTI_AZ_1- Creates file systems with high availability that are configured for Multi-AZ redundancy to tolerate temporary unavailability in Availability Zones (AZs). Multi_AZ_1 is available in the following Amazon Web Services Regions:
+        ///
+        /// * SINGLE_AZ_1- (Default) Creates file systems with throughput capacities of 64 - 4,096 MB/s. Single_AZ_1 is available in all Amazon Web Services Regions where Amazon FSx for OpenZFS is available.
         ///
         /// * SINGLE_AZ_2- Creates file systems with throughput capacities of 160 - 10,240 MB/s using an NVMe L2ARC cache. Single_AZ_2 is available only in the US East (N. Virginia), US East (Ohio), US West (Oregon), and Europe (Ireland) Amazon Web Services Regions.
         ///
@@ -3901,10 +3976,16 @@ extension FSxClientTypes {
         /// For more information, see: [Deployment type availability](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/availability-durability.html#available-aws-regions) and [File system performance](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/performance.html#zfs-fs-performance) in the Amazon FSx for OpenZFS User Guide.
         /// This member is required.
         public var deploymentType: FSxClientTypes.OpenZFSDeploymentType?
-        /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP or FSx for OpenZFS file system. By default, Amazon FSx automatically provisions 3 IOPS per GB of storage capacity. You can provision additional IOPS per GB of storage. The configuration consists of the total number of provisioned SSD IOPS and how it is was provisioned, or the mode (by the customer or by Amazon FSx).
+        /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP, Amazon FSx for Windows File Server, or FSx for OpenZFS file system. By default, Amazon FSx automatically provisions 3 IOPS per GB of storage capacity. You can provision additional IOPS per GB of storage. The configuration consists of the total number of provisioned SSD IOPS and how it is was provisioned, or the mode (by the customer or by Amazon FSx).
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
+        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /28 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables.
+        public var endpointIpAddressRange: Swift.String?
+        /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located.
+        public var preferredSubnetId: Swift.String?
         /// The configuration Amazon FSx uses when creating the root value of the Amazon FSx for OpenZFS file system. All volumes are children of the root volume.
         public var rootVolumeConfiguration: FSxClientTypes.OpenZFSCreateRootVolumeConfiguration?
+        /// (Multi-AZ only) Specifies the virtual private cloud (VPC) route tables in which your file system's endpoints will be created. You should specify all VPC route tables associated with the subnets in which your clients are located. By default, Amazon FSx selects your VPC's default route table.
+        public var routeTableIds: [Swift.String]?
         /// Specifies the throughput of an Amazon FSx for OpenZFS file system, measured in megabytes per second (MBps). Valid values depend on the DeploymentType you choose, as follows:
         ///
         /// * For SINGLE_AZ_1, valid values are 64, 128, 256, 512, 1024, 2048, 3072, or 4096 MBps.
@@ -3925,7 +4006,10 @@ extension FSxClientTypes {
             dailyAutomaticBackupStartTime: Swift.String? = nil,
             deploymentType: FSxClientTypes.OpenZFSDeploymentType? = nil,
             diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration? = nil,
+            endpointIpAddressRange: Swift.String? = nil,
+            preferredSubnetId: Swift.String? = nil,
             rootVolumeConfiguration: FSxClientTypes.OpenZFSCreateRootVolumeConfiguration? = nil,
+            routeTableIds: [Swift.String]? = nil,
             throughputCapacity: Swift.Int? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
         )
@@ -3936,7 +4020,10 @@ extension FSxClientTypes {
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.deploymentType = deploymentType
             self.diskIopsConfiguration = diskIopsConfiguration
+            self.endpointIpAddressRange = endpointIpAddressRange
+            self.preferredSubnetId = preferredSubnetId
             self.rootVolumeConfiguration = rootVolumeConfiguration
+            self.routeTableIds = routeTableIds
             self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
@@ -4014,6 +4101,7 @@ extension FSxClientTypes.CreateFileSystemWindowsConfiguration: Swift.Codable {
         case copyTagsToBackups = "CopyTagsToBackups"
         case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
         case deploymentType = "DeploymentType"
+        case diskIopsConfiguration = "DiskIopsConfiguration"
         case preferredSubnetId = "PreferredSubnetId"
         case selfManagedActiveDirectoryConfiguration = "SelfManagedActiveDirectoryConfiguration"
         case throughputCapacity = "ThroughputCapacity"
@@ -4045,6 +4133,9 @@ extension FSxClientTypes.CreateFileSystemWindowsConfiguration: Swift.Codable {
         }
         if let deploymentType = self.deploymentType {
             try encodeContainer.encode(deploymentType.rawValue, forKey: .deploymentType)
+        }
+        if let diskIopsConfiguration = self.diskIopsConfiguration {
+            try encodeContainer.encode(diskIopsConfiguration, forKey: .diskIopsConfiguration)
         }
         if let preferredSubnetId = self.preferredSubnetId {
             try encodeContainer.encode(preferredSubnetId, forKey: .preferredSubnetId)
@@ -4093,6 +4184,8 @@ extension FSxClientTypes.CreateFileSystemWindowsConfiguration: Swift.Codable {
         aliases = aliasesDecoded0
         let auditLogConfigurationDecoded = try containerValues.decodeIfPresent(FSxClientTypes.WindowsAuditLogCreateConfiguration.self, forKey: .auditLogConfiguration)
         auditLogConfiguration = auditLogConfigurationDecoded
+        let diskIopsConfigurationDecoded = try containerValues.decodeIfPresent(FSxClientTypes.DiskIopsConfiguration.self, forKey: .diskIopsConfiguration)
+        diskIopsConfiguration = diskIopsConfigurationDecoded
     }
 }
 
@@ -4133,6 +4226,8 @@ extension FSxClientTypes {
         ///
         /// For more information, see [ Availability and Durability: Single-AZ and Multi-AZ File Systems](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/high-availability-multiAZ.html).
         public var deploymentType: FSxClientTypes.WindowsDeploymentType?
+        /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for Windows file system. By default, Amazon FSx automatically provisions 3 IOPS per GiB of storage capacity. You can provision additional IOPS per GiB of storage, up to the maximum limit associated with your chosen throughput capacity.
+        public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
         /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located. For in-Amazon Web Services applications, we recommend that you launch your clients in the same Availability Zone (AZ) as your preferred file server to reduce cross-AZ data transfer costs and minimize latency.
         public var preferredSubnetId: Swift.String?
         /// The configuration that Amazon FSx uses to join a FSx for Windows File Server file system or an FSx for ONTAP storage virtual machine (SVM) to a self-managed (including on-premises) Microsoft Active Directory (AD) directory. For more information, see [ Using Amazon FSx for Windows with your self-managed Microsoft Active Directory](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/self-managed-AD.html) or [Managing FSx for ONTAP SVMs](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-svms.html).
@@ -4151,6 +4246,7 @@ extension FSxClientTypes {
             copyTagsToBackups: Swift.Bool? = nil,
             dailyAutomaticBackupStartTime: Swift.String? = nil,
             deploymentType: FSxClientTypes.WindowsDeploymentType? = nil,
+            diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration? = nil,
             preferredSubnetId: Swift.String? = nil,
             selfManagedActiveDirectoryConfiguration: FSxClientTypes.SelfManagedActiveDirectoryConfiguration? = nil,
             throughputCapacity: Swift.Int? = nil,
@@ -4164,6 +4260,7 @@ extension FSxClientTypes {
             self.copyTagsToBackups = copyTagsToBackups
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.deploymentType = deploymentType
+            self.diskIopsConfiguration = diskIopsConfiguration
             self.preferredSubnetId = preferredSubnetId
             self.selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfiguration
             self.throughputCapacity = throughputCapacity
@@ -4605,7 +4702,7 @@ extension FSxClientTypes {
         public var auditLogVolume: Swift.Bool?
         /// The configuration object for setting the autocommit period of files in an FSx for ONTAP SnapLock volume.
         public var autocommitPeriod: FSxClientTypes.AutocommitPeriod?
-        /// Enables, disables, or permanently disables privileged delete on an FSx for ONTAP SnapLock Enterprise volume. Enabling privileged delete allows SnapLock administrators to delete WORM files even if they have active retention periods. PERMANENTLY_DISABLED is a terminal state. If privileged delete is permanently disabled on a SnapLock volume, you can't re-enable it. The default value is DISABLED. For more information, see [Privileged delete](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/how-snaplock-works.html#privileged-delete).
+        /// Enables, disables, or permanently disables privileged delete on an FSx for ONTAP SnapLock Enterprise volume. Enabling privileged delete allows SnapLock administrators to delete WORM files even if they have active retention periods. PERMANENTLY_DISABLED is a terminal state. If privileged delete is permanently disabled on a SnapLock volume, you can't re-enable it. The default value is DISABLED. For more information, see [Privileged delete](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/snaplock-enterprise.html#privileged-delete).
         public var privilegedDelete: FSxClientTypes.PrivilegedDelete?
         /// Specifies the retention period of an FSx for ONTAP SnapLock volume.
         public var retentionPeriod: FSxClientTypes.SnaplockRetentionPeriod?
@@ -4613,7 +4710,7 @@ extension FSxClientTypes {
         ///
         /// * COMPLIANCE: Files transitioned to write once, read many (WORM) on a Compliance volume can't be deleted until their retention periods expire. This retention mode is used to address government or industry-specific mandates or to protect against ransomware attacks. For more information, see [SnapLock Compliance](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/snaplock-compliance.html).
         ///
-        /// * ENTERPRISE: Files transitioned to WORM on an Enterprise volume can be deleted by authorized users before their retention periods expire using privileged delete. This retention mode is used to advance an organization's data integrity and internal compliance or to test retention settings before using SnapLock Compliance. For more information, see [SnapLock Enterprise](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/how-snaplock-works.htmlFile).
+        /// * ENTERPRISE: Files transitioned to WORM on an Enterprise volume can be deleted by authorized users before their retention periods expire using privileged delete. This retention mode is used to advance an organization's data integrity and internal compliance or to test retention settings before using SnapLock Compliance. For more information, see [SnapLock Enterprise](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/snaplock-enterprise.html).
         /// This member is required.
         public var snaplockType: FSxClientTypes.SnaplockType?
         /// Enables or disables volume-append mode on an FSx for ONTAP SnapLock volume. Volume-append mode allows you to create WORM-appendable files and write data to them incrementally. The default value is false. For more information, see [Volume-append mode](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/worm-state.html#worm-state-append).
@@ -5906,6 +6003,7 @@ extension FSxClientTypes.DataRepositoryTask: Swift.Codable {
         case fileSystemId = "FileSystemId"
         case lifecycle = "Lifecycle"
         case paths = "Paths"
+        case releaseConfiguration = "ReleaseConfiguration"
         case report = "Report"
         case resourceARN = "ResourceARN"
         case startTime = "StartTime"
@@ -5943,6 +6041,9 @@ extension FSxClientTypes.DataRepositoryTask: Swift.Codable {
             for datarepositorytaskpath0 in paths {
                 try pathsContainer.encode(datarepositorytaskpath0)
             }
+        }
+        if let releaseConfiguration = self.releaseConfiguration {
+            try encodeContainer.encode(releaseConfiguration, forKey: .releaseConfiguration)
         }
         if let report = self.report {
             try encodeContainer.encode(report, forKey: .report)
@@ -6020,11 +6121,22 @@ extension FSxClientTypes.DataRepositoryTask: Swift.Codable {
         capacityToRelease = capacityToReleaseDecoded
         let fileCacheIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileCacheId)
         fileCacheId = fileCacheIdDecoded
+        let releaseConfigurationDecoded = try containerValues.decodeIfPresent(FSxClientTypes.ReleaseConfiguration.self, forKey: .releaseConfiguration)
+        releaseConfiguration = releaseConfigurationDecoded
     }
 }
 
 extension FSxClientTypes {
-    /// A description of the data repository task. You use data repository tasks to perform bulk transfer operations between an Amazon FSx for Lustre file system and a linked data repository. An Amazon File Cache resource uses a task to automatically release files from the cache.
+    /// A description of the data repository task.
+    ///
+    /// * You use import and export data repository tasks to perform bulk transfer operations between an Amazon FSx for Lustre file system and a linked data repository.
+    ///
+    /// * You use release data repository tasks to release archived files from your Amazon FSx for Lustre file system.
+    ///
+    /// * An Amazon File Cache resource uses a task to automatically release files from the cache.
+    ///
+    ///
+    /// To learn more about data repository tasks, see [Data Repository Tasks](https://docs.aws.amazon.com/fsx/latest/LustreGuide/data-repository-tasks.html).
     public struct DataRepositoryTask: Swift.Equatable {
         /// Specifies the amount of data to release, in GiB, by an Amazon File Cache AUTO_RELEASE_DATA task that automatically releases files from the cache.
         public var capacityToRelease: Swift.Int?
@@ -6059,6 +6171,8 @@ extension FSxClientTypes {
         public var lifecycle: FSxClientTypes.DataRepositoryTaskLifecycle?
         /// An array of paths that specify the data for the data repository task to process. For example, in an EXPORT_TO_REPOSITORY task, the paths specify which data to export to the linked data repository. (Default) If Paths is not specified, Amazon FSx uses the file system root directory.
         public var paths: [Swift.String]?
+        /// The configuration that specifies the last accessed time criteria for files that will be released from an Amazon FSx for Lustre file system.
+        public var releaseConfiguration: FSxClientTypes.ReleaseConfiguration?
         /// Provides a report detailing the data repository task results of the files processed that match the criteria specified in the report Scope parameter. FSx delivers the report to the file system's linked data repository in Amazon S3, using the path specified in the report Path parameter. You can specify whether or not a report gets generated for a task using the Enabled parameter.
         public var report: FSxClientTypes.CompletionReport?
         /// The Amazon Resource Name (ARN) for a given resource. ARNs uniquely identify Amazon Web Services resources. We require an ARN when you need to specify a resource unambiguously across all of Amazon Web Services. For more information, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
@@ -6078,9 +6192,9 @@ extension FSxClientTypes {
         ///
         /// * IMPORT_METADATA_FROM_REPOSITORY tasks import metadata changes from a linked S3 bucket to your Amazon FSx for Lustre file system.
         ///
-        /// * AUTO_RELEASE_DATA tasks automatically release files from an Amazon File Cache resource.
+        /// * RELEASE_DATA_FROM_FILESYSTEM tasks release files in your Amazon FSx for Lustre file system that are archived and that meet your specified release criteria.
         ///
-        /// * RELEASE_DATA_FROM_FILESYSTEM tasks are not supported.
+        /// * AUTO_RELEASE_DATA tasks automatically release files from an Amazon File Cache resource.
         /// This member is required.
         public var type: FSxClientTypes.DataRepositoryTaskType?
 
@@ -6093,6 +6207,7 @@ extension FSxClientTypes {
             fileSystemId: Swift.String? = nil,
             lifecycle: FSxClientTypes.DataRepositoryTaskLifecycle? = nil,
             paths: [Swift.String]? = nil,
+            releaseConfiguration: FSxClientTypes.ReleaseConfiguration? = nil,
             report: FSxClientTypes.CompletionReport? = nil,
             resourceARN: Swift.String? = nil,
             startTime: ClientRuntime.Date? = nil,
@@ -6110,6 +6225,7 @@ extension FSxClientTypes {
             self.fileSystemId = fileSystemId
             self.lifecycle = lifecycle
             self.paths = paths
+            self.releaseConfiguration = releaseConfiguration
             self.report = report
             self.resourceARN = resourceARN
             self.startTime = startTime
@@ -7974,7 +8090,7 @@ extension FSxClientTypes.DeleteVolumeOntapConfiguration: Swift.Codable {
 extension FSxClientTypes {
     /// Use to specify skipping a final backup, adding tags to a final backup, or bypassing the retention period of an FSx for ONTAP SnapLock Enterprise volume when deleting an FSx for ONTAP volume.
     public struct DeleteVolumeOntapConfiguration: Swift.Equatable {
-        /// Setting this to true allows a SnapLock administrator to delete an FSx for ONTAP SnapLock Enterprise volume with unexpired write once, read many (WORM) files. The IAM permission fsx:BypassSnaplockEnterpriseRetention is also required to delete SnapLock Enterprise volumes with unexpired WORM files. The default value is false. For more information, see [ Deleting a SnapLock volume ](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/how-snaplock-works.html#snaplock-delete-volume).
+        /// Setting this to true allows a SnapLock administrator to delete an FSx for ONTAP SnapLock Enterprise volume with unexpired write once, read many (WORM) files. The IAM permission fsx:BypassSnaplockEnterpriseRetention is also required to delete SnapLock Enterprise volumes with unexpired WORM files. The default value is false. For more information, see [ Deleting a SnapLock volume](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/snaplock-delete-volume.html).
         public var bypassSnaplockEnterpriseRetention: Swift.Bool?
         /// A list of Tag values, with a maximum of 50 elements.
         public var finalBackupTags: [FSxClientTypes.Tag]?
@@ -9900,7 +10016,7 @@ extension FSxClientTypes.DiskIopsConfiguration: Swift.Codable {
 }
 
 extension FSxClientTypes {
-    /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP or FSx for OpenZFS file system. By default, Amazon FSx automatically provisions 3 IOPS per GB of storage capacity. You can provision additional IOPS per GB of storage. The configuration consists of the total number of provisioned SSD IOPS and how it is was provisioned, or the mode (by the customer or by Amazon FSx).
+    /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP, Amazon FSx for Windows File Server, or FSx for OpenZFS file system. By default, Amazon FSx automatically provisions 3 IOPS per GB of storage capacity. You can provision additional IOPS per GB of storage. The configuration consists of the total number of provisioned SSD IOPS and how it is was provisioned, or the mode (by the customer or by Amazon FSx).
     public struct DiskIopsConfiguration: Swift.Equatable {
         /// The total number of SSD IOPS provisioned for the file system.
         public var iops: Swift.Int?
@@ -9981,6 +10097,51 @@ extension FSxClientTypes {
             self = DriveCacheType(rawValue: rawValue) ?? DriveCacheType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension FSxClientTypes.DurationSinceLastAccess: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case unit = "Unit"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let unit = self.unit {
+            try encodeContainer.encode(unit.rawValue, forKey: .unit)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let unitDecoded = try containerValues.decodeIfPresent(FSxClientTypes.Unit.self, forKey: .unit)
+        unit = unitDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension FSxClientTypes {
+    /// Defines the minimum amount of time since last access for a file to be eligible for release. Only archived files that were last accessed or modified before this point-in-time are eligible to be released from the Amazon FSx for Lustre file system.
+    public struct DurationSinceLastAccess: Swift.Equatable {
+        /// The unit of time used by the Value parameter to determine if a file can be released, based on when it was last accessed. DAYS is the only supported value. This is a required parameter.
+        public var unit: FSxClientTypes.Unit?
+        /// An integer that represents the minimum amount of time (in days) since a file was last accessed in the file system. Only archived files with a MAX(atime, ctime, mtime) timestamp that is more than this amount of time in the past (relative to the task create time) will be released. The default of Value is 0. This is a required parameter. If an archived file meets the last accessed time criteria, its file or directory path must also be specified in the Paths parameter of the operation in order for the file to be released.
+        public var value: Swift.Int?
+
+        public init(
+            unit: FSxClientTypes.Unit? = nil,
+            value: Swift.Int? = nil
+        )
+        {
+            self.unit = unit
+            self.value = value
+        }
+    }
+
 }
 
 extension FSxClientTypes {
@@ -14005,12 +14166,14 @@ extension FSxClientTypes {
 
 extension FSxClientTypes {
     public enum OpenZFSDeploymentType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case multiAz1
         case singleAz1
         case singleAz2
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OpenZFSDeploymentType] {
             return [
+                .multiAz1,
                 .singleAz1,
                 .singleAz2,
                 .sdkUnknown("")
@@ -14022,6 +14185,7 @@ extension FSxClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .multiAz1: return "MULTI_AZ_1"
             case .singleAz1: return "SINGLE_AZ_1"
             case .singleAz2: return "SINGLE_AZ_2"
             case let .sdkUnknown(s): return s
@@ -14043,7 +14207,11 @@ extension FSxClientTypes.OpenZFSFileSystemConfiguration: Swift.Codable {
         case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
         case deploymentType = "DeploymentType"
         case diskIopsConfiguration = "DiskIopsConfiguration"
+        case endpointIpAddress = "EndpointIpAddress"
+        case endpointIpAddressRange = "EndpointIpAddressRange"
+        case preferredSubnetId = "PreferredSubnetId"
         case rootVolumeId = "RootVolumeId"
+        case routeTableIds = "RouteTableIds"
         case throughputCapacity = "ThroughputCapacity"
         case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
     }
@@ -14068,8 +14236,23 @@ extension FSxClientTypes.OpenZFSFileSystemConfiguration: Swift.Codable {
         if let diskIopsConfiguration = self.diskIopsConfiguration {
             try encodeContainer.encode(diskIopsConfiguration, forKey: .diskIopsConfiguration)
         }
+        if let endpointIpAddress = self.endpointIpAddress {
+            try encodeContainer.encode(endpointIpAddress, forKey: .endpointIpAddress)
+        }
+        if let endpointIpAddressRange = self.endpointIpAddressRange {
+            try encodeContainer.encode(endpointIpAddressRange, forKey: .endpointIpAddressRange)
+        }
+        if let preferredSubnetId = self.preferredSubnetId {
+            try encodeContainer.encode(preferredSubnetId, forKey: .preferredSubnetId)
+        }
         if let rootVolumeId = self.rootVolumeId {
             try encodeContainer.encode(rootVolumeId, forKey: .rootVolumeId)
+        }
+        if let routeTableIds = routeTableIds {
+            var routeTableIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .routeTableIds)
+            for routetableid0 in routeTableIds {
+                try routeTableIdsContainer.encode(routetableid0)
+            }
         }
         if let throughputCapacity = self.throughputCapacity {
             try encodeContainer.encode(throughputCapacity, forKey: .throughputCapacity)
@@ -14099,6 +14282,23 @@ extension FSxClientTypes.OpenZFSFileSystemConfiguration: Swift.Codable {
         diskIopsConfiguration = diskIopsConfigurationDecoded
         let rootVolumeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rootVolumeId)
         rootVolumeId = rootVolumeIdDecoded
+        let preferredSubnetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredSubnetId)
+        preferredSubnetId = preferredSubnetIdDecoded
+        let endpointIpAddressRangeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpointIpAddressRange)
+        endpointIpAddressRange = endpointIpAddressRangeDecoded
+        let routeTableIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .routeTableIds)
+        var routeTableIdsDecoded0:[Swift.String]? = nil
+        if let routeTableIdsContainer = routeTableIdsContainer {
+            routeTableIdsDecoded0 = [Swift.String]()
+            for string0 in routeTableIdsContainer {
+                if let string0 = string0 {
+                    routeTableIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        routeTableIds = routeTableIdsDecoded0
+        let endpointIpAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpointIpAddress)
+        endpointIpAddress = endpointIpAddressDecoded
     }
 }
 
@@ -14113,12 +14313,20 @@ extension FSxClientTypes {
         public var copyTagsToVolumes: Swift.Bool?
         /// A recurring daily time, in the format HH:MM. HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 05:00 specifies 5 AM daily.
         public var dailyAutomaticBackupStartTime: Swift.String?
-        /// Specifies the file-system deployment type. Amazon FSx for OpenZFS supports  SINGLE_AZ_1 and SINGLE_AZ_2.
+        /// Specifies the file-system deployment type. Amazon FSx for OpenZFS supports  MULTI_AZ_1, SINGLE_AZ_1, and SINGLE_AZ_2.
         public var deploymentType: FSxClientTypes.OpenZFSDeploymentType?
-        /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP or FSx for OpenZFS file system. By default, Amazon FSx automatically provisions 3 IOPS per GB of storage capacity. You can provision additional IOPS per GB of storage. The configuration consists of the total number of provisioned SSD IOPS and how it is was provisioned, or the mode (by the customer or by Amazon FSx).
+        /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP, Amazon FSx for Windows File Server, or FSx for OpenZFS file system. By default, Amazon FSx automatically provisions 3 IOPS per GB of storage capacity. You can provision additional IOPS per GB of storage. The configuration consists of the total number of provisioned SSD IOPS and how it is was provisioned, or the mode (by the customer or by Amazon FSx).
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
+        /// The IP address of the endpoint that is used to access data or to manage the file system.
+        public var endpointIpAddress: Swift.String?
+        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /28 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables.
+        public var endpointIpAddressRange: Swift.String?
+        /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located.
+        public var preferredSubnetId: Swift.String?
         /// The ID of the root volume of the OpenZFS file system.
         public var rootVolumeId: Swift.String?
+        /// (Multi-AZ only) The VPC route tables in which your file system's endpoints are created.
+        public var routeTableIds: [Swift.String]?
         /// The throughput of an Amazon FSx file system, measured in megabytes per second (MBps).
         public var throughputCapacity: Swift.Int?
         /// A recurring weekly time, in the format D:HH:MM. D is the day of the week, for which 1 represents Monday and 7 represents Sunday. For further details, see [the ISO-8601 spec as described on Wikipedia](https://en.wikipedia.org/wiki/ISO_week_date). HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 1:05:00 specifies maintenance at 5 AM Monday.
@@ -14131,7 +14339,11 @@ extension FSxClientTypes {
             dailyAutomaticBackupStartTime: Swift.String? = nil,
             deploymentType: FSxClientTypes.OpenZFSDeploymentType? = nil,
             diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration? = nil,
+            endpointIpAddress: Swift.String? = nil,
+            endpointIpAddressRange: Swift.String? = nil,
+            preferredSubnetId: Swift.String? = nil,
             rootVolumeId: Swift.String? = nil,
+            routeTableIds: [Swift.String]? = nil,
             throughputCapacity: Swift.Int? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
         )
@@ -14142,7 +14354,11 @@ extension FSxClientTypes {
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.deploymentType = deploymentType
             self.diskIopsConfiguration = diskIopsConfiguration
+            self.endpointIpAddress = endpointIpAddress
+            self.endpointIpAddressRange = endpointIpAddressRange
+            self.preferredSubnetId = preferredSubnetId
             self.rootVolumeId = rootVolumeId
+            self.routeTableIds = routeTableIds
             self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
@@ -14565,6 +14781,41 @@ extension FSxClientTypes {
             self = PrivilegedDelete(rawValue: rawValue) ?? PrivilegedDelete.sdkUnknown(rawValue)
         }
     }
+}
+
+extension FSxClientTypes.ReleaseConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case durationSinceLastAccess = "DurationSinceLastAccess"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let durationSinceLastAccess = self.durationSinceLastAccess {
+            try encodeContainer.encode(durationSinceLastAccess, forKey: .durationSinceLastAccess)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let durationSinceLastAccessDecoded = try containerValues.decodeIfPresent(FSxClientTypes.DurationSinceLastAccess.self, forKey: .durationSinceLastAccess)
+        durationSinceLastAccess = durationSinceLastAccessDecoded
+    }
+}
+
+extension FSxClientTypes {
+    /// The configuration that specifies a minimum amount of time since last access for an archived file to be eligible for release from an Amazon FSx for Lustre file system. Only files that were last accessed before this point-in-time can be released. For example, if you specify a last accessed time criteria of 9 days, only files that were last accessed 9.00001 or more days ago can be released. Only file data that has been archived can be released. Files that have not yet been archived, such as new or changed files that have not been exported, are not eligible for release. When files are released, their metadata stays on the file system, so they can still be accessed later. Users and applications can access a released file by reading the file again, which restores data from Amazon S3 to the FSx for Lustre file system. If a file meets the last accessed time criteria, its file or directory path must also be specified with the Paths parameter of the operation in order for the file to be released.
+    public struct ReleaseConfiguration: Swift.Equatable {
+        /// Defines the point-in-time since an archived file was last accessed, in order for that file to be eligible for release. Only files that were last accessed before this point-in-time are eligible to be released from the file system.
+        public var durationSinceLastAccess: FSxClientTypes.DurationSinceLastAccess?
+
+        public init(
+            durationSinceLastAccess: FSxClientTypes.DurationSinceLastAccess? = nil
+        )
+        {
+            self.durationSinceLastAccess = durationSinceLastAccess
+        }
+    }
+
 }
 
 extension ReleaseFileSystemNfsV3LocksInput: Swift.Encodable {
@@ -15784,7 +16035,7 @@ extension FSxClientTypes {
         public var auditLogVolume: Swift.Bool?
         /// The configuration object for setting the autocommit period of files in an FSx for ONTAP SnapLock volume.
         public var autocommitPeriod: FSxClientTypes.AutocommitPeriod?
-        /// Enables, disables, or permanently disables privileged delete on an FSx for ONTAP SnapLock Enterprise volume. Enabling privileged delete allows SnapLock administrators to delete write once, read many (WORM) files even if they have active retention periods. PERMANENTLY_DISABLED is a terminal state. If privileged delete is permanently disabled on a SnapLock volume, you can't re-enable it. The default value is DISABLED. For more information, see [Privileged delete](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/how-snaplock-works.html#privileged-delete).
+        /// Enables, disables, or permanently disables privileged delete on an FSx for ONTAP SnapLock Enterprise volume. Enabling privileged delete allows SnapLock administrators to delete write once, read many (WORM) files even if they have active retention periods. PERMANENTLY_DISABLED is a terminal state. If privileged delete is permanently disabled on a SnapLock volume, you can't re-enable it. The default value is DISABLED. For more information, see [Privileged delete](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/snaplock-enterprise.html#privileged-delete).
         public var privilegedDelete: FSxClientTypes.PrivilegedDelete?
         /// Specifies the retention period of an FSx for ONTAP SnapLock volume.
         public var retentionPeriod: FSxClientTypes.SnaplockRetentionPeriod?
@@ -15792,7 +16043,7 @@ extension FSxClientTypes {
         ///
         /// * COMPLIANCE: Files transitioned to write once, read many (WORM) on a Compliance volume can't be deleted until their retention periods expire. This retention mode is used to address government or industry-specific mandates or to protect against ransomware attacks. For more information, see [SnapLock Compliance](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/snaplock-compliance.html).
         ///
-        /// * ENTERPRISE: Files transitioned to WORM on an Enterprise volume can be deleted by authorized users before their retention periods expire using privileged delete. This retention mode is used to advance an organization's data integrity and internal compliance or to test retention settings before using SnapLock Compliance. For more information, see [SnapLock Enterprise](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/how-snaplock-works.htmlFile).
+        /// * ENTERPRISE: Files transitioned to WORM on an Enterprise volume can be deleted by authorized users before their retention periods expire using privileged delete. This retention mode is used to advance an organization's data integrity and internal compliance or to test retention settings before using SnapLock Compliance. For more information, see [SnapLock Enterprise](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/snaplock-enterprise.html).
         public var snaplockType: FSxClientTypes.SnaplockType?
         /// Enables or disables volume-append mode on an FSx for ONTAP SnapLock volume. Volume-append mode allows you to create WORM-appendable files and write data to them incrementally. The default value is false. For more information, see [Volume-append mode](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/worm-state.html#worm-state-append).
         public var volumeAppendModeEnabled: Swift.Bool?
@@ -17237,6 +17488,35 @@ extension FSxClientTypes {
     }
 }
 
+extension FSxClientTypes {
+    public enum Unit: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case days
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Unit] {
+            return [
+                .days,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .days: return "DAYS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Unit(rawValue: rawValue) ?? Unit.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension UnsupportedOperation {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -17704,6 +17984,7 @@ extension UpdateFileSystemInput: Swift.Encodable {
         case ontapConfiguration = "OntapConfiguration"
         case openZFSConfiguration = "OpenZFSConfiguration"
         case storageCapacity = "StorageCapacity"
+        case storageType = "StorageType"
         case windowsConfiguration = "WindowsConfiguration"
     }
 
@@ -17726,6 +18007,9 @@ extension UpdateFileSystemInput: Swift.Encodable {
         }
         if let storageCapacity = self.storageCapacity {
             try encodeContainer.encode(storageCapacity, forKey: .storageCapacity)
+        }
+        if let storageType = self.storageType {
+            try encodeContainer.encode(storageType.rawValue, forKey: .storageType)
         }
         if let windowsConfiguration = self.windowsConfiguration {
             try encodeContainer.encode(windowsConfiguration, forKey: .windowsConfiguration)
@@ -17763,6 +18047,8 @@ public struct UpdateFileSystemInput: Swift.Equatable {
     ///
     /// For more information, see [Managing storage and throughput capacity](https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-storage-capacity.html) in the FSx for Lustre User Guide. For FSx for OpenZFS file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/managing-storage-capacity.html) in the FSx for OpenZFS User Guide. For Windows file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. To increase storage capacity, the file system must have at least 16 MBps of throughput capacity. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-storage-capacity.html) in the Amazon FSxfor Windows File Server User Guide. For ONTAP file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. For more information, see [Managing storage capacity and provisioned IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-storage-capacity.html) in the Amazon FSx for NetApp ONTAP User Guide.
     public var storageCapacity: Swift.Int?
+    /// Specifies the file system's storage type.
+    public var storageType: FSxClientTypes.StorageType?
     /// The configuration updates for an Amazon FSx for Windows File Server file system.
     public var windowsConfiguration: FSxClientTypes.UpdateFileSystemWindowsConfiguration?
 
@@ -17773,6 +18059,7 @@ public struct UpdateFileSystemInput: Swift.Equatable {
         ontapConfiguration: FSxClientTypes.UpdateFileSystemOntapConfiguration? = nil,
         openZFSConfiguration: FSxClientTypes.UpdateFileSystemOpenZFSConfiguration? = nil,
         storageCapacity: Swift.Int? = nil,
+        storageType: FSxClientTypes.StorageType? = nil,
         windowsConfiguration: FSxClientTypes.UpdateFileSystemWindowsConfiguration? = nil
     )
     {
@@ -17782,6 +18069,7 @@ public struct UpdateFileSystemInput: Swift.Equatable {
         self.ontapConfiguration = ontapConfiguration
         self.openZFSConfiguration = openZFSConfiguration
         self.storageCapacity = storageCapacity
+        self.storageType = storageType
         self.windowsConfiguration = windowsConfiguration
     }
 }
@@ -17794,6 +18082,7 @@ struct UpdateFileSystemInputBody: Swift.Equatable {
     let lustreConfiguration: FSxClientTypes.UpdateFileSystemLustreConfiguration?
     let ontapConfiguration: FSxClientTypes.UpdateFileSystemOntapConfiguration?
     let openZFSConfiguration: FSxClientTypes.UpdateFileSystemOpenZFSConfiguration?
+    let storageType: FSxClientTypes.StorageType?
 }
 
 extension UpdateFileSystemInputBody: Swift.Decodable {
@@ -17804,6 +18093,7 @@ extension UpdateFileSystemInputBody: Swift.Decodable {
         case ontapConfiguration = "OntapConfiguration"
         case openZFSConfiguration = "OpenZFSConfiguration"
         case storageCapacity = "StorageCapacity"
+        case storageType = "StorageType"
         case windowsConfiguration = "WindowsConfiguration"
     }
 
@@ -17823,6 +18113,8 @@ extension UpdateFileSystemInputBody: Swift.Decodable {
         ontapConfiguration = ontapConfigurationDecoded
         let openZFSConfigurationDecoded = try containerValues.decodeIfPresent(FSxClientTypes.UpdateFileSystemOpenZFSConfiguration.self, forKey: .openZFSConfiguration)
         openZFSConfiguration = openZFSConfigurationDecoded
+        let storageTypeDecoded = try containerValues.decodeIfPresent(FSxClientTypes.StorageType.self, forKey: .storageType)
+        storageType = storageTypeDecoded
     }
 }
 
@@ -18075,17 +18367,25 @@ extension FSxClientTypes {
 
 extension FSxClientTypes.UpdateFileSystemOpenZFSConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case addRouteTableIds = "AddRouteTableIds"
         case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
         case copyTagsToBackups = "CopyTagsToBackups"
         case copyTagsToVolumes = "CopyTagsToVolumes"
         case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
         case diskIopsConfiguration = "DiskIopsConfiguration"
+        case removeRouteTableIds = "RemoveRouteTableIds"
         case throughputCapacity = "ThroughputCapacity"
         case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let addRouteTableIds = addRouteTableIds {
+            var addRouteTableIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addRouteTableIds)
+            for routetableid0 in addRouteTableIds {
+                try addRouteTableIdsContainer.encode(routetableid0)
+            }
+        }
         if let automaticBackupRetentionDays = self.automaticBackupRetentionDays {
             try encodeContainer.encode(automaticBackupRetentionDays, forKey: .automaticBackupRetentionDays)
         }
@@ -18100,6 +18400,12 @@ extension FSxClientTypes.UpdateFileSystemOpenZFSConfiguration: Swift.Codable {
         }
         if let diskIopsConfiguration = self.diskIopsConfiguration {
             try encodeContainer.encode(diskIopsConfiguration, forKey: .diskIopsConfiguration)
+        }
+        if let removeRouteTableIds = removeRouteTableIds {
+            var removeRouteTableIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .removeRouteTableIds)
+            for routetableid0 in removeRouteTableIds {
+                try removeRouteTableIdsContainer.encode(routetableid0)
+            }
         }
         if let throughputCapacity = self.throughputCapacity {
             try encodeContainer.encode(throughputCapacity, forKey: .throughputCapacity)
@@ -18125,12 +18431,36 @@ extension FSxClientTypes.UpdateFileSystemOpenZFSConfiguration: Swift.Codable {
         weeklyMaintenanceStartTime = weeklyMaintenanceStartTimeDecoded
         let diskIopsConfigurationDecoded = try containerValues.decodeIfPresent(FSxClientTypes.DiskIopsConfiguration.self, forKey: .diskIopsConfiguration)
         diskIopsConfiguration = diskIopsConfigurationDecoded
+        let addRouteTableIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .addRouteTableIds)
+        var addRouteTableIdsDecoded0:[Swift.String]? = nil
+        if let addRouteTableIdsContainer = addRouteTableIdsContainer {
+            addRouteTableIdsDecoded0 = [Swift.String]()
+            for string0 in addRouteTableIdsContainer {
+                if let string0 = string0 {
+                    addRouteTableIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        addRouteTableIds = addRouteTableIdsDecoded0
+        let removeRouteTableIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .removeRouteTableIds)
+        var removeRouteTableIdsDecoded0:[Swift.String]? = nil
+        if let removeRouteTableIdsContainer = removeRouteTableIdsContainer {
+            removeRouteTableIdsDecoded0 = [Swift.String]()
+            for string0 in removeRouteTableIdsContainer {
+                if let string0 = string0 {
+                    removeRouteTableIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        removeRouteTableIds = removeRouteTableIdsDecoded0
     }
 }
 
 extension FSxClientTypes {
     /// The configuration updates for an Amazon FSx for OpenZFS file system.
     public struct UpdateFileSystemOpenZFSConfiguration: Swift.Equatable {
+        /// (Multi-AZ only) A list of IDs of new virtual private cloud (VPC) route tables to associate (add) with your Amazon FSx for OpenZFS file system.
+        public var addRouteTableIds: [Swift.String]?
         /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 30.
         public var automaticBackupRetentionDays: Swift.Int?
         /// A Boolean value indicating whether tags for the file system should be copied to backups. This value defaults to false. If it's set to true, all tags for the file system are copied to all automatic and user-initiated backups where the user doesn't specify tags. If this value is true and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the file system, regardless of this value.
@@ -18139,8 +18469,10 @@ extension FSxClientTypes {
         public var copyTagsToVolumes: Swift.Bool?
         /// A recurring daily time, in the format HH:MM. HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 05:00 specifies 5 AM daily.
         public var dailyAutomaticBackupStartTime: Swift.String?
-        /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP or FSx for OpenZFS file system. By default, Amazon FSx automatically provisions 3 IOPS per GB of storage capacity. You can provision additional IOPS per GB of storage. The configuration consists of the total number of provisioned SSD IOPS and how it is was provisioned, or the mode (by the customer or by Amazon FSx).
+        /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP, Amazon FSx for Windows File Server, or FSx for OpenZFS file system. By default, Amazon FSx automatically provisions 3 IOPS per GB of storage capacity. You can provision additional IOPS per GB of storage. The configuration consists of the total number of provisioned SSD IOPS and how it is was provisioned, or the mode (by the customer or by Amazon FSx).
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
+        /// (Multi-AZ only) A list of IDs of existing virtual private cloud (VPC) route tables to disassociate (remove) from your Amazon FSx for OpenZFS file system. You can use the API operation to retrieve the list of VPC route table IDs for a file system.
+        public var removeRouteTableIds: [Swift.String]?
         /// The throughput of an Amazon FSx for OpenZFS file system, measured in megabytes per second  (MB/s). Valid values depend on the DeploymentType you choose, as follows:
         ///
         /// * For SINGLE_AZ_1, valid values are 64, 128, 256, 512, 1024, 2048, 3072, or 4096 MB/s.
@@ -18151,20 +18483,24 @@ extension FSxClientTypes {
         public var weeklyMaintenanceStartTime: Swift.String?
 
         public init(
+            addRouteTableIds: [Swift.String]? = nil,
             automaticBackupRetentionDays: Swift.Int? = nil,
             copyTagsToBackups: Swift.Bool? = nil,
             copyTagsToVolumes: Swift.Bool? = nil,
             dailyAutomaticBackupStartTime: Swift.String? = nil,
             diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration? = nil,
+            removeRouteTableIds: [Swift.String]? = nil,
             throughputCapacity: Swift.Int? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
         )
         {
+            self.addRouteTableIds = addRouteTableIds
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.copyTagsToVolumes = copyTagsToVolumes
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.diskIopsConfiguration = diskIopsConfiguration
+            self.removeRouteTableIds = removeRouteTableIds
             self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
@@ -18236,6 +18572,7 @@ extension FSxClientTypes.UpdateFileSystemWindowsConfiguration: Swift.Codable {
         case auditLogConfiguration = "AuditLogConfiguration"
         case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
         case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
+        case diskIopsConfiguration = "DiskIopsConfiguration"
         case selfManagedActiveDirectoryConfiguration = "SelfManagedActiveDirectoryConfiguration"
         case throughputCapacity = "ThroughputCapacity"
         case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
@@ -18251,6 +18588,9 @@ extension FSxClientTypes.UpdateFileSystemWindowsConfiguration: Swift.Codable {
         }
         if let dailyAutomaticBackupStartTime = self.dailyAutomaticBackupStartTime {
             try encodeContainer.encode(dailyAutomaticBackupStartTime, forKey: .dailyAutomaticBackupStartTime)
+        }
+        if let diskIopsConfiguration = self.diskIopsConfiguration {
+            try encodeContainer.encode(diskIopsConfiguration, forKey: .diskIopsConfiguration)
         }
         if let selfManagedActiveDirectoryConfiguration = self.selfManagedActiveDirectoryConfiguration {
             try encodeContainer.encode(selfManagedActiveDirectoryConfiguration, forKey: .selfManagedActiveDirectoryConfiguration)
@@ -18277,6 +18617,8 @@ extension FSxClientTypes.UpdateFileSystemWindowsConfiguration: Swift.Codable {
         selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfigurationDecoded
         let auditLogConfigurationDecoded = try containerValues.decodeIfPresent(FSxClientTypes.WindowsAuditLogCreateConfiguration.self, forKey: .auditLogConfiguration)
         auditLogConfiguration = auditLogConfigurationDecoded
+        let diskIopsConfigurationDecoded = try containerValues.decodeIfPresent(FSxClientTypes.DiskIopsConfiguration.self, forKey: .diskIopsConfiguration)
+        diskIopsConfiguration = diskIopsConfigurationDecoded
     }
 }
 
@@ -18289,6 +18631,8 @@ extension FSxClientTypes {
         public var automaticBackupRetentionDays: Swift.Int?
         /// The preferred time to start the daily automatic backup, in the UTC time zone, for example, 02:00
         public var dailyAutomaticBackupStartTime: Swift.String?
+        /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for Windows file system. By default, Amazon FSx automatically provisions 3 IOPS per GiB of storage capacity. You can provision additional IOPS per GiB of storage, up to the maximum limit associated with your chosen throughput capacity.
+        public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
         /// The configuration Amazon FSx uses to join the Windows File Server instance to the self-managed Microsoft AD directory. You cannot make a self-managed Microsoft AD update request if there is an existing self-managed Microsoft AD update request in progress.
         public var selfManagedActiveDirectoryConfiguration: FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates?
         /// Sets the target value for a file system's throughput capacity, in MB/s, that you are updating the file system to. Valid values are 8, 16, 32, 64, 128, 256, 512, 1024, 2048. You cannot make a throughput capacity update request if there is an existing throughput capacity update request in progress. For more information, see [Managing Throughput Capacity](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-throughput-capacity.html).
@@ -18300,6 +18644,7 @@ extension FSxClientTypes {
             auditLogConfiguration: FSxClientTypes.WindowsAuditLogCreateConfiguration? = nil,
             automaticBackupRetentionDays: Swift.Int? = nil,
             dailyAutomaticBackupStartTime: Swift.String? = nil,
+            diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration? = nil,
             selfManagedActiveDirectoryConfiguration: FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates? = nil,
             throughputCapacity: Swift.Int? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
@@ -18308,6 +18653,7 @@ extension FSxClientTypes {
             self.auditLogConfiguration = auditLogConfiguration
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
+            self.diskIopsConfiguration = diskIopsConfiguration
             self.selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfiguration
             self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
@@ -18605,7 +18951,7 @@ extension FSxClientTypes {
         public var auditLogVolume: Swift.Bool?
         /// The configuration object for setting the autocommit period of files in an FSx for ONTAP SnapLock volume.
         public var autocommitPeriod: FSxClientTypes.AutocommitPeriod?
-        /// Enables, disables, or permanently disables privileged delete on an FSx for ONTAP SnapLock Enterprise volume. Enabling privileged delete allows SnapLock administrators to delete write once, read many (WORM) files even if they have active retention periods. PERMANENTLY_DISABLED is a terminal state. If privileged delete is permanently disabled on a SnapLock volume, you can't re-enable it. The default value is DISABLED. For more information, see [Privileged delete](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/how-snaplock-works.html#privileged-delete).
+        /// Enables, disables, or permanently disables privileged delete on an FSx for ONTAP SnapLock Enterprise volume. Enabling privileged delete allows SnapLock administrators to delete write once, read many (WORM) files even if they have active retention periods. PERMANENTLY_DISABLED is a terminal state. If privileged delete is permanently disabled on a SnapLock volume, you can't re-enable it. The default value is DISABLED. For more information, see [Privileged delete](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/snaplock-enterprise.html#privileged-delete).
         public var privilegedDelete: FSxClientTypes.PrivilegedDelete?
         /// Specifies the retention period of an FSx for ONTAP SnapLock volume.
         public var retentionPeriod: FSxClientTypes.SnaplockRetentionPeriod?
@@ -19575,7 +19921,7 @@ extension FSxClientTypes.WindowsAuditLogConfiguration: Swift.Codable {
 extension FSxClientTypes {
     /// The configuration that Amazon FSx for Windows File Server uses to audit and log user accesses of files, folders, and file shares on the Amazon FSx for Windows File Server file system. For more information, see [ File access auditing](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/file-access-auditing.html).
     public struct WindowsAuditLogConfiguration: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) for the destination of the audit logs. The destination can be any Amazon CloudWatch Logs log group ARN or Amazon Kinesis Data Firehose delivery stream ARN. The name of the Amazon CloudWatch Logs log group must begin with the /aws/fsx prefix. The name of the Amazon Kinesis Data Firehouse delivery stream must begin with the aws-fsx prefix. The destination ARN (either CloudWatch Logs log group or Kinesis Data Firehose delivery stream) must be in the same Amazon Web Services partition, Amazon Web Services Region, and Amazon Web Services account as your Amazon FSx file system.
+        /// The Amazon Resource Name (ARN) for the destination of the audit logs. The destination can be any Amazon CloudWatch Logs log group ARN or Amazon Kinesis Data Firehose delivery stream ARN. The name of the Amazon CloudWatch Logs log group must begin with the /aws/fsx prefix. The name of the Amazon Kinesis Data Firehose delivery stream must begin with the aws-fsx prefix. The destination ARN (either CloudWatch Logs log group or Kinesis Data Firehose delivery stream) must be in the same Amazon Web Services partition, Amazon Web Services Region, and Amazon Web Services account as your Amazon FSx file system.
         public var auditLogDestination: Swift.String?
         /// Sets which attempt type is logged by Amazon FSx for file and folder accesses.
         ///
@@ -19652,7 +19998,7 @@ extension FSxClientTypes {
         ///
         /// * The destination ARN that you provide (either CloudWatch Logs log group or Kinesis Data Firehose delivery stream) must be in the same Amazon Web Services partition, Amazon Web Services Region, and Amazon Web Services account as your Amazon FSx file system.
         ///
-        /// * The name of the Amazon CloudWatch Logs log group must begin with the /aws/fsx prefix. The name of the Amazon Kinesis Data Firehouse delivery stream must begin with the aws-fsx prefix.
+        /// * The name of the Amazon CloudWatch Logs log group must begin with the /aws/fsx prefix. The name of the Amazon Kinesis Data Firehose delivery stream must begin with the aws-fsx prefix.
         ///
         /// * If you do not provide a destination in AuditLogDestination, Amazon FSx will create and use a log stream in the CloudWatch Logs /aws/fsx/windows log group.
         ///
@@ -19741,6 +20087,7 @@ extension FSxClientTypes.WindowsFileSystemConfiguration: Swift.Codable {
         case copyTagsToBackups = "CopyTagsToBackups"
         case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
         case deploymentType = "DeploymentType"
+        case diskIopsConfiguration = "DiskIopsConfiguration"
         case maintenanceOperationsInProgress = "MaintenanceOperationsInProgress"
         case preferredFileServerIp = "PreferredFileServerIp"
         case preferredSubnetId = "PreferredSubnetId"
@@ -19775,6 +20122,9 @@ extension FSxClientTypes.WindowsFileSystemConfiguration: Swift.Codable {
         }
         if let deploymentType = self.deploymentType {
             try encodeContainer.encode(deploymentType.rawValue, forKey: .deploymentType)
+        }
+        if let diskIopsConfiguration = self.diskIopsConfiguration {
+            try encodeContainer.encode(diskIopsConfiguration, forKey: .diskIopsConfiguration)
         }
         if let maintenanceOperationsInProgress = maintenanceOperationsInProgress {
             var maintenanceOperationsInProgressContainer = encodeContainer.nestedUnkeyedContainer(forKey: .maintenanceOperationsInProgress)
@@ -19850,6 +20200,8 @@ extension FSxClientTypes.WindowsFileSystemConfiguration: Swift.Codable {
         aliases = aliasesDecoded0
         let auditLogConfigurationDecoded = try containerValues.decodeIfPresent(FSxClientTypes.WindowsAuditLogConfiguration.self, forKey: .auditLogConfiguration)
         auditLogConfiguration = auditLogConfigurationDecoded
+        let diskIopsConfigurationDecoded = try containerValues.decodeIfPresent(FSxClientTypes.DiskIopsConfiguration.self, forKey: .diskIopsConfiguration)
+        diskIopsConfiguration = diskIopsConfigurationDecoded
     }
 }
 
@@ -19879,6 +20231,8 @@ extension FSxClientTypes {
         ///
         /// For more information, see [Single-AZ and Multi-AZ File Systems](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/high-availability-multiAZ.html).
         public var deploymentType: FSxClientTypes.WindowsDeploymentType?
+        /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for Windows file system. By default, Amazon FSx automatically provisions 3 IOPS per GiB of storage capacity. You can provision additional IOPS per GiB of storage, up to the maximum limit associated with your chosen throughput capacity.
+        public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
         /// The list of maintenance operations in progress for this file system.
         public var maintenanceOperationsInProgress: [FSxClientTypes.FileSystemMaintenanceOperation]?
         /// For MULTI_AZ_1 deployment types, the IP address of the primary, or preferred, file server. Use this IP address when mounting the file system on Linux SMB clients or Windows SMB clients that are not joined to a Microsoft Active Directory. Applicable for all Windows file system deployment types. This IP address is temporarily unavailable when the file system is undergoing maintenance. For Linux and Windows SMB clients that are joined to an Active Directory, use the file system's DNSName instead. For more information on mapping and mounting file shares, see [Accessing File Shares](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/accessing-file-shares.html).
@@ -19902,6 +20256,7 @@ extension FSxClientTypes {
             copyTagsToBackups: Swift.Bool? = nil,
             dailyAutomaticBackupStartTime: Swift.String? = nil,
             deploymentType: FSxClientTypes.WindowsDeploymentType? = nil,
+            diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration? = nil,
             maintenanceOperationsInProgress: [FSxClientTypes.FileSystemMaintenanceOperation]? = nil,
             preferredFileServerIp: Swift.String? = nil,
             preferredSubnetId: Swift.String? = nil,
@@ -19918,6 +20273,7 @@ extension FSxClientTypes {
             self.copyTagsToBackups = copyTagsToBackups
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.deploymentType = deploymentType
+            self.diskIopsConfiguration = diskIopsConfiguration
             self.maintenanceOperationsInProgress = maintenanceOperationsInProgress
             self.preferredFileServerIp = preferredFileServerIp
             self.preferredSubnetId = preferredSubnetId

@@ -5,42 +5,332 @@ import ClientRuntime
 /// The Amazon Chime SDK media pipeline APIs in this section allow software developers to create Amazon Chime SDK media pipelines that capture, concatenate, or stream your Amazon Chime SDK meetings. For more information about media pipelines, see [Amazon Chime SDK media pipelines](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_Operations_Amazon_Chime_SDK_Media_Pipelines.html).
 public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// Creates a media pipeline.
+    ///
+    /// - Parameter CreateMediaCapturePipelineInput : [no documentation found]
+    ///
+    /// - Returns: `CreateMediaCapturePipelineOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createMediaCapturePipeline(input: CreateMediaCapturePipelineInput) async throws -> CreateMediaCapturePipelineOutputResponse
     /// Creates a media concatenation pipeline.
+    ///
+    /// - Parameter CreateMediaConcatenationPipelineInput : [no documentation found]
+    ///
+    /// - Returns: `CreateMediaConcatenationPipelineOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createMediaConcatenationPipeline(input: CreateMediaConcatenationPipelineInput) async throws -> CreateMediaConcatenationPipelineOutputResponse
     /// Creates a media insights pipeline.
+    ///
+    /// - Parameter CreateMediaInsightsPipelineInput : [no documentation found]
+    ///
+    /// - Returns: `CreateMediaInsightsPipelineOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createMediaInsightsPipeline(input: CreateMediaInsightsPipelineInput) async throws -> CreateMediaInsightsPipelineOutputResponse
     /// A structure that contains the static configurations for a media insights pipeline.
+    ///
+    /// - Parameter CreateMediaInsightsPipelineConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateMediaInsightsPipelineConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createMediaInsightsPipelineConfiguration(input: CreateMediaInsightsPipelineConfigurationInput) async throws -> CreateMediaInsightsPipelineConfigurationOutputResponse
     /// Creates a media live connector pipeline in an Amazon Chime SDK meeting.
+    ///
+    /// - Parameter CreateMediaLiveConnectorPipelineInput : [no documentation found]
+    ///
+    /// - Returns: `CreateMediaLiveConnectorPipelineOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createMediaLiveConnectorPipeline(input: CreateMediaLiveConnectorPipelineInput) async throws -> CreateMediaLiveConnectorPipelineOutputResponse
     /// Deletes the media pipeline.
+    ///
+    /// - Parameter DeleteMediaCapturePipelineInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteMediaCapturePipelineOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteMediaCapturePipeline(input: DeleteMediaCapturePipelineInput) async throws -> DeleteMediaCapturePipelineOutputResponse
     /// Deletes the specified configuration settings.
+    ///
+    /// - Parameter DeleteMediaInsightsPipelineConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteMediaInsightsPipelineConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteMediaInsightsPipelineConfiguration(input: DeleteMediaInsightsPipelineConfigurationInput) async throws -> DeleteMediaInsightsPipelineConfigurationOutputResponse
     /// Deletes the media pipeline.
+    ///
+    /// - Parameter DeleteMediaPipelineInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteMediaPipelineOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteMediaPipeline(input: DeleteMediaPipelineInput) async throws -> DeleteMediaPipelineOutputResponse
     /// Gets an existing media pipeline.
+    ///
+    /// - Parameter GetMediaCapturePipelineInput : [no documentation found]
+    ///
+    /// - Returns: `GetMediaCapturePipelineOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getMediaCapturePipeline(input: GetMediaCapturePipelineInput) async throws -> GetMediaCapturePipelineOutputResponse
     /// Gets the configuration settings for a media insights pipeline.
+    ///
+    /// - Parameter GetMediaInsightsPipelineConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetMediaInsightsPipelineConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getMediaInsightsPipelineConfiguration(input: GetMediaInsightsPipelineConfigurationInput) async throws -> GetMediaInsightsPipelineConfigurationOutputResponse
     /// Gets an existing media pipeline.
+    ///
+    /// - Parameter GetMediaPipelineInput : [no documentation found]
+    ///
+    /// - Returns: `GetMediaPipelineOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getMediaPipeline(input: GetMediaPipelineInput) async throws -> GetMediaPipelineOutputResponse
     /// Returns a list of media pipelines.
+    ///
+    /// - Parameter ListMediaCapturePipelinesInput : [no documentation found]
+    ///
+    /// - Returns: `ListMediaCapturePipelinesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listMediaCapturePipelines(input: ListMediaCapturePipelinesInput) async throws -> ListMediaCapturePipelinesOutputResponse
     /// Lists the available media insights pipeline configurations.
+    ///
+    /// - Parameter ListMediaInsightsPipelineConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListMediaInsightsPipelineConfigurationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listMediaInsightsPipelineConfigurations(input: ListMediaInsightsPipelineConfigurationsInput) async throws -> ListMediaInsightsPipelineConfigurationsOutputResponse
     /// Returns a list of media pipelines.
+    ///
+    /// - Parameter ListMediaPipelinesInput : [no documentation found]
+    ///
+    /// - Returns: `ListMediaPipelinesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listMediaPipelines(input: ListMediaPipelinesInput) async throws -> ListMediaPipelinesOutputResponse
     /// Lists the tags available for a media pipeline.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// The ARN of the media pipeline that you want to tag. Consists of the pipeline's endpoint region, resource ID, and pipeline ID.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes any tags from a media pipeline.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates the media insights pipeline's configuration settings.
+    ///
+    /// - Parameter UpdateMediaInsightsPipelineConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateMediaInsightsPipelineConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func updateMediaInsightsPipelineConfiguration(input: UpdateMediaInsightsPipelineConfigurationInput) async throws -> UpdateMediaInsightsPipelineConfigurationOutputResponse
     /// Updates the status of a media insights pipeline.
+    ///
+    /// - Parameter UpdateMediaInsightsPipelineStatusInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateMediaInsightsPipelineStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func updateMediaInsightsPipelineStatus(input: UpdateMediaInsightsPipelineStatusInput) async throws -> UpdateMediaInsightsPipelineStatusOutputResponse
 }
 

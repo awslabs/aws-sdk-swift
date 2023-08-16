@@ -371,7 +371,7 @@ extension BackupClientTypes {
         public var resourceType: Swift.String?
         /// Specifies the time in Unix format and Coordinated Universal Time (UTC) when a backup job must be started before it is canceled. The value is calculated by adding the start window to the scheduled time. So if the scheduled time were 6:00 PM and the start window is 2 hours, the StartBy time would be 8:00 PM on the date specified. The value of StartBy is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public var startBy: ClientRuntime.Date?
-        /// The current state of a resource recovery point.
+        /// The current state of a backup job.
         public var state: BackupClientTypes.BackupJobState?
         /// A detailed message explaining the status of the job to back up a resource.
         public var statusMessage: Swift.String?
@@ -1078,7 +1078,7 @@ extension BackupClientTypes {
         public var copyActions: [BackupClientTypes.CopyAction]?
         /// Specifies whether Backup creates continuous backups. True causes Backup to create continuous backups capable of point-in-time restore (PITR). False (or not specified) causes Backup to create snapshot backups.
         public var enableContinuousBackup: Swift.Bool?
-        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup will transition and expire backups automatically according to the lifecycle that you define. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. Resource types that are able to be transitioned to cold storage are listed in the "Lifecycle to cold storage" section of the [ Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource) table. Backup ignores this expression for other resource types.
+        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup will transition and expire backups automatically according to the lifecycle that you define. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. Resource types that are able to be transitioned to cold storage are listed in the "Lifecycle to cold storage" section of the [ Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource) table. Backup ignores this expression for other resource types. This parameter has a maximum value of 100 years (36,500 days).
         public var lifecycle: BackupClientTypes.Lifecycle?
         /// To help organize your resources, you can assign your own metadata to the resources that you create. Each tag is a key-value pair.
         public var recoveryPointTags: [Swift.String:Swift.String]?
@@ -1087,7 +1087,7 @@ extension BackupClientTypes {
         public var ruleName: Swift.String?
         /// A CRON expression in UTC specifying when Backup initiates a backup job.
         public var scheduleExpression: Swift.String?
-        /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional. If this value is included, it must be at least 60 minutes to avoid errors. During the start window, the backup job status remains in CREATED status until it has successfully begun or until the start window time has run out. If within the start window time Backup receives an error that allows the job to be retried, Backup will automatically retry to begin the job at least every 10 minutes until the backup successfully begins (the job status changes to RUNNING) or until the job status changes to EXPIRED (which is expected to occur when the start window time is over).
+        /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional. If this value is included, it must be at least 60 minutes to avoid errors. This parameter has a maximum value of 100 years (52,560,000 minutes). During the start window, the backup job status remains in CREATED status until it has successfully begun or until the start window time has run out. If within the start window time Backup receives an error that allows the job to be retried, Backup will automatically retry to begin the job at least every 10 minutes until the backup successfully begins (the job status changes to RUNNING) or until the job status changes to EXPIRED (which is expected to occur when the start window time is over).
         public var startWindowMinutes: Swift.Int?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         /// This member is required.
@@ -3386,6 +3386,202 @@ extension CreateLegalHoldOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateLogicallyAirGappedBackupVaultInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateLogicallyAirGappedBackupVaultInput(backupVaultName: \(Swift.String(describing: backupVaultName)), creatorRequestId: \(Swift.String(describing: creatorRequestId)), maxRetentionDays: \(Swift.String(describing: maxRetentionDays)), minRetentionDays: \(Swift.String(describing: minRetentionDays)), backupVaultTags: \"CONTENT_REDACTED\")"}
+}
+
+extension CreateLogicallyAirGappedBackupVaultInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backupVaultTags = "BackupVaultTags"
+        case creatorRequestId = "CreatorRequestId"
+        case maxRetentionDays = "MaxRetentionDays"
+        case minRetentionDays = "MinRetentionDays"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let backupVaultTags = backupVaultTags {
+            var backupVaultTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .backupVaultTags)
+            for (dictKey0, tags0) in backupVaultTags {
+                try backupVaultTagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let creatorRequestId = self.creatorRequestId {
+            try encodeContainer.encode(creatorRequestId, forKey: .creatorRequestId)
+        }
+        if let maxRetentionDays = self.maxRetentionDays {
+            try encodeContainer.encode(maxRetentionDays, forKey: .maxRetentionDays)
+        }
+        if let minRetentionDays = self.minRetentionDays {
+            try encodeContainer.encode(minRetentionDays, forKey: .minRetentionDays)
+        }
+    }
+}
+
+extension CreateLogicallyAirGappedBackupVaultInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let backupVaultName = backupVaultName else {
+            return nil
+        }
+        return "/logically-air-gapped-backup-vaults/\(backupVaultName.urlPercentEncoding())"
+    }
+}
+
+public struct CreateLogicallyAirGappedBackupVaultInput: Swift.Equatable {
+    /// This is the name of the vault that is being created.
+    /// This member is required.
+    public var backupVaultName: Swift.String?
+    /// These are the tags that will be included in the newly-created vault.
+    public var backupVaultTags: [Swift.String:Swift.String]?
+    /// This is the ID of the creation request.
+    public var creatorRequestId: Swift.String?
+    /// This is the setting that specifies the maximum retention period that the vault retains its recovery points. If this parameter is not specified, Backup does not enforce a maximum retention period on the recovery points in the vault (allowing indefinite storage). If specified, any backup or copy job to the vault must have a lifecycle policy with a retention period equal to or shorter than the maximum retention period. If the job retention period is longer than that maximum retention period, then the vault fails the backup or copy job, and you should either modify your lifecycle settings or use a different vault.
+    /// This member is required.
+    public var maxRetentionDays: Swift.Int?
+    /// This setting specifies the minimum retention period that the vault retains its recovery points. If this parameter is not specified, no minimum retention period is enforced. If specified, any backup or copy job to the vault must have a lifecycle policy with a retention period equal to or longer than the minimum retention period. If a job retention period is shorter than that minimum retention period, then the vault fails the backup or copy job, and you should either modify your lifecycle settings or use a different vault.
+    /// This member is required.
+    public var minRetentionDays: Swift.Int?
+
+    public init(
+        backupVaultName: Swift.String? = nil,
+        backupVaultTags: [Swift.String:Swift.String]? = nil,
+        creatorRequestId: Swift.String? = nil,
+        maxRetentionDays: Swift.Int? = nil,
+        minRetentionDays: Swift.Int? = nil
+    )
+    {
+        self.backupVaultName = backupVaultName
+        self.backupVaultTags = backupVaultTags
+        self.creatorRequestId = creatorRequestId
+        self.maxRetentionDays = maxRetentionDays
+        self.minRetentionDays = minRetentionDays
+    }
+}
+
+struct CreateLogicallyAirGappedBackupVaultInputBody: Swift.Equatable {
+    let backupVaultTags: [Swift.String:Swift.String]?
+    let creatorRequestId: Swift.String?
+    let minRetentionDays: Swift.Int?
+    let maxRetentionDays: Swift.Int?
+}
+
+extension CreateLogicallyAirGappedBackupVaultInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backupVaultTags = "BackupVaultTags"
+        case creatorRequestId = "CreatorRequestId"
+        case maxRetentionDays = "MaxRetentionDays"
+        case minRetentionDays = "MinRetentionDays"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let backupVaultTagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .backupVaultTags)
+        var backupVaultTagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let backupVaultTagsContainer = backupVaultTagsContainer {
+            backupVaultTagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in backupVaultTagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    backupVaultTagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        backupVaultTags = backupVaultTagsDecoded0
+        let creatorRequestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creatorRequestId)
+        creatorRequestId = creatorRequestIdDecoded
+        let minRetentionDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minRetentionDays)
+        minRetentionDays = minRetentionDaysDecoded
+        let maxRetentionDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRetentionDays)
+        maxRetentionDays = maxRetentionDaysDecoded
+    }
+}
+
+public enum CreateLogicallyAirGappedBackupVaultOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateLogicallyAirGappedBackupVaultOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateLogicallyAirGappedBackupVaultOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.backupVaultArn = output.backupVaultArn
+            self.backupVaultName = output.backupVaultName
+            self.creationDate = output.creationDate
+            self.vaultState = output.vaultState
+        } else {
+            self.backupVaultArn = nil
+            self.backupVaultName = nil
+            self.creationDate = nil
+            self.vaultState = nil
+        }
+    }
+}
+
+public struct CreateLogicallyAirGappedBackupVaultOutputResponse: Swift.Equatable {
+    /// This is the ARN (Amazon Resource Name) of the vault being created.
+    public var backupVaultArn: Swift.String?
+    /// The name of a logical container where backups are stored. Logically air-gapped backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. They consist of lowercase letters, numbers, and hyphens.
+    public var backupVaultName: Swift.String?
+    /// The date and time when the vault was created. This value is in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+    public var creationDate: ClientRuntime.Date?
+    /// This is the current state of the vault.
+    public var vaultState: BackupClientTypes.VaultState?
+
+    public init(
+        backupVaultArn: Swift.String? = nil,
+        backupVaultName: Swift.String? = nil,
+        creationDate: ClientRuntime.Date? = nil,
+        vaultState: BackupClientTypes.VaultState? = nil
+    )
+    {
+        self.backupVaultArn = backupVaultArn
+        self.backupVaultName = backupVaultName
+        self.creationDate = creationDate
+        self.vaultState = vaultState
+    }
+}
+
+struct CreateLogicallyAirGappedBackupVaultOutputResponseBody: Swift.Equatable {
+    let backupVaultName: Swift.String?
+    let backupVaultArn: Swift.String?
+    let creationDate: ClientRuntime.Date?
+    let vaultState: BackupClientTypes.VaultState?
+}
+
+extension CreateLogicallyAirGappedBackupVaultOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backupVaultArn = "BackupVaultArn"
+        case backupVaultName = "BackupVaultName"
+        case creationDate = "CreationDate"
+        case vaultState = "VaultState"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let backupVaultNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backupVaultName)
+        backupVaultName = backupVaultNameDecoded
+        let backupVaultArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backupVaultArn)
+        backupVaultArn = backupVaultArnDecoded
+        let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
+        creationDate = creationDateDecoded
+        let vaultStateDecoded = try containerValues.decodeIfPresent(BackupClientTypes.VaultState.self, forKey: .vaultState)
+        vaultState = vaultStateDecoded
+    }
+}
+
 extension CreateReportPlanInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case idempotencyToken = "IdempotencyToken"
@@ -4445,7 +4641,7 @@ public struct DescribeBackupJobOutputResponse: Swift.Equatable {
     public var resourceType: Swift.String?
     /// Specifies the time in Unix format and Coordinated Universal Time (UTC) when a backup job must be started before it is canceled. The value is calculated by adding the start window to the scheduled time. So if the scheduled time were 6:00 PM and the start window is 2 hours, the StartBy time would be 8:00 PM on the date specified. The value of StartBy is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var startBy: ClientRuntime.Date?
-    /// The current state of a resource recovery point.
+    /// The current state of a backup job.
     public var state: BackupClientTypes.BackupJobState?
     /// A detailed message explaining the status of the job to back up a resource.
     public var statusMessage: Swift.String?
@@ -4636,6 +4832,19 @@ extension DescribeBackupJobOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DescribeBackupVaultInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let backupVaultAccountId = backupVaultAccountId {
+                let backupVaultAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
+                items.append(backupVaultAccountIdQueryItem)
+            }
+            return items
+        }
+    }
+}
+
 extension DescribeBackupVaultInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let backupVaultName = backupVaultName else {
@@ -4646,14 +4855,18 @@ extension DescribeBackupVaultInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeBackupVaultInput: Swift.Equatable {
+    /// This is the account ID of the specified backup vault.
+    public var backupVaultAccountId: Swift.String?
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
     /// This member is required.
     public var backupVaultName: Swift.String?
 
     public init(
+        backupVaultAccountId: Swift.String? = nil,
         backupVaultName: Swift.String? = nil
     )
     {
+        self.backupVaultAccountId = backupVaultAccountId
         self.backupVaultName = backupVaultName
     }
 }
@@ -4696,6 +4909,7 @@ extension DescribeBackupVaultOutputResponse: ClientRuntime.HttpResponseBinding {
             self.maxRetentionDays = output.maxRetentionDays
             self.minRetentionDays = output.minRetentionDays
             self.numberOfRecoveryPoints = output.numberOfRecoveryPoints
+            self.vaultType = output.vaultType
         } else {
             self.backupVaultArn = nil
             self.backupVaultName = nil
@@ -4707,6 +4921,7 @@ extension DescribeBackupVaultOutputResponse: ClientRuntime.HttpResponseBinding {
             self.maxRetentionDays = nil
             self.minRetentionDays = nil
             self.numberOfRecoveryPoints = 0
+            self.vaultType = nil
         }
     }
 }
@@ -4732,6 +4947,8 @@ public struct DescribeBackupVaultOutputResponse: Swift.Equatable {
     public var minRetentionDays: Swift.Int?
     /// The number of recovery points that are stored in a backup vault.
     public var numberOfRecoveryPoints: Swift.Int
+    /// This is the type of vault described.
+    public var vaultType: BackupClientTypes.VaultType?
 
     public init(
         backupVaultArn: Swift.String? = nil,
@@ -4743,7 +4960,8 @@ public struct DescribeBackupVaultOutputResponse: Swift.Equatable {
         locked: Swift.Bool? = nil,
         maxRetentionDays: Swift.Int? = nil,
         minRetentionDays: Swift.Int? = nil,
-        numberOfRecoveryPoints: Swift.Int = 0
+        numberOfRecoveryPoints: Swift.Int = 0,
+        vaultType: BackupClientTypes.VaultType? = nil
     )
     {
         self.backupVaultArn = backupVaultArn
@@ -4756,12 +4974,14 @@ public struct DescribeBackupVaultOutputResponse: Swift.Equatable {
         self.maxRetentionDays = maxRetentionDays
         self.minRetentionDays = minRetentionDays
         self.numberOfRecoveryPoints = numberOfRecoveryPoints
+        self.vaultType = vaultType
     }
 }
 
 struct DescribeBackupVaultOutputResponseBody: Swift.Equatable {
     let backupVaultName: Swift.String?
     let backupVaultArn: Swift.String?
+    let vaultType: BackupClientTypes.VaultType?
     let encryptionKeyArn: Swift.String?
     let creationDate: ClientRuntime.Date?
     let creatorRequestId: Swift.String?
@@ -4784,6 +5004,7 @@ extension DescribeBackupVaultOutputResponseBody: Swift.Decodable {
         case maxRetentionDays = "MaxRetentionDays"
         case minRetentionDays = "MinRetentionDays"
         case numberOfRecoveryPoints = "NumberOfRecoveryPoints"
+        case vaultType = "VaultType"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -4792,6 +5013,8 @@ extension DescribeBackupVaultOutputResponseBody: Swift.Decodable {
         backupVaultName = backupVaultNameDecoded
         let backupVaultArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backupVaultArn)
         backupVaultArn = backupVaultArnDecoded
+        let vaultTypeDecoded = try containerValues.decodeIfPresent(BackupClientTypes.VaultType.self, forKey: .vaultType)
+        vaultType = vaultTypeDecoded
         let encryptionKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .encryptionKeyArn)
         encryptionKeyArn = encryptionKeyArnDecoded
         let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
@@ -5274,6 +5497,19 @@ extension DescribeProtectedResourceOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DescribeRecoveryPointInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let backupVaultAccountId = backupVaultAccountId {
+                let backupVaultAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
+                items.append(backupVaultAccountIdQueryItem)
+            }
+            return items
+        }
+    }
+}
+
 extension DescribeRecoveryPointInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let backupVaultName = backupVaultName else {
@@ -5287,6 +5523,8 @@ extension DescribeRecoveryPointInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeRecoveryPointInput: Swift.Equatable {
+    /// This is the account ID of the specified backup vault.
+    public var backupVaultAccountId: Swift.String?
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
     /// This member is required.
     public var backupVaultName: Swift.String?
@@ -5295,10 +5533,12 @@ public struct DescribeRecoveryPointInput: Swift.Equatable {
     public var recoveryPointArn: Swift.String?
 
     public init(
+        backupVaultAccountId: Swift.String? = nil,
         backupVaultName: Swift.String? = nil,
         recoveryPointArn: Swift.String? = nil
     )
     {
+        self.backupVaultAccountId = backupVaultAccountId
         self.backupVaultName = backupVaultName
         self.recoveryPointArn = recoveryPointArn
     }
@@ -7344,6 +7584,19 @@ extension GetLegalHoldOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetRecoveryPointRestoreMetadataInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let backupVaultAccountId = backupVaultAccountId {
+                let backupVaultAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
+                items.append(backupVaultAccountIdQueryItem)
+            }
+            return items
+        }
+    }
+}
+
 extension GetRecoveryPointRestoreMetadataInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let backupVaultName = backupVaultName else {
@@ -7357,6 +7610,8 @@ extension GetRecoveryPointRestoreMetadataInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetRecoveryPointRestoreMetadataInput: Swift.Equatable {
+    /// This is the account ID of the specified backup vault.
+    public var backupVaultAccountId: Swift.String?
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
     /// This member is required.
     public var backupVaultName: Swift.String?
@@ -7365,10 +7620,12 @@ public struct GetRecoveryPointRestoreMetadataInput: Swift.Equatable {
     public var recoveryPointArn: Swift.String?
 
     public init(
+        backupVaultAccountId: Swift.String? = nil,
         backupVaultName: Swift.String? = nil,
         recoveryPointArn: Swift.String? = nil
     )
     {
+        self.backupVaultAccountId = backupVaultAccountId
         self.backupVaultName = backupVaultName
         self.recoveryPointArn = recoveryPointArn
     }
@@ -8824,9 +9081,17 @@ extension ListBackupVaultsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
+            if let byShared = byShared {
+                let bySharedQueryItem = ClientRuntime.URLQueryItem(name: "shared".urlPercentEncoding(), value: Swift.String(byShared).urlPercentEncoding())
+                items.append(bySharedQueryItem)
+            }
             if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
+            }
+            if let byVaultType = byVaultType {
+                let byVaultTypeQueryItem = ClientRuntime.URLQueryItem(name: "vaultType".urlPercentEncoding(), value: Swift.String(byVaultType.rawValue).urlPercentEncoding())
+                items.append(byVaultTypeQueryItem)
             }
             return items
         }
@@ -8840,16 +9105,24 @@ extension ListBackupVaultsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListBackupVaultsInput: Swift.Equatable {
+    /// This parameter will sort the list of vaults by shared vaults.
+    public var byShared: Swift.Bool?
+    /// This parameter will sort the list of vaults by vault type.
+    public var byVaultType: BackupClientTypes.VaultType?
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
     /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
+        byShared: Swift.Bool? = nil,
+        byVaultType: BackupClientTypes.VaultType? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
+        self.byShared = byShared
+        self.byVaultType = byVaultType
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -9398,6 +9671,142 @@ extension ListLegalHoldsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListProtectedResourcesByBackupVaultInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let backupVaultAccountId = backupVaultAccountId {
+                let backupVaultAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
+                items.append(backupVaultAccountIdQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListProtectedResourcesByBackupVaultInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let backupVaultName = backupVaultName else {
+            return nil
+        }
+        return "/backup-vaults/\(backupVaultName.urlPercentEncoding())/resources"
+    }
+}
+
+public struct ListProtectedResourcesByBackupVaultInput: Swift.Equatable {
+    /// This is the list of protected resources by backup vault within the vault(s) you specify by account ID.
+    public var backupVaultAccountId: Swift.String?
+    /// This is the list of protected resources by backup vault within the vault(s) you specify by name.
+    /// This member is required.
+    public var backupVaultName: Swift.String?
+    /// The maximum number of items to be returned.
+    public var maxResults: Swift.Int?
+    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+
+    public init(
+        backupVaultAccountId: Swift.String? = nil,
+        backupVaultName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.backupVaultAccountId = backupVaultAccountId
+        self.backupVaultName = backupVaultName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListProtectedResourcesByBackupVaultInputBody: Swift.Equatable {
+}
+
+extension ListProtectedResourcesByBackupVaultInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum ListProtectedResourcesByBackupVaultOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListProtectedResourcesByBackupVaultOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListProtectedResourcesByBackupVaultOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.results = output.results
+        } else {
+            self.nextToken = nil
+            self.results = nil
+        }
+    }
+}
+
+public struct ListProtectedResourcesByBackupVaultOutputResponse: Swift.Equatable {
+    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+    /// These are the results returned for the request ListProtectedResourcesByBackupVault.
+    public var results: [BackupClientTypes.ProtectedResource]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        results: [BackupClientTypes.ProtectedResource]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.results = results
+    }
+}
+
+struct ListProtectedResourcesByBackupVaultOutputResponseBody: Swift.Equatable {
+    let results: [BackupClientTypes.ProtectedResource]?
+    let nextToken: Swift.String?
+}
+
+extension ListProtectedResourcesByBackupVaultOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case results = "Results"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resultsContainer = try containerValues.decodeIfPresent([BackupClientTypes.ProtectedResource?].self, forKey: .results)
+        var resultsDecoded0:[BackupClientTypes.ProtectedResource]? = nil
+        if let resultsContainer = resultsContainer {
+            resultsDecoded0 = [BackupClientTypes.ProtectedResource]()
+            for structure0 in resultsContainer {
+                if let structure0 = structure0 {
+                    resultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        results = resultsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension ListProtectedResourcesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -9549,6 +9958,10 @@ extension ListRecoveryPointsByBackupVaultInput: ClientRuntime.QueryItemProvider 
                 let byParentRecoveryPointArnQueryItem = ClientRuntime.URLQueryItem(name: "parentRecoveryPointArn".urlPercentEncoding(), value: Swift.String(byParentRecoveryPointArn).urlPercentEncoding())
                 items.append(byParentRecoveryPointArnQueryItem)
             }
+            if let backupVaultAccountId = backupVaultAccountId {
+                let backupVaultAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
+                items.append(backupVaultAccountIdQueryItem)
+            }
             if let byCreatedAfter = byCreatedAfter {
                 let byCreatedAfterQueryItem = ClientRuntime.URLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
                 items.append(byCreatedAfterQueryItem)
@@ -9568,6 +9981,8 @@ extension ListRecoveryPointsByBackupVaultInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListRecoveryPointsByBackupVaultInput: Swift.Equatable {
+    /// This parameter will sort the list of recovery points by account ID.
+    public var backupVaultAccountId: Swift.String?
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens. Backup vault name might not be available when a supported service creates the backup.
     /// This member is required.
     public var backupVaultName: Swift.String?
@@ -9589,6 +10004,7 @@ public struct ListRecoveryPointsByBackupVaultInput: Swift.Equatable {
     public var nextToken: Swift.String?
 
     public init(
+        backupVaultAccountId: Swift.String? = nil,
         backupVaultName: Swift.String? = nil,
         byBackupPlanId: Swift.String? = nil,
         byCreatedAfter: ClientRuntime.Date? = nil,
@@ -9600,6 +10016,7 @@ public struct ListRecoveryPointsByBackupVaultInput: Swift.Equatable {
         nextToken: Swift.String? = nil
     )
     {
+        self.backupVaultAccountId = backupVaultAccountId
         self.backupVaultName = backupVaultName
         self.byBackupPlanId = byBackupPlanId
         self.byCreatedAfter = byCreatedAfter
@@ -12501,21 +12918,21 @@ public struct StartBackupJobInput: Swift.Equatable {
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
     /// This member is required.
     public var backupVaultName: Swift.String?
-    /// A value in minutes during which a successfully started backup must complete, or else Backup will cancel the job. This value is optional. This value begins counting down from when the backup was scheduled. It does not add additional time for StartWindowMinutes, or if the backup started later than scheduled.
+    /// A value in minutes during which a successfully started backup must complete, or else Backup will cancel the job. This value is optional. This value begins counting down from when the backup was scheduled. It does not add additional time for StartWindowMinutes, or if the backup started later than scheduled. Like StartWindowMinutes, this parameter has a maximum value of 100 years (52,560,000 minutes).
     public var completeWindowMinutes: Swift.Int?
     /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
     /// This member is required.
     public var iamRoleArn: Swift.String?
     /// A customer-chosen string that you can use to distinguish between otherwise identical calls to StartBackupJob. Retrying a successful request with the same idempotency token results in a success message with no action taken.
     public var idempotencyToken: Swift.String?
-    /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup will transition and expire backups automatically according to the lifecycle that you define. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. Resource types that are able to be transitioned to cold storage are listed in the "Lifecycle to cold storage" section of the [ Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource) table. Backup ignores this expression for other resource types.
+    /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup will transition and expire backups automatically according to the lifecycle that you define. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. Resource types that are able to be transitioned to cold storage are listed in the "Lifecycle to cold storage" section of the [ Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource) table. Backup ignores this expression for other resource types. This parameter has a maximum value of 100 years (36,500 days).
     public var lifecycle: BackupClientTypes.Lifecycle?
     /// To help organize your resources, you can assign your own metadata to the resources that you create. Each tag is a key-value pair.
     public var recoveryPointTags: [Swift.String:Swift.String]?
     /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional, and the default is 8 hours. If this value is included, it must be at least 60 minutes to avoid errors. During the start window, the backup job status remains in CREATED status until it has successfully begun or until the start window time has run out. If within the start window time Backup receives an error that allows the job to be retried, Backup will automatically retry to begin the job at least every 10 minutes until the backup successfully begins (the job status changes to RUNNING) or until the job status changes to EXPIRED (which is expected to occur when the start window time is over).
+    /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional, and the default is 8 hours. If this value is included, it must be at least 60 minutes to avoid errors. This parameter has a maximum value of 100 years (52,560,000 minutes). During the start window, the backup job status remains in CREATED status until it has successfully begun or until the start window time has run out. If within the start window time Backup receives an error that allows the job to be retried, Backup will automatically retry to begin the job at least every 10 minutes until the backup successfully begins (the job status changes to RUNNING) or until the job status changes to EXPIRED (which is expected to occur when the start window time is over).
     public var startWindowMinutes: Swift.Int?
 
     public init(
@@ -14328,5 +14745,72 @@ extension UpdateReportPlanOutputResponseBody: Swift.Decodable {
         reportPlanArn = reportPlanArnDecoded
         let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
         creationTime = creationTimeDecoded
+    }
+}
+
+extension BackupClientTypes {
+    public enum VaultState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case available
+        case creating
+        case failed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VaultState] {
+            return [
+                .available,
+                .creating,
+                .failed,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .creating: return "CREATING"
+            case .failed: return "FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = VaultState(rawValue: rawValue) ?? VaultState.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BackupClientTypes {
+    public enum VaultType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case backupVault
+        case logicallyAirGappedBackupVault
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VaultType] {
+            return [
+                .backupVault,
+                .logicallyAirGappedBackupVault,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .backupVault: return "BACKUP_VAULT"
+            case .logicallyAirGappedBackupVault: return "LOGICALLY_AIR_GAPPED_BACKUP_VAULT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = VaultType(rawValue: rawValue) ?? VaultType.sdkUnknown(rawValue)
+        }
     }
 }

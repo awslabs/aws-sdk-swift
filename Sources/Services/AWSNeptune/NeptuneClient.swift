@@ -64,6 +64,18 @@ public struct NeptuneClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
 
 extension NeptuneClient: NeptuneClientProtocol {
     /// Associates an Identity and Access Management (IAM) role with an Neptune DB cluster.
+    ///
+    /// - Parameter AddRoleToDBClusterInput : [no documentation found]
+    ///
+    /// - Returns: `AddRoleToDBClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
+    /// - `DBClusterRoleAlreadyExistsFault` : The specified IAM role Amazon Resource Name (ARN) is already associated with the specified DB cluster.
+    /// - `DBClusterRoleQuotaExceededFault` : You have exceeded the maximum number of IAM roles that can be associated with the specified DB cluster.
+    /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
     public func addRoleToDBCluster(input: AddRoleToDBClusterInput) async throws -> AddRoleToDBClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -100,6 +112,16 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Adds a source identifier to an existing event notification subscription.
+    ///
+    /// - Parameter AddSourceIdentifierToSubscriptionInput : [no documentation found]
+    ///
+    /// - Returns: `AddSourceIdentifierToSubscriptionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `SourceNotFoundFault` : The source could not be found.
+    /// - `SubscriptionNotFoundFault` : The designated subscription could not be found.
     public func addSourceIdentifierToSubscription(input: AddSourceIdentifierToSubscriptionInput) async throws -> AddSourceIdentifierToSubscriptionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -136,6 +158,17 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Adds metadata tags to an Amazon Neptune resource. These tags can also be used with cost allocation reporting to track cost associated with Amazon Neptune resources, or used in a Condition statement in an IAM policy for Amazon Neptune.
+    ///
+    /// - Parameter AddTagsToResourceInput : [no documentation found]
+    ///
+    /// - Returns: `AddTagsToResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier does not refer to an existing DB instance.
+    /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier does not refer to an existing DB snapshot.
     public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -172,6 +205,15 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Applies a pending maintenance action to a resource (for example, to a DB instance).
+    ///
+    /// - Parameter ApplyPendingMaintenanceActionInput : [no documentation found]
+    ///
+    /// - Returns: `ApplyPendingMaintenanceActionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundFault` : The specified resource ID was not found.
     public func applyPendingMaintenanceAction(input: ApplyPendingMaintenanceActionInput) async throws -> ApplyPendingMaintenanceActionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -208,6 +250,17 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Copies the specified DB cluster parameter group.
+    ///
+    /// - Parameter CopyDBClusterParameterGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CopyDBClusterParameterGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBParameterGroupAlreadyExistsFault` : A DB parameter group with the same name exists.
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName does not refer to an existing DB parameter group.
+    /// - `DBParameterGroupQuotaExceededFault` : Request would result in user exceeding the allowed number of DB parameter groups.
     public func copyDBClusterParameterGroup(input: CopyDBClusterParameterGroupInput) async throws -> CopyDBClusterParameterGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -244,6 +297,20 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Copies a snapshot of a DB cluster. To copy a DB cluster snapshot from a shared manual DB cluster snapshot, SourceDBClusterSnapshotIdentifier must be the Amazon Resource Name (ARN) of the shared DB cluster snapshot.
+    ///
+    /// - Parameter CopyDBClusterSnapshotInput : [no documentation found]
+    ///
+    /// - Returns: `CopyDBClusterSnapshotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterSnapshotAlreadyExistsFault` : User already has a DB cluster snapshot with the given identifier.
+    /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier does not refer to an existing DB cluster snapshot.
+    /// - `InvalidDBClusterSnapshotStateFault` : The supplied value is not a valid DB cluster snapshot state.
+    /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
+    /// - `KMSKeyNotAccessibleFault` : Error accessing KMS key.
+    /// - `SnapshotQuotaExceededFault` : Request would result in user exceeding the allowed number of DB snapshots.
     public func copyDBClusterSnapshot(input: CopyDBClusterSnapshotInput) async throws -> CopyDBClusterSnapshotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -280,6 +347,17 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Copies the specified DB parameter group.
+    ///
+    /// - Parameter CopyDBParameterGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CopyDBParameterGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBParameterGroupAlreadyExistsFault` : A DB parameter group with the same name exists.
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName does not refer to an existing DB parameter group.
+    /// - `DBParameterGroupQuotaExceededFault` : Request would result in user exceeding the allowed number of DB parameter groups.
     public func copyDBParameterGroup(input: CopyDBParameterGroupInput) async throws -> CopyDBParameterGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -316,6 +394,31 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Creates a new Amazon Neptune DB cluster. You can use the ReplicationSourceIdentifier parameter to create the DB cluster as a Read Replica of another DB cluster or Amazon Neptune DB instance. Note that when you create a new cluster using CreateDBCluster directly, deletion protection is disabled by default (when you create a new production cluster in the console, deletion protection is enabled by default). You can only delete a DB cluster if its DeletionProtection field is set to false.
+    ///
+    /// - Parameter CreateDBClusterInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDBClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterAlreadyExistsFault` : User already has a DB cluster with the given identifier.
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
+    /// - `DBClusterParameterGroupNotFoundFault` : DBClusterParameterGroupName does not refer to an existing DB Cluster parameter group.
+    /// - `DBClusterQuotaExceededFault` : User attempted to create a new DB cluster and the user has already reached the maximum allowed DB cluster quota.
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier does not refer to an existing DB instance.
+    /// - `DBSubnetGroupDoesNotCoverEnoughAZs` : Subnets in the DB subnet group should cover at least two Availability Zones unless there is only one Availability Zone.
+    /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName does not refer to an existing DB subnet group.
+    /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
+    /// - `InsufficientStorageClusterCapacityFault` : There is insufficient storage available for the current action. You may be able to resolve this error by updating your subnet group to use different Availability Zones that have more storage available.
+    /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
+    /// - `InvalidDBInstanceStateFault` : The specified DB instance is not in the available state.
+    /// - `InvalidDBSubnetGroupStateFault` : The DB subnet group cannot be deleted because it is in use.
+    /// - `InvalidGlobalClusterStateFault` : The global cluster is in an invalid state and can't perform the requested operation.
+    /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
+    /// - `InvalidVPCNetworkStateFault` : DB subnet group does not cover all Availability Zones after it is created because users' change.
+    /// - `KMSKeyNotAccessibleFault` : Error accessing KMS key.
+    /// - `StorageQuotaExceededFault` : Request would result in user exceeding the allowed amount of storage available across all DB instances.
     public func createDBCluster(input: CreateDBClusterInput) async throws -> CreateDBClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -352,6 +455,31 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Creates a new custom endpoint and associates it with an Amazon Neptune DB cluster.
+    ///
+    /// - Parameter CreateDBClusterEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDBClusterEndpointOutputResponse` : This data type represents the information you need to connect to an Amazon Neptune DB cluster. This data type is used as a response element in the following actions:
+    ///
+    /// * CreateDBClusterEndpoint
+    ///
+    /// * DescribeDBClusterEndpoints
+    ///
+    /// * ModifyDBClusterEndpoint
+    ///
+    /// * DeleteDBClusterEndpoint
+    ///
+    ///
+    /// For the data structure that represents Amazon Neptune DB instance endpoints, see Endpoint.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterEndpointAlreadyExistsFault` : The specified custom endpoint cannot be created because it already exists.
+    /// - `DBClusterEndpointQuotaExceededFault` : The cluster already has the maximum number of custom endpoints.
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier does not refer to an existing DB instance.
+    /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
+    /// - `InvalidDBInstanceStateFault` : The specified DB instance is not in the available state.
     public func createDBClusterEndpoint(input: CreateDBClusterEndpointInput) async throws -> CreateDBClusterEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -388,6 +516,16 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Creates a new DB cluster parameter group. Parameters in a DB cluster parameter group apply to all of the instances in a DB cluster. A DB cluster parameter group is initially created with the default parameters for the database engine used by instances in the DB cluster. To provide custom values for any of the parameters, you must modify the group after creating it using [ModifyDBClusterParameterGroup]. Once you've created a DB cluster parameter group, you need to associate it with your DB cluster using [ModifyDBCluster]. When you associate a new DB cluster parameter group with a running DB cluster, you need to reboot the DB instances in the DB cluster without failover for the new DB cluster parameter group and associated settings to take effect. After you create a DB cluster parameter group, you should wait at least 5 minutes before creating your first DB cluster that uses that DB cluster parameter group as the default parameter group. This allows Amazon Neptune to fully complete the create action before the DB cluster parameter group is used as the default for a new DB cluster. This is especially important for parameters that are critical when creating the default database for a DB cluster, such as the character set for the default database defined by the character_set_database parameter. You can use the Parameter Groups option of the [Amazon Neptune console](https://console.aws.amazon.com/rds/) or the [DescribeDBClusterParameters] command to verify that your DB cluster parameter group has been created or modified.
+    ///
+    /// - Parameter CreateDBClusterParameterGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDBClusterParameterGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBParameterGroupAlreadyExistsFault` : A DB parameter group with the same name exists.
+    /// - `DBParameterGroupQuotaExceededFault` : Request would result in user exceeding the allowed number of DB parameter groups.
     public func createDBClusterParameterGroup(input: CreateDBClusterParameterGroupInput) async throws -> CreateDBClusterParameterGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -424,6 +562,19 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Creates a snapshot of a DB cluster.
+    ///
+    /// - Parameter CreateDBClusterSnapshotInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDBClusterSnapshotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
+    /// - `DBClusterSnapshotAlreadyExistsFault` : User already has a DB cluster snapshot with the given identifier.
+    /// - `InvalidDBClusterSnapshotStateFault` : The supplied value is not a valid DB cluster snapshot state.
+    /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
+    /// - `SnapshotQuotaExceededFault` : Request would result in user exceeding the allowed number of DB snapshots.
     public func createDBClusterSnapshot(input: CreateDBClusterSnapshotInput) async throws -> CreateDBClusterSnapshotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -460,6 +611,32 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Creates a new DB instance.
+    ///
+    /// - Parameter CreateDBInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDBInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationNotFoundFault` : Specified CIDRIP or EC2 security group is not authorized for the specified DB security group. Neptune may not also be authorized via IAM to perform necessary actions on your behalf.
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
+    /// - `DBInstanceAlreadyExistsFault` : User already has a DB instance with the given identifier.
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName does not refer to an existing DB parameter group.
+    /// - `DBSecurityGroupNotFoundFault` : DBSecurityGroupName does not refer to an existing DB security group.
+    /// - `DBSubnetGroupDoesNotCoverEnoughAZs` : Subnets in the DB subnet group should cover at least two Availability Zones unless there is only one Availability Zone.
+    /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName does not refer to an existing DB subnet group.
+    /// - `DomainNotFoundFault` : Domain does not refer to an existing Active Directory Domain.
+    /// - `InstanceQuotaExceededFault` : Request would result in user exceeding the allowed number of DB instances.
+    /// - `InsufficientDBInstanceCapacityFault` : Specified DB instance class is not available in the specified Availability Zone.
+    /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
+    /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
+    /// - `InvalidVPCNetworkStateFault` : DB subnet group does not cover all Availability Zones after it is created because users' change.
+    /// - `KMSKeyNotAccessibleFault` : Error accessing KMS key.
+    /// - `OptionGroupNotFoundFault` : The designated option group could not be found.
+    /// - `ProvisionedIopsNotAvailableInAZFault` : Provisioned IOPS not available in the specified Availability Zone.
+    /// - `StorageQuotaExceededFault` : Request would result in user exceeding the allowed amount of storage available across all DB instances.
+    /// - `StorageTypeNotSupportedFault` : StorageType specified cannot be associated with the DB Instance.
     public func createDBInstance(input: CreateDBInstanceInput) async throws -> CreateDBInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -496,6 +673,16 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Creates a new DB parameter group. A DB parameter group is initially created with the default parameters for the database engine used by the DB instance. To provide custom values for any of the parameters, you must modify the group after creating it using ModifyDBParameterGroup. Once you've created a DB parameter group, you need to associate it with your DB instance using ModifyDBInstance. When you associate a new DB parameter group with a running DB instance, you need to reboot the DB instance without failover for the new DB parameter group and associated settings to take effect. After you create a DB parameter group, you should wait at least 5 minutes before creating your first DB instance that uses that DB parameter group as the default parameter group. This allows Amazon Neptune to fully complete the create action before the parameter group is used as the default for a new DB instance. This is especially important for parameters that are critical when creating the default database for a DB instance, such as the character set for the default database defined by the character_set_database parameter. You can use the Parameter Groups option of the Amazon Neptune console or the DescribeDBParameters command to verify that your DB parameter group has been created or modified.
+    ///
+    /// - Parameter CreateDBParameterGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDBParameterGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBParameterGroupAlreadyExistsFault` : A DB parameter group with the same name exists.
+    /// - `DBParameterGroupQuotaExceededFault` : Request would result in user exceeding the allowed number of DB parameter groups.
     public func createDBParameterGroup(input: CreateDBParameterGroupInput) async throws -> CreateDBParameterGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -532,6 +719,19 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Creates a new DB subnet group. DB subnet groups must contain at least one subnet in at least two AZs in the Amazon Region.
+    ///
+    /// - Parameter CreateDBSubnetGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDBSubnetGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBSubnetGroupAlreadyExistsFault` : DBSubnetGroupName is already used by an existing DB subnet group.
+    /// - `DBSubnetGroupDoesNotCoverEnoughAZs` : Subnets in the DB subnet group should cover at least two Availability Zones unless there is only one Availability Zone.
+    /// - `DBSubnetGroupQuotaExceededFault` : Request would result in user exceeding the allowed number of DB subnet groups.
+    /// - `DBSubnetQuotaExceededFault` : Request would result in user exceeding the allowed number of subnets in a DB subnet groups.
+    /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
     public func createDBSubnetGroup(input: CreateDBSubnetGroupInput) async throws -> CreateDBSubnetGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -568,6 +768,21 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Creates an event notification subscription. This action requires a topic ARN (Amazon Resource Name) created by either the Neptune console, the SNS console, or the SNS API. To obtain an ARN with SNS, you must create a topic in Amazon SNS and subscribe to the topic. The ARN is displayed in the SNS console. You can specify the type of source (SourceType) you want to be notified of, provide a list of Neptune sources (SourceIds) that triggers the events, and provide a list of event categories (EventCategories) for events you want to be notified of. For example, you can specify SourceType = db-instance, SourceIds = mydbinstance1, mydbinstance2 and EventCategories = Availability, Backup. If you specify both the SourceType and SourceIds, such as SourceType = db-instance and SourceIdentifier = myDBInstance1, you are notified of all the db-instance events for the specified source. If you specify a SourceType but do not specify a SourceIdentifier, you receive notice of the events for that source type for all your Neptune sources. If you do not specify either the SourceType nor the SourceIdentifier, you are notified of events generated from all Neptune sources belonging to your customer account.
+    ///
+    /// - Parameter CreateEventSubscriptionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateEventSubscriptionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EventSubscriptionQuotaExceededFault` : You have exceeded the number of events you can subscribe to.
+    /// - `SNSInvalidTopicFault` : The SNS topic is invalid.
+    /// - `SNSNoAuthorizationFault` : There is no SNS authorization.
+    /// - `SNSTopicArnNotFoundFault` : The ARN of the SNS topic could not be found.
+    /// - `SourceNotFoundFault` : The source could not be found.
+    /// - `SubscriptionAlreadyExistFault` : This subscription already exists.
+    /// - `SubscriptionCategoryNotFoundFault` : The designated subscription category could not be found.
     public func createEventSubscription(input: CreateEventSubscriptionInput) async throws -> CreateEventSubscriptionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -604,6 +819,18 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Creates a Neptune global database spread across multiple Amazon Regions. The global database contains a single primary cluster with read-write capability, and read-only secondary clusters that receive data from the primary cluster through high-speed replication performed by the Neptune storage subsystem. You can create a global database that is initially empty, and then add a primary cluster and secondary clusters to it, or you can specify an existing Neptune cluster during the create operation to become the primary cluster of the global database.
+    ///
+    /// - Parameter CreateGlobalClusterInput : [no documentation found]
+    ///
+    /// - Returns: `CreateGlobalClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
+    /// - `GlobalClusterAlreadyExistsFault` : The GlobalClusterIdentifier already exists. Choose a new global database identifier (unique name) to create a new global database cluster.
+    /// - `GlobalClusterQuotaExceededFault` : The number of global database clusters for this account is already at the maximum allowed.
+    /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
     public func createGlobalCluster(input: CreateGlobalClusterInput) async throws -> CreateGlobalClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -640,6 +867,19 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// The DeleteDBCluster action deletes a previously provisioned DB cluster. When you delete a DB cluster, all automated backups for that DB cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified DB cluster are not deleted. Note that the DB Cluster cannot be deleted if deletion protection is enabled. To delete it, you must first set its DeletionProtection field to False.
+    ///
+    /// - Parameter DeleteDBClusterInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDBClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
+    /// - `DBClusterSnapshotAlreadyExistsFault` : User already has a DB cluster snapshot with the given identifier.
+    /// - `InvalidDBClusterSnapshotStateFault` : The supplied value is not a valid DB cluster snapshot state.
+    /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
+    /// - `SnapshotQuotaExceededFault` : Request would result in user exceeding the allowed number of DB snapshots.
     public func deleteDBCluster(input: DeleteDBClusterInput) async throws -> DeleteDBClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -676,6 +916,28 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Deletes a custom endpoint and removes it from an Amazon Neptune DB cluster.
+    ///
+    /// - Parameter DeleteDBClusterEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDBClusterEndpointOutputResponse` : This data type represents the information you need to connect to an Amazon Neptune DB cluster. This data type is used as a response element in the following actions:
+    ///
+    /// * CreateDBClusterEndpoint
+    ///
+    /// * DescribeDBClusterEndpoints
+    ///
+    /// * ModifyDBClusterEndpoint
+    ///
+    /// * DeleteDBClusterEndpoint
+    ///
+    ///
+    /// For the data structure that represents Amazon RDS DB instance endpoints, see Endpoint.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterEndpointNotFoundFault` : The specified custom endpoint doesn't exist.
+    /// - `InvalidDBClusterEndpointStateFault` : The requested operation cannot be performed on the endpoint while the endpoint is in this state.
+    /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
     public func deleteDBClusterEndpoint(input: DeleteDBClusterEndpointInput) async throws -> DeleteDBClusterEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -712,6 +974,16 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Deletes a specified DB cluster parameter group. The DB cluster parameter group to be deleted can't be associated with any DB clusters.
+    ///
+    /// - Parameter DeleteDBClusterParameterGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDBClusterParameterGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName does not refer to an existing DB parameter group.
+    /// - `InvalidDBParameterGroupStateFault` : The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you cannot delete it when the parameter group is in this state.
     public func deleteDBClusterParameterGroup(input: DeleteDBClusterParameterGroupInput) async throws -> DeleteDBClusterParameterGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -748,6 +1020,16 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Deletes a DB cluster snapshot. If the snapshot is being copied, the copy operation is terminated. The DB cluster snapshot must be in the available state to be deleted.
+    ///
+    /// - Parameter DeleteDBClusterSnapshotInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDBClusterSnapshotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier does not refer to an existing DB cluster snapshot.
+    /// - `InvalidDBClusterSnapshotStateFault` : The supplied value is not a valid DB cluster snapshot state.
     public func deleteDBClusterSnapshot(input: DeleteDBClusterSnapshotInput) async throws -> DeleteDBClusterSnapshotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -784,6 +1066,19 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// The DeleteDBInstance action deletes a previously provisioned DB instance. When you delete a DB instance, all automated backups for that instance are deleted and can't be recovered. Manual DB snapshots of the DB instance to be deleted by DeleteDBInstance are not deleted. If you request a final DB snapshot the status of the Amazon Neptune DB instance is deleting until the DB snapshot is created. The API action DescribeDBInstance is used to monitor the status of this operation. The action can't be canceled or reverted once submitted. Note that when a DB instance is in a failure state and has a status of failed, incompatible-restore, or incompatible-network, you can only delete it when the SkipFinalSnapshot parameter is set to true. You can't delete a DB instance if it is the only instance in the DB cluster, or if it has deletion protection enabled.
+    ///
+    /// - Parameter DeleteDBInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDBInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier does not refer to an existing DB instance.
+    /// - `DBSnapshotAlreadyExistsFault` : DBSnapshotIdentifier is already used by an existing snapshot.
+    /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
+    /// - `InvalidDBInstanceStateFault` : The specified DB instance is not in the available state.
+    /// - `SnapshotQuotaExceededFault` : Request would result in user exceeding the allowed number of DB snapshots.
     public func deleteDBInstance(input: DeleteDBInstanceInput) async throws -> DeleteDBInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -820,6 +1115,16 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Deletes a specified DBParameterGroup. The DBParameterGroup to be deleted can't be associated with any DB instances.
+    ///
+    /// - Parameter DeleteDBParameterGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDBParameterGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName does not refer to an existing DB parameter group.
+    /// - `InvalidDBParameterGroupStateFault` : The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you cannot delete it when the parameter group is in this state.
     public func deleteDBParameterGroup(input: DeleteDBParameterGroupInput) async throws -> DeleteDBParameterGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -856,6 +1161,17 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Deletes a DB subnet group. The specified database subnet group must not be associated with any DB instances.
+    ///
+    /// - Parameter DeleteDBSubnetGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDBSubnetGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName does not refer to an existing DB subnet group.
+    /// - `InvalidDBSubnetGroupStateFault` : The DB subnet group cannot be deleted because it is in use.
+    /// - `InvalidDBSubnetStateFault` : The DB subnet is not in the available state.
     public func deleteDBSubnetGroup(input: DeleteDBSubnetGroupInput) async throws -> DeleteDBSubnetGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -892,6 +1208,16 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Deletes an event notification subscription.
+    ///
+    /// - Parameter DeleteEventSubscriptionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEventSubscriptionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidEventSubscriptionStateFault` : The event subscription is in an invalid state.
+    /// - `SubscriptionNotFoundFault` : The designated subscription could not be found.
     public func deleteEventSubscription(input: DeleteEventSubscriptionInput) async throws -> DeleteEventSubscriptionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -928,6 +1254,16 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Deletes a global database. The primary and all secondary clusters must already be detached or deleted first.
+    ///
+    /// - Parameter DeleteGlobalClusterInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteGlobalClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
+    /// - `InvalidGlobalClusterStateFault` : The global cluster is in an invalid state and can't perform the requested operation.
     public func deleteGlobalCluster(input: DeleteGlobalClusterInput) async throws -> DeleteGlobalClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -964,6 +1300,15 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Returns information about endpoints for an Amazon Neptune DB cluster. This operation can also return information for Amazon RDS clusters and Amazon DocDB clusters.
+    ///
+    /// - Parameter DescribeDBClusterEndpointsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDBClusterEndpointsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
     public func describeDBClusterEndpoints(input: DescribeDBClusterEndpointsInput) async throws -> DescribeDBClusterEndpointsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1000,6 +1345,15 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterGroupName parameter is specified, the list will contain only the description of the specified DB cluster parameter group.
+    ///
+    /// - Parameter DescribeDBClusterParameterGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDBClusterParameterGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName does not refer to an existing DB parameter group.
     public func describeDBClusterParameterGroups(input: DescribeDBClusterParameterGroupsInput) async throws -> DescribeDBClusterParameterGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1036,6 +1390,15 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Returns the detailed parameter list for a particular DB cluster parameter group.
+    ///
+    /// - Parameter DescribeDBClusterParametersInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDBClusterParametersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName does not refer to an existing DB parameter group.
     public func describeDBClusterParameters(input: DescribeDBClusterParametersInput) async throws -> DescribeDBClusterParametersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1072,6 +1435,15 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Returns a list of DB cluster snapshot attribute names and values for a manual DB cluster snapshot. When sharing snapshots with other Amazon accounts, DescribeDBClusterSnapshotAttributes returns the restore attribute and a list of IDs for the Amazon accounts that are authorized to copy or restore the manual DB cluster snapshot. If all is included in the list of values for the restore attribute, then the manual DB cluster snapshot is public and can be copied or restored by all Amazon accounts. To add or remove access for an Amazon account to copy or restore a manual DB cluster snapshot, or to make the manual DB cluster snapshot public or private, use the [ModifyDBClusterSnapshotAttribute] API action.
+    ///
+    /// - Parameter DescribeDBClusterSnapshotAttributesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDBClusterSnapshotAttributesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier does not refer to an existing DB cluster snapshot.
     public func describeDBClusterSnapshotAttributes(input: DescribeDBClusterSnapshotAttributesInput) async throws -> DescribeDBClusterSnapshotAttributesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1108,6 +1480,15 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Returns information about DB cluster snapshots. This API action supports pagination.
+    ///
+    /// - Parameter DescribeDBClusterSnapshotsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDBClusterSnapshotsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier does not refer to an existing DB cluster snapshot.
     public func describeDBClusterSnapshots(input: DescribeDBClusterSnapshotsInput) async throws -> DescribeDBClusterSnapshotsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1144,6 +1525,15 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Returns information about provisioned DB clusters, and supports pagination. This operation can also return information for Amazon RDS clusters and Amazon DocDB clusters.
+    ///
+    /// - Parameter DescribeDBClustersInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDBClustersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
     public func describeDBClusters(input: DescribeDBClustersInput) async throws -> DescribeDBClustersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1180,6 +1570,10 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Returns a list of the available DB engines.
+    ///
+    /// - Parameter DescribeDBEngineVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDBEngineVersionsOutputResponse` : [no documentation found]
     public func describeDBEngineVersions(input: DescribeDBEngineVersionsInput) async throws -> DescribeDBEngineVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1216,6 +1610,15 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Returns information about provisioned instances, and supports pagination. This operation can also return information for Amazon RDS instances and Amazon DocDB instances.
+    ///
+    /// - Parameter DescribeDBInstancesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDBInstancesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier does not refer to an existing DB instance.
     public func describeDBInstances(input: DescribeDBInstancesInput) async throws -> DescribeDBInstancesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1252,6 +1655,15 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Returns a list of DBParameterGroup descriptions. If a DBParameterGroupName is specified, the list will contain only the description of the specified DB parameter group.
+    ///
+    /// - Parameter DescribeDBParameterGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDBParameterGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName does not refer to an existing DB parameter group.
     public func describeDBParameterGroups(input: DescribeDBParameterGroupsInput) async throws -> DescribeDBParameterGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1288,6 +1700,15 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Returns the detailed parameter list for a particular DB parameter group.
+    ///
+    /// - Parameter DescribeDBParametersInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDBParametersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName does not refer to an existing DB parameter group.
     public func describeDBParameters(input: DescribeDBParametersInput) async throws -> DescribeDBParametersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1324,6 +1745,15 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup. For an overview of CIDR ranges, go to the [Wikipedia Tutorial](http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing).
+    ///
+    /// - Parameter DescribeDBSubnetGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDBSubnetGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName does not refer to an existing DB subnet group.
     public func describeDBSubnetGroups(input: DescribeDBSubnetGroupsInput) async throws -> DescribeDBSubnetGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1360,6 +1790,10 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Returns the default engine and system parameter information for the cluster database engine.
+    ///
+    /// - Parameter DescribeEngineDefaultClusterParametersInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeEngineDefaultClusterParametersOutputResponse` : [no documentation found]
     public func describeEngineDefaultClusterParameters(input: DescribeEngineDefaultClusterParametersInput) async throws -> DescribeEngineDefaultClusterParametersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1396,6 +1830,10 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Returns the default engine and system parameter information for the specified database engine.
+    ///
+    /// - Parameter DescribeEngineDefaultParametersInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeEngineDefaultParametersOutputResponse` : [no documentation found]
     public func describeEngineDefaultParameters(input: DescribeEngineDefaultParametersInput) async throws -> DescribeEngineDefaultParametersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1432,6 +1870,10 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Displays a list of categories for all event source types, or, if specified, for a specified source type.
+    ///
+    /// - Parameter DescribeEventCategoriesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeEventCategoriesOutputResponse` : [no documentation found]
     public func describeEventCategories(input: DescribeEventCategoriesInput) async throws -> DescribeEventCategoriesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1468,6 +1910,15 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Lists all the subscription descriptions for a customer account. The description for a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status. If you specify a SubscriptionName, lists the description for that subscription.
+    ///
+    /// - Parameter DescribeEventSubscriptionsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeEventSubscriptionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `SubscriptionNotFoundFault` : The designated subscription could not be found.
     public func describeEventSubscriptions(input: DescribeEventSubscriptionsInput) async throws -> DescribeEventSubscriptionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1504,6 +1955,10 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Returns events related to DB instances, DB security groups, DB snapshots, and DB parameter groups for the past 14 days. Events specific to a particular DB instance, DB security group, database snapshot, or DB parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned.
+    ///
+    /// - Parameter DescribeEventsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeEventsOutputResponse` : [no documentation found]
     public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1540,6 +1995,15 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Returns information about Neptune global database clusters. This API supports pagination.
+    ///
+    /// - Parameter DescribeGlobalClustersInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeGlobalClustersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
     public func describeGlobalClusters(input: DescribeGlobalClustersInput) async throws -> DescribeGlobalClustersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1576,6 +2040,10 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Returns a list of orderable DB instance options for the specified engine.
+    ///
+    /// - Parameter DescribeOrderableDBInstanceOptionsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeOrderableDBInstanceOptionsOutputResponse` : [no documentation found]
     public func describeOrderableDBInstanceOptions(input: DescribeOrderableDBInstanceOptionsInput) async throws -> DescribeOrderableDBInstanceOptionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1612,6 +2080,15 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Returns a list of resources (for example, DB instances) that have at least one pending maintenance action.
+    ///
+    /// - Parameter DescribePendingMaintenanceActionsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribePendingMaintenanceActionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundFault` : The specified resource ID was not found.
     public func describePendingMaintenanceActions(input: DescribePendingMaintenanceActionsInput) async throws -> DescribePendingMaintenanceActionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1648,6 +2125,16 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// You can call [DescribeValidDBInstanceModifications] to learn what modifications you can make to your DB instance. You can use this information when you call [ModifyDBInstance].
+    ///
+    /// - Parameter DescribeValidDBInstanceModificationsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeValidDBInstanceModificationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier does not refer to an existing DB instance.
+    /// - `InvalidDBInstanceStateFault` : The specified DB instance is not in the available state.
     public func describeValidDBInstanceModifications(input: DescribeValidDBInstanceModificationsInput) async throws -> DescribeValidDBInstanceModificationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1684,6 +2171,17 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Forces a failover for a DB cluster. A failover for a DB cluster promotes one of the Read Replicas (read-only instances) in the DB cluster to be the primary instance (the cluster writer). Amazon Neptune will automatically fail over to a Read Replica, if one exists, when the primary instance fails. You can force a failover when you want to simulate a failure of a primary instance for testing. Because each instance in a DB cluster has its own endpoint address, you will need to clean up and re-establish any existing connections that use those endpoint addresses when the failover is complete.
+    ///
+    /// - Parameter FailoverDBClusterInput : [no documentation found]
+    ///
+    /// - Returns: `FailoverDBClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
+    /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
+    /// - `InvalidDBInstanceStateFault` : The specified DB instance is not in the available state.
     public func failoverDBCluster(input: FailoverDBClusterInput) async throws -> FailoverDBClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1720,6 +2218,18 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Initiates the failover process for a Neptune global database. A failover for a Neptune global database promotes one of secondary read-only DB clusters to be the primary DB cluster and demotes the primary DB cluster to being a secondary (read-only) DB cluster. In other words, the role of the current primary DB cluster and the selected target secondary DB cluster are switched. The selected secondary DB cluster assumes full read/write capabilities for the Neptune global database. This action applies only to Neptune global databases. This action is only intended for use on healthy Neptune global databases with healthy Neptune DB clusters and no region-wide outages, to test disaster recovery scenarios or to reconfigure the global database topology.
+    ///
+    /// - Parameter FailoverGlobalClusterInput : [no documentation found]
+    ///
+    /// - Returns: `FailoverGlobalClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
+    /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
+    /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
+    /// - `InvalidGlobalClusterStateFault` : The global cluster is in an invalid state and can't perform the requested operation.
     public func failoverGlobalCluster(input: FailoverGlobalClusterInput) async throws -> FailoverGlobalClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1756,6 +2266,17 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Lists all tags on an Amazon Neptune resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier does not refer to an existing DB instance.
+    /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier does not refer to an existing DB snapshot.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1792,6 +2313,25 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Modify a setting for a DB cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request.
+    ///
+    /// - Parameter ModifyDBClusterInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyDBClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterAlreadyExistsFault` : User already has a DB cluster with the given identifier.
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
+    /// - `DBClusterParameterGroupNotFoundFault` : DBClusterParameterGroupName does not refer to an existing DB Cluster parameter group.
+    /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName does not refer to an existing DB subnet group.
+    /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
+    /// - `InvalidDBInstanceStateFault` : The specified DB instance is not in the available state.
+    /// - `InvalidDBSecurityGroupStateFault` : The state of the DB security group does not allow deletion.
+    /// - `InvalidDBSubnetGroupStateFault` : The DB subnet group cannot be deleted because it is in use.
+    /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
+    /// - `InvalidVPCNetworkStateFault` : DB subnet group does not cover all Availability Zones after it is created because users' change.
+    /// - `StorageQuotaExceededFault` : Request would result in user exceeding the allowed amount of storage available across all DB instances.
     public func modifyDBCluster(input: ModifyDBClusterInput) async throws -> ModifyDBClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1828,6 +2368,30 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Modifies the properties of an endpoint in an Amazon Neptune DB cluster.
+    ///
+    /// - Parameter ModifyDBClusterEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyDBClusterEndpointOutputResponse` : This data type represents the information you need to connect to an Amazon Neptune DB cluster. This data type is used as a response element in the following actions:
+    ///
+    /// * CreateDBClusterEndpoint
+    ///
+    /// * DescribeDBClusterEndpoints
+    ///
+    /// * ModifyDBClusterEndpoint
+    ///
+    /// * DeleteDBClusterEndpoint
+    ///
+    ///
+    /// For the data structure that represents Amazon RDS DB instance endpoints, see Endpoint.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterEndpointNotFoundFault` : The specified custom endpoint doesn't exist.
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier does not refer to an existing DB instance.
+    /// - `InvalidDBClusterEndpointStateFault` : The requested operation cannot be performed on the endpoint while the endpoint is in this state.
+    /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
+    /// - `InvalidDBInstanceStateFault` : The specified DB instance is not in the available state.
     public func modifyDBClusterEndpoint(input: ModifyDBClusterEndpointInput) async throws -> ModifyDBClusterEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1864,6 +2428,16 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Modifies the parameters of a DB cluster parameter group. To modify more than one parameter, submit a list of the following: ParameterName, ParameterValue, and ApplyMethod. A maximum of 20 parameters can be modified in a single request. Changes to dynamic parameters are applied immediately. Changes to static parameters require a reboot without failover to the DB cluster associated with the parameter group before the change can take effect. After you create a DB cluster parameter group, you should wait at least 5 minutes before creating your first DB cluster that uses that DB cluster parameter group as the default parameter group. This allows Amazon Neptune to fully complete the create action before the parameter group is used as the default for a new DB cluster. This is especially important for parameters that are critical when creating the default database for a DB cluster, such as the character set for the default database defined by the character_set_database parameter. You can use the Parameter Groups option of the Amazon Neptune console or the [DescribeDBClusterParameters] command to verify that your DB cluster parameter group has been created or modified.
+    ///
+    /// - Parameter ModifyDBClusterParameterGroupInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyDBClusterParameterGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName does not refer to an existing DB parameter group.
+    /// - `InvalidDBParameterGroupStateFault` : The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you cannot delete it when the parameter group is in this state.
     public func modifyDBClusterParameterGroup(input: ModifyDBClusterParameterGroupInput) async throws -> ModifyDBClusterParameterGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1900,6 +2474,17 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Adds an attribute and values to, or removes an attribute and values from, a manual DB cluster snapshot. To share a manual DB cluster snapshot with other Amazon accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the Amazon accounts that are authorized to restore the manual DB cluster snapshot. Use the value all to make the manual DB cluster snapshot public, which means that it can be copied or restored by all Amazon accounts. Do not add the all value for any manual DB cluster snapshots that contain private information that you don't want available to all Amazon accounts. If a manual DB cluster snapshot is encrypted, it can be shared, but only by specifying a list of authorized Amazon account IDs for the ValuesToAdd parameter. You can't use all as a value for that parameter in this case. To view which Amazon accounts have access to copy or restore a manual DB cluster snapshot, or whether a manual DB cluster snapshot public or private, use the [DescribeDBClusterSnapshotAttributes] API action.
+    ///
+    /// - Parameter ModifyDBClusterSnapshotAttributeInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyDBClusterSnapshotAttributeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier does not refer to an existing DB cluster snapshot.
+    /// - `InvalidDBClusterSnapshotStateFault` : The supplied value is not a valid DB cluster snapshot state.
+    /// - `SharedSnapshotQuotaExceededFault` : You have exceeded the maximum number of accounts that you can share a manual DB snapshot with.
     public func modifyDBClusterSnapshotAttribute(input: ModifyDBClusterSnapshotAttributeInput) async throws -> ModifyDBClusterSnapshotAttributeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1936,6 +2521,30 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Modifies settings for a DB instance. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. To learn what modifications you can make to your DB instance, call [DescribeValidDBInstanceModifications] before you call [ModifyDBInstance].
+    ///
+    /// - Parameter ModifyDBInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyDBInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationNotFoundFault` : Specified CIDRIP or EC2 security group is not authorized for the specified DB security group. Neptune may not also be authorized via IAM to perform necessary actions on your behalf.
+    /// - `CertificateNotFoundFault` : CertificateIdentifier does not refer to an existing certificate.
+    /// - `DBInstanceAlreadyExistsFault` : User already has a DB instance with the given identifier.
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier does not refer to an existing DB instance.
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName does not refer to an existing DB parameter group.
+    /// - `DBSecurityGroupNotFoundFault` : DBSecurityGroupName does not refer to an existing DB security group.
+    /// - `DBUpgradeDependencyFailureFault` : The DB upgrade failed because a resource the DB depends on could not be modified.
+    /// - `DomainNotFoundFault` : Domain does not refer to an existing Active Directory Domain.
+    /// - `InsufficientDBInstanceCapacityFault` : Specified DB instance class is not available in the specified Availability Zone.
+    /// - `InvalidDBInstanceStateFault` : The specified DB instance is not in the available state.
+    /// - `InvalidDBSecurityGroupStateFault` : The state of the DB security group does not allow deletion.
+    /// - `InvalidVPCNetworkStateFault` : DB subnet group does not cover all Availability Zones after it is created because users' change.
+    /// - `OptionGroupNotFoundFault` : The designated option group could not be found.
+    /// - `ProvisionedIopsNotAvailableInAZFault` : Provisioned IOPS not available in the specified Availability Zone.
+    /// - `StorageQuotaExceededFault` : Request would result in user exceeding the allowed amount of storage available across all DB instances.
+    /// - `StorageTypeNotSupportedFault` : StorageType specified cannot be associated with the DB Instance.
     public func modifyDBInstance(input: ModifyDBInstanceInput) async throws -> ModifyDBInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1972,6 +2581,16 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Modifies the parameters of a DB parameter group. To modify more than one parameter, submit a list of the following: ParameterName, ParameterValue, and ApplyMethod. A maximum of 20 parameters can be modified in a single request. Changes to dynamic parameters are applied immediately. Changes to static parameters require a reboot without failover to the DB instance associated with the parameter group before the change can take effect. After you modify a DB parameter group, you should wait at least 5 minutes before creating your first DB instance that uses that DB parameter group as the default parameter group. This allows Amazon Neptune to fully complete the modify action before the parameter group is used as the default for a new DB instance. This is especially important for parameters that are critical when creating the default database for a DB instance, such as the character set for the default database defined by the character_set_database parameter. You can use the Parameter Groups option of the Amazon Neptune console or the DescribeDBParameters command to verify that your DB parameter group has been created or modified.
+    ///
+    /// - Parameter ModifyDBParameterGroupInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyDBParameterGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName does not refer to an existing DB parameter group.
+    /// - `InvalidDBParameterGroupStateFault` : The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you cannot delete it when the parameter group is in this state.
     public func modifyDBParameterGroup(input: ModifyDBParameterGroupInput) async throws -> ModifyDBParameterGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2008,6 +2627,19 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Modifies an existing DB subnet group. DB subnet groups must contain at least one subnet in at least two AZs in the Amazon Region.
+    ///
+    /// - Parameter ModifyDBSubnetGroupInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyDBSubnetGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBSubnetGroupDoesNotCoverEnoughAZs` : Subnets in the DB subnet group should cover at least two Availability Zones unless there is only one Availability Zone.
+    /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName does not refer to an existing DB subnet group.
+    /// - `DBSubnetQuotaExceededFault` : Request would result in user exceeding the allowed number of subnets in a DB subnet groups.
+    /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
+    /// - `SubnetAlreadyInUse` : The DB subnet is already in use in the Availability Zone.
     public func modifyDBSubnetGroup(input: ModifyDBSubnetGroupInput) async throws -> ModifyDBSubnetGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2044,6 +2676,20 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Modifies an existing event notification subscription. Note that you can't modify the source identifiers using this call; to change source identifiers for a subscription, use the [AddSourceIdentifierToSubscription] and [RemoveSourceIdentifierFromSubscription] calls. You can see a list of the event categories for a given SourceType by using the DescribeEventCategories action.
+    ///
+    /// - Parameter ModifyEventSubscriptionInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyEventSubscriptionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EventSubscriptionQuotaExceededFault` : You have exceeded the number of events you can subscribe to.
+    /// - `SNSInvalidTopicFault` : The SNS topic is invalid.
+    /// - `SNSNoAuthorizationFault` : There is no SNS authorization.
+    /// - `SNSTopicArnNotFoundFault` : The ARN of the SNS topic could not be found.
+    /// - `SubscriptionCategoryNotFoundFault` : The designated subscription category could not be found.
+    /// - `SubscriptionNotFoundFault` : The designated subscription could not be found.
     public func modifyEventSubscription(input: ModifyEventSubscriptionInput) async throws -> ModifyEventSubscriptionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2080,6 +2726,16 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Modify a setting for an Amazon Neptune global cluster. You can change one or more database configuration parameters by specifying these parameters and their new values in the request.
+    ///
+    /// - Parameter ModifyGlobalClusterInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyGlobalClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
+    /// - `InvalidGlobalClusterStateFault` : The global cluster is in an invalid state and can't perform the requested operation.
     public func modifyGlobalCluster(input: ModifyGlobalClusterInput) async throws -> ModifyGlobalClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2116,6 +2772,16 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Not supported.
+    ///
+    /// - Parameter PromoteReadReplicaDBClusterInput : [no documentation found]
+    ///
+    /// - Returns: `PromoteReadReplicaDBClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
+    /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
     public func promoteReadReplicaDBCluster(input: PromoteReadReplicaDBClusterInput) async throws -> PromoteReadReplicaDBClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2152,6 +2818,16 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// You might need to reboot your DB instance, usually for maintenance reasons. For example, if you make certain modifications, or if you change the DB parameter group associated with the DB instance, you must reboot the instance for the changes to take effect. Rebooting a DB instance restarts the database engine service. Rebooting a DB instance results in a momentary outage, during which the DB instance status is set to rebooting.
+    ///
+    /// - Parameter RebootDBInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `RebootDBInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier does not refer to an existing DB instance.
+    /// - `InvalidDBInstanceStateFault` : The specified DB instance is not in the available state.
     public func rebootDBInstance(input: RebootDBInstanceInput) async throws -> RebootDBInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2188,6 +2864,17 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Detaches a Neptune DB cluster from a Neptune global database. A secondary cluster becomes a normal standalone cluster with read-write capability instead of being read-only, and no longer receives data from a the primary cluster.
+    ///
+    /// - Parameter RemoveFromGlobalClusterInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveFromGlobalClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
+    /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
+    /// - `InvalidGlobalClusterStateFault` : The global cluster is in an invalid state and can't perform the requested operation.
     public func removeFromGlobalCluster(input: RemoveFromGlobalClusterInput) async throws -> RemoveFromGlobalClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2224,6 +2911,17 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Disassociates an Identity and Access Management (IAM) role from a DB cluster.
+    ///
+    /// - Parameter RemoveRoleFromDBClusterInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveRoleFromDBClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
+    /// - `DBClusterRoleNotFoundFault` : The specified IAM role Amazon Resource Name (ARN) is not associated with the specified DB cluster.
+    /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
     public func removeRoleFromDBCluster(input: RemoveRoleFromDBClusterInput) async throws -> RemoveRoleFromDBClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2260,6 +2958,16 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Removes a source identifier from an existing event notification subscription.
+    ///
+    /// - Parameter RemoveSourceIdentifierFromSubscriptionInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveSourceIdentifierFromSubscriptionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `SourceNotFoundFault` : The source could not be found.
+    /// - `SubscriptionNotFoundFault` : The designated subscription could not be found.
     public func removeSourceIdentifierFromSubscription(input: RemoveSourceIdentifierFromSubscriptionInput) async throws -> RemoveSourceIdentifierFromSubscriptionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2296,6 +3004,17 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Removes metadata tags from an Amazon Neptune resource.
+    ///
+    /// - Parameter RemoveTagsFromResourceInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveTagsFromResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier does not refer to an existing DB instance.
+    /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier does not refer to an existing DB snapshot.
     public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2332,6 +3051,16 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Modifies the parameters of a DB cluster parameter group to the default value. To reset specific parameters submit a list of the following: ParameterName and ApplyMethod. To reset the entire DB cluster parameter group, specify the DBClusterParameterGroupName and ResetAllParameters parameters. When resetting the entire group, dynamic parameters are updated immediately and static parameters are set to pending-reboot to take effect on the next DB instance restart or [RebootDBInstance] request. You must call [RebootDBInstance] for every DB instance in your DB cluster that you want the updated static parameter to apply to.
+    ///
+    /// - Parameter ResetDBClusterParameterGroupInput : [no documentation found]
+    ///
+    /// - Returns: `ResetDBClusterParameterGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName does not refer to an existing DB parameter group.
+    /// - `InvalidDBParameterGroupStateFault` : The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you cannot delete it when the parameter group is in this state.
     public func resetDBClusterParameterGroup(input: ResetDBClusterParameterGroupInput) async throws -> ResetDBClusterParameterGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2368,6 +3097,16 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Modifies the parameters of a DB parameter group to the engine/system default value. To reset specific parameters, provide a list of the following: ParameterName and ApplyMethod. To reset the entire DB parameter group, specify the DBParameterGroup name and ResetAllParameters parameters. When resetting the entire group, dynamic parameters are updated immediately and static parameters are set to pending-reboot to take effect on the next DB instance restart or RebootDBInstance request.
+    ///
+    /// - Parameter ResetDBParameterGroupInput : [no documentation found]
+    ///
+    /// - Returns: `ResetDBParameterGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName does not refer to an existing DB parameter group.
+    /// - `InvalidDBParameterGroupStateFault` : The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you cannot delete it when the parameter group is in this state.
     public func resetDBParameterGroup(input: ResetDBParameterGroupInput) async throws -> ResetDBParameterGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2404,6 +3143,30 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Creates a new DB cluster from a DB snapshot or DB cluster snapshot. If a DB snapshot is specified, the target DB cluster is created from the source DB snapshot with a default configuration and default security group. If a DB cluster snapshot is specified, the target DB cluster is created from the source DB cluster restore point with the same configuration as the original source DB cluster, except that the new DB cluster is created with the default security group.
+    ///
+    /// - Parameter RestoreDBClusterFromSnapshotInput : [no documentation found]
+    ///
+    /// - Returns: `RestoreDBClusterFromSnapshotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterAlreadyExistsFault` : User already has a DB cluster with the given identifier.
+    /// - `DBClusterParameterGroupNotFoundFault` : DBClusterParameterGroupName does not refer to an existing DB Cluster parameter group.
+    /// - `DBClusterQuotaExceededFault` : User attempted to create a new DB cluster and the user has already reached the maximum allowed DB cluster quota.
+    /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier does not refer to an existing DB cluster snapshot.
+    /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier does not refer to an existing DB snapshot.
+    /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName does not refer to an existing DB subnet group.
+    /// - `InsufficientDBClusterCapacityFault` : The DB cluster does not have enough capacity for the current operation.
+    /// - `InsufficientStorageClusterCapacityFault` : There is insufficient storage available for the current action. You may be able to resolve this error by updating your subnet group to use different Availability Zones that have more storage available.
+    /// - `InvalidDBClusterSnapshotStateFault` : The supplied value is not a valid DB cluster snapshot state.
+    /// - `InvalidDBSnapshotStateFault` : The state of the DB snapshot does not allow deletion.
+    /// - `InvalidRestoreFault` : Cannot restore from vpc backup to non-vpc DB instance.
+    /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
+    /// - `InvalidVPCNetworkStateFault` : DB subnet group does not cover all Availability Zones after it is created because users' change.
+    /// - `KMSKeyNotAccessibleFault` : Error accessing KMS key.
+    /// - `OptionGroupNotFoundFault` : The designated option group could not be found.
+    /// - `StorageQuotaExceededFault` : Request would result in user exceeding the allowed amount of storage available across all DB instances.
     public func restoreDBClusterFromSnapshot(input: RestoreDBClusterFromSnapshotInput) async throws -> RestoreDBClusterFromSnapshotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2440,6 +3203,31 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Restores a DB cluster to an arbitrary point in time. Users can restore to any point in time before LatestRestorableTime for up to BackupRetentionPeriod days. The target DB cluster is created from the source DB cluster with the same configuration as the original DB cluster, except that the new DB cluster is created with the default DB security group. This action only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the [CreateDBInstance] action to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in DBClusterIdentifier. You can create DB instances only after the RestoreDBClusterToPointInTime action has completed and the DB cluster is available.
+    ///
+    /// - Parameter RestoreDBClusterToPointInTimeInput : [no documentation found]
+    ///
+    /// - Returns: `RestoreDBClusterToPointInTimeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterAlreadyExistsFault` : User already has a DB cluster with the given identifier.
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
+    /// - `DBClusterParameterGroupNotFoundFault` : DBClusterParameterGroupName does not refer to an existing DB Cluster parameter group.
+    /// - `DBClusterQuotaExceededFault` : User attempted to create a new DB cluster and the user has already reached the maximum allowed DB cluster quota.
+    /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier does not refer to an existing DB cluster snapshot.
+    /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName does not refer to an existing DB subnet group.
+    /// - `InsufficientDBClusterCapacityFault` : The DB cluster does not have enough capacity for the current operation.
+    /// - `InsufficientStorageClusterCapacityFault` : There is insufficient storage available for the current action. You may be able to resolve this error by updating your subnet group to use different Availability Zones that have more storage available.
+    /// - `InvalidDBClusterSnapshotStateFault` : The supplied value is not a valid DB cluster snapshot state.
+    /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
+    /// - `InvalidDBSnapshotStateFault` : The state of the DB snapshot does not allow deletion.
+    /// - `InvalidRestoreFault` : Cannot restore from vpc backup to non-vpc DB instance.
+    /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
+    /// - `InvalidVPCNetworkStateFault` : DB subnet group does not cover all Availability Zones after it is created because users' change.
+    /// - `KMSKeyNotAccessibleFault` : Error accessing KMS key.
+    /// - `OptionGroupNotFoundFault` : The designated option group could not be found.
+    /// - `StorageQuotaExceededFault` : Request would result in user exceeding the allowed amount of storage available across all DB instances.
     public func restoreDBClusterToPointInTime(input: RestoreDBClusterToPointInTimeInput) async throws -> RestoreDBClusterToPointInTimeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2476,6 +3264,17 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Starts an Amazon Neptune DB cluster that was stopped using the Amazon console, the Amazon CLI stop-db-cluster command, or the StopDBCluster API.
+    ///
+    /// - Parameter StartDBClusterInput : [no documentation found]
+    ///
+    /// - Returns: `StartDBClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
+    /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
+    /// - `InvalidDBInstanceStateFault` : The specified DB instance is not in the available state.
     public func startDBCluster(input: StartDBClusterInput) async throws -> StartDBClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2512,6 +3311,17 @@ extension NeptuneClient: NeptuneClientProtocol {
     }
 
     /// Stops an Amazon Neptune DB cluster. When you stop a DB cluster, Neptune retains the DB cluster's metadata, including its endpoints and DB parameter groups. Neptune also retains the transaction logs so you can do a point-in-time restore if necessary.
+    ///
+    /// - Parameter StopDBClusterInput : [no documentation found]
+    ///
+    /// - Returns: `StopDBClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
+    /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
+    /// - `InvalidDBInstanceStateFault` : The specified DB instance is not in the available state.
     public func stopDBCluster(input: StopDBClusterInput) async throws -> StopDBClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

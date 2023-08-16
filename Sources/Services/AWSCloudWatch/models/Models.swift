@@ -853,7 +853,7 @@ extension CloudWatchClientTypes.DashboardEntry: Swift.Codable {
         dashboardArn = dashboardArnDecoded
         let lastModifiedDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastModified)
         lastModified = lastModifiedDecoded
-        let sizeDecoded = try containerValues.decode(Swift.Int.self, forKey: .size)
+        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size) ?? 0
         size = sizeDecoded
     }
 }
@@ -4915,7 +4915,7 @@ extension CloudWatchClientTypes.InsightRule: Swift.Codable {
         schema = schemaDecoded
         let definitionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .definition)
         definition = definitionDecoded
-        let managedRuleDecoded = try containerValues.decode(Swift.Bool.self, forKey: .managedRule)
+        let managedRuleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .managedRule) ?? false
         managedRule = managedRuleDecoded
     }
 }
@@ -6188,7 +6188,7 @@ extension ListMetricsInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let recentlyActiveDecoded = try containerValues.decodeIfPresent(CloudWatchClientTypes.RecentlyActive.self, forKey: .recentlyActive)
         recentlyActive = recentlyActiveDecoded
-        let includeLinkedAccountsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeLinkedAccounts)
+        let includeLinkedAccountsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeLinkedAccounts) ?? false
         includeLinkedAccounts = includeLinkedAccountsDecoded
         let owningAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .owningAccount)
         owningAccount = owningAccountDecoded

@@ -5,10 +5,37 @@ import ClientRuntime
 /// SageMaker Edge Manager dataplane service for communicating with active agents.
 public protocol SagemakerEdgeClientProtocol {
     /// Use to get the active deployments from a device.
+    ///
+    /// - Parameter GetDeploymentsInput : [no documentation found]
+    ///
+    /// - Returns: `GetDeploymentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal failure occurred. Try your request again. If the problem persists, contact Amazon Web Services customer support.
     func getDeployments(input: GetDeploymentsInput) async throws -> GetDeploymentsOutputResponse
     /// Use to check if a device is registered with SageMaker Edge Manager.
+    ///
+    /// - Parameter GetDeviceRegistrationInput : [no documentation found]
+    ///
+    /// - Returns: `GetDeviceRegistrationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal failure occurred. Try your request again. If the problem persists, contact Amazon Web Services customer support.
     func getDeviceRegistration(input: GetDeviceRegistrationInput) async throws -> GetDeviceRegistrationOutputResponse
     /// Use to get the current status of devices registered on SageMaker Edge Manager.
+    ///
+    /// - Parameter SendHeartbeatInput : [no documentation found]
+    ///
+    /// - Returns: `SendHeartbeatOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal failure occurred. Try your request again. If the problem persists, contact Amazon Web Services customer support.
     func sendHeartbeat(input: SendHeartbeatInput) async throws -> SendHeartbeatOutputResponse
 }
 

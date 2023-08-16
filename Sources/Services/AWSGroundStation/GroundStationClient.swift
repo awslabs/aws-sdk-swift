@@ -68,6 +68,17 @@ public struct GroundStationClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
 
 extension GroundStationClient: GroundStationClientProtocol {
     /// Cancels a contact with a specified contact ID.
+    ///
+    /// - Parameter CancelContactInput :
+    ///
+    /// - Returns: `CancelContactOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func cancelContact(input: CancelContactInput) async throws -> CancelContactOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -101,6 +112,18 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// Creates a Config with the specified configData parameters. Only one type of configData can be specified.
+    ///
+    /// - Parameter CreateConfigInput :
+    ///
+    /// - Returns: `CreateConfigOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceLimitExceededException` : Account limits for this resource have been exceeded.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func createConfig(input: CreateConfigInput) async throws -> CreateConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -137,6 +160,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group.
+    ///
+    /// - Parameter CreateDataflowEndpointGroupInput :
+    ///
+    /// - Returns: `CreateDataflowEndpointGroupOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func createDataflowEndpointGroup(input: CreateDataflowEndpointGroupInput) async throws -> CreateDataflowEndpointGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -173,6 +207,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// Creates an Ephemeris with the specified EphemerisData.
+    ///
+    /// - Parameter CreateEphemerisInput : [no documentation found]
+    ///
+    /// - Returns: `CreateEphemerisOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func createEphemeris(input: CreateEphemerisInput) async throws -> CreateEphemerisOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -209,6 +254,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// Creates a mission profile. dataflowEdges is a list of lists of strings. Each lower level list of strings has two elements: a from ARN and a to ARN.
+    ///
+    /// - Parameter CreateMissionProfileInput :
+    ///
+    /// - Returns: `CreateMissionProfileOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func createMissionProfile(input: CreateMissionProfileInput) async throws -> CreateMissionProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -245,6 +301,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// Deletes a Config.
+    ///
+    /// - Parameter DeleteConfigInput :
+    ///
+    /// - Returns: `DeleteConfigOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func deleteConfig(input: DeleteConfigInput) async throws -> DeleteConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -278,6 +345,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// Deletes a dataflow endpoint group.
+    ///
+    /// - Parameter DeleteDataflowEndpointGroupInput :
+    ///
+    /// - Returns: `DeleteDataflowEndpointGroupOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func deleteDataflowEndpointGroup(input: DeleteDataflowEndpointGroupInput) async throws -> DeleteDataflowEndpointGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -311,6 +389,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// Deletes an ephemeris
+    ///
+    /// - Parameter DeleteEphemerisInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEphemerisOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func deleteEphemeris(input: DeleteEphemerisInput) async throws -> DeleteEphemerisOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -344,6 +433,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// Deletes a mission profile.
+    ///
+    /// - Parameter DeleteMissionProfileInput :
+    ///
+    /// - Returns: `DeleteMissionProfileOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func deleteMissionProfile(input: DeleteMissionProfileInput) async throws -> DeleteMissionProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -377,6 +477,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// Describes an existing contact.
+    ///
+    /// - Parameter DescribeContactInput :
+    ///
+    /// - Returns: `DescribeContactOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func describeContact(input: DescribeContactInput) async throws -> DescribeContactOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -410,6 +521,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// Describes an existing ephemeris.
+    ///
+    /// - Parameter DescribeEphemerisInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeEphemerisOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func describeEphemeris(input: DescribeEphemerisInput) async throws -> DescribeEphemerisOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -443,6 +565,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// For use by AWS Ground Station Agent and shouldn't be called directly. Gets the latest configuration information for a registered agent.
+    ///
+    /// - Parameter GetAgentConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetAgentConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func getAgentConfiguration(input: GetAgentConfigurationInput) async throws -> GetAgentConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -476,6 +609,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// Returns Config information. Only one Config response can be returned.
+    ///
+    /// - Parameter GetConfigInput :
+    ///
+    /// - Returns: `GetConfigOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func getConfig(input: GetConfigInput) async throws -> GetConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -509,6 +653,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// Returns the dataflow endpoint group.
+    ///
+    /// - Parameter GetDataflowEndpointGroupInput :
+    ///
+    /// - Returns: `GetDataflowEndpointGroupOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func getDataflowEndpointGroup(input: GetDataflowEndpointGroupInput) async throws -> GetDataflowEndpointGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -542,6 +697,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// Returns the number of reserved minutes used by account.
+    ///
+    /// - Parameter GetMinuteUsageInput :
+    ///
+    /// - Returns: `GetMinuteUsageOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func getMinuteUsage(input: GetMinuteUsageInput) async throws -> GetMinuteUsageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -578,6 +744,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// Returns a mission profile.
+    ///
+    /// - Parameter GetMissionProfileInput :
+    ///
+    /// - Returns: `GetMissionProfileOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func getMissionProfile(input: GetMissionProfileInput) async throws -> GetMissionProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -611,6 +788,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// Returns a satellite.
+    ///
+    /// - Parameter GetSatelliteInput :
+    ///
+    /// - Returns: `GetSatelliteOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func getSatellite(input: GetSatelliteInput) async throws -> GetSatelliteOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -644,6 +832,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// Returns a list of Config objects.
+    ///
+    /// - Parameter ListConfigsInput :
+    ///
+    /// - Returns: `ListConfigsOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func listConfigs(input: ListConfigsInput) async throws -> ListConfigsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -678,6 +877,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundStation, missionprofileArn, and satelliteArn.
+    ///
+    /// - Parameter ListContactsInput :
+    ///
+    /// - Returns: `ListContactsOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func listContacts(input: ListContactsInput) async throws -> ListContactsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -714,6 +924,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// Returns a list of DataflowEndpoint groups.
+    ///
+    /// - Parameter ListDataflowEndpointGroupsInput :
+    ///
+    /// - Returns: `ListDataflowEndpointGroupsOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func listDataflowEndpointGroups(input: ListDataflowEndpointGroupsInput) async throws -> ListDataflowEndpointGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -748,6 +969,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// List existing ephemerides.
+    ///
+    /// - Parameter ListEphemeridesInput : [no documentation found]
+    ///
+    /// - Returns: `ListEphemeridesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func listEphemerides(input: ListEphemeridesInput) async throws -> ListEphemeridesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -785,6 +1017,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// Returns a list of ground stations.
+    ///
+    /// - Parameter ListGroundStationsInput :
+    ///
+    /// - Returns: `ListGroundStationsOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func listGroundStations(input: ListGroundStationsInput) async throws -> ListGroundStationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -819,6 +1062,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// Returns a list of mission profiles.
+    ///
+    /// - Parameter ListMissionProfilesInput :
+    ///
+    /// - Returns: `ListMissionProfilesOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func listMissionProfiles(input: ListMissionProfilesInput) async throws -> ListMissionProfilesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -853,6 +1107,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// Returns a list of satellites.
+    ///
+    /// - Parameter ListSatellitesInput :
+    ///
+    /// - Returns: `ListSatellitesOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func listSatellites(input: ListSatellitesInput) async throws -> ListSatellitesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -887,6 +1152,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// Returns a list of tags for a specified resource.
+    ///
+    /// - Parameter ListTagsForResourceInput :
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -920,6 +1196,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// For use by AWS Ground Station Agent and shouldn't be called directly. Registers a new agent with AWS Ground Station.
+    ///
+    /// - Parameter RegisterAgentInput : [no documentation found]
+    ///
+    /// - Returns: `RegisterAgentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func registerAgent(input: RegisterAgentInput) async throws -> RegisterAgentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -956,6 +1243,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// Reserves a contact using specified parameters.
+    ///
+    /// - Parameter ReserveContactInput :
+    ///
+    /// - Returns: `ReserveContactOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func reserveContact(input: ReserveContactInput) async throws -> ReserveContactOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -992,6 +1290,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// Assigns a tag to a resource.
+    ///
+    /// - Parameter TagResourceInput :
+    ///
+    /// - Returns: `TagResourceOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1028,6 +1337,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// Deassigns a resource tag.
+    ///
+    /// - Parameter UntagResourceInput :
+    ///
+    /// - Returns: `UntagResourceOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1062,6 +1382,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// For use by AWS Ground Station Agent and shouldn't be called directly. Update the status of the agent.
+    ///
+    /// - Parameter UpdateAgentStatusInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAgentStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func updateAgentStatus(input: UpdateAgentStatusInput) async throws -> UpdateAgentStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1098,6 +1429,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// Updates the Config used when scheduling contacts. Updating a Config will not update the execution parameters for existing future contacts scheduled with this Config.
+    ///
+    /// - Parameter UpdateConfigInput :
+    ///
+    /// - Returns: `UpdateConfigOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func updateConfig(input: UpdateConfigInput) async throws -> UpdateConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1134,6 +1476,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// Updates an existing ephemeris
+    ///
+    /// - Parameter UpdateEphemerisInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEphemerisOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func updateEphemeris(input: UpdateEphemerisInput) async throws -> UpdateEphemerisOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1170,6 +1523,17 @@ extension GroundStationClient: GroundStationClientProtocol {
     }
 
     /// Updates a mission profile. Updating a mission profile will not update the execution parameters for existing future contacts.
+    ///
+    /// - Parameter UpdateMissionProfileInput :
+    ///
+    /// - Returns: `UpdateMissionProfileOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
     public func updateMissionProfile(input: UpdateMissionProfileInput) async throws -> UpdateMissionProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

@@ -72,6 +72,18 @@ extension STSClient: STSClientProtocol {
     ///
     ///
     /// You can do either because the role’s trust policy acts as an IAM resource-based policy. When a resource-based policy grants access to a principal in the same account, no additional identity-based policy is required. For more information about trust policies and resource-based policies, see [IAM Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html) in the IAM User Guide. Tags (Optional) You can pass tag key-value pairs to your session. These tags are called session tags. For more information about session tags, see [Passing Session Tags in STS](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html) in the IAM User Guide. An administrator must grant you the permissions necessary to pass session tags. The administrator can also create granular permissions to allow you to pass only specific session tags. For more information, see [Tutorial: Using Tags for Attribute-Based Access Control](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_attribute-based-access-control.html) in the IAM User Guide. You can set the session tags as transitive. Transitive tags persist during role chaining. For more information, see [Chaining Roles with Session Tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html#id_session-tags_role-chaining) in the IAM User Guide. Using MFA with AssumeRole (Optional) You can include multi-factor authentication (MFA) information when you call AssumeRole. This is useful for cross-account scenarios to ensure that the user that assumes the role has been authenticated with an Amazon Web Services MFA device. In that scenario, the trust policy of the role being assumed includes a condition that tests for MFA authentication. If the caller does not include valid MFA information, the request to assume the role is denied. The condition in a trust policy that tests for MFA authentication might look like the following example. "Condition": {"Bool": {"aws:MultiFactorAuthPresent": true}} For more information, see [Configuring MFA-Protected API Access](https://docs.aws.amazon.com/IAM/latest/UserGuide/MFAProtectedAPI.html) in the IAM User Guide guide. To use MFA with AssumeRole, you pass values for the SerialNumber and TokenCode parameters. The SerialNumber value identifies the user's hardware or virtual MFA device. The TokenCode is the time-based one-time password (TOTP) that the MFA device produces.
+    ///
+    /// - Parameter AssumeRoleInput : [no documentation found]
+    ///
+    /// - Returns: `AssumeRoleOutputResponse` : Contains the response to a successful [AssumeRole] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ExpiredTokenException` : The web identity token that was passed is expired or is not valid. Get a new identity token from the identity provider and then retry the request.
+    /// - `MalformedPolicyDocumentException` : The request was rejected because the policy document was malformed. The error message describes the specific error.
+    /// - `PackedPolicyTooLargeException` : The request was rejected because the total packed size of the session policies and session tags combined was too large. An Amazon Web Services conversion compresses the session policy document, session policy ARNs, and session tags into a packed binary format that has a separate limit. The error message indicates by percentage how close the policies and tags are to the upper size limit. For more information, see [Passing Session Tags in STS](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html) in the IAM User Guide. You could receive this error even though you meet other defined session policy and session tag limits. For more information, see [IAM and STS Entity Character Limits](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-limits-entity-length) in the IAM User Guide.
+    /// - `RegionDisabledException` : STS is not activated in the requested region for the account that is being asked to generate credentials. The account administrator must use the IAM console to activate STS in that region. For more information, see [Activating and Deactivating Amazon Web Services STS in an Amazon Web Services Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide.
     public func assumeRole(input: AssumeRoleInput) async throws -> AssumeRoleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -116,6 +128,20 @@ extension STSClient: STSClientProtocol {
     /// * [Configuring a Relying Party and Claims](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_saml_relying-party.html) in the IAM User Guide.
     ///
     /// * [Creating a Role for SAML 2.0 Federation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-idp_saml.html) in the IAM User Guide.
+    ///
+    /// - Parameter AssumeRoleWithSAMLInput : [no documentation found]
+    ///
+    /// - Returns: `AssumeRoleWithSAMLOutputResponse` : Contains the response to a successful [AssumeRoleWithSAML] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ExpiredTokenException` : The web identity token that was passed is expired or is not valid. Get a new identity token from the identity provider and then retry the request.
+    /// - `IDPRejectedClaimException` : The identity provider (IdP) reported that authentication failed. This might be because the claim is invalid. If this error is returned for the AssumeRoleWithWebIdentity operation, it can also mean that the claim has expired or has been explicitly revoked.
+    /// - `InvalidIdentityTokenException` : The web identity token that was passed could not be validated by Amazon Web Services. Get a new identity token from the identity provider and then retry the request.
+    /// - `MalformedPolicyDocumentException` : The request was rejected because the policy document was malformed. The error message describes the specific error.
+    /// - `PackedPolicyTooLargeException` : The request was rejected because the total packed size of the session policies and session tags combined was too large. An Amazon Web Services conversion compresses the session policy document, session policy ARNs, and session tags into a packed binary format that has a separate limit. The error message indicates by percentage how close the policies and tags are to the upper size limit. For more information, see [Passing Session Tags in STS](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html) in the IAM User Guide. You could receive this error even though you meet other defined session policy and session tag limits. For more information, see [IAM and STS Entity Character Limits](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-limits-entity-length) in the IAM User Guide.
+    /// - `RegionDisabledException` : STS is not activated in the requested region for the account that is being asked to generate credentials. The account administrator must use the IAM console to activate STS in that region. For more information, see [Activating and Deactivating Amazon Web Services STS in an Amazon Web Services Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide.
     public func assumeRoleWithSAML(input: AssumeRoleWithSAMLInput) async throws -> AssumeRoleWithSAMLOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -156,6 +182,21 @@ extension STSClient: STSClientProtocol {
     /// * [Amazon Web Services SDK for iOS Developer Guide](http://aws.amazon.com/sdkforios/) and [Amazon Web Services SDK for Android Developer Guide](http://aws.amazon.com/sdkforandroid/). These toolkits contain sample apps that show how to invoke the identity providers. The toolkits then show how to use the information from these providers to get and use temporary security credentials.
     ///
     /// * [Web Identity Federation with Mobile Applications](http://aws.amazon.com/articles/web-identity-federation-with-mobile-applications). This article discusses web identity federation and shows an example of how to use web identity federation to get access to content in Amazon S3.
+    ///
+    /// - Parameter AssumeRoleWithWebIdentityInput : [no documentation found]
+    ///
+    /// - Returns: `AssumeRoleWithWebIdentityOutputResponse` : Contains the response to a successful [AssumeRoleWithWebIdentity] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ExpiredTokenException` : The web identity token that was passed is expired or is not valid. Get a new identity token from the identity provider and then retry the request.
+    /// - `IDPCommunicationErrorException` : The request could not be fulfilled because the identity provider (IDP) that was asked to verify the incoming identity token could not be reached. This is often a transient error caused by network conditions. Retry the request a limited number of times so that you don't exceed the request rate. If the error persists, the identity provider might be down or not responding.
+    /// - `IDPRejectedClaimException` : The identity provider (IdP) reported that authentication failed. This might be because the claim is invalid. If this error is returned for the AssumeRoleWithWebIdentity operation, it can also mean that the claim has expired or has been explicitly revoked.
+    /// - `InvalidIdentityTokenException` : The web identity token that was passed could not be validated by Amazon Web Services. Get a new identity token from the identity provider and then retry the request.
+    /// - `MalformedPolicyDocumentException` : The request was rejected because the policy document was malformed. The error message describes the specific error.
+    /// - `PackedPolicyTooLargeException` : The request was rejected because the total packed size of the session policies and session tags combined was too large. An Amazon Web Services conversion compresses the session policy document, session policy ARNs, and session tags into a packed binary format that has a separate limit. The error message indicates by percentage how close the policies and tags are to the upper size limit. For more information, see [Passing Session Tags in STS](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html) in the IAM User Guide. You could receive this error even though you meet other defined session policy and session tag limits. For more information, see [IAM and STS Entity Character Limits](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-limits-entity-length) in the IAM User Guide.
+    /// - `RegionDisabledException` : STS is not activated in the requested region for the account that is being asked to generate credentials. The account administrator must use the IAM console to activate STS in that region. For more information, see [Activating and Deactivating Amazon Web Services STS in an Amazon Web Services Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide.
     public func assumeRoleWithWebIdentity(input: AssumeRoleWithWebIdentityInput) async throws -> AssumeRoleWithWebIdentityOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -198,6 +239,15 @@ extension STSClient: STSClientProtocol {
     /// * The requested resource.
     ///
     /// * The values of condition keys in the context of the user's request.
+    ///
+    /// - Parameter DecodeAuthorizationMessageInput : [no documentation found]
+    ///
+    /// - Returns: `DecodeAuthorizationMessageOutputResponse` : A document that contains additional information about the authorization status of a request from an encoded message that is returned in response to an Amazon Web Services request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidAuthorizationMessageException` : The error returned if the message passed to DecodeAuthorizationMessage was invalid. This can happen if the token contains invalid characters, such as linebreaks.
     public func decodeAuthorizationMessage(input: DecodeAuthorizationMessageInput) async throws -> DecodeAuthorizationMessageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -234,6 +284,10 @@ extension STSClient: STSClientProtocol {
     }
 
     /// Returns the account identifier for the specified access key ID. Access keys consist of two parts: an access key ID (for example, AKIAIOSFODNN7EXAMPLE) and a secret access key (for example, wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY). For more information about access keys, see [Managing Access Keys for IAM Users](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html) in the IAM User Guide. When you pass an access key ID to this operation, it returns the ID of the Amazon Web Services account to which the keys belong. Access key IDs beginning with AKIA are long-term credentials for an IAM user or the Amazon Web Services account root user. Access key IDs beginning with ASIA are temporary credentials that are created using STS operations. If the account in the response belongs to you, you can sign in as the root user and review your root user access keys. Then, you can pull a [credentials report](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_getting-report.html) to learn which IAM user owns the keys. To learn who requested the temporary credentials for an ASIA access key, view the STS events in your [CloudTrail logs](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html) in the IAM User Guide. This operation does not indicate the state of the access key. The key might be active, inactive, or deleted. Active keys might not have permissions to perform an operation. Providing a deleted access key might return an error that the key doesn't exist.
+    ///
+    /// - Parameter GetAccessKeyInfoInput : [no documentation found]
+    ///
+    /// - Returns: `GetAccessKeyInfoOutputResponse` : [no documentation found]
     public func getAccessKeyInfo(input: GetAccessKeyInfoInput) async throws -> GetAccessKeyInfoOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -270,6 +324,10 @@ extension STSClient: STSClientProtocol {
     }
 
     /// Returns details about the IAM user or role whose credentials are used to call the operation. No permissions are required to perform this operation. If an administrator attaches a policy to your identity that explicitly denies access to the sts:GetCallerIdentity action, you can still perform this operation. Permissions are not required because the same information is returned when access is denied. To view an example response, see [I Am Not Authorized to Perform: iam:DeleteVirtualMFADevice](https://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_general.html#troubleshoot_general_access-denied-delete-mfa) in the IAM User Guide.
+    ///
+    /// - Parameter GetCallerIdentityInput : [no documentation found]
+    ///
+    /// - Returns: `GetCallerIdentityOutputResponse` : Contains the response to a successful [GetCallerIdentity] request, including information about the entity making the request.
     public func getCallerIdentity(input: GetCallerIdentityInput) async throws -> GetCallerIdentityOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -313,6 +371,17 @@ extension STSClient: STSClientProtocol {
     ///
     ///
     /// You can use temporary credentials for single sign-on (SSO) to the console. You must pass an inline or managed [session policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) to this operation. You can pass a single JSON policy document to use as an inline session policy. You can also specify up to 10 managed policy Amazon Resource Names (ARNs) to use as managed session policies. The plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. Though the session policy parameters are optional, if you do not pass a policy, then the resulting federated user session has no permissions. When you pass session policies, the session permissions are the intersection of the IAM user policies and the session policies that you pass. This gives you a way to further restrict the permissions for a federated user. You cannot use session policies to grant more permissions than those that are defined in the permissions policy of the IAM user. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide. For information about using GetFederationToken to create temporary security credentials, see [GetFederationToken—Federation Through a Custom Identity Broker](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#api_getfederationtoken). You can use the credentials to access a resource that has a resource-based policy. If that policy specifically references the federated user session in the Principal element of the policy, the session has the permissions allowed by the policy. These permissions are granted in addition to the permissions granted by the session policies. Tags (Optional) You can pass tag key-value pairs to your session. These are called session tags. For more information about session tags, see [Passing Session Tags in STS](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html) in the IAM User Guide. You can create a mobile-based or browser-based app that can authenticate users using a web identity provider like Login with Amazon, Facebook, Google, or an OpenID Connect-compatible identity provider. In this case, we recommend that you use [Amazon Cognito](http://aws.amazon.com/cognito/) or AssumeRoleWithWebIdentity. For more information, see [Federation Through a Web-based Identity Provider](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#api_assumerolewithwebidentity) in the IAM User Guide. An administrator must grant you the permissions necessary to pass session tags. The administrator can also create granular permissions to allow you to pass only specific session tags. For more information, see [Tutorial: Using Tags for Attribute-Based Access Control](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_attribute-based-access-control.html) in the IAM User Guide. Tag key–value pairs are not case sensitive, but case is preserved. This means that you cannot have separate Department and department tag keys. Assume that the user that you are federating has the Department=Marketing tag and you pass the department=engineering session tag. Department and department are not saved as separate tags, and the session tag passed in the request takes precedence over the user tag.
+    ///
+    /// - Parameter GetFederationTokenInput : [no documentation found]
+    ///
+    /// - Returns: `GetFederationTokenOutputResponse` : Contains the response to a successful [GetFederationToken] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `MalformedPolicyDocumentException` : The request was rejected because the policy document was malformed. The error message describes the specific error.
+    /// - `PackedPolicyTooLargeException` : The request was rejected because the total packed size of the session policies and session tags combined was too large. An Amazon Web Services conversion compresses the session policy document, session policy ARNs, and session tags into a packed binary format that has a separate limit. The error message indicates by percentage how close the policies and tags are to the upper size limit. For more information, see [Passing Session Tags in STS](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html) in the IAM User Guide. You could receive this error even though you meet other defined session policy and session tag limits. For more information, see [IAM and STS Entity Character Limits](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-limits-entity-length) in the IAM User Guide.
+    /// - `RegionDisabledException` : STS is not activated in the requested region for the account that is being asked to generate credentials. The account administrator must use the IAM console to activate STS in that region. For more information, see [Activating and Deactivating Amazon Web Services STS in an Amazon Web Services Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide.
     public func getFederationToken(input: GetFederationTokenInput) async throws -> GetFederationTokenOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -356,6 +425,15 @@ extension STSClient: STSClientProtocol {
     ///
     ///
     /// The credentials that GetSessionToken returns are based on permissions associated with the IAM user whose credentials were used to call the operation. The temporary credentials have the same permissions as the IAM user. Although it is possible to call GetSessionToken using the security credentials of an Amazon Web Services account root user rather than an IAM user, we do not recommend it. If GetSessionToken is called using root user credentials, the temporary credentials have root user permissions. For more information, see [Safeguard your root user credentials and don't use them for everyday tasks](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#lock-away-credentials) in the IAM User Guide For more information about using GetSessionToken to create temporary credentials, see [Temporary Credentials for Users in Untrusted Environments](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#api_getsessiontoken) in the IAM User Guide.
+    ///
+    /// - Parameter GetSessionTokenInput : [no documentation found]
+    ///
+    /// - Returns: `GetSessionTokenOutputResponse` : Contains the response to a successful [GetSessionToken] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `RegionDisabledException` : STS is not activated in the requested region for the account that is being asked to generate credentials. The account administrator must use the IAM console to activate STS in that region. For more information, see [Activating and Deactivating Amazon Web Services STS in an Amazon Web Services Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide.
     public func getSessionToken(input: GetSessionTokenInput) async throws -> GetSessionTokenOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

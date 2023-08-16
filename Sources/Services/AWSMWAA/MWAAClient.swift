@@ -68,6 +68,15 @@ public struct MWAAClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
 
 extension MWAAClient: MWAAClientProtocol {
     /// Creates a CLI token for the Airflow CLI. To learn more, see [Creating an Apache Airflow CLI token](https://docs.aws.amazon.com/mwaa/latest/userguide/call-mwaa-apis-cli.html).
+    ///
+    /// - Parameter CreateCliTokenInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCliTokenOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : ResourceNotFoundException: The resource is not available.
     public func createCliToken(input: CreateCliTokenInput) async throws -> CreateCliTokenOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -101,6 +110,16 @@ extension MWAAClient: MWAAClientProtocol {
     }
 
     /// Creates an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
+    ///
+    /// - Parameter CreateEnvironmentInput : This section contains the Amazon Managed Workflows for Apache Airflow (MWAA) API reference documentation to create an environment. For more information, see [Get started with Amazon Managed Workflows for Apache Airflow](https://docs.aws.amazon.com/mwaa/latest/userguide/get-started.html).
+    ///
+    /// - Returns: `CreateEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : InternalServerException: An internal error has occurred.
+    /// - `ValidationException` : ValidationException: The provided input is not valid.
     public func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -137,6 +156,18 @@ extension MWAAClient: MWAAClientProtocol {
     }
 
     /// Creates a web login token for the Airflow Web UI. To learn more, see [Creating an Apache Airflow web login token](https://docs.aws.amazon.com/mwaa/latest/userguide/call-mwaa-apis-web.html).
+    ///
+    /// - Parameter CreateWebLoginTokenInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWebLoginTokenOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the Apache Airflow Web UI or CLI has been denied due to insufficient permissions. To learn more, see [Accessing an Amazon MWAA environment](https://docs.aws.amazon.com/mwaa/latest/userguide/access-policies.html).
+    /// - `InternalServerException` : InternalServerException: An internal error has occurred.
+    /// - `ResourceNotFoundException` : ResourceNotFoundException: The resource is not available.
+    /// - `ValidationException` : ValidationException: The provided input is not valid.
     public func createWebLoginToken(input: CreateWebLoginTokenInput) async throws -> CreateWebLoginTokenOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -170,6 +201,17 @@ extension MWAAClient: MWAAClientProtocol {
     }
 
     /// Deletes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
+    ///
+    /// - Parameter DeleteEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : InternalServerException: An internal error has occurred.
+    /// - `ResourceNotFoundException` : ResourceNotFoundException: The resource is not available.
+    /// - `ValidationException` : ValidationException: The provided input is not valid.
     public func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -203,6 +245,17 @@ extension MWAAClient: MWAAClientProtocol {
     }
 
     /// Describes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
+    ///
+    /// - Parameter GetEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `GetEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : InternalServerException: An internal error has occurred.
+    /// - `ResourceNotFoundException` : ResourceNotFoundException: The resource is not available.
+    /// - `ValidationException` : ValidationException: The provided input is not valid.
     public func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -236,6 +289,16 @@ extension MWAAClient: MWAAClientProtocol {
     }
 
     /// Lists the Amazon Managed Workflows for Apache Airflow (MWAA) environments.
+    ///
+    /// - Parameter ListEnvironmentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListEnvironmentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : InternalServerException: An internal error has occurred.
+    /// - `ValidationException` : ValidationException: The provided input is not valid.
     public func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -270,6 +333,17 @@ extension MWAAClient: MWAAClientProtocol {
     }
 
     /// Lists the key-value tag pairs associated to the Amazon Managed Workflows for Apache Airflow (MWAA) environment. For example, "Environment": "Staging".
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : InternalServerException: An internal error has occurred.
+    /// - `ResourceNotFoundException` : ResourceNotFoundException: The resource is not available.
+    /// - `ValidationException` : ValidationException: The provided input is not valid.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -303,6 +377,16 @@ extension MWAAClient: MWAAClientProtocol {
     }
 
     /// Internal only. Publishes environment health metrics to Amazon CloudWatch.
+    ///
+    /// - Parameter PublishMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `PublishMetricsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : InternalServerException: An internal error has occurred.
+    /// - `ValidationException` : ValidationException: The provided input is not valid.
     public func publishMetrics(input: PublishMetricsInput) async throws -> PublishMetricsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -339,6 +423,17 @@ extension MWAAClient: MWAAClientProtocol {
     }
 
     /// Associates key-value tag pairs to your Amazon Managed Workflows for Apache Airflow (MWAA) environment.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : InternalServerException: An internal error has occurred.
+    /// - `ResourceNotFoundException` : ResourceNotFoundException: The resource is not available.
+    /// - `ValidationException` : ValidationException: The provided input is not valid.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -375,6 +470,17 @@ extension MWAAClient: MWAAClientProtocol {
     }
 
     /// Removes key-value tag pairs associated to your Amazon Managed Workflows for Apache Airflow (MWAA) environment. For example, "Environment": "Staging".
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : InternalServerException: An internal error has occurred.
+    /// - `ResourceNotFoundException` : ResourceNotFoundException: The resource is not available.
+    /// - `ValidationException` : ValidationException: The provided input is not valid.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -409,6 +515,17 @@ extension MWAAClient: MWAAClientProtocol {
     }
 
     /// Updates an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
+    ///
+    /// - Parameter UpdateEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : InternalServerException: An internal error has occurred.
+    /// - `ResourceNotFoundException` : ResourceNotFoundException: The resource is not available.
+    /// - `ValidationException` : ValidationException: The provided input is not valid.
     public func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

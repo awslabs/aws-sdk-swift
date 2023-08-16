@@ -3005,7 +3005,7 @@ extension DocDBClientTypes.DBCluster: Swift.Codable {
         endpoint = endpointDecoded
         let readerEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .readerEndpoint)
         readerEndpoint = readerEndpointDecoded
-        let multiAZDecoded = try containerValues.decode(Swift.Bool.self, forKey: .multiAZ)
+        let multiAZDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZ) ?? false
         multiAZ = multiAZDecoded
         let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
         engine = engineDecoded
@@ -3082,7 +3082,7 @@ extension DocDBClientTypes.DBCluster: Swift.Codable {
         }
         let hostedZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostedZoneId)
         hostedZoneId = hostedZoneIdDecoded
-        let storageEncryptedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .storageEncrypted)
+        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted) ?? false
         storageEncrypted = storageEncryptedDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
@@ -3132,7 +3132,7 @@ extension DocDBClientTypes.DBCluster: Swift.Codable {
         } else {
             enabledCloudwatchLogsExports = nil
         }
-        let deletionProtectionDecoded = try containerValues.decode(Swift.Bool.self, forKey: .deletionProtection)
+        let deletionProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtection) ?? false
         deletionProtection = deletionProtectionDecoded
     }
 }
@@ -3359,7 +3359,7 @@ extension DocDBClientTypes.DBClusterMember: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceIdentifier)
         dbInstanceIdentifier = dbInstanceIdentifierDecoded
-        let isClusterWriterDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isClusterWriter)
+        let isClusterWriterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isClusterWriter) ?? false
         isClusterWriter = isClusterWriterDecoded
         let dbClusterParameterGroupStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterParameterGroupStatus)
         dbClusterParameterGroupStatus = dbClusterParameterGroupStatusDecoded
@@ -3790,7 +3790,7 @@ extension DocDBClientTypes.DBClusterSnapshot: Swift.Codable {
         engine = engineDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
-        let portDecoded = try containerValues.decode(Swift.Int.self, forKey: .port)
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
         port = portDecoded
         let vpcIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcId)
         vpcId = vpcIdDecoded
@@ -3802,9 +3802,9 @@ extension DocDBClientTypes.DBClusterSnapshot: Swift.Codable {
         engineVersion = engineVersionDecoded
         let snapshotTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotType)
         snapshotType = snapshotTypeDecoded
-        let percentProgressDecoded = try containerValues.decode(Swift.Int.self, forKey: .percentProgress)
+        let percentProgressDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .percentProgress) ?? 0
         percentProgress = percentProgressDecoded
-        let storageEncryptedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .storageEncrypted)
+        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted) ?? false
         storageEncrypted = storageEncryptedDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
@@ -4253,7 +4253,7 @@ extension DocDBClientTypes.DBEngineVersion: Swift.Codable {
         } else {
             exportableLogTypes = nil
         }
-        let supportsLogExportsToCloudwatchLogsDecoded = try containerValues.decode(Swift.Bool.self, forKey: .supportsLogExportsToCloudwatchLogs)
+        let supportsLogExportsToCloudwatchLogsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsLogExportsToCloudwatchLogs) ?? false
         supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogsDecoded
     }
 }
@@ -4461,7 +4461,7 @@ extension DocDBClientTypes.DBInstance: Swift.Codable {
         instanceCreateTime = instanceCreateTimeDecoded
         let preferredBackupWindowDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredBackupWindow)
         preferredBackupWindow = preferredBackupWindowDecoded
-        let backupRetentionPeriodDecoded = try containerValues.decode(Swift.Int.self, forKey: .backupRetentionPeriod)
+        let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod) ?? 0
         backupRetentionPeriod = backupRetentionPeriodDecoded
         if containerValues.contains(.vpcSecurityGroups) {
             struct KeyVal0{struct VpcSecurityGroupMembership{}}
@@ -4494,9 +4494,9 @@ extension DocDBClientTypes.DBInstance: Swift.Codable {
         latestRestorableTime = latestRestorableTimeDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
-        let autoMinorVersionUpgradeDecoded = try containerValues.decode(Swift.Bool.self, forKey: .autoMinorVersionUpgrade)
+        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade) ?? false
         autoMinorVersionUpgrade = autoMinorVersionUpgradeDecoded
-        let publiclyAccessibleDecoded = try containerValues.decode(Swift.Bool.self, forKey: .publiclyAccessible)
+        let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible) ?? false
         publiclyAccessible = publiclyAccessibleDecoded
         if containerValues.contains(.statusInfos) {
             struct KeyVal0{struct DBInstanceStatusInfo{}}
@@ -4519,7 +4519,7 @@ extension DocDBClientTypes.DBInstance: Swift.Codable {
         }
         let dbClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterIdentifier)
         dbClusterIdentifier = dbClusterIdentifierDecoded
-        let storageEncryptedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .storageEncrypted)
+        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted) ?? false
         storageEncrypted = storageEncryptedDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
@@ -4811,7 +4811,7 @@ extension DocDBClientTypes.DBInstanceStatusInfo: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusType)
         statusType = statusTypeDecoded
-        let normalDecoded = try containerValues.decode(Swift.Bool.self, forKey: .normal)
+        let normalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .normal) ?? false
         normal = normalDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
@@ -5677,7 +5677,7 @@ extension DeleteDBClusterInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterIdentifier)
         dbClusterIdentifier = dbClusterIdentifierDecoded
-        let skipFinalSnapshotDecoded = try containerValues.decode(Swift.Bool.self, forKey: .skipFinalSnapshot)
+        let skipFinalSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .skipFinalSnapshot) ?? false
         skipFinalSnapshot = skipFinalSnapshotDecoded
         let finalDBSnapshotIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .finalDBSnapshotIdentifier)
         finalDBSnapshotIdentifier = finalDBSnapshotIdentifierDecoded
@@ -7112,9 +7112,9 @@ extension DescribeDBClusterSnapshotsInputBody: Swift.Decodable {
         maxRecords = maxRecordsDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
-        let includeSharedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .includeShared)
+        let includeSharedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeShared) ?? false
         includeShared = includeSharedDecoded
-        let includePublicDecoded = try containerValues.decode(Swift.Bool.self, forKey: .includePublic)
+        let includePublicDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includePublic) ?? false
         includePublic = includePublicDecoded
     }
 }
@@ -7539,7 +7539,7 @@ extension DescribeDBEngineVersionsInputBody: Swift.Decodable {
         maxRecords = maxRecordsDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
-        let defaultOnlyDecoded = try containerValues.decode(Swift.Bool.self, forKey: .defaultOnly)
+        let defaultOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultOnly) ?? false
         defaultOnly = defaultOnlyDecoded
         let listSupportedCharacterSetsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .listSupportedCharacterSets)
         listSupportedCharacterSets = listSupportedCharacterSetsDecoded
@@ -9389,7 +9389,7 @@ extension DocDBClientTypes.Endpoint: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let addressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .address)
         address = addressDecoded
-        let portDecoded = try containerValues.decode(Swift.Int.self, forKey: .port)
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
         port = portDecoded
         let hostedZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostedZoneId)
         hostedZoneId = hostedZoneIdDecoded
@@ -9801,7 +9801,7 @@ extension DocDBClientTypes.EventSubscription: Swift.Codable {
         } else {
             eventCategoriesList = nil
         }
-        let enabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .enabled)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
         enabled = enabledDecoded
         let eventSubscriptionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventSubscriptionArn)
         eventSubscriptionArn = eventSubscriptionArnDecoded
@@ -10356,7 +10356,7 @@ extension DocDBClientTypes.GlobalClusterMember: Swift.Codable {
         } else {
             readers = nil
         }
-        let isWriterDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isWriter)
+        let isWriterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isWriter) ?? false
         isWriter = isWriterDecoded
     }
 }
@@ -11813,7 +11813,7 @@ extension ModifyDBClusterInputBody: Swift.Decodable {
         dbClusterIdentifier = dbClusterIdentifierDecoded
         let newDBClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .newDBClusterIdentifier)
         newDBClusterIdentifier = newDBClusterIdentifierDecoded
-        let applyImmediatelyDecoded = try containerValues.decode(Swift.Bool.self, forKey: .applyImmediately)
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
         applyImmediately = applyImmediatelyDecoded
         let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod)
         backupRetentionPeriod = backupRetentionPeriodDecoded
@@ -11850,7 +11850,7 @@ extension ModifyDBClusterInputBody: Swift.Decodable {
         cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfigurationDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
-        let allowMajorVersionUpgradeDecoded = try containerValues.decode(Swift.Bool.self, forKey: .allowMajorVersionUpgrade)
+        let allowMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowMajorVersionUpgrade) ?? false
         allowMajorVersionUpgrade = allowMajorVersionUpgradeDecoded
         let deletionProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtection)
         deletionProtection = deletionProtectionDecoded
@@ -12398,7 +12398,7 @@ extension ModifyDBInstanceInputBody: Swift.Decodable {
         dbInstanceIdentifier = dbInstanceIdentifierDecoded
         let dbInstanceClassDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceClass)
         dbInstanceClass = dbInstanceClassDecoded
-        let applyImmediatelyDecoded = try containerValues.decode(Swift.Bool.self, forKey: .applyImmediately)
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
         applyImmediately = applyImmediatelyDecoded
         let preferredMaintenanceWindowDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredMaintenanceWindow)
         preferredMaintenanceWindow = preferredMaintenanceWindowDecoded
@@ -13004,7 +13004,7 @@ extension DocDBClientTypes.OrderableDBInstanceOption: Swift.Codable {
         } else {
             availabilityZones = nil
         }
-        let vpcDecoded = try containerValues.decode(Swift.Bool.self, forKey: .vpc)
+        let vpcDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .vpc) ?? false
         vpc = vpcDecoded
     }
 }
@@ -13109,7 +13109,7 @@ extension DocDBClientTypes.Parameter: Swift.Codable {
         dataType = dataTypeDecoded
         let allowedValuesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .allowedValues)
         allowedValues = allowedValuesDecoded
-        let isModifiableDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isModifiable)
+        let isModifiableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isModifiable) ?? false
         isModifiable = isModifiableDecoded
         let minimumEngineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .minimumEngineVersion)
         minimumEngineVersion = minimumEngineVersionDecoded
@@ -14030,7 +14030,7 @@ extension ResetDBClusterParameterGroupInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterParameterGroupName)
         dbClusterParameterGroupName = dbClusterParameterGroupNameDecoded
-        let resetAllParametersDecoded = try containerValues.decode(Swift.Bool.self, forKey: .resetAllParameters)
+        let resetAllParametersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .resetAllParameters) ?? false
         resetAllParameters = resetAllParametersDecoded
         if containerValues.contains(.parameters) {
             struct KeyVal0{struct Parameter{}}
@@ -14815,7 +14815,7 @@ extension RestoreDBClusterToPointInTimeInputBody: Swift.Decodable {
         sourceDBClusterIdentifier = sourceDBClusterIdentifierDecoded
         let restoreToTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .restoreToTime)
         restoreToTime = restoreToTimeDecoded
-        let useLatestRestorableTimeDecoded = try containerValues.decode(Swift.Bool.self, forKey: .useLatestRestorableTime)
+        let useLatestRestorableTimeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useLatestRestorableTime) ?? false
         useLatestRestorableTime = useLatestRestorableTimeDecoded
         let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
@@ -15976,9 +15976,9 @@ extension DocDBClientTypes.UpgradeTarget: Swift.Codable {
         engineVersion = engineVersionDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
-        let autoUpgradeDecoded = try containerValues.decode(Swift.Bool.self, forKey: .autoUpgrade)
+        let autoUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoUpgrade) ?? false
         autoUpgrade = autoUpgradeDecoded
-        let isMajorVersionUpgradeDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isMajorVersionUpgrade)
+        let isMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isMajorVersionUpgrade) ?? false
         isMajorVersionUpgrade = isMajorVersionUpgradeDecoded
     }
 }

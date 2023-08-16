@@ -5,10 +5,49 @@ import ClientRuntime
 /// IoT IoT provides secure, bi-directional communication between Internet-connected devices (such as sensors, actuators, embedded devices, or smart appliances) and the Amazon Web Services cloud. You can discover your custom IoT-Data endpoint to communicate with, configure rules for data processing and integration with other services, organize resources associated with each device (Registry), configure logging, and create and manage policies and credentials to authenticate devices. The service endpoints that expose this API are listed in [Amazon Web Services IoT Core Endpoints and Quotas](https://docs.aws.amazon.com/general/latest/gr/iot-core.html). You must use the endpoint for the region that has the resources you want to access. The service name used by [Amazon Web Services Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html) to sign the request is: execute-api. For more information about how IoT works, see the [Developer Guide](https://docs.aws.amazon.com/iot/latest/developerguide/aws-iot-how-it-works.html). For information about how to use the credentials provider for IoT, see [Authorizing Direct Calls to Amazon Web Services Services](https://docs.aws.amazon.com/iot/latest/developerguide/authorizing-direct-aws.html).
 public protocol IoTClientProtocol {
     /// Accepts a pending certificate transfer. The default state of the certificate is INACTIVE. To check for pending certificate transfers, call [ListCertificates] to enumerate your certificates. Requires permission to access the [AcceptCertificateTransfer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter AcceptCertificateTransferInput : The input for the AcceptCertificateTransfer operation.
+    ///
+    /// - Returns: `AcceptCertificateTransferOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `TransferAlreadyCompletedException` : You can't revert the certificate transfer because the transfer is already complete.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func acceptCertificateTransfer(input: AcceptCertificateTransferInput) async throws -> AcceptCertificateTransferOutputResponse
     /// Adds a thing to a billing group. Requires permission to access the [AddThingToBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter AddThingToBillingGroupInput : [no documentation found]
+    ///
+    /// - Returns: `AddThingToBillingGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func addThingToBillingGroup(input: AddThingToBillingGroupInput) async throws -> AddThingToBillingGroupOutputResponse
     /// Adds a thing to a thing group. Requires permission to access the [AddThingToThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter AddThingToThingGroupInput : [no documentation found]
+    ///
+    /// - Returns: `AddThingToThingGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func addThingToThingGroup(input: AddThingToThingGroupInput) async throws -> AddThingToThingGroupOutputResponse
     /// Associates a group with a continuous job. The following criteria must be met:
     ///
@@ -20,352 +59,2605 @@ public protocol IoTClientProtocol {
     ///
     ///
     /// Requires permission to access the [AssociateTargetsWithJob](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter AssociateTargetsWithJobInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateTargetsWithJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func associateTargetsWithJob(input: AssociateTargetsWithJobInput) async throws -> AssociateTargetsWithJobOutputResponse
     /// Attaches the specified policy to the specified principal (certificate or other credential). Requires permission to access the [AttachPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter AttachPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `AttachPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func attachPolicy(input: AttachPolicyInput) async throws -> AttachPolicyOutputResponse
     /// Attaches the specified policy to the specified principal (certificate or other credential). Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use [AttachPolicy] instead. Requires permission to access the [AttachPrincipalPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     @available(*, deprecated)
+    ///
+    /// - Parameter AttachPrincipalPolicyInput : The input for the AttachPrincipalPolicy operation.
+    ///
+    /// - Returns: `AttachPrincipalPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func attachPrincipalPolicy(input: AttachPrincipalPolicyInput) async throws -> AttachPrincipalPolicyOutputResponse
     /// Associates a Device Defender security profile with a thing group or this account. Each thing group or account can have up to five security profiles associated with it. Requires permission to access the [AttachSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter AttachSecurityProfileInput : [no documentation found]
+    ///
+    /// - Returns: `AttachSecurityProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func attachSecurityProfile(input: AttachSecurityProfileInput) async throws -> AttachSecurityProfileOutputResponse
     /// Attaches the specified principal to the specified thing. A principal can be X.509 certificates, Amazon Cognito identities or federated identities. Requires permission to access the [AttachThingPrincipal](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter AttachThingPrincipalInput : The input for the AttachThingPrincipal operation.
+    ///
+    /// - Returns: `AttachThingPrincipalOutputResponse` : The output from the AttachThingPrincipal operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func attachThingPrincipal(input: AttachThingPrincipalInput) async throws -> AttachThingPrincipalOutputResponse
     /// Cancels a mitigation action task that is in progress. If the task is not in progress, an InvalidRequestException occurs. Requires permission to access the [CancelAuditMitigationActionsTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CancelAuditMitigationActionsTaskInput : [no documentation found]
+    ///
+    /// - Returns: `CancelAuditMitigationActionsTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func cancelAuditMitigationActionsTask(input: CancelAuditMitigationActionsTaskInput) async throws -> CancelAuditMitigationActionsTaskOutputResponse
     /// Cancels an audit that is in progress. The audit can be either scheduled or on demand. If the audit isn't in progress, an "InvalidRequestException" occurs. Requires permission to access the [CancelAuditTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CancelAuditTaskInput : [no documentation found]
+    ///
+    /// - Returns: `CancelAuditTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func cancelAuditTask(input: CancelAuditTaskInput) async throws -> CancelAuditTaskOutputResponse
     /// Cancels a pending transfer for the specified certificate. Note Only the transfer source account can use this operation to cancel a transfer. (Transfer destinations can use [RejectCertificateTransfer] instead.) After transfer, IoT returns the certificate to the source account in the INACTIVE state. After the destination account has accepted the transfer, the transfer cannot be cancelled. After a certificate transfer is cancelled, the status of the certificate changes from PENDING_TRANSFER to INACTIVE. Requires permission to access the [CancelCertificateTransfer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CancelCertificateTransferInput : The input for the CancelCertificateTransfer operation.
+    ///
+    /// - Returns: `CancelCertificateTransferOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `TransferAlreadyCompletedException` : You can't revert the certificate transfer because the transfer is already complete.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func cancelCertificateTransfer(input: CancelCertificateTransferInput) async throws -> CancelCertificateTransferOutputResponse
     /// Cancels a Device Defender ML Detect mitigation action. Requires permission to access the [CancelDetectMitigationActionsTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CancelDetectMitigationActionsTaskInput : [no documentation found]
+    ///
+    /// - Returns: `CancelDetectMitigationActionsTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func cancelDetectMitigationActionsTask(input: CancelDetectMitigationActionsTaskInput) async throws -> CancelDetectMitigationActionsTaskOutputResponse
     /// Cancels a job. Requires permission to access the [CancelJob](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CancelJobInput : [no documentation found]
+    ///
+    /// - Returns: `CancelJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func cancelJob(input: CancelJobInput) async throws -> CancelJobOutputResponse
     /// Cancels the execution of a job for a given thing. Requires permission to access the [CancelJobExecution](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CancelJobExecutionInput : [no documentation found]
+    ///
+    /// - Returns: `CancelJobExecutionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `InvalidStateTransitionException` : An attempt was made to change to an invalid state, for example by deleting a job or a job execution which is "IN_PROGRESS" without setting the force parameter.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func cancelJobExecution(input: CancelJobExecutionInput) async throws -> CancelJobExecutionOutputResponse
     /// Clears the default authorizer. Requires permission to access the [ClearDefaultAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ClearDefaultAuthorizerInput : [no documentation found]
+    ///
+    /// - Returns: `ClearDefaultAuthorizerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func clearDefaultAuthorizer(input: ClearDefaultAuthorizerInput) async throws -> ClearDefaultAuthorizerOutputResponse
     /// Confirms a topic rule destination. When you create a rule requiring a destination, IoT sends a confirmation message to the endpoint or base address you specify. The message includes a token which you pass back when calling ConfirmTopicRuleDestination to confirm that you own or have access to the endpoint. Requires permission to access the [ConfirmTopicRuleDestination](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ConfirmTopicRuleDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `ConfirmTopicRuleDestinationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictingResourceUpdateException` : A conflicting resource update exception. This exception is thrown when two pending updates cause a conflict.
+    /// - `InternalException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func confirmTopicRuleDestination(input: ConfirmTopicRuleDestinationInput) async throws -> ConfirmTopicRuleDestinationOutputResponse
     /// Creates a Device Defender audit suppression. Requires permission to access the [CreateAuditSuppression](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CreateAuditSuppressionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAuditSuppressionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func createAuditSuppression(input: CreateAuditSuppressionInput) async throws -> CreateAuditSuppressionOutputResponse
     /// Creates an authorizer. Requires permission to access the [CreateAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CreateAuthorizerInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAuthorizerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func createAuthorizer(input: CreateAuthorizerInput) async throws -> CreateAuthorizerOutputResponse
     /// Creates a billing group. Requires permission to access the [CreateBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CreateBillingGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CreateBillingGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func createBillingGroup(input: CreateBillingGroupInput) async throws -> CreateBillingGroupOutputResponse
     /// Creates an X.509 certificate using the specified certificate signing request. Requires permission to access the [CreateCertificateFromCsr](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. The CSR must include a public key that is either an RSA key with a length of at least 2048 bits or an ECC key from NIST P-256 or NIST P-384 curves. For supported certificates, consult [ Certificate signing algorithms supported by IoT](https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html#x509-cert-algorithms). Reusing the same certificate signing request (CSR) results in a distinct certificate. You can create multiple certificates in a batch by creating a directory, copying multiple .csr files into that directory, and then specifying that directory on the command line. The following commands show how to create a batch of certificates given a batch of CSRs. In the following commands, we assume that a set of CSRs are located inside of the directory my-csr-directory: On Linux and OS X, the command is: $ ls my-csr-directory/ | xargs -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{} This command lists all of the CSRs in my-csr-directory and pipes each CSR file name to the aws iot create-certificate-from-csr Amazon Web Services CLI command to create a certificate for the corresponding CSR. You can also run the aws iot create-certificate-from-csr part of the command in parallel to speed up the certificate creation process: $ ls my-csr-directory/ | xargs -P 10 -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{}  On Windows PowerShell, the command to create certificates for all CSRs in my-csr-directory is: > ls -Name my-csr-directory | %{aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/$_}  On a Windows command prompt, the command to create certificates for all CSRs in my-csr-directory is: > forfiles /p my-csr-directory /c "cmd /c aws iot create-certificate-from-csr --certificate-signing-request file://@path"
+    ///
+    /// - Parameter CreateCertificateFromCsrInput : The input for the CreateCertificateFromCsr operation.
+    ///
+    /// - Returns: `CreateCertificateFromCsrOutputResponse` : The output from the CreateCertificateFromCsr operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func createCertificateFromCsr(input: CreateCertificateFromCsrInput) async throws -> CreateCertificateFromCsrOutputResponse
     /// Use this API to define a Custom Metric published by your devices to Device Defender. Requires permission to access the [CreateCustomMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CreateCustomMetricInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCustomMetricOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func createCustomMetric(input: CreateCustomMetricInput) async throws -> CreateCustomMetricOutputResponse
     /// Create a dimension that you can use to limit the scope of a metric used in a security profile for IoT Device Defender. For example, using a TOPIC_FILTER dimension, you can narrow down the scope of the metric only to MQTT topics whose name match the pattern specified in the dimension. Requires permission to access the [CreateDimension](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CreateDimensionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDimensionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func createDimension(input: CreateDimensionInput) async throws -> CreateDimensionOutputResponse
     /// Creates a domain configuration. Requires permission to access the [CreateDomainConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CreateDomainConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDomainConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CertificateValidationException` : The certificate is invalid.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func createDomainConfiguration(input: CreateDomainConfigurationInput) async throws -> CreateDomainConfigurationOutputResponse
     /// Creates a dynamic thing group. Requires permission to access the [CreateDynamicThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CreateDynamicThingGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDynamicThingGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidQueryException` : The query is invalid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func createDynamicThingGroup(input: CreateDynamicThingGroupInput) async throws -> CreateDynamicThingGroupOutputResponse
     /// Creates a fleet metric. Requires permission to access the [CreateFleetMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CreateFleetMetricInput : [no documentation found]
+    ///
+    /// - Returns: `CreateFleetMetricOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IndexNotReadyException` : The index is not ready.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidAggregationException` : The aggregation is invalid.
+    /// - `InvalidQueryException` : The query is invalid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func createFleetMetric(input: CreateFleetMetricInput) async throws -> CreateFleetMetricOutputResponse
     /// Creates a job. Requires permission to access the [CreateJob](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CreateJobInput : [no documentation found]
+    ///
+    /// - Returns: `CreateJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func createJob(input: CreateJobInput) async throws -> CreateJobOutputResponse
     /// Creates a job template. Requires permission to access the [CreateJobTemplate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CreateJobTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `CreateJobTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : A resource with the same name already exists.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func createJobTemplate(input: CreateJobTemplateInput) async throws -> CreateJobTemplateOutputResponse
     /// Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued public key. You can also call CreateKeysAndCertificate over MQTT from a device, for more information, see [Provisioning MQTT API](https://docs.aws.amazon.com/iot/latest/developerguide/provision-wo-cert.html#provision-mqtt-api). Note This is the only time IoT issues the private key for this certificate, so it is important to keep it in a secure location. Requires permission to access the [CreateKeysAndCertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CreateKeysAndCertificateInput : The input for the CreateKeysAndCertificate operation. Requires permission to access the [CreateKeysAndCertificateRequest](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Returns: `CreateKeysAndCertificateOutputResponse` : The output of the CreateKeysAndCertificate operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func createKeysAndCertificate(input: CreateKeysAndCertificateInput) async throws -> CreateKeysAndCertificateOutputResponse
     /// Defines an action that can be applied to audit findings by using StartAuditMitigationActionsTask. Only certain types of mitigation actions can be applied to specific check names. For more information, see [Mitigation actions](https://docs.aws.amazon.com/iot/latest/developerguide/device-defender-mitigation-actions.html). Each mitigation action can apply only one type of change. Requires permission to access the [CreateMitigationAction](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CreateMitigationActionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateMitigationActionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func createMitigationAction(input: CreateMitigationActionInput) async throws -> CreateMitigationActionOutputResponse
     /// Creates an IoT OTA update on a target group of things or groups. Requires permission to access the [CreateOTAUpdate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CreateOTAUpdateInput : [no documentation found]
+    ///
+    /// - Returns: `CreateOTAUpdateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func createOTAUpdate(input: CreateOTAUpdateInput) async throws -> CreateOTAUpdateOutputResponse
     /// Creates an IoT software package that can be deployed to your fleet. Requires permission to access the [CreatePackage](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) and [GetIndexingConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) actions.
+    ///
+    /// - Parameter CreatePackageInput : [no documentation found]
+    ///
+    /// - Returns: `CreatePackageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : A resource with the same name already exists.
+    /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
+    /// - `ServiceQuotaExceededException` : A limit has been exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : The request is not valid.
     func createPackage(input: CreatePackageInput) async throws -> CreatePackageOutputResponse
     /// Creates a new version for an existing IoT software package. Requires permission to access the [CreatePackageVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) and [GetIndexingConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) actions.
+    ///
+    /// - Parameter CreatePackageVersionInput : [no documentation found]
+    ///
+    /// - Returns: `CreatePackageVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : A resource with the same name already exists.
+    /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
+    /// - `ServiceQuotaExceededException` : A limit has been exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : The request is not valid.
     func createPackageVersion(input: CreatePackageVersionInput) async throws -> CreatePackageVersionOutputResponse
     /// Creates an IoT policy. The created policy is the default version for the policy. This operation creates a policy version with a version identifier of 1 and sets 1 as the policy's default version. Requires permission to access the [CreatePolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CreatePolicyInput : The input for the CreatePolicy operation.
+    ///
+    /// - Returns: `CreatePolicyOutputResponse` : The output from the CreatePolicy operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `MalformedPolicyException` : The policy documentation is not valid.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func createPolicy(input: CreatePolicyInput) async throws -> CreatePolicyOutputResponse
     /// Creates a new version of the specified IoT policy. To update a policy, create a new policy version. A managed policy can have up to five versions. If the policy has five versions, you must use [DeletePolicyVersion] to delete an existing version before you create a new one. Optionally, you can set the new version as the policy's default version. The default version is the operative version (that is, the version that is in effect for the certificates to which the policy is attached). Requires permission to access the [CreatePolicyVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CreatePolicyVersionInput : The input for the CreatePolicyVersion operation.
+    ///
+    /// - Returns: `CreatePolicyVersionOutputResponse` : The output of the CreatePolicyVersion operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `MalformedPolicyException` : The policy documentation is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
+    /// - `VersionsLimitExceededException` : The number of policy versions exceeds the limit.
     func createPolicyVersion(input: CreatePolicyVersionInput) async throws -> CreatePolicyVersionOutputResponse
     /// Creates a provisioning claim. Requires permission to access the [CreateProvisioningClaim](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CreateProvisioningClaimInput : [no documentation found]
+    ///
+    /// - Returns: `CreateProvisioningClaimOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func createProvisioningClaim(input: CreateProvisioningClaimInput) async throws -> CreateProvisioningClaimOutputResponse
     /// Creates a provisioning template. Requires permission to access the [CreateProvisioningTemplate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CreateProvisioningTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `CreateProvisioningTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func createProvisioningTemplate(input: CreateProvisioningTemplateInput) async throws -> CreateProvisioningTemplateOutputResponse
     /// Creates a new version of a provisioning template. Requires permission to access the [CreateProvisioningTemplateVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CreateProvisioningTemplateVersionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateProvisioningTemplateVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictingResourceUpdateException` : A conflicting resource update exception. This exception is thrown when two pending updates cause a conflict.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
+    /// - `VersionsLimitExceededException` : The number of policy versions exceeds the limit.
     func createProvisioningTemplateVersion(input: CreateProvisioningTemplateVersionInput) async throws -> CreateProvisioningTemplateVersionOutputResponse
     /// Creates a role alias. Requires permission to access the [CreateRoleAlias](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CreateRoleAliasInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRoleAliasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func createRoleAlias(input: CreateRoleAliasInput) async throws -> CreateRoleAliasOutputResponse
     /// Creates a scheduled audit that is run at a specified time interval. Requires permission to access the [CreateScheduledAudit](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CreateScheduledAuditInput : [no documentation found]
+    ///
+    /// - Returns: `CreateScheduledAuditOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func createScheduledAudit(input: CreateScheduledAuditInput) async throws -> CreateScheduledAuditOutputResponse
     /// Creates a Device Defender security profile. Requires permission to access the [CreateSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CreateSecurityProfileInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSecurityProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func createSecurityProfile(input: CreateSecurityProfileInput) async throws -> CreateSecurityProfileOutputResponse
     /// Creates a stream for delivering one or more large files in chunks over MQTT. A stream transports data bytes in chunks or blocks packaged as MQTT messages from a source like S3. You can have one or more files associated with a stream. Requires permission to access the [CreateStream](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CreateStreamInput : [no documentation found]
+    ///
+    /// - Returns: `CreateStreamOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func createStream(input: CreateStreamInput) async throws -> CreateStreamOutputResponse
     /// Creates a thing record in the registry. If this call is made multiple times using the same thing name and configuration, the call will succeed. If this call is made with the same thing name but different configuration a ResourceAlreadyExistsException is thrown. This is a control plane operation. See [Authorization](https://docs.aws.amazon.com/iot/latest/developerguide/iot-authorization.html) for information about authorizing control plane actions. Requires permission to access the [CreateThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CreateThingInput : The input for the CreateThing operation.
+    ///
+    /// - Returns: `CreateThingOutputResponse` : The output of the CreateThing operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func createThing(input: CreateThingInput) async throws -> CreateThingOutputResponse
     /// Create a thing group. This is a control plane operation. See [Authorization](https://docs.aws.amazon.com/iot/latest/developerguide/iot-authorization.html) for information about authorizing control plane actions. Requires permission to access the [CreateThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CreateThingGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CreateThingGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func createThingGroup(input: CreateThingGroupInput) async throws -> CreateThingGroupOutputResponse
     /// Creates a new thing type. Requires permission to access the [CreateThingType](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CreateThingTypeInput : The input for the CreateThingType operation.
+    ///
+    /// - Returns: `CreateThingTypeOutputResponse` : The output of the CreateThingType operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func createThingType(input: CreateThingTypeInput) async throws -> CreateThingTypeOutputResponse
     /// Creates a rule. Creating rules is an administrator-level action. Any user who has permission to create rules will be able to access data processed by the rule. Requires permission to access the [CreateTopicRule](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CreateTopicRuleInput : The input for the CreateTopicRule operation.
+    ///
+    /// - Returns: `CreateTopicRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictingResourceUpdateException` : A conflicting resource update exception. This exception is thrown when two pending updates cause a conflict.
+    /// - `InternalException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `SqlParseException` : The Rule-SQL expression can't be parsed correctly.
     func createTopicRule(input: CreateTopicRuleInput) async throws -> CreateTopicRuleOutputResponse
     /// Creates a topic rule destination. The destination must be confirmed prior to use. Requires permission to access the [CreateTopicRuleDestination](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CreateTopicRuleDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateTopicRuleDestinationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictingResourceUpdateException` : A conflicting resource update exception. This exception is thrown when two pending updates cause a conflict.
+    /// - `InternalException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     func createTopicRuleDestination(input: CreateTopicRuleDestinationInput) async throws -> CreateTopicRuleDestinationOutputResponse
     /// Restores the default settings for Device Defender audits for this account. Any configuration data you entered is deleted and all audit checks are reset to disabled. Requires permission to access the [DeleteAccountAuditConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeleteAccountAuditConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAccountAuditConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func deleteAccountAuditConfiguration(input: DeleteAccountAuditConfigurationInput) async throws -> DeleteAccountAuditConfigurationOutputResponse
     /// Deletes a Device Defender audit suppression. Requires permission to access the [DeleteAuditSuppression](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeleteAuditSuppressionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAuditSuppressionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func deleteAuditSuppression(input: DeleteAuditSuppressionInput) async throws -> DeleteAuditSuppressionOutputResponse
     /// Deletes an authorizer. Requires permission to access the [DeleteAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeleteAuthorizerInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAuthorizerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DeleteConflictException` : You can't delete the resource because it is attached to one or more resources.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deleteAuthorizer(input: DeleteAuthorizerInput) async throws -> DeleteAuthorizerOutputResponse
     /// Deletes the billing group. Requires permission to access the [DeleteBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeleteBillingGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBillingGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func deleteBillingGroup(input: DeleteBillingGroupInput) async throws -> DeleteBillingGroupOutputResponse
     /// Deletes a registered CA certificate. Requires permission to access the [DeleteCACertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeleteCACertificateInput : Input for the DeleteCACertificate operation.
+    ///
+    /// - Returns: `DeleteCACertificateOutputResponse` : The output for the DeleteCACertificate operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CertificateStateException` : The certificate operation is not allowed.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deleteCACertificate(input: DeleteCACertificateInput) async throws -> DeleteCACertificateOutputResponse
     /// Deletes the specified certificate. A certificate cannot be deleted if it has a policy or IoT thing attached to it or if its status is set to ACTIVE. To delete a certificate, first use the [DetachPolicy] action to detach all policies. Next, use the [UpdateCertificate] action to set the certificate to the INACTIVE status. Requires permission to access the [DeleteCertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeleteCertificateInput : The input for the DeleteCertificate operation.
+    ///
+    /// - Returns: `DeleteCertificateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CertificateStateException` : The certificate operation is not allowed.
+    /// - `DeleteConflictException` : You can't delete the resource because it is attached to one or more resources.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deleteCertificate(input: DeleteCertificateInput) async throws -> DeleteCertificateOutputResponse
     /// Deletes a Device Defender detect custom metric. Requires permission to access the [DeleteCustomMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. Before you can delete a custom metric, you must first remove the custom metric from all security profiles it's a part of. The security profile associated with the custom metric can be found using the [ListSecurityProfiles](https://docs.aws.amazon.com/iot/latest/apireference/API_ListSecurityProfiles.html) API with metricName set to your custom metric name.
+    ///
+    /// - Parameter DeleteCustomMetricInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCustomMetricOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func deleteCustomMetric(input: DeleteCustomMetricInput) async throws -> DeleteCustomMetricOutputResponse
     /// Removes the specified dimension from your Amazon Web Services accounts. Requires permission to access the [DeleteDimension](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeleteDimensionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDimensionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func deleteDimension(input: DeleteDimensionInput) async throws -> DeleteDimensionOutputResponse
     /// Deletes the specified domain configuration. Requires permission to access the [DeleteDomainConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeleteDomainConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDomainConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deleteDomainConfiguration(input: DeleteDomainConfigurationInput) async throws -> DeleteDomainConfigurationOutputResponse
     /// Deletes a dynamic thing group. Requires permission to access the [DeleteDynamicThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeleteDynamicThingGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDynamicThingGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func deleteDynamicThingGroup(input: DeleteDynamicThingGroupInput) async throws -> DeleteDynamicThingGroupOutputResponse
     /// Deletes the specified fleet metric. Returns successfully with no error if the deletion is successful or you specify a fleet metric that doesn't exist. Requires permission to access the [DeleteFleetMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeleteFleetMetricInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteFleetMetricOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
+    /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func deleteFleetMetric(input: DeleteFleetMetricInput) async throws -> DeleteFleetMetricOutputResponse
     /// Deletes a job and its related job executions. Deleting a job may take time, depending on the number of job executions created for the job and various other factors. While the job is being deleted, the status of the job will be shown as "DELETION_IN_PROGRESS". Attempting to delete or cancel a job whose status is already "DELETION_IN_PROGRESS" will result in an error. Only 10 jobs may have status "DELETION_IN_PROGRESS" at the same time, or a LimitExceededException will occur. Requires permission to access the [DeleteJob](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeleteJobInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `InvalidStateTransitionException` : An attempt was made to change to an invalid state, for example by deleting a job or a job execution which is "IN_PROGRESS" without setting the force parameter.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutputResponse
     /// Deletes a job execution. Requires permission to access the [DeleteJobExecution](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeleteJobExecutionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteJobExecutionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `InvalidStateTransitionException` : An attempt was made to change to an invalid state, for example by deleting a job or a job execution which is "IN_PROGRESS" without setting the force parameter.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func deleteJobExecution(input: DeleteJobExecutionInput) async throws -> DeleteJobExecutionOutputResponse
     /// Deletes the specified job template.
+    ///
+    /// - Parameter DeleteJobTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteJobTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func deleteJobTemplate(input: DeleteJobTemplateInput) async throws -> DeleteJobTemplateOutputResponse
     /// Deletes a defined mitigation action from your Amazon Web Services accounts. Requires permission to access the [DeleteMitigationAction](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeleteMitigationActionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteMitigationActionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func deleteMitigationAction(input: DeleteMitigationActionInput) async throws -> DeleteMitigationActionOutputResponse
     /// Delete an OTA update. Requires permission to access the [DeleteOTAUpdate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeleteOTAUpdateInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteOTAUpdateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
+    /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func deleteOTAUpdate(input: DeleteOTAUpdateInput) async throws -> DeleteOTAUpdateOutputResponse
     /// Deletes a specific version from a software package. Note: All package versions must be deleted before deleting the software package. Requires permission to access the [DeletePackageVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeletePackageInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePackageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : The request is not valid.
     func deletePackage(input: DeletePackageInput) async throws -> DeletePackageOutputResponse
     /// Deletes a specific version from a software package. Note: If a package version is designated as default, you must remove the designation from the package using the [UpdatePackage] action.
+    ///
+    /// - Parameter DeletePackageVersionInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePackageVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : The request is not valid.
     func deletePackageVersion(input: DeletePackageVersionInput) async throws -> DeletePackageVersionOutputResponse
     /// Deletes the specified policy. A policy cannot be deleted if it has non-default versions or it is attached to any certificate. To delete a policy, use the [DeletePolicyVersion] action to delete all non-default versions of the policy; use the [DetachPolicy] action to detach the policy from any certificate; and then use the DeletePolicy action to delete the policy. When a policy is deleted using DeletePolicy, its default version is deleted with it. Because of the distributed nature of Amazon Web Services, it can take up to five minutes after a policy is detached before it's ready to be deleted. Requires permission to access the [DeletePolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeletePolicyInput : The input for the DeletePolicy operation.
+    ///
+    /// - Returns: `DeletePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DeleteConflictException` : You can't delete the resource because it is attached to one or more resources.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deletePolicy(input: DeletePolicyInput) async throws -> DeletePolicyOutputResponse
     /// Deletes the specified version of the specified policy. You cannot delete the default version of a policy using this action. To delete the default version of a policy, use [DeletePolicy]. To find out which version of a policy is marked as the default version, use ListPolicyVersions. Requires permission to access the [DeletePolicyVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeletePolicyVersionInput : The input for the DeletePolicyVersion operation.
+    ///
+    /// - Returns: `DeletePolicyVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DeleteConflictException` : You can't delete the resource because it is attached to one or more resources.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deletePolicyVersion(input: DeletePolicyVersionInput) async throws -> DeletePolicyVersionOutputResponse
     /// Deletes a provisioning template. Requires permission to access the [DeleteProvisioningTemplate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeleteProvisioningTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteProvisioningTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictingResourceUpdateException` : A conflicting resource update exception. This exception is thrown when two pending updates cause a conflict.
+    /// - `DeleteConflictException` : You can't delete the resource because it is attached to one or more resources.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deleteProvisioningTemplate(input: DeleteProvisioningTemplateInput) async throws -> DeleteProvisioningTemplateOutputResponse
     /// Deletes a provisioning template version. Requires permission to access the [DeleteProvisioningTemplateVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeleteProvisioningTemplateVersionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteProvisioningTemplateVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictingResourceUpdateException` : A conflicting resource update exception. This exception is thrown when two pending updates cause a conflict.
+    /// - `DeleteConflictException` : You can't delete the resource because it is attached to one or more resources.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deleteProvisioningTemplateVersion(input: DeleteProvisioningTemplateVersionInput) async throws -> DeleteProvisioningTemplateVersionOutputResponse
     /// Deletes a CA certificate registration code. Requires permission to access the [DeleteRegistrationCode](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeleteRegistrationCodeInput : The input for the DeleteRegistrationCode operation.
+    ///
+    /// - Returns: `DeleteRegistrationCodeOutputResponse` : The output for the DeleteRegistrationCode operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deleteRegistrationCode(input: DeleteRegistrationCodeInput) async throws -> DeleteRegistrationCodeOutputResponse
     /// Deletes a role alias Requires permission to access the [DeleteRoleAlias](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeleteRoleAliasInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRoleAliasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DeleteConflictException` : You can't delete the resource because it is attached to one or more resources.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deleteRoleAlias(input: DeleteRoleAliasInput) async throws -> DeleteRoleAliasOutputResponse
     /// Deletes a scheduled audit. Requires permission to access the [DeleteScheduledAudit](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeleteScheduledAuditInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteScheduledAuditOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func deleteScheduledAudit(input: DeleteScheduledAuditInput) async throws -> DeleteScheduledAuditOutputResponse
     /// Deletes a Device Defender security profile. Requires permission to access the [DeleteSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeleteSecurityProfileInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSecurityProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func deleteSecurityProfile(input: DeleteSecurityProfileInput) async throws -> DeleteSecurityProfileOutputResponse
     /// Deletes a stream. Requires permission to access the [DeleteStream](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeleteStreamInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteStreamOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DeleteConflictException` : You can't delete the resource because it is attached to one or more resources.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deleteStream(input: DeleteStreamInput) async throws -> DeleteStreamOutputResponse
     /// Deletes the specified thing. Returns successfully with no error if the deletion is successful or you specify a thing that doesn't exist. Requires permission to access the [DeleteThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeleteThingInput : The input for the DeleteThing operation.
+    ///
+    /// - Returns: `DeleteThingOutputResponse` : The output of the DeleteThing operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
+    /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func deleteThing(input: DeleteThingInput) async throws -> DeleteThingOutputResponse
     /// Deletes a thing group. Requires permission to access the [DeleteThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeleteThingGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteThingGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func deleteThingGroup(input: DeleteThingGroupInput) async throws -> DeleteThingGroupOutputResponse
     /// Deletes the specified thing type. You cannot delete a thing type if it has things associated with it. To delete a thing type, first mark it as deprecated by calling [DeprecateThingType], then remove any associated things by calling [UpdateThing] to change the thing type on any associated thing, and finally use [DeleteThingType] to delete the thing type. Requires permission to access the [DeleteThingType](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeleteThingTypeInput : The input for the DeleteThingType operation.
+    ///
+    /// - Returns: `DeleteThingTypeOutputResponse` : The output for the DeleteThingType operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deleteThingType(input: DeleteThingTypeInput) async throws -> DeleteThingTypeOutputResponse
     /// Deletes the rule. Requires permission to access the [DeleteTopicRule](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeleteTopicRuleInput : The input for the DeleteTopicRule operation.
+    ///
+    /// - Returns: `DeleteTopicRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictingResourceUpdateException` : A conflicting resource update exception. This exception is thrown when two pending updates cause a conflict.
+    /// - `InternalException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deleteTopicRule(input: DeleteTopicRuleInput) async throws -> DeleteTopicRuleOutputResponse
     /// Deletes a topic rule destination. Requires permission to access the [DeleteTopicRuleDestination](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeleteTopicRuleDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteTopicRuleDestinationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictingResourceUpdateException` : A conflicting resource update exception. This exception is thrown when two pending updates cause a conflict.
+    /// - `InternalException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deleteTopicRuleDestination(input: DeleteTopicRuleDestinationInput) async throws -> DeleteTopicRuleDestinationOutputResponse
     /// Deletes a logging level. Requires permission to access the [DeleteV2LoggingLevel](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeleteV2LoggingLevelInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteV2LoggingLevelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     func deleteV2LoggingLevel(input: DeleteV2LoggingLevelInput) async throws -> DeleteV2LoggingLevelOutputResponse
     /// Deprecates a thing type. You can not associate new things with deprecated thing type. Requires permission to access the [DeprecateThingType](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeprecateThingTypeInput : The input for the DeprecateThingType operation.
+    ///
+    /// - Returns: `DeprecateThingTypeOutputResponse` : The output for the DeprecateThingType operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deprecateThingType(input: DeprecateThingTypeInput) async throws -> DeprecateThingTypeOutputResponse
     /// Gets information about the Device Defender audit settings for this account. Settings include how audit notifications are sent and which audit checks are enabled or disabled. Requires permission to access the [DescribeAccountAuditConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeAccountAuditConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAccountAuditConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func describeAccountAuditConfiguration(input: DescribeAccountAuditConfigurationInput) async throws -> DescribeAccountAuditConfigurationOutputResponse
     /// Gets information about a single audit finding. Properties include the reason for noncompliance, the severity of the issue, and the start time when the audit that returned the finding. Requires permission to access the [DescribeAuditFinding](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeAuditFindingInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAuditFindingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func describeAuditFinding(input: DescribeAuditFindingInput) async throws -> DescribeAuditFindingOutputResponse
     /// Gets information about an audit mitigation task that is used to apply mitigation actions to a set of audit findings. Properties include the actions being applied, the audit checks to which they're being applied, the task status, and aggregated task statistics.
+    ///
+    /// - Parameter DescribeAuditMitigationActionsTaskInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAuditMitigationActionsTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func describeAuditMitigationActionsTask(input: DescribeAuditMitigationActionsTaskInput) async throws -> DescribeAuditMitigationActionsTaskOutputResponse
     /// Gets information about a Device Defender audit suppression.
+    ///
+    /// - Parameter DescribeAuditSuppressionInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAuditSuppressionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func describeAuditSuppression(input: DescribeAuditSuppressionInput) async throws -> DescribeAuditSuppressionOutputResponse
     /// Gets information about a Device Defender audit. Requires permission to access the [DescribeAuditTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeAuditTaskInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAuditTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func describeAuditTask(input: DescribeAuditTaskInput) async throws -> DescribeAuditTaskOutputResponse
     /// Describes an authorizer. Requires permission to access the [DescribeAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeAuthorizerInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAuthorizerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeAuthorizer(input: DescribeAuthorizerInput) async throws -> DescribeAuthorizerOutputResponse
     /// Returns information about a billing group. Requires permission to access the [DescribeBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeBillingGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeBillingGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func describeBillingGroup(input: DescribeBillingGroupInput) async throws -> DescribeBillingGroupOutputResponse
     /// Describes a registered CA certificate. Requires permission to access the [DescribeCACertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeCACertificateInput : The input for the DescribeCACertificate operation.
+    ///
+    /// - Returns: `DescribeCACertificateOutputResponse` : The output from the DescribeCACertificate operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeCACertificate(input: DescribeCACertificateInput) async throws -> DescribeCACertificateOutputResponse
     /// Gets information about the specified certificate. Requires permission to access the [DescribeCertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeCertificateInput : The input for the DescribeCertificate operation.
+    ///
+    /// - Returns: `DescribeCertificateOutputResponse` : The output of the DescribeCertificate operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeCertificate(input: DescribeCertificateInput) async throws -> DescribeCertificateOutputResponse
     /// Gets information about a Device Defender detect custom metric. Requires permission to access the [DescribeCustomMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeCustomMetricInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeCustomMetricOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func describeCustomMetric(input: DescribeCustomMetricInput) async throws -> DescribeCustomMetricOutputResponse
     /// Describes the default authorizer. Requires permission to access the [DescribeDefaultAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeDefaultAuthorizerInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDefaultAuthorizerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeDefaultAuthorizer(input: DescribeDefaultAuthorizerInput) async throws -> DescribeDefaultAuthorizerOutputResponse
     /// Gets information about a Device Defender ML Detect mitigation action. Requires permission to access the [DescribeDetectMitigationActionsTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeDetectMitigationActionsTaskInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDetectMitigationActionsTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func describeDetectMitigationActionsTask(input: DescribeDetectMitigationActionsTaskInput) async throws -> DescribeDetectMitigationActionsTaskOutputResponse
     /// Provides details about a dimension that is defined in your Amazon Web Services accounts. Requires permission to access the [DescribeDimension](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeDimensionInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDimensionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func describeDimension(input: DescribeDimensionInput) async throws -> DescribeDimensionOutputResponse
     /// Gets summary information about a domain configuration. Requires permission to access the [DescribeDomainConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeDomainConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDomainConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeDomainConfiguration(input: DescribeDomainConfigurationInput) async throws -> DescribeDomainConfigurationOutputResponse
     /// Returns a unique endpoint specific to the Amazon Web Services account making the call. Requires permission to access the [DescribeEndpoint](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeEndpointInput : The input for the DescribeEndpoint operation.
+    ///
+    /// - Returns: `DescribeEndpointOutputResponse` : The output from the DescribeEndpoint operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeEndpoint(input: DescribeEndpointInput) async throws -> DescribeEndpointOutputResponse
     /// Describes event configurations. Requires permission to access the [DescribeEventConfigurations](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeEventConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeEventConfigurationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func describeEventConfigurations(input: DescribeEventConfigurationsInput) async throws -> DescribeEventConfigurationsOutputResponse
     /// Gets information about the specified fleet metric. Requires permission to access the [DescribeFleetMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeFleetMetricInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeFleetMetricOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeFleetMetric(input: DescribeFleetMetricInput) async throws -> DescribeFleetMetricOutputResponse
     /// Describes a search index. Requires permission to access the [DescribeIndex](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeIndexInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeIndexOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeIndex(input: DescribeIndexInput) async throws -> DescribeIndexOutputResponse
     /// Describes a job. Requires permission to access the [DescribeJob](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeJobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func describeJob(input: DescribeJobInput) async throws -> DescribeJobOutputResponse
     /// Describes a job execution. Requires permission to access the [DescribeJobExecution](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeJobExecutionInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeJobExecutionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func describeJobExecution(input: DescribeJobExecutionInput) async throws -> DescribeJobExecutionOutputResponse
     /// Returns information about a job template.
+    ///
+    /// - Parameter DescribeJobTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeJobTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func describeJobTemplate(input: DescribeJobTemplateInput) async throws -> DescribeJobTemplateOutputResponse
     /// View details of a managed job template.
+    ///
+    /// - Parameter DescribeManagedJobTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeManagedJobTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func describeManagedJobTemplate(input: DescribeManagedJobTemplateInput) async throws -> DescribeManagedJobTemplateOutputResponse
     /// Gets information about a mitigation action. Requires permission to access the [DescribeMitigationAction](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeMitigationActionInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeMitigationActionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func describeMitigationAction(input: DescribeMitigationActionInput) async throws -> DescribeMitigationActionOutputResponse
     /// Returns information about a provisioning template. Requires permission to access the [DescribeProvisioningTemplate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeProvisioningTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeProvisioningTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeProvisioningTemplate(input: DescribeProvisioningTemplateInput) async throws -> DescribeProvisioningTemplateOutputResponse
     /// Returns information about a provisioning template version. Requires permission to access the [DescribeProvisioningTemplateVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeProvisioningTemplateVersionInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeProvisioningTemplateVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeProvisioningTemplateVersion(input: DescribeProvisioningTemplateVersionInput) async throws -> DescribeProvisioningTemplateVersionOutputResponse
     /// Describes a role alias. Requires permission to access the [DescribeRoleAlias](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeRoleAliasInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeRoleAliasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeRoleAlias(input: DescribeRoleAliasInput) async throws -> DescribeRoleAliasOutputResponse
     /// Gets information about a scheduled audit. Requires permission to access the [DescribeScheduledAudit](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeScheduledAuditInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeScheduledAuditOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func describeScheduledAudit(input: DescribeScheduledAuditInput) async throws -> DescribeScheduledAuditOutputResponse
     /// Gets information about a Device Defender security profile. Requires permission to access the [DescribeSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeSecurityProfileInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeSecurityProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func describeSecurityProfile(input: DescribeSecurityProfileInput) async throws -> DescribeSecurityProfileOutputResponse
     /// Gets information about a stream. Requires permission to access the [DescribeStream](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeStreamInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeStreamOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeStream(input: DescribeStreamInput) async throws -> DescribeStreamOutputResponse
     /// Gets information about the specified thing. Requires permission to access the [DescribeThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeThingInput : The input for the DescribeThing operation.
+    ///
+    /// - Returns: `DescribeThingOutputResponse` : The output from the DescribeThing operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeThing(input: DescribeThingInput) async throws -> DescribeThingOutputResponse
     /// Describe a thing group. Requires permission to access the [DescribeThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeThingGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeThingGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func describeThingGroup(input: DescribeThingGroupInput) async throws -> DescribeThingGroupOutputResponse
     /// Describes a bulk thing provisioning task. Requires permission to access the [DescribeThingRegistrationTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeThingRegistrationTaskInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeThingRegistrationTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeThingRegistrationTask(input: DescribeThingRegistrationTaskInput) async throws -> DescribeThingRegistrationTaskOutputResponse
     /// Gets information about the specified thing type. Requires permission to access the [DescribeThingType](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeThingTypeInput : The input for the DescribeThingType operation.
+    ///
+    /// - Returns: `DescribeThingTypeOutputResponse` : The output for the DescribeThingType operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeThingType(input: DescribeThingTypeInput) async throws -> DescribeThingTypeOutputResponse
     /// Detaches a policy from the specified target. Because of the distributed nature of Amazon Web Services, it can take up to five minutes after a policy is detached before it's ready to be deleted. Requires permission to access the [DetachPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DetachPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DetachPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func detachPolicy(input: DetachPolicyInput) async throws -> DetachPolicyOutputResponse
     /// Removes the specified policy from the specified certificate. Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use [DetachPolicy] instead. Requires permission to access the [DetachPrincipalPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     @available(*, deprecated)
+    ///
+    /// - Parameter DetachPrincipalPolicyInput : The input for the DetachPrincipalPolicy operation.
+    ///
+    /// - Returns: `DetachPrincipalPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func detachPrincipalPolicy(input: DetachPrincipalPolicyInput) async throws -> DetachPrincipalPolicyOutputResponse
     /// Disassociates a Device Defender security profile from a thing group or from this account. Requires permission to access the [DetachSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DetachSecurityProfileInput : [no documentation found]
+    ///
+    /// - Returns: `DetachSecurityProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func detachSecurityProfile(input: DetachSecurityProfileInput) async throws -> DetachSecurityProfileOutputResponse
     /// Detaches the specified principal from the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities. This call is asynchronous. It might take several seconds for the detachment to propagate. Requires permission to access the [DetachThingPrincipal](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DetachThingPrincipalInput : The input for the DetachThingPrincipal operation.
+    ///
+    /// - Returns: `DetachThingPrincipalOutputResponse` : The output from the DetachThingPrincipal operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func detachThingPrincipal(input: DetachThingPrincipalInput) async throws -> DetachThingPrincipalOutputResponse
     /// Disables the rule. Requires permission to access the [DisableTopicRule](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DisableTopicRuleInput : The input for the DisableTopicRuleRequest operation.
+    ///
+    /// - Returns: `DisableTopicRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictingResourceUpdateException` : A conflicting resource update exception. This exception is thrown when two pending updates cause a conflict.
+    /// - `InternalException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func disableTopicRule(input: DisableTopicRuleInput) async throws -> DisableTopicRuleOutputResponse
     /// Enables the rule. Requires permission to access the [EnableTopicRule](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter EnableTopicRuleInput : The input for the EnableTopicRuleRequest operation.
+    ///
+    /// - Returns: `EnableTopicRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictingResourceUpdateException` : A conflicting resource update exception. This exception is thrown when two pending updates cause a conflict.
+    /// - `InternalException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func enableTopicRule(input: EnableTopicRuleInput) async throws -> EnableTopicRuleOutputResponse
     /// Returns a Device Defender's ML Detect Security Profile training model's status. Requires permission to access the [GetBehaviorModelTrainingSummaries](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter GetBehaviorModelTrainingSummariesInput : [no documentation found]
+    ///
+    /// - Returns: `GetBehaviorModelTrainingSummariesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func getBehaviorModelTrainingSummaries(input: GetBehaviorModelTrainingSummariesInput) async throws -> GetBehaviorModelTrainingSummariesOutputResponse
     /// Aggregates on indexed data with search queries pertaining to particular fields. Requires permission to access the [GetBucketsAggregation](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter GetBucketsAggregationInput : [no documentation found]
+    ///
+    /// - Returns: `GetBucketsAggregationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IndexNotReadyException` : The index is not ready.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidAggregationException` : The aggregation is invalid.
+    /// - `InvalidQueryException` : The query is invalid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func getBucketsAggregation(input: GetBucketsAggregationInput) async throws -> GetBucketsAggregationOutputResponse
     /// Returns the approximate count of unique values that match the query. Requires permission to access the [GetCardinality](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter GetCardinalityInput : [no documentation found]
+    ///
+    /// - Returns: `GetCardinalityOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IndexNotReadyException` : The index is not ready.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidAggregationException` : The aggregation is invalid.
+    /// - `InvalidQueryException` : The query is invalid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func getCardinality(input: GetCardinalityInput) async throws -> GetCardinalityOutputResponse
     /// Gets a list of the policies that have an effect on the authorization behavior of the specified device when it connects to the IoT device gateway. Requires permission to access the [GetEffectivePolicies](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter GetEffectivePoliciesInput : [no documentation found]
+    ///
+    /// - Returns: `GetEffectivePoliciesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func getEffectivePolicies(input: GetEffectivePoliciesInput) async throws -> GetEffectivePoliciesOutputResponse
     /// Gets the indexing configuration. Requires permission to access the [GetIndexingConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter GetIndexingConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetIndexingConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func getIndexingConfiguration(input: GetIndexingConfigurationInput) async throws -> GetIndexingConfigurationOutputResponse
     /// Gets a job document. Requires permission to access the [GetJobDocument](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter GetJobDocumentInput : [no documentation found]
+    ///
+    /// - Returns: `GetJobDocumentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func getJobDocument(input: GetJobDocumentInput) async throws -> GetJobDocumentOutputResponse
     /// Gets the logging options. NOTE: use of this command is not recommended. Use GetV2LoggingOptions instead. Requires permission to access the [GetLoggingOptions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter GetLoggingOptionsInput : The input for the GetLoggingOptions operation.
+    ///
+    /// - Returns: `GetLoggingOptionsOutputResponse` : The output from the GetLoggingOptions operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     func getLoggingOptions(input: GetLoggingOptionsInput) async throws -> GetLoggingOptionsOutputResponse
     /// Gets an OTA update. Requires permission to access the [GetOTAUpdate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter GetOTAUpdateInput : [no documentation found]
+    ///
+    /// - Returns: `GetOTAUpdateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func getOTAUpdate(input: GetOTAUpdateInput) async throws -> GetOTAUpdateOutputResponse
     /// Gets information about the specified software package. Requires permission to access the [GetPackage](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter GetPackageInput : [no documentation found]
+    ///
+    /// - Returns: `GetPackageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : The request is not valid.
     func getPackage(input: GetPackageInput) async throws -> GetPackageOutputResponse
     /// Gets information about the specified software package's configuration. Requires permission to access the [GetPackageConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter GetPackageConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetPackageConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func getPackageConfiguration(input: GetPackageConfigurationInput) async throws -> GetPackageConfigurationOutputResponse
     /// Gets information about the specified package version. Requires permission to access the [GetPackageVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter GetPackageVersionInput : [no documentation found]
+    ///
+    /// - Returns: `GetPackageVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : The request is not valid.
     func getPackageVersion(input: GetPackageVersionInput) async throws -> GetPackageVersionOutputResponse
     /// Groups the aggregated values that match the query into percentile groupings. The default percentile groupings are: 1,5,25,50,75,95,99, although you can specify your own when you call GetPercentiles. This function returns a value for each percentile group specified (or the default percentile groupings). The percentile group "1" contains the aggregated field value that occurs in approximately one percent of the values that match the query. The percentile group "5" contains the aggregated field value that occurs in approximately five percent of the values that match the query, and so on. The result is an approximation, the more values that match the query, the more accurate the percentile values. Requires permission to access the [GetPercentiles](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter GetPercentilesInput : [no documentation found]
+    ///
+    /// - Returns: `GetPercentilesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IndexNotReadyException` : The index is not ready.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidAggregationException` : The aggregation is invalid.
+    /// - `InvalidQueryException` : The query is invalid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func getPercentiles(input: GetPercentilesInput) async throws -> GetPercentilesOutputResponse
     /// Gets information about the specified policy with the policy document of the default version. Requires permission to access the [GetPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter GetPolicyInput : The input for the GetPolicy operation.
+    ///
+    /// - Returns: `GetPolicyOutputResponse` : The output from the GetPolicy operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutputResponse
     /// Gets information about the specified policy version. Requires permission to access the [GetPolicyVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter GetPolicyVersionInput : The input for the GetPolicyVersion operation.
+    ///
+    /// - Returns: `GetPolicyVersionOutputResponse` : The output from the GetPolicyVersion operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func getPolicyVersion(input: GetPolicyVersionInput) async throws -> GetPolicyVersionOutputResponse
     /// Gets a registration code used to register a CA certificate with IoT. Requires permission to access the [GetRegistrationCode](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter GetRegistrationCodeInput : The input to the GetRegistrationCode operation.
+    ///
+    /// - Returns: `GetRegistrationCodeOutputResponse` : The output from the GetRegistrationCode operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func getRegistrationCode(input: GetRegistrationCodeInput) async throws -> GetRegistrationCodeOutputResponse
     /// Returns the count, average, sum, minimum, maximum, sum of squares, variance, and standard deviation for the specified aggregated field. If the aggregation field is of type String, only the count statistic is returned. Requires permission to access the [GetStatistics](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter GetStatisticsInput : [no documentation found]
+    ///
+    /// - Returns: `GetStatisticsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IndexNotReadyException` : The index is not ready.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidAggregationException` : The aggregation is invalid.
+    /// - `InvalidQueryException` : The query is invalid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func getStatistics(input: GetStatisticsInput) async throws -> GetStatisticsOutputResponse
     /// Gets information about the rule. Requires permission to access the [GetTopicRule](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter GetTopicRuleInput : The input for the GetTopicRule operation.
+    ///
+    /// - Returns: `GetTopicRuleOutputResponse` : The output from the GetTopicRule operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func getTopicRule(input: GetTopicRuleInput) async throws -> GetTopicRuleOutputResponse
     /// Gets information about a topic rule destination. Requires permission to access the [GetTopicRuleDestination](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter GetTopicRuleDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `GetTopicRuleDestinationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func getTopicRuleDestination(input: GetTopicRuleDestinationInput) async throws -> GetTopicRuleDestinationOutputResponse
     /// Gets the fine grained logging options. Requires permission to access the [GetV2LoggingOptions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter GetV2LoggingOptionsInput : [no documentation found]
+    ///
+    /// - Returns: `GetV2LoggingOptionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : An unexpected error has occurred.
+    /// - `NotConfiguredException` : The resource is not configured.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     func getV2LoggingOptions(input: GetV2LoggingOptionsInput) async throws -> GetV2LoggingOptionsOutputResponse
     /// Lists the active violations for a given Device Defender security profile. Requires permission to access the [ListActiveViolations](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListActiveViolationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListActiveViolationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func listActiveViolations(input: ListActiveViolationsInput) async throws -> ListActiveViolationsOutputResponse
     /// Lists the policies attached to the specified thing group. Requires permission to access the [ListAttachedPolicies](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListAttachedPoliciesInput : [no documentation found]
+    ///
+    /// - Returns: `ListAttachedPoliciesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listAttachedPolicies(input: ListAttachedPoliciesInput) async throws -> ListAttachedPoliciesOutputResponse
     /// Lists the findings (results) of a Device Defender audit or of the audits performed during a specified time period. (Findings are retained for 90 days.) Requires permission to access the [ListAuditFindings](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListAuditFindingsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAuditFindingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func listAuditFindings(input: ListAuditFindingsInput) async throws -> ListAuditFindingsOutputResponse
     /// Gets the status of audit mitigation action tasks that were executed. Requires permission to access the [ListAuditMitigationActionsExecutions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListAuditMitigationActionsExecutionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAuditMitigationActionsExecutionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func listAuditMitigationActionsExecutions(input: ListAuditMitigationActionsExecutionsInput) async throws -> ListAuditMitigationActionsExecutionsOutputResponse
     /// Gets a list of audit mitigation action tasks that match the specified filters. Requires permission to access the [ListAuditMitigationActionsTasks](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListAuditMitigationActionsTasksInput : [no documentation found]
+    ///
+    /// - Returns: `ListAuditMitigationActionsTasksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func listAuditMitigationActionsTasks(input: ListAuditMitigationActionsTasksInput) async throws -> ListAuditMitigationActionsTasksOutputResponse
     /// Lists your Device Defender audit listings. Requires permission to access the [ListAuditSuppressions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListAuditSuppressionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAuditSuppressionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func listAuditSuppressions(input: ListAuditSuppressionsInput) async throws -> ListAuditSuppressionsOutputResponse
     /// Lists the Device Defender audits that have been performed during a given time period. Requires permission to access the [ListAuditTasks](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListAuditTasksInput : [no documentation found]
+    ///
+    /// - Returns: `ListAuditTasksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func listAuditTasks(input: ListAuditTasksInput) async throws -> ListAuditTasksOutputResponse
     /// Lists the authorizers registered in your account. Requires permission to access the [ListAuthorizers](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListAuthorizersInput : [no documentation found]
+    ///
+    /// - Returns: `ListAuthorizersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listAuthorizers(input: ListAuthorizersInput) async throws -> ListAuthorizersOutputResponse
     /// Lists the billing groups you have created. Requires permission to access the [ListBillingGroups](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListBillingGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `ListBillingGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func listBillingGroups(input: ListBillingGroupsInput) async throws -> ListBillingGroupsOutputResponse
     /// Lists the CA certificates registered for your Amazon Web Services account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results. Requires permission to access the [ListCACertificates](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListCACertificatesInput : Input for the ListCACertificates operation.
+    ///
+    /// - Returns: `ListCACertificatesOutputResponse` : The output from the ListCACertificates operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listCACertificates(input: ListCACertificatesInput) async throws -> ListCACertificatesOutputResponse
     /// Lists the certificates registered in your Amazon Web Services account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results. Requires permission to access the [ListCertificates](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListCertificatesInput : The input for the ListCertificates operation.
+    ///
+    /// - Returns: `ListCertificatesOutputResponse` : The output of the ListCertificates operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listCertificates(input: ListCertificatesInput) async throws -> ListCertificatesOutputResponse
     /// List the device certificates signed by the specified CA certificate. Requires permission to access the [ListCertificatesByCA](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListCertificatesByCAInput : The input to the ListCertificatesByCA operation.
+    ///
+    /// - Returns: `ListCertificatesByCAOutputResponse` : The output of the ListCertificatesByCA operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listCertificatesByCA(input: ListCertificatesByCAInput) async throws -> ListCertificatesByCAOutputResponse
     /// Lists your Device Defender detect custom metrics. Requires permission to access the [ListCustomMetrics](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListCustomMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCustomMetricsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func listCustomMetrics(input: ListCustomMetricsInput) async throws -> ListCustomMetricsOutputResponse
     /// Lists mitigation actions executions for a Device Defender ML Detect Security Profile. Requires permission to access the [ListDetectMitigationActionsExecutions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListDetectMitigationActionsExecutionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDetectMitigationActionsExecutionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func listDetectMitigationActionsExecutions(input: ListDetectMitigationActionsExecutionsInput) async throws -> ListDetectMitigationActionsExecutionsOutputResponse
     /// List of Device Defender ML Detect mitigation actions tasks. Requires permission to access the [ListDetectMitigationActionsTasks](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListDetectMitigationActionsTasksInput : [no documentation found]
+    ///
+    /// - Returns: `ListDetectMitigationActionsTasksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func listDetectMitigationActionsTasks(input: ListDetectMitigationActionsTasksInput) async throws -> ListDetectMitigationActionsTasksOutputResponse
     /// List the set of dimensions that are defined for your Amazon Web Services accounts. Requires permission to access the [ListDimensions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListDimensionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDimensionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func listDimensions(input: ListDimensionsInput) async throws -> ListDimensionsOutputResponse
     /// Gets a list of domain configurations for the user. This list is sorted alphabetically by domain configuration name. Requires permission to access the [ListDomainConfigurations](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListDomainConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDomainConfigurationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listDomainConfigurations(input: ListDomainConfigurationsInput) async throws -> ListDomainConfigurationsOutputResponse
     /// Lists all your fleet metrics. Requires permission to access the [ListFleetMetrics](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListFleetMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `ListFleetMetricsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listFleetMetrics(input: ListFleetMetricsInput) async throws -> ListFleetMetricsOutputResponse
     /// Lists the search indices. Requires permission to access the [ListIndices](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListIndicesInput : [no documentation found]
+    ///
+    /// - Returns: `ListIndicesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listIndices(input: ListIndicesInput) async throws -> ListIndicesOutputResponse
     /// Lists the job executions for a job. Requires permission to access the [ListJobExecutionsForJob](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListJobExecutionsForJobInput : [no documentation found]
+    ///
+    /// - Returns: `ListJobExecutionsForJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func listJobExecutionsForJob(input: ListJobExecutionsForJobInput) async throws -> ListJobExecutionsForJobOutputResponse
     /// Lists the job executions for the specified thing. Requires permission to access the [ListJobExecutionsForThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListJobExecutionsForThingInput : [no documentation found]
+    ///
+    /// - Returns: `ListJobExecutionsForThingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func listJobExecutionsForThing(input: ListJobExecutionsForThingInput) async throws -> ListJobExecutionsForThingOutputResponse
     /// Lists jobs. Requires permission to access the [ListJobs](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func listJobs(input: ListJobsInput) async throws -> ListJobsOutputResponse
     /// Returns a list of job templates. Requires permission to access the [ListJobTemplates](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListJobTemplatesInput : [no documentation found]
+    ///
+    /// - Returns: `ListJobTemplatesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func listJobTemplates(input: ListJobTemplatesInput) async throws -> ListJobTemplatesOutputResponse
     /// Returns a list of managed job templates.
+    ///
+    /// - Parameter ListManagedJobTemplatesInput : [no documentation found]
+    ///
+    /// - Returns: `ListManagedJobTemplatesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func listManagedJobTemplates(input: ListManagedJobTemplatesInput) async throws -> ListManagedJobTemplatesOutputResponse
     /// Lists the values reported for an IoT Device Defender metric (device-side metric, cloud-side metric, or custom metric) by the given thing during the specified time period.
+    ///
+    /// - Parameter ListMetricValuesInput : [no documentation found]
+    ///
+    /// - Returns: `ListMetricValuesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func listMetricValues(input: ListMetricValuesInput) async throws -> ListMetricValuesOutputResponse
     /// Gets a list of all mitigation actions that match the specified filter criteria. Requires permission to access the [ListMitigationActions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListMitigationActionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListMitigationActionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func listMitigationActions(input: ListMitigationActionsInput) async throws -> ListMitigationActionsOutputResponse
     /// Lists OTA updates. Requires permission to access the [ListOTAUpdates](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListOTAUpdatesInput : [no documentation found]
+    ///
+    /// - Returns: `ListOTAUpdatesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listOTAUpdates(input: ListOTAUpdatesInput) async throws -> ListOTAUpdatesOutputResponse
     /// Lists certificates that are being transferred but not yet accepted. Requires permission to access the [ListOutgoingCertificates](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListOutgoingCertificatesInput : The input to the ListOutgoingCertificates operation.
+    ///
+    /// - Returns: `ListOutgoingCertificatesOutputResponse` : The output from the ListOutgoingCertificates operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listOutgoingCertificates(input: ListOutgoingCertificatesInput) async throws -> ListOutgoingCertificatesOutputResponse
     /// Lists the software packages associated to the account. Requires permission to access the [ListPackages](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListPackagesInput : [no documentation found]
+    ///
+    /// - Returns: `ListPackagesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : The request is not valid.
     func listPackages(input: ListPackagesInput) async throws -> ListPackagesOutputResponse
     /// Lists the software package versions associated to the account. Requires permission to access the [ListPackageVersions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListPackageVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPackageVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : The request is not valid.
     func listPackageVersions(input: ListPackageVersionsInput) async throws -> ListPackageVersionsOutputResponse
     /// Lists your policies. Requires permission to access the [ListPolicies](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListPoliciesInput : The input for the ListPolicies operation.
+    ///
+    /// - Returns: `ListPoliciesOutputResponse` : The output from the ListPolicies operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listPolicies(input: ListPoliciesInput) async throws -> ListPoliciesOutputResponse
     /// Lists the principals associated with the specified policy. Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use [ListTargetsForPolicy] instead. Requires permission to access the [ListPolicyPrincipals](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     @available(*, deprecated)
+    ///
+    /// - Parameter ListPolicyPrincipalsInput : The input for the ListPolicyPrincipals operation.
+    ///
+    /// - Returns: `ListPolicyPrincipalsOutputResponse` : The output from the ListPolicyPrincipals operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listPolicyPrincipals(input: ListPolicyPrincipalsInput) async throws -> ListPolicyPrincipalsOutputResponse
     /// Lists the versions of the specified policy and identifies the default version. Requires permission to access the [ListPolicyVersions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListPolicyVersionsInput : The input for the ListPolicyVersions operation.
+    ///
+    /// - Returns: `ListPolicyVersionsOutputResponse` : The output from the ListPolicyVersions operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listPolicyVersions(input: ListPolicyVersionsInput) async throws -> ListPolicyVersionsOutputResponse
     /// Lists the policies attached to the specified principal. If you use an Cognito identity, the ID must be in [AmazonCognito Identity format](https://docs.aws.amazon.com/cognitoidentity/latest/APIReference/API_GetCredentialsForIdentity.html#API_GetCredentialsForIdentity_RequestSyntax). Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use [ListAttachedPolicies] instead. Requires permission to access the [ListPrincipalPolicies](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     @available(*, deprecated)
+    ///
+    /// - Parameter ListPrincipalPoliciesInput : The input for the ListPrincipalPolicies operation.
+    ///
+    /// - Returns: `ListPrincipalPoliciesOutputResponse` : The output from the ListPrincipalPolicies operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listPrincipalPolicies(input: ListPrincipalPoliciesInput) async throws -> ListPrincipalPoliciesOutputResponse
     /// Lists the things associated with the specified principal. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities. Requires permission to access the [ListPrincipalThings](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListPrincipalThingsInput : The input for the ListPrincipalThings operation.
+    ///
+    /// - Returns: `ListPrincipalThingsOutputResponse` : The output from the ListPrincipalThings operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listPrincipalThings(input: ListPrincipalThingsInput) async throws -> ListPrincipalThingsOutputResponse
     /// Lists the provisioning templates in your Amazon Web Services account. Requires permission to access the [ListProvisioningTemplates](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListProvisioningTemplatesInput : [no documentation found]
+    ///
+    /// - Returns: `ListProvisioningTemplatesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listProvisioningTemplates(input: ListProvisioningTemplatesInput) async throws -> ListProvisioningTemplatesOutputResponse
     /// A list of provisioning template versions. Requires permission to access the [ListProvisioningTemplateVersions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListProvisioningTemplateVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListProvisioningTemplateVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listProvisioningTemplateVersions(input: ListProvisioningTemplateVersionsInput) async throws -> ListProvisioningTemplateVersionsOutputResponse
     /// The related resources of an Audit finding. The following resources can be returned from calling this API:
     ///
@@ -389,154 +2681,1132 @@ public protocol IoTClientProtocol {
     ///
     ///
     /// This API is similar to DescribeAuditFinding's [RelatedResources](https://docs.aws.amazon.com/iot/latest/apireference/API_DescribeAuditFinding.html) but provides pagination and is not limited to 10 resources. When calling [DescribeAuditFinding](https://docs.aws.amazon.com/iot/latest/apireference/API_DescribeAuditFinding.html) for the intermediate CA revoked for active device certificates check, RelatedResources will not be populated. You must use this API, ListRelatedResourcesForAuditFinding, to list the certificates.
+    ///
+    /// - Parameter ListRelatedResourcesForAuditFindingInput : [no documentation found]
+    ///
+    /// - Returns: `ListRelatedResourcesForAuditFindingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func listRelatedResourcesForAuditFinding(input: ListRelatedResourcesForAuditFindingInput) async throws -> ListRelatedResourcesForAuditFindingOutputResponse
     /// Lists the role aliases registered in your account. Requires permission to access the [ListRoleAliases](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListRoleAliasesInput : [no documentation found]
+    ///
+    /// - Returns: `ListRoleAliasesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listRoleAliases(input: ListRoleAliasesInput) async throws -> ListRoleAliasesOutputResponse
     /// Lists all of your scheduled audits. Requires permission to access the [ListScheduledAudits](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListScheduledAuditsInput : [no documentation found]
+    ///
+    /// - Returns: `ListScheduledAuditsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func listScheduledAudits(input: ListScheduledAuditsInput) async throws -> ListScheduledAuditsOutputResponse
     /// Lists the Device Defender security profiles you've created. You can filter security profiles by dimension or custom metric. Requires permission to access the [ListSecurityProfiles](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. dimensionName and metricName cannot be used in the same request.
+    ///
+    /// - Parameter ListSecurityProfilesInput : [no documentation found]
+    ///
+    /// - Returns: `ListSecurityProfilesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func listSecurityProfiles(input: ListSecurityProfilesInput) async throws -> ListSecurityProfilesOutputResponse
     /// Lists the Device Defender security profiles attached to a target (thing group). Requires permission to access the [ListSecurityProfilesForTarget](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListSecurityProfilesForTargetInput : [no documentation found]
+    ///
+    /// - Returns: `ListSecurityProfilesForTargetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func listSecurityProfilesForTarget(input: ListSecurityProfilesForTargetInput) async throws -> ListSecurityProfilesForTargetOutputResponse
     /// Lists all of the streams in your Amazon Web Services account. Requires permission to access the [ListStreams](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListStreamsInput : [no documentation found]
+    ///
+    /// - Returns: `ListStreamsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listStreams(input: ListStreamsInput) async throws -> ListStreamsOutputResponse
     /// Lists the tags (metadata) you have assigned to the resource. Requires permission to access the [ListTagsForResource](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// List targets for the specified policy. Requires permission to access the [ListTargetsForPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListTargetsForPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `ListTargetsForPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listTargetsForPolicy(input: ListTargetsForPolicyInput) async throws -> ListTargetsForPolicyOutputResponse
     /// Lists the targets (thing groups) associated with a given Device Defender security profile. Requires permission to access the [ListTargetsForSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListTargetsForSecurityProfileInput : [no documentation found]
+    ///
+    /// - Returns: `ListTargetsForSecurityProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func listTargetsForSecurityProfile(input: ListTargetsForSecurityProfileInput) async throws -> ListTargetsForSecurityProfileOutputResponse
     /// List the thing groups in your account. Requires permission to access the [ListThingGroups](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListThingGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `ListThingGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func listThingGroups(input: ListThingGroupsInput) async throws -> ListThingGroupsOutputResponse
     /// List the thing groups to which the specified thing belongs. Requires permission to access the [ListThingGroupsForThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListThingGroupsForThingInput : [no documentation found]
+    ///
+    /// - Returns: `ListThingGroupsForThingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func listThingGroupsForThing(input: ListThingGroupsForThingInput) async throws -> ListThingGroupsForThingOutputResponse
     /// Lists the principals associated with the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities. Requires permission to access the [ListThingPrincipals](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListThingPrincipalsInput : The input for the ListThingPrincipal operation.
+    ///
+    /// - Returns: `ListThingPrincipalsOutputResponse` : The output from the ListThingPrincipals operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listThingPrincipals(input: ListThingPrincipalsInput) async throws -> ListThingPrincipalsOutputResponse
     /// Information about the thing registration tasks.
+    ///
+    /// - Parameter ListThingRegistrationTaskReportsInput : [no documentation found]
+    ///
+    /// - Returns: `ListThingRegistrationTaskReportsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listThingRegistrationTaskReports(input: ListThingRegistrationTaskReportsInput) async throws -> ListThingRegistrationTaskReportsOutputResponse
     /// List bulk thing provisioning tasks. Requires permission to access the [ListThingRegistrationTasks](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListThingRegistrationTasksInput : [no documentation found]
+    ///
+    /// - Returns: `ListThingRegistrationTasksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listThingRegistrationTasks(input: ListThingRegistrationTasksInput) async throws -> ListThingRegistrationTasksOutputResponse
     /// Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example, calling ListThings with attributeName=Color and attributeValue=Red retrieves all things in the registry that contain an attribute Color with the value Red. For more information, see [List Things](https://docs.aws.amazon.com/iot/latest/developerguide/thing-registry.html#list-things) from the Amazon Web Services IoT Core Developer Guide. Requires permission to access the [ListThings](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. You will not be charged for calling this API if an Access denied error is returned. You will also not be charged if no attributes or pagination token was provided in request and no pagination token and no results were returned.
+    ///
+    /// - Parameter ListThingsInput : The input for the ListThings operation.
+    ///
+    /// - Returns: `ListThingsOutputResponse` : The output from the ListThings operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listThings(input: ListThingsInput) async throws -> ListThingsOutputResponse
     /// Lists the things you have added to the given billing group. Requires permission to access the [ListThingsInBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListThingsInBillingGroupInput : [no documentation found]
+    ///
+    /// - Returns: `ListThingsInBillingGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func listThingsInBillingGroup(input: ListThingsInBillingGroupInput) async throws -> ListThingsInBillingGroupOutputResponse
     /// Lists the things in the specified group. Requires permission to access the [ListThingsInThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListThingsInThingGroupInput : [no documentation found]
+    ///
+    /// - Returns: `ListThingsInThingGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func listThingsInThingGroup(input: ListThingsInThingGroupInput) async throws -> ListThingsInThingGroupOutputResponse
     /// Lists the existing thing types. Requires permission to access the [ListThingTypes](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListThingTypesInput : The input for the ListThingTypes operation.
+    ///
+    /// - Returns: `ListThingTypesOutputResponse` : The output for the ListThingTypes operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listThingTypes(input: ListThingTypesInput) async throws -> ListThingTypesOutputResponse
     /// Lists all the topic rule destinations in your Amazon Web Services account. Requires permission to access the [ListTopicRuleDestinations](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListTopicRuleDestinationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTopicRuleDestinationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listTopicRuleDestinations(input: ListTopicRuleDestinationsInput) async throws -> ListTopicRuleDestinationsOutputResponse
     /// Lists the rules for the specific topic. Requires permission to access the [ListTopicRules](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListTopicRulesInput : The input for the ListTopicRules operation.
+    ///
+    /// - Returns: `ListTopicRulesOutputResponse` : The output from the ListTopicRules operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     func listTopicRules(input: ListTopicRulesInput) async throws -> ListTopicRulesOutputResponse
     /// Lists logging levels. Requires permission to access the [ListV2LoggingLevels](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListV2LoggingLevelsInput : [no documentation found]
+    ///
+    /// - Returns: `ListV2LoggingLevelsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `NotConfiguredException` : The resource is not configured.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     func listV2LoggingLevels(input: ListV2LoggingLevelsInput) async throws -> ListV2LoggingLevelsOutputResponse
     /// Lists the Device Defender security profile violations discovered during the given time period. You can use filters to limit the results to those alerts issued for a particular security profile, behavior, or thing (device). Requires permission to access the [ListViolationEvents](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListViolationEventsInput : [no documentation found]
+    ///
+    /// - Returns: `ListViolationEventsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func listViolationEvents(input: ListViolationEventsInput) async throws -> ListViolationEventsOutputResponse
     /// Set a verification state and provide a description of that verification state on a violation (detect alarm).
+    ///
+    /// - Parameter PutVerificationStateOnViolationInput : [no documentation found]
+    ///
+    /// - Returns: `PutVerificationStateOnViolationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func putVerificationStateOnViolation(input: PutVerificationStateOnViolationInput) async throws -> PutVerificationStateOnViolationOutputResponse
     /// Registers a CA certificate with Amazon Web Services IoT Core. There is no limit to the number of CA certificates you can register in your Amazon Web Services account. You can register up to 10 CA certificates with the same CA subject field per Amazon Web Services account. Requires permission to access the [RegisterCACertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter RegisterCACertificateInput : The input to the RegisterCACertificate operation.
+    ///
+    /// - Returns: `RegisterCACertificateOutputResponse` : The output from the RegisterCACertificateResponse operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CertificateValidationException` : The certificate is invalid.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `RegistrationCodeValidationException` : The registration code is invalid.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func registerCACertificate(input: RegisterCACertificateInput) async throws -> RegisterCACertificateOutputResponse
     /// Registers a device certificate with IoT in the same [certificate mode](https://docs.aws.amazon.com/iot/latest/apireference/API_CertificateDescription.html#iot-Type-CertificateDescription-certificateMode) as the signing CA. If you have more than one CA certificate that has the same subject field, you must specify the CA certificate that was used to sign the device certificate being registered. Requires permission to access the [RegisterCertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter RegisterCertificateInput : The input to the RegisterCertificate operation.
+    ///
+    /// - Returns: `RegisterCertificateOutputResponse` : The output from the RegisterCertificate operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CertificateConflictException` : Unable to verify the CA certificate used to sign the device certificate you are attempting to register. This is happens when you have registered more than one CA certificate that has the same subject field and public key.
+    /// - `CertificateStateException` : The certificate operation is not allowed.
+    /// - `CertificateValidationException` : The certificate is invalid.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func registerCertificate(input: RegisterCertificateInput) async throws -> RegisterCertificateOutputResponse
     /// Register a certificate that does not have a certificate authority (CA). For supported certificates, consult [ Certificate signing algorithms supported by IoT](https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html#x509-cert-algorithms).
+    ///
+    /// - Parameter RegisterCertificateWithoutCAInput : [no documentation found]
+    ///
+    /// - Returns: `RegisterCertificateWithoutCAOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CertificateStateException` : The certificate operation is not allowed.
+    /// - `CertificateValidationException` : The certificate is invalid.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func registerCertificateWithoutCA(input: RegisterCertificateWithoutCAInput) async throws -> RegisterCertificateWithoutCAOutputResponse
     /// Provisions a thing in the device registry. RegisterThing calls other IoT control plane APIs. These calls might exceed your account level [ IoT Throttling Limits](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_iot) and cause throttle errors. Please contact [Amazon Web Services Customer Support](https://console.aws.amazon.com/support/home) to raise your throttling limits if necessary. Requires permission to access the [RegisterThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter RegisterThingInput : [no documentation found]
+    ///
+    /// - Returns: `RegisterThingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictingResourceUpdateException` : A conflicting resource update exception. This exception is thrown when two pending updates cause a conflict.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceRegistrationFailureException` : The resource registration failed.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func registerThing(input: RegisterThingInput) async throws -> RegisterThingOutputResponse
     /// Rejects a pending certificate transfer. After IoT rejects a certificate transfer, the certificate status changes from PENDING_TRANSFER to INACTIVE. To check for pending certificate transfers, call [ListCertificates] to enumerate your certificates. This operation can only be called by the transfer destination. After it is called, the certificate will be returned to the source's account in the INACTIVE state. Requires permission to access the [RejectCertificateTransfer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter RejectCertificateTransferInput : The input for the RejectCertificateTransfer operation.
+    ///
+    /// - Returns: `RejectCertificateTransferOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `TransferAlreadyCompletedException` : You can't revert the certificate transfer because the transfer is already complete.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func rejectCertificateTransfer(input: RejectCertificateTransferInput) async throws -> RejectCertificateTransferOutputResponse
     /// Removes the given thing from the billing group. Requires permission to access the [RemoveThingFromBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. This call is asynchronous. It might take several seconds for the detachment to propagate.
+    ///
+    /// - Parameter RemoveThingFromBillingGroupInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveThingFromBillingGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func removeThingFromBillingGroup(input: RemoveThingFromBillingGroupInput) async throws -> RemoveThingFromBillingGroupOutputResponse
     /// Remove the specified thing from the specified group. You must specify either a thingGroupArn or a thingGroupName to identify the thing group and either a thingArn or a thingName to identify the thing to remove from the thing group. Requires permission to access the [RemoveThingFromThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter RemoveThingFromThingGroupInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveThingFromThingGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func removeThingFromThingGroup(input: RemoveThingFromThingGroupInput) async throws -> RemoveThingFromThingGroupOutputResponse
     /// Replaces the rule. You must specify all parameters for the new rule. Creating rules is an administrator-level action. Any user who has permission to create rules will be able to access data processed by the rule. Requires permission to access the [ReplaceTopicRule](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ReplaceTopicRuleInput : The input for the ReplaceTopicRule operation.
+    ///
+    /// - Returns: `ReplaceTopicRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictingResourceUpdateException` : A conflicting resource update exception. This exception is thrown when two pending updates cause a conflict.
+    /// - `InternalException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `SqlParseException` : The Rule-SQL expression can't be parsed correctly.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func replaceTopicRule(input: ReplaceTopicRuleInput) async throws -> ReplaceTopicRuleOutputResponse
     /// The query search index. Requires permission to access the [SearchIndex](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter SearchIndexInput : [no documentation found]
+    ///
+    /// - Returns: `SearchIndexOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IndexNotReadyException` : The index is not ready.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidQueryException` : The query is invalid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func searchIndex(input: SearchIndexInput) async throws -> SearchIndexOutputResponse
     /// Sets the default authorizer. This will be used if a websocket connection is made without specifying an authorizer. Requires permission to access the [SetDefaultAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter SetDefaultAuthorizerInput : [no documentation found]
+    ///
+    /// - Returns: `SetDefaultAuthorizerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func setDefaultAuthorizer(input: SetDefaultAuthorizerInput) async throws -> SetDefaultAuthorizerOutputResponse
     /// Sets the specified version of the specified policy as the policy's default (operative) version. This action affects all certificates to which the policy is attached. To list the principals the policy is attached to, use the [ListPrincipalPolicies] action. Requires permission to access the [SetDefaultPolicyVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter SetDefaultPolicyVersionInput : The input for the SetDefaultPolicyVersion operation.
+    ///
+    /// - Returns: `SetDefaultPolicyVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func setDefaultPolicyVersion(input: SetDefaultPolicyVersionInput) async throws -> SetDefaultPolicyVersionOutputResponse
     /// Sets the logging options. NOTE: use of this command is not recommended. Use SetV2LoggingOptions instead. Requires permission to access the [SetLoggingOptions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter SetLoggingOptionsInput : The input for the SetLoggingOptions operation.
+    ///
+    /// - Returns: `SetLoggingOptionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     func setLoggingOptions(input: SetLoggingOptionsInput) async throws -> SetLoggingOptionsOutputResponse
     /// Sets the logging level. Requires permission to access the [SetV2LoggingLevel](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter SetV2LoggingLevelInput : [no documentation found]
+    ///
+    /// - Returns: `SetV2LoggingLevelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `NotConfiguredException` : The resource is not configured.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     func setV2LoggingLevel(input: SetV2LoggingLevelInput) async throws -> SetV2LoggingLevelOutputResponse
     /// Sets the logging options for the V2 logging service. Requires permission to access the [SetV2LoggingOptions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter SetV2LoggingOptionsInput : [no documentation found]
+    ///
+    /// - Returns: `SetV2LoggingOptionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     func setV2LoggingOptions(input: SetV2LoggingOptionsInput) async throws -> SetV2LoggingOptionsOutputResponse
     /// Starts a task that applies a set of mitigation actions to the specified target. Requires permission to access the [StartAuditMitigationActionsTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter StartAuditMitigationActionsTaskInput : [no documentation found]
+    ///
+    /// - Returns: `StartAuditMitigationActionsTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `TaskAlreadyExistsException` : This exception occurs if you attempt to start a task with the same task-id as an existing task but with a different clientRequestToken.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func startAuditMitigationActionsTask(input: StartAuditMitigationActionsTaskInput) async throws -> StartAuditMitigationActionsTaskOutputResponse
     /// Starts a Device Defender ML Detect mitigation actions task. Requires permission to access the [StartDetectMitigationActionsTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter StartDetectMitigationActionsTaskInput : [no documentation found]
+    ///
+    /// - Returns: `StartDetectMitigationActionsTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `TaskAlreadyExistsException` : This exception occurs if you attempt to start a task with the same task-id as an existing task but with a different clientRequestToken.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func startDetectMitigationActionsTask(input: StartDetectMitigationActionsTaskInput) async throws -> StartDetectMitigationActionsTaskOutputResponse
     /// Starts an on-demand Device Defender audit. Requires permission to access the [StartOnDemandAuditTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter StartOnDemandAuditTaskInput : [no documentation found]
+    ///
+    /// - Returns: `StartOnDemandAuditTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func startOnDemandAuditTask(input: StartOnDemandAuditTaskInput) async throws -> StartOnDemandAuditTaskOutputResponse
     /// Creates a bulk thing provisioning task. Requires permission to access the [StartThingRegistrationTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter StartThingRegistrationTaskInput : [no documentation found]
+    ///
+    /// - Returns: `StartThingRegistrationTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func startThingRegistrationTask(input: StartThingRegistrationTaskInput) async throws -> StartThingRegistrationTaskOutputResponse
     /// Cancels a bulk thing provisioning task. Requires permission to access the [StopThingRegistrationTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter StopThingRegistrationTaskInput : [no documentation found]
+    ///
+    /// - Returns: `StopThingRegistrationTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func stopThingRegistrationTask(input: StopThingRegistrationTaskInput) async throws -> StopThingRegistrationTaskOutputResponse
     /// Adds to or modifies the tags of the given resource. Tags are metadata which can be used to manage a resource. Requires permission to access the [TagResource](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Tests if a specified principal is authorized to perform an IoT action on a specified resource. Use this to test and debug the authorization behavior of devices that connect to the IoT device gateway. Requires permission to access the [TestAuthorization](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter TestAuthorizationInput : [no documentation found]
+    ///
+    /// - Returns: `TestAuthorizationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func testAuthorization(input: TestAuthorizationInput) async throws -> TestAuthorizationOutputResponse
     /// Tests a custom authorization behavior by invoking a specified custom authorizer. Use this to test and debug the custom authorization behavior of devices that connect to the IoT device gateway. Requires permission to access the [TestInvokeAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter TestInvokeAuthorizerInput : [no documentation found]
+    ///
+    /// - Returns: `TestInvokeAuthorizerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `InvalidResponseException` : The response is invalid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func testInvokeAuthorizer(input: TestInvokeAuthorizerInput) async throws -> TestInvokeAuthorizerOutputResponse
     /// Transfers the specified certificate to the specified Amazon Web Services account. Requires permission to access the [TransferCertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. You can cancel the transfer until it is acknowledged by the recipient. No notification is sent to the transfer destination's account. It is up to the caller to notify the transfer target. The certificate being transferred must not be in the ACTIVE state. You can use the [UpdateCertificate] action to deactivate it. The certificate must not have any policies attached to it. You can use the [DetachPolicy] action to detach them.
+    ///
+    /// - Parameter TransferCertificateInput : The input for the TransferCertificate operation.
+    ///
+    /// - Returns: `TransferCertificateOutputResponse` : The output from the TransferCertificate operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CertificateStateException` : The certificate operation is not allowed.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `TransferConflictException` : You can't transfer the certificate because authorization policies are still attached.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func transferCertificate(input: TransferCertificateInput) async throws -> TransferCertificateOutputResponse
     /// Removes the given tags (metadata) from the resource. Requires permission to access the [UntagResource](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Configures or reconfigures the Device Defender audit settings for this account. Settings include how audit notifications are sent and which audit checks are enabled or disabled. Requires permission to access the [UpdateAccountAuditConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter UpdateAccountAuditConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAccountAuditConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func updateAccountAuditConfiguration(input: UpdateAccountAuditConfigurationInput) async throws -> UpdateAccountAuditConfigurationOutputResponse
     /// Updates a Device Defender audit suppression.
+    ///
+    /// - Parameter UpdateAuditSuppressionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAuditSuppressionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func updateAuditSuppression(input: UpdateAuditSuppressionInput) async throws -> UpdateAuditSuppressionOutputResponse
     /// Updates an authorizer. Requires permission to access the [UpdateAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter UpdateAuthorizerInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAuthorizerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func updateAuthorizer(input: UpdateAuthorizerInput) async throws -> UpdateAuthorizerOutputResponse
     /// Updates information about the billing group. Requires permission to access the [UpdateBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter UpdateBillingGroupInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateBillingGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func updateBillingGroup(input: UpdateBillingGroupInput) async throws -> UpdateBillingGroupOutputResponse
     /// Updates a registered CA certificate. Requires permission to access the [UpdateCACertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter UpdateCACertificateInput : The input to the UpdateCACertificate operation.
+    ///
+    /// - Returns: `UpdateCACertificateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func updateCACertificate(input: UpdateCACertificateInput) async throws -> UpdateCACertificateOutputResponse
     /// Updates the status of the specified certificate. This operation is idempotent. Requires permission to access the [UpdateCertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. Certificates must be in the ACTIVE state to authenticate devices that use a certificate to connect to IoT. Within a few minutes of updating a certificate from the ACTIVE state to any other state, IoT disconnects all devices that used that certificate to connect. Devices cannot use a certificate that is not in the ACTIVE state to reconnect.
+    ///
+    /// - Parameter UpdateCertificateInput : The input for the UpdateCertificate operation.
+    ///
+    /// - Returns: `UpdateCertificateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CertificateStateException` : The certificate operation is not allowed.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func updateCertificate(input: UpdateCertificateInput) async throws -> UpdateCertificateOutputResponse
     /// Updates a Device Defender detect custom metric. Requires permission to access the [UpdateCustomMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter UpdateCustomMetricInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateCustomMetricOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func updateCustomMetric(input: UpdateCustomMetricInput) async throws -> UpdateCustomMetricOutputResponse
     /// Updates the definition for a dimension. You cannot change the type of a dimension after it is created (you can delete it and recreate it). Requires permission to access the [UpdateDimension](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter UpdateDimensionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDimensionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func updateDimension(input: UpdateDimensionInput) async throws -> UpdateDimensionOutputResponse
     /// Updates values stored in the domain configuration. Domain configurations for default endpoints can't be updated. Requires permission to access the [UpdateDomainConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter UpdateDomainConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDomainConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CertificateValidationException` : The certificate is invalid.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func updateDomainConfiguration(input: UpdateDomainConfigurationInput) async throws -> UpdateDomainConfigurationOutputResponse
     /// Updates a dynamic thing group. Requires permission to access the [UpdateDynamicThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter UpdateDynamicThingGroupInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDynamicThingGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidQueryException` : The query is invalid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func updateDynamicThingGroup(input: UpdateDynamicThingGroupInput) async throws -> UpdateDynamicThingGroupOutputResponse
     /// Updates the event configurations. Requires permission to access the [UpdateEventConfigurations](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter UpdateEventConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEventConfigurationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func updateEventConfigurations(input: UpdateEventConfigurationsInput) async throws -> UpdateEventConfigurationsOutputResponse
     /// Updates the data for a fleet metric. Requires permission to access the [UpdateFleetMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter UpdateFleetMetricInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateFleetMetricOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IndexNotReadyException` : The index is not ready.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidAggregationException` : The aggregation is invalid.
+    /// - `InvalidQueryException` : The query is invalid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
+    /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func updateFleetMetric(input: UpdateFleetMetricInput) async throws -> UpdateFleetMetricOutputResponse
     /// Updates the search configuration. Requires permission to access the [UpdateIndexingConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter UpdateIndexingConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateIndexingConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func updateIndexingConfiguration(input: UpdateIndexingConfigurationInput) async throws -> UpdateIndexingConfigurationOutputResponse
     /// Updates supported fields of the specified job. Requires permission to access the [UpdateJob](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter UpdateJobInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func updateJob(input: UpdateJobInput) async throws -> UpdateJobOutputResponse
     /// Updates the definition for the specified mitigation action. Requires permission to access the [UpdateMitigationAction](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter UpdateMitigationActionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateMitigationActionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func updateMitigationAction(input: UpdateMitigationActionInput) async throws -> UpdateMitigationActionOutputResponse
     /// Updates the supported fields for a specific package. Requires permission to access the [UpdatePackage](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) and [GetIndexingConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) actions.
+    ///
+    /// - Parameter UpdatePackageInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePackageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : The request is not valid.
     func updatePackage(input: UpdatePackageInput) async throws -> UpdatePackageOutputResponse
     /// Updates the package configuration. Requires permission to access the [UpdatePackageConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) and [iam:PassRole](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html) actions.
+    ///
+    /// - Parameter UpdatePackageConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePackageConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : The request is not valid.
     func updatePackageConfiguration(input: UpdatePackageConfigurationInput) async throws -> UpdatePackageConfigurationOutputResponse
     /// Updates the supported fields for a specific package version. Requires permission to access the [UpdatePackageVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) and [GetIndexingConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) actions.
+    ///
+    /// - Parameter UpdatePackageVersionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePackageVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : The request is not valid.
     func updatePackageVersion(input: UpdatePackageVersionInput) async throws -> UpdatePackageVersionOutputResponse
     /// Updates a provisioning template. Requires permission to access the [UpdateProvisioningTemplate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter UpdateProvisioningTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateProvisioningTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictingResourceUpdateException` : A conflicting resource update exception. This exception is thrown when two pending updates cause a conflict.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func updateProvisioningTemplate(input: UpdateProvisioningTemplateInput) async throws -> UpdateProvisioningTemplateOutputResponse
     /// Updates a role alias. Requires permission to access the [UpdateRoleAlias](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter UpdateRoleAliasInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRoleAliasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func updateRoleAlias(input: UpdateRoleAliasInput) async throws -> UpdateRoleAliasOutputResponse
     /// Updates a scheduled audit, including which checks are performed and how often the audit takes place. Requires permission to access the [UpdateScheduledAudit](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter UpdateScheduledAuditInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateScheduledAuditOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func updateScheduledAudit(input: UpdateScheduledAuditInput) async throws -> UpdateScheduledAuditOutputResponse
     /// Updates a Device Defender security profile. Requires permission to access the [UpdateSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter UpdateSecurityProfileInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSecurityProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func updateSecurityProfile(input: UpdateSecurityProfileInput) async throws -> UpdateSecurityProfileOutputResponse
     /// Updates an existing stream. The stream version will be incremented by one. Requires permission to access the [UpdateStream](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter UpdateStreamInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateStreamOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func updateStream(input: UpdateStreamInput) async throws -> UpdateStreamOutputResponse
     /// Updates the data for a thing. Requires permission to access the [UpdateThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter UpdateThingInput : The input for the UpdateThing operation.
+    ///
+    /// - Returns: `UpdateThingOutputResponse` : The output from the UpdateThing operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
+    /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func updateThing(input: UpdateThingInput) async throws -> UpdateThingOutputResponse
     /// Update a thing group. Requires permission to access the [UpdateThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter UpdateThingGroupInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateThingGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func updateThingGroup(input: UpdateThingGroupInput) async throws -> UpdateThingGroupOutputResponse
     /// Updates the groups to which the thing belongs. Requires permission to access the [UpdateThingGroupsForThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter UpdateThingGroupsForThingInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateThingGroupsForThingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func updateThingGroupsForThing(input: UpdateThingGroupsForThingInput) async throws -> UpdateThingGroupsForThingOutputResponse
     /// Updates a topic rule destination. You use this to change the status, endpoint URL, or confirmation URL of the destination. Requires permission to access the [UpdateTopicRuleDestination](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter UpdateTopicRuleDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateTopicRuleDestinationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictingResourceUpdateException` : A conflicting resource update exception. This exception is thrown when two pending updates cause a conflict.
+    /// - `InternalException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func updateTopicRuleDestination(input: UpdateTopicRuleDestinationInput) async throws -> UpdateTopicRuleDestinationOutputResponse
     /// Validates a Device Defender security profile behaviors specification. Requires permission to access the [ValidateSecurityProfileBehaviors](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ValidateSecurityProfileBehaviorsInput : [no documentation found]
+    ///
+    /// - Returns: `ValidateSecurityProfileBehaviorsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     func validateSecurityProfileBehaviors(input: ValidateSecurityProfileBehaviorsInput) async throws -> ValidateSecurityProfileBehaviorsOutputResponse
 }
 

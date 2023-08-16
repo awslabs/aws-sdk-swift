@@ -68,6 +68,19 @@ public struct IoTAnalyticsClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
 
 extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// Sends messages to a channel.
+    ///
+    /// - Parameter BatchPutMessageInput : [no documentation found]
+    ///
+    /// - Returns: `BatchPutMessageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func batchPutMessage(input: BatchPutMessageInput) async throws -> BatchPutMessageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +117,19 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Cancels the reprocessing of data through the pipeline.
+    ///
+    /// - Parameter CancelPipelineReprocessingInput : [no documentation found]
+    ///
+    /// - Returns: `CancelPipelineReprocessingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func cancelPipelineReprocessing(input: CancelPipelineReprocessingInput) async throws -> CancelPipelineReprocessingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -137,6 +163,20 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Used to create a channel. A channel collects data from an MQTT topic and archives the raw, unprocessed messages before publishing the data to a pipeline.
+    ///
+    /// - Parameter CreateChannelInput : [no documentation found]
+    ///
+    /// - Returns: `CreateChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `LimitExceededException` : The command caused an internal limit to be exceeded.
+    /// - `ResourceAlreadyExistsException` : A resource with the same name already exists.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -173,6 +213,20 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Used to create a dataset. A dataset stores data retrieved from a data store by applying a queryAction (a SQL query) or a containerAction (executing a containerized application). This operation creates the skeleton of a dataset. The dataset can be populated manually by calling CreateDatasetContent or automatically according to a trigger you specify.
+    ///
+    /// - Parameter CreateDatasetInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDatasetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `LimitExceededException` : The command caused an internal limit to be exceeded.
+    /// - `ResourceAlreadyExistsException` : A resource with the same name already exists.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -209,6 +263,19 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Creates the content of a dataset by applying a queryAction (a SQL query) or a containerAction (executing a containerized application).
+    ///
+    /// - Parameter CreateDatasetContentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDatasetContentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func createDatasetContent(input: CreateDatasetContentInput) async throws -> CreateDatasetContentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -245,6 +312,20 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Creates a data store, which is a repository for messages.
+    ///
+    /// - Parameter CreateDatastoreInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDatastoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `LimitExceededException` : The command caused an internal limit to be exceeded.
+    /// - `ResourceAlreadyExistsException` : A resource with the same name already exists.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func createDatastore(input: CreateDatastoreInput) async throws -> CreateDatastoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -281,6 +362,20 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Creates a pipeline. A pipeline consumes messages from a channel and allows you to process the messages before storing them in a data store. You must specify both a channel and a datastore activity and, optionally, as many as 23 additional activities in the pipelineActivities array.
+    ///
+    /// - Parameter CreatePipelineInput : [no documentation found]
+    ///
+    /// - Returns: `CreatePipelineOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `LimitExceededException` : The command caused an internal limit to be exceeded.
+    /// - `ResourceAlreadyExistsException` : A resource with the same name already exists.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func createPipeline(input: CreatePipelineInput) async throws -> CreatePipelineOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -317,6 +412,19 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Deletes the specified channel.
+    ///
+    /// - Parameter DeleteChannelInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -350,6 +458,19 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Deletes the specified dataset. You do not have to delete the content of the dataset before you perform this operation.
+    ///
+    /// - Parameter DeleteDatasetInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDatasetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -383,6 +504,19 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Deletes the content of the specified dataset.
+    ///
+    /// - Parameter DeleteDatasetContentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDatasetContentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func deleteDatasetContent(input: DeleteDatasetContentInput) async throws -> DeleteDatasetContentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -417,6 +551,19 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Deletes the specified data store.
+    ///
+    /// - Parameter DeleteDatastoreInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDatastoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func deleteDatastore(input: DeleteDatastoreInput) async throws -> DeleteDatastoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -450,6 +597,19 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Deletes the specified pipeline.
+    ///
+    /// - Parameter DeletePipelineInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePipelineOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func deletePipeline(input: DeletePipelineInput) async throws -> DeletePipelineOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -483,6 +643,19 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Retrieves information about a channel.
+    ///
+    /// - Parameter DescribeChannelInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func describeChannel(input: DescribeChannelInput) async throws -> DescribeChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -517,6 +690,19 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Retrieves information about a dataset.
+    ///
+    /// - Parameter DescribeDatasetInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDatasetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -550,6 +736,19 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Retrieves information about a data store.
+    ///
+    /// - Parameter DescribeDatastoreInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDatastoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func describeDatastore(input: DescribeDatastoreInput) async throws -> DescribeDatastoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -584,6 +783,19 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Retrieves the current settings of the IoT Analytics logging options.
+    ///
+    /// - Parameter DescribeLoggingOptionsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeLoggingOptionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func describeLoggingOptions(input: DescribeLoggingOptionsInput) async throws -> DescribeLoggingOptionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -617,6 +829,19 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Retrieves information about a pipeline.
+    ///
+    /// - Parameter DescribePipelineInput : [no documentation found]
+    ///
+    /// - Returns: `DescribePipelineOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func describePipeline(input: DescribePipelineInput) async throws -> DescribePipelineOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -650,6 +875,19 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Retrieves the contents of a dataset as presigned URIs.
+    ///
+    /// - Parameter GetDatasetContentInput : [no documentation found]
+    ///
+    /// - Returns: `GetDatasetContentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func getDatasetContent(input: GetDatasetContentInput) async throws -> GetDatasetContentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -684,6 +922,18 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Retrieves a list of channels.
+    ///
+    /// - Parameter ListChannelsInput : [no documentation found]
+    ///
+    /// - Returns: `ListChannelsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -718,6 +968,19 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Lists information about dataset contents that have been created.
+    ///
+    /// - Parameter ListDatasetContentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDatasetContentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func listDatasetContents(input: ListDatasetContentsInput) async throws -> ListDatasetContentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -752,6 +1015,18 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Retrieves information about datasets.
+    ///
+    /// - Parameter ListDatasetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDatasetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -786,6 +1061,18 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Retrieves a list of data stores.
+    ///
+    /// - Parameter ListDatastoresInput : [no documentation found]
+    ///
+    /// - Returns: `ListDatastoresOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func listDatastores(input: ListDatastoresInput) async throws -> ListDatastoresOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -820,6 +1107,18 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Retrieves a list of pipelines.
+    ///
+    /// - Parameter ListPipelinesInput : [no documentation found]
+    ///
+    /// - Returns: `ListPipelinesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func listPipelines(input: ListPipelinesInput) async throws -> ListPipelinesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -854,6 +1153,20 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Lists the tags (metadata) that you have assigned to the resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `LimitExceededException` : The command caused an internal limit to be exceeded.
+    /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -888,6 +1201,18 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Sets or updates the IoT Analytics logging options. If you update the value of any loggingOptions field, it takes up to one minute for the change to take effect. Also, if you change the policy attached to the role you specified in the roleArn field (for example, to correct an invalid policy), it takes up to five minutes for that change to take effect.
+    ///
+    /// - Parameter PutLoggingOptionsInput : [no documentation found]
+    ///
+    /// - Returns: `PutLoggingOptionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func putLoggingOptions(input: PutLoggingOptionsInput) async throws -> PutLoggingOptionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -924,6 +1249,18 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Simulates the results of running a pipeline activity on a message payload.
+    ///
+    /// - Parameter RunPipelineActivityInput : [no documentation found]
+    ///
+    /// - Returns: `RunPipelineActivityOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func runPipelineActivity(input: RunPipelineActivityInput) async throws -> RunPipelineActivityOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -960,6 +1297,19 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Retrieves a sample of messages from the specified channel ingested during the specified timeframe. Up to 10 messages can be retrieved.
+    ///
+    /// - Parameter SampleChannelDataInput : [no documentation found]
+    ///
+    /// - Returns: `SampleChannelDataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func sampleChannelData(input: SampleChannelDataInput) async throws -> SampleChannelDataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -994,6 +1344,20 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Starts the reprocessing of raw message data through the pipeline.
+    ///
+    /// - Parameter StartPipelineReprocessingInput : [no documentation found]
+    ///
+    /// - Returns: `StartPipelineReprocessingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `ResourceAlreadyExistsException` : A resource with the same name already exists.
+    /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func startPipelineReprocessing(input: StartPipelineReprocessingInput) async throws -> StartPipelineReprocessingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1030,6 +1394,20 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `LimitExceededException` : The command caused an internal limit to be exceeded.
+    /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1067,6 +1445,20 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Removes the given tags (metadata) from the resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `LimitExceededException` : The command caused an internal limit to be exceeded.
+    /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1101,6 +1493,19 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Used to update the settings of a channel.
+    ///
+    /// - Parameter UpdateChannelInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1137,6 +1542,19 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Updates the settings of a dataset.
+    ///
+    /// - Parameter UpdateDatasetInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDatasetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func updateDataset(input: UpdateDatasetInput) async throws -> UpdateDatasetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1173,6 +1591,19 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Used to update the settings of a data store.
+    ///
+    /// - Parameter UpdateDatastoreInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDatastoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func updateDatastore(input: UpdateDatastoreInput) async throws -> UpdateDatastoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1209,6 +1640,20 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     }
 
     /// Updates the settings of a pipeline. You must specify both a channel and a datastore activity and, optionally, as many as 23 additional activities in the pipelineActivities array.
+    ///
+    /// - Parameter UpdatePipelineInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePipelineOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : There was an internal failure.
+    /// - `InvalidRequestException` : The request was not valid.
+    /// - `LimitExceededException` : The command caused an internal limit to be exceeded.
+    /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func updatePipeline(input: UpdatePipelineInput) async throws -> UpdatePipelineOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

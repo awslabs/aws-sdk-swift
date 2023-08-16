@@ -64,6 +64,15 @@ public struct ElasticBeanstalkClientLogHandlerFactory: ClientRuntime.SDKLogHandl
 
 extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// Cancels in-progress environment configuration update or application version deployment.
+    ///
+    /// - Parameter AbortEnvironmentUpdateInput :
+    ///
+    /// - Returns: `AbortEnvironmentUpdateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     public func abortEnvironmentUpdate(input: AbortEnvironmentUpdateInput) async throws -> AbortEnvironmentUpdateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -100,6 +109,16 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Applies a scheduled managed action immediately. A managed action can be applied only if its status is Scheduled. Get the status and action ID of a managed action with [DescribeEnvironmentManagedActions].
+    ///
+    /// - Parameter ApplyEnvironmentManagedActionInput : Request to execute a scheduled managed action immediately.
+    ///
+    /// - Returns: `ApplyEnvironmentManagedActionOutputResponse` : The result message containing information about the managed action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ElasticBeanstalkServiceException` : A generic service exception has occurred.
+    /// - `ManagedActionInvalidStateException` : Cannot modify the managed action in its current state.
     public func applyEnvironmentManagedAction(input: ApplyEnvironmentManagedActionInput) async throws -> ApplyEnvironmentManagedActionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -136,6 +155,15 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Add or change the operations role used by an environment. After this call is made, Elastic Beanstalk uses the associated operations role for permissions to downstream services during subsequent calls acting on this environment. For more information, see [Operations roles](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/iam-operationsrole.html) in the AWS Elastic Beanstalk Developer Guide.
+    ///
+    /// - Parameter AssociateEnvironmentOperationsRoleInput : Request to add or change the operations role used by an environment.
+    ///
+    /// - Returns: `AssociateEnvironmentOperationsRoleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     public func associateEnvironmentOperationsRole(input: AssociateEnvironmentOperationsRoleInput) async throws -> AssociateEnvironmentOperationsRoleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -172,6 +200,10 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Checks if the specified CNAME is available.
+    ///
+    /// - Parameter CheckDNSAvailabilityInput : Results message indicating whether a CNAME is available.
+    ///
+    /// - Returns: `CheckDNSAvailabilityOutputResponse` : Indicates if the specified CNAME is available.
     public func checkDNSAvailability(input: CheckDNSAvailabilityInput) async throws -> CheckDNSAvailabilityOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -208,6 +240,16 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Create or update a group of environments that each run a separate component of a single application. Takes a list of version labels that specify application source bundles for each of the environments to create or update. The name of each environment and other required information must be included in the source bundles in an environment manifest named env.yaml. See [Compose Environments](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environment-mgmt-compose.html) for details.
+    ///
+    /// - Parameter ComposeEnvironmentsInput : Request to create or update a group of environments.
+    ///
+    /// - Returns: `ComposeEnvironmentsOutputResponse` : Result message containing a list of environment descriptions.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `TooManyEnvironmentsException` : The specified account has reached its limit of environments.
     public func composeEnvironments(input: ComposeEnvironmentsInput) async throws -> ComposeEnvironmentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -244,6 +286,15 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Creates an application that has one configuration template named default and no application versions.
+    ///
+    /// - Parameter CreateApplicationInput : Request to create an application.
+    ///
+    /// - Returns: `CreateApplicationOutputResponse` : Result message containing a single description of an application.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `TooManyApplicationsException` : The specified account has reached its limit of applications.
     public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -280,6 +331,25 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Creates an application version for the specified application. You can create an application version from a source bundle in Amazon S3, a commit in AWS CodeCommit, or the output of an AWS CodeBuild build as follows: Specify a commit in an AWS CodeCommit repository with SourceBuildInformation. Specify a build in an AWS CodeBuild with SourceBuildInformation and BuildConfiguration. Specify a source bundle in S3 with SourceBundle Omit both SourceBuildInformation and SourceBundle to use the default sample application. After you create an application version with a specified Amazon S3 bucket and key location, you can't change that Amazon S3 location. If you change the Amazon S3 location, you receive an exception when you attempt to launch an environment from the application version.
+    ///
+    /// - Parameter CreateApplicationVersionInput :
+    ///
+    /// - Returns: `CreateApplicationVersionOutputResponse` : Result message wrapping a single description of an application version.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CodeBuildNotInServiceRegionException` : AWS CodeBuild is not available in the specified region.
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `S3LocationNotInServiceRegionException` : The specified S3 bucket does not belong to the S3 region in which the service is running. The following regions are supported:
+    ///
+    /// * IAD/us-east-1
+    ///
+    /// * PDX/us-west-2
+    ///
+    /// * DUB/eu-west-1
+    /// - `TooManyApplicationsException` : The specified account has reached its limit of applications.
+    /// - `TooManyApplicationVersionsException` : The specified account has reached its limit of application versions.
     public func createApplicationVersion(input: CreateApplicationVersionInput) async throws -> CreateApplicationVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -322,6 +392,17 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// * [DescribeConfigurationSettings]
     ///
     /// * [ListAvailableSolutionStacks]
+    ///
+    /// - Parameter CreateConfigurationTemplateInput : Request to create a configuration template.
+    ///
+    /// - Returns: `CreateConfigurationTemplateOutputResponse` : Describes the settings for a configuration set.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `TooManyBucketsException` : The specified account has reached its limit of Amazon S3 buckets.
+    /// - `TooManyConfigurationTemplatesException` : The specified account has reached its limit of configuration templates.
     public func createConfigurationTemplate(input: CreateConfigurationTemplateInput) async throws -> CreateConfigurationTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -358,6 +439,16 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Launches an AWS Elastic Beanstalk environment for the specified application using the specified configuration.
+    ///
+    /// - Parameter CreateEnvironmentInput :
+    ///
+    /// - Returns: `CreateEnvironmentOutputResponse` : Describes the properties of an environment.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `TooManyEnvironmentsException` : The specified account has reached its limit of environments.
     public func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -394,6 +485,17 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Create a new version of your custom platform.
+    ///
+    /// - Parameter CreatePlatformVersionInput : Request to create a new platform version.
+    ///
+    /// - Returns: `CreatePlatformVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ElasticBeanstalkServiceException` : A generic service exception has occurred.
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `TooManyPlatformsException` : You have exceeded the maximum number of allowed platforms associated with the account.
     public func createPlatformVersion(input: CreatePlatformVersionInput) async throws -> CreatePlatformVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -430,6 +532,17 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Creates a bucket in Amazon S3 to store application versions, logs, and other files used by Elastic Beanstalk environments. The Elastic Beanstalk console and EB CLI call this API the first time you create an environment in a region. If the storage location already exists, CreateStorageLocation still returns the bucket name but does not create a new bucket.
+    ///
+    /// - Parameter CreateStorageLocationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateStorageLocationOutputResponse` : Results of a [CreateStorageLocationResult] call.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `S3SubscriptionRequiredException` : The specified account does not have a subscription to Amazon S3.
+    /// - `TooManyBucketsException` : The specified account has reached its limit of Amazon S3 buckets.
     public func createStorageLocation(input: CreateStorageLocationInput) async throws -> CreateStorageLocationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -466,6 +579,15 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Deletes the specified application along with all associated versions and configurations. The application versions will not be deleted from your Amazon S3 bucket. You cannot delete an application that has a running environment.
+    ///
+    /// - Parameter DeleteApplicationInput : Request to delete an application.
+    ///
+    /// - Returns: `DeleteApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationInProgressException` : Unable to perform the specified operation because another operation that effects an element in this activity is already in progress.
     public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -502,6 +624,24 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Deletes the specified version from the specified application. You cannot delete an application version that is associated with a running environment.
+    ///
+    /// - Parameter DeleteApplicationVersionInput : Request to delete an application version.
+    ///
+    /// - Returns: `DeleteApplicationVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `OperationInProgressException` : Unable to perform the specified operation because another operation that effects an element in this activity is already in progress.
+    /// - `S3LocationNotInServiceRegionException` : The specified S3 bucket does not belong to the S3 region in which the service is running. The following regions are supported:
+    ///
+    /// * IAD/us-east-1
+    ///
+    /// * PDX/us-west-2
+    ///
+    /// * DUB/eu-west-1
+    /// - `SourceBundleDeletionException` : Unable to delete the Amazon S3 source bundle associated with the application version. The application version was deleted successfully.
     public func deleteApplicationVersion(input: DeleteApplicationVersionInput) async throws -> DeleteApplicationVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -538,6 +678,15 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Deletes the specified configuration template. When you launch an environment using a configuration template, the environment gets a copy of the template. You can delete or modify the environment's copy of the template without affecting the running environment.
+    ///
+    /// - Parameter DeleteConfigurationTemplateInput : Request to delete a configuration template.
+    ///
+    /// - Returns: `DeleteConfigurationTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationInProgressException` : Unable to perform the specified operation because another operation that effects an element in this activity is already in progress.
     public func deleteConfigurationTemplate(input: DeleteConfigurationTemplateInput) async throws -> DeleteConfigurationTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -574,6 +723,10 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Deletes the draft configuration associated with the running environment. Updating a running environment with any configuration changes creates a draft configuration set. You can get the draft configuration using [DescribeConfigurationSettings] while the update is in progress or if the update fails. The DeploymentStatus for the draft configuration indicates whether the deployment is in process or has failed. The draft configuration remains in existence until it is deleted with this action.
+    ///
+    /// - Parameter DeleteEnvironmentConfigurationInput : Request to delete a draft environment configuration.
+    ///
+    /// - Returns: `DeleteEnvironmentConfigurationOutputResponse` : [no documentation found]
     public func deleteEnvironmentConfiguration(input: DeleteEnvironmentConfigurationInput) async throws -> DeleteEnvironmentConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -610,6 +763,18 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Deletes the specified version of a custom platform.
+    ///
+    /// - Parameter DeletePlatformVersionInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePlatformVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ElasticBeanstalkServiceException` : A generic service exception has occurred.
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `OperationInProgressException` : Unable to perform the specified operation because another operation that effects an element in this activity is already in progress.
+    /// - `PlatformVersionStillReferencedException` : You cannot delete the platform version because there are still environments running on it.
     public func deletePlatformVersion(input: DeletePlatformVersionInput) async throws -> DeletePlatformVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -646,6 +811,15 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Returns attributes related to AWS Elastic Beanstalk that are associated with the calling AWS account. The result currently has one set of attributes—resource quotas.
+    ///
+    /// - Parameter DescribeAccountAttributesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAccountAttributesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     public func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -682,6 +856,10 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Retrieve a list of application versions.
+    ///
+    /// - Parameter DescribeApplicationVersionsInput : Request to describe application versions.
+    ///
+    /// - Returns: `DescribeApplicationVersionsOutputResponse` : Result message wrapping a list of application version descriptions.
     public func describeApplicationVersions(input: DescribeApplicationVersionsInput) async throws -> DescribeApplicationVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -718,6 +896,10 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Returns the descriptions of existing applications.
+    ///
+    /// - Parameter DescribeApplicationsInput : Request to describe one or more applications.
+    ///
+    /// - Returns: `DescribeApplicationsOutputResponse` : Result message containing a list of application descriptions.
     public func describeApplications(input: DescribeApplicationsInput) async throws -> DescribeApplicationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -754,6 +936,15 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Describes the configuration options that are used in a particular configuration template or environment, or that a specified solution stack defines. The description includes the values the options, their default values, and an indication of the required action on a running environment if an option value is changed.
+    ///
+    /// - Parameter DescribeConfigurationOptionsInput : Result message containing a list of application version descriptions.
+    ///
+    /// - Returns: `DescribeConfigurationOptionsOutputResponse` : Describes the settings for a specified configuration set.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `TooManyBucketsException` : The specified account has reached its limit of Amazon S3 buckets.
     public func describeConfigurationOptions(input: DescribeConfigurationOptionsInput) async throws -> DescribeConfigurationOptionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -792,6 +983,15 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// Returns a description of the settings for the specified configuration set, that is, either a configuration template or the configuration set associated with a running environment. When describing the settings for the configuration set associated with a running environment, it is possible to receive two sets of setting descriptions. One is the deployed configuration set, and the other is a draft configuration of an environment that is either in the process of deployment or that failed to deploy. Related Topics
     ///
     /// * [DeleteEnvironmentConfiguration]
+    ///
+    /// - Parameter DescribeConfigurationSettingsInput : Result message containing all of the configuration settings for a specified solution stack or configuration template.
+    ///
+    /// - Returns: `DescribeConfigurationSettingsOutputResponse` : The results from a request to change the configuration settings of an environment.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `TooManyBucketsException` : The specified account has reached its limit of Amazon S3 buckets.
     public func describeConfigurationSettings(input: DescribeConfigurationSettingsInput) async throws -> DescribeConfigurationSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -828,6 +1028,16 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Returns information about the overall health of the specified environment. The DescribeEnvironmentHealth operation is only available with AWS Elastic Beanstalk Enhanced Health.
+    ///
+    /// - Parameter DescribeEnvironmentHealthInput : See the example below to learn how to create a request body.
+    ///
+    /// - Returns: `DescribeEnvironmentHealthOutputResponse` : Health details for an AWS Elastic Beanstalk environment.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ElasticBeanstalkServiceException` : A generic service exception has occurred.
+    /// - `InvalidRequestException` : One or more input parameters is not valid. Please correct the input parameters and try the operation again.
     public func describeEnvironmentHealth(input: DescribeEnvironmentHealthInput) async throws -> DescribeEnvironmentHealthOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -864,6 +1074,15 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Lists an environment's completed and failed managed actions.
+    ///
+    /// - Parameter DescribeEnvironmentManagedActionHistoryInput : Request to list completed and failed managed actions.
+    ///
+    /// - Returns: `DescribeEnvironmentManagedActionHistoryOutputResponse` : A result message containing a list of completed and failed managed actions.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ElasticBeanstalkServiceException` : A generic service exception has occurred.
     public func describeEnvironmentManagedActionHistory(input: DescribeEnvironmentManagedActionHistoryInput) async throws -> DescribeEnvironmentManagedActionHistoryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -900,6 +1119,15 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Lists an environment's upcoming and in-progress managed actions.
+    ///
+    /// - Parameter DescribeEnvironmentManagedActionsInput : Request to list an environment's upcoming and in-progress managed actions.
+    ///
+    /// - Returns: `DescribeEnvironmentManagedActionsOutputResponse` : The result message containing a list of managed actions.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ElasticBeanstalkServiceException` : A generic service exception has occurred.
     public func describeEnvironmentManagedActions(input: DescribeEnvironmentManagedActionsInput) async throws -> DescribeEnvironmentManagedActionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -936,6 +1164,15 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Returns AWS resources for this environment.
+    ///
+    /// - Parameter DescribeEnvironmentResourcesInput : Request to describe the resources in an environment.
+    ///
+    /// - Returns: `DescribeEnvironmentResourcesOutputResponse` : Result message containing a list of environment resource descriptions.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     public func describeEnvironmentResources(input: DescribeEnvironmentResourcesInput) async throws -> DescribeEnvironmentResourcesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -972,6 +1209,10 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Returns descriptions for existing environments.
+    ///
+    /// - Parameter DescribeEnvironmentsInput : Request to describe one or more environments.
+    ///
+    /// - Returns: `DescribeEnvironmentsOutputResponse` : Result message containing a list of environment descriptions.
     public func describeEnvironments(input: DescribeEnvironmentsInput) async throws -> DescribeEnvironmentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1008,6 +1249,10 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Returns list of event descriptions matching criteria up to the last 6 weeks. This action returns the most recent 1,000 events from the specified NextToken.
+    ///
+    /// - Parameter DescribeEventsInput : Request to retrieve a list of events for an environment.
+    ///
+    /// - Returns: `DescribeEventsOutputResponse` : Result message wrapping a list of event descriptions.
     public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1044,6 +1289,16 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Retrieves detailed information about the health of instances in your AWS Elastic Beanstalk. This operation requires [enhanced health reporting](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced.html).
+    ///
+    /// - Parameter DescribeInstancesHealthInput : Parameters for a call to DescribeInstancesHealth.
+    ///
+    /// - Returns: `DescribeInstancesHealthOutputResponse` : Detailed health information about the Amazon EC2 instances in an AWS Elastic Beanstalk environment.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ElasticBeanstalkServiceException` : A generic service exception has occurred.
+    /// - `InvalidRequestException` : One or more input parameters is not valid. Please correct the input parameters and try the operation again.
     public func describeInstancesHealth(input: DescribeInstancesHealthInput) async throws -> DescribeInstancesHealthOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1080,6 +1335,16 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Describes a platform version. Provides full details. Compare to [ListPlatformVersions], which provides summary information about a list of platform versions. For definitions of platform version and other platform-related terms, see [AWS Elastic Beanstalk Platforms Glossary](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-glossary.html).
+    ///
+    /// - Parameter DescribePlatformVersionInput : [no documentation found]
+    ///
+    /// - Returns: `DescribePlatformVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ElasticBeanstalkServiceException` : A generic service exception has occurred.
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     public func describePlatformVersion(input: DescribePlatformVersionInput) async throws -> DescribePlatformVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1116,6 +1381,15 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Disassociate the operations role from an environment. After this call is made, Elastic Beanstalk uses the caller's permissions for permissions to downstream services during subsequent calls acting on this environment. For more information, see [Operations roles](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/iam-operationsrole.html) in the AWS Elastic Beanstalk Developer Guide.
+    ///
+    /// - Parameter DisassociateEnvironmentOperationsRoleInput : Request to disassociate the operations role from an environment.
+    ///
+    /// - Returns: `DisassociateEnvironmentOperationsRoleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     public func disassociateEnvironmentOperationsRole(input: DisassociateEnvironmentOperationsRoleInput) async throws -> DisassociateEnvironmentOperationsRoleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1152,6 +1426,10 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Returns a list of the available solution stack names, with the public version first and then in reverse chronological order.
+    ///
+    /// - Parameter ListAvailableSolutionStacksInput : [no documentation found]
+    ///
+    /// - Returns: `ListAvailableSolutionStacksOutputResponse` : A list of available AWS Elastic Beanstalk solution stacks.
     public func listAvailableSolutionStacks(input: ListAvailableSolutionStacksInput) async throws -> ListAvailableSolutionStacksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1188,6 +1466,10 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Lists the platform branches available for your account in an AWS Region. Provides summary information about each platform branch. For definitions of platform branch and other platform-related terms, see [AWS Elastic Beanstalk Platforms Glossary](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-glossary.html).
+    ///
+    /// - Parameter ListPlatformBranchesInput : [no documentation found]
+    ///
+    /// - Returns: `ListPlatformBranchesOutputResponse` : [no documentation found]
     public func listPlatformBranches(input: ListPlatformBranchesInput) async throws -> ListPlatformBranchesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1224,6 +1506,16 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Lists the platform versions available for your account in an AWS Region. Provides summary information about each platform version. Compare to [DescribePlatformVersion], which provides full details about a single platform version. For definitions of platform version and other platform-related terms, see [AWS Elastic Beanstalk Platforms Glossary](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-glossary.html).
+    ///
+    /// - Parameter ListPlatformVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPlatformVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ElasticBeanstalkServiceException` : A generic service exception has occurred.
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     public func listPlatformVersions(input: ListPlatformVersionsInput) async throws -> ListPlatformVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1260,6 +1552,17 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Return the tags applied to an AWS Elastic Beanstalk resource. The response contains a list of tag key-value pairs. Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see [Tagging Application Resources](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/applications-tagging-resources.html).
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN).
+    /// - `ResourceTypeNotSupportedException` : The type of the specified Amazon Resource Name (ARN) isn't supported for this operation.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1296,6 +1599,15 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Deletes and recreates all of the AWS resources (for example: the Auto Scaling group, load balancer, etc.) for a specified environment and forces a restart.
+    ///
+    /// - Parameter RebuildEnvironmentInput :
+    ///
+    /// - Returns: `RebuildEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     public func rebuildEnvironment(input: RebuildEnvironmentInput) async throws -> RebuildEnvironmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1334,6 +1646,10 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// Initiates a request to compile the specified type of information of the deployed environment. Setting the InfoType to tail compiles the last lines from the application server log files of every Amazon EC2 instance in your environment. Setting the InfoType to bundle compresses the application server log files for every Amazon EC2 instance into a .zip file. Legacy and .NET containers do not support bundle logs. Use [RetrieveEnvironmentInfo] to obtain the set of logs. Related Topics
     ///
     /// * [RetrieveEnvironmentInfo]
+    ///
+    /// - Parameter RequestEnvironmentInfoInput : Request to retrieve logs from an environment and store them in your Elastic Beanstalk storage bucket.
+    ///
+    /// - Returns: `RequestEnvironmentInfoOutputResponse` : [no documentation found]
     public func requestEnvironmentInfo(input: RequestEnvironmentInfoInput) async throws -> RequestEnvironmentInfoOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1370,6 +1686,10 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Causes the environment to restart the application container server running on each Amazon EC2 instance.
+    ///
+    /// - Parameter RestartAppServerInput :
+    ///
+    /// - Returns: `RestartAppServerOutputResponse` : [no documentation found]
     public func restartAppServer(input: RestartAppServerInput) async throws -> RestartAppServerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1408,6 +1728,10 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// Retrieves the compiled information from a [RequestEnvironmentInfo] request. Related Topics
     ///
     /// * [RequestEnvironmentInfo]
+    ///
+    /// - Parameter RetrieveEnvironmentInfoInput : Request to download logs retrieved with [RequestEnvironmentInfo].
+    ///
+    /// - Returns: `RetrieveEnvironmentInfoOutputResponse` : Result message containing a description of the requested environment info.
     public func retrieveEnvironmentInfo(input: RetrieveEnvironmentInfoInput) async throws -> RetrieveEnvironmentInfoOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1444,6 +1768,10 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Swaps the CNAMEs of two environments.
+    ///
+    /// - Parameter SwapEnvironmentCNAMEsInput : Swaps the CNAMEs of two environments.
+    ///
+    /// - Returns: `SwapEnvironmentCNAMEsOutputResponse` : [no documentation found]
     public func swapEnvironmentCNAMEs(input: SwapEnvironmentCNAMEsInput) async throws -> SwapEnvironmentCNAMEsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1480,6 +1808,15 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Terminates the specified environment.
+    ///
+    /// - Parameter TerminateEnvironmentInput : Request to terminate an environment.
+    ///
+    /// - Returns: `TerminateEnvironmentOutputResponse` : Describes the properties of an environment.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     public func terminateEnvironment(input: TerminateEnvironmentInput) async throws -> TerminateEnvironmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1516,6 +1853,10 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Updates the specified application to have the specified properties. If a property (for example, description) is not provided, the value remains unchanged. To clear these properties, specify an empty string.
+    ///
+    /// - Parameter UpdateApplicationInput : Request to update an application.
+    ///
+    /// - Returns: `UpdateApplicationOutputResponse` : Result message containing a single description of an application.
     public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1552,6 +1893,15 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Modifies lifecycle settings for an application.
+    ///
+    /// - Parameter UpdateApplicationResourceLifecycleInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateApplicationResourceLifecycleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     public func updateApplicationResourceLifecycle(input: UpdateApplicationResourceLifecycleInput) async throws -> UpdateApplicationResourceLifecycleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1588,6 +1938,10 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Updates the specified application version to have the specified properties. If a property (for example, description) is not provided, the value remains unchanged. To clear properties, specify an empty string.
+    ///
+    /// - Parameter UpdateApplicationVersionInput :
+    ///
+    /// - Returns: `UpdateApplicationVersionOutputResponse` : Result message wrapping a single description of an application version.
     public func updateApplicationVersion(input: UpdateApplicationVersionInput) async throws -> UpdateApplicationVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1626,6 +1980,16 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// Updates the specified configuration template to have the specified properties or configuration option values. If a property (for example, ApplicationName) is not provided, its value remains unchanged. To clear such properties, specify an empty string. Related Topics
     ///
     /// * [DescribeConfigurationOptions]
+    ///
+    /// - Parameter UpdateConfigurationTemplateInput : The result message containing the options for the specified solution stack.
+    ///
+    /// - Returns: `UpdateConfigurationTemplateOutputResponse` : Describes the settings for a configuration set.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `TooManyBucketsException` : The specified account has reached its limit of Amazon S3 buckets.
     public func updateConfigurationTemplate(input: UpdateConfigurationTemplateInput) async throws -> UpdateConfigurationTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1662,6 +2026,16 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Updates the environment description, deploys a new application version, updates the configuration settings to an entirely new configuration template, or updates select configuration option values in the running environment. Attempting to update both the release and configuration is not allowed and AWS Elastic Beanstalk returns an InvalidParameterCombination error. When updating the configuration settings to a new template or individual settings, a draft configuration is created and [DescribeConfigurationSettings] for this environment returns two setting descriptions with different DeploymentStatus values.
+    ///
+    /// - Parameter UpdateEnvironmentInput : Request to update an environment.
+    ///
+    /// - Returns: `UpdateEnvironmentOutputResponse` : Describes the properties of an environment.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `TooManyBucketsException` : The specified account has reached its limit of Amazon S3 buckets.
     public func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1698,6 +2072,19 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Update the list of tags applied to an AWS Elastic Beanstalk resource. Two lists can be passed: TagsToAdd for tags to add or update, and TagsToRemove. Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see [Tagging Application Resources](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/applications-tagging-resources.html). If you create a custom IAM user policy to control permission to this operation, specify one of the following two virtual actions (or both) instead of the API operation name: elasticbeanstalk:AddTags Controls permission to call UpdateTagsForResource and pass a list of tags to add in the TagsToAdd parameter. elasticbeanstalk:RemoveTags Controls permission to call UpdateTagsForResource and pass a list of tag keys to remove in the TagsToRemove parameter. For details about creating a custom user policy, see [Creating a Custom User Policy](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html#AWSHowTo.iam.policies).
+    ///
+    /// - Parameter UpdateTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `OperationInProgressException` : Unable to perform the specified operation because another operation that effects an element in this activity is already in progress.
+    /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN).
+    /// - `ResourceTypeNotSupportedException` : The type of the specified Amazon Resource Name (ARN) isn't supported for this operation.
+    /// - `TooManyTagsException` : The number of tags in the resource would exceed the number of tags that each resource can have. To calculate this, the operation considers both the number of tags the resource already has and the tags this operation would add if it succeeded.
     public func updateTagsForResource(input: UpdateTagsForResourceInput) async throws -> UpdateTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1734,6 +2121,16 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     }
 
     /// Takes a set of configuration settings and either a configuration template or environment, and determines whether those values are valid. This action returns a list of messages indicating any errors or warnings associated with the selection of option values.
+    ///
+    /// - Parameter ValidateConfigurationSettingsInput : A list of validation messages for a specified configuration template.
+    ///
+    /// - Returns: `ValidateConfigurationSettingsOutputResponse` : Provides a list of validation messages.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `TooManyBucketsException` : The specified account has reached its limit of Amazon S3 buckets.
     public func validateConfigurationSettings(input: ValidateConfigurationSettingsInput) async throws -> ValidateConfigurationSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

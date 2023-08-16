@@ -68,6 +68,19 @@ public struct AmplifyClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
 
 extension AmplifyClient: AmplifyClientProtocol {
     /// Creates a new Amplify app.
+    ///
+    /// - Parameter CreateAppInput : The request structure used to create apps in Amplify.
+    ///
+    /// - Returns: `CreateAppOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `DependentServiceFailureException` : An operation failed because a dependent service threw an exception.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func createApp(input: CreateAppInput) async throws -> CreateAppOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +117,19 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Creates a new backend environment for an Amplify app.
+    ///
+    /// - Parameter CreateBackendEnvironmentInput : The request structure for the backend environment create request.
+    ///
+    /// - Returns: `CreateBackendEnvironmentOutputResponse` : The result structure for the create backend environment request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
+    /// - `NotFoundException` : An entity was not found during an operation.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func createBackendEnvironment(input: CreateBackendEnvironmentInput) async throws -> CreateBackendEnvironmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -140,6 +166,20 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Creates a new branch for an Amplify app.
+    ///
+    /// - Parameter CreateBranchInput : The request structure for the create branch request.
+    ///
+    /// - Returns: `CreateBranchOutputResponse` : The result structure for create branch request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `DependentServiceFailureException` : An operation failed because a dependent service threw an exception.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
+    /// - `NotFoundException` : An entity was not found during an operation.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func createBranch(input: CreateBranchInput) async throws -> CreateBranchOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -176,6 +216,18 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Creates a deployment for a manually deployed Amplify app. Manually deployed apps are not connected to a repository.
+    ///
+    /// - Parameter CreateDeploymentInput : The request structure for the create a new deployment request.
+    ///
+    /// - Returns: `CreateDeploymentOutputResponse` : The result structure for the create a new deployment request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -212,6 +264,20 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Creates a new domain association for an Amplify app. This action associates a custom domain with the Amplify app
+    ///
+    /// - Parameter CreateDomainAssociationInput : The request structure for the create domain association request.
+    ///
+    /// - Returns: `CreateDomainAssociationOutputResponse` : The result structure for the create domain association request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `DependentServiceFailureException` : An operation failed because a dependent service threw an exception.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
+    /// - `NotFoundException` : An entity was not found during an operation.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func createDomainAssociation(input: CreateDomainAssociationInput) async throws -> CreateDomainAssociationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -248,6 +314,20 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Creates a new webhook on an Amplify app.
+    ///
+    /// - Parameter CreateWebhookInput : The request structure for the create webhook request.
+    ///
+    /// - Returns: `CreateWebhookOutputResponse` : The result structure for the create webhook request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `DependentServiceFailureException` : An operation failed because a dependent service threw an exception.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
+    /// - `NotFoundException` : An entity was not found during an operation.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func createWebhook(input: CreateWebhookInput) async throws -> CreateWebhookOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -284,6 +364,19 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Deletes an existing Amplify app specified by an app ID.
+    ///
+    /// - Parameter DeleteAppInput : Describes the request structure for the delete app request.
+    ///
+    /// - Returns: `DeleteAppOutputResponse` : The result structure for the delete app request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `DependentServiceFailureException` : An operation failed because a dependent service threw an exception.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `NotFoundException` : An entity was not found during an operation.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -317,6 +410,19 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Deletes a backend environment for an Amplify app.
+    ///
+    /// - Parameter DeleteBackendEnvironmentInput : The request structure for the delete backend environment request.
+    ///
+    /// - Returns: `DeleteBackendEnvironmentOutputResponse` : The result structure of the delete backend environment result.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `DependentServiceFailureException` : An operation failed because a dependent service threw an exception.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `NotFoundException` : An entity was not found during an operation.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func deleteBackendEnvironment(input: DeleteBackendEnvironmentInput) async throws -> DeleteBackendEnvironmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -350,6 +456,19 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Deletes a branch for an Amplify app.
+    ///
+    /// - Parameter DeleteBranchInput : The request structure for the delete branch request.
+    ///
+    /// - Returns: `DeleteBranchOutputResponse` : The result structure for the delete branch request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `DependentServiceFailureException` : An operation failed because a dependent service threw an exception.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `NotFoundException` : An entity was not found during an operation.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func deleteBranch(input: DeleteBranchInput) async throws -> DeleteBranchOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -383,6 +502,19 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Deletes a domain association for an Amplify app.
+    ///
+    /// - Parameter DeleteDomainAssociationInput : The request structure for the delete domain association request.
+    ///
+    /// - Returns: `DeleteDomainAssociationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `DependentServiceFailureException` : An operation failed because a dependent service threw an exception.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `NotFoundException` : An entity was not found during an operation.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func deleteDomainAssociation(input: DeleteDomainAssociationInput) async throws -> DeleteDomainAssociationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -416,6 +548,19 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Deletes a job for a branch of an Amplify app.
+    ///
+    /// - Parameter DeleteJobInput : The request structure for the delete job request.
+    ///
+    /// - Returns: `DeleteJobOutputResponse` : The result structure for the delete job request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
+    /// - `NotFoundException` : An entity was not found during an operation.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -449,6 +594,19 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Deletes a webhook.
+    ///
+    /// - Parameter DeleteWebhookInput : The request structure for the delete webhook request.
+    ///
+    /// - Returns: `DeleteWebhookOutputResponse` : The result structure for the delete webhook request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
+    /// - `NotFoundException` : An entity was not found during an operation.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func deleteWebhook(input: DeleteWebhookInput) async throws -> DeleteWebhookOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -482,6 +640,18 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Returns the website access logs for a specific time range using a presigned URL.
+    ///
+    /// - Parameter GenerateAccessLogsInput : The request structure for the generate access logs request.
+    ///
+    /// - Returns: `GenerateAccessLogsOutputResponse` : The result structure for the generate access logs request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `NotFoundException` : An entity was not found during an operation.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func generateAccessLogs(input: GenerateAccessLogsInput) async throws -> GenerateAccessLogsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -518,6 +688,18 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Returns an existing Amplify app by appID.
+    ///
+    /// - Parameter GetAppInput : The request structure for the get app request.
+    ///
+    /// - Returns: `GetAppOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `NotFoundException` : An entity was not found during an operation.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func getApp(input: GetAppInput) async throws -> GetAppOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -551,6 +733,19 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Returns the artifact info that corresponds to an artifact id.
+    ///
+    /// - Parameter GetArtifactUrlInput : Returns the request structure for the get artifact request.
+    ///
+    /// - Returns: `GetArtifactUrlOutputResponse` : Returns the result structure for the get artifact request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
+    /// - `NotFoundException` : An entity was not found during an operation.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func getArtifactUrl(input: GetArtifactUrlInput) async throws -> GetArtifactUrlOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -584,6 +779,18 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Returns a backend environment for an Amplify app.
+    ///
+    /// - Parameter GetBackendEnvironmentInput : The request structure for the get backend environment request.
+    ///
+    /// - Returns: `GetBackendEnvironmentOutputResponse` : The result structure for the get backend environment result.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `NotFoundException` : An entity was not found during an operation.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func getBackendEnvironment(input: GetBackendEnvironmentInput) async throws -> GetBackendEnvironmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -617,6 +824,18 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Returns a branch for an Amplify app.
+    ///
+    /// - Parameter GetBranchInput : The request structure for the get branch request.
+    ///
+    /// - Returns: `GetBranchOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `NotFoundException` : An entity was not found during an operation.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func getBranch(input: GetBranchInput) async throws -> GetBranchOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -650,6 +869,18 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Returns the domain information for an Amplify app.
+    ///
+    /// - Parameter GetDomainAssociationInput : The request structure for the get domain association request.
+    ///
+    /// - Returns: `GetDomainAssociationOutputResponse` : The result structure for the get domain association request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `NotFoundException` : An entity was not found during an operation.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func getDomainAssociation(input: GetDomainAssociationInput) async throws -> GetDomainAssociationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -683,6 +914,19 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Returns a job for a branch of an Amplify app.
+    ///
+    /// - Parameter GetJobInput : The request structure for the get job request.
+    ///
+    /// - Returns: `GetJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
+    /// - `NotFoundException` : An entity was not found during an operation.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func getJob(input: GetJobInput) async throws -> GetJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -716,6 +960,19 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Returns the webhook information that corresponds to a specified webhook ID.
+    ///
+    /// - Parameter GetWebhookInput : The request structure for the get webhook request.
+    ///
+    /// - Returns: `GetWebhookOutputResponse` : The result structure for the get webhook request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
+    /// - `NotFoundException` : An entity was not found during an operation.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func getWebhook(input: GetWebhookInput) async throws -> GetWebhookOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -749,6 +1006,17 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Returns a list of the existing Amplify apps.
+    ///
+    /// - Parameter ListAppsInput : The request structure for the list apps request.
+    ///
+    /// - Returns: `ListAppsOutputResponse` : The result structure for an Amplify app list request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func listApps(input: ListAppsInput) async throws -> ListAppsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -783,6 +1051,18 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Returns a list of artifacts for a specified app, branch, and job.
+    ///
+    /// - Parameter ListArtifactsInput : Describes the request structure for the list artifacts request.
+    ///
+    /// - Returns: `ListArtifactsOutputResponse` : The result structure for the list artifacts request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func listArtifacts(input: ListArtifactsInput) async throws -> ListArtifactsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -817,6 +1097,17 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Lists the backend environments for an Amplify app.
+    ///
+    /// - Parameter ListBackendEnvironmentsInput : The request structure for the list backend environments request.
+    ///
+    /// - Returns: `ListBackendEnvironmentsOutputResponse` : The result structure for the list backend environments result.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func listBackendEnvironments(input: ListBackendEnvironmentsInput) async throws -> ListBackendEnvironmentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -851,6 +1142,17 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Lists the branches of an Amplify app.
+    ///
+    /// - Parameter ListBranchesInput : The request structure for the list branches request.
+    ///
+    /// - Returns: `ListBranchesOutputResponse` : The result structure for the list branches request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func listBranches(input: ListBranchesInput) async throws -> ListBranchesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -885,6 +1187,17 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Returns the domain associations for an Amplify app.
+    ///
+    /// - Parameter ListDomainAssociationsInput : The request structure for the list domain associations request.
+    ///
+    /// - Returns: `ListDomainAssociationsOutputResponse` : The result structure for the list domain association request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func listDomainAssociations(input: ListDomainAssociationsInput) async throws -> ListDomainAssociationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -919,6 +1232,18 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Lists the jobs for a branch of an Amplify app.
+    ///
+    /// - Parameter ListJobsInput : The request structure for the list jobs request.
+    ///
+    /// - Returns: `ListJobsOutputResponse` : The maximum number of records to list in a single response.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func listJobs(input: ListJobsInput) async throws -> ListJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -953,6 +1278,17 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Returns a list of tags for a specified Amazon Resource Name (ARN).
+    ///
+    /// - Parameter ListTagsForResourceInput : The request structure to use to list tags for a resource.
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : The response for the list tags for resource request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `ResourceNotFoundException` : An operation failed due to a non-existent resource.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -986,6 +1322,18 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Returns a list of webhooks for an Amplify app.
+    ///
+    /// - Parameter ListWebhooksInput : The request structure for the list webhooks request.
+    ///
+    /// - Returns: `ListWebhooksOutputResponse` : The result structure for the list webhooks request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func listWebhooks(input: ListWebhooksInput) async throws -> ListWebhooksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1020,6 +1368,19 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Starts a deployment for a manually deployed app. Manually deployed apps are not connected to a repository.
+    ///
+    /// - Parameter StartDeploymentInput : The request structure for the start a deployment request.
+    ///
+    /// - Returns: `StartDeploymentOutputResponse` : The result structure for the start a deployment request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
+    /// - `NotFoundException` : An entity was not found during an operation.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func startDeployment(input: StartDeploymentInput) async throws -> StartDeploymentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1056,6 +1417,19 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Starts a new job for a branch of an Amplify app.
+    ///
+    /// - Parameter StartJobInput : The request structure for the start job request.
+    ///
+    /// - Returns: `StartJobOutputResponse` : The result structure for the run job request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
+    /// - `NotFoundException` : An entity was not found during an operation.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func startJob(input: StartJobInput) async throws -> StartJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1092,6 +1466,19 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Stops a job that is in progress for a branch of an Amplify app.
+    ///
+    /// - Parameter StopJobInput : The request structure for the stop job request.
+    ///
+    /// - Returns: `StopJobOutputResponse` : The result structure for the stop job request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
+    /// - `NotFoundException` : An entity was not found during an operation.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func stopJob(input: StopJobInput) async throws -> StopJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1125,6 +1512,17 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Tags the resource with a tag key and value.
+    ///
+    /// - Parameter TagResourceInput : The request structure to tag a resource with a tag key and value.
+    ///
+    /// - Returns: `TagResourceOutputResponse` : The response for the tag resource request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `ResourceNotFoundException` : An operation failed due to a non-existent resource.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1161,6 +1559,17 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Untags a resource with a specified Amazon Resource Name (ARN).
+    ///
+    /// - Parameter UntagResourceInput : The request structure for the untag resource request.
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : The response for the untag resource request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `ResourceNotFoundException` : An operation failed due to a non-existent resource.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1195,6 +1604,18 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Updates an existing Amplify app.
+    ///
+    /// - Parameter UpdateAppInput : The request structure for the update app request.
+    ///
+    /// - Returns: `UpdateAppOutputResponse` : The result structure for an Amplify app update request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `NotFoundException` : An entity was not found during an operation.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func updateApp(input: UpdateAppInput) async throws -> UpdateAppOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1231,6 +1652,19 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Updates a branch for an Amplify app.
+    ///
+    /// - Parameter UpdateBranchInput : The request structure for the update branch request.
+    ///
+    /// - Returns: `UpdateBranchOutputResponse` : The result structure for the update branch request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `DependentServiceFailureException` : An operation failed because a dependent service threw an exception.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `NotFoundException` : An entity was not found during an operation.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func updateBranch(input: UpdateBranchInput) async throws -> UpdateBranchOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1267,6 +1701,19 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Creates a new domain association for an Amplify app.
+    ///
+    /// - Parameter UpdateDomainAssociationInput : The request structure for the update domain association request.
+    ///
+    /// - Returns: `UpdateDomainAssociationOutputResponse` : The result structure for the update domain association request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `DependentServiceFailureException` : An operation failed because a dependent service threw an exception.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `NotFoundException` : An entity was not found during an operation.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func updateDomainAssociation(input: UpdateDomainAssociationInput) async throws -> UpdateDomainAssociationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1303,6 +1750,19 @@ extension AmplifyClient: AmplifyClientProtocol {
     }
 
     /// Updates a webhook.
+    ///
+    /// - Parameter UpdateWebhookInput : The request structure for the update webhook request.
+    ///
+    /// - Returns: `UpdateWebhookOutputResponse` : The result structure for the update webhook request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
+    /// - `DependentServiceFailureException` : An operation failed because a dependent service threw an exception.
+    /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
+    /// - `NotFoundException` : An entity was not found during an operation.
+    /// - `UnauthorizedException` : An operation failed due to a lack of access.
     public func updateWebhook(input: UpdateWebhookInput) async throws -> UpdateWebhookOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

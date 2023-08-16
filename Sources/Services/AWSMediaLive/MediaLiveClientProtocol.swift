@@ -5,128 +5,1073 @@ import ClientRuntime
 /// API for AWS Elemental MediaLive
 public protocol MediaLiveClientProtocol {
     /// Accept an incoming input device transfer. The ownership of the device will transfer to your AWS account.
+    ///
+    /// - Parameter AcceptInputDeviceTransferInput : Placeholder documentation for AcceptInputDeviceTransferRequest
+    ///
+    /// - Returns: `AcceptInputDeviceTransferOutputResponse` : Placeholder documentation for AcceptInputDeviceTransferResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func acceptInputDeviceTransfer(input: AcceptInputDeviceTransferInput) async throws -> AcceptInputDeviceTransferOutputResponse
     /// Starts delete of resources.
+    ///
+    /// - Parameter BatchDeleteInput : A request to delete resources
+    ///
+    /// - Returns: `BatchDeleteOutputResponse` : Placeholder documentation for BatchDeleteResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func batchDelete(input: BatchDeleteInput) async throws -> BatchDeleteOutputResponse
     /// Starts existing resources
+    ///
+    /// - Parameter BatchStartInput : A request to start resources
+    ///
+    /// - Returns: `BatchStartOutputResponse` : Placeholder documentation for BatchStartResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func batchStart(input: BatchStartInput) async throws -> BatchStartOutputResponse
     /// Stops running resources
+    ///
+    /// - Parameter BatchStopInput : A request to stop resources
+    ///
+    /// - Returns: `BatchStopOutputResponse` : Placeholder documentation for BatchStopResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func batchStop(input: BatchStopInput) async throws -> BatchStopOutputResponse
     /// Update a channel schedule
+    ///
+    /// - Parameter BatchUpdateScheduleInput : List of actions to create and list of actions to delete.
+    ///
+    /// - Returns: `BatchUpdateScheduleOutputResponse` : Placeholder documentation for BatchUpdateScheduleResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func batchUpdateSchedule(input: BatchUpdateScheduleInput) async throws -> BatchUpdateScheduleOutputResponse
     /// Cancel an input device transfer that you have requested.
+    ///
+    /// - Parameter CancelInputDeviceTransferInput : Placeholder documentation for CancelInputDeviceTransferRequest
+    ///
+    /// - Returns: `CancelInputDeviceTransferOutputResponse` : Placeholder documentation for CancelInputDeviceTransferResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func cancelInputDeviceTransfer(input: CancelInputDeviceTransferInput) async throws -> CancelInputDeviceTransferOutputResponse
     /// Send a request to claim an AWS Elemental device that you have purchased from a third-party vendor. After the request succeeds, you will own the device.
+    ///
+    /// - Parameter ClaimDeviceInput : A request to claim an AWS Elemental device that you have purchased from a third-party vendor.
+    ///
+    /// - Returns: `ClaimDeviceOutputResponse` : Placeholder documentation for ClaimDeviceResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func claimDevice(input: ClaimDeviceInput) async throws -> ClaimDeviceOutputResponse
     /// Creates a new channel
+    ///
+    /// - Parameter CreateChannelInput : A request to create a channel
+    ///
+    /// - Returns: `CreateChannelOutputResponse` : Placeholder documentation for CreateChannelResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutputResponse
     /// Create an input
+    ///
+    /// - Parameter CreateInputInput : The name of the input
+    ///
+    /// - Returns: `CreateInputOutputResponse` : Placeholder documentation for CreateInputResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func createInput(input: CreateInputInput) async throws -> CreateInputOutputResponse
     /// Creates a Input Security Group
+    ///
+    /// - Parameter CreateInputSecurityGroupInput : The IPv4 CIDRs to whitelist for this Input Security Group
+    ///
+    /// - Returns: `CreateInputSecurityGroupOutputResponse` : Placeholder documentation for CreateInputSecurityGroupResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func createInputSecurityGroup(input: CreateInputSecurityGroupInput) async throws -> CreateInputSecurityGroupOutputResponse
     /// Create a new multiplex.
+    ///
+    /// - Parameter CreateMultiplexInput : A request to create a multiplex.
+    ///
+    /// - Returns: `CreateMultiplexOutputResponse` : Placeholder documentation for CreateMultiplexResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func createMultiplex(input: CreateMultiplexInput) async throws -> CreateMultiplexOutputResponse
     /// Create a new program in the multiplex.
+    ///
+    /// - Parameter CreateMultiplexProgramInput : A request to create a program in a multiplex.
+    ///
+    /// - Returns: `CreateMultiplexProgramOutputResponse` : Placeholder documentation for CreateMultiplexProgramResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func createMultiplexProgram(input: CreateMultiplexProgramInput) async throws -> CreateMultiplexProgramOutputResponse
     /// Create a partner input
+    ///
+    /// - Parameter CreatePartnerInputInput : A request to create a partner input
+    ///
+    /// - Returns: `CreatePartnerInputOutputResponse` : Placeholder documentation for CreatePartnerInputResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func createPartnerInput(input: CreatePartnerInputInput) async throws -> CreatePartnerInputOutputResponse
     /// Create tags for a resource
+    ///
+    /// - Parameter CreateTagsInput : Placeholder documentation for CreateTagsRequest
+    ///
+    /// - Returns: `CreateTagsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
     func createTags(input: CreateTagsInput) async throws -> CreateTagsOutputResponse
     /// Starts deletion of channel. The associated outputs are also deleted.
+    ///
+    /// - Parameter DeleteChannelInput : Placeholder documentation for DeleteChannelRequest
+    ///
+    /// - Returns: `DeleteChannelOutputResponse` : Placeholder documentation for DeleteChannelResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutputResponse
     /// Deletes the input end point
+    ///
+    /// - Parameter DeleteInputInput : Placeholder documentation for DeleteInputRequest
+    ///
+    /// - Returns: `DeleteInputOutputResponse` : Placeholder documentation for DeleteInputResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func deleteInput(input: DeleteInputInput) async throws -> DeleteInputOutputResponse
     /// Deletes an Input Security Group
+    ///
+    /// - Parameter DeleteInputSecurityGroupInput : Placeholder documentation for DeleteInputSecurityGroupRequest
+    ///
+    /// - Returns: `DeleteInputSecurityGroupOutputResponse` : Placeholder documentation for DeleteInputSecurityGroupResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func deleteInputSecurityGroup(input: DeleteInputSecurityGroupInput) async throws -> DeleteInputSecurityGroupOutputResponse
     /// Delete a multiplex. The multiplex must be idle.
+    ///
+    /// - Parameter DeleteMultiplexInput : Placeholder documentation for DeleteMultiplexRequest
+    ///
+    /// - Returns: `DeleteMultiplexOutputResponse` : Placeholder documentation for DeleteMultiplexResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func deleteMultiplex(input: DeleteMultiplexInput) async throws -> DeleteMultiplexOutputResponse
     /// Delete a program from a multiplex.
+    ///
+    /// - Parameter DeleteMultiplexProgramInput : Placeholder documentation for DeleteMultiplexProgramRequest
+    ///
+    /// - Returns: `DeleteMultiplexProgramOutputResponse` : Placeholder documentation for DeleteMultiplexProgramResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func deleteMultiplexProgram(input: DeleteMultiplexProgramInput) async throws -> DeleteMultiplexProgramOutputResponse
     /// Delete an expired reservation.
+    ///
+    /// - Parameter DeleteReservationInput : Placeholder documentation for DeleteReservationRequest
+    ///
+    /// - Returns: `DeleteReservationOutputResponse` : Placeholder documentation for DeleteReservationResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func deleteReservation(input: DeleteReservationInput) async throws -> DeleteReservationOutputResponse
     /// Delete all schedule actions on a channel.
+    ///
+    /// - Parameter DeleteScheduleInput : Placeholder documentation for DeleteScheduleRequest
+    ///
+    /// - Returns: `DeleteScheduleOutputResponse` : Placeholder documentation for DeleteScheduleResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func deleteSchedule(input: DeleteScheduleInput) async throws -> DeleteScheduleOutputResponse
     /// Removes tags for a resource
+    ///
+    /// - Parameter DeleteTagsInput : Placeholder documentation for DeleteTagsRequest
+    ///
+    /// - Returns: `DeleteTagsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
     func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutputResponse
     /// Get account configuration
+    ///
+    /// - Parameter DescribeAccountConfigurationInput : Placeholder documentation for DescribeAccountConfigurationRequest
+    ///
+    /// - Returns: `DescribeAccountConfigurationOutputResponse` : Placeholder documentation for DescribeAccountConfigurationResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func describeAccountConfiguration(input: DescribeAccountConfigurationInput) async throws -> DescribeAccountConfigurationOutputResponse
     /// Gets details about a channel
+    ///
+    /// - Parameter DescribeChannelInput : Placeholder documentation for DescribeChannelRequest
+    ///
+    /// - Returns: `DescribeChannelOutputResponse` : Placeholder documentation for DescribeChannelResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func describeChannel(input: DescribeChannelInput) async throws -> DescribeChannelOutputResponse
     /// Produces details about an input
+    ///
+    /// - Parameter DescribeInputInput : Placeholder documentation for DescribeInputRequest
+    ///
+    /// - Returns: `DescribeInputOutputResponse` : Placeholder documentation for DescribeInputResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func describeInput(input: DescribeInputInput) async throws -> DescribeInputOutputResponse
     /// Gets the details for the input device
+    ///
+    /// - Parameter DescribeInputDeviceInput : Placeholder documentation for DescribeInputDeviceRequest
+    ///
+    /// - Returns: `DescribeInputDeviceOutputResponse` : Placeholder documentation for DescribeInputDeviceResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func describeInputDevice(input: DescribeInputDeviceInput) async throws -> DescribeInputDeviceOutputResponse
     /// Get the latest thumbnail data for the input device.
+    ///
+    /// - Parameter DescribeInputDeviceThumbnailInput : Placeholder documentation for DescribeInputDeviceThumbnailRequest
+    ///
+    /// - Returns: `DescribeInputDeviceThumbnailOutputResponse` : Placeholder documentation for DescribeInputDeviceThumbnailResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func describeInputDeviceThumbnail(input: DescribeInputDeviceThumbnailInput) async throws -> DescribeInputDeviceThumbnailOutputResponse
     /// Produces a summary of an Input Security Group
+    ///
+    /// - Parameter DescribeInputSecurityGroupInput : Placeholder documentation for DescribeInputSecurityGroupRequest
+    ///
+    /// - Returns: `DescribeInputSecurityGroupOutputResponse` : Placeholder documentation for DescribeInputSecurityGroupResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func describeInputSecurityGroup(input: DescribeInputSecurityGroupInput) async throws -> DescribeInputSecurityGroupOutputResponse
     /// Gets details about a multiplex.
+    ///
+    /// - Parameter DescribeMultiplexInput : Placeholder documentation for DescribeMultiplexRequest
+    ///
+    /// - Returns: `DescribeMultiplexOutputResponse` : Placeholder documentation for DescribeMultiplexResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func describeMultiplex(input: DescribeMultiplexInput) async throws -> DescribeMultiplexOutputResponse
     /// Get the details for a program in a multiplex.
+    ///
+    /// - Parameter DescribeMultiplexProgramInput : Placeholder documentation for DescribeMultiplexProgramRequest
+    ///
+    /// - Returns: `DescribeMultiplexProgramOutputResponse` : Placeholder documentation for DescribeMultiplexProgramResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func describeMultiplexProgram(input: DescribeMultiplexProgramInput) async throws -> DescribeMultiplexProgramOutputResponse
     /// Get details for an offering.
+    ///
+    /// - Parameter DescribeOfferingInput : Placeholder documentation for DescribeOfferingRequest
+    ///
+    /// - Returns: `DescribeOfferingOutputResponse` : Placeholder documentation for DescribeOfferingResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func describeOffering(input: DescribeOfferingInput) async throws -> DescribeOfferingOutputResponse
     /// Get details for a reservation.
+    ///
+    /// - Parameter DescribeReservationInput : Placeholder documentation for DescribeReservationRequest
+    ///
+    /// - Returns: `DescribeReservationOutputResponse` : Placeholder documentation for DescribeReservationResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func describeReservation(input: DescribeReservationInput) async throws -> DescribeReservationOutputResponse
     /// Get a channel schedule
+    ///
+    /// - Parameter DescribeScheduleInput : Placeholder documentation for DescribeScheduleRequest
+    ///
+    /// - Returns: `DescribeScheduleOutputResponse` : Placeholder documentation for DescribeScheduleResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func describeSchedule(input: DescribeScheduleInput) async throws -> DescribeScheduleOutputResponse
     /// Describe the latest thumbnails data.
+    ///
+    /// - Parameter DescribeThumbnailsInput : Placeholder documentation for DescribeThumbnailsRequest
+    ///
+    /// - Returns: `DescribeThumbnailsOutputResponse` : Placeholder documentation for DescribeThumbnailsResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func describeThumbnails(input: DescribeThumbnailsInput) async throws -> DescribeThumbnailsOutputResponse
     /// Produces list of channels that have been created
+    ///
+    /// - Parameter ListChannelsInput : Placeholder documentation for ListChannelsRequest
+    ///
+    /// - Returns: `ListChannelsOutputResponse` : Placeholder documentation for ListChannelsResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutputResponse
     /// List input devices
+    ///
+    /// - Parameter ListInputDevicesInput : Placeholder documentation for ListInputDevicesRequest
+    ///
+    /// - Returns: `ListInputDevicesOutputResponse` : Placeholder documentation for ListInputDevicesResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func listInputDevices(input: ListInputDevicesInput) async throws -> ListInputDevicesOutputResponse
     /// List input devices that are currently being transferred. List input devices that you are transferring from your AWS account or input devices that another AWS account is transferring to you.
+    ///
+    /// - Parameter ListInputDeviceTransfersInput : Placeholder documentation for ListInputDeviceTransfersRequest
+    ///
+    /// - Returns: `ListInputDeviceTransfersOutputResponse` : Placeholder documentation for ListInputDeviceTransfersResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func listInputDeviceTransfers(input: ListInputDeviceTransfersInput) async throws -> ListInputDeviceTransfersOutputResponse
     /// Produces list of inputs that have been created
+    ///
+    /// - Parameter ListInputsInput : Placeholder documentation for ListInputsRequest
+    ///
+    /// - Returns: `ListInputsOutputResponse` : Placeholder documentation for ListInputsResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func listInputs(input: ListInputsInput) async throws -> ListInputsOutputResponse
     /// Produces a list of Input Security Groups for an account
+    ///
+    /// - Parameter ListInputSecurityGroupsInput : Placeholder documentation for ListInputSecurityGroupsRequest
+    ///
+    /// - Returns: `ListInputSecurityGroupsOutputResponse` : Placeholder documentation for ListInputSecurityGroupsResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func listInputSecurityGroups(input: ListInputSecurityGroupsInput) async throws -> ListInputSecurityGroupsOutputResponse
     /// Retrieve a list of the existing multiplexes.
+    ///
+    /// - Parameter ListMultiplexesInput : Placeholder documentation for ListMultiplexesRequest
+    ///
+    /// - Returns: `ListMultiplexesOutputResponse` : Placeholder documentation for ListMultiplexesResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func listMultiplexes(input: ListMultiplexesInput) async throws -> ListMultiplexesOutputResponse
     /// List the programs that currently exist for a specific multiplex.
+    ///
+    /// - Parameter ListMultiplexProgramsInput : Placeholder documentation for ListMultiplexProgramsRequest
+    ///
+    /// - Returns: `ListMultiplexProgramsOutputResponse` : Placeholder documentation for ListMultiplexProgramsResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func listMultiplexPrograms(input: ListMultiplexProgramsInput) async throws -> ListMultiplexProgramsOutputResponse
     /// List offerings available for purchase.
+    ///
+    /// - Parameter ListOfferingsInput : Placeholder documentation for ListOfferingsRequest
+    ///
+    /// - Returns: `ListOfferingsOutputResponse` : Placeholder documentation for ListOfferingsResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func listOfferings(input: ListOfferingsInput) async throws -> ListOfferingsOutputResponse
     /// List purchased reservations.
+    ///
+    /// - Parameter ListReservationsInput : Placeholder documentation for ListReservationsRequest
+    ///
+    /// - Returns: `ListReservationsOutputResponse` : Placeholder documentation for ListReservationsResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func listReservations(input: ListReservationsInput) async throws -> ListReservationsOutputResponse
     /// Produces list of tags that have been created for a resource
+    ///
+    /// - Parameter ListTagsForResourceInput : Placeholder documentation for ListTagsForResourceRequest
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : Placeholder documentation for ListTagsForResourceResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Purchase an offering and create a reservation.
+    ///
+    /// - Parameter PurchaseOfferingInput : Placeholder documentation for PurchaseOfferingRequest
+    ///
+    /// - Returns: `PurchaseOfferingOutputResponse` : Placeholder documentation for PurchaseOfferingResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func purchaseOffering(input: PurchaseOfferingInput) async throws -> PurchaseOfferingOutputResponse
     /// Send a reboot command to the specified input device. The device will begin rebooting within a few seconds of sending the command. When the reboot is complete, the device’s connection status will change to connected.
+    ///
+    /// - Parameter RebootInputDeviceInput : A request to reboot an AWS Elemental device.
+    ///
+    /// - Returns: `RebootInputDeviceOutputResponse` : Placeholder documentation for RebootInputDeviceResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func rebootInputDevice(input: RebootInputDeviceInput) async throws -> RebootInputDeviceOutputResponse
     /// Reject the transfer of the specified input device to your AWS account.
+    ///
+    /// - Parameter RejectInputDeviceTransferInput : Placeholder documentation for RejectInputDeviceTransferRequest
+    ///
+    /// - Returns: `RejectInputDeviceTransferOutputResponse` : Placeholder documentation for RejectInputDeviceTransferResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func rejectInputDeviceTransfer(input: RejectInputDeviceTransferInput) async throws -> RejectInputDeviceTransferOutputResponse
     /// Starts an existing channel
+    ///
+    /// - Parameter StartChannelInput : Placeholder documentation for StartChannelRequest
+    ///
+    /// - Returns: `StartChannelOutputResponse` : Placeholder documentation for StartChannelResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func startChannel(input: StartChannelInput) async throws -> StartChannelOutputResponse
     /// Start a maintenance window for the specified input device. Starting a maintenance window will give the device up to two hours to install software. If the device was streaming prior to the maintenance, it will resume streaming when the software is fully installed. Devices automatically install updates while they are powered on and their MediaLive channels are stopped. A maintenance window allows you to update a device without having to stop MediaLive channels that use the device. The device must remain powered on and connected to the internet for the duration of the maintenance.
+    ///
+    /// - Parameter StartInputDeviceMaintenanceWindowInput : Placeholder documentation for StartInputDeviceMaintenanceWindowRequest
+    ///
+    /// - Returns: `StartInputDeviceMaintenanceWindowOutputResponse` : Placeholder documentation for StartInputDeviceMaintenanceWindowResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func startInputDeviceMaintenanceWindow(input: StartInputDeviceMaintenanceWindowInput) async throws -> StartInputDeviceMaintenanceWindowOutputResponse
     /// Start (run) the multiplex. Starting the multiplex does not start the channels. You must explicitly start each channel.
+    ///
+    /// - Parameter StartMultiplexInput : Placeholder documentation for StartMultiplexRequest
+    ///
+    /// - Returns: `StartMultiplexOutputResponse` : Placeholder documentation for StartMultiplexResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func startMultiplex(input: StartMultiplexInput) async throws -> StartMultiplexOutputResponse
     /// Stops a running channel
+    ///
+    /// - Parameter StopChannelInput : Placeholder documentation for StopChannelRequest
+    ///
+    /// - Returns: `StopChannelOutputResponse` : Placeholder documentation for StopChannelResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func stopChannel(input: StopChannelInput) async throws -> StopChannelOutputResponse
     /// Stops a running multiplex. If the multiplex isn't running, this action has no effect.
+    ///
+    /// - Parameter StopMultiplexInput : Placeholder documentation for StopMultiplexRequest
+    ///
+    /// - Returns: `StopMultiplexOutputResponse` : Placeholder documentation for StopMultiplexResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func stopMultiplex(input: StopMultiplexInput) async throws -> StopMultiplexOutputResponse
     /// Start an input device transfer to another AWS account. After you make the request, the other account must accept or reject the transfer.
+    ///
+    /// - Parameter TransferInputDeviceInput : A request to transfer an input device.
+    ///
+    /// - Returns: `TransferInputDeviceOutputResponse` : Placeholder documentation for TransferInputDeviceResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func transferInputDevice(input: TransferInputDeviceInput) async throws -> TransferInputDeviceOutputResponse
     /// Update account configuration
+    ///
+    /// - Parameter UpdateAccountConfigurationInput : List of account configuration parameters to update.
+    ///
+    /// - Returns: `UpdateAccountConfigurationOutputResponse` : Placeholder documentation for UpdateAccountConfigurationResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func updateAccountConfiguration(input: UpdateAccountConfigurationInput) async throws -> UpdateAccountConfigurationOutputResponse
     /// Updates a channel.
+    ///
+    /// - Parameter UpdateChannelInput : A request to update a channel.
+    ///
+    /// - Returns: `UpdateChannelOutputResponse` : Placeholder documentation for UpdateChannelResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutputResponse
     /// Changes the class of the channel.
+    ///
+    /// - Parameter UpdateChannelClassInput : Channel class that the channel should be updated to.
+    ///
+    /// - Returns: `UpdateChannelClassOutputResponse` : Placeholder documentation for UpdateChannelClassResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func updateChannelClass(input: UpdateChannelClassInput) async throws -> UpdateChannelClassOutputResponse
     /// Updates an input.
+    ///
+    /// - Parameter UpdateInputInput : A request to update an input.
+    ///
+    /// - Returns: `UpdateInputOutputResponse` : Placeholder documentation for UpdateInputResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
     func updateInput(input: UpdateInputInput) async throws -> UpdateInputOutputResponse
     /// Updates the parameters for the input device.
+    ///
+    /// - Parameter UpdateInputDeviceInput : A request to update an input device.
+    ///
+    /// - Returns: `UpdateInputDeviceOutputResponse` : Placeholder documentation for UpdateInputDeviceResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func updateInputDevice(input: UpdateInputDeviceInput) async throws -> UpdateInputDeviceOutputResponse
     /// Update an Input Security Group's Whilelists.
+    ///
+    /// - Parameter UpdateInputSecurityGroupInput : The request to update some combination of the Input Security Group name and the IPv4 CIDRs the Input Security Group should allow.
+    ///
+    /// - Returns: `UpdateInputSecurityGroupOutputResponse` : Placeholder documentation for UpdateInputSecurityGroupResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
     func updateInputSecurityGroup(input: UpdateInputSecurityGroupInput) async throws -> UpdateInputSecurityGroupOutputResponse
     /// Updates a multiplex.
+    ///
+    /// - Parameter UpdateMultiplexInput : A request to update a multiplex.
+    ///
+    /// - Returns: `UpdateMultiplexOutputResponse` : Placeholder documentation for UpdateMultiplexResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func updateMultiplex(input: UpdateMultiplexInput) async throws -> UpdateMultiplexOutputResponse
     /// Update a program in a multiplex.
+    ///
+    /// - Parameter UpdateMultiplexProgramInput : A request to update a program in a multiplex.
+    ///
+    /// - Returns: `UpdateMultiplexProgramOutputResponse` : Placeholder documentation for UpdateMultiplexProgramResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func updateMultiplexProgram(input: UpdateMultiplexProgramInput) async throws -> UpdateMultiplexProgramOutputResponse
     /// Update reservation.
+    ///
+    /// - Parameter UpdateReservationInput : Request to update a reservation
+    ///
+    /// - Returns: `UpdateReservationOutputResponse` : Placeholder documentation for UpdateReservationResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func updateReservation(input: UpdateReservationInput) async throws -> UpdateReservationOutputResponse
 }
 

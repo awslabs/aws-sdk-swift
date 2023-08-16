@@ -68,6 +68,19 @@ public struct DetectiveClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFacto
 
 extension DetectiveClient: DetectiveClientProtocol {
     /// Accepts an invitation for the member account to contribute data to a behavior graph. This operation can only be called by an invited member account. The request provides the ARN of behavior graph. The member account status in the graph must be INVITED.
+    ///
+    /// - Parameter AcceptInvitationInput : [no documentation found]
+    ///
+    /// - Returns: `AcceptInvitationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request issuer does not have permission to access this resource or perform this operation.
+    /// - `ConflictException` : The request attempted an invalid action.
+    /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
+    /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
+    /// - `ValidationException` : The request parameters are invalid.
     public func acceptInvitation(input: AcceptInvitationInput) async throws -> AcceptInvitationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +117,18 @@ extension DetectiveClient: DetectiveClientProtocol {
     }
 
     /// Gets data source package information for the behavior graph.
+    ///
+    /// - Parameter BatchGetGraphMemberDatasourcesInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetGraphMemberDatasourcesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request issuer does not have permission to access this resource or perform this operation.
+    /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
+    /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
+    /// - `ValidationException` : The request parameters are invalid.
     public func batchGetGraphMemberDatasources(input: BatchGetGraphMemberDatasourcesInput) async throws -> BatchGetGraphMemberDatasourcesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -140,6 +165,18 @@ extension DetectiveClient: DetectiveClientProtocol {
     }
 
     /// Gets information on the data source package history for an account.
+    ///
+    /// - Parameter BatchGetMembershipDatasourcesInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetMembershipDatasourcesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request issuer does not have permission to access this resource or perform this operation.
+    /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
+    /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
+    /// - `ValidationException` : The request parameters are invalid.
     public func batchGetMembershipDatasources(input: BatchGetMembershipDatasourcesInput) async throws -> BatchGetMembershipDatasourcesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -176,6 +213,24 @@ extension DetectiveClient: DetectiveClientProtocol {
     }
 
     /// Creates a new behavior graph for the calling account, and sets that account as the administrator account. This operation is called by the account that is enabling Detective. Before you try to enable Detective, make sure that your account has been enrolled in Amazon GuardDuty for at least 48 hours. If you do not meet this requirement, you cannot enable Detective. If you do meet the GuardDuty prerequisite, then when you make the request to enable Detective, it checks whether your data volume is within the Detective quota. If it exceeds the quota, then you cannot enable Detective. The operation also enables Detective for the calling account in the currently selected Region. It returns the ARN of the new behavior graph. CreateGraph triggers a process to create the corresponding data tables for the new behavior graph. An account can only be the administrator account for one behavior graph within a Region. If the same account calls CreateGraph with the same administrator account, it always returns the same behavior graph ARN. It does not create a new behavior graph.
+    ///
+    /// - Parameter CreateGraphInput : [no documentation found]
+    ///
+    /// - Returns: `CreateGraphOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request issuer does not have permission to access this resource or perform this operation.
+    /// - `ConflictException` : The request attempted an invalid action.
+    /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
+    /// - `ServiceQuotaExceededException` : This request cannot be completed for one of the following reasons.
+    ///
+    /// * The request would cause the number of member accounts in the behavior graph to exceed the maximum allowed. A behavior graph cannot have more than 1200 member accounts.
+    ///
+    /// * The request would cause the data rate for the behavior graph to exceed the maximum allowed.
+    ///
+    /// * Detective is unable to verify the data rate for the member account. This is usually because the member account is not enrolled in Amazon GuardDuty.
     public func createGraph(input: CreateGraphInput) async throws -> CreateGraphOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -216,6 +271,25 @@ extension DetectiveClient: DetectiveClientProtocol {
     /// * The accounts that CreateMembers was able to process. For invited accounts, includes member accounts that are being verified, that have passed verification and are to be invited, and that have failed verification. For organization accounts in the organization behavior graph, includes accounts that can be enabled and that cannot be enabled.
     ///
     /// * The accounts that CreateMembers was unable to process. This list includes accounts that were already invited to be member accounts in the behavior graph.
+    ///
+    /// - Parameter CreateMembersInput : [no documentation found]
+    ///
+    /// - Returns: `CreateMembersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request issuer does not have permission to access this resource or perform this operation.
+    /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
+    /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
+    /// - `ServiceQuotaExceededException` : This request cannot be completed for one of the following reasons.
+    ///
+    /// * The request would cause the number of member accounts in the behavior graph to exceed the maximum allowed. A behavior graph cannot have more than 1200 member accounts.
+    ///
+    /// * The request would cause the data rate for the behavior graph to exceed the maximum allowed.
+    ///
+    /// * Detective is unable to verify the data rate for the member account. This is usually because the member account is not enrolled in Amazon GuardDuty.
+    /// - `ValidationException` : The request parameters are invalid.
     public func createMembers(input: CreateMembersInput) async throws -> CreateMembersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -252,6 +326,18 @@ extension DetectiveClient: DetectiveClientProtocol {
     }
 
     /// Disables the specified behavior graph and queues it to be deleted. This operation removes the behavior graph from each member account's list of behavior graphs. DeleteGraph can only be called by the administrator account for a behavior graph.
+    ///
+    /// - Parameter DeleteGraphInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteGraphOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request issuer does not have permission to access this resource or perform this operation.
+    /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
+    /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
+    /// - `ValidationException` : The request parameters are invalid.
     public func deleteGraph(input: DeleteGraphInput) async throws -> DeleteGraphOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -288,6 +374,19 @@ extension DetectiveClient: DetectiveClientProtocol {
     }
 
     /// Removes the specified member accounts from the behavior graph. The removed accounts no longer contribute data to the behavior graph. This operation can only be called by the administrator account for the behavior graph. For invited accounts, the removed accounts are deleted from the list of accounts in the behavior graph. To restore the account, the administrator account must send another invitation. For organization accounts in the organization behavior graph, the Detective administrator account can always enable the organization account again. Organization accounts that are not enabled as member accounts are not included in the ListMembers results for the organization behavior graph. An administrator account cannot use DeleteMembers to remove their own account from the behavior graph. To disable a behavior graph, the administrator account uses the DeleteGraph API method.
+    ///
+    /// - Parameter DeleteMembersInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteMembersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request issuer does not have permission to access this resource or perform this operation.
+    /// - `ConflictException` : The request attempted an invalid action.
+    /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
+    /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
+    /// - `ValidationException` : The request parameters are invalid.
     public func deleteMembers(input: DeleteMembersInput) async throws -> DeleteMembersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -324,6 +423,18 @@ extension DetectiveClient: DetectiveClientProtocol {
     }
 
     /// Returns information about the configuration for the organization behavior graph. Currently indicates whether to automatically enable new organization accounts as member accounts. Can only be called by the Detective administrator account for the organization.
+    ///
+    /// - Parameter DescribeOrganizationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeOrganizationConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request issuer does not have permission to access this resource or perform this operation.
+    /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
+    /// - `TooManyRequestsException` : The request cannot be completed because too many other requests are occurring at the same time.
+    /// - `ValidationException` : The request parameters are invalid.
     public func describeOrganizationConfiguration(input: DescribeOrganizationConfigurationInput) async throws -> DescribeOrganizationConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -360,6 +471,18 @@ extension DetectiveClient: DetectiveClientProtocol {
     }
 
     /// Removes the Detective administrator account in the current Region. Deletes the organization behavior graph. Can only be called by the organization management account. Removing the Detective administrator account does not affect the delegated administrator account for Detective in Organizations. To remove the delegated administrator account in Organizations, use the Organizations API. Removing the delegated administrator account also removes the Detective administrator account in all Regions, except for Regions where the Detective administrator account is the organization management account.
+    ///
+    /// - Parameter DisableOrganizationAdminAccountInput : [no documentation found]
+    ///
+    /// - Returns: `DisableOrganizationAdminAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request issuer does not have permission to access this resource or perform this operation.
+    /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
+    /// - `TooManyRequestsException` : The request cannot be completed because too many other requests are occurring at the same time.
+    /// - `ValidationException` : The request parameters are invalid.
     public func disableOrganizationAdminAccount(input: DisableOrganizationAdminAccountInput) async throws -> DisableOrganizationAdminAccountOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -393,6 +516,19 @@ extension DetectiveClient: DetectiveClientProtocol {
     }
 
     /// Removes the member account from the specified behavior graph. This operation can only be called by an invited member account that has the ENABLED status. DisassociateMembership cannot be called by an organization account in the organization behavior graph. For the organization behavior graph, the Detective administrator account determines which organization accounts to enable or disable as member accounts.
+    ///
+    /// - Parameter DisassociateMembershipInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateMembershipOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request issuer does not have permission to access this resource or perform this operation.
+    /// - `ConflictException` : The request attempted an invalid action.
+    /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
+    /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
+    /// - `ValidationException` : The request parameters are invalid.
     public func disassociateMembership(input: DisassociateMembershipInput) async throws -> DisassociateMembershipOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -429,6 +565,18 @@ extension DetectiveClient: DetectiveClientProtocol {
     }
 
     /// Designates the Detective administrator account for the organization in the current Region. If the account does not have Detective enabled, then enables Detective for that account and creates a new behavior graph. Can only be called by the organization management account. If the organization has a delegated administrator account in Organizations, then the Detective administrator account must be either the delegated administrator account or the organization management account. If the organization does not have a delegated administrator account in Organizations, then you can choose any account in the organization. If you choose an account other than the organization management account, Detective calls Organizations to make that account the delegated administrator account for Detective. The organization management account cannot be the delegated administrator account.
+    ///
+    /// - Parameter EnableOrganizationAdminAccountInput : [no documentation found]
+    ///
+    /// - Returns: `EnableOrganizationAdminAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request issuer does not have permission to access this resource or perform this operation.
+    /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
+    /// - `TooManyRequestsException` : The request cannot be completed because too many other requests are occurring at the same time.
+    /// - `ValidationException` : The request parameters are invalid.
     public func enableOrganizationAdminAccount(input: EnableOrganizationAdminAccountInput) async throws -> EnableOrganizationAdminAccountOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -465,6 +613,18 @@ extension DetectiveClient: DetectiveClientProtocol {
     }
 
     /// Returns the membership details for specified member accounts for a behavior graph.
+    ///
+    /// - Parameter GetMembersInput : [no documentation found]
+    ///
+    /// - Returns: `GetMembersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request issuer does not have permission to access this resource or perform this operation.
+    /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
+    /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
+    /// - `ValidationException` : The request parameters are invalid.
     public func getMembers(input: GetMembersInput) async throws -> GetMembersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -501,6 +661,18 @@ extension DetectiveClient: DetectiveClientProtocol {
     }
 
     /// Lists data source packages in the behavior graph.
+    ///
+    /// - Parameter ListDatasourcePackagesInput : [no documentation found]
+    ///
+    /// - Returns: `ListDatasourcePackagesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request issuer does not have permission to access this resource or perform this operation.
+    /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
+    /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
+    /// - `ValidationException` : The request parameters are invalid.
     public func listDatasourcePackages(input: ListDatasourcePackagesInput) async throws -> ListDatasourcePackagesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -537,6 +709,17 @@ extension DetectiveClient: DetectiveClientProtocol {
     }
 
     /// Returns the list of behavior graphs that the calling account is an administrator account of. This operation can only be called by an administrator account. Because an account can currently only be the administrator of one behavior graph within a Region, the results always contain a single behavior graph.
+    ///
+    /// - Parameter ListGraphsInput : [no documentation found]
+    ///
+    /// - Returns: `ListGraphsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request issuer does not have permission to access this resource or perform this operation.
+    /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
+    /// - `ValidationException` : The request parameters are invalid.
     public func listGraphs(input: ListGraphsInput) async throws -> ListGraphsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -573,6 +756,17 @@ extension DetectiveClient: DetectiveClientProtocol {
     }
 
     /// Retrieves the list of open and accepted behavior graph invitations for the member account. This operation can only be called by an invited member account. Open invitations are invitations that the member account has not responded to. The results do not include behavior graphs for which the member account declined the invitation. The results also do not include behavior graphs that the member account resigned from or was removed from.
+    ///
+    /// - Parameter ListInvitationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListInvitationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request issuer does not have permission to access this resource or perform this operation.
+    /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
+    /// - `ValidationException` : The request parameters are invalid.
     public func listInvitations(input: ListInvitationsInput) async throws -> ListInvitationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -609,6 +803,18 @@ extension DetectiveClient: DetectiveClientProtocol {
     }
 
     /// Retrieves the list of member accounts for a behavior graph. For invited accounts, the results do not include member accounts that were removed from the behavior graph. For the organization behavior graph, the results do not include organization accounts that the Detective administrator account has not enabled as member accounts.
+    ///
+    /// - Parameter ListMembersInput : [no documentation found]
+    ///
+    /// - Returns: `ListMembersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request issuer does not have permission to access this resource or perform this operation.
+    /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
+    /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
+    /// - `ValidationException` : The request parameters are invalid.
     public func listMembers(input: ListMembersInput) async throws -> ListMembersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -645,6 +851,18 @@ extension DetectiveClient: DetectiveClientProtocol {
     }
 
     /// Returns information about the Detective administrator account for an organization. Can only be called by the organization management account.
+    ///
+    /// - Parameter ListOrganizationAdminAccountsInput : [no documentation found]
+    ///
+    /// - Returns: `ListOrganizationAdminAccountsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request issuer does not have permission to access this resource or perform this operation.
+    /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
+    /// - `TooManyRequestsException` : The request cannot be completed because too many other requests are occurring at the same time.
+    /// - `ValidationException` : The request parameters are invalid.
     public func listOrganizationAdminAccounts(input: ListOrganizationAdminAccountsInput) async throws -> ListOrganizationAdminAccountsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -681,6 +899,18 @@ extension DetectiveClient: DetectiveClientProtocol {
     }
 
     /// Returns the tag values that are assigned to a behavior graph.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request issuer does not have permission to access this resource or perform this operation.
+    /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
+    /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
+    /// - `ValidationException` : The request parameters are invalid.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -714,6 +944,19 @@ extension DetectiveClient: DetectiveClientProtocol {
     }
 
     /// Rejects an invitation to contribute the account data to a behavior graph. This operation must be called by an invited member account that has the INVITED status. RejectInvitation cannot be called by an organization account in the organization behavior graph. In the organization behavior graph, organization accounts do not receive an invitation.
+    ///
+    /// - Parameter RejectInvitationInput : [no documentation found]
+    ///
+    /// - Returns: `RejectInvitationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request issuer does not have permission to access this resource or perform this operation.
+    /// - `ConflictException` : The request attempted an invalid action.
+    /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
+    /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
+    /// - `ValidationException` : The request parameters are invalid.
     public func rejectInvitation(input: RejectInvitationInput) async throws -> RejectInvitationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -754,6 +997,26 @@ extension DetectiveClient: DetectiveClientProtocol {
     /// * If Detective enabled the member account, then the new status is ENABLED.
     ///
     /// * If Detective cannot enable the member account, the status remains ACCEPTED_BUT_DISABLED.
+    ///
+    /// - Parameter StartMonitoringMemberInput : [no documentation found]
+    ///
+    /// - Returns: `StartMonitoringMemberOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request issuer does not have permission to access this resource or perform this operation.
+    /// - `ConflictException` : The request attempted an invalid action.
+    /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
+    /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
+    /// - `ServiceQuotaExceededException` : This request cannot be completed for one of the following reasons.
+    ///
+    /// * The request would cause the number of member accounts in the behavior graph to exceed the maximum allowed. A behavior graph cannot have more than 1200 member accounts.
+    ///
+    /// * The request would cause the data rate for the behavior graph to exceed the maximum allowed.
+    ///
+    /// * Detective is unable to verify the data rate for the member account. This is usually because the member account is not enrolled in Amazon GuardDuty.
+    /// - `ValidationException` : The request parameters are invalid.
     public func startMonitoringMember(input: StartMonitoringMemberInput) async throws -> StartMonitoringMemberOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -790,6 +1053,18 @@ extension DetectiveClient: DetectiveClientProtocol {
     }
 
     /// Applies tag values to a behavior graph.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request issuer does not have permission to access this resource or perform this operation.
+    /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
+    /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
+    /// - `ValidationException` : The request parameters are invalid.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -826,6 +1101,18 @@ extension DetectiveClient: DetectiveClientProtocol {
     }
 
     /// Removes tags from a behavior graph.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request issuer does not have permission to access this resource or perform this operation.
+    /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
+    /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
+    /// - `ValidationException` : The request parameters are invalid.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -860,6 +1147,25 @@ extension DetectiveClient: DetectiveClientProtocol {
     }
 
     /// Starts a data source packages for the behavior graph.
+    ///
+    /// - Parameter UpdateDatasourcePackagesInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDatasourcePackagesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request issuer does not have permission to access this resource or perform this operation.
+    /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
+    /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
+    /// - `ServiceQuotaExceededException` : This request cannot be completed for one of the following reasons.
+    ///
+    /// * The request would cause the number of member accounts in the behavior graph to exceed the maximum allowed. A behavior graph cannot have more than 1200 member accounts.
+    ///
+    /// * The request would cause the data rate for the behavior graph to exceed the maximum allowed.
+    ///
+    /// * Detective is unable to verify the data rate for the member account. This is usually because the member account is not enrolled in Amazon GuardDuty.
+    /// - `ValidationException` : The request parameters are invalid.
     public func updateDatasourcePackages(input: UpdateDatasourcePackagesInput) async throws -> UpdateDatasourcePackagesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -896,6 +1202,18 @@ extension DetectiveClient: DetectiveClientProtocol {
     }
 
     /// Updates the configuration for the Organizations integration in the current Region. Can only be called by the Detective administrator account for the organization.
+    ///
+    /// - Parameter UpdateOrganizationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateOrganizationConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request issuer does not have permission to access this resource or perform this operation.
+    /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
+    /// - `TooManyRequestsException` : The request cannot be completed because too many other requests are occurring at the same time.
+    /// - `ValidationException` : The request parameters are invalid.
     public func updateOrganizationConfiguration(input: UpdateOrganizationConfigurationInput) async throws -> UpdateOrganizationConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

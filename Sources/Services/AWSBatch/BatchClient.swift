@@ -68,6 +68,16 @@ public struct BatchClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
 
 extension BatchClient: BatchClientProtocol {
     /// Cancels a job in an Batch job queue. Jobs that are in the SUBMITTED or PENDING are canceled. A job inRUNNABLE remains in RUNNABLE until it reaches the head of the job queue. Then the job status is updated to FAILED. A PENDING job is canceled after all dependency jobs are completed. Therefore, it may take longer than expected to cancel a job in PENDING status. When you try to cancel an array parent job in PENDING, Batch attempts to cancel all child jobs. The array parent job is canceled when all child jobs are completed. Jobs that progressed to the STARTING or RUNNING state aren't canceled. However, the API operation still succeeds, even if no job is canceled. These jobs must be terminated with the [TerminateJob] operation.
+    ///
+    /// - Parameter CancelJobInput : Contains the parameters for CancelJob.
+    ///
+    /// - Returns: `CancelJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
+    /// - `ServerException` : These errors are usually caused by a server issue.
     public func cancelJob(input: CancelJobInput) async throws -> CancelJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -126,6 +136,16 @@ extension BatchClient: BatchClientProtocol {
     ///
     ///
     /// If these rules are followed, any update that starts an infrastructure update causes the AMI ID to be re-selected. If the version setting in the launch template (launchTemplate) is set to $Latest or $Default, the latest or default version of the launch template is evaluated up at the time of the infrastructure update, even if the launchTemplate wasn't updated.
+    ///
+    /// - Parameter CreateComputeEnvironmentInput : Contains the parameters for CreateComputeEnvironment.
+    ///
+    /// - Returns: `CreateComputeEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
+    /// - `ServerException` : These errors are usually caused by a server issue.
     public func createComputeEnvironment(input: CreateComputeEnvironmentInput) async throws -> CreateComputeEnvironmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -162,6 +182,16 @@ extension BatchClient: BatchClientProtocol {
     }
 
     /// Creates an Batch job queue. When you create a job queue, you associate one or more compute environments to the queue and assign an order of preference for the compute environments. You also set a priority to the job queue that determines the order that the Batch scheduler places jobs onto its associated compute environments. For example, if a compute environment is associated with more than one job queue, the job queue with a higher priority is given preference for scheduling jobs to that compute environment.
+    ///
+    /// - Parameter CreateJobQueueInput : Contains the parameters for CreateJobQueue.
+    ///
+    /// - Returns: `CreateJobQueueOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
+    /// - `ServerException` : These errors are usually caused by a server issue.
     public func createJobQueue(input: CreateJobQueueInput) async throws -> CreateJobQueueOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -198,6 +228,16 @@ extension BatchClient: BatchClientProtocol {
     }
 
     /// Creates an Batch scheduling policy.
+    ///
+    /// - Parameter CreateSchedulingPolicyInput : Contains the parameters for CreateSchedulingPolicy.
+    ///
+    /// - Returns: `CreateSchedulingPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
+    /// - `ServerException` : These errors are usually caused by a server issue.
     public func createSchedulingPolicy(input: CreateSchedulingPolicyInput) async throws -> CreateSchedulingPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -234,6 +274,16 @@ extension BatchClient: BatchClientProtocol {
     }
 
     /// Deletes an Batch compute environment. Before you can delete a compute environment, you must set its state to DISABLED with the [UpdateComputeEnvironment] API operation and disassociate it from any job queues with the [UpdateJobQueue] API operation. Compute environments that use Fargate resources must terminate all active jobs on that compute environment before deleting the compute environment. If this isn't done, the compute environment enters an invalid state.
+    ///
+    /// - Parameter DeleteComputeEnvironmentInput : Contains the parameters for DeleteComputeEnvironment.
+    ///
+    /// - Returns: `DeleteComputeEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
+    /// - `ServerException` : These errors are usually caused by a server issue.
     public func deleteComputeEnvironment(input: DeleteComputeEnvironmentInput) async throws -> DeleteComputeEnvironmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -270,6 +320,16 @@ extension BatchClient: BatchClientProtocol {
     }
 
     /// Deletes the specified job queue. You must first disable submissions for a queue with the [UpdateJobQueue] operation. All jobs in the queue are eventually terminated when you delete a job queue. The jobs are terminated at a rate of about 16 jobs each second. It's not necessary to disassociate compute environments from a queue before submitting a DeleteJobQueue request.
+    ///
+    /// - Parameter DeleteJobQueueInput : Contains the parameters for DeleteJobQueue.
+    ///
+    /// - Returns: `DeleteJobQueueOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
+    /// - `ServerException` : These errors are usually caused by a server issue.
     public func deleteJobQueue(input: DeleteJobQueueInput) async throws -> DeleteJobQueueOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -306,6 +366,16 @@ extension BatchClient: BatchClientProtocol {
     }
 
     /// Deletes the specified scheduling policy. You can't delete a scheduling policy that's used in any job queues.
+    ///
+    /// - Parameter DeleteSchedulingPolicyInput : Contains the parameters for DeleteSchedulingPolicy.
+    ///
+    /// - Returns: `DeleteSchedulingPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
+    /// - `ServerException` : These errors are usually caused by a server issue.
     public func deleteSchedulingPolicy(input: DeleteSchedulingPolicyInput) async throws -> DeleteSchedulingPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -342,6 +412,16 @@ extension BatchClient: BatchClientProtocol {
     }
 
     /// Deregisters an Batch job definition. Job definitions are permanently deleted after 180 days.
+    ///
+    /// - Parameter DeregisterJobDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `DeregisterJobDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
+    /// - `ServerException` : These errors are usually caused by a server issue.
     public func deregisterJobDefinition(input: DeregisterJobDefinitionInput) async throws -> DeregisterJobDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -378,6 +458,16 @@ extension BatchClient: BatchClientProtocol {
     }
 
     /// Describes one or more of your compute environments. If you're using an unmanaged compute environment, you can use the DescribeComputeEnvironment operation to determine the ecsClusterArn that you launch your Amazon ECS container instances into.
+    ///
+    /// - Parameter DescribeComputeEnvironmentsInput : Contains the parameters for DescribeComputeEnvironments.
+    ///
+    /// - Returns: `DescribeComputeEnvironmentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
+    /// - `ServerException` : These errors are usually caused by a server issue.
     public func describeComputeEnvironments(input: DescribeComputeEnvironmentsInput) async throws -> DescribeComputeEnvironmentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -414,6 +504,16 @@ extension BatchClient: BatchClientProtocol {
     }
 
     /// Describes a list of job definitions. You can specify a status (such as ACTIVE) to only return job definitions that match that status.
+    ///
+    /// - Parameter DescribeJobDefinitionsInput : Contains the parameters for DescribeJobDefinitions.
+    ///
+    /// - Returns: `DescribeJobDefinitionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
+    /// - `ServerException` : These errors are usually caused by a server issue.
     public func describeJobDefinitions(input: DescribeJobDefinitionsInput) async throws -> DescribeJobDefinitionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -450,6 +550,16 @@ extension BatchClient: BatchClientProtocol {
     }
 
     /// Describes one or more of your job queues.
+    ///
+    /// - Parameter DescribeJobQueuesInput : Contains the parameters for DescribeJobQueues.
+    ///
+    /// - Returns: `DescribeJobQueuesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
+    /// - `ServerException` : These errors are usually caused by a server issue.
     public func describeJobQueues(input: DescribeJobQueuesInput) async throws -> DescribeJobQueuesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -486,6 +596,16 @@ extension BatchClient: BatchClientProtocol {
     }
 
     /// Describes a list of Batch jobs.
+    ///
+    /// - Parameter DescribeJobsInput : Contains the parameters for DescribeJobs.
+    ///
+    /// - Returns: `DescribeJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
+    /// - `ServerException` : These errors are usually caused by a server issue.
     public func describeJobs(input: DescribeJobsInput) async throws -> DescribeJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -522,6 +642,16 @@ extension BatchClient: BatchClientProtocol {
     }
 
     /// Describes one or more of your scheduling policies.
+    ///
+    /// - Parameter DescribeSchedulingPoliciesInput : Contains the parameters for DescribeSchedulingPolicies.
+    ///
+    /// - Returns: `DescribeSchedulingPoliciesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
+    /// - `ServerException` : These errors are usually caused by a server issue.
     public func describeSchedulingPolicies(input: DescribeSchedulingPoliciesInput) async throws -> DescribeSchedulingPoliciesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -567,6 +697,16 @@ extension BatchClient: BatchClientProtocol {
     ///
     ///
     /// You can filter the results by job status with the jobStatus parameter. If you don't specify a status, only RUNNING jobs are returned.
+    ///
+    /// - Parameter ListJobsInput : Contains the parameters for ListJobs.
+    ///
+    /// - Returns: `ListJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
+    /// - `ServerException` : These errors are usually caused by a server issue.
     public func listJobs(input: ListJobsInput) async throws -> ListJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -603,6 +743,16 @@ extension BatchClient: BatchClientProtocol {
     }
 
     /// Returns a list of Batch scheduling policies.
+    ///
+    /// - Parameter ListSchedulingPoliciesInput : Contains the parameters for ListSchedulingPolicies.
+    ///
+    /// - Returns: `ListSchedulingPoliciesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
+    /// - `ServerException` : These errors are usually caused by a server issue.
     public func listSchedulingPolicies(input: ListSchedulingPoliciesInput) async throws -> ListSchedulingPoliciesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -639,6 +789,16 @@ extension BatchClient: BatchClientProtocol {
     }
 
     /// Lists the tags for an Batch resource. Batch resources that support tags are compute environments, jobs, job definitions, job queues, and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP) jobs aren't supported.
+    ///
+    /// - Parameter ListTagsForResourceInput : Contains the parameters for ListTagsForResource.
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
+    /// - `ServerException` : These errors are usually caused by a server issue.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -672,6 +832,16 @@ extension BatchClient: BatchClientProtocol {
     }
 
     /// Registers an Batch job definition.
+    ///
+    /// - Parameter RegisterJobDefinitionInput : Contains the parameters for RegisterJobDefinition.
+    ///
+    /// - Returns: `RegisterJobDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
+    /// - `ServerException` : These errors are usually caused by a server issue.
     public func registerJobDefinition(input: RegisterJobDefinitionInput) async throws -> RegisterJobDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -708,6 +878,16 @@ extension BatchClient: BatchClientProtocol {
     }
 
     /// Submits an Batch job from a job definition. Parameters that are specified during [SubmitJob] override parameters defined in the job definition. vCPU and memory requirements that are specified in the resourceRequirements objects in the job definition are the exception. They can't be overridden this way using the memory and vcpus parameters. Rather, you must specify updates to job definition parameters in a resourceRequirements object that's included in the containerOverrides parameter. Job queues with a scheduling policy are limited to 500 active fair share identifiers at a time. Jobs that run on Fargate resources can't be guaranteed to run for more than 14 days. This is because, after 14 days, Fargate resources might become unavailable and job might be terminated.
+    ///
+    /// - Parameter SubmitJobInput : Contains the parameters for SubmitJob.
+    ///
+    /// - Returns: `SubmitJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
+    /// - `ServerException` : These errors are usually caused by a server issue.
     public func submitJob(input: SubmitJobInput) async throws -> SubmitJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -744,6 +924,16 @@ extension BatchClient: BatchClientProtocol {
     }
 
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource aren't specified in the request parameters, they aren't changed. When a resource is deleted, the tags that are associated with that resource are deleted as well. Batch resources that support tags are compute environments, jobs, job definitions, job queues, and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP) jobs aren't supported.
+    ///
+    /// - Parameter TagResourceInput : Contains the parameters for TagResource.
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
+    /// - `ServerException` : These errors are usually caused by a server issue.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -780,6 +970,16 @@ extension BatchClient: BatchClientProtocol {
     }
 
     /// Terminates a job in a job queue. Jobs that are in the STARTING or RUNNING state are terminated, which causes them to transition to FAILED. Jobs that have not progressed to the STARTING state are cancelled.
+    ///
+    /// - Parameter TerminateJobInput : Contains the parameters for TerminateJob.
+    ///
+    /// - Returns: `TerminateJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
+    /// - `ServerException` : These errors are usually caused by a server issue.
     public func terminateJob(input: TerminateJobInput) async throws -> TerminateJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -816,6 +1016,16 @@ extension BatchClient: BatchClientProtocol {
     }
 
     /// Deletes specified tags from an Batch resource.
+    ///
+    /// - Parameter UntagResourceInput : Contains the parameters for UntagResource.
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
+    /// - `ServerException` : These errors are usually caused by a server issue.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -850,6 +1060,16 @@ extension BatchClient: BatchClientProtocol {
     }
 
     /// Updates an Batch compute environment.
+    ///
+    /// - Parameter UpdateComputeEnvironmentInput : Contains the parameters for UpdateComputeEnvironment.
+    ///
+    /// - Returns: `UpdateComputeEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
+    /// - `ServerException` : These errors are usually caused by a server issue.
     public func updateComputeEnvironment(input: UpdateComputeEnvironmentInput) async throws -> UpdateComputeEnvironmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -886,6 +1106,16 @@ extension BatchClient: BatchClientProtocol {
     }
 
     /// Updates a job queue.
+    ///
+    /// - Parameter UpdateJobQueueInput : Contains the parameters for UpdateJobQueue.
+    ///
+    /// - Returns: `UpdateJobQueueOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
+    /// - `ServerException` : These errors are usually caused by a server issue.
     public func updateJobQueue(input: UpdateJobQueueInput) async throws -> UpdateJobQueueOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -922,6 +1152,16 @@ extension BatchClient: BatchClientProtocol {
     }
 
     /// Updates a scheduling policy.
+    ///
+    /// - Parameter UpdateSchedulingPolicyInput : Contains the parameters for UpdateSchedulingPolicy.
+    ///
+    /// - Returns: `UpdateSchedulingPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
+    /// - `ServerException` : These errors are usually caused by a server issue.
     public func updateSchedulingPolicy(input: UpdateSchedulingPolicyInput) async throws -> UpdateSchedulingPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

@@ -68,6 +68,20 @@ public struct MediaPackageVodClientLogHandlerFactory: ClientRuntime.SDKLogHandle
 
 extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     /// Changes the packaging group's properities to configure log subscription
+    ///
+    /// - Parameter ConfigureLogsInput : The option to configure log subscription.
+    ///
+    /// - Returns: `ConfigureLogsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ForbiddenException` : The client is not authorized to access the requested resource.
+    /// - `InternalServerErrorException` : An unexpected error occurred.
+    /// - `NotFoundException` : The requested resource does not exist.
+    /// - `ServiceUnavailableException` : An unexpected error occurred.
+    /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
+    /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
     public func configureLogs(input: ConfigureLogsInput) async throws -> ConfigureLogsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +118,20 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     }
 
     /// Creates a new MediaPackage VOD Asset resource.
+    ///
+    /// - Parameter CreateAssetInput : A new MediaPackage VOD Asset configuration.
+    ///
+    /// - Returns: `CreateAssetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ForbiddenException` : The client is not authorized to access the requested resource.
+    /// - `InternalServerErrorException` : An unexpected error occurred.
+    /// - `NotFoundException` : The requested resource does not exist.
+    /// - `ServiceUnavailableException` : An unexpected error occurred.
+    /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
+    /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
     public func createAsset(input: CreateAssetInput) async throws -> CreateAssetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -140,6 +168,20 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     }
 
     /// Creates a new MediaPackage VOD PackagingConfiguration resource.
+    ///
+    /// - Parameter CreatePackagingConfigurationInput : A new MediaPackage VOD PackagingConfiguration resource configuration.
+    ///
+    /// - Returns: `CreatePackagingConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ForbiddenException` : The client is not authorized to access the requested resource.
+    /// - `InternalServerErrorException` : An unexpected error occurred.
+    /// - `NotFoundException` : The requested resource does not exist.
+    /// - `ServiceUnavailableException` : An unexpected error occurred.
+    /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
+    /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
     public func createPackagingConfiguration(input: CreatePackagingConfigurationInput) async throws -> CreatePackagingConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -176,6 +218,20 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     }
 
     /// Creates a new MediaPackage VOD PackagingGroup resource.
+    ///
+    /// - Parameter CreatePackagingGroupInput : A new MediaPackage VOD PackagingGroup resource configuration.
+    ///
+    /// - Returns: `CreatePackagingGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ForbiddenException` : The client is not authorized to access the requested resource.
+    /// - `InternalServerErrorException` : An unexpected error occurred.
+    /// - `NotFoundException` : The requested resource does not exist.
+    /// - `ServiceUnavailableException` : An unexpected error occurred.
+    /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
+    /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
     public func createPackagingGroup(input: CreatePackagingGroupInput) async throws -> CreatePackagingGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -212,6 +268,20 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     }
 
     /// Deletes an existing MediaPackage VOD Asset resource.
+    ///
+    /// - Parameter DeleteAssetInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAssetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ForbiddenException` : The client is not authorized to access the requested resource.
+    /// - `InternalServerErrorException` : An unexpected error occurred.
+    /// - `NotFoundException` : The requested resource does not exist.
+    /// - `ServiceUnavailableException` : An unexpected error occurred.
+    /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
+    /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
     public func deleteAsset(input: DeleteAssetInput) async throws -> DeleteAssetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -245,6 +315,20 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     }
 
     /// Deletes a MediaPackage VOD PackagingConfiguration resource.
+    ///
+    /// - Parameter DeletePackagingConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePackagingConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ForbiddenException` : The client is not authorized to access the requested resource.
+    /// - `InternalServerErrorException` : An unexpected error occurred.
+    /// - `NotFoundException` : The requested resource does not exist.
+    /// - `ServiceUnavailableException` : An unexpected error occurred.
+    /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
+    /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
     public func deletePackagingConfiguration(input: DeletePackagingConfigurationInput) async throws -> DeletePackagingConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -278,6 +362,20 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     }
 
     /// Deletes a MediaPackage VOD PackagingGroup resource.
+    ///
+    /// - Parameter DeletePackagingGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePackagingGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ForbiddenException` : The client is not authorized to access the requested resource.
+    /// - `InternalServerErrorException` : An unexpected error occurred.
+    /// - `NotFoundException` : The requested resource does not exist.
+    /// - `ServiceUnavailableException` : An unexpected error occurred.
+    /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
+    /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
     public func deletePackagingGroup(input: DeletePackagingGroupInput) async throws -> DeletePackagingGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -311,6 +409,20 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     }
 
     /// Returns a description of a MediaPackage VOD Asset resource.
+    ///
+    /// - Parameter DescribeAssetInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAssetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ForbiddenException` : The client is not authorized to access the requested resource.
+    /// - `InternalServerErrorException` : An unexpected error occurred.
+    /// - `NotFoundException` : The requested resource does not exist.
+    /// - `ServiceUnavailableException` : An unexpected error occurred.
+    /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
+    /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
     public func describeAsset(input: DescribeAssetInput) async throws -> DescribeAssetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -344,6 +456,20 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     }
 
     /// Returns a description of a MediaPackage VOD PackagingConfiguration resource.
+    ///
+    /// - Parameter DescribePackagingConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribePackagingConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ForbiddenException` : The client is not authorized to access the requested resource.
+    /// - `InternalServerErrorException` : An unexpected error occurred.
+    /// - `NotFoundException` : The requested resource does not exist.
+    /// - `ServiceUnavailableException` : An unexpected error occurred.
+    /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
+    /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
     public func describePackagingConfiguration(input: DescribePackagingConfigurationInput) async throws -> DescribePackagingConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -377,6 +503,20 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     }
 
     /// Returns a description of a MediaPackage VOD PackagingGroup resource.
+    ///
+    /// - Parameter DescribePackagingGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DescribePackagingGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ForbiddenException` : The client is not authorized to access the requested resource.
+    /// - `InternalServerErrorException` : An unexpected error occurred.
+    /// - `NotFoundException` : The requested resource does not exist.
+    /// - `ServiceUnavailableException` : An unexpected error occurred.
+    /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
+    /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
     public func describePackagingGroup(input: DescribePackagingGroupInput) async throws -> DescribePackagingGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -410,6 +550,20 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     }
 
     /// Returns a collection of MediaPackage VOD Asset resources.
+    ///
+    /// - Parameter ListAssetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAssetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ForbiddenException` : The client is not authorized to access the requested resource.
+    /// - `InternalServerErrorException` : An unexpected error occurred.
+    /// - `NotFoundException` : The requested resource does not exist.
+    /// - `ServiceUnavailableException` : An unexpected error occurred.
+    /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
+    /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
     public func listAssets(input: ListAssetsInput) async throws -> ListAssetsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -444,6 +598,20 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     }
 
     /// Returns a collection of MediaPackage VOD PackagingConfiguration resources.
+    ///
+    /// - Parameter ListPackagingConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPackagingConfigurationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ForbiddenException` : The client is not authorized to access the requested resource.
+    /// - `InternalServerErrorException` : An unexpected error occurred.
+    /// - `NotFoundException` : The requested resource does not exist.
+    /// - `ServiceUnavailableException` : An unexpected error occurred.
+    /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
+    /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
     public func listPackagingConfigurations(input: ListPackagingConfigurationsInput) async throws -> ListPackagingConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -478,6 +646,20 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     }
 
     /// Returns a collection of MediaPackage VOD PackagingGroup resources.
+    ///
+    /// - Parameter ListPackagingGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPackagingGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ForbiddenException` : The client is not authorized to access the requested resource.
+    /// - `InternalServerErrorException` : An unexpected error occurred.
+    /// - `NotFoundException` : The requested resource does not exist.
+    /// - `ServiceUnavailableException` : An unexpected error occurred.
+    /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
+    /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
     public func listPackagingGroups(input: ListPackagingGroupsInput) async throws -> ListPackagingGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -512,6 +694,10 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     }
 
     /// Returns a list of the tags assigned to the specified resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -545,6 +731,10 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     }
 
     /// Adds tags to the specified resource. You can specify one or more tags to add.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -581,6 +771,10 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     }
 
     /// Removes tags from the specified resource. You can specify one or more tags to remove.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -615,6 +809,20 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     }
 
     /// Updates a specific packaging group. You can't change the id attribute or any other system-generated attributes.
+    ///
+    /// - Parameter UpdatePackagingGroupInput : A MediaPackage VOD PackagingGroup resource configuration.
+    ///
+    /// - Returns: `UpdatePackagingGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ForbiddenException` : The client is not authorized to access the requested resource.
+    /// - `InternalServerErrorException` : An unexpected error occurred.
+    /// - `NotFoundException` : The requested resource does not exist.
+    /// - `ServiceUnavailableException` : An unexpected error occurred.
+    /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
+    /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
     public func updatePackagingGroup(input: UpdatePackagingGroupInput) async throws -> UpdatePackagingGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

@@ -5,32 +5,243 @@ import ClientRuntime
 /// Amazon Cloud Directory Amazon Cloud Directory is a component of the AWS Directory Service that simplifies the development and management of cloud-scale web, mobile, and IoT applications. This guide describes the Cloud Directory operations that you can call programmatically and includes detailed information on data types and errors. For information about Cloud Directory features, see [AWS Directory Service](https://aws.amazon.com/directoryservice/) and the [Amazon Cloud Directory Developer Guide](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/what_is_cloud_directory.html).
 public protocol CloudDirectoryClientProtocol {
     /// Adds a new [Facet] to an object. An object can have more than one facet applied on it.
+    ///
+    /// - Parameter AddFacetToObjectInput : [no documentation found]
+    ///
+    /// - Returns: `AddFacetToObjectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `FacetValidationException` : The [Facet] that you provided was not well formed or could not be validated with the schema.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func addFacetToObject(input: AddFacetToObjectInput) async throws -> AddFacetToObjectOutputResponse
     /// Copies the input published schema, at the specified version, into the [Directory] with the same name and version as that of the published schema.
+    ///
+    /// - Parameter ApplySchemaInput : [no documentation found]
+    ///
+    /// - Returns: `ApplySchemaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidAttachmentException` : Indicates that an attempt to make an attachment was invalid. For example, attaching two nodes with a link type that is not applicable to the nodes or attempting to apply a schema to a directory a second time.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `SchemaAlreadyExistsException` : Indicates that a schema could not be created due to a naming conflict. Please select a different name and then try again.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func applySchema(input: ApplySchemaInput) async throws -> ApplySchemaOutputResponse
     /// Attaches an existing object to another object. An object can be accessed in two ways:
     ///
     /// * Using the path
     ///
     /// * Using ObjectIdentifier
+    ///
+    /// - Parameter AttachObjectInput : [no documentation found]
+    ///
+    /// - Returns: `AttachObjectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `FacetValidationException` : The [Facet] that you provided was not well formed or could not be validated with the schema.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidAttachmentException` : Indicates that an attempt to make an attachment was invalid. For example, attaching two nodes with a link type that is not applicable to the nodes or attempting to apply a schema to a directory a second time.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `LinkNameAlreadyInUseException` : Indicates that a link could not be created due to a naming conflict. Choose a different name and then try again.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func attachObject(input: AttachObjectInput) async throws -> AttachObjectOutputResponse
     /// Attaches a policy object to a regular object. An object can have a limited number of attached policies.
+    ///
+    /// - Parameter AttachPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `AttachPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `NotPolicyException` : Indicates that the requested operation can only operate on policy objects.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func attachPolicy(input: AttachPolicyInput) async throws -> AttachPolicyOutputResponse
     /// Attaches the specified object to the specified index.
+    ///
+    /// - Parameter AttachToIndexInput : [no documentation found]
+    ///
+    /// - Returns: `AttachToIndexOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `IndexedAttributeMissingException` : An object has been attempted to be attached to an object that does not have the appropriate attribute value.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidAttachmentException` : Indicates that an attempt to make an attachment was invalid. For example, attaching two nodes with a link type that is not applicable to the nodes or attempting to apply a schema to a directory a second time.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `LinkNameAlreadyInUseException` : Indicates that a link could not be created due to a naming conflict. Choose a different name and then try again.
+    /// - `NotIndexException` : Indicates that the requested operation can only operate on index objects.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func attachToIndex(input: AttachToIndexInput) async throws -> AttachToIndexOutputResponse
     /// Attaches a typed link to a specified source and target object. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
+    ///
+    /// - Parameter AttachTypedLinkInput : [no documentation found]
+    ///
+    /// - Returns: `AttachTypedLinkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `FacetValidationException` : The [Facet] that you provided was not well formed or could not be validated with the schema.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidAttachmentException` : Indicates that an attempt to make an attachment was invalid. For example, attaching two nodes with a link type that is not applicable to the nodes or attempting to apply a schema to a directory a second time.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func attachTypedLink(input: AttachTypedLinkInput) async throws -> AttachTypedLinkOutputResponse
     /// Performs all the read operations in a batch.
+    ///
+    /// - Parameter BatchReadInput : [no documentation found]
+    ///
+    /// - Returns: `BatchReadOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func batchRead(input: BatchReadInput) async throws -> BatchReadOutputResponse
     /// Performs all the write operations in a batch. Either all the operations succeed or none.
+    ///
+    /// - Parameter BatchWriteInput : [no documentation found]
+    ///
+    /// - Returns: `BatchWriteOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `BatchWriteException` : A BatchWrite exception has occurred.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func batchWrite(input: BatchWriteInput) async throws -> BatchWriteOutputResponse
     /// Creates a [Directory] by copying the published schema into the directory. A directory cannot be created without a schema. You can also quickly create a directory using a managed schema, called the QuickStartSchema. For more information, see [Managed Schema](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_managed.html) in the Amazon Cloud Directory Developer Guide.
+    ///
+    /// - Parameter CreateDirectoryInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDirectoryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryAlreadyExistsException` : Indicates that a [Directory] could not be created due to a naming conflict. Choose a different name and try again.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func createDirectory(input: CreateDirectoryInput) async throws -> CreateDirectoryOutputResponse
     /// Creates a new [Facet] in a schema. Facet creation is allowed only in development or applied schemas.
+    ///
+    /// - Parameter CreateFacetInput : [no documentation found]
+    ///
+    /// - Returns: `CreateFacetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `FacetAlreadyExistsException` : A facet with the same name already exists.
+    /// - `FacetValidationException` : The [Facet] that you provided was not well formed or could not be validated with the schema.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidRuleException` : Occurs when any of the rule parameter keys or values are invalid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func createFacet(input: CreateFacetInput) async throws -> CreateFacetOutputResponse
     /// Creates an index object. See [Indexing and search](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/indexing_search.html) for more information.
+    ///
+    /// - Parameter CreateIndexInput : [no documentation found]
+    ///
+    /// - Returns: `CreateIndexOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `FacetValidationException` : The [Facet] that you provided was not well formed or could not be validated with the schema.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `LinkNameAlreadyInUseException` : Indicates that a link could not be created due to a naming conflict. Choose a different name and then try again.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `UnsupportedIndexTypeException` : Indicates that the requested index type is not supported.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func createIndex(input: CreateIndexInput) async throws -> CreateIndexOutputResponse
     /// Creates an object in a [Directory]. Additionally attaches the object to a parent, if a parent reference and LinkName is specified. An object is simply a collection of [Facet] attributes. You can also use this API call to create a policy object, if the facet from which you create the object is a policy facet.
+    ///
+    /// - Parameter CreateObjectInput : [no documentation found]
+    ///
+    /// - Returns: `CreateObjectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `FacetValidationException` : The [Facet] that you provided was not well formed or could not be validated with the schema.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `LinkNameAlreadyInUseException` : Indicates that a link could not be created due to a naming conflict. Choose a different name and then try again.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `UnsupportedIndexTypeException` : Indicates that the requested index type is not supported.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func createObject(input: CreateObjectInput) async throws -> CreateObjectOutputResponse
     /// Creates a new schema in a development state. A schema can exist in three phases:
     ///
@@ -39,98 +250,876 @@ public protocol CloudDirectoryClientProtocol {
     /// * Published: Published schemas are immutable and have a version associated with them.
     ///
     /// * Applied: Applied schemas are mutable in a way that allows you to add new schema facets. You can also add new, nonrequired attributes to existing schema facets. You can apply only published schemas to directories.
+    ///
+    /// - Parameter CreateSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSchemaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `SchemaAlreadyExistsException` : Indicates that a schema could not be created due to a naming conflict. Please select a different name and then try again.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func createSchema(input: CreateSchemaInput) async throws -> CreateSchemaOutputResponse
     /// Creates a [TypedLinkFacet]. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
+    ///
+    /// - Parameter CreateTypedLinkFacetInput : [no documentation found]
+    ///
+    /// - Returns: `CreateTypedLinkFacetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `FacetAlreadyExistsException` : A facet with the same name already exists.
+    /// - `FacetValidationException` : The [Facet] that you provided was not well formed or could not be validated with the schema.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidRuleException` : Occurs when any of the rule parameter keys or values are invalid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func createTypedLinkFacet(input: CreateTypedLinkFacetInput) async throws -> CreateTypedLinkFacetOutputResponse
     /// Deletes a directory. Only disabled directories can be deleted. A deleted directory cannot be undone. Exercise extreme caution when deleting directories.
+    ///
+    /// - Parameter DeleteDirectoryInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDirectoryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryDeletedException` : A directory that has been deleted and to which access has been attempted. Note: The requested resource will eventually cease to exist.
+    /// - `DirectoryNotDisabledException` : An operation can only operate on a disabled directory.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func deleteDirectory(input: DeleteDirectoryInput) async throws -> DeleteDirectoryOutputResponse
     /// Deletes a given [Facet]. All attributes and [Rule]s that are associated with the facet will be deleted. Only development schema facets are allowed deletion.
+    ///
+    /// - Parameter DeleteFacetInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteFacetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `FacetInUseException` : Occurs when deleting a facet that contains an attribute that is a target to an attribute reference in a different facet.
+    /// - `FacetNotFoundException` : The specified [Facet] could not be found.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func deleteFacet(input: DeleteFacetInput) async throws -> DeleteFacetOutputResponse
     /// Deletes an object and its associated attributes. Only objects with no children and no parents can be deleted. The maximum number of attributes that can be deleted during an object deletion is 30. For more information, see [Amazon Cloud Directory Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html).
+    ///
+    /// - Parameter DeleteObjectInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteObjectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ObjectNotDetachedException` : Indicates that the requested operation cannot be completed because the object has not been detached from the tree.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func deleteObject(input: DeleteObjectInput) async throws -> DeleteObjectOutputResponse
     /// Deletes a given schema. Schemas in a development and published state can only be deleted.
+    ///
+    /// - Parameter DeleteSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSchemaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `StillContainsLinksException` : The object could not be deleted because links still exist. Remove the links and then try the operation again.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func deleteSchema(input: DeleteSchemaInput) async throws -> DeleteSchemaOutputResponse
     /// Deletes a [TypedLinkFacet]. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
+    ///
+    /// - Parameter DeleteTypedLinkFacetInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteTypedLinkFacetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `FacetNotFoundException` : The specified [Facet] could not be found.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func deleteTypedLinkFacet(input: DeleteTypedLinkFacetInput) async throws -> DeleteTypedLinkFacetOutputResponse
     /// Detaches the specified object from the specified index.
+    ///
+    /// - Parameter DetachFromIndexInput : [no documentation found]
+    ///
+    /// - Returns: `DetachFromIndexOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `NotIndexException` : Indicates that the requested operation can only operate on index objects.
+    /// - `ObjectAlreadyDetachedException` : Indicates that the object is not attached to the index.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func detachFromIndex(input: DetachFromIndexInput) async throws -> DetachFromIndexOutputResponse
     /// Detaches a given object from the parent object. The object that is to be detached from the parent is specified by the link name.
+    ///
+    /// - Parameter DetachObjectInput : [no documentation found]
+    ///
+    /// - Returns: `DetachObjectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `NotNodeException` : Occurs when any invalid operations are performed on an object that is not a node, such as calling ListObjectChildren for a leaf node object.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func detachObject(input: DetachObjectInput) async throws -> DetachObjectOutputResponse
     /// Detaches a policy from an object.
+    ///
+    /// - Parameter DetachPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DetachPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `NotPolicyException` : Indicates that the requested operation can only operate on policy objects.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func detachPolicy(input: DetachPolicyInput) async throws -> DetachPolicyOutputResponse
     /// Detaches a typed link from a specified source and target object. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
+    ///
+    /// - Parameter DetachTypedLinkInput : [no documentation found]
+    ///
+    /// - Returns: `DetachTypedLinkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `FacetValidationException` : The [Facet] that you provided was not well formed or could not be validated with the schema.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func detachTypedLink(input: DetachTypedLinkInput) async throws -> DetachTypedLinkOutputResponse
     /// Disables the specified directory. Disabled directories cannot be read or written to. Only enabled directories can be disabled. Disabled directories may be reenabled.
+    ///
+    /// - Parameter DisableDirectoryInput : [no documentation found]
+    ///
+    /// - Returns: `DisableDirectoryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryDeletedException` : A directory that has been deleted and to which access has been attempted. Note: The requested resource will eventually cease to exist.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func disableDirectory(input: DisableDirectoryInput) async throws -> DisableDirectoryOutputResponse
     /// Enables the specified directory. Only disabled directories can be enabled. Once enabled, the directory can then be read and written to.
+    ///
+    /// - Parameter EnableDirectoryInput : [no documentation found]
+    ///
+    /// - Returns: `EnableDirectoryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryDeletedException` : A directory that has been deleted and to which access has been attempted. Note: The requested resource will eventually cease to exist.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func enableDirectory(input: EnableDirectoryInput) async throws -> EnableDirectoryOutputResponse
     /// Returns current applied schema version ARN, including the minor version in use.
+    ///
+    /// - Parameter GetAppliedSchemaVersionInput : [no documentation found]
+    ///
+    /// - Returns: `GetAppliedSchemaVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func getAppliedSchemaVersion(input: GetAppliedSchemaVersionInput) async throws -> GetAppliedSchemaVersionOutputResponse
     /// Retrieves metadata about a directory.
+    ///
+    /// - Parameter GetDirectoryInput : [no documentation found]
+    ///
+    /// - Returns: `GetDirectoryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func getDirectory(input: GetDirectoryInput) async throws -> GetDirectoryOutputResponse
     /// Gets details of the [Facet], such as facet name, attributes, [Rule]s, or ObjectType. You can call this on all kinds of schema facets -- published, development, or applied.
+    ///
+    /// - Parameter GetFacetInput : [no documentation found]
+    ///
+    /// - Returns: `GetFacetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `FacetNotFoundException` : The specified [Facet] could not be found.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func getFacet(input: GetFacetInput) async throws -> GetFacetOutputResponse
     /// Retrieves attributes that are associated with a typed link.
+    ///
+    /// - Parameter GetLinkAttributesInput : [no documentation found]
+    ///
+    /// - Returns: `GetLinkAttributesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `FacetValidationException` : The [Facet] that you provided was not well formed or could not be validated with the schema.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func getLinkAttributes(input: GetLinkAttributesInput) async throws -> GetLinkAttributesOutputResponse
     /// Retrieves attributes within a facet that are associated with an object.
+    ///
+    /// - Parameter GetObjectAttributesInput : [no documentation found]
+    ///
+    /// - Returns: `GetObjectAttributesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `FacetValidationException` : The [Facet] that you provided was not well formed or could not be validated with the schema.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func getObjectAttributes(input: GetObjectAttributesInput) async throws -> GetObjectAttributesOutputResponse
     /// Retrieves metadata about an object.
+    ///
+    /// - Parameter GetObjectInformationInput : [no documentation found]
+    ///
+    /// - Returns: `GetObjectInformationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func getObjectInformation(input: GetObjectInformationInput) async throws -> GetObjectInformationOutputResponse
     /// Retrieves a JSON representation of the schema. See [JSON Schema Format](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_jsonformat.html#schemas_json) for more information.
+    ///
+    /// - Parameter GetSchemaAsJsonInput : [no documentation found]
+    ///
+    /// - Returns: `GetSchemaAsJsonOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func getSchemaAsJson(input: GetSchemaAsJsonInput) async throws -> GetSchemaAsJsonOutputResponse
     /// Returns the identity attribute order for a specific [TypedLinkFacet]. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
+    ///
+    /// - Parameter GetTypedLinkFacetInformationInput : [no documentation found]
+    ///
+    /// - Returns: `GetTypedLinkFacetInformationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `FacetNotFoundException` : The specified [Facet] could not be found.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidNextTokenException` : Indicates that the NextToken value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func getTypedLinkFacetInformation(input: GetTypedLinkFacetInformationInput) async throws -> GetTypedLinkFacetInformationOutputResponse
     /// Lists schema major versions applied to a directory. If SchemaArn is provided, lists the minor version.
+    ///
+    /// - Parameter ListAppliedSchemaArnsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAppliedSchemaArnsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidNextTokenException` : Indicates that the NextToken value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listAppliedSchemaArns(input: ListAppliedSchemaArnsInput) async throws -> ListAppliedSchemaArnsOutputResponse
     /// Lists indices attached to the specified object.
+    ///
+    /// - Parameter ListAttachedIndicesInput : [no documentation found]
+    ///
+    /// - Returns: `ListAttachedIndicesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listAttachedIndices(input: ListAttachedIndicesInput) async throws -> ListAttachedIndicesOutputResponse
     /// Retrieves each Amazon Resource Name (ARN) of schemas in the development state.
+    ///
+    /// - Parameter ListDevelopmentSchemaArnsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDevelopmentSchemaArnsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidNextTokenException` : Indicates that the NextToken value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listDevelopmentSchemaArns(input: ListDevelopmentSchemaArnsInput) async throws -> ListDevelopmentSchemaArnsOutputResponse
     /// Lists directories created within an account.
+    ///
+    /// - Parameter ListDirectoriesInput : [no documentation found]
+    ///
+    /// - Returns: `ListDirectoriesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidNextTokenException` : Indicates that the NextToken value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listDirectories(input: ListDirectoriesInput) async throws -> ListDirectoriesOutputResponse
     /// Retrieves attributes attached to the facet.
+    ///
+    /// - Parameter ListFacetAttributesInput : [no documentation found]
+    ///
+    /// - Returns: `ListFacetAttributesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `FacetNotFoundException` : The specified [Facet] could not be found.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidNextTokenException` : Indicates that the NextToken value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listFacetAttributes(input: ListFacetAttributesInput) async throws -> ListFacetAttributesOutputResponse
     /// Retrieves the names of facets that exist in a schema.
+    ///
+    /// - Parameter ListFacetNamesInput : [no documentation found]
+    ///
+    /// - Returns: `ListFacetNamesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidNextTokenException` : Indicates that the NextToken value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listFacetNames(input: ListFacetNamesInput) async throws -> ListFacetNamesOutputResponse
     /// Returns a paginated list of all the incoming [TypedLinkSpecifier] information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
+    ///
+    /// - Parameter ListIncomingTypedLinksInput : [no documentation found]
+    ///
+    /// - Returns: `ListIncomingTypedLinksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `FacetValidationException` : The [Facet] that you provided was not well formed or could not be validated with the schema.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidNextTokenException` : Indicates that the NextToken value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listIncomingTypedLinks(input: ListIncomingTypedLinksInput) async throws -> ListIncomingTypedLinksOutputResponse
     /// Lists objects attached to the specified index.
+    ///
+    /// - Parameter ListIndexInput : [no documentation found]
+    ///
+    /// - Returns: `ListIndexOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `FacetValidationException` : The [Facet] that you provided was not well formed or could not be validated with the schema.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidNextTokenException` : Indicates that the NextToken value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `NotIndexException` : Indicates that the requested operation can only operate on index objects.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listIndex(input: ListIndexInput) async throws -> ListIndexOutputResponse
     /// Lists the major version families of each managed schema. If a major version ARN is provided as SchemaArn, the minor version revisions in that family are listed instead.
+    ///
+    /// - Parameter ListManagedSchemaArnsInput : [no documentation found]
+    ///
+    /// - Returns: `ListManagedSchemaArnsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidNextTokenException` : Indicates that the NextToken value is not valid.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listManagedSchemaArns(input: ListManagedSchemaArnsInput) async throws -> ListManagedSchemaArnsOutputResponse
     /// Lists all attributes that are associated with an object.
+    ///
+    /// - Parameter ListObjectAttributesInput : [no documentation found]
+    ///
+    /// - Returns: `ListObjectAttributesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `FacetValidationException` : The [Facet] that you provided was not well formed or could not be validated with the schema.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidNextTokenException` : Indicates that the NextToken value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listObjectAttributes(input: ListObjectAttributesInput) async throws -> ListObjectAttributesOutputResponse
     /// Returns a paginated list of child objects that are associated with a given object.
+    ///
+    /// - Parameter ListObjectChildrenInput : [no documentation found]
+    ///
+    /// - Returns: `ListObjectChildrenOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidNextTokenException` : Indicates that the NextToken value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `NotNodeException` : Occurs when any invalid operations are performed on an object that is not a node, such as calling ListObjectChildren for a leaf node object.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listObjectChildren(input: ListObjectChildrenInput) async throws -> ListObjectChildrenOutputResponse
     /// Retrieves all available parent paths for any object type such as node, leaf node, policy node, and index node objects. For more information about objects, see [Directory Structure](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directorystructure.html). Use this API to evaluate all parents for an object. The call returns all objects from the root of the directory up to the requested object. The API returns the number of paths based on user-defined MaxResults, in case there are multiple paths to the parent. The order of the paths and nodes returned is consistent among multiple API calls unless the objects are deleted or moved. Paths not leading to the directory root are ignored from the target object.
+    ///
+    /// - Parameter ListObjectParentPathsInput : [no documentation found]
+    ///
+    /// - Returns: `ListObjectParentPathsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidNextTokenException` : Indicates that the NextToken value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listObjectParentPaths(input: ListObjectParentPathsInput) async throws -> ListObjectParentPathsOutputResponse
     /// Lists parent objects that are associated with a given object in pagination fashion.
+    ///
+    /// - Parameter ListObjectParentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListObjectParentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `CannotListParentOfRootException` : Cannot list the parents of a [Directory] root.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidNextTokenException` : Indicates that the NextToken value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listObjectParents(input: ListObjectParentsInput) async throws -> ListObjectParentsOutputResponse
     /// Returns policies attached to an object in pagination fashion.
+    ///
+    /// - Parameter ListObjectPoliciesInput : [no documentation found]
+    ///
+    /// - Returns: `ListObjectPoliciesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidNextTokenException` : Indicates that the NextToken value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listObjectPolicies(input: ListObjectPoliciesInput) async throws -> ListObjectPoliciesOutputResponse
     /// Returns a paginated list of all the outgoing [TypedLinkSpecifier] information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
+    ///
+    /// - Parameter ListOutgoingTypedLinksInput : [no documentation found]
+    ///
+    /// - Returns: `ListOutgoingTypedLinksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `FacetValidationException` : The [Facet] that you provided was not well formed or could not be validated with the schema.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidNextTokenException` : Indicates that the NextToken value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listOutgoingTypedLinks(input: ListOutgoingTypedLinksInput) async throws -> ListOutgoingTypedLinksOutputResponse
     /// Returns all of the ObjectIdentifiers to which a given policy is attached.
+    ///
+    /// - Parameter ListPolicyAttachmentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPolicyAttachmentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidNextTokenException` : Indicates that the NextToken value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `NotPolicyException` : Indicates that the requested operation can only operate on policy objects.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listPolicyAttachments(input: ListPolicyAttachmentsInput) async throws -> ListPolicyAttachmentsOutputResponse
     /// Lists the major version families of each published schema. If a major version ARN is provided as SchemaArn, the minor version revisions in that family are listed instead.
+    ///
+    /// - Parameter ListPublishedSchemaArnsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPublishedSchemaArnsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidNextTokenException` : Indicates that the NextToken value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listPublishedSchemaArns(input: ListPublishedSchemaArnsInput) async throws -> ListPublishedSchemaArnsOutputResponse
     /// Returns tags for a resource. Tagging is currently supported only for directories with a limit of 50 tags per directory. All 50 tags are returned for a given directory with this API call.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidTaggingRequestException` : Can occur for multiple reasons such as when you tag a resource that doesn’t exist or if you specify a higher number of tags for a resource than the allowed limit. Allowed limit is 50 tags per resource.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Returns a paginated list of all attribute definitions for a particular [TypedLinkFacet]. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
+    ///
+    /// - Parameter ListTypedLinkFacetAttributesInput : [no documentation found]
+    ///
+    /// - Returns: `ListTypedLinkFacetAttributesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `FacetNotFoundException` : The specified [Facet] could not be found.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidNextTokenException` : Indicates that the NextToken value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listTypedLinkFacetAttributes(input: ListTypedLinkFacetAttributesInput) async throws -> ListTypedLinkFacetAttributesOutputResponse
     /// Returns a paginated list of TypedLink facet names for a particular schema. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
+    ///
+    /// - Parameter ListTypedLinkFacetNamesInput : [no documentation found]
+    ///
+    /// - Returns: `ListTypedLinkFacetNamesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidNextTokenException` : Indicates that the NextToken value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listTypedLinkFacetNames(input: ListTypedLinkFacetNamesInput) async throws -> ListTypedLinkFacetNamesOutputResponse
     /// Lists all policies from the root of the [Directory] to the object specified. If there are no policies present, an empty list is returned. If policies are present, and if some objects don't have the policies attached, it returns the ObjectIdentifier for such objects. If policies are present, it returns ObjectIdentifier, policyId, and policyType. Paths that don't lead to the root from the target object are ignored. For more information, see [Policies](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directory.html#key_concepts_policies).
+    ///
+    /// - Parameter LookupPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `LookupPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidNextTokenException` : Indicates that the NextToken value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func lookupPolicy(input: LookupPolicyInput) async throws -> LookupPolicyOutputResponse
     /// Publishes a development schema with a major version and a recommended minor version.
+    ///
+    /// - Parameter PublishSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `PublishSchemaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `SchemaAlreadyPublishedException` : Indicates that a schema is already published.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func publishSchema(input: PublishSchemaInput) async throws -> PublishSchemaOutputResponse
     /// Allows a schema to be updated using JSON upload. Only available for development schemas. See [JSON Schema Format](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_jsonformat.html#schemas_json) for more information.
+    ///
+    /// - Parameter PutSchemaFromJsonInput : [no documentation found]
+    ///
+    /// - Returns: `PutSchemaFromJsonOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidRuleException` : Occurs when any of the rule parameter keys or values are invalid.
+    /// - `InvalidSchemaDocException` : Indicates that the provided SchemaDoc value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func putSchemaFromJson(input: PutSchemaFromJsonInput) async throws -> PutSchemaFromJsonOutputResponse
     /// Removes the specified facet from the specified object.
+    ///
+    /// - Parameter RemoveFacetFromObjectInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveFacetFromObjectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `FacetValidationException` : The [Facet] that you provided was not well formed or could not be validated with the schema.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func removeFacetFromObject(input: RemoveFacetFromObjectInput) async throws -> RemoveFacetFromObjectOutputResponse
     /// An API operation for adding tags to a resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidTaggingRequestException` : Can occur for multiple reasons such as when you tag a resource that doesn’t exist or if you specify a higher number of tags for a resource than the allowed limit. Allowed limit is 50 tags per resource.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// An API operation for removing tags from a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidTaggingRequestException` : Can occur for multiple reasons such as when you tag a resource that doesn’t exist or if you specify a higher number of tags for a resource than the allowed limit. Allowed limit is 50 tags per resource.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Does the following:
     ///
@@ -139,18 +1128,140 @@ public protocol CloudDirectoryClientProtocol {
     /// * Updates existing Attributes, Rules, or ObjectTypes.
     ///
     /// * Deletes existing Attributes, Rules, or ObjectTypes.
+    ///
+    /// - Parameter UpdateFacetInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateFacetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `FacetNotFoundException` : The specified [Facet] could not be found.
+    /// - `FacetValidationException` : The [Facet] that you provided was not well formed or could not be validated with the schema.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidFacetUpdateException` : An attempt to modify a [Facet] resulted in an invalid schema exception.
+    /// - `InvalidRuleException` : Occurs when any of the rule parameter keys or values are invalid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func updateFacet(input: UpdateFacetInput) async throws -> UpdateFacetOutputResponse
     /// Updates a given typed link’s attributes. Attributes to be updated must not contribute to the typed link’s identity, as defined by its IdentityAttributeOrder.
+    ///
+    /// - Parameter UpdateLinkAttributesInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateLinkAttributesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `FacetValidationException` : The [Facet] that you provided was not well formed or could not be validated with the schema.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func updateLinkAttributes(input: UpdateLinkAttributesInput) async throws -> UpdateLinkAttributesOutputResponse
     /// Updates a given object's attributes.
+    ///
+    /// - Parameter UpdateObjectAttributesInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateObjectAttributesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `DirectoryNotEnabledException` : Operations are only permitted on enabled directories.
+    /// - `FacetValidationException` : The [Facet] that you provided was not well formed or could not be validated with the schema.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `LinkNameAlreadyInUseException` : Indicates that a link could not be created due to a naming conflict. Choose a different name and then try again.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func updateObjectAttributes(input: UpdateObjectAttributesInput) async throws -> UpdateObjectAttributesOutputResponse
     /// Updates the schema name with a new name. Only development schema names can be updated.
+    ///
+    /// - Parameter UpdateSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSchemaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func updateSchema(input: UpdateSchemaInput) async throws -> UpdateSchemaOutputResponse
     /// Updates a [TypedLinkFacet]. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
+    ///
+    /// - Parameter UpdateTypedLinkFacetInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateTypedLinkFacetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `FacetNotFoundException` : The specified [Facet] could not be found.
+    /// - `FacetValidationException` : The [Facet] that you provided was not well formed or could not be validated with the schema.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidFacetUpdateException` : An attempt to modify a [Facet] resulted in an invalid schema exception.
+    /// - `InvalidRuleException` : Occurs when any of the rule parameter keys or values are invalid.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func updateTypedLinkFacet(input: UpdateTypedLinkFacetInput) async throws -> UpdateTypedLinkFacetOutputResponse
     /// Upgrades a single directory in-place using the PublishedSchemaArn with schema updates found in MinorVersion. Backwards-compatible minor version upgrades are instantaneously available for readers on all objects in the directory. Note: This is a synchronous API call and upgrades only one schema on a given directory per call. To upgrade multiple directories from one schema, you would need to call this API on each directory.
+    ///
+    /// - Parameter UpgradeAppliedSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `UpgradeAppliedSchemaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `IncompatibleSchemaException` : Indicates a failure occurred while performing a check for backward compatibility between the specified schema and the schema that is currently applied to the directory.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidAttachmentException` : Indicates that an attempt to make an attachment was invalid. For example, attaching two nodes with a link type that is not applicable to the nodes or attempting to apply a schema to a directory a second time.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `SchemaAlreadyExistsException` : Indicates that a schema could not be created due to a naming conflict. Please select a different name and then try again.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func upgradeAppliedSchema(input: UpgradeAppliedSchemaInput) async throws -> UpgradeAppliedSchemaOutputResponse
     /// Upgrades a published schema under a new minor version revision using the current contents of DevelopmentSchemaArn.
+    ///
+    /// - Parameter UpgradePublishedSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `UpgradePublishedSchemaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling [ListDirectories] and check your permissions.
+    /// - `IncompatibleSchemaException` : Indicates a failure occurred while performing a check for backward compatibility between the specified schema and the schema that is currently applied to the directory.
+    /// - `InternalServiceException` : Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the [AWS Service Health Dashboard](http://status.aws.amazon.com/) site to see if there are any operational issues with the service.
+    /// - `InvalidArnException` : Indicates that the provided ARN value is not valid.
+    /// - `InvalidAttachmentException` : Indicates that an attempt to make an attachment was invalid. For example, attaching two nodes with a link type that is not applicable to the nodes or attempting to apply a schema to a directory a second time.
+    /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func upgradePublishedSchema(input: UpgradePublishedSchemaInput) async throws -> UpgradePublishedSchemaOutputResponse
 }
 

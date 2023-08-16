@@ -68,6 +68,16 @@ public struct CostandUsageReportClientLogHandlerFactory: ClientRuntime.SDKLogHan
 
 extension CostandUsageReportClient: CostandUsageReportClientProtocol {
     /// Deletes the specified report.
+    ///
+    /// - Parameter DeleteReportDefinitionInput : Deletes the specified report.
+    ///
+    /// - Returns: `DeleteReportDefinitionOutputResponse` : If the action is successful, the service sends back an HTTP 200 response.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func deleteReportDefinition(input: DeleteReportDefinitionInput) async throws -> DeleteReportDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -105,6 +115,15 @@ extension CostandUsageReportClient: CostandUsageReportClientProtocol {
     }
 
     /// Lists the AWS Cost and Usage reports available to this account.
+    ///
+    /// - Parameter DescribeReportDefinitionsInput : Requests a list of AWS Cost and Usage reports owned by the account.
+    ///
+    /// - Returns: `DescribeReportDefinitionsOutputResponse` : If the action is successful, the service sends back an HTTP 200 response.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     public func describeReportDefinitions(input: DescribeReportDefinitionsInput) async throws -> DescribeReportDefinitionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -142,6 +161,16 @@ extension CostandUsageReportClient: CostandUsageReportClientProtocol {
     }
 
     /// Allows you to programatically update your report preferences.
+    ///
+    /// - Parameter ModifyReportDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyReportDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func modifyReportDefinition(input: ModifyReportDefinitionInput) async throws -> ModifyReportDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -179,6 +208,18 @@ extension CostandUsageReportClient: CostandUsageReportClientProtocol {
     }
 
     /// Creates a new report using the description that you provide.
+    ///
+    /// - Parameter PutReportDefinitionInput : Creates a Cost and Usage Report.
+    ///
+    /// - Returns: `PutReportDefinitionOutputResponse` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateReportNameException` : A report with the specified name already exists in the account. Specify a different report name.
+    /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
+    /// - `ReportLimitReachedException` : This account already has five reports defined. To define a new report, you must delete an existing report.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func putReportDefinition(input: PutReportDefinitionInput) async throws -> PutReportDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

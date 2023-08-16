@@ -5,24 +5,138 @@ import ClientRuntime
 /// This is the Recycle Bin API Reference. This documentation provides descriptions and syntax for each of the actions and data types in Recycle Bin. Recycle Bin is a resource recovery feature that enables you to restore accidentally deleted snapshots and EBS-backed AMIs. When using Recycle Bin, if your resources are deleted, they are retained in the Recycle Bin for a time period that you specify. You can restore a resource from the Recycle Bin at any time before its retention period expires. After you restore a resource from the Recycle Bin, the resource is removed from the Recycle Bin, and you can then use it in the same way you use any other resource of that type in your account. If the retention period expires and the resource is not restored, the resource is permanently deleted from the Recycle Bin and is no longer available for recovery. For more information about Recycle Bin, see [ Recycle Bin](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshot-recycle-bin.html) in the Amazon Elastic Compute Cloud User Guide.
 public protocol RbinClientProtocol {
     /// Creates a Recycle Bin retention rule. For more information, see [ Create Recycle Bin retention rules](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin-working-with-rules.html#recycle-bin-create-rule) in the Amazon Elastic Compute Cloud User Guide.
+    ///
+    /// - Parameter CreateRuleInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service could not respond to the request due to an internal problem.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota for the number of tags per resource to be exceeded.
+    /// - `ValidationException` : One or more of the parameters in the request is not valid.
     func createRule(input: CreateRuleInput) async throws -> CreateRuleOutputResponse
     /// Deletes a Recycle Bin retention rule. For more information, see [ Delete Recycle Bin retention rules](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin-working-with-rules.html#recycle-bin-delete-rule) in the Amazon Elastic Compute Cloud User Guide.
+    ///
+    /// - Parameter DeleteRuleInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The specified retention rule lock request can't be completed.
+    /// - `InternalServerException` : The service could not respond to the request due to an internal problem.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : One or more of the parameters in the request is not valid.
     func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutputResponse
     /// Gets information about a Recycle Bin retention rule.
+    ///
+    /// - Parameter GetRuleInput : [no documentation found]
+    ///
+    /// - Returns: `GetRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service could not respond to the request due to an internal problem.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : One or more of the parameters in the request is not valid.
     func getRule(input: GetRuleInput) async throws -> GetRuleOutputResponse
     /// Lists the Recycle Bin retention rules in the Region.
+    ///
+    /// - Parameter ListRulesInput : [no documentation found]
+    ///
+    /// - Returns: `ListRulesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service could not respond to the request due to an internal problem.
+    /// - `ValidationException` : One or more of the parameters in the request is not valid.
     func listRules(input: ListRulesInput) async throws -> ListRulesOutputResponse
     /// Lists the tags assigned to a retention rule.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service could not respond to the request due to an internal problem.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : One or more of the parameters in the request is not valid.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Locks a retention rule. A locked retention rule can't be modified or deleted.
+    ///
+    /// - Parameter LockRuleInput : [no documentation found]
+    ///
+    /// - Returns: `LockRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The specified retention rule lock request can't be completed.
+    /// - `InternalServerException` : The service could not respond to the request due to an internal problem.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : One or more of the parameters in the request is not valid.
     func lockRule(input: LockRuleInput) async throws -> LockRuleOutputResponse
     /// Assigns tags to the specified retention rule.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service could not respond to the request due to an internal problem.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota for the number of tags per resource to be exceeded.
+    /// - `ValidationException` : One or more of the parameters in the request is not valid.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Unlocks a retention rule. After a retention rule is unlocked, it can be modified or deleted only after the unlock delay period expires.
+    ///
+    /// - Parameter UnlockRuleInput : [no documentation found]
+    ///
+    /// - Returns: `UnlockRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The specified retention rule lock request can't be completed.
+    /// - `InternalServerException` : The service could not respond to the request due to an internal problem.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : One or more of the parameters in the request is not valid.
     func unlockRule(input: UnlockRuleInput) async throws -> UnlockRuleOutputResponse
     /// Unassigns a tag from a retention rule.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service could not respond to the request due to an internal problem.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : One or more of the parameters in the request is not valid.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates an existing Recycle Bin retention rule. You can update a retention rule's description, resource tags, and retention period at any time after creation. You can't update a retention rule's resource type after creation. For more information, see [ Update Recycle Bin retention rules](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin-working-with-rules.html#recycle-bin-update-rule) in the Amazon Elastic Compute Cloud User Guide.
+    ///
+    /// - Parameter UpdateRuleInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The specified retention rule lock request can't be completed.
+    /// - `InternalServerException` : The service could not respond to the request due to an internal problem.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : One or more of the parameters in the request is not valid.
     func updateRule(input: UpdateRuleInput) async throws -> UpdateRuleOutputResponse
 }
 

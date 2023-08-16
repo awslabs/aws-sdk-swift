@@ -5,248 +5,2034 @@ import ClientRuntime
 /// Doc Engage API - Amazon Pinpoint API
 public protocol PinpointClientProtocol {
     /// Creates an application.
+    ///
+    /// - Parameter CreateAppInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAppOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func createApp(input: CreateAppInput) async throws -> CreateAppOutputResponse
     /// Creates a new campaign for an application or updates the settings of an existing campaign for an application.
+    ///
+    /// - Parameter CreateCampaignInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCampaignOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func createCampaign(input: CreateCampaignInput) async throws -> CreateCampaignOutputResponse
     /// Creates a message template for messages that are sent through the email channel.
+    ///
+    /// - Parameter CreateEmailTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `CreateEmailTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func createEmailTemplate(input: CreateEmailTemplateInput) async throws -> CreateEmailTemplateOutputResponse
     /// Creates an export job for an application.
+    ///
+    /// - Parameter CreateExportJobInput : [no documentation found]
+    ///
+    /// - Returns: `CreateExportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func createExportJob(input: CreateExportJobInput) async throws -> CreateExportJobOutputResponse
     /// Creates an import job for an application.
+    ///
+    /// - Parameter CreateImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `CreateImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func createImportJob(input: CreateImportJobInput) async throws -> CreateImportJobOutputResponse
     /// Creates a new message template for messages using the in-app message channel.
+    ///
+    /// - Parameter CreateInAppTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `CreateInAppTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func createInAppTemplate(input: CreateInAppTemplateInput) async throws -> CreateInAppTemplateOutputResponse
     /// Creates a journey for an application.
+    ///
+    /// - Parameter CreateJourneyInput : [no documentation found]
+    ///
+    /// - Returns: `CreateJourneyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func createJourney(input: CreateJourneyInput) async throws -> CreateJourneyOutputResponse
     /// Creates a message template for messages that are sent through a push notification channel.
+    ///
+    /// - Parameter CreatePushTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `CreatePushTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func createPushTemplate(input: CreatePushTemplateInput) async throws -> CreatePushTemplateOutputResponse
     /// Creates an Amazon Pinpoint configuration for a recommender model.
+    ///
+    /// - Parameter CreateRecommenderConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRecommenderConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func createRecommenderConfiguration(input: CreateRecommenderConfigurationInput) async throws -> CreateRecommenderConfigurationOutputResponse
     /// Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
+    ///
+    /// - Parameter CreateSegmentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSegmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func createSegment(input: CreateSegmentInput) async throws -> CreateSegmentOutputResponse
     /// Creates a message template for messages that are sent through the SMS channel.
+    ///
+    /// - Parameter CreateSmsTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSmsTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func createSmsTemplate(input: CreateSmsTemplateInput) async throws -> CreateSmsTemplateOutputResponse
     /// Creates a message template for messages that are sent through the voice channel.
+    ///
+    /// - Parameter CreateVoiceTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `CreateVoiceTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func createVoiceTemplate(input: CreateVoiceTemplateInput) async throws -> CreateVoiceTemplateOutputResponse
     /// Disables the ADM channel for an application and deletes any existing settings for the channel.
+    ///
+    /// - Parameter DeleteAdmChannelInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAdmChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteAdmChannel(input: DeleteAdmChannelInput) async throws -> DeleteAdmChannelOutputResponse
     /// Disables the APNs channel for an application and deletes any existing settings for the channel.
+    ///
+    /// - Parameter DeleteApnsChannelInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApnsChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteApnsChannel(input: DeleteApnsChannelInput) async throws -> DeleteApnsChannelOutputResponse
     /// Disables the APNs sandbox channel for an application and deletes any existing settings for the channel.
+    ///
+    /// - Parameter DeleteApnsSandboxChannelInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApnsSandboxChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteApnsSandboxChannel(input: DeleteApnsSandboxChannelInput) async throws -> DeleteApnsSandboxChannelOutputResponse
     /// Disables the APNs VoIP channel for an application and deletes any existing settings for the channel.
+    ///
+    /// - Parameter DeleteApnsVoipChannelInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApnsVoipChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteApnsVoipChannel(input: DeleteApnsVoipChannelInput) async throws -> DeleteApnsVoipChannelOutputResponse
     /// Disables the APNs VoIP sandbox channel for an application and deletes any existing settings for the channel.
+    ///
+    /// - Parameter DeleteApnsVoipSandboxChannelInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApnsVoipSandboxChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteApnsVoipSandboxChannel(input: DeleteApnsVoipSandboxChannelInput) async throws -> DeleteApnsVoipSandboxChannelOutputResponse
     /// Deletes an application.
+    ///
+    /// - Parameter DeleteAppInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAppOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutputResponse
     /// Disables the Baidu channel for an application and deletes any existing settings for the channel.
+    ///
+    /// - Parameter DeleteBaiduChannelInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBaiduChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteBaiduChannel(input: DeleteBaiduChannelInput) async throws -> DeleteBaiduChannelOutputResponse
     /// Deletes a campaign from an application.
+    ///
+    /// - Parameter DeleteCampaignInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCampaignOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteCampaign(input: DeleteCampaignInput) async throws -> DeleteCampaignOutputResponse
     /// Disables the email channel for an application and deletes any existing settings for the channel.
+    ///
+    /// - Parameter DeleteEmailChannelInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEmailChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteEmailChannel(input: DeleteEmailChannelInput) async throws -> DeleteEmailChannelOutputResponse
     /// Deletes a message template for messages that were sent through the email channel.
+    ///
+    /// - Parameter DeleteEmailTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEmailTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteEmailTemplate(input: DeleteEmailTemplateInput) async throws -> DeleteEmailTemplateOutputResponse
     /// Deletes an endpoint from an application.
+    ///
+    /// - Parameter DeleteEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutputResponse
     /// Deletes the event stream for an application.
+    ///
+    /// - Parameter DeleteEventStreamInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEventStreamOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteEventStream(input: DeleteEventStreamInput) async throws -> DeleteEventStreamOutputResponse
     /// Disables the GCM channel for an application and deletes any existing settings for the channel.
+    ///
+    /// - Parameter DeleteGcmChannelInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteGcmChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteGcmChannel(input: DeleteGcmChannelInput) async throws -> DeleteGcmChannelOutputResponse
     /// Deletes a message template for messages sent using the in-app message channel.
+    ///
+    /// - Parameter DeleteInAppTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteInAppTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteInAppTemplate(input: DeleteInAppTemplateInput) async throws -> DeleteInAppTemplateOutputResponse
     /// Deletes a journey from an application.
+    ///
+    /// - Parameter DeleteJourneyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteJourneyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteJourney(input: DeleteJourneyInput) async throws -> DeleteJourneyOutputResponse
     /// Deletes a message template for messages that were sent through a push notification channel.
+    ///
+    /// - Parameter DeletePushTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePushTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deletePushTemplate(input: DeletePushTemplateInput) async throws -> DeletePushTemplateOutputResponse
     /// Deletes an Amazon Pinpoint configuration for a recommender model.
+    ///
+    /// - Parameter DeleteRecommenderConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRecommenderConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteRecommenderConfiguration(input: DeleteRecommenderConfigurationInput) async throws -> DeleteRecommenderConfigurationOutputResponse
     /// Deletes a segment from an application.
+    ///
+    /// - Parameter DeleteSegmentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSegmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteSegment(input: DeleteSegmentInput) async throws -> DeleteSegmentOutputResponse
     /// Disables the SMS channel for an application and deletes any existing settings for the channel.
+    ///
+    /// - Parameter DeleteSmsChannelInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSmsChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteSmsChannel(input: DeleteSmsChannelInput) async throws -> DeleteSmsChannelOutputResponse
     /// Deletes a message template for messages that were sent through the SMS channel.
+    ///
+    /// - Parameter DeleteSmsTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSmsTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteSmsTemplate(input: DeleteSmsTemplateInput) async throws -> DeleteSmsTemplateOutputResponse
     /// Deletes all the endpoints that are associated with a specific user ID.
+    ///
+    /// - Parameter DeleteUserEndpointsInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteUserEndpointsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteUserEndpoints(input: DeleteUserEndpointsInput) async throws -> DeleteUserEndpointsOutputResponse
     /// Disables the voice channel for an application and deletes any existing settings for the channel.
+    ///
+    /// - Parameter DeleteVoiceChannelInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteVoiceChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteVoiceChannel(input: DeleteVoiceChannelInput) async throws -> DeleteVoiceChannelOutputResponse
     /// Deletes a message template for messages that were sent through the voice channel.
+    ///
+    /// - Parameter DeleteVoiceTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteVoiceTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteVoiceTemplate(input: DeleteVoiceTemplateInput) async throws -> DeleteVoiceTemplateOutputResponse
     /// Retrieves information about the status and settings of the ADM channel for an application.
+    ///
+    /// - Parameter GetAdmChannelInput : [no documentation found]
+    ///
+    /// - Returns: `GetAdmChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getAdmChannel(input: GetAdmChannelInput) async throws -> GetAdmChannelOutputResponse
     /// Retrieves information about the status and settings of the APNs channel for an application.
+    ///
+    /// - Parameter GetApnsChannelInput : [no documentation found]
+    ///
+    /// - Returns: `GetApnsChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getApnsChannel(input: GetApnsChannelInput) async throws -> GetApnsChannelOutputResponse
     /// Retrieves information about the status and settings of the APNs sandbox channel for an application.
+    ///
+    /// - Parameter GetApnsSandboxChannelInput : [no documentation found]
+    ///
+    /// - Returns: `GetApnsSandboxChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getApnsSandboxChannel(input: GetApnsSandboxChannelInput) async throws -> GetApnsSandboxChannelOutputResponse
     /// Retrieves information about the status and settings of the APNs VoIP channel for an application.
+    ///
+    /// - Parameter GetApnsVoipChannelInput : [no documentation found]
+    ///
+    /// - Returns: `GetApnsVoipChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getApnsVoipChannel(input: GetApnsVoipChannelInput) async throws -> GetApnsVoipChannelOutputResponse
     /// Retrieves information about the status and settings of the APNs VoIP sandbox channel for an application.
+    ///
+    /// - Parameter GetApnsVoipSandboxChannelInput : [no documentation found]
+    ///
+    /// - Returns: `GetApnsVoipSandboxChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getApnsVoipSandboxChannel(input: GetApnsVoipSandboxChannelInput) async throws -> GetApnsVoipSandboxChannelOutputResponse
     /// Retrieves information about an application.
+    ///
+    /// - Parameter GetAppInput : [no documentation found]
+    ///
+    /// - Returns: `GetAppOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getApp(input: GetAppInput) async throws -> GetAppOutputResponse
     /// Retrieves (queries) pre-aggregated data for a standard metric that applies to an application.
+    ///
+    /// - Parameter GetApplicationDateRangeKpiInput : [no documentation found]
+    ///
+    /// - Returns: `GetApplicationDateRangeKpiOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getApplicationDateRangeKpi(input: GetApplicationDateRangeKpiInput) async throws -> GetApplicationDateRangeKpiOutputResponse
     /// Retrieves information about the settings for an application.
+    ///
+    /// - Parameter GetApplicationSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `GetApplicationSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getApplicationSettings(input: GetApplicationSettingsInput) async throws -> GetApplicationSettingsOutputResponse
     /// Retrieves information about all the applications that are associated with your Amazon Pinpoint account.
+    ///
+    /// - Parameter GetAppsInput : [no documentation found]
+    ///
+    /// - Returns: `GetAppsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getApps(input: GetAppsInput) async throws -> GetAppsOutputResponse
     /// Retrieves information about the status and settings of the Baidu channel for an application.
+    ///
+    /// - Parameter GetBaiduChannelInput : [no documentation found]
+    ///
+    /// - Returns: `GetBaiduChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getBaiduChannel(input: GetBaiduChannelInput) async throws -> GetBaiduChannelOutputResponse
     /// Retrieves information about the status, configuration, and other settings for a campaign.
+    ///
+    /// - Parameter GetCampaignInput : [no documentation found]
+    ///
+    /// - Returns: `GetCampaignOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getCampaign(input: GetCampaignInput) async throws -> GetCampaignOutputResponse
     /// Retrieves information about all the activities for a campaign.
+    ///
+    /// - Parameter GetCampaignActivitiesInput : [no documentation found]
+    ///
+    /// - Returns: `GetCampaignActivitiesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getCampaignActivities(input: GetCampaignActivitiesInput) async throws -> GetCampaignActivitiesOutputResponse
     /// Retrieves (queries) pre-aggregated data for a standard metric that applies to a campaign.
+    ///
+    /// - Parameter GetCampaignDateRangeKpiInput : [no documentation found]
+    ///
+    /// - Returns: `GetCampaignDateRangeKpiOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getCampaignDateRangeKpi(input: GetCampaignDateRangeKpiInput) async throws -> GetCampaignDateRangeKpiOutputResponse
     /// Retrieves information about the status, configuration, and other settings for all the campaigns that are associated with an application.
+    ///
+    /// - Parameter GetCampaignsInput : [no documentation found]
+    ///
+    /// - Returns: `GetCampaignsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getCampaigns(input: GetCampaignsInput) async throws -> GetCampaignsOutputResponse
     /// Retrieves information about the status, configuration, and other settings for a specific version of a campaign.
+    ///
+    /// - Parameter GetCampaignVersionInput : [no documentation found]
+    ///
+    /// - Returns: `GetCampaignVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getCampaignVersion(input: GetCampaignVersionInput) async throws -> GetCampaignVersionOutputResponse
     /// Retrieves information about the status, configuration, and other settings for all versions of a campaign.
+    ///
+    /// - Parameter GetCampaignVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `GetCampaignVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getCampaignVersions(input: GetCampaignVersionsInput) async throws -> GetCampaignVersionsOutputResponse
     /// Retrieves information about the history and status of each channel for an application.
+    ///
+    /// - Parameter GetChannelsInput : [no documentation found]
+    ///
+    /// - Returns: `GetChannelsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getChannels(input: GetChannelsInput) async throws -> GetChannelsOutputResponse
     /// Retrieves information about the status and settings of the email channel for an application.
+    ///
+    /// - Parameter GetEmailChannelInput : [no documentation found]
+    ///
+    /// - Returns: `GetEmailChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getEmailChannel(input: GetEmailChannelInput) async throws -> GetEmailChannelOutputResponse
     /// Retrieves the content and settings of a message template for messages that are sent through the email channel.
+    ///
+    /// - Parameter GetEmailTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GetEmailTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getEmailTemplate(input: GetEmailTemplateInput) async throws -> GetEmailTemplateOutputResponse
     /// Retrieves information about the settings and attributes of a specific endpoint for an application.
+    ///
+    /// - Parameter GetEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `GetEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getEndpoint(input: GetEndpointInput) async throws -> GetEndpointOutputResponse
     /// Retrieves information about the event stream settings for an application.
+    ///
+    /// - Parameter GetEventStreamInput : [no documentation found]
+    ///
+    /// - Returns: `GetEventStreamOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getEventStream(input: GetEventStreamInput) async throws -> GetEventStreamOutputResponse
     /// Retrieves information about the status and settings of a specific export job for an application.
+    ///
+    /// - Parameter GetExportJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetExportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getExportJob(input: GetExportJobInput) async throws -> GetExportJobOutputResponse
     /// Retrieves information about the status and settings of all the export jobs for an application.
+    ///
+    /// - Parameter GetExportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `GetExportJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getExportJobs(input: GetExportJobsInput) async throws -> GetExportJobsOutputResponse
     /// Retrieves information about the status and settings of the GCM channel for an application.
+    ///
+    /// - Parameter GetGcmChannelInput : [no documentation found]
+    ///
+    /// - Returns: `GetGcmChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getGcmChannel(input: GetGcmChannelInput) async throws -> GetGcmChannelOutputResponse
     /// Retrieves information about the status and settings of a specific import job for an application.
+    ///
+    /// - Parameter GetImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getImportJob(input: GetImportJobInput) async throws -> GetImportJobOutputResponse
     /// Retrieves information about the status and settings of all the import jobs for an application.
+    ///
+    /// - Parameter GetImportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `GetImportJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getImportJobs(input: GetImportJobsInput) async throws -> GetImportJobsOutputResponse
     /// Retrieves the in-app messages targeted for the provided endpoint ID.
+    ///
+    /// - Parameter GetInAppMessagesInput : [no documentation found]
+    ///
+    /// - Returns: `GetInAppMessagesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getInAppMessages(input: GetInAppMessagesInput) async throws -> GetInAppMessagesOutputResponse
     /// Retrieves the content and settings of a message template for messages sent through the in-app channel.
+    ///
+    /// - Parameter GetInAppTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GetInAppTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getInAppTemplate(input: GetInAppTemplateInput) async throws -> GetInAppTemplateOutputResponse
     /// Retrieves information about the status, configuration, and other settings for a journey.
+    ///
+    /// - Parameter GetJourneyInput : [no documentation found]
+    ///
+    /// - Returns: `GetJourneyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getJourney(input: GetJourneyInput) async throws -> GetJourneyOutputResponse
     /// Retrieves (queries) pre-aggregated data for a standard engagement metric that applies to a journey.
+    ///
+    /// - Parameter GetJourneyDateRangeKpiInput : [no documentation found]
+    ///
+    /// - Returns: `GetJourneyDateRangeKpiOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getJourneyDateRangeKpi(input: GetJourneyDateRangeKpiInput) async throws -> GetJourneyDateRangeKpiOutputResponse
     /// Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey activity.
+    ///
+    /// - Parameter GetJourneyExecutionActivityMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `GetJourneyExecutionActivityMetricsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getJourneyExecutionActivityMetrics(input: GetJourneyExecutionActivityMetricsInput) async throws -> GetJourneyExecutionActivityMetricsOutputResponse
     /// Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey.
+    ///
+    /// - Parameter GetJourneyExecutionMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `GetJourneyExecutionMetricsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getJourneyExecutionMetrics(input: GetJourneyExecutionMetricsInput) async throws -> GetJourneyExecutionMetricsOutputResponse
     /// Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to a journey activity.
+    ///
+    /// - Parameter GetJourneyRunExecutionActivityMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `GetJourneyRunExecutionActivityMetricsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getJourneyRunExecutionActivityMetrics(input: GetJourneyRunExecutionActivityMetricsInput) async throws -> GetJourneyRunExecutionActivityMetricsOutputResponse
     /// Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to a journey.
+    ///
+    /// - Parameter GetJourneyRunExecutionMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `GetJourneyRunExecutionMetricsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getJourneyRunExecutionMetrics(input: GetJourneyRunExecutionMetricsInput) async throws -> GetJourneyRunExecutionMetricsOutputResponse
     /// Provides information about the runs of a journey.
+    ///
+    /// - Parameter GetJourneyRunsInput : [no documentation found]
+    ///
+    /// - Returns: `GetJourneyRunsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getJourneyRuns(input: GetJourneyRunsInput) async throws -> GetJourneyRunsOutputResponse
     /// Retrieves the content and settings of a message template for messages that are sent through a push notification channel.
+    ///
+    /// - Parameter GetPushTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GetPushTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getPushTemplate(input: GetPushTemplateInput) async throws -> GetPushTemplateOutputResponse
     /// Retrieves information about an Amazon Pinpoint configuration for a recommender model.
+    ///
+    /// - Parameter GetRecommenderConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetRecommenderConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getRecommenderConfiguration(input: GetRecommenderConfigurationInput) async throws -> GetRecommenderConfigurationOutputResponse
     /// Retrieves information about all the recommender model configurations that are associated with your Amazon Pinpoint account.
+    ///
+    /// - Parameter GetRecommenderConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `GetRecommenderConfigurationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getRecommenderConfigurations(input: GetRecommenderConfigurationsInput) async throws -> GetRecommenderConfigurationsOutputResponse
     /// Retrieves information about the configuration, dimension, and other settings for a specific segment that's associated with an application.
+    ///
+    /// - Parameter GetSegmentInput : [no documentation found]
+    ///
+    /// - Returns: `GetSegmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getSegment(input: GetSegmentInput) async throws -> GetSegmentOutputResponse
     /// Retrieves information about the status and settings of the export jobs for a segment.
+    ///
+    /// - Parameter GetSegmentExportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `GetSegmentExportJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getSegmentExportJobs(input: GetSegmentExportJobsInput) async throws -> GetSegmentExportJobsOutputResponse
     /// Retrieves information about the status and settings of the import jobs for a segment.
+    ///
+    /// - Parameter GetSegmentImportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `GetSegmentImportJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getSegmentImportJobs(input: GetSegmentImportJobsInput) async throws -> GetSegmentImportJobsOutputResponse
     /// Retrieves information about the configuration, dimension, and other settings for all the segments that are associated with an application.
+    ///
+    /// - Parameter GetSegmentsInput : [no documentation found]
+    ///
+    /// - Returns: `GetSegmentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getSegments(input: GetSegmentsInput) async throws -> GetSegmentsOutputResponse
     /// Retrieves information about the configuration, dimension, and other settings for a specific version of a segment that's associated with an application.
+    ///
+    /// - Parameter GetSegmentVersionInput : [no documentation found]
+    ///
+    /// - Returns: `GetSegmentVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getSegmentVersion(input: GetSegmentVersionInput) async throws -> GetSegmentVersionOutputResponse
     /// Retrieves information about the configuration, dimension, and other settings for all the versions of a specific segment that's associated with an application.
+    ///
+    /// - Parameter GetSegmentVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `GetSegmentVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getSegmentVersions(input: GetSegmentVersionsInput) async throws -> GetSegmentVersionsOutputResponse
     /// Retrieves information about the status and settings of the SMS channel for an application.
+    ///
+    /// - Parameter GetSmsChannelInput : [no documentation found]
+    ///
+    /// - Returns: `GetSmsChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getSmsChannel(input: GetSmsChannelInput) async throws -> GetSmsChannelOutputResponse
     /// Retrieves the content and settings of a message template for messages that are sent through the SMS channel.
+    ///
+    /// - Parameter GetSmsTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GetSmsTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getSmsTemplate(input: GetSmsTemplateInput) async throws -> GetSmsTemplateOutputResponse
     /// Retrieves information about all the endpoints that are associated with a specific user ID.
+    ///
+    /// - Parameter GetUserEndpointsInput : [no documentation found]
+    ///
+    /// - Returns: `GetUserEndpointsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getUserEndpoints(input: GetUserEndpointsInput) async throws -> GetUserEndpointsOutputResponse
     /// Retrieves information about the status and settings of the voice channel for an application.
+    ///
+    /// - Parameter GetVoiceChannelInput : [no documentation found]
+    ///
+    /// - Returns: `GetVoiceChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getVoiceChannel(input: GetVoiceChannelInput) async throws -> GetVoiceChannelOutputResponse
     /// Retrieves the content and settings of a message template for messages that are sent through the voice channel.
+    ///
+    /// - Parameter GetVoiceTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GetVoiceTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getVoiceTemplate(input: GetVoiceTemplateInput) async throws -> GetVoiceTemplateOutputResponse
     /// Retrieves information about the status, configuration, and other settings for all the journeys that are associated with an application.
+    ///
+    /// - Parameter ListJourneysInput : [no documentation found]
+    ///
+    /// - Returns: `ListJourneysOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func listJourneys(input: ListJourneysInput) async throws -> ListJourneysOutputResponse
     /// Retrieves all the tags (keys and values) that are associated with an application, campaign, message template, or segment.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Retrieves information about all the message templates that are associated with your Amazon Pinpoint account.
+    ///
+    /// - Parameter ListTemplatesInput : [no documentation found]
+    ///
+    /// - Returns: `ListTemplatesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func listTemplates(input: ListTemplatesInput) async throws -> ListTemplatesOutputResponse
     /// Retrieves information about all the versions of a specific message template.
+    ///
+    /// - Parameter ListTemplateVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTemplateVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func listTemplateVersions(input: ListTemplateVersionsInput) async throws -> ListTemplateVersionsOutputResponse
     /// Retrieves information about a phone number.
+    ///
+    /// - Parameter PhoneNumberValidateInput : [no documentation found]
+    ///
+    /// - Returns: `PhoneNumberValidateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func phoneNumberValidate(input: PhoneNumberValidateInput) async throws -> PhoneNumberValidateOutputResponse
     /// Creates a new event to record for endpoints, or creates or updates endpoint data that existing events are associated with.
+    ///
+    /// - Parameter PutEventsInput : [no documentation found]
+    ///
+    /// - Returns: `PutEventsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func putEvents(input: PutEventsInput) async throws -> PutEventsOutputResponse
     /// Creates a new event stream for an application or updates the settings of an existing event stream for an application.
+    ///
+    /// - Parameter PutEventStreamInput : [no documentation found]
+    ///
+    /// - Returns: `PutEventStreamOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func putEventStream(input: PutEventStreamInput) async throws -> PutEventStreamOutputResponse
     /// Removes one or more attributes, of the same attribute type, from all the endpoints that are associated with an application.
+    ///
+    /// - Parameter RemoveAttributesInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveAttributesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func removeAttributes(input: RemoveAttributesInput) async throws -> RemoveAttributesOutputResponse
     /// Creates and sends a direct message.
+    ///
+    /// - Parameter SendMessagesInput : [no documentation found]
+    ///
+    /// - Returns: `SendMessagesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func sendMessages(input: SendMessagesInput) async throws -> SendMessagesOutputResponse
     /// Send an OTP message
+    ///
+    /// - Parameter SendOTPMessageInput : [no documentation found]
+    ///
+    /// - Returns: `SendOTPMessageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func sendOTPMessage(input: SendOTPMessageInput) async throws -> SendOTPMessageOutputResponse
     /// Creates and sends a message to a list of users.
+    ///
+    /// - Parameter SendUsersMessagesInput : [no documentation found]
+    ///
+    /// - Returns: `SendUsersMessagesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func sendUsersMessages(input: SendUsersMessagesInput) async throws -> SendUsersMessagesOutputResponse
     /// Adds one or more tags (keys and values) to an application, campaign, message template, or segment.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes one or more tags (keys and values) from an application, campaign, message template, or segment.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Enables the ADM channel for an application or updates the status and settings of the ADM channel for an application.
+    ///
+    /// - Parameter UpdateAdmChannelInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAdmChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateAdmChannel(input: UpdateAdmChannelInput) async throws -> UpdateAdmChannelOutputResponse
     /// Enables the APNs channel for an application or updates the status and settings of the APNs channel for an application.
+    ///
+    /// - Parameter UpdateApnsChannelInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateApnsChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateApnsChannel(input: UpdateApnsChannelInput) async throws -> UpdateApnsChannelOutputResponse
     /// Enables the APNs sandbox channel for an application or updates the status and settings of the APNs sandbox channel for an application.
+    ///
+    /// - Parameter UpdateApnsSandboxChannelInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateApnsSandboxChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateApnsSandboxChannel(input: UpdateApnsSandboxChannelInput) async throws -> UpdateApnsSandboxChannelOutputResponse
     /// Enables the APNs VoIP channel for an application or updates the status and settings of the APNs VoIP channel for an application.
+    ///
+    /// - Parameter UpdateApnsVoipChannelInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateApnsVoipChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateApnsVoipChannel(input: UpdateApnsVoipChannelInput) async throws -> UpdateApnsVoipChannelOutputResponse
     /// Enables the APNs VoIP sandbox channel for an application or updates the status and settings of the APNs VoIP sandbox channel for an application.
+    ///
+    /// - Parameter UpdateApnsVoipSandboxChannelInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateApnsVoipSandboxChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateApnsVoipSandboxChannel(input: UpdateApnsVoipSandboxChannelInput) async throws -> UpdateApnsVoipSandboxChannelOutputResponse
     /// Updates the settings for an application.
+    ///
+    /// - Parameter UpdateApplicationSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateApplicationSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateApplicationSettings(input: UpdateApplicationSettingsInput) async throws -> UpdateApplicationSettingsOutputResponse
     /// Enables the Baidu channel for an application or updates the status and settings of the Baidu channel for an application.
+    ///
+    /// - Parameter UpdateBaiduChannelInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateBaiduChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateBaiduChannel(input: UpdateBaiduChannelInput) async throws -> UpdateBaiduChannelOutputResponse
     /// Updates the configuration and other settings for a campaign.
+    ///
+    /// - Parameter UpdateCampaignInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateCampaignOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateCampaign(input: UpdateCampaignInput) async throws -> UpdateCampaignOutputResponse
     /// Enables the email channel for an application or updates the status and settings of the email channel for an application.
+    ///
+    /// - Parameter UpdateEmailChannelInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEmailChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateEmailChannel(input: UpdateEmailChannelInput) async throws -> UpdateEmailChannelOutputResponse
     /// Updates an existing message template for messages that are sent through the email channel.
+    ///
+    /// - Parameter UpdateEmailTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEmailTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateEmailTemplate(input: UpdateEmailTemplateInput) async throws -> UpdateEmailTemplateOutputResponse
     /// Creates a new endpoint for an application or updates the settings and attributes of an existing endpoint for an application. You can also use this operation to define custom attributes for an endpoint. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
+    ///
+    /// - Parameter UpdateEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateEndpoint(input: UpdateEndpointInput) async throws -> UpdateEndpointOutputResponse
     /// Creates a new batch of endpoints for an application or updates the settings and attributes of a batch of existing endpoints for an application. You can also use this operation to define custom attributes for a batch of endpoints. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
+    ///
+    /// - Parameter UpdateEndpointsBatchInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEndpointsBatchOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateEndpointsBatch(input: UpdateEndpointsBatchInput) async throws -> UpdateEndpointsBatchOutputResponse
     /// Enables the GCM channel for an application or updates the status and settings of the GCM channel for an application.
+    ///
+    /// - Parameter UpdateGcmChannelInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateGcmChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateGcmChannel(input: UpdateGcmChannelInput) async throws -> UpdateGcmChannelOutputResponse
     /// Updates an existing message template for messages sent through the in-app message channel.
+    ///
+    /// - Parameter UpdateInAppTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateInAppTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateInAppTemplate(input: UpdateInAppTemplateInput) async throws -> UpdateInAppTemplateOutputResponse
     /// Updates the configuration and other settings for a journey.
+    ///
+    /// - Parameter UpdateJourneyInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateJourneyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ConflictException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateJourney(input: UpdateJourneyInput) async throws -> UpdateJourneyOutputResponse
     /// Cancels (stops) an active journey.
+    ///
+    /// - Parameter UpdateJourneyStateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateJourneyStateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateJourneyState(input: UpdateJourneyStateInput) async throws -> UpdateJourneyStateOutputResponse
     /// Updates an existing message template for messages that are sent through a push notification channel.
+    ///
+    /// - Parameter UpdatePushTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePushTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updatePushTemplate(input: UpdatePushTemplateInput) async throws -> UpdatePushTemplateOutputResponse
     /// Updates an Amazon Pinpoint configuration for a recommender model.
+    ///
+    /// - Parameter UpdateRecommenderConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRecommenderConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateRecommenderConfiguration(input: UpdateRecommenderConfigurationInput) async throws -> UpdateRecommenderConfigurationOutputResponse
     /// Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
+    ///
+    /// - Parameter UpdateSegmentInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSegmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateSegment(input: UpdateSegmentInput) async throws -> UpdateSegmentOutputResponse
     /// Enables the SMS channel for an application or updates the status and settings of the SMS channel for an application.
+    ///
+    /// - Parameter UpdateSmsChannelInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSmsChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateSmsChannel(input: UpdateSmsChannelInput) async throws -> UpdateSmsChannelOutputResponse
     /// Updates an existing message template for messages that are sent through the SMS channel.
+    ///
+    /// - Parameter UpdateSmsTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSmsTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateSmsTemplate(input: UpdateSmsTemplateInput) async throws -> UpdateSmsTemplateOutputResponse
     /// Changes the status of a specific version of a message template to active.
+    ///
+    /// - Parameter UpdateTemplateActiveVersionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateTemplateActiveVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateTemplateActiveVersion(input: UpdateTemplateActiveVersionInput) async throws -> UpdateTemplateActiveVersionOutputResponse
     /// Enables the voice channel for an application or updates the status and settings of the voice channel for an application.
+    ///
+    /// - Parameter UpdateVoiceChannelInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateVoiceChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateVoiceChannel(input: UpdateVoiceChannelInput) async throws -> UpdateVoiceChannelOutputResponse
     /// Updates an existing message template for messages that are sent through the voice channel.
+    ///
+    /// - Parameter UpdateVoiceTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateVoiceTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateVoiceTemplate(input: UpdateVoiceTemplateInput) async throws -> UpdateVoiceTemplateOutputResponse
     /// Verify an OTP
+    ///
+    /// - Parameter VerifyOTPMessageInput : [no documentation found]
+    ///
+    /// - Returns: `VerifyOTPMessageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     func verifyOTPMessage(input: VerifyOTPMessageInput) async throws -> VerifyOTPMessageOutputResponse
 }
 

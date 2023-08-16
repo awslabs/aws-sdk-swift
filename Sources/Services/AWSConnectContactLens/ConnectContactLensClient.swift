@@ -68,6 +68,19 @@ public struct ConnectContactLensClientLogHandlerFactory: ClientRuntime.SDKLogHan
 
 extension ConnectContactLensClient: ConnectContactLensClientProtocol {
     /// Provides a list of analysis segments for a real-time analysis session.
+    ///
+    /// - Parameter ListRealtimeContactAnalysisSegmentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListRealtimeContactAnalysisSegmentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServiceException` : Request processing failed due to an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listRealtimeContactAnalysisSegments(input: ListRealtimeContactAnalysisSegmentsInput) async throws -> ListRealtimeContactAnalysisSegmentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

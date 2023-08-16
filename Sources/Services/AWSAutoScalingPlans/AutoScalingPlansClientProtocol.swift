@@ -20,16 +20,86 @@ import ClientRuntime
 /// To learn more about AWS Auto Scaling, including information about granting IAM users required permissions for AWS Auto Scaling actions, see the [AWS Auto Scaling User Guide](https://docs.aws.amazon.com/autoscaling/plans/userguide/what-is-aws-auto-scaling.html).
 public protocol AutoScalingPlansClientProtocol {
     /// Creates a scaling plan.
+    ///
+    /// - Parameter CreateScalingPlanInput : [no documentation found]
+    ///
+    /// - Returns: `CreateScalingPlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentUpdateException` : Concurrent updates caused an exception, for example, if you request an update to a scaling plan that already has a pending update.
+    /// - `InternalServiceException` : The service encountered an internal error.
+    /// - `LimitExceededException` : Your account exceeded a limit. This exception is thrown when a per-account resource limit is exceeded.
+    /// - `ValidationException` : An exception was thrown for a validation issue. Review the parameters provided.
     func createScalingPlan(input: CreateScalingPlanInput) async throws -> CreateScalingPlanOutputResponse
     /// Deletes the specified scaling plan. Deleting a scaling plan deletes the underlying [ScalingInstruction] for all of the scalable resources that are covered by the plan. If the plan has launched resources or has scaling activities in progress, you must delete those resources separately.
+    ///
+    /// - Parameter DeleteScalingPlanInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteScalingPlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentUpdateException` : Concurrent updates caused an exception, for example, if you request an update to a scaling plan that already has a pending update.
+    /// - `InternalServiceException` : The service encountered an internal error.
+    /// - `ObjectNotFoundException` : The specified object could not be found.
+    /// - `ValidationException` : An exception was thrown for a validation issue. Review the parameters provided.
     func deleteScalingPlan(input: DeleteScalingPlanInput) async throws -> DeleteScalingPlanOutputResponse
     /// Describes the scalable resources in the specified scaling plan.
+    ///
+    /// - Parameter DescribeScalingPlanResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeScalingPlanResourcesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentUpdateException` : Concurrent updates caused an exception, for example, if you request an update to a scaling plan that already has a pending update.
+    /// - `InternalServiceException` : The service encountered an internal error.
+    /// - `InvalidNextTokenException` : The token provided is not valid.
+    /// - `ValidationException` : An exception was thrown for a validation issue. Review the parameters provided.
     func describeScalingPlanResources(input: DescribeScalingPlanResourcesInput) async throws -> DescribeScalingPlanResourcesOutputResponse
     /// Describes one or more of your scaling plans.
+    ///
+    /// - Parameter DescribeScalingPlansInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeScalingPlansOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentUpdateException` : Concurrent updates caused an exception, for example, if you request an update to a scaling plan that already has a pending update.
+    /// - `InternalServiceException` : The service encountered an internal error.
+    /// - `InvalidNextTokenException` : The token provided is not valid.
+    /// - `ValidationException` : An exception was thrown for a validation issue. Review the parameters provided.
     func describeScalingPlans(input: DescribeScalingPlansInput) async throws -> DescribeScalingPlansOutputResponse
     /// Retrieves the forecast data for a scalable resource. Capacity forecasts are represented as predicted values, or data points, that are calculated using historical data points from a specified CloudWatch load metric. Data points are available for up to 56 days.
+    ///
+    /// - Parameter GetScalingPlanResourceForecastDataInput : [no documentation found]
+    ///
+    /// - Returns: `GetScalingPlanResourceForecastDataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : The service encountered an internal error.
+    /// - `ValidationException` : An exception was thrown for a validation issue. Review the parameters provided.
     func getScalingPlanResourceForecastData(input: GetScalingPlanResourceForecastDataInput) async throws -> GetScalingPlanResourceForecastDataOutputResponse
     /// Updates the specified scaling plan. You cannot update a scaling plan if it is in the process of being created, updated, or deleted.
+    ///
+    /// - Parameter UpdateScalingPlanInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateScalingPlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentUpdateException` : Concurrent updates caused an exception, for example, if you request an update to a scaling plan that already has a pending update.
+    /// - `InternalServiceException` : The service encountered an internal error.
+    /// - `ObjectNotFoundException` : The specified object could not be found.
+    /// - `ValidationException` : An exception was thrown for a validation issue. Review the parameters provided.
     func updateScalingPlan(input: UpdateScalingPlanInput) async throws -> UpdateScalingPlanOutputResponse
 }
 

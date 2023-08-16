@@ -68,6 +68,25 @@ public struct IdentitystoreClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
 
 extension IdentitystoreClient: IdentitystoreClientProtocol {
     /// Creates a group within the specified identity store.
+    ///
+    /// - Parameter CreateGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CreateGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ConflictException` : This request cannot be completed for one of the following reasons:
+    ///
+    /// * Performing the requested operation would violate an existing uniqueness claim in the identity store. Resolve the conflict before retrying this request.
+    ///
+    /// * The requested resource was being concurrently modified by another request.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ServiceQuotaExceededException` : The request would cause the number of users or groups in the identity store to exceed the maximum allowed.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -105,6 +124,25 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     }
 
     /// Creates a relationship between a member and a group. The following identifiers must be specified: GroupId, IdentityStoreId, and MemberId.
+    ///
+    /// - Parameter CreateGroupMembershipInput : [no documentation found]
+    ///
+    /// - Returns: `CreateGroupMembershipOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ConflictException` : This request cannot be completed for one of the following reasons:
+    ///
+    /// * Performing the requested operation would violate an existing uniqueness claim in the identity store. Resolve the conflict before retrying this request.
+    ///
+    /// * The requested resource was being concurrently modified by another request.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ServiceQuotaExceededException` : The request would cause the number of users or groups in the identity store to exceed the maximum allowed.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func createGroupMembership(input: CreateGroupMembershipInput) async throws -> CreateGroupMembershipOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -142,6 +180,25 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     }
 
     /// Creates a user within the specified identity store.
+    ///
+    /// - Parameter CreateUserInput : [no documentation found]
+    ///
+    /// - Returns: `CreateUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ConflictException` : This request cannot be completed for one of the following reasons:
+    ///
+    /// * Performing the requested operation would violate an existing uniqueness claim in the identity store. Resolve the conflict before retrying this request.
+    ///
+    /// * The requested resource was being concurrently modified by another request.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ServiceQuotaExceededException` : The request would cause the number of users or groups in the identity store to exceed the maximum allowed.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func createUser(input: CreateUserInput) async throws -> CreateUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -179,6 +236,24 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     }
 
     /// Delete a group within an identity store given GroupId.
+    ///
+    /// - Parameter DeleteGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ConflictException` : This request cannot be completed for one of the following reasons:
+    ///
+    /// * Performing the requested operation would violate an existing uniqueness claim in the identity store. Resolve the conflict before retrying this request.
+    ///
+    /// * The requested resource was being concurrently modified by another request.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -216,6 +291,24 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     }
 
     /// Delete a membership within a group given MembershipId.
+    ///
+    /// - Parameter DeleteGroupMembershipInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteGroupMembershipOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ConflictException` : This request cannot be completed for one of the following reasons:
+    ///
+    /// * Performing the requested operation would violate an existing uniqueness claim in the identity store. Resolve the conflict before retrying this request.
+    ///
+    /// * The requested resource was being concurrently modified by another request.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func deleteGroupMembership(input: DeleteGroupMembershipInput) async throws -> DeleteGroupMembershipOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -253,6 +346,24 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     }
 
     /// Deletes a user within an identity store given UserId.
+    ///
+    /// - Parameter DeleteUserInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ConflictException` : This request cannot be completed for one of the following reasons:
+    ///
+    /// * Performing the requested operation would violate an existing uniqueness claim in the identity store. Resolve the conflict before retrying this request.
+    ///
+    /// * The requested resource was being concurrently modified by another request.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -290,6 +401,19 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     }
 
     /// Retrieves the group metadata and attributes from GroupId in an identity store.
+    ///
+    /// - Parameter DescribeGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func describeGroup(input: DescribeGroupInput) async throws -> DescribeGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -327,6 +451,19 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     }
 
     /// Retrieves membership metadata and attributes from MembershipId in an identity store.
+    ///
+    /// - Parameter DescribeGroupMembershipInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeGroupMembershipOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func describeGroupMembership(input: DescribeGroupMembershipInput) async throws -> DescribeGroupMembershipOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -364,6 +501,19 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     }
 
     /// Retrieves the user metadata and attributes from the UserId in an identity store.
+    ///
+    /// - Parameter DescribeUserInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -401,6 +551,19 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     }
 
     /// Retrieves GroupId in an identity store.
+    ///
+    /// - Parameter GetGroupIdInput : [no documentation found]
+    ///
+    /// - Returns: `GetGroupIdOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func getGroupId(input: GetGroupIdInput) async throws -> GetGroupIdOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -438,6 +601,19 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     }
 
     /// Retrieves the MembershipId in an identity store.
+    ///
+    /// - Parameter GetGroupMembershipIdInput : [no documentation found]
+    ///
+    /// - Returns: `GetGroupMembershipIdOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func getGroupMembershipId(input: GetGroupMembershipIdInput) async throws -> GetGroupMembershipIdOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -475,6 +651,19 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     }
 
     /// Retrieves the UserId in an identity store.
+    ///
+    /// - Parameter GetUserIdInput : [no documentation found]
+    ///
+    /// - Returns: `GetUserIdOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func getUserId(input: GetUserIdInput) async throws -> GetUserIdOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -512,6 +701,19 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     }
 
     /// Checks the user's membership in all requested groups and returns if the member exists in all queried groups.
+    ///
+    /// - Parameter IsMemberInGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `IsMemberInGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func isMemberInGroups(input: IsMemberInGroupsInput) async throws -> IsMemberInGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -549,6 +751,19 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     }
 
     /// For the specified group in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form.
+    ///
+    /// - Parameter ListGroupMembershipsInput : [no documentation found]
+    ///
+    /// - Returns: `ListGroupMembershipsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func listGroupMemberships(input: ListGroupMembershipsInput) async throws -> ListGroupMembershipsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -586,6 +801,19 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     }
 
     /// For the specified member in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form.
+    ///
+    /// - Parameter ListGroupMembershipsForMemberInput : [no documentation found]
+    ///
+    /// - Returns: `ListGroupMembershipsForMemberOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func listGroupMembershipsForMember(input: ListGroupMembershipsForMemberInput) async throws -> ListGroupMembershipsForMemberOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -623,6 +851,19 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     }
 
     /// Lists all groups in the identity store. Returns a paginated list of complete Group objects. Filtering for a Group by the DisplayName attribute is deprecated. Instead, use the GetGroupId API action.
+    ///
+    /// - Parameter ListGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `ListGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -660,6 +901,19 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     }
 
     /// Lists all users in the identity store. Returns a paginated list of complete User objects. Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action.
+    ///
+    /// - Parameter ListUsersInput : [no documentation found]
+    ///
+    /// - Returns: `ListUsersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func listUsers(input: ListUsersInput) async throws -> ListUsersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -697,6 +951,25 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     }
 
     /// For the specified group in the specified identity store, updates the group metadata and attributes.
+    ///
+    /// - Parameter UpdateGroupInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ConflictException` : This request cannot be completed for one of the following reasons:
+    ///
+    /// * Performing the requested operation would violate an existing uniqueness claim in the identity store. Resolve the conflict before retrying this request.
+    ///
+    /// * The requested resource was being concurrently modified by another request.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ServiceQuotaExceededException` : The request would cause the number of users or groups in the identity store to exceed the maximum allowed.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -734,6 +1007,25 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     }
 
     /// For the specified user in the specified identity store, updates the user metadata and attributes.
+    ///
+    /// - Parameter UpdateUserInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ConflictException` : This request cannot be completed for one of the following reasons:
+    ///
+    /// * Performing the requested operation would violate an existing uniqueness claim in the identity store. Resolve the conflict before retrying this request.
+    ///
+    /// * The requested resource was being concurrently modified by another request.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ServiceQuotaExceededException` : The request would cause the number of users or groups in the identity store to exceed the maximum allowed.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

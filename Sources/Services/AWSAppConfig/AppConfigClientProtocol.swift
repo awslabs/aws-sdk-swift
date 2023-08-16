@@ -16,6 +16,16 @@ import ClientRuntime
 /// This reference is intended to be used with the [AppConfig User Guide](http://docs.aws.amazon.com/appconfig/latest/userguide/what-is-appconfig.html).
 public protocol AppConfigClientProtocol {
     /// Creates an application. In AppConfig, an application is simply an organizational construct like a folder. This organizational construct has a relationship with some unit of executable code. For example, you could create an application called MyMobileApp to organize and manage configuration data for a mobile application installed by your users.
+    ///
+    /// - Parameter CreateApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutputResponse
     /// Creates a configuration profile, which is information that enables AppConfig to access the configuration source. Valid configuration sources include the following:
     ///
@@ -42,32 +52,192 @@ public protocol AppConfigClientProtocol {
     ///
     ///
     /// For more information, see [Create a Configuration and a Configuration Profile](http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-creating-configuration-and-profile.html) in the AppConfig User Guide.
+    ///
+    /// - Parameter CreateConfigurationProfileInput : [no documentation found]
+    ///
+    /// - Returns: `CreateConfigurationProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func createConfigurationProfile(input: CreateConfigurationProfileInput) async throws -> CreateConfigurationProfileOutputResponse
     /// Creates a deployment strategy that defines important criteria for rolling out your configuration to the designated targets. A deployment strategy includes the overall duration required, a percentage of targets to receive the deployment during each interval, an algorithm that defines how percentage grows, and bake time.
+    ///
+    /// - Parameter CreateDeploymentStrategyInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDeploymentStrategyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     func createDeploymentStrategy(input: CreateDeploymentStrategyInput) async throws -> CreateDeploymentStrategyOutputResponse
     /// Creates an environment. For each application, you define one or more environments. An environment is a deployment group of AppConfig targets, such as applications in a Beta or Production environment. You can also define environments for application subcomponents such as the Web, Mobile and Back-end components for your application. You can configure Amazon CloudWatch alarms for each environment. The system monitors alarms during a configuration deployment. If an alarm is triggered, the system rolls back the configuration.
+    ///
+    /// - Parameter CreateEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutputResponse
     /// Creates an AppConfig extension. An extension augments your ability to inject logic or behavior at different points during the AppConfig workflow of creating or deploying a configuration. You can create your own extensions or use the Amazon Web Services authored extensions provided by AppConfig. For most use cases, to create your own extension, you must create an Lambda function to perform any computation and processing defined in the extension. For more information about extensions, see [Working with AppConfig extensions](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
+    ///
+    /// - Parameter CreateExtensionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateExtensionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ServiceQuotaExceededException` : The number of hosted configuration versions exceeds the limit for the AppConfig hosted configuration store. Delete one or more versions and try again.
     func createExtension(input: CreateExtensionInput) async throws -> CreateExtensionOutputResponse
     /// When you create an extension or configure an Amazon Web Services authored extension, you associate the extension with an AppConfig application, environment, or configuration profile. For example, you can choose to run the AppConfig deployment events to Amazon SNS Amazon Web Services authored extension and receive notifications on an Amazon SNS topic anytime a configuration deployment is started for a specific application. Defining which extension to associate with an AppConfig resource is called an extension association. An extension association is a specified relationship between an extension and an AppConfig resource, such as an application or a configuration profile. For more information about extensions and associations, see [Working with AppConfig extensions](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
+    ///
+    /// - Parameter CreateExtensionAssociationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateExtensionAssociationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
+    /// - `ServiceQuotaExceededException` : The number of hosted configuration versions exceeds the limit for the AppConfig hosted configuration store. Delete one or more versions and try again.
     func createExtensionAssociation(input: CreateExtensionAssociationInput) async throws -> CreateExtensionAssociationOutputResponse
     /// Creates a new configuration in the AppConfig hosted configuration store.
+    ///
+    /// - Parameter CreateHostedConfigurationVersionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateHostedConfigurationVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `PayloadTooLargeException` : The configuration size is too large.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
+    /// - `ServiceQuotaExceededException` : The number of hosted configuration versions exceeds the limit for the AppConfig hosted configuration store. Delete one or more versions and try again.
     func createHostedConfigurationVersion(input: CreateHostedConfigurationVersionInput) async throws -> CreateHostedConfigurationVersionOutputResponse
     /// Deletes an application. Deleting an application does not delete a configuration from a host.
+    ///
+    /// - Parameter DeleteApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutputResponse
     /// Deletes a configuration profile. Deleting a configuration profile does not delete a configuration from a host.
+    ///
+    /// - Parameter DeleteConfigurationProfileInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteConfigurationProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func deleteConfigurationProfile(input: DeleteConfigurationProfileInput) async throws -> DeleteConfigurationProfileOutputResponse
     /// Deletes a deployment strategy. Deleting a deployment strategy does not delete a configuration from a host.
+    ///
+    /// - Parameter DeleteDeploymentStrategyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDeploymentStrategyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func deleteDeploymentStrategy(input: DeleteDeploymentStrategyInput) async throws -> DeleteDeploymentStrategyOutputResponse
     /// Deletes an environment. Deleting an environment does not delete a configuration from a host.
+    ///
+    /// - Parameter DeleteEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutputResponse
     /// Deletes an AppConfig extension. You must delete all associations to an extension before you delete the extension.
+    ///
+    /// - Parameter DeleteExtensionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteExtensionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func deleteExtension(input: DeleteExtensionInput) async throws -> DeleteExtensionOutputResponse
     /// Deletes an extension association. This action doesn't delete extensions defined in the association.
+    ///
+    /// - Parameter DeleteExtensionAssociationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteExtensionAssociationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func deleteExtensionAssociation(input: DeleteExtensionAssociationInput) async throws -> DeleteExtensionAssociationOutputResponse
     /// Deletes a version of a configuration from the AppConfig hosted configuration store.
+    ///
+    /// - Parameter DeleteHostedConfigurationVersionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteHostedConfigurationVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func deleteHostedConfigurationVersion(input: DeleteHostedConfigurationVersionInput) async throws -> DeleteHostedConfigurationVersionOutputResponse
     /// Retrieves information about an application.
+    ///
+    /// - Parameter GetApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `GetApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutputResponse
     /// (Deprecated) Retrieves the latest deployed configuration. Note the following important information.
     ///
@@ -75,60 +245,366 @@ public protocol AppConfigClientProtocol {
     ///
     /// * GetConfiguration is a priced call. For more information, see [Pricing](https://aws.amazon.com/systems-manager/pricing/).
     @available(*, deprecated, message: "This API has been deprecated in favor of the GetLatestConfiguration API used in conjunction with StartConfigurationSession.")
+    ///
+    /// - Parameter GetConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func getConfiguration(input: GetConfigurationInput) async throws -> GetConfigurationOutputResponse
     /// Retrieves information about a configuration profile.
+    ///
+    /// - Parameter GetConfigurationProfileInput : [no documentation found]
+    ///
+    /// - Returns: `GetConfigurationProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func getConfigurationProfile(input: GetConfigurationProfileInput) async throws -> GetConfigurationProfileOutputResponse
     /// Retrieves information about a configuration deployment.
+    ///
+    /// - Parameter GetDeploymentInput : [no documentation found]
+    ///
+    /// - Returns: `GetDeploymentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutputResponse
     /// Retrieves information about a deployment strategy. A deployment strategy defines important criteria for rolling out your configuration to the designated targets. A deployment strategy includes the overall duration required, a percentage of targets to receive the deployment during each interval, an algorithm that defines how percentage grows, and bake time.
+    ///
+    /// - Parameter GetDeploymentStrategyInput : [no documentation found]
+    ///
+    /// - Returns: `GetDeploymentStrategyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func getDeploymentStrategy(input: GetDeploymentStrategyInput) async throws -> GetDeploymentStrategyOutputResponse
     /// Retrieves information about an environment. An environment is a deployment group of AppConfig applications, such as applications in a Production environment or in an EU_Region environment. Each configuration deployment targets an environment. You can enable one or more Amazon CloudWatch alarms for an environment. If an alarm is triggered during a deployment, AppConfig roles back the configuration.
+    ///
+    /// - Parameter GetEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `GetEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutputResponse
     /// Returns information about an AppConfig extension.
+    ///
+    /// - Parameter GetExtensionInput : [no documentation found]
+    ///
+    /// - Returns: `GetExtensionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func getExtension(input: GetExtensionInput) async throws -> GetExtensionOutputResponse
     /// Returns information about an AppConfig extension association. For more information about extensions and associations, see [Working with AppConfig extensions](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
+    ///
+    /// - Parameter GetExtensionAssociationInput : [no documentation found]
+    ///
+    /// - Returns: `GetExtensionAssociationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func getExtensionAssociation(input: GetExtensionAssociationInput) async throws -> GetExtensionAssociationOutputResponse
     /// Retrieves information about a specific configuration version.
+    ///
+    /// - Parameter GetHostedConfigurationVersionInput : [no documentation found]
+    ///
+    /// - Returns: `GetHostedConfigurationVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func getHostedConfigurationVersion(input: GetHostedConfigurationVersionInput) async throws -> GetHostedConfigurationVersionOutputResponse
     /// Lists all applications in your Amazon Web Services account.
+    ///
+    /// - Parameter ListApplicationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListApplicationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutputResponse
     /// Lists the configuration profiles for an application.
+    ///
+    /// - Parameter ListConfigurationProfilesInput : [no documentation found]
+    ///
+    /// - Returns: `ListConfigurationProfilesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func listConfigurationProfiles(input: ListConfigurationProfilesInput) async throws -> ListConfigurationProfilesOutputResponse
     /// Lists the deployments for an environment in descending deployment number order.
+    ///
+    /// - Parameter ListDeploymentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDeploymentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutputResponse
     /// Lists deployment strategies.
+    ///
+    /// - Parameter ListDeploymentStrategiesInput : [no documentation found]
+    ///
+    /// - Returns: `ListDeploymentStrategiesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     func listDeploymentStrategies(input: ListDeploymentStrategiesInput) async throws -> ListDeploymentStrategiesOutputResponse
     /// Lists the environments for an application.
+    ///
+    /// - Parameter ListEnvironmentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListEnvironmentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutputResponse
     /// Lists all AppConfig extension associations in the account. For more information about extensions and associations, see [Working with AppConfig extensions](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
+    ///
+    /// - Parameter ListExtensionAssociationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListExtensionAssociationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     func listExtensionAssociations(input: ListExtensionAssociationsInput) async throws -> ListExtensionAssociationsOutputResponse
     /// Lists all custom and Amazon Web Services authored AppConfig extensions in the account. For more information about extensions, see [Working with AppConfig extensions](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
+    ///
+    /// - Parameter ListExtensionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListExtensionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     func listExtensions(input: ListExtensionsInput) async throws -> ListExtensionsOutputResponse
     /// Lists configurations stored in the AppConfig hosted configuration store by version.
+    ///
+    /// - Parameter ListHostedConfigurationVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListHostedConfigurationVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func listHostedConfigurationVersions(input: ListHostedConfigurationVersionsInput) async throws -> ListHostedConfigurationVersionsOutputResponse
     /// Retrieves the list of key-value tags assigned to the resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Starts a deployment.
+    ///
+    /// - Parameter StartDeploymentInput : [no documentation found]
+    ///
+    /// - Returns: `StartDeploymentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func startDeployment(input: StartDeploymentInput) async throws -> StartDeploymentOutputResponse
     /// Stops a deployment. This API action works only on deployments that have a status of DEPLOYING. This action moves the deployment to a status of ROLLED_BACK.
+    ///
+    /// - Parameter StopDeploymentInput : [no documentation found]
+    ///
+    /// - Returns: `StopDeploymentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func stopDeployment(input: StopDeploymentInput) async throws -> StopDeploymentOutputResponse
     /// Assigns metadata to an AppConfig resource. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define. You can specify a maximum of 50 tags for a resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Deletes a tag key and value from an AppConfig resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates an application.
+    ///
+    /// - Parameter UpdateApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutputResponse
     /// Updates a configuration profile.
+    ///
+    /// - Parameter UpdateConfigurationProfileInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateConfigurationProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func updateConfigurationProfile(input: UpdateConfigurationProfileInput) async throws -> UpdateConfigurationProfileOutputResponse
     /// Updates a deployment strategy.
+    ///
+    /// - Parameter UpdateDeploymentStrategyInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDeploymentStrategyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func updateDeploymentStrategy(input: UpdateDeploymentStrategyInput) async throws -> UpdateDeploymentStrategyOutputResponse
     /// Updates an environment.
+    ///
+    /// - Parameter UpdateEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutputResponse
     /// Updates an AppConfig extension. For more information about extensions, see [Working with AppConfig extensions](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
+    ///
+    /// - Parameter UpdateExtensionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateExtensionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func updateExtension(input: UpdateExtensionInput) async throws -> UpdateExtensionOutputResponse
     /// Updates an association. For more information about extensions and associations, see [Working with AppConfig extensions](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
+    ///
+    /// - Parameter UpdateExtensionAssociationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateExtensionAssociationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func updateExtensionAssociation(input: UpdateExtensionAssociationInput) async throws -> UpdateExtensionAssociationOutputResponse
     /// Uses the validators in a configuration profile to validate a configuration.
+    ///
+    /// - Parameter ValidateConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `ValidateConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
     func validateConfiguration(input: ValidateConfigurationInput) async throws -> ValidateConfigurationOutputResponse
 }
 

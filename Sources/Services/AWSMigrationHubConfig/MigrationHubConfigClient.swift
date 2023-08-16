@@ -68,6 +68,20 @@ public struct MigrationHubConfigClientLogHandlerFactory: ClientRuntime.SDKLogHan
 
 extension MigrationHubConfigClient: MigrationHubConfigClientProtocol {
     /// This API sets up the home region for the calling account only.
+    ///
+    /// - Parameter CreateHomeRegionControlInput : [no documentation found]
+    ///
+    /// - Returns: `CreateHomeRegionControlOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `DryRunOperation` : Exception raised to indicate that authorization of an action was successful, when the DryRun flag is set to true.
+    /// - `InternalServerError` : Exception raised when an internal, configuration, or dependency error is encountered.
+    /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
+    /// - `ServiceUnavailableException` : Exception raised when a request fails due to temporary unavailability of the service.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func createHomeRegionControl(input: CreateHomeRegionControlInput) async throws -> CreateHomeRegionControlOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -105,6 +119,19 @@ extension MigrationHubConfigClient: MigrationHubConfigClientProtocol {
     }
 
     /// This API permits filtering on the ControlId and HomeRegion fields.
+    ///
+    /// - Parameter DescribeHomeRegionControlsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeHomeRegionControlsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerError` : Exception raised when an internal, configuration, or dependency error is encountered.
+    /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
+    /// - `ServiceUnavailableException` : Exception raised when a request fails due to temporary unavailability of the service.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func describeHomeRegionControls(input: DescribeHomeRegionControlsInput) async throws -> DescribeHomeRegionControlsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -142,6 +169,19 @@ extension MigrationHubConfigClient: MigrationHubConfigClientProtocol {
     }
 
     /// Returns the calling account’s home region, if configured. This API is used by other AWS services to determine the regional endpoint for calling AWS Application Discovery Service and Migration Hub. You must call GetHomeRegion at least once before you call any other AWS Application Discovery Service and AWS Migration Hub APIs, to obtain the account's Migration Hub home region.
+    ///
+    /// - Parameter GetHomeRegionInput : [no documentation found]
+    ///
+    /// - Returns: `GetHomeRegionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerError` : Exception raised when an internal, configuration, or dependency error is encountered.
+    /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
+    /// - `ServiceUnavailableException` : Exception raised when a request fails due to temporary unavailability of the service.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func getHomeRegion(input: GetHomeRegionInput) async throws -> GetHomeRegionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

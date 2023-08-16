@@ -68,6 +68,19 @@ public struct LexRuntimeClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
 
 extension LexRuntimeClient: LexRuntimeClientProtocol {
     /// Removes session information for a specified bot, alias, and user ID.
+    ///
+    /// - Parameter DeleteSessionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSessionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Request validation failed, there is no usable message in the context, or the bot build failed, is still in progress, or contains unbuilt changes.
+    /// - `ConflictException` : Two clients are using the same AWS account, Amazon Lex bot, and user ID.
+    /// - `InternalFailureException` : Internal service error. Retry the call.
+    /// - `LimitExceededException` : Exceeded a limit.
+    /// - `NotFoundException` : The resource (such as the Amazon Lex bot or an alias) that is referred to is not found.
     public func deleteSession(input: DeleteSessionInput) async throws -> DeleteSessionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -101,6 +114,18 @@ extension LexRuntimeClient: LexRuntimeClientProtocol {
     }
 
     /// Returns session information for a specified bot, alias, and user ID.
+    ///
+    /// - Parameter GetSessionInput : [no documentation found]
+    ///
+    /// - Returns: `GetSessionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Request validation failed, there is no usable message in the context, or the bot build failed, is still in progress, or contains unbuilt changes.
+    /// - `InternalFailureException` : Internal service error. Retry the call.
+    /// - `LimitExceededException` : Exceeded a limit.
+    /// - `NotFoundException` : The resource (such as the Amazon Lex bot or an alias) that is referred to is not found.
     public func getSession(input: GetSessionInput) async throws -> GetSessionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -164,6 +189,31 @@ extension LexRuntimeClient: LexRuntimeClientProtocol {
     ///
     ///
     /// In addition, Amazon Lex also returns your application-specific sessionAttributes. For more information, see [Managing Conversation Context](https://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html).
+    ///
+    /// - Parameter PostContentInput : [no documentation found]
+    ///
+    /// - Returns: `PostContentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Either the Amazon Lex bot is still building, or one of the dependent services (Amazon Polly, AWS Lambda) failed with an internal service error.
+    /// - `BadRequestException` : Request validation failed, there is no usable message in the context, or the bot build failed, is still in progress, or contains unbuilt changes.
+    /// - `ConflictException` : Two clients are using the same AWS account, Amazon Lex bot, and user ID.
+    /// - `DependencyFailedException` : One of the dependencies, such as AWS Lambda or Amazon Polly, threw an exception. For example,
+    ///
+    /// * If Amazon Lex does not have sufficient permissions to call a Lambda function.
+    ///
+    /// * If a Lambda function takes longer than 30 seconds to execute.
+    ///
+    /// * If a fulfillment Lambda function returns a Delegate dialog action without removing any slot values.
+    /// - `InternalFailureException` : Internal service error. Retry the call.
+    /// - `LimitExceededException` : Exceeded a limit.
+    /// - `LoopDetectedException` : This exception is not used.
+    /// - `NotAcceptableException` : The accept header in the request does not have a valid value.
+    /// - `NotFoundException` : The resource (such as the Amazon Lex bot or an alias) that is referred to is not found.
+    /// - `RequestTimeoutException` : The input speech is too long.
+    /// - `UnsupportedMediaTypeException` : The Content-Type header (PostContent API) has an invalid value.
     public func postContent(input: PostContentInput) async throws -> PostContentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -230,6 +280,28 @@ extension LexRuntimeClient: LexRuntimeClientProtocol {
     ///
     ///
     /// In addition, Amazon Lex also returns your application-specific sessionAttributes. For more information, see [Managing Conversation Context](https://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html).
+    ///
+    /// - Parameter PostTextInput : [no documentation found]
+    ///
+    /// - Returns: `PostTextOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Either the Amazon Lex bot is still building, or one of the dependent services (Amazon Polly, AWS Lambda) failed with an internal service error.
+    /// - `BadRequestException` : Request validation failed, there is no usable message in the context, or the bot build failed, is still in progress, or contains unbuilt changes.
+    /// - `ConflictException` : Two clients are using the same AWS account, Amazon Lex bot, and user ID.
+    /// - `DependencyFailedException` : One of the dependencies, such as AWS Lambda or Amazon Polly, threw an exception. For example,
+    ///
+    /// * If Amazon Lex does not have sufficient permissions to call a Lambda function.
+    ///
+    /// * If a Lambda function takes longer than 30 seconds to execute.
+    ///
+    /// * If a fulfillment Lambda function returns a Delegate dialog action without removing any slot values.
+    /// - `InternalFailureException` : Internal service error. Retry the call.
+    /// - `LimitExceededException` : Exceeded a limit.
+    /// - `LoopDetectedException` : This exception is not used.
+    /// - `NotFoundException` : The resource (such as the Amazon Lex bot or an alias) that is referred to is not found.
     public func postText(input: PostTextInput) async throws -> PostTextOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -266,6 +338,28 @@ extension LexRuntimeClient: LexRuntimeClientProtocol {
     }
 
     /// Creates a new session or modifies an existing session with an Amazon Lex bot. Use this operation to enable your application to set the state of the bot. For more information, see [Managing Sessions](https://docs.aws.amazon.com/lex/latest/dg/how-session-api.html).
+    ///
+    /// - Parameter PutSessionInput : [no documentation found]
+    ///
+    /// - Returns: `PutSessionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Either the Amazon Lex bot is still building, or one of the dependent services (Amazon Polly, AWS Lambda) failed with an internal service error.
+    /// - `BadRequestException` : Request validation failed, there is no usable message in the context, or the bot build failed, is still in progress, or contains unbuilt changes.
+    /// - `ConflictException` : Two clients are using the same AWS account, Amazon Lex bot, and user ID.
+    /// - `DependencyFailedException` : One of the dependencies, such as AWS Lambda or Amazon Polly, threw an exception. For example,
+    ///
+    /// * If Amazon Lex does not have sufficient permissions to call a Lambda function.
+    ///
+    /// * If a Lambda function takes longer than 30 seconds to execute.
+    ///
+    /// * If a fulfillment Lambda function returns a Delegate dialog action without removing any slot values.
+    /// - `InternalFailureException` : Internal service error. Retry the call.
+    /// - `LimitExceededException` : Exceeded a limit.
+    /// - `NotAcceptableException` : The accept header in the request does not have a valid value.
+    /// - `NotFoundException` : The resource (such as the Amazon Lex bot or an alias) that is referred to is not found.
     public func putSession(input: PutSessionInput) async throws -> PutSessionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

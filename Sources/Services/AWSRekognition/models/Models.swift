@@ -2265,7 +2265,7 @@ extension CreateDatasetInput: ClientRuntime.URLPathProvider {
 public struct CreateDatasetInput: Swift.Equatable {
     /// The source files for the dataset. You can specify the ARN of an existing dataset or specify the Amazon S3 bucket location of an Amazon Sagemaker format manifest file. If you don't specify datasetSource, an empty dataset is created. To add labeled images to the dataset, You can use the console or call [UpdateDatasetEntries].
     public var datasetSource: RekognitionClientTypes.DatasetSource?
-    /// The type of the dataset. Specify train to create a training dataset. Specify test to create a test dataset.
+    /// The type of the dataset. Specify TRAIN to create a training dataset. Specify TEST to create a test dataset.
     /// This member is required.
     public var datasetType: RekognitionClientTypes.DatasetType?
     /// The ARN of the Amazon Rekognition Custom Labels project to which you want to asssign the dataset.
@@ -5593,7 +5593,7 @@ extension DetectFacesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DetectFacesInput: Swift.Equatable {
-    /// An array of facial attributes you want to be returned. A DEFAULT subset of facial attributes - BoundingBox, Confidence, Pose, Quality, and Landmarks - will always be returned. You can request for specific facial attributes (in addition to the default list) - by using ["DEFAULT", "FACE_OCCLUDED"] or just ["FACE_OCCLUDED"]. You can request for all facial attributes by using ["ALL"]. Requesting more attributes may increase response time. If you provide both, ["ALL", "DEFAULT"], the service uses a logical "AND" operator to determine which attributes to return (in this case, all attributes).
+    /// An array of facial attributes you want to be returned. A DEFAULT subset of facial attributes - BoundingBox, Confidence, Pose, Quality, and Landmarks - will always be returned. You can request for specific facial attributes (in addition to the default list) - by using ["DEFAULT", "FACE_OCCLUDED"] or just ["FACE_OCCLUDED"]. You can request for all facial attributes by using ["ALL"]. Requesting more attributes may increase response time. If you provide both, ["ALL", "DEFAULT"], the service uses a logical "AND" operator to determine which attributes to return (in this case, all attributes). Note that while the FaceOccluded and EyeDirection attributes are supported when using DetectFaces, they aren't supported when analyzing videos with StartFaceDetection and GetFaceDetection.
     public var attributes: [RekognitionClientTypes.Attribute]?
     /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported. If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
     /// This member is required.
@@ -6072,9 +6072,9 @@ public struct DetectLabelsInput: Swift.Equatable {
     /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes is not supported. Images stored in an S3 Bucket do not need to be base64-encoded. If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
     /// This member is required.
     public var image: RekognitionClientTypes.Image?
-    /// Maximum number of labels you want the service to return in the response. The service returns the specified number of highest confidence labels.
+    /// Maximum number of labels you want the service to return in the response. The service returns the specified number of highest confidence labels. Only valid when GENERAL_LABELS is specified as a feature type in the Feature input parameter.
     public var maxLabels: Swift.Int?
-    /// Specifies the minimum confidence level for the labels to return. Amazon Rekognition doesn't return any labels with confidence lower than this specified value. If MinConfidence is not specified, the operation returns labels with a confidence values greater than or equal to 55 percent.
+    /// Specifies the minimum confidence level for the labels to return. Amazon Rekognition doesn't return any labels with confidence lower than this specified value. If MinConfidence is not specified, the operation returns labels with a confidence values greater than or equal to 55 percent. Only valid when GENERAL_LABELS is specified as a feature type in the Feature input parameter.
     public var minConfidence: Swift.Float?
     /// A list of the filters to be applied to returned detected labels and image properties. Specified filters can be inclusive, exclusive, or a combination of both. Filters can be used for individual labels or label categories. The exact label names or label categories must be supplied. For a full list of labels and label categories, see [Detecting labels](https://docs.aws.amazon.com/rekognition/latest/dg/labels.html).
     public var settings: RekognitionClientTypes.DetectLabelsSettings?
@@ -9436,7 +9436,7 @@ extension GetFaceLivenessSessionResultsOutputResponse: ClientRuntime.HttpRespons
 }
 
 public struct GetFaceLivenessSessionResultsOutputResponse: Swift.Equatable {
-    /// A set of images from the Face Liveness video that can be used for audit purposes. It includes a bounding box of the face and the Base64-encoded bytes that return an image. If the CreateFaceLivenessSession request included an OutputConfig argument, the image will be uploaded to an S3Object specified in the output configuration.
+    /// A set of images from the Face Liveness video that can be used for audit purposes. It includes a bounding box of the face and the Base64-encoded bytes that return an image. If the CreateFaceLivenessSession request included an OutputConfig argument, the image will be uploaded to an S3Object specified in the output configuration. If no Amazon S3 bucket is defined, raw bytes are sent instead.
     public var auditImages: [RekognitionClientTypes.AuditImage]?
     /// Probabalistic confidence score for if the person in the given video was live, represented as a float value between 0 to 100.
     public var confidence: Swift.Float?
@@ -13407,13 +13407,13 @@ public struct ListFacesInput: Swift.Equatable {
     /// ID of the collection from which to list the faces.
     /// This member is required.
     public var collectionId: Swift.String?
-    /// An array of face IDs to match when listing faces in a collection.
+    /// An array of face IDs to filter results with when listing faces in a collection.
     public var faceIds: [Swift.String]?
     /// Maximum number of faces to return.
     public var maxResults: Swift.Int?
     /// If the previous response was incomplete (because there is more data to retrieve), Amazon Rekognition returns a pagination token in the response. You can use this pagination token to retrieve the next set of faces.
     public var nextToken: Swift.String?
-    /// An array of user IDs to match when listing faces in a collection.
+    /// An array of user IDs to filter results with when listing faces in a collection.
     public var userId: Swift.String?
 
     public init(

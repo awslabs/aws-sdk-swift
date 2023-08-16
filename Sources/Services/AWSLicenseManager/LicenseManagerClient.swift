@@ -68,6 +68,21 @@ public struct LicenseManagerClientLogHandlerFactory: ClientRuntime.SDKLogHandler
 
 extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// Accepts the specified grant.
+    ///
+    /// - Parameter AcceptGrantInput : [no documentation found]
+    ///
+    /// - Returns: `AcceptGrantOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func acceptGrant(input: AcceptGrantInput) async throws -> AcceptGrantOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -105,6 +120,22 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Checks in the specified license. Check in a license when it is no longer in use.
+    ///
+    /// - Parameter CheckInLicenseInput : [no documentation found]
+    ///
+    /// - Returns: `CheckInLicenseOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `ConflictException` : There was a conflict processing the request. Try your request again.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func checkInLicense(input: CheckInLicenseInput) async throws -> CheckInLicenseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -142,6 +173,25 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Checks out the specified license for offline use.
+    ///
+    /// - Parameter CheckoutBorrowLicenseInput : [no documentation found]
+    ///
+    /// - Returns: `CheckoutBorrowLicenseOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `EntitlementNotAllowedException` : The entitlement is not allowed.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `NoEntitlementsAllowedException` : There are no entitlements found for this license, or the entitlement maximum count is reached.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `RedirectException` : This is not the correct Region for the resource. Try again.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `UnsupportedDigitalSignatureMethodException` : The digital signature method is unsupported. Try your request again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func checkoutBorrowLicense(input: CheckoutBorrowLicenseInput) async throws -> CheckoutBorrowLicenseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -179,6 +229,24 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Checks out the specified license. If the account that created the license is the same that is performing the check out, you must specify the account as the beneficiary.
+    ///
+    /// - Parameter CheckoutLicenseInput : [no documentation found]
+    ///
+    /// - Returns: `CheckoutLicenseOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `NoEntitlementsAllowedException` : There are no entitlements found for this license, or the entitlement maximum count is reached.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `RedirectException` : This is not the correct Region for the resource. Try again.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `UnsupportedDigitalSignatureMethodException` : The digital signature method is unsupported. Try your request again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func checkoutLicense(input: CheckoutLicenseInput) async throws -> CheckoutLicenseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -216,6 +284,21 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Creates a grant for the specified license. A grant shares the use of license entitlements with a specific Amazon Web Services account, an organization, or an organizational unit (OU). For more information, see [Granted licenses in License Manager](https://docs.aws.amazon.com/license-manager/latest/userguide/granted-licenses.html) in the License Manager User Guide.
+    ///
+    /// - Parameter CreateGrantInput : [no documentation found]
+    ///
+    /// - Returns: `CreateGrantOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func createGrant(input: CreateGrantInput) async throws -> CreateGrantOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -253,6 +336,21 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Creates a new version of the specified grant. For more information, see [Granted licenses in License Manager](https://docs.aws.amazon.com/license-manager/latest/userguide/granted-licenses.html) in the License Manager User Guide.
+    ///
+    /// - Parameter CreateGrantVersionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateGrantVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func createGrantVersion(input: CreateGrantVersionInput) async throws -> CreateGrantVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -290,6 +388,21 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Creates a license.
+    ///
+    /// - Parameter CreateLicenseInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLicenseOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `RedirectException` : This is not the correct Region for the resource. Try again.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func createLicense(input: CreateLicenseInput) async throws -> CreateLicenseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -327,6 +440,20 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Creates a license configuration. A license configuration is an abstraction of a customer license agreement that can be consumed and enforced by License Manager. Components include specifications for the license type (licensing by instance, socket, CPU, or vCPU), allowed tenancy (shared tenancy, Dedicated Instance, Dedicated Host, or all of these), license affinity to host (how long a license must be associated with a host), and the number of licenses purchased and used.
+    ///
+    /// - Parameter CreateLicenseConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLicenseConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func createLicenseConfiguration(input: CreateLicenseConfigurationInput) async throws -> CreateLicenseConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -364,6 +491,20 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Creates a new license conversion task.
+    ///
+    /// - Parameter CreateLicenseConversionTaskForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLicenseConversionTaskForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func createLicenseConversionTaskForResource(input: CreateLicenseConversionTaskForResourceInput) async throws -> CreateLicenseConversionTaskForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -401,6 +542,22 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Creates a report generator.
+    ///
+    /// - Parameter CreateLicenseManagerReportGeneratorInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLicenseManagerReportGeneratorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func createLicenseManagerReportGenerator(input: CreateLicenseManagerReportGeneratorInput) async throws -> CreateLicenseManagerReportGeneratorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -438,6 +595,22 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Creates a new version of the specified license.
+    ///
+    /// - Parameter CreateLicenseVersionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLicenseVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `ConflictException` : There was a conflict processing the request. Try your request again.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `RedirectException` : This is not the correct Region for the resource. Try again.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func createLicenseVersion(input: CreateLicenseVersionInput) async throws -> CreateLicenseVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -475,6 +648,22 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Creates a long-lived token. A refresh token is a JWT token used to get an access token. With an access token, you can call AssumeRoleWithWebIdentity to get role credentials that you can use to call License Manager to manage the specified license.
+    ///
+    /// - Parameter CreateTokenInput : [no documentation found]
+    ///
+    /// - Returns: `CreateTokenOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `RedirectException` : This is not the correct Region for the resource. Try again.
+    /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func createToken(input: CreateTokenInput) async throws -> CreateTokenOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -512,6 +701,21 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Deletes the specified grant.
+    ///
+    /// - Parameter DeleteGrantInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteGrantOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func deleteGrant(input: DeleteGrantInput) async throws -> DeleteGrantOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -549,6 +753,22 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Deletes the specified license.
+    ///
+    /// - Parameter DeleteLicenseInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteLicenseOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `ConflictException` : There was a conflict processing the request. Try your request again.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `RedirectException` : This is not the correct Region for the resource. Try again.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func deleteLicense(input: DeleteLicenseInput) async throws -> DeleteLicenseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -586,6 +806,19 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Deletes the specified license configuration. You cannot delete a license configuration that is in use.
+    ///
+    /// - Parameter DeleteLicenseConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteLicenseConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func deleteLicenseConfiguration(input: DeleteLicenseConfigurationInput) async throws -> DeleteLicenseConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -623,6 +856,22 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Deletes the specified report generator. This action deletes the report generator, which stops it from generating future reports. The action cannot be reversed. It has no effect on the previous reports from this generator.
+    ///
+    /// - Parameter DeleteLicenseManagerReportGeneratorInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteLicenseManagerReportGeneratorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func deleteLicenseManagerReportGenerator(input: DeleteLicenseManagerReportGeneratorInput) async throws -> DeleteLicenseManagerReportGeneratorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -660,6 +909,21 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Deletes the specified token. Must be called in the license home Region.
+    ///
+    /// - Parameter DeleteTokenInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteTokenOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `RedirectException` : This is not the correct Region for the resource. Try again.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func deleteToken(input: DeleteTokenInput) async throws -> DeleteTokenOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -697,6 +961,21 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Extends the expiration date for license consumption.
+    ///
+    /// - Parameter ExtendLicenseConsumptionInput : [no documentation found]
+    ///
+    /// - Returns: `ExtendLicenseConsumptionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func extendLicenseConsumption(input: ExtendLicenseConsumptionInput) async throws -> ExtendLicenseConsumptionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -734,6 +1013,19 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Gets a temporary access token to use with AssumeRoleWithWebIdentity. Access tokens are valid for one hour.
+    ///
+    /// - Parameter GetAccessTokenInput : [no documentation found]
+    ///
+    /// - Returns: `GetAccessTokenOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func getAccessToken(input: GetAccessTokenInput) async throws -> GetAccessTokenOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -771,6 +1063,21 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Gets detailed information about the specified grant.
+    ///
+    /// - Parameter GetGrantInput : [no documentation found]
+    ///
+    /// - Returns: `GetGrantOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func getGrant(input: GetGrantInput) async throws -> GetGrantOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -808,6 +1115,20 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Gets detailed information about the specified license.
+    ///
+    /// - Parameter GetLicenseInput : [no documentation found]
+    ///
+    /// - Returns: `GetLicenseOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func getLicense(input: GetLicenseInput) async throws -> GetLicenseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -845,6 +1166,19 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Gets detailed information about the specified license configuration.
+    ///
+    /// - Parameter GetLicenseConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetLicenseConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func getLicenseConfiguration(input: GetLicenseConfigurationInput) async throws -> GetLicenseConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -882,6 +1216,19 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Gets information about the specified license type conversion task.
+    ///
+    /// - Parameter GetLicenseConversionTaskInput : [no documentation found]
+    ///
+    /// - Returns: `GetLicenseConversionTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func getLicenseConversionTask(input: GetLicenseConversionTaskInput) async throws -> GetLicenseConversionTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -919,6 +1266,22 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Gets information about the specified report generator.
+    ///
+    /// - Parameter GetLicenseManagerReportGeneratorInput : [no documentation found]
+    ///
+    /// - Returns: `GetLicenseManagerReportGeneratorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func getLicenseManagerReportGenerator(input: GetLicenseManagerReportGeneratorInput) async throws -> GetLicenseManagerReportGeneratorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -956,6 +1319,20 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Gets detailed information about the usage of the specified license.
+    ///
+    /// - Parameter GetLicenseUsageInput : [no documentation found]
+    ///
+    /// - Returns: `GetLicenseUsageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func getLicenseUsage(input: GetLicenseUsageInput) async throws -> GetLicenseUsageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -993,6 +1370,18 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Gets the License Manager settings for the current Region.
+    ///
+    /// - Parameter GetServiceSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `GetServiceSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func getServiceSettings(input: GetServiceSettingsInput) async throws -> GetServiceSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1030,6 +1419,20 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Lists the resource associations for the specified license configuration. Resource associations need not consume licenses from a license configuration. For example, an AMI or a stopped instance might not consume a license (depending on the license rules).
+    ///
+    /// - Parameter ListAssociationsForLicenseConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `ListAssociationsForLicenseConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `FilterLimitExceededException` : The request uses too many filters or too many filter values.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func listAssociationsForLicenseConfiguration(input: ListAssociationsForLicenseConfigurationInput) async throws -> ListAssociationsForLicenseConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1067,6 +1470,21 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Lists the grants distributed for the specified license.
+    ///
+    /// - Parameter ListDistributedGrantsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDistributedGrantsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func listDistributedGrants(input: ListDistributedGrantsInput) async throws -> ListDistributedGrantsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1104,6 +1522,19 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Lists the license configuration operations that failed.
+    ///
+    /// - Parameter ListFailuresForLicenseConfigurationOperationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListFailuresForLicenseConfigurationOperationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func listFailuresForLicenseConfigurationOperations(input: ListFailuresForLicenseConfigurationOperationsInput) async throws -> ListFailuresForLicenseConfigurationOperationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1141,6 +1572,20 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Lists the license configurations for your account.
+    ///
+    /// - Parameter ListLicenseConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListLicenseConfigurationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `FilterLimitExceededException` : The request uses too many filters or too many filter values.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func listLicenseConfigurations(input: ListLicenseConfigurationsInput) async throws -> ListLicenseConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1178,6 +1623,19 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Lists the license type conversion tasks for your account.
+    ///
+    /// - Parameter ListLicenseConversionTasksInput : [no documentation found]
+    ///
+    /// - Returns: `ListLicenseConversionTasksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func listLicenseConversionTasks(input: ListLicenseConversionTasksInput) async throws -> ListLicenseConversionTasksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1215,6 +1673,22 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Lists the report generators for your account.
+    ///
+    /// - Parameter ListLicenseManagerReportGeneratorsInput : [no documentation found]
+    ///
+    /// - Returns: `ListLicenseManagerReportGeneratorsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func listLicenseManagerReportGenerators(input: ListLicenseManagerReportGeneratorsInput) async throws -> ListLicenseManagerReportGeneratorsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1252,6 +1726,19 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Describes the license configurations for the specified resource.
+    ///
+    /// - Parameter ListLicenseSpecificationsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListLicenseSpecificationsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func listLicenseSpecificationsForResource(input: ListLicenseSpecificationsForResourceInput) async throws -> ListLicenseSpecificationsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1289,6 +1776,19 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Lists all versions of the specified license.
+    ///
+    /// - Parameter ListLicenseVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListLicenseVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func listLicenseVersions(input: ListLicenseVersionsInput) async throws -> ListLicenseVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1326,6 +1826,20 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Lists the licenses for your account.
+    ///
+    /// - Parameter ListLicensesInput : [no documentation found]
+    ///
+    /// - Returns: `ListLicensesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func listLicenses(input: ListLicensesInput) async throws -> ListLicensesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1363,6 +1877,21 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Lists grants that are received. Received grants are grants created while specifying the recipient as this Amazon Web Services account, your organization, or an organizational unit (OU) to which this member account belongs.
+    ///
+    /// - Parameter ListReceivedGrantsInput : [no documentation found]
+    ///
+    /// - Returns: `ListReceivedGrantsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func listReceivedGrants(input: ListReceivedGrantsInput) async throws -> ListReceivedGrantsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1400,6 +1929,21 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Lists the grants received for all accounts in the organization.
+    ///
+    /// - Parameter ListReceivedGrantsForOrganizationInput : [no documentation found]
+    ///
+    /// - Returns: `ListReceivedGrantsForOrganizationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func listReceivedGrantsForOrganization(input: ListReceivedGrantsForOrganizationInput) async throws -> ListReceivedGrantsForOrganizationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1437,6 +1981,21 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Lists received licenses.
+    ///
+    /// - Parameter ListReceivedLicensesInput : [no documentation found]
+    ///
+    /// - Returns: `ListReceivedLicensesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func listReceivedLicenses(input: ListReceivedLicensesInput) async throws -> ListReceivedLicensesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1474,6 +2033,21 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Lists the licenses received for all accounts in the organization.
+    ///
+    /// - Parameter ListReceivedLicensesForOrganizationInput : [no documentation found]
+    ///
+    /// - Returns: `ListReceivedLicensesForOrganizationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func listReceivedLicensesForOrganization(input: ListReceivedLicensesForOrganizationInput) async throws -> ListReceivedLicensesForOrganizationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1511,6 +2085,21 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Lists resources managed using Systems Manager inventory.
+    ///
+    /// - Parameter ListResourceInventoryInput : [no documentation found]
+    ///
+    /// - Returns: `ListResourceInventoryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `FailedDependencyException` : A dependency required to run the API is missing.
+    /// - `FilterLimitExceededException` : The request uses too many filters or too many filter values.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func listResourceInventory(input: ListResourceInventoryInput) async throws -> ListResourceInventoryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1548,6 +2137,19 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Lists the tags for the specified license configuration.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1585,6 +2187,19 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Lists your tokens.
+    ///
+    /// - Parameter ListTokensInput : [no documentation found]
+    ///
+    /// - Returns: `ListTokensOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func listTokens(input: ListTokensInput) async throws -> ListTokensOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1622,6 +2237,20 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Lists all license usage records for a license configuration, displaying license consumption details by resource at a selected point in time. Use this action to audit the current license consumption for any license inventory and configuration.
+    ///
+    /// - Parameter ListUsageForLicenseConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `ListUsageForLicenseConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `FilterLimitExceededException` : The request uses too many filters or too many filter values.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func listUsageForLicenseConfiguration(input: ListUsageForLicenseConfigurationInput) async throws -> ListUsageForLicenseConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1659,6 +2288,21 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Rejects the specified grant.
+    ///
+    /// - Parameter RejectGrantInput : [no documentation found]
+    ///
+    /// - Returns: `RejectGrantOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func rejectGrant(input: RejectGrantInput) async throws -> RejectGrantOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1696,6 +2340,19 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Adds the specified tags to the specified license configuration.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1733,6 +2390,19 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Removes the specified tags from the specified license configuration.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1770,6 +2440,20 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Modifies the attributes of an existing license configuration.
+    ///
+    /// - Parameter UpdateLicenseConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateLicenseConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func updateLicenseConfiguration(input: UpdateLicenseConfigurationInput) async throws -> UpdateLicenseConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1807,6 +2491,22 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Updates a report generator. After you make changes to a report generator, it starts generating new reports within 60 minutes of being updated.
+    ///
+    /// - Parameter UpdateLicenseManagerReportGeneratorInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateLicenseManagerReportGeneratorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func updateLicenseManagerReportGenerator(input: UpdateLicenseManagerReportGeneratorInput) async throws -> UpdateLicenseManagerReportGeneratorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1844,6 +2544,21 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Adds or removes the specified license configurations for the specified Amazon Web Services resource. You can update the license specifications of AMIs, instances, and hosts. You cannot update the license specifications for launch templates and CloudFormation templates, as they send license configurations to the operation that creates the resource.
+    ///
+    /// - Parameter UpdateLicenseSpecificationsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateLicenseSpecificationsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `InvalidResourceStateException` : License Manager cannot allocate a license to a resource because of its state. For example, you cannot allocate a license to an instance in the process of shutting down.
+    /// - `LicenseUsageException` : You do not have enough licenses available to support a new resource launch.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func updateLicenseSpecificationsForResource(input: UpdateLicenseSpecificationsForResourceInput) async throws -> UpdateLicenseSpecificationsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1881,6 +2596,19 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     }
 
     /// Updates License Manager settings for the current Region.
+    ///
+    /// - Parameter UpdateServiceSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateServiceSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to resource denied.
+    /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
+    /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func updateServiceSettings(input: UpdateServiceSettingsInput) async throws -> UpdateServiceSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
