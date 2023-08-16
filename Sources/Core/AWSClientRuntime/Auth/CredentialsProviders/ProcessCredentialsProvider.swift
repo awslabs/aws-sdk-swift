@@ -31,8 +31,9 @@ public struct ProcessCredentialsProvider: CredentialsSourcedByCRT {
     /// Creates a credentials provider that gets credentials from running a command or process.
     ///
     /// - Parameters:
-    ///   - fileBasedConfiguration: The file based configuration to read the configuration from.
-    ///   - profileFileNameOverride: (Optional) Override of what profile to use to source credentials from ('default' by default)
+    ///   - profileName: The profile name to use. If not provided it will be resolved internally via the `AWS_PROFILE` environment variable or defaulted to `default` if not configured.
+    ///   - configFilePath: The path to the configuration file to use. If not provided it will be resolved internally via the `AWS_CONFIG_FILE` environment variable or defaulted  to `~/.aws/config` if not configured.
+    ///   - credentialsFilePath: The path to the shared credentials file to use. If not provided it will be resolved internally via the `AWS_SHARED_CREDENTIALS_FILE` environment variable or defaulted `~/.aws/credentials` if not configured.
     public init(
         profileName: String? = nil,
         configFilePath: String? = nil,

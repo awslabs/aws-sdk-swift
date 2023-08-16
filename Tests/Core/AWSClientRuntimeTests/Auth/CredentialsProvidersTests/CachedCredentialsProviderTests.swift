@@ -12,22 +12,22 @@ import XCTest
 @_spi(FileBasedConfig) @testable import AWSClientRuntime
 
 class CachedCredentialsProviderTests: XCTestCase {
-    func testGetCredentials() async {
+    func testGetCredentials() async throws {
         var counter: Int = 0
         let coreProvider = MockCredentialsProvider {
             counter += 1
             return .init(accessKey: "some_access_key", secret: "some_secret")
         }
         
-        let subject = try! CachedCredentialsProvider(
+        let subject = try CachedCredentialsProvider(
             source: coreProvider,
             refreshTime: 1
         )
         
-        _ = try! await subject.getCredentials()
-        _ = try! await subject.getCredentials()
-        _ = try! await subject.getCredentials()
-        _ = try! await subject.getCredentials()
+        _ = try await subject.getCredentials()
+        _ = try await subject.getCredentials()
+        _ = try await subject.getCredentials()
+        _ = try await subject.getCredentials()
         
         XCTAssertEqual(counter, 1)
         
