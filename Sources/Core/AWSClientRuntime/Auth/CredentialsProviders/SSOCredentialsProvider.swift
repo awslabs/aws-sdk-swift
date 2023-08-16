@@ -13,7 +13,7 @@ import Foundation
 /// [Details link](https://docs.aws.amazon.com/sdkref/latest/guide/feature-sso-credentials.html)
 public struct SSOCredentialsProvider: CredentialsSourcedByCRT {
     let crtCredentialsProvider: CRTCredentialsProvider
-    
+
     /// - Parameters:
     ///   - profileName: The profile name to use. If not provided it will be resolved internally via the `AWS_PROFILE` environment variable or defaulted to `default` if not configured.
     ///   - configFilePath: The path to the configuration file to use. If not provided it will be resolved internally via the `AWS_CONFIG_FILE` environment variable or defaulted  to `~/.aws/config` if not configured.
