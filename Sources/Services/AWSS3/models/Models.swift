@@ -13,14 +13,14 @@ extension S3ClientTypes.AbortIncompleteMultipartUpload: Swift.Codable {
         if encoder.codingPath.isEmpty {
             try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
         }
-        if daysAfterInitiation != 0 {
+        if let daysAfterInitiation = daysAfterInitiation {
             try container.encode(daysAfterInitiation, forKey: ClientRuntime.Key("DaysAfterInitiation"))
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let daysAfterInitiationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .daysAfterInitiation) ?? 0
+        let daysAfterInitiationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .daysAfterInitiation)
         daysAfterInitiation = daysAfterInitiationDecoded
     }
 }
@@ -43,10 +43,10 @@ extension S3ClientTypes {
     /// Specifies the days since the initiation of an incomplete multipart upload that Amazon S3 will wait before permanently removing all parts of the upload. For more information, see [ Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config) in the Amazon S3 User Guide.
     public struct AbortIncompleteMultipartUpload: Swift.Equatable {
         /// Specifies the number of days after which Amazon S3 aborts an incomplete multipart upload.
-        public var daysAfterInitiation: Swift.Int
+        public var daysAfterInitiation: Swift.Int?
 
         public init(
-            daysAfterInitiation: Swift.Int = 0
+            daysAfterInitiation: Swift.Int? = nil
         )
         {
             self.daysAfterInitiation = daysAfterInitiation
@@ -1388,7 +1388,7 @@ extension S3ClientTypes.CORSRule: Swift.Codable {
         if let id = id {
             try container.encode(id, forKey: ClientRuntime.Key("ID"))
         }
-        if maxAgeSeconds != 0 {
+        if let maxAgeSeconds = maxAgeSeconds {
             try container.encode(maxAgeSeconds, forKey: ClientRuntime.Key("MaxAgeSeconds"))
         }
     }
@@ -1469,7 +1469,7 @@ extension S3ClientTypes.CORSRule: Swift.Codable {
         } else {
             exposeHeaders = nil
         }
-        let maxAgeSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxAgeSeconds) ?? 0
+        let maxAgeSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxAgeSeconds)
         maxAgeSeconds = maxAgeSecondsDecoded
     }
 }
@@ -1504,7 +1504,7 @@ extension S3ClientTypes {
         /// Unique identifier for the rule. The value cannot be longer than 255 characters.
         public var id: Swift.String?
         /// The time in seconds that your browser is to cache the preflight response for the specified resource.
-        public var maxAgeSeconds: Swift.Int
+        public var maxAgeSeconds: Swift.Int?
 
         public init(
             allowedHeaders: [Swift.String]? = nil,
@@ -1512,7 +1512,7 @@ extension S3ClientTypes {
             allowedOrigins: [Swift.String]? = nil,
             exposeHeaders: [Swift.String]? = nil,
             id: Swift.String? = nil,
-            maxAgeSeconds: Swift.Int = 0
+            maxAgeSeconds: Swift.Int? = nil
         )
         {
             self.allowedHeaders = allowedHeaders
@@ -1542,7 +1542,7 @@ extension S3ClientTypes.CSVInput: Swift.Codable {
         if encoder.codingPath.isEmpty {
             try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
         }
-        if allowQuotedRecordDelimiter != false {
+        if let allowQuotedRecordDelimiter = allowQuotedRecordDelimiter {
             try container.encode(allowQuotedRecordDelimiter, forKey: ClientRuntime.Key("AllowQuotedRecordDelimiter"))
         }
         if let comments = comments {
@@ -1579,7 +1579,7 @@ extension S3ClientTypes.CSVInput: Swift.Codable {
         fieldDelimiter = fieldDelimiterDecoded
         let quoteCharacterDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .quoteCharacter)
         quoteCharacter = quoteCharacterDecoded
-        let allowQuotedRecordDelimiterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowQuotedRecordDelimiter) ?? false
+        let allowQuotedRecordDelimiterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowQuotedRecordDelimiter)
         allowQuotedRecordDelimiter = allowQuotedRecordDelimiterDecoded
     }
 }
@@ -1602,7 +1602,7 @@ extension S3ClientTypes {
     /// Describes how an uncompressed comma-separated values (CSV)-formatted input object is formatted.
     public struct CSVInput: Swift.Equatable {
         /// Specifies that CSV field values may contain quoted record delimiters and such records should be allowed. Default value is FALSE. Setting this value to TRUE may lower performance.
-        public var allowQuotedRecordDelimiter: Swift.Bool
+        public var allowQuotedRecordDelimiter: Swift.Bool?
         /// A single character used to indicate that a row should be ignored when the character is present at the start of that row. You can specify any character to indicate a comment line. The default character is #. Default: #
         public var comments: Swift.String?
         /// A single character used to separate individual fields in a record. You can specify an arbitrary delimiter.
@@ -1623,7 +1623,7 @@ extension S3ClientTypes {
         public var recordDelimiter: Swift.String?
 
         public init(
-            allowQuotedRecordDelimiter: Swift.Bool = false,
+            allowQuotedRecordDelimiter: Swift.Bool? = nil,
             comments: Swift.String? = nil,
             fieldDelimiter: Swift.String? = nil,
             fileHeaderInfo: S3ClientTypes.FileHeaderInfo? = nil,
@@ -2172,7 +2172,7 @@ extension CompleteMultipartUploadOutputResponse: ClientRuntime.HttpResponseBindi
         if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
             self.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
         } else {
-            self.bucketKeyEnabled = false
+            self.bucketKeyEnabled = nil
         }
         if let expirationHeaderValue = httpResponse.headers.value(for: "x-amz-expiration") {
             self.expiration = expirationHeaderValue
@@ -2227,7 +2227,7 @@ public struct CompleteMultipartUploadOutputResponse: Swift.Equatable {
     /// The name of the bucket that contains the newly created object. Does not return the access point ARN or access point alias if used. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     public var bucket: Swift.String?
     /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
-    public var bucketKeyEnabled: Swift.Bool
+    public var bucketKeyEnabled: Swift.Bool?
     /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumCRC32: Swift.String?
     /// The base64-encoded, 32-bit CRC32C checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
@@ -2255,7 +2255,7 @@ public struct CompleteMultipartUploadOutputResponse: Swift.Equatable {
 
     public init(
         bucket: Swift.String? = nil,
-        bucketKeyEnabled: Swift.Bool = false,
+        bucketKeyEnabled: Swift.Bool? = nil,
         checksumCRC32: Swift.String? = nil,
         checksumCRC32C: Swift.String? = nil,
         checksumSHA1: Swift.String? = nil,
@@ -2985,7 +2985,7 @@ extension CopyObjectOutputResponse: ClientRuntime.HttpResponseBinding {
         if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
             self.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
         } else {
-            self.bucketKeyEnabled = false
+            self.bucketKeyEnabled = nil
         }
         if let copySourceVersionIdHeaderValue = httpResponse.headers.value(for: "x-amz-copy-source-version-id") {
             self.copySourceVersionId = copySourceVersionIdHeaderValue
@@ -3043,7 +3043,7 @@ extension CopyObjectOutputResponse: ClientRuntime.HttpResponseBinding {
 
 public struct CopyObjectOutputResponse: Swift.Equatable {
     /// Indicates whether the copied object uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
-    public var bucketKeyEnabled: Swift.Bool
+    public var bucketKeyEnabled: Swift.Bool?
     /// Container for all response elements.
     public var copyObjectResult: S3ClientTypes.CopyObjectResult?
     /// Version of the copied object in the destination bucket.
@@ -3066,7 +3066,7 @@ public struct CopyObjectOutputResponse: Swift.Equatable {
     public var versionId: Swift.String?
 
     public init(
-        bucketKeyEnabled: Swift.Bool = false,
+        bucketKeyEnabled: Swift.Bool? = nil,
         copyObjectResult: S3ClientTypes.CopyObjectResult? = nil,
         copySourceVersionId: Swift.String? = nil,
         expiration: Swift.String? = nil,
@@ -3855,7 +3855,7 @@ extension CreateMultipartUploadOutputResponse: ClientRuntime.HttpResponseBinding
         if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
             self.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
         } else {
-            self.bucketKeyEnabled = false
+            self.bucketKeyEnabled = nil
         }
         if let checksumAlgorithmHeaderValue = httpResponse.headers.value(for: "x-amz-checksum-algorithm") {
             self.checksumAlgorithm = S3ClientTypes.ChecksumAlgorithm(rawValue: checksumAlgorithmHeaderValue)
@@ -3914,7 +3914,7 @@ public struct CreateMultipartUploadOutputResponse: Swift.Equatable {
     /// The name of the bucket to which the multipart upload was initiated. Does not return the access point ARN or access point alias if used. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     public var bucket: Swift.String?
     /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
-    public var bucketKeyEnabled: Swift.Bool
+    public var bucketKeyEnabled: Swift.Bool?
     /// The algorithm that was used to create a checksum of the object.
     public var checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm?
     /// Object key for which the multipart upload was initiated.
@@ -3938,7 +3938,7 @@ public struct CreateMultipartUploadOutputResponse: Swift.Equatable {
         abortDate: ClientRuntime.Date? = nil,
         abortRuleId: Swift.String? = nil,
         bucket: Swift.String? = nil,
-        bucketKeyEnabled: Swift.Bool = false,
+        bucketKeyEnabled: Swift.Bool? = nil,
         checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
         key: Swift.String? = nil,
         requestCharged: S3ClientTypes.RequestCharged? = nil,
@@ -4002,13 +4002,13 @@ extension S3ClientTypes.DefaultRetention: Swift.Codable {
         if encoder.codingPath.isEmpty {
             try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
         }
-        if days != 0 {
+        if let days = days {
             try container.encode(days, forKey: ClientRuntime.Key("Days"))
         }
         if let mode = mode {
             try container.encode(mode, forKey: ClientRuntime.Key("Mode"))
         }
-        if years != 0 {
+        if let years = years {
             try container.encode(years, forKey: ClientRuntime.Key("Years"))
         }
     }
@@ -4017,9 +4017,9 @@ extension S3ClientTypes.DefaultRetention: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let modeDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ObjectLockRetentionMode.self, forKey: .mode)
         mode = modeDecoded
-        let daysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .days) ?? 0
+        let daysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .days)
         days = daysDecoded
-        let yearsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .years) ?? 0
+        let yearsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .years)
         years = yearsDecoded
     }
 }
@@ -4046,16 +4046,16 @@ extension S3ClientTypes {
     /// * The DefaultRetention period can be either Days or Years but you must select one. You cannot specify Days and Years at the same time.
     public struct DefaultRetention: Swift.Equatable {
         /// The number of days that you want to specify for the default retention period. Must be used with Mode.
-        public var days: Swift.Int
+        public var days: Swift.Int?
         /// The default Object Lock retention mode you want to apply to new objects placed in the specified bucket. Must be used with either Days or Years.
         public var mode: S3ClientTypes.ObjectLockRetentionMode?
         /// The number of years that you want to specify for the default retention period. Must be used with Mode.
-        public var years: Swift.Int
+        public var years: Swift.Int?
 
         public init(
-            days: Swift.Int = 0,
+            days: Swift.Int? = nil,
             mode: S3ClientTypes.ObjectLockRetentionMode? = nil,
-            years: Swift.Int = 0
+            years: Swift.Int? = nil
         )
         {
             self.days = days
@@ -4088,7 +4088,7 @@ extension S3ClientTypes.Delete: Swift.Codable {
                 }
             }
         }
-        if quiet != false {
+        if let quiet = quiet {
             try container.encode(quiet, forKey: ClientRuntime.Key("Quiet"))
         }
     }
@@ -4113,7 +4113,7 @@ extension S3ClientTypes.Delete: Swift.Codable {
         } else {
             objects = nil
         }
-        let quietDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .quiet) ?? false
+        let quietDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .quiet)
         quiet = quietDecoded
     }
 }
@@ -4139,11 +4139,11 @@ extension S3ClientTypes {
         /// This member is required.
         public var objects: [S3ClientTypes.ObjectIdentifier]?
         /// Element to enable quiet mode for the request. When you add this element, you must set its value to true.
-        public var quiet: Swift.Bool
+        public var quiet: Swift.Bool?
 
         public init(
             objects: [S3ClientTypes.ObjectIdentifier]? = nil,
-            quiet: Swift.Bool = false
+            quiet: Swift.Bool? = nil
         )
         {
             self.objects = objects
@@ -5110,7 +5110,7 @@ extension S3ClientTypes.DeleteMarkerEntry: Swift.Codable {
         if encoder.codingPath.isEmpty {
             try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
         }
-        if isLatest != false {
+        if let isLatest = isLatest {
             try container.encode(isLatest, forKey: ClientRuntime.Key("IsLatest"))
         }
         if let key = key {
@@ -5135,7 +5135,7 @@ extension S3ClientTypes.DeleteMarkerEntry: Swift.Codable {
         key = keyDecoded
         let versionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionId)
         versionId = versionIdDecoded
-        let isLatestDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isLatest) ?? false
+        let isLatestDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isLatest)
         isLatest = isLatestDecoded
         let lastModifiedDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastModified)
         lastModified = lastModifiedDecoded
@@ -5160,7 +5160,7 @@ extension S3ClientTypes {
     /// Information about the delete marker.
     public struct DeleteMarkerEntry: Swift.Equatable {
         /// Specifies whether the object is (true) or is not (false) the latest version of an object.
-        public var isLatest: Swift.Bool
+        public var isLatest: Swift.Bool?
         /// The object key.
         public var key: Swift.String?
         /// Date and time the object was last modified.
@@ -5171,7 +5171,7 @@ extension S3ClientTypes {
         public var versionId: Swift.String?
 
         public init(
-            isLatest: Swift.Bool = false,
+            isLatest: Swift.Bool? = nil,
             key: Swift.String? = nil,
             lastModified: ClientRuntime.Date? = nil,
             owner: S3ClientTypes.Owner? = nil,
@@ -10407,7 +10407,7 @@ extension GetObjectAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
             self.checksum = nil
             self.eTag = nil
             self.objectParts = nil
-            self.objectSize = 0
+            self.objectSize = nil
             self.storageClass = nil
         }
     }
@@ -10425,7 +10425,7 @@ public struct GetObjectAttributesOutputResponse: Swift.Equatable {
     /// A collection of parts associated with a multipart upload.
     public var objectParts: S3ClientTypes.GetObjectAttributesParts?
     /// The size of the object in bytes.
-    public var objectSize: Swift.Int
+    public var objectSize: Swift.Int?
     /// If present, indicates that the requester was successfully charged for the request.
     public var requestCharged: S3ClientTypes.RequestCharged?
     /// Provides the storage class information of the object. Amazon S3 returns this header for all objects except for S3 Standard storage class objects. For more information, see [Storage Classes](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html).
@@ -10439,7 +10439,7 @@ public struct GetObjectAttributesOutputResponse: Swift.Equatable {
         eTag: Swift.String? = nil,
         lastModified: ClientRuntime.Date? = nil,
         objectParts: S3ClientTypes.GetObjectAttributesParts? = nil,
-        objectSize: Swift.Int = 0,
+        objectSize: Swift.Int? = nil,
         requestCharged: S3ClientTypes.RequestCharged? = nil,
         storageClass: S3ClientTypes.StorageClass? = nil,
         versionId: Swift.String? = nil
@@ -10462,7 +10462,7 @@ struct GetObjectAttributesOutputResponseBody: Swift.Equatable {
     let checksum: S3ClientTypes.Checksum?
     let objectParts: S3ClientTypes.GetObjectAttributesParts?
     let storageClass: S3ClientTypes.StorageClass?
-    let objectSize: Swift.Int
+    let objectSize: Swift.Int?
 }
 
 extension GetObjectAttributesOutputResponseBody: Swift.Decodable {
@@ -10484,7 +10484,7 @@ extension GetObjectAttributesOutputResponseBody: Swift.Decodable {
         objectParts = objectPartsDecoded
         let storageClassDecoded = try containerValues.decodeIfPresent(S3ClientTypes.StorageClass.self, forKey: .storageClass)
         storageClass = storageClassDecoded
-        let objectSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .objectSize) ?? 0
+        let objectSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .objectSize)
         objectSize = objectSizeDecoded
     }
 }
@@ -10504,7 +10504,7 @@ extension S3ClientTypes.GetObjectAttributesParts: Swift.Codable {
         if encoder.codingPath.isEmpty {
             try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
         }
-        if isTruncated != false {
+        if let isTruncated = isTruncated {
             try container.encode(isTruncated, forKey: ClientRuntime.Key("IsTruncated"))
         }
         if maxParts != 0 {
@@ -10527,14 +10527,14 @@ extension S3ClientTypes.GetObjectAttributesParts: Swift.Codable {
                 }
             }
         }
-        if totalPartsCount != 0 {
+        if let totalPartsCount = totalPartsCount {
             try container.encode(totalPartsCount, forKey: ClientRuntime.Key("PartsCount"))
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let totalPartsCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalPartsCount) ?? 0
+        let totalPartsCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalPartsCount)
         totalPartsCount = totalPartsCountDecoded
         let partNumberMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .partNumberMarker)
         partNumberMarker = partNumberMarkerDecoded
@@ -10542,7 +10542,7 @@ extension S3ClientTypes.GetObjectAttributesParts: Swift.Codable {
         nextPartNumberMarker = nextPartNumberMarkerDecoded
         let maxPartsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxParts) ?? 0
         maxParts = maxPartsDecoded
-        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated)
         isTruncated = isTruncatedDecoded
         if containerValues.contains(.parts) {
             let partsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .parts)
@@ -10583,7 +10583,7 @@ extension S3ClientTypes {
     /// A collection of parts associated with a multipart upload.
     public struct GetObjectAttributesParts: Swift.Equatable {
         /// Indicates whether the returned list of parts is truncated. A value of true indicates that the list was truncated. A list can be truncated if the number of parts exceeds the limit returned in the MaxParts element.
-        public var isTruncated: Swift.Bool
+        public var isTruncated: Swift.Bool?
         /// The maximum number of parts allowed in the response.
         public var maxParts: Swift.Int
         /// When a list is truncated, this element specifies the last part in the list, as well as the value to use for the PartNumberMarker request parameter in a subsequent request.
@@ -10593,15 +10593,15 @@ extension S3ClientTypes {
         /// A container for elements related to a particular part. A response can contain zero or more Parts elements.
         public var parts: [S3ClientTypes.ObjectPart]?
         /// The total number of parts.
-        public var totalPartsCount: Swift.Int
+        public var totalPartsCount: Swift.Int?
 
         public init(
-            isTruncated: Swift.Bool = false,
+            isTruncated: Swift.Bool? = nil,
             maxParts: Swift.Int = 0,
             nextPartNumberMarker: Swift.String? = nil,
             partNumberMarker: Swift.String? = nil,
             parts: [S3ClientTypes.ObjectPart]? = nil,
-            totalPartsCount: Swift.Int = 0
+            totalPartsCount: Swift.Int? = nil
         )
         {
             self.isTruncated = isTruncated
@@ -11245,7 +11245,7 @@ extension GetObjectOutputResponse: ClientRuntime.HttpResponseBinding {
         if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
             self.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
         } else {
-            self.bucketKeyEnabled = false
+            self.bucketKeyEnabled = nil
         }
         if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
             self.cacheControl = cacheControlHeaderValue
@@ -11350,7 +11350,7 @@ extension GetObjectOutputResponse: ClientRuntime.HttpResponseBinding {
         if let partsCountHeaderValue = httpResponse.headers.value(for: "x-amz-mp-parts-count") {
             self.partsCount = Swift.Int(partsCountHeaderValue) ?? 0
         } else {
-            self.partsCount = 0
+            self.partsCount = nil
         }
         if let replicationStatusHeaderValue = httpResponse.headers.value(for: "x-amz-replication-status") {
             self.replicationStatus = S3ClientTypes.ReplicationStatus(rawValue: replicationStatusHeaderValue)
@@ -11395,7 +11395,7 @@ extension GetObjectOutputResponse: ClientRuntime.HttpResponseBinding {
         if let tagCountHeaderValue = httpResponse.headers.value(for: "x-amz-tagging-count") {
             self.tagCount = Swift.Int(tagCountHeaderValue) ?? 0
         } else {
-            self.tagCount = 0
+            self.tagCount = nil
         }
         if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
             self.versionId = versionIdHeaderValue
@@ -11436,7 +11436,7 @@ public struct GetObjectOutputResponse: Swift.Equatable {
     /// Object data.
     public var body: ClientRuntime.ByteStream?
     /// Indicates whether the object uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
-    public var bucketKeyEnabled: Swift.Bool
+    public var bucketKeyEnabled: Swift.Bool?
     /// Specifies caching behavior along the request/reply chain.
     public var cacheControl: Swift.String?
     /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
@@ -11480,7 +11480,7 @@ public struct GetObjectOutputResponse: Swift.Equatable {
     /// The date and time when this object's Object Lock will expire.
     public var objectLockRetainUntilDate: ClientRuntime.Date?
     /// The count of parts this object has. This value is only returned if you specify partNumber in your request and the object was uploaded as a multipart upload.
-    public var partsCount: Swift.Int
+    public var partsCount: Swift.Int?
     /// Amazon S3 can return this if your request involves a bucket that is either a source or destination in a replication rule.
     public var replicationStatus: S3ClientTypes.ReplicationStatus?
     /// If present, indicates that the requester was successfully charged for the request.
@@ -11498,7 +11498,7 @@ public struct GetObjectOutputResponse: Swift.Equatable {
     /// Provides storage class information of the object. Amazon S3 returns this header for all objects except for S3 Standard storage class objects.
     public var storageClass: S3ClientTypes.StorageClass?
     /// The number of tags, if any, on the object.
-    public var tagCount: Swift.Int
+    public var tagCount: Swift.Int?
     /// Version of the object.
     public var versionId: Swift.String?
     /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
@@ -11507,7 +11507,7 @@ public struct GetObjectOutputResponse: Swift.Equatable {
     public init(
         acceptRanges: Swift.String? = nil,
         body: ClientRuntime.ByteStream? = nil,
-        bucketKeyEnabled: Swift.Bool = false,
+        bucketKeyEnabled: Swift.Bool? = nil,
         cacheControl: Swift.String? = nil,
         checksumCRC32: Swift.String? = nil,
         checksumCRC32C: Swift.String? = nil,
@@ -11529,7 +11529,7 @@ public struct GetObjectOutputResponse: Swift.Equatable {
         objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus? = nil,
         objectLockMode: S3ClientTypes.ObjectLockMode? = nil,
         objectLockRetainUntilDate: ClientRuntime.Date? = nil,
-        partsCount: Swift.Int = 0,
+        partsCount: Swift.Int? = nil,
         replicationStatus: S3ClientTypes.ReplicationStatus? = nil,
         requestCharged: S3ClientTypes.RequestCharged? = nil,
         restore: Swift.String? = nil,
@@ -11538,7 +11538,7 @@ public struct GetObjectOutputResponse: Swift.Equatable {
         sseCustomerKeyMD5: Swift.String? = nil,
         ssekmsKeyId: Swift.String? = nil,
         storageClass: S3ClientTypes.StorageClass? = nil,
-        tagCount: Swift.Int = 0,
+        tagCount: Swift.Int? = nil,
         versionId: Swift.String? = nil,
         websiteRedirectLocation: Swift.String? = nil
     )
@@ -12594,7 +12594,7 @@ extension HeadObjectOutputResponse: ClientRuntime.HttpResponseBinding {
         if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
             self.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
         } else {
-            self.bucketKeyEnabled = false
+            self.bucketKeyEnabled = nil
         }
         if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
             self.cacheControl = cacheControlHeaderValue
@@ -12694,7 +12694,7 @@ extension HeadObjectOutputResponse: ClientRuntime.HttpResponseBinding {
         if let partsCountHeaderValue = httpResponse.headers.value(for: "x-amz-mp-parts-count") {
             self.partsCount = Swift.Int(partsCountHeaderValue) ?? 0
         } else {
-            self.partsCount = 0
+            self.partsCount = nil
         }
         if let replicationStatusHeaderValue = httpResponse.headers.value(for: "x-amz-replication-status") {
             self.replicationStatus = S3ClientTypes.ReplicationStatus(rawValue: replicationStatusHeaderValue)
@@ -12767,7 +12767,7 @@ public struct HeadObjectOutputResponse: Swift.Equatable {
     /// The archive state of the head object.
     public var archiveStatus: S3ClientTypes.ArchiveStatus?
     /// Indicates whether the object uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
-    public var bucketKeyEnabled: Swift.Bool
+    public var bucketKeyEnabled: Swift.Bool?
     /// Specifies caching behavior along the request/reply chain.
     public var cacheControl: Swift.String?
     /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
@@ -12809,7 +12809,7 @@ public struct HeadObjectOutputResponse: Swift.Equatable {
     /// The date and time when the Object Lock retention period expires. This header is only returned if the requester has the s3:GetObjectRetention permission.
     public var objectLockRetainUntilDate: ClientRuntime.Date?
     /// The count of parts this object has. This value is only returned if you specify partNumber in your request and the object was uploaded as a multipart upload.
-    public var partsCount: Swift.Int
+    public var partsCount: Swift.Int?
     /// Amazon S3 can return this header if your request involves a bucket that is either a source or a destination in a replication rule. In replication, you have a source bucket on which you configure replication and destination bucket or buckets where Amazon S3 stores object replicas. When you request an object (GetObject) or object metadata (HeadObject) from these buckets, Amazon S3 will return the x-amz-replication-status header in the response as follows:
     ///
     /// * If requesting an object from the source bucket, Amazon S3 will return the x-amz-replication-status header if the object in your request is eligible for replication. For example, suppose that in your replication configuration, you specify object prefix TaxDocs requesting Amazon S3 to replicate objects with key prefix TaxDocs. Any objects you upload with this key name prefix, for example TaxDocs/document1.pdf, are eligible for replication. For any object request with this key name prefix, Amazon S3 will return the x-amz-replication-status header with value PENDING, COMPLETED or FAILED indicating object replication status.
@@ -12843,7 +12843,7 @@ public struct HeadObjectOutputResponse: Swift.Equatable {
     public init(
         acceptRanges: Swift.String? = nil,
         archiveStatus: S3ClientTypes.ArchiveStatus? = nil,
-        bucketKeyEnabled: Swift.Bool = false,
+        bucketKeyEnabled: Swift.Bool? = nil,
         cacheControl: Swift.String? = nil,
         checksumCRC32: Swift.String? = nil,
         checksumCRC32C: Swift.String? = nil,
@@ -12864,7 +12864,7 @@ public struct HeadObjectOutputResponse: Swift.Equatable {
         objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus? = nil,
         objectLockMode: S3ClientTypes.ObjectLockMode? = nil,
         objectLockRetainUntilDate: ClientRuntime.Date? = nil,
-        partsCount: Swift.Int = 0,
+        partsCount: Swift.Int? = nil,
         replicationStatus: S3ClientTypes.ReplicationStatus? = nil,
         requestCharged: S3ClientTypes.RequestCharged? = nil,
         restore: Swift.String? = nil,
@@ -13535,7 +13535,7 @@ extension S3ClientTypes.InventoryConfiguration: Swift.Codable {
         if let includedObjectVersions = includedObjectVersions {
             try container.encode(includedObjectVersions, forKey: ClientRuntime.Key("IncludedObjectVersions"))
         }
-        if isEnabled != false {
+        if let isEnabled = isEnabled {
             try container.encode(isEnabled, forKey: ClientRuntime.Key("IsEnabled"))
         }
         if let optionalFields = optionalFields {
@@ -13553,7 +13553,7 @@ extension S3ClientTypes.InventoryConfiguration: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let destinationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.InventoryDestination.self, forKey: .destination)
         destination = destinationDecoded
-        let isEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isEnabled) ?? false
+        let isEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isEnabled)
         isEnabled = isEnabledDecoded
         let filterDecoded = try containerValues.decodeIfPresent(S3ClientTypes.InventoryFilter.self, forKey: .filter)
         filter = filterDecoded
@@ -13615,7 +13615,7 @@ extension S3ClientTypes {
         public var includedObjectVersions: S3ClientTypes.InventoryIncludedObjectVersions?
         /// Specifies whether the inventory is enabled or disabled. If set to True, an inventory list is generated. If set to False, no inventory list is generated.
         /// This member is required.
-        public var isEnabled: Swift.Bool
+        public var isEnabled: Swift.Bool?
         /// Contains the optional fields that are included in the inventory results.
         public var optionalFields: [S3ClientTypes.InventoryOptionalField]?
         /// Specifies the schedule for generating inventory results.
@@ -13627,7 +13627,7 @@ extension S3ClientTypes {
             filter: S3ClientTypes.InventoryFilter? = nil,
             id: Swift.String? = nil,
             includedObjectVersions: S3ClientTypes.InventoryIncludedObjectVersions? = nil,
-            isEnabled: Swift.Bool = false,
+            isEnabled: Swift.Bool? = nil,
             optionalFields: [S3ClientTypes.InventoryOptionalField]? = nil,
             schedule: S3ClientTypes.InventorySchedule? = nil
         )
@@ -14388,10 +14388,10 @@ extension S3ClientTypes.LifecycleExpiration: Swift.Codable {
         if let date = date {
             try container.encodeTimestamp(date, format: .dateTime, forKey: ClientRuntime.Key("Date"))
         }
-        if days != 0 {
+        if let days = days {
             try container.encode(days, forKey: ClientRuntime.Key("Days"))
         }
-        if expiredObjectDeleteMarker != false {
+        if let expiredObjectDeleteMarker = expiredObjectDeleteMarker {
             try container.encode(expiredObjectDeleteMarker, forKey: ClientRuntime.Key("ExpiredObjectDeleteMarker"))
         }
     }
@@ -14400,9 +14400,9 @@ extension S3ClientTypes.LifecycleExpiration: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .date)
         date = dateDecoded
-        let daysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .days) ?? 0
+        let daysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .days)
         days = daysDecoded
-        let expiredObjectDeleteMarkerDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .expiredObjectDeleteMarker) ?? false
+        let expiredObjectDeleteMarkerDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .expiredObjectDeleteMarker)
         expiredObjectDeleteMarker = expiredObjectDeleteMarkerDecoded
     }
 }
@@ -14427,14 +14427,14 @@ extension S3ClientTypes {
         /// Indicates at what date the object is to be moved or deleted. The date value must conform to the ISO 8601 format. The time is always midnight UTC.
         public var date: ClientRuntime.Date?
         /// Indicates the lifetime, in days, of the objects that are subject to the rule. The value must be a non-zero positive integer.
-        public var days: Swift.Int
+        public var days: Swift.Int?
         /// Indicates whether Amazon S3 will remove a delete marker with no noncurrent versions. If set to true, the delete marker will be expired; if set to false the policy takes no action. This cannot be specified with Days or Date in a Lifecycle Expiration Policy.
-        public var expiredObjectDeleteMarker: Swift.Bool
+        public var expiredObjectDeleteMarker: Swift.Bool?
 
         public init(
             date: ClientRuntime.Date? = nil,
-            days: Swift.Int = 0,
-            expiredObjectDeleteMarker: Swift.Bool = false
+            days: Swift.Int? = nil,
+            expiredObjectDeleteMarker: Swift.Bool? = nil
         )
         {
             self.date = date
@@ -14640,10 +14640,10 @@ extension S3ClientTypes.LifecycleRuleAndOperator: Swift.Codable {
         if encoder.codingPath.isEmpty {
             try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
         }
-        if objectSizeGreaterThan != 0 {
+        if let objectSizeGreaterThan = objectSizeGreaterThan {
             try container.encode(objectSizeGreaterThan, forKey: ClientRuntime.Key("ObjectSizeGreaterThan"))
         }
-        if objectSizeLessThan != 0 {
+        if let objectSizeLessThan = objectSizeLessThan {
             try container.encode(objectSizeLessThan, forKey: ClientRuntime.Key("ObjectSizeLessThan"))
         }
         if let `prefix` = `prefix` {
@@ -14684,9 +14684,9 @@ extension S3ClientTypes.LifecycleRuleAndOperator: Swift.Codable {
         } else {
             tags = nil
         }
-        let objectSizeGreaterThanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .objectSizeGreaterThan) ?? 0
+        let objectSizeGreaterThanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .objectSizeGreaterThan)
         objectSizeGreaterThan = objectSizeGreaterThanDecoded
-        let objectSizeLessThanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .objectSizeLessThan) ?? 0
+        let objectSizeLessThanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .objectSizeLessThan)
         objectSizeLessThan = objectSizeLessThanDecoded
     }
 }
@@ -14709,17 +14709,17 @@ extension S3ClientTypes {
     /// This is used in a Lifecycle Rule Filter to apply a logical AND to two or more predicates. The Lifecycle Rule will apply to any object matching all of the predicates configured inside the And operator.
     public struct LifecycleRuleAndOperator: Swift.Equatable {
         /// Minimum object size to which the rule applies.
-        public var objectSizeGreaterThan: Swift.Int
+        public var objectSizeGreaterThan: Swift.Int?
         /// Maximum object size to which the rule applies.
-        public var objectSizeLessThan: Swift.Int
+        public var objectSizeLessThan: Swift.Int?
         /// Prefix identifying one or more objects to which the rule applies.
         public var `prefix`: Swift.String?
         /// All of these tags must exist in the object's tag set in order for the rule to apply.
         public var tags: [S3ClientTypes.Tag]?
 
         public init(
-            objectSizeGreaterThan: Swift.Int = 0,
-            objectSizeLessThan: Swift.Int = 0,
+            objectSizeGreaterThan: Swift.Int? = nil,
+            objectSizeLessThan: Swift.Int? = nil,
             `prefix`: Swift.String? = nil,
             tags: [S3ClientTypes.Tag]? = nil
         )
@@ -14886,7 +14886,7 @@ extension ListBucketAnalyticsConfigurationsOutputResponse: ClientRuntime.HttpRes
         } else {
             self.analyticsConfigurationList = nil
             self.continuationToken = nil
-            self.isTruncated = false
+            self.isTruncated = nil
             self.nextContinuationToken = nil
         }
     }
@@ -14898,14 +14898,14 @@ public struct ListBucketAnalyticsConfigurationsOutputResponse: Swift.Equatable {
     /// The marker that is used as a starting point for this analytics configuration list response. This value is present if it was sent in the request.
     public var continuationToken: Swift.String?
     /// Indicates whether the returned list of analytics configurations is complete. A value of true indicates that the list is not complete and the NextContinuationToken will be provided for a subsequent request.
-    public var isTruncated: Swift.Bool
+    public var isTruncated: Swift.Bool?
     /// NextContinuationToken is sent when isTruncated is true, which indicates that there are more analytics configurations to list. The next request must include this NextContinuationToken. The token is obfuscated and is not a usable value.
     public var nextContinuationToken: Swift.String?
 
     public init(
         analyticsConfigurationList: [S3ClientTypes.AnalyticsConfiguration]? = nil,
         continuationToken: Swift.String? = nil,
-        isTruncated: Swift.Bool = false,
+        isTruncated: Swift.Bool? = nil,
         nextContinuationToken: Swift.String? = nil
     )
     {
@@ -14917,7 +14917,7 @@ public struct ListBucketAnalyticsConfigurationsOutputResponse: Swift.Equatable {
 }
 
 struct ListBucketAnalyticsConfigurationsOutputResponseBody: Swift.Equatable {
-    let isTruncated: Swift.Bool
+    let isTruncated: Swift.Bool?
     let continuationToken: Swift.String?
     let nextContinuationToken: Swift.String?
     let analyticsConfigurationList: [S3ClientTypes.AnalyticsConfiguration]?
@@ -14933,7 +14933,7 @@ extension ListBucketAnalyticsConfigurationsOutputResponseBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated)
         isTruncated = isTruncatedDecoded
         let continuationTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .continuationToken)
         continuationToken = continuationTokenDecoded
@@ -15028,7 +15028,7 @@ extension ListBucketIntelligentTieringConfigurationsOutputResponse: ClientRuntim
         } else {
             self.continuationToken = nil
             self.intelligentTieringConfigurationList = nil
-            self.isTruncated = false
+            self.isTruncated = nil
             self.nextContinuationToken = nil
         }
     }
@@ -15040,14 +15040,14 @@ public struct ListBucketIntelligentTieringConfigurationsOutputResponse: Swift.Eq
     /// The list of S3 Intelligent-Tiering configurations for a bucket.
     public var intelligentTieringConfigurationList: [S3ClientTypes.IntelligentTieringConfiguration]?
     /// Indicates whether the returned list of analytics configurations is complete. A value of true indicates that the list is not complete and the NextContinuationToken will be provided for a subsequent request.
-    public var isTruncated: Swift.Bool
+    public var isTruncated: Swift.Bool?
     /// The marker used to continue this inventory configuration listing. Use the NextContinuationToken from this response to continue the listing in a subsequent request. The continuation token is an opaque value that Amazon S3 understands.
     public var nextContinuationToken: Swift.String?
 
     public init(
         continuationToken: Swift.String? = nil,
         intelligentTieringConfigurationList: [S3ClientTypes.IntelligentTieringConfiguration]? = nil,
-        isTruncated: Swift.Bool = false,
+        isTruncated: Swift.Bool? = nil,
         nextContinuationToken: Swift.String? = nil
     )
     {
@@ -15059,7 +15059,7 @@ public struct ListBucketIntelligentTieringConfigurationsOutputResponse: Swift.Eq
 }
 
 struct ListBucketIntelligentTieringConfigurationsOutputResponseBody: Swift.Equatable {
-    let isTruncated: Swift.Bool
+    let isTruncated: Swift.Bool?
     let continuationToken: Swift.String?
     let nextContinuationToken: Swift.String?
     let intelligentTieringConfigurationList: [S3ClientTypes.IntelligentTieringConfiguration]?
@@ -15075,7 +15075,7 @@ extension ListBucketIntelligentTieringConfigurationsOutputResponseBody: Swift.De
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated)
         isTruncated = isTruncatedDecoded
         let continuationTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .continuationToken)
         continuationToken = continuationTokenDecoded
@@ -15184,7 +15184,7 @@ extension ListBucketInventoryConfigurationsOutputResponse: ClientRuntime.HttpRes
         } else {
             self.continuationToken = nil
             self.inventoryConfigurationList = nil
-            self.isTruncated = false
+            self.isTruncated = nil
             self.nextContinuationToken = nil
         }
     }
@@ -15196,14 +15196,14 @@ public struct ListBucketInventoryConfigurationsOutputResponse: Swift.Equatable {
     /// The list of inventory configurations for a bucket.
     public var inventoryConfigurationList: [S3ClientTypes.InventoryConfiguration]?
     /// Tells whether the returned list of inventory configurations is complete. A value of true indicates that the list is not complete and the NextContinuationToken is provided for a subsequent request.
-    public var isTruncated: Swift.Bool
+    public var isTruncated: Swift.Bool?
     /// The marker used to continue this inventory configuration listing. Use the NextContinuationToken from this response to continue the listing in a subsequent request. The continuation token is an opaque value that Amazon S3 understands.
     public var nextContinuationToken: Swift.String?
 
     public init(
         continuationToken: Swift.String? = nil,
         inventoryConfigurationList: [S3ClientTypes.InventoryConfiguration]? = nil,
-        isTruncated: Swift.Bool = false,
+        isTruncated: Swift.Bool? = nil,
         nextContinuationToken: Swift.String? = nil
     )
     {
@@ -15217,7 +15217,7 @@ public struct ListBucketInventoryConfigurationsOutputResponse: Swift.Equatable {
 struct ListBucketInventoryConfigurationsOutputResponseBody: Swift.Equatable {
     let continuationToken: Swift.String?
     let inventoryConfigurationList: [S3ClientTypes.InventoryConfiguration]?
-    let isTruncated: Swift.Bool
+    let isTruncated: Swift.Bool?
     let nextContinuationToken: Swift.String?
 }
 
@@ -15251,7 +15251,7 @@ extension ListBucketInventoryConfigurationsOutputResponseBody: Swift.Decodable {
         } else {
             inventoryConfigurationList = nil
         }
-        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated)
         isTruncated = isTruncatedDecoded
         let nextContinuationTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextContinuationToken)
         nextContinuationToken = nextContinuationTokenDecoded
@@ -15339,7 +15339,7 @@ extension ListBucketMetricsConfigurationsOutputResponse: ClientRuntime.HttpRespo
             self.nextContinuationToken = output.nextContinuationToken
         } else {
             self.continuationToken = nil
-            self.isTruncated = false
+            self.isTruncated = nil
             self.metricsConfigurationList = nil
             self.nextContinuationToken = nil
         }
@@ -15350,7 +15350,7 @@ public struct ListBucketMetricsConfigurationsOutputResponse: Swift.Equatable {
     /// The marker that is used as a starting point for this metrics configuration list response. This value is present if it was sent in the request.
     public var continuationToken: Swift.String?
     /// Indicates whether the returned list of metrics configurations is complete. A value of true indicates that the list is not complete and the NextContinuationToken will be provided for a subsequent request.
-    public var isTruncated: Swift.Bool
+    public var isTruncated: Swift.Bool?
     /// The list of metrics configurations for a bucket.
     public var metricsConfigurationList: [S3ClientTypes.MetricsConfiguration]?
     /// The marker used to continue a metrics configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
@@ -15358,7 +15358,7 @@ public struct ListBucketMetricsConfigurationsOutputResponse: Swift.Equatable {
 
     public init(
         continuationToken: Swift.String? = nil,
-        isTruncated: Swift.Bool = false,
+        isTruncated: Swift.Bool? = nil,
         metricsConfigurationList: [S3ClientTypes.MetricsConfiguration]? = nil,
         nextContinuationToken: Swift.String? = nil
     )
@@ -15371,7 +15371,7 @@ public struct ListBucketMetricsConfigurationsOutputResponse: Swift.Equatable {
 }
 
 struct ListBucketMetricsConfigurationsOutputResponseBody: Swift.Equatable {
-    let isTruncated: Swift.Bool
+    let isTruncated: Swift.Bool?
     let continuationToken: Swift.String?
     let nextContinuationToken: Swift.String?
     let metricsConfigurationList: [S3ClientTypes.MetricsConfiguration]?
@@ -15387,7 +15387,7 @@ extension ListBucketMetricsConfigurationsOutputResponseBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated)
         isTruncated = isTruncatedDecoded
         let continuationTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .continuationToken)
         continuationToken = continuationTokenDecoded
@@ -15653,7 +15653,7 @@ extension ListMultipartUploadsOutputResponse: ClientRuntime.HttpResponseBinding 
             self.commonPrefixes = nil
             self.delimiter = nil
             self.encodingType = nil
-            self.isTruncated = false
+            self.isTruncated = nil
             self.keyMarker = nil
             self.maxUploads = 0
             self.nextKeyMarker = nil
@@ -15675,7 +15675,7 @@ public struct ListMultipartUploadsOutputResponse: Swift.Equatable {
     /// Encoding type used by Amazon S3 to encode object keys in the response. If you specify the encoding-type request parameter, Amazon S3 includes this element in the response, and returns encoded key name values in the following response elements: Delimiter, KeyMarker, Prefix, NextKeyMarker, Key.
     public var encodingType: S3ClientTypes.EncodingType?
     /// Indicates whether the returned list of multipart uploads is truncated. A value of true indicates that the list was truncated. The list can be truncated if the number of multipart uploads exceeds the limit allowed or specified by max uploads.
-    public var isTruncated: Swift.Bool
+    public var isTruncated: Swift.Bool?
     /// The key at or after which the listing began.
     public var keyMarker: Swift.String?
     /// Maximum number of multipart uploads that could have been included in the response.
@@ -15698,7 +15698,7 @@ public struct ListMultipartUploadsOutputResponse: Swift.Equatable {
         commonPrefixes: [S3ClientTypes.CommonPrefix]? = nil,
         delimiter: Swift.String? = nil,
         encodingType: S3ClientTypes.EncodingType? = nil,
-        isTruncated: Swift.Bool = false,
+        isTruncated: Swift.Bool? = nil,
         keyMarker: Swift.String? = nil,
         maxUploads: Swift.Int = 0,
         nextKeyMarker: Swift.String? = nil,
@@ -15734,7 +15734,7 @@ struct ListMultipartUploadsOutputResponseBody: Swift.Equatable {
     let delimiter: Swift.String?
     let nextUploadIdMarker: Swift.String?
     let maxUploads: Swift.Int
-    let isTruncated: Swift.Bool
+    let isTruncated: Swift.Bool?
     let uploads: [S3ClientTypes.MultipartUpload]?
     let commonPrefixes: [S3ClientTypes.CommonPrefix]?
     let encodingType: S3ClientTypes.EncodingType?
@@ -15774,7 +15774,7 @@ extension ListMultipartUploadsOutputResponseBody: Swift.Decodable {
         nextUploadIdMarker = nextUploadIdMarkerDecoded
         let maxUploadsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxUploads) ?? 0
         maxUploads = maxUploadsDecoded
-        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated)
         isTruncated = isTruncatedDecoded
         if containerValues.contains(.uploads) {
             let uploadsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .uploads)
@@ -15970,7 +15970,7 @@ extension ListObjectVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
             self.deleteMarkers = nil
             self.delimiter = nil
             self.encodingType = nil
-            self.isTruncated = false
+            self.isTruncated = nil
             self.keyMarker = nil
             self.maxKeys = 0
             self.name = nil
@@ -15993,7 +15993,7 @@ public struct ListObjectVersionsOutputResponse: Swift.Equatable {
     /// Encoding type used by Amazon S3 to encode object key names in the XML response. If you specify the encoding-type request parameter, Amazon S3 includes this element in the response, and returns encoded key name values in the following response elements: KeyMarker, NextKeyMarker, Prefix, Key, and Delimiter.
     public var encodingType: S3ClientTypes.EncodingType?
     /// A flag that indicates whether Amazon S3 returned all of the results that satisfied the search criteria. If your results were truncated, you can make a follow-up paginated request by using the NextKeyMarker and NextVersionIdMarker response parameters as a starting place in another request to return the rest of the results.
-    public var isTruncated: Swift.Bool
+    public var isTruncated: Swift.Bool?
     /// Marks the last key returned in a truncated response.
     public var keyMarker: Swift.String?
     /// Specifies the maximum number of objects to return.
@@ -16018,7 +16018,7 @@ public struct ListObjectVersionsOutputResponse: Swift.Equatable {
         deleteMarkers: [S3ClientTypes.DeleteMarkerEntry]? = nil,
         delimiter: Swift.String? = nil,
         encodingType: S3ClientTypes.EncodingType? = nil,
-        isTruncated: Swift.Bool = false,
+        isTruncated: Swift.Bool? = nil,
         keyMarker: Swift.String? = nil,
         maxKeys: Swift.Int = 0,
         name: Swift.String? = nil,
@@ -16048,7 +16048,7 @@ public struct ListObjectVersionsOutputResponse: Swift.Equatable {
 }
 
 struct ListObjectVersionsOutputResponseBody: Swift.Equatable {
-    let isTruncated: Swift.Bool
+    let isTruncated: Swift.Bool?
     let keyMarker: Swift.String?
     let versionIdMarker: Swift.String?
     let nextKeyMarker: Swift.String?
@@ -16082,7 +16082,7 @@ extension ListObjectVersionsOutputResponseBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated)
         isTruncated = isTruncatedDecoded
         let keyMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyMarker)
         keyMarker = keyMarkerDecoded
@@ -16301,7 +16301,7 @@ extension ListObjectsOutputResponse: ClientRuntime.HttpResponseBinding {
             self.contents = nil
             self.delimiter = nil
             self.encodingType = nil
-            self.isTruncated = false
+            self.isTruncated = nil
             self.marker = nil
             self.maxKeys = 0
             self.name = nil
@@ -16321,7 +16321,7 @@ public struct ListObjectsOutputResponse: Swift.Equatable {
     /// Encoding type used by Amazon S3 to encode object keys in the response.
     public var encodingType: S3ClientTypes.EncodingType?
     /// A flag that indicates whether Amazon S3 returned all of the results that satisfied the search criteria.
-    public var isTruncated: Swift.Bool
+    public var isTruncated: Swift.Bool?
     /// Indicates where in the bucket listing begins. Marker is included in the response if it was sent with the request.
     public var marker: Swift.String?
     /// The maximum number of keys returned in the response body.
@@ -16340,7 +16340,7 @@ public struct ListObjectsOutputResponse: Swift.Equatable {
         contents: [S3ClientTypes.Object]? = nil,
         delimiter: Swift.String? = nil,
         encodingType: S3ClientTypes.EncodingType? = nil,
-        isTruncated: Swift.Bool = false,
+        isTruncated: Swift.Bool? = nil,
         marker: Swift.String? = nil,
         maxKeys: Swift.Int = 0,
         name: Swift.String? = nil,
@@ -16364,7 +16364,7 @@ public struct ListObjectsOutputResponse: Swift.Equatable {
 }
 
 struct ListObjectsOutputResponseBody: Swift.Equatable {
-    let isTruncated: Swift.Bool
+    let isTruncated: Swift.Bool?
     let marker: Swift.String?
     let nextMarker: Swift.String?
     let contents: [S3ClientTypes.Object]?
@@ -16392,7 +16392,7 @@ extension ListObjectsOutputResponseBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated)
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -16609,7 +16609,7 @@ extension ListObjectsV2OutputResponse: ClientRuntime.HttpResponseBinding {
             self.continuationToken = nil
             self.delimiter = nil
             self.encodingType = nil
-            self.isTruncated = false
+            self.isTruncated = nil
             self.keyCount = 0
             self.maxKeys = 0
             self.name = nil
@@ -16632,7 +16632,7 @@ public struct ListObjectsV2OutputResponse: Swift.Equatable {
     /// Encoding type used by Amazon S3 to encode object key names in the XML response. If you specify the encoding-type request parameter, Amazon S3 includes this element in the response, and returns encoded key name values in the following response elements: Delimiter, Prefix, Key, and StartAfter.
     public var encodingType: S3ClientTypes.EncodingType?
     /// Set to false if all of the results were returned. Set to true if more keys are available to return. If the number of results exceeds that specified by MaxKeys, all of the results might not be returned.
-    public var isTruncated: Swift.Bool
+    public var isTruncated: Swift.Bool?
     /// KeyCount is the number of keys returned with this request. KeyCount will always be less than or equal to the MaxKeys field. For example, if you ask for 50 keys, your result will include 50 keys or fewer.
     public var keyCount: Swift.Int
     /// Sets the maximum number of keys returned in the response. By default, the action returns up to 1,000 key names. The response might contain fewer keys but will never contain more.
@@ -16654,7 +16654,7 @@ public struct ListObjectsV2OutputResponse: Swift.Equatable {
         continuationToken: Swift.String? = nil,
         delimiter: Swift.String? = nil,
         encodingType: S3ClientTypes.EncodingType? = nil,
-        isTruncated: Swift.Bool = false,
+        isTruncated: Swift.Bool? = nil,
         keyCount: Swift.Int = 0,
         maxKeys: Swift.Int = 0,
         name: Swift.String? = nil,
@@ -16681,7 +16681,7 @@ public struct ListObjectsV2OutputResponse: Swift.Equatable {
 }
 
 struct ListObjectsV2OutputResponseBody: Swift.Equatable {
-    let isTruncated: Swift.Bool
+    let isTruncated: Swift.Bool?
     let contents: [S3ClientTypes.Object]?
     let name: Swift.String?
     let `prefix`: Swift.String?
@@ -16713,7 +16713,7 @@ extension ListObjectsV2OutputResponseBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated)
         isTruncated = isTruncatedDecoded
         if containerValues.contains(.contents) {
             let contentsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .contents)
@@ -16937,7 +16937,7 @@ extension ListPartsOutputResponse: ClientRuntime.HttpResponseBinding {
             self.bucket = nil
             self.checksumAlgorithm = nil
             self.initiator = nil
-            self.isTruncated = false
+            self.isTruncated = nil
             self.key = nil
             self.maxParts = 0
             self.nextPartNumberMarker = nil
@@ -16962,7 +16962,7 @@ public struct ListPartsOutputResponse: Swift.Equatable {
     /// Container element that identifies who initiated the multipart upload. If the initiator is an Amazon Web Services account, this element provides the same information as the Owner element. If the initiator is an IAM User, this element provides the user ARN and display name.
     public var initiator: S3ClientTypes.Initiator?
     /// Indicates whether the returned list of parts is truncated. A true value indicates that the list was truncated. A list can be truncated if the number of parts exceeds the limit returned in the MaxParts element.
-    public var isTruncated: Swift.Bool
+    public var isTruncated: Swift.Bool?
     /// Object key for which the multipart upload was initiated.
     public var key: Swift.String?
     /// Maximum number of parts that were allowed in the response.
@@ -16988,7 +16988,7 @@ public struct ListPartsOutputResponse: Swift.Equatable {
         bucket: Swift.String? = nil,
         checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
         initiator: S3ClientTypes.Initiator? = nil,
-        isTruncated: Swift.Bool = false,
+        isTruncated: Swift.Bool? = nil,
         key: Swift.String? = nil,
         maxParts: Swift.Int = 0,
         nextPartNumberMarker: Swift.String? = nil,
@@ -17025,7 +17025,7 @@ struct ListPartsOutputResponseBody: Swift.Equatable {
     let partNumberMarker: Swift.String?
     let nextPartNumberMarker: Swift.String?
     let maxParts: Swift.Int
-    let isTruncated: Swift.Bool
+    let isTruncated: Swift.Bool?
     let parts: [S3ClientTypes.Part]?
     let initiator: S3ClientTypes.Initiator?
     let owner: S3ClientTypes.Owner?
@@ -17063,7 +17063,7 @@ extension ListPartsOutputResponseBody: Swift.Decodable {
         nextPartNumberMarker = nextPartNumberMarkerDecoded
         let maxPartsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxParts) ?? 0
         maxParts = maxPartsDecoded
-        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated)
         isTruncated = isTruncatedDecoded
         if containerValues.contains(.parts) {
             let partsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .parts)
@@ -17855,19 +17855,19 @@ extension S3ClientTypes.NoncurrentVersionExpiration: Swift.Codable {
         if encoder.codingPath.isEmpty {
             try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
         }
-        if newerNoncurrentVersions != 0 {
+        if let newerNoncurrentVersions = newerNoncurrentVersions {
             try container.encode(newerNoncurrentVersions, forKey: ClientRuntime.Key("NewerNoncurrentVersions"))
         }
-        if noncurrentDays != 0 {
+        if let noncurrentDays = noncurrentDays {
             try container.encode(noncurrentDays, forKey: ClientRuntime.Key("NoncurrentDays"))
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let noncurrentDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .noncurrentDays) ?? 0
+        let noncurrentDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .noncurrentDays)
         noncurrentDays = noncurrentDaysDecoded
-        let newerNoncurrentVersionsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .newerNoncurrentVersions) ?? 0
+        let newerNoncurrentVersionsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .newerNoncurrentVersions)
         newerNoncurrentVersions = newerNoncurrentVersionsDecoded
     }
 }
@@ -17890,13 +17890,13 @@ extension S3ClientTypes {
     /// Specifies when noncurrent object versions expire. Upon expiration, Amazon S3 permanently deletes the noncurrent object versions. You set this lifecycle configuration action on a bucket that has versioning enabled (or suspended) to request that Amazon S3 delete noncurrent object versions at a specific period in the object's lifetime.
     public struct NoncurrentVersionExpiration: Swift.Equatable {
         /// Specifies how many noncurrent versions Amazon S3 will retain. If there are this many more recent noncurrent versions, Amazon S3 will take the associated action. For more information about noncurrent versions, see [Lifecycle configuration elements](https://docs.aws.amazon.com/AmazonS3/latest/userguide/intro-lifecycle-rules.html) in the Amazon S3 User Guide.
-        public var newerNoncurrentVersions: Swift.Int
+        public var newerNoncurrentVersions: Swift.Int?
         /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. The value must be a non-zero positive integer. For information about the noncurrent days calculations, see [How Amazon S3 Calculates When an Object Became Noncurrent](https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html#non-current-days-calculations) in the Amazon S3 User Guide.
-        public var noncurrentDays: Swift.Int
+        public var noncurrentDays: Swift.Int?
 
         public init(
-            newerNoncurrentVersions: Swift.Int = 0,
-            noncurrentDays: Swift.Int = 0
+            newerNoncurrentVersions: Swift.Int? = nil,
+            noncurrentDays: Swift.Int? = nil
         )
         {
             self.newerNoncurrentVersions = newerNoncurrentVersions
@@ -17918,10 +17918,10 @@ extension S3ClientTypes.NoncurrentVersionTransition: Swift.Codable {
         if encoder.codingPath.isEmpty {
             try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
         }
-        if newerNoncurrentVersions != 0 {
+        if let newerNoncurrentVersions = newerNoncurrentVersions {
             try container.encode(newerNoncurrentVersions, forKey: ClientRuntime.Key("NewerNoncurrentVersions"))
         }
-        if noncurrentDays != 0 {
+        if let noncurrentDays = noncurrentDays {
             try container.encode(noncurrentDays, forKey: ClientRuntime.Key("NoncurrentDays"))
         }
         if let storageClass = storageClass {
@@ -17931,11 +17931,11 @@ extension S3ClientTypes.NoncurrentVersionTransition: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let noncurrentDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .noncurrentDays) ?? 0
+        let noncurrentDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .noncurrentDays)
         noncurrentDays = noncurrentDaysDecoded
         let storageClassDecoded = try containerValues.decodeIfPresent(S3ClientTypes.TransitionStorageClass.self, forKey: .storageClass)
         storageClass = storageClassDecoded
-        let newerNoncurrentVersionsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .newerNoncurrentVersions) ?? 0
+        let newerNoncurrentVersionsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .newerNoncurrentVersions)
         newerNoncurrentVersions = newerNoncurrentVersionsDecoded
     }
 }
@@ -17958,15 +17958,15 @@ extension S3ClientTypes {
     /// Container for the transition rule that describes when noncurrent objects transition to the STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER_IR, GLACIER, or DEEP_ARCHIVE storage class. If your bucket is versioning-enabled (or versioning is suspended), you can set this action to request that Amazon S3 transition noncurrent object versions to the STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER_IR, GLACIER, or DEEP_ARCHIVE storage class at a specific period in the object's lifetime.
     public struct NoncurrentVersionTransition: Swift.Equatable {
         /// Specifies how many noncurrent versions Amazon S3 will retain. If there are this many more recent noncurrent versions, Amazon S3 will take the associated action. For more information about noncurrent versions, see [Lifecycle configuration elements](https://docs.aws.amazon.com/AmazonS3/latest/userguide/intro-lifecycle-rules.html) in the Amazon S3 User Guide.
-        public var newerNoncurrentVersions: Swift.Int
+        public var newerNoncurrentVersions: Swift.Int?
         /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see [How Amazon S3 Calculates How Long an Object Has Been Noncurrent](https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html#non-current-days-calculations) in the Amazon S3 User Guide.
-        public var noncurrentDays: Swift.Int
+        public var noncurrentDays: Swift.Int?
         /// The class of storage used to store the object.
         public var storageClass: S3ClientTypes.TransitionStorageClass?
 
         public init(
-            newerNoncurrentVersions: Swift.Int = 0,
-            noncurrentDays: Swift.Int = 0,
+            newerNoncurrentVersions: Swift.Int? = nil,
+            noncurrentDays: Swift.Int? = nil,
             storageClass: S3ClientTypes.TransitionStorageClass? = nil
         )
         {
@@ -18250,7 +18250,7 @@ extension S3ClientTypes.Object: Swift.Codable {
         if let restoreStatus = restoreStatus {
             try container.encode(restoreStatus, forKey: ClientRuntime.Key("RestoreStatus"))
         }
-        if size != 0 {
+        if let size = size {
             try container.encode(size, forKey: ClientRuntime.Key("Size"))
         }
         if let storageClass = storageClass {
@@ -18284,7 +18284,7 @@ extension S3ClientTypes.Object: Swift.Codable {
         } else {
             checksumAlgorithm = nil
         }
-        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size) ?? 0
+        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size)
         size = sizeDecoded
         let storageClassDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ObjectStorageClass.self, forKey: .storageClass)
         storageClass = storageClassDecoded
@@ -18331,7 +18331,7 @@ extension S3ClientTypes {
         /// Specifies the restoration status of an object. Objects in certain storage classes must be restored before they can be retrieved. For more information about these storage classes and how to work with archived objects, see [ Working with archived objects](https://docs.aws.amazon.com/AmazonS3/latest/userguide/archived-objects.html) in the Amazon S3 User Guide.
         public var restoreStatus: S3ClientTypes.RestoreStatus?
         /// Size in bytes of the object
-        public var size: Swift.Int
+        public var size: Swift.Int?
         /// The class of storage used to store the object.
         public var storageClass: S3ClientTypes.ObjectStorageClass?
 
@@ -18342,7 +18342,7 @@ extension S3ClientTypes {
             lastModified: ClientRuntime.Date? = nil,
             owner: S3ClientTypes.Owner? = nil,
             restoreStatus: S3ClientTypes.RestoreStatus? = nil,
-            size: Swift.Int = 0,
+            size: Swift.Int? = nil,
             storageClass: S3ClientTypes.ObjectStorageClass? = nil
         )
         {
@@ -18975,7 +18975,7 @@ extension S3ClientTypes.ObjectPart: Swift.Codable {
         if partNumber != 0 {
             try container.encode(partNumber, forKey: ClientRuntime.Key("PartNumber"))
         }
-        if size != 0 {
+        if let size = size {
             try container.encode(size, forKey: ClientRuntime.Key("Size"))
         }
     }
@@ -18984,7 +18984,7 @@ extension S3ClientTypes.ObjectPart: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let partNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .partNumber) ?? 0
         partNumber = partNumberDecoded
-        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size) ?? 0
+        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size)
         size = sizeDecoded
         let checksumCRC32Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumCRC32)
         checksumCRC32 = checksumCRC32Decoded
@@ -19025,7 +19025,7 @@ extension S3ClientTypes {
         /// The part number identifying the part. This value is a positive integer between 1 and 10,000.
         public var partNumber: Swift.Int
         /// The size of the uploaded part in bytes.
-        public var size: Swift.Int
+        public var size: Swift.Int?
 
         public init(
             checksumCRC32: Swift.String? = nil,
@@ -19033,7 +19033,7 @@ extension S3ClientTypes {
             checksumSHA1: Swift.String? = nil,
             checksumSHA256: Swift.String? = nil,
             partNumber: Swift.Int = 0,
-            size: Swift.Int = 0
+            size: Swift.Int? = nil
         )
         {
             self.checksumCRC32 = checksumCRC32
@@ -19136,7 +19136,7 @@ extension S3ClientTypes.ObjectVersion: Swift.Codable {
         if let eTag = eTag {
             try container.encode(eTag, forKey: ClientRuntime.Key("ETag"))
         }
-        if isLatest != false {
+        if let isLatest = isLatest {
             try container.encode(isLatest, forKey: ClientRuntime.Key("IsLatest"))
         }
         if let key = key {
@@ -19151,7 +19151,7 @@ extension S3ClientTypes.ObjectVersion: Swift.Codable {
         if let restoreStatus = restoreStatus {
             try container.encode(restoreStatus, forKey: ClientRuntime.Key("RestoreStatus"))
         }
-        if size != 0 {
+        if let size = size {
             try container.encode(size, forKey: ClientRuntime.Key("Size"))
         }
         if let storageClass = storageClass {
@@ -19184,7 +19184,7 @@ extension S3ClientTypes.ObjectVersion: Swift.Codable {
         } else {
             checksumAlgorithm = nil
         }
-        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size) ?? 0
+        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size)
         size = sizeDecoded
         let storageClassDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ObjectVersionStorageClass.self, forKey: .storageClass)
         storageClass = storageClassDecoded
@@ -19192,7 +19192,7 @@ extension S3ClientTypes.ObjectVersion: Swift.Codable {
         key = keyDecoded
         let versionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionId)
         versionId = versionIdDecoded
-        let isLatestDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isLatest) ?? false
+        let isLatestDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isLatest)
         isLatest = isLatestDecoded
         let lastModifiedDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastModified)
         lastModified = lastModifiedDecoded
@@ -19225,7 +19225,7 @@ extension S3ClientTypes {
         /// The entity tag is an MD5 hash of that version of the object.
         public var eTag: Swift.String?
         /// Specifies whether the object is (true) or is not (false) the latest version of an object.
-        public var isLatest: Swift.Bool
+        public var isLatest: Swift.Bool?
         /// The object key.
         public var key: Swift.String?
         /// Date and time the object was last modified.
@@ -19235,7 +19235,7 @@ extension S3ClientTypes {
         /// Specifies the restoration status of an object. Objects in certain storage classes must be restored before they can be retrieved. For more information about these storage classes and how to work with archived objects, see [ Working with archived objects](https://docs.aws.amazon.com/AmazonS3/latest/userguide/archived-objects.html) in the Amazon S3 User Guide.
         public var restoreStatus: S3ClientTypes.RestoreStatus?
         /// Size in bytes of the object.
-        public var size: Swift.Int
+        public var size: Swift.Int?
         /// The class of storage used to store the object.
         public var storageClass: S3ClientTypes.ObjectVersionStorageClass?
         /// Version ID of an object.
@@ -19244,12 +19244,12 @@ extension S3ClientTypes {
         public init(
             checksumAlgorithm: [S3ClientTypes.ChecksumAlgorithm]? = nil,
             eTag: Swift.String? = nil,
-            isLatest: Swift.Bool = false,
+            isLatest: Swift.Bool? = nil,
             key: Swift.String? = nil,
             lastModified: ClientRuntime.Date? = nil,
             owner: S3ClientTypes.Owner? = nil,
             restoreStatus: S3ClientTypes.RestoreStatus? = nil,
-            size: Swift.Int = 0,
+            size: Swift.Int? = nil,
             storageClass: S3ClientTypes.ObjectVersionStorageClass? = nil,
             versionId: Swift.String? = nil
         )
@@ -19734,7 +19734,7 @@ extension S3ClientTypes.Part: Swift.Codable {
         if partNumber != 0 {
             try container.encode(partNumber, forKey: ClientRuntime.Key("PartNumber"))
         }
-        if size != 0 {
+        if let size = size {
             try container.encode(size, forKey: ClientRuntime.Key("Size"))
         }
     }
@@ -19747,7 +19747,7 @@ extension S3ClientTypes.Part: Swift.Codable {
         lastModified = lastModifiedDecoded
         let eTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eTag)
         eTag = eTagDecoded
-        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size) ?? 0
+        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size)
         size = sizeDecoded
         let checksumCRC32Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumCRC32)
         checksumCRC32 = checksumCRC32Decoded
@@ -19792,7 +19792,7 @@ extension S3ClientTypes {
         /// Part number identifying the part. This is a positive integer between 1 and 10,000.
         public var partNumber: Swift.Int
         /// Size in bytes of the uploaded part data.
-        public var size: Swift.Int
+        public var size: Swift.Int?
 
         public init(
             checksumCRC32: Swift.String? = nil,
@@ -19802,7 +19802,7 @@ extension S3ClientTypes {
             eTag: Swift.String? = nil,
             lastModified: ClientRuntime.Date? = nil,
             partNumber: Swift.Int = 0,
-            size: Swift.Int = 0
+            size: Swift.Int? = nil
         )
         {
             self.checksumCRC32 = checksumCRC32
@@ -19901,14 +19901,14 @@ extension S3ClientTypes.PolicyStatus: Swift.Codable {
         if encoder.codingPath.isEmpty {
             try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
         }
-        if isPublic != false {
+        if let isPublic = isPublic {
             try container.encode(isPublic, forKey: ClientRuntime.Key("IsPublic"))
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let isPublicDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isPublic) ?? false
+        let isPublicDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isPublic)
         isPublic = isPublicDecoded
     }
 }
@@ -19931,10 +19931,10 @@ extension S3ClientTypes {
     /// The container element for a bucket's policy status.
     public struct PolicyStatus: Swift.Equatable {
         /// The policy status for this bucket. TRUE indicates that this bucket is public. FALSE indicates that the bucket is not public.
-        public var isPublic: Swift.Bool
+        public var isPublic: Swift.Bool?
 
         public init(
-            isPublic: Swift.Bool = false
+            isPublic: Swift.Bool? = nil
         )
         {
             self.isPublic = isPublic
@@ -19955,24 +19955,24 @@ extension S3ClientTypes.Progress: Swift.Codable {
         if encoder.codingPath.isEmpty {
             try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
         }
-        if bytesProcessed != 0 {
+        if let bytesProcessed = bytesProcessed {
             try container.encode(bytesProcessed, forKey: ClientRuntime.Key("BytesProcessed"))
         }
-        if bytesReturned != 0 {
+        if let bytesReturned = bytesReturned {
             try container.encode(bytesReturned, forKey: ClientRuntime.Key("BytesReturned"))
         }
-        if bytesScanned != 0 {
+        if let bytesScanned = bytesScanned {
             try container.encode(bytesScanned, forKey: ClientRuntime.Key("BytesScanned"))
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let bytesScannedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bytesScanned) ?? 0
+        let bytesScannedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bytesScanned)
         bytesScanned = bytesScannedDecoded
-        let bytesProcessedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bytesProcessed) ?? 0
+        let bytesProcessedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bytesProcessed)
         bytesProcessed = bytesProcessedDecoded
-        let bytesReturnedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bytesReturned) ?? 0
+        let bytesReturnedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bytesReturned)
         bytesReturned = bytesReturnedDecoded
     }
 }
@@ -19995,16 +19995,16 @@ extension S3ClientTypes {
     /// This data type contains information about progress of an operation.
     public struct Progress: Swift.Equatable {
         /// The current number of uncompressed object bytes processed.
-        public var bytesProcessed: Swift.Int
+        public var bytesProcessed: Swift.Int?
         /// The current number of bytes of records payload data returned.
-        public var bytesReturned: Swift.Int
+        public var bytesReturned: Swift.Int?
         /// The current number of object bytes scanned.
-        public var bytesScanned: Swift.Int
+        public var bytesScanned: Swift.Int?
 
         public init(
-            bytesProcessed: Swift.Int = 0,
-            bytesReturned: Swift.Int = 0,
-            bytesScanned: Swift.Int = 0
+            bytesProcessed: Swift.Int? = nil,
+            bytesReturned: Swift.Int? = nil,
+            bytesScanned: Swift.Int? = nil
         )
         {
             self.bytesProcessed = bytesProcessed
@@ -20112,29 +20112,29 @@ extension S3ClientTypes.PublicAccessBlockConfiguration: Swift.Codable {
         if encoder.codingPath.isEmpty {
             try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
         }
-        if blockPublicAcls != false {
+        if let blockPublicAcls = blockPublicAcls {
             try container.encode(blockPublicAcls, forKey: ClientRuntime.Key("BlockPublicAcls"))
         }
-        if blockPublicPolicy != false {
+        if let blockPublicPolicy = blockPublicPolicy {
             try container.encode(blockPublicPolicy, forKey: ClientRuntime.Key("BlockPublicPolicy"))
         }
-        if ignorePublicAcls != false {
+        if let ignorePublicAcls = ignorePublicAcls {
             try container.encode(ignorePublicAcls, forKey: ClientRuntime.Key("IgnorePublicAcls"))
         }
-        if restrictPublicBuckets != false {
+        if let restrictPublicBuckets = restrictPublicBuckets {
             try container.encode(restrictPublicBuckets, forKey: ClientRuntime.Key("RestrictPublicBuckets"))
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let blockPublicAclsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blockPublicAcls) ?? false
+        let blockPublicAclsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blockPublicAcls)
         blockPublicAcls = blockPublicAclsDecoded
-        let ignorePublicAclsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ignorePublicAcls) ?? false
+        let ignorePublicAclsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ignorePublicAcls)
         ignorePublicAcls = ignorePublicAclsDecoded
-        let blockPublicPolicyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blockPublicPolicy) ?? false
+        let blockPublicPolicyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blockPublicPolicy)
         blockPublicPolicy = blockPublicPolicyDecoded
-        let restrictPublicBucketsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .restrictPublicBuckets) ?? false
+        let restrictPublicBucketsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .restrictPublicBuckets)
         restrictPublicBuckets = restrictPublicBucketsDecoded
     }
 }
@@ -20166,19 +20166,19 @@ extension S3ClientTypes {
         ///
         ///
         /// Enabling this setting doesn't affect existing policies or ACLs.
-        public var blockPublicAcls: Swift.Bool
+        public var blockPublicAcls: Swift.Bool?
         /// Specifies whether Amazon S3 should block public bucket policies for this bucket. Setting this element to TRUE causes Amazon S3 to reject calls to PUT Bucket policy if the specified bucket policy allows public access. Enabling this setting doesn't affect existing bucket policies.
-        public var blockPublicPolicy: Swift.Bool
+        public var blockPublicPolicy: Swift.Bool?
         /// Specifies whether Amazon S3 should ignore public ACLs for this bucket and objects in this bucket. Setting this element to TRUE causes Amazon S3 to ignore all public ACLs on this bucket and objects in this bucket. Enabling this setting doesn't affect the persistence of any existing ACLs and doesn't prevent new public ACLs from being set.
-        public var ignorePublicAcls: Swift.Bool
+        public var ignorePublicAcls: Swift.Bool?
         /// Specifies whether Amazon S3 should restrict public bucket policies for this bucket. Setting this element to TRUE restricts access to this bucket to only Amazon Web Service principals and authorized users within this account if the bucket has a public policy. Enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to specific accounts, is blocked.
-        public var restrictPublicBuckets: Swift.Bool
+        public var restrictPublicBuckets: Swift.Bool?
 
         public init(
-            blockPublicAcls: Swift.Bool = false,
-            blockPublicPolicy: Swift.Bool = false,
-            ignorePublicAcls: Swift.Bool = false,
-            restrictPublicBuckets: Swift.Bool = false
+            blockPublicAcls: Swift.Bool? = nil,
+            blockPublicPolicy: Swift.Bool? = nil,
+            ignorePublicAcls: Swift.Bool? = nil,
+            restrictPublicBuckets: Swift.Bool? = nil
         )
         {
             self.blockPublicAcls = blockPublicAcls
@@ -24293,7 +24293,7 @@ extension PutObjectOutputResponse: ClientRuntime.HttpResponseBinding {
         if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
             self.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
         } else {
-            self.bucketKeyEnabled = false
+            self.bucketKeyEnabled = nil
         }
         if let checksumCRC32HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-crc32") {
             self.checksumCRC32 = checksumCRC32HeaderValue
@@ -24365,7 +24365,7 @@ extension PutObjectOutputResponse: ClientRuntime.HttpResponseBinding {
 
 public struct PutObjectOutputResponse: Swift.Equatable {
     /// Indicates whether the uploaded object uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
-    public var bucketKeyEnabled: Swift.Bool
+    public var bucketKeyEnabled: Swift.Bool?
     /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumCRC32: Swift.String?
     /// The base64-encoded, 32-bit CRC32C checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
@@ -24394,7 +24394,7 @@ public struct PutObjectOutputResponse: Swift.Equatable {
     public var versionId: Swift.String?
 
     public init(
-        bucketKeyEnabled: Swift.Bool = false,
+        bucketKeyEnabled: Swift.Bool? = nil,
         checksumCRC32: Swift.String? = nil,
         checksumCRC32C: Swift.String? = nil,
         checksumSHA1: Swift.String? = nil,
@@ -25565,7 +25565,7 @@ extension S3ClientTypes.ReplicationRule: Swift.Codable {
         if let `prefix` = `prefix` {
             try container.encode(`prefix`, forKey: ClientRuntime.Key("Prefix"))
         }
-        if priority != 0 {
+        if let priority = priority {
             try container.encode(priority, forKey: ClientRuntime.Key("Priority"))
         }
         if let sourceSelectionCriteria = sourceSelectionCriteria {
@@ -25580,7 +25580,7 @@ extension S3ClientTypes.ReplicationRule: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
-        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority) ?? 0
+        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority)
         priority = priorityDecoded
         let prefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .prefix)
         `prefix` = prefixDecoded
@@ -25631,7 +25631,7 @@ extension S3ClientTypes {
         @available(*, deprecated)
         public var `prefix`: Swift.String?
         /// The priority indicates which rule has precedence whenever two or more replication rules conflict. Amazon S3 will attempt to replicate objects according to all replication rules. However, if there are two or more rules with the same destination bucket, then objects will be replicated according to the rule with the highest priority. The higher the number, the higher the priority. For more information, see [Replication](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication.html) in the Amazon S3 User Guide.
-        public var priority: Swift.Int
+        public var priority: Swift.Int?
         /// A container that describes additional filters for identifying the source objects that you want to replicate. You can choose to enable or disable the replication of these objects. Currently, Amazon S3 supports only the filter that you can specify for objects created with server-side encryption using a customer managed key stored in Amazon Web Services Key Management Service (SSE-KMS).
         public var sourceSelectionCriteria: S3ClientTypes.SourceSelectionCriteria?
         /// Specifies whether the rule is enabled.
@@ -25645,7 +25645,7 @@ extension S3ClientTypes {
             filter: S3ClientTypes.ReplicationRuleFilter? = nil,
             id: Swift.String? = nil,
             `prefix`: Swift.String? = nil,
-            priority: Swift.Int = 0,
+            priority: Swift.Int? = nil,
             sourceSelectionCriteria: S3ClientTypes.SourceSelectionCriteria? = nil,
             status: S3ClientTypes.ReplicationRuleStatus? = nil
         )
@@ -25989,14 +25989,14 @@ extension S3ClientTypes.ReplicationTimeValue: Swift.Codable {
         if encoder.codingPath.isEmpty {
             try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
         }
-        if minutes != 0 {
+        if let minutes = minutes {
             try container.encode(minutes, forKey: ClientRuntime.Key("Minutes"))
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let minutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minutes) ?? 0
+        let minutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minutes)
         minutes = minutesDecoded
     }
 }
@@ -26019,10 +26019,10 @@ extension S3ClientTypes {
     /// A container specifying the time value for S3 Replication Time Control (S3 RTC) and replication metrics EventThreshold.
     public struct ReplicationTimeValue: Swift.Equatable {
         /// Contains an integer specifying time in minutes. Valid value: 15
-        public var minutes: Swift.Int
+        public var minutes: Swift.Int?
 
         public init(
-            minutes: Swift.Int = 0
+            minutes: Swift.Int? = nil
         )
         {
             self.minutes = minutes
@@ -26154,14 +26154,14 @@ extension S3ClientTypes.RequestProgress: Swift.Codable {
         if encoder.codingPath.isEmpty {
             try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
         }
-        if enabled != false {
+        if let enabled = enabled {
             try container.encode(enabled, forKey: ClientRuntime.Key("Enabled"))
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
     }
 }
@@ -26184,10 +26184,10 @@ extension S3ClientTypes {
     /// Container for specifying if periodic QueryProgress messages should be sent.
     public struct RequestProgress: Swift.Equatable {
         /// Specifies whether periodic QueryProgress frames should be sent. Valid values: TRUE, FALSE. Default value: FALSE.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
 
         public init(
-            enabled: Swift.Bool = false
+            enabled: Swift.Bool? = nil
         )
         {
             self.enabled = enabled
@@ -26416,7 +26416,7 @@ extension S3ClientTypes.RestoreRequest: Swift.Codable {
         if encoder.codingPath.isEmpty {
             try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
         }
-        if days != 0 {
+        if let days = days {
             try container.encode(days, forKey: ClientRuntime.Key("Days"))
         }
         if let description = description {
@@ -26441,7 +26441,7 @@ extension S3ClientTypes.RestoreRequest: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let daysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .days) ?? 0
+        let daysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .days)
         days = daysDecoded
         let glacierJobParametersDecoded = try containerValues.decodeIfPresent(S3ClientTypes.GlacierJobParameters.self, forKey: .glacierJobParameters)
         glacierJobParameters = glacierJobParametersDecoded
@@ -26476,7 +26476,7 @@ extension S3ClientTypes {
     /// Container for restore job parameters.
     public struct RestoreRequest: Swift.Equatable {
         /// Lifetime of the active copy in days. Do not use with restores that specify OutputLocation. The Days element is required for regular restores, and must not be provided for select requests.
-        public var days: Swift.Int
+        public var days: Swift.Int?
         /// The optional description for the job.
         public var description: Swift.String?
         /// S3 Glacier related parameters pertaining to this job. Do not use with restores that specify OutputLocation.
@@ -26491,7 +26491,7 @@ extension S3ClientTypes {
         public var type: S3ClientTypes.RestoreRequestType?
 
         public init(
-            days: Swift.Int = 0,
+            days: Swift.Int? = nil,
             description: Swift.String? = nil,
             glacierJobParameters: S3ClientTypes.GlacierJobParameters? = nil,
             outputLocation: S3ClientTypes.OutputLocation? = nil,
@@ -26993,19 +26993,19 @@ extension S3ClientTypes.ScanRange: Swift.Codable {
         if encoder.codingPath.isEmpty {
             try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
         }
-        if end != 0 {
+        if let end = end {
             try container.encode(end, forKey: ClientRuntime.Key("End"))
         }
-        if start != 0 {
+        if let start = start {
             try container.encode(start, forKey: ClientRuntime.Key("Start"))
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let startDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .start) ?? 0
+        let startDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .start)
         start = startDecoded
-        let endDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .end) ?? 0
+        let endDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .end)
         end = endDecoded
     }
 }
@@ -27028,13 +27028,13 @@ extension S3ClientTypes {
     /// Specifies the byte range of the object to get the records from. A record is processed when its first byte is contained by the range. This parameter is optional, but when specified, it must not be empty. See RFC 2616, Section 14.35.1 about how to specify the start and end of the range.
     public struct ScanRange: Swift.Equatable {
         /// Specifies the end of the byte range. This parameter is optional. Valid values: non-negative integers. The default value is one less than the size of the object being queried. If only the End parameter is supplied, it is interpreted to mean scan the last N bytes of the file. For example, 50 means scan the last 50 bytes.
-        public var end: Swift.Int
+        public var end: Swift.Int?
         /// Specifies the start of the byte range. This parameter is optional. Valid values: non-negative integers. The default value is 0. If only start is supplied, it means scan from that point to the end of the file. For example, 50 means scan from byte 50 until the end of the file.
-        public var start: Swift.Int
+        public var start: Swift.Int?
 
         public init(
-            end: Swift.Int = 0,
-            start: Swift.Int = 0
+            end: Swift.Int? = nil,
+            start: Swift.Int? = nil
         )
         {
             self.end = end
@@ -27588,7 +27588,7 @@ extension S3ClientTypes.ServerSideEncryptionRule: Swift.Codable {
         if let applyServerSideEncryptionByDefault = applyServerSideEncryptionByDefault {
             try container.encode(applyServerSideEncryptionByDefault, forKey: ClientRuntime.Key("ApplyServerSideEncryptionByDefault"))
         }
-        if bucketKeyEnabled != false {
+        if let bucketKeyEnabled = bucketKeyEnabled {
             try container.encode(bucketKeyEnabled, forKey: ClientRuntime.Key("BucketKeyEnabled"))
         }
     }
@@ -27597,7 +27597,7 @@ extension S3ClientTypes.ServerSideEncryptionRule: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applyServerSideEncryptionByDefaultDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ServerSideEncryptionByDefault.self, forKey: .applyServerSideEncryptionByDefault)
         applyServerSideEncryptionByDefault = applyServerSideEncryptionByDefaultDecoded
-        let bucketKeyEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .bucketKeyEnabled) ?? false
+        let bucketKeyEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .bucketKeyEnabled)
         bucketKeyEnabled = bucketKeyEnabledDecoded
     }
 }
@@ -27622,11 +27622,11 @@ extension S3ClientTypes {
         /// Specifies the default server-side encryption to apply to new objects in the bucket. If a PUT Object request doesn't specify any server-side encryption, this default encryption will be applied.
         public var applyServerSideEncryptionByDefault: S3ClientTypes.ServerSideEncryptionByDefault?
         /// Specifies whether Amazon S3 should use an S3 Bucket Key with server-side encryption using KMS (SSE-KMS) for new objects in the bucket. Existing objects are not affected. Setting the BucketKeyEnabled element to true causes Amazon S3 to use an S3 Bucket Key. By default, S3 Bucket Key is not enabled. For more information, see [Amazon S3 Bucket Keys](https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-key.html) in the Amazon S3 User Guide.
-        public var bucketKeyEnabled: Swift.Bool
+        public var bucketKeyEnabled: Swift.Bool?
 
         public init(
             applyServerSideEncryptionByDefault: S3ClientTypes.ServerSideEncryptionByDefault? = nil,
-            bucketKeyEnabled: Swift.Bool = false
+            bucketKeyEnabled: Swift.Bool? = nil
         )
         {
             self.applyServerSideEncryptionByDefault = applyServerSideEncryptionByDefault
@@ -27795,24 +27795,24 @@ extension S3ClientTypes.Stats: Swift.Codable {
         if encoder.codingPath.isEmpty {
             try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
         }
-        if bytesProcessed != 0 {
+        if let bytesProcessed = bytesProcessed {
             try container.encode(bytesProcessed, forKey: ClientRuntime.Key("BytesProcessed"))
         }
-        if bytesReturned != 0 {
+        if let bytesReturned = bytesReturned {
             try container.encode(bytesReturned, forKey: ClientRuntime.Key("BytesReturned"))
         }
-        if bytesScanned != 0 {
+        if let bytesScanned = bytesScanned {
             try container.encode(bytesScanned, forKey: ClientRuntime.Key("BytesScanned"))
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let bytesScannedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bytesScanned) ?? 0
+        let bytesScannedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bytesScanned)
         bytesScanned = bytesScannedDecoded
-        let bytesProcessedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bytesProcessed) ?? 0
+        let bytesProcessedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bytesProcessed)
         bytesProcessed = bytesProcessedDecoded
-        let bytesReturnedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bytesReturned) ?? 0
+        let bytesReturnedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bytesReturned)
         bytesReturned = bytesReturnedDecoded
     }
 }
@@ -27835,16 +27835,16 @@ extension S3ClientTypes {
     /// Container for the stats details.
     public struct Stats: Swift.Equatable {
         /// The total number of uncompressed object bytes processed.
-        public var bytesProcessed: Swift.Int
+        public var bytesProcessed: Swift.Int?
         /// The total number of bytes of records payload data returned.
-        public var bytesReturned: Swift.Int
+        public var bytesReturned: Swift.Int?
         /// The total number of object bytes scanned.
-        public var bytesScanned: Swift.Int
+        public var bytesScanned: Swift.Int?
 
         public init(
-            bytesProcessed: Swift.Int = 0,
-            bytesReturned: Swift.Int = 0,
-            bytesScanned: Swift.Int = 0
+            bytesProcessed: Swift.Int? = nil,
+            bytesReturned: Swift.Int? = nil,
+            bytesScanned: Swift.Int? = nil
         )
         {
             self.bytesProcessed = bytesProcessed
@@ -28391,14 +28391,14 @@ extension S3ClientTypes.Tiering: Swift.Codable {
         if let accessTier = accessTier {
             try container.encode(accessTier, forKey: ClientRuntime.Key("AccessTier"))
         }
-        if days != 0 {
+        if let days = days {
             try container.encode(days, forKey: ClientRuntime.Key("Days"))
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let daysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .days) ?? 0
+        let daysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .days)
         days = daysDecoded
         let accessTierDecoded = try containerValues.decodeIfPresent(S3ClientTypes.IntelligentTieringAccessTier.self, forKey: .accessTier)
         accessTier = accessTierDecoded
@@ -28427,11 +28427,11 @@ extension S3ClientTypes {
         public var accessTier: S3ClientTypes.IntelligentTieringAccessTier?
         /// The number of consecutive days of no access after which an object will be eligible to be transitioned to the corresponding tier. The minimum number of days specified for Archive Access tier must be at least 90 days and Deep Archive Access tier must be at least 180 days. The maximum can be up to 2 years (730 days).
         /// This member is required.
-        public var days: Swift.Int
+        public var days: Swift.Int?
 
         public init(
             accessTier: S3ClientTypes.IntelligentTieringAccessTier? = nil,
-            days: Swift.Int = 0
+            days: Swift.Int? = nil
         )
         {
             self.accessTier = accessTier
@@ -28564,7 +28564,7 @@ extension S3ClientTypes.Transition: Swift.Codable {
         if let date = date {
             try container.encodeTimestamp(date, format: .dateTime, forKey: ClientRuntime.Key("Date"))
         }
-        if days != 0 {
+        if let days = days {
             try container.encode(days, forKey: ClientRuntime.Key("Days"))
         }
         if let storageClass = storageClass {
@@ -28576,7 +28576,7 @@ extension S3ClientTypes.Transition: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .date)
         date = dateDecoded
-        let daysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .days) ?? 0
+        let daysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .days)
         days = daysDecoded
         let storageClassDecoded = try containerValues.decodeIfPresent(S3ClientTypes.TransitionStorageClass.self, forKey: .storageClass)
         storageClass = storageClassDecoded
@@ -28603,13 +28603,13 @@ extension S3ClientTypes {
         /// Indicates when objects are transitioned to the specified storage class. The date value must be in ISO 8601 format. The time is always midnight UTC.
         public var date: ClientRuntime.Date?
         /// Indicates the number of days after creation when objects are transitioned to the specified storage class. The value must be a positive integer.
-        public var days: Swift.Int
+        public var days: Swift.Int?
         /// The storage class to which you want the object to transition.
         public var storageClass: S3ClientTypes.TransitionStorageClass?
 
         public init(
             date: ClientRuntime.Date? = nil,
-            days: Swift.Int = 0,
+            days: Swift.Int? = nil,
             storageClass: S3ClientTypes.TransitionStorageClass? = nil
         )
         {
@@ -28912,7 +28912,7 @@ extension UploadPartCopyOutputResponse: ClientRuntime.HttpResponseBinding {
         if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
             self.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
         } else {
-            self.bucketKeyEnabled = false
+            self.bucketKeyEnabled = nil
         }
         if let copySourceVersionIdHeaderValue = httpResponse.headers.value(for: "x-amz-copy-source-version-id") {
             self.copySourceVersionId = copySourceVersionIdHeaderValue
@@ -28955,7 +28955,7 @@ extension UploadPartCopyOutputResponse: ClientRuntime.HttpResponseBinding {
 
 public struct UploadPartCopyOutputResponse: Swift.Equatable {
     /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
-    public var bucketKeyEnabled: Swift.Bool
+    public var bucketKeyEnabled: Swift.Bool?
     /// Container for all response elements.
     public var copyPartResult: S3ClientTypes.CopyPartResult?
     /// The version of the source object that was copied, if you have enabled versioning on the source bucket.
@@ -28972,7 +28972,7 @@ public struct UploadPartCopyOutputResponse: Swift.Equatable {
     public var ssekmsKeyId: Swift.String?
 
     public init(
-        bucketKeyEnabled: Swift.Bool = false,
+        bucketKeyEnabled: Swift.Bool? = nil,
         copyPartResult: S3ClientTypes.CopyPartResult? = nil,
         copySourceVersionId: Swift.String? = nil,
         requestCharged: S3ClientTypes.RequestCharged? = nil,
@@ -29317,7 +29317,7 @@ extension UploadPartOutputResponse: ClientRuntime.HttpResponseBinding {
         if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
             self.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
         } else {
-            self.bucketKeyEnabled = false
+            self.bucketKeyEnabled = nil
         }
         if let checksumCRC32HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-crc32") {
             self.checksumCRC32 = checksumCRC32HeaderValue
@@ -29374,7 +29374,7 @@ extension UploadPartOutputResponse: ClientRuntime.HttpResponseBinding {
 
 public struct UploadPartOutputResponse: Swift.Equatable {
     /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
-    public var bucketKeyEnabled: Swift.Bool
+    public var bucketKeyEnabled: Swift.Bool?
     /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumCRC32: Swift.String?
     /// The base64-encoded, 32-bit CRC32C checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
@@ -29397,7 +29397,7 @@ public struct UploadPartOutputResponse: Swift.Equatable {
     public var ssekmsKeyId: Swift.String?
 
     public init(
-        bucketKeyEnabled: Swift.Bool = false,
+        bucketKeyEnabled: Swift.Bool? = nil,
         checksumCRC32: Swift.String? = nil,
         checksumCRC32C: Swift.String? = nil,
         checksumSHA1: Swift.String? = nil,
