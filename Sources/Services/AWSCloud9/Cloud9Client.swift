@@ -68,6 +68,21 @@ public struct Cloud9ClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory 
 
 extension Cloud9Client: Cloud9ClientProtocol {
     /// Creates an Cloud9 development environment, launches an Amazon Elastic Compute Cloud (Amazon EC2) instance, and then connects from the instance to the environment.
+    ///
+    /// - Parameter CreateEnvironmentEC2Input : [no documentation found]
+    ///
+    /// - Returns: `CreateEnvironmentEC2OutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The target request is invalid.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `ForbiddenException` : An access permissions issue occurred.
+    /// - `InternalServerErrorException` : An internal server error occurred.
+    /// - `LimitExceededException` : A service limit was exceeded.
+    /// - `NotFoundException` : The target resource cannot be found.
+    /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
     public func createEnvironmentEC2(input: CreateEnvironmentEC2Input) async throws -> CreateEnvironmentEC2OutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -105,6 +120,21 @@ extension Cloud9Client: Cloud9ClientProtocol {
     }
 
     /// Adds an environment member to an Cloud9 development environment.
+    ///
+    /// - Parameter CreateEnvironmentMembershipInput : [no documentation found]
+    ///
+    /// - Returns: `CreateEnvironmentMembershipOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The target request is invalid.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `ForbiddenException` : An access permissions issue occurred.
+    /// - `InternalServerErrorException` : An internal server error occurred.
+    /// - `LimitExceededException` : A service limit was exceeded.
+    /// - `NotFoundException` : The target resource cannot be found.
+    /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
     public func createEnvironmentMembership(input: CreateEnvironmentMembershipInput) async throws -> CreateEnvironmentMembershipOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -142,6 +172,21 @@ extension Cloud9Client: Cloud9ClientProtocol {
     }
 
     /// Deletes an Cloud9 development environment. If an Amazon EC2 instance is connected to the environment, also terminates the instance.
+    ///
+    /// - Parameter DeleteEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The target request is invalid.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `ForbiddenException` : An access permissions issue occurred.
+    /// - `InternalServerErrorException` : An internal server error occurred.
+    /// - `LimitExceededException` : A service limit was exceeded.
+    /// - `NotFoundException` : The target resource cannot be found.
+    /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
     public func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -179,6 +224,21 @@ extension Cloud9Client: Cloud9ClientProtocol {
     }
 
     /// Deletes an environment member from a development environment.
+    ///
+    /// - Parameter DeleteEnvironmentMembershipInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEnvironmentMembershipOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The target request is invalid.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `ForbiddenException` : An access permissions issue occurred.
+    /// - `InternalServerErrorException` : An internal server error occurred.
+    /// - `LimitExceededException` : A service limit was exceeded.
+    /// - `NotFoundException` : The target resource cannot be found.
+    /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
     public func deleteEnvironmentMembership(input: DeleteEnvironmentMembershipInput) async throws -> DeleteEnvironmentMembershipOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -216,6 +276,21 @@ extension Cloud9Client: Cloud9ClientProtocol {
     }
 
     /// Gets information about environment members for an Cloud9 development environment.
+    ///
+    /// - Parameter DescribeEnvironmentMembershipsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeEnvironmentMembershipsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The target request is invalid.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `ForbiddenException` : An access permissions issue occurred.
+    /// - `InternalServerErrorException` : An internal server error occurred.
+    /// - `LimitExceededException` : A service limit was exceeded.
+    /// - `NotFoundException` : The target resource cannot be found.
+    /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
     public func describeEnvironmentMemberships(input: DescribeEnvironmentMembershipsInput) async throws -> DescribeEnvironmentMembershipsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -253,6 +328,21 @@ extension Cloud9Client: Cloud9ClientProtocol {
     }
 
     /// Gets status information for an Cloud9 development environment.
+    ///
+    /// - Parameter DescribeEnvironmentStatusInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeEnvironmentStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The target request is invalid.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `ForbiddenException` : An access permissions issue occurred.
+    /// - `InternalServerErrorException` : An internal server error occurred.
+    /// - `LimitExceededException` : A service limit was exceeded.
+    /// - `NotFoundException` : The target resource cannot be found.
+    /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
     public func describeEnvironmentStatus(input: DescribeEnvironmentStatusInput) async throws -> DescribeEnvironmentStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -290,6 +380,21 @@ extension Cloud9Client: Cloud9ClientProtocol {
     }
 
     /// Gets information about Cloud9 development environments.
+    ///
+    /// - Parameter DescribeEnvironmentsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeEnvironmentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The target request is invalid.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `ForbiddenException` : An access permissions issue occurred.
+    /// - `InternalServerErrorException` : An internal server error occurred.
+    /// - `LimitExceededException` : A service limit was exceeded.
+    /// - `NotFoundException` : The target resource cannot be found.
+    /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
     public func describeEnvironments(input: DescribeEnvironmentsInput) async throws -> DescribeEnvironmentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -327,6 +432,21 @@ extension Cloud9Client: Cloud9ClientProtocol {
     }
 
     /// Gets a list of Cloud9 development environment identifiers.
+    ///
+    /// - Parameter ListEnvironmentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListEnvironmentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The target request is invalid.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `ForbiddenException` : An access permissions issue occurred.
+    /// - `InternalServerErrorException` : An internal server error occurred.
+    /// - `LimitExceededException` : A service limit was exceeded.
+    /// - `NotFoundException` : The target resource cannot be found.
+    /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
     public func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -364,6 +484,17 @@ extension Cloud9Client: Cloud9ClientProtocol {
     }
 
     /// Gets a list of the tags associated with an Cloud9 development environment.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The target request is invalid.
+    /// - `InternalServerErrorException` : An internal server error occurred.
+    /// - `NotFoundException` : The target resource cannot be found.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -401,6 +532,18 @@ extension Cloud9Client: Cloud9ClientProtocol {
     }
 
     /// Adds tags to an Cloud9 development environment. Tags that you add to an Cloud9 environment by using this method will NOT be automatically propagated to underlying resources.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The target request is invalid.
+    /// - `ConcurrentAccessException` : A concurrent access issue occurred.
+    /// - `InternalServerErrorException` : An internal server error occurred.
+    /// - `NotFoundException` : The target resource cannot be found.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -438,6 +581,18 @@ extension Cloud9Client: Cloud9ClientProtocol {
     }
 
     /// Removes tags from an Cloud9 development environment.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The target request is invalid.
+    /// - `ConcurrentAccessException` : A concurrent access issue occurred.
+    /// - `InternalServerErrorException` : An internal server error occurred.
+    /// - `NotFoundException` : The target resource cannot be found.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -475,6 +630,21 @@ extension Cloud9Client: Cloud9ClientProtocol {
     }
 
     /// Changes the settings of an existing Cloud9 development environment.
+    ///
+    /// - Parameter UpdateEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The target request is invalid.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `ForbiddenException` : An access permissions issue occurred.
+    /// - `InternalServerErrorException` : An internal server error occurred.
+    /// - `LimitExceededException` : A service limit was exceeded.
+    /// - `NotFoundException` : The target resource cannot be found.
+    /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
     public func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -512,6 +682,21 @@ extension Cloud9Client: Cloud9ClientProtocol {
     }
 
     /// Changes the settings of an existing environment member for an Cloud9 development environment.
+    ///
+    /// - Parameter UpdateEnvironmentMembershipInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEnvironmentMembershipOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The target request is invalid.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `ForbiddenException` : An access permissions issue occurred.
+    /// - `InternalServerErrorException` : An internal server error occurred.
+    /// - `LimitExceededException` : A service limit was exceeded.
+    /// - `NotFoundException` : The target resource cannot be found.
+    /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
     public func updateEnvironmentMembership(input: UpdateEnvironmentMembershipInput) async throws -> UpdateEnvironmentMembershipOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

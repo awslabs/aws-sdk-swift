@@ -72,6 +72,21 @@ extension S3OutpostsClient: S3OutpostsClientProtocol {
     /// * [DeleteEndpoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_DeleteEndpoint.html)
     ///
     /// * [ListEndpoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_ListEndpoints.html)
+    ///
+    /// - Parameter CreateEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `CreateEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access was denied for this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
+    /// - `InternalServerException` : There was an exception with the internal server.
+    /// - `OutpostOfflineException` : The service link connection to your Outposts home Region is down. Check your connection and try again.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : There was an exception validating this data.
     public func createEndpoint(input: CreateEndpointInput) async throws -> CreateEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -112,6 +127,20 @@ extension S3OutpostsClient: S3OutpostsClientProtocol {
     /// * [CreateEndpoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_CreateEndpoint.html)
     ///
     /// * [ListEndpoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_ListEndpoints.html)
+    ///
+    /// - Parameter DeleteEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access was denied for this action.
+    /// - `InternalServerException` : There was an exception with the internal server.
+    /// - `OutpostOfflineException` : The service link connection to your Outposts home Region is down. Check your connection and try again.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : There was an exception validating this data.
     public func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -150,6 +179,19 @@ extension S3OutpostsClient: S3OutpostsClientProtocol {
     /// * [CreateEndpoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_CreateEndpoint.html)
     ///
     /// * [DeleteEndpoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_DeleteEndpoint.html)
+    ///
+    /// - Parameter ListEndpointsInput : [no documentation found]
+    ///
+    /// - Returns: `ListEndpointsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access was denied for this action.
+    /// - `InternalServerException` : There was an exception with the internal server.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : There was an exception validating this data.
     public func listEndpoints(input: ListEndpointsInput) async throws -> ListEndpointsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -184,6 +226,18 @@ extension S3OutpostsClient: S3OutpostsClientProtocol {
     }
 
     /// Lists the Outposts with S3 on Outposts capacity for your Amazon Web Services account. Includes S3 on Outposts that you have access to as the Outposts owner, or as a shared user from Resource Access Manager (RAM).
+    ///
+    /// - Parameter ListOutpostsWithS3Input : [no documentation found]
+    ///
+    /// - Returns: `ListOutpostsWithS3OutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access was denied for this action.
+    /// - `InternalServerException` : There was an exception with the internal server.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : There was an exception validating this data.
     public func listOutpostsWithS3(input: ListOutpostsWithS3Input) async throws -> ListOutpostsWithS3OutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -222,6 +276,19 @@ extension S3OutpostsClient: S3OutpostsClientProtocol {
     /// * [CreateEndpoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_CreateEndpoint.html)
     ///
     /// * [DeleteEndpoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_DeleteEndpoint.html)
+    ///
+    /// - Parameter ListSharedEndpointsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSharedEndpointsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access was denied for this action.
+    /// - `InternalServerException` : There was an exception with the internal server.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : There was an exception validating this data.
     public func listSharedEndpoints(input: ListSharedEndpointsInput) async throws -> ListSharedEndpointsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

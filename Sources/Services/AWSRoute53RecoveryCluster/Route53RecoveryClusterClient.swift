@@ -72,6 +72,20 @@ extension Route53RecoveryClusterClient: Route53RecoveryClusterClientProtocol {
     /// * [Viewing and updating routing control states](https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.update.html)
     ///
     /// * [Working with routing controls in Route 53 ARC](https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.html)
+    ///
+    /// - Parameter GetRoutingControlStateInput : [no documentation found]
+    ///
+    /// - Returns: `GetRoutingControlStateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `EndpointTemporarilyUnavailableException` : The cluster endpoint isn't available. Try another cluster endpoint.
+    /// - `InternalServerException` : There was an unexpected error during processing of the request.
+    /// - `ResourceNotFoundException` : The request references a routing control or control panel that was not found.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : There was a validation error on the request.
     public func getRoutingControlState(input: GetRoutingControlStateInput) async throws -> GetRoutingControlStateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -113,6 +127,20 @@ extension Route53RecoveryClusterClient: Route53RecoveryClusterClientProtocol {
     /// * [Viewing and updating routing control states](https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.update.html)
     ///
     /// * [Working with routing controls in Route 53 ARC](https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.html)
+    ///
+    /// - Parameter ListRoutingControlsInput : [no documentation found]
+    ///
+    /// - Returns: `ListRoutingControlsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `EndpointTemporarilyUnavailableException` : The cluster endpoint isn't available. Try another cluster endpoint.
+    /// - `InternalServerException` : There was an unexpected error during processing of the request.
+    /// - `ResourceNotFoundException` : The request references a routing control or control panel that was not found.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : There was a validation error on the request.
     public func listRoutingControls(input: ListRoutingControlsInput) async throws -> ListRoutingControlsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -154,6 +182,21 @@ extension Route53RecoveryClusterClient: Route53RecoveryClusterClientProtocol {
     /// * [Viewing and updating routing control states](https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.update.html)
     ///
     /// * [Working with routing controls overall](https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.html)
+    ///
+    /// - Parameter UpdateRoutingControlStateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRoutingControlStateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `ConflictException` : There was a conflict with this request. Try again.
+    /// - `EndpointTemporarilyUnavailableException` : The cluster endpoint isn't available. Try another cluster endpoint.
+    /// - `InternalServerException` : There was an unexpected error during processing of the request.
+    /// - `ResourceNotFoundException` : The request references a routing control or control panel that was not found.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : There was a validation error on the request.
     public func updateRoutingControlState(input: UpdateRoutingControlStateInput) async throws -> UpdateRoutingControlStateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -195,6 +238,22 @@ extension Route53RecoveryClusterClient: Route53RecoveryClusterClientProtocol {
     /// * [Viewing and updating routing control states](https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.update.html)
     ///
     /// * [Working with routing controls overall](https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.html)
+    ///
+    /// - Parameter UpdateRoutingControlStatesInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRoutingControlStatesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `ConflictException` : There was a conflict with this request. Try again.
+    /// - `EndpointTemporarilyUnavailableException` : The cluster endpoint isn't available. Try another cluster endpoint.
+    /// - `InternalServerException` : There was an unexpected error during processing of the request.
+    /// - `ResourceNotFoundException` : The request references a routing control or control panel that was not found.
+    /// - `ServiceLimitExceededException` : The request can't update that many routing control states at the same time. Try again with fewer routing control states.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : There was a validation error on the request.
     public func updateRoutingControlStates(input: UpdateRoutingControlStatesInput) async throws -> UpdateRoutingControlStatesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

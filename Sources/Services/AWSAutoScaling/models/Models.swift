@@ -340,7 +340,7 @@ extension AutoScalingClientTypes.Activity: Swift.Codable {
         statusCode = statusCodeDecoded
         let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
         statusMessage = statusMessageDecoded
-        let progressDecoded = try containerValues.decode(Swift.Int.self, forKey: .progress)
+        let progressDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .progress) ?? 0
         progress = progressDecoded
         let detailsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .details)
         details = detailsDecoded
@@ -544,7 +544,7 @@ extension AutoScalingClientTypes.AlarmSpecification: Swift.Codable {
 extension AutoScalingClientTypes {
     /// Specifies the CloudWatch alarm specification to use in an instance refresh.
     public struct AlarmSpecification: Swift.Equatable {
-        /// The names of one or more CloudWatch alarms to monitor for the instance refresh.
+        /// The names of one or more CloudWatch alarms to monitor for the instance refresh. You can specify up to 10 alarms.
         public var alarms: [Swift.String]?
 
         public init(

@@ -77,6 +77,18 @@ extension FisClient: FisClientProtocol {
     ///
     ///
     /// For more information, see [Experiment templates](https://docs.aws.amazon.com/fis/latest/userguide/experiment-templates.html) in the Fault Injection Simulator User Guide.
+    ///
+    /// - Parameter CreateExperimentTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `CreateExperimentTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be processed because of a conflict.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found.
+    /// - `ServiceQuotaExceededException` : You have exceeded your service quota.
+    /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     public func createExperimentTemplate(input: CreateExperimentTemplateInput) async throws -> CreateExperimentTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -121,6 +133,16 @@ extension FisClient: FisClientProtocol {
     }
 
     /// Deletes the specified experiment template.
+    ///
+    /// - Parameter DeleteExperimentTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteExperimentTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified resource cannot be found.
+    /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     public func deleteExperimentTemplate(input: DeleteExperimentTemplateInput) async throws -> DeleteExperimentTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -154,6 +176,16 @@ extension FisClient: FisClientProtocol {
     }
 
     /// Gets information about the specified FIS action.
+    ///
+    /// - Parameter GetActionInput : [no documentation found]
+    ///
+    /// - Returns: `GetActionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified resource cannot be found.
+    /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     public func getAction(input: GetActionInput) async throws -> GetActionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -187,6 +219,16 @@ extension FisClient: FisClientProtocol {
     }
 
     /// Gets information about the specified experiment.
+    ///
+    /// - Parameter GetExperimentInput : [no documentation found]
+    ///
+    /// - Returns: `GetExperimentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified resource cannot be found.
+    /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     public func getExperiment(input: GetExperimentInput) async throws -> GetExperimentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -220,6 +262,16 @@ extension FisClient: FisClientProtocol {
     }
 
     /// Gets information about the specified experiment template.
+    ///
+    /// - Parameter GetExperimentTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GetExperimentTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified resource cannot be found.
+    /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     public func getExperimentTemplate(input: GetExperimentTemplateInput) async throws -> GetExperimentTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -253,6 +305,16 @@ extension FisClient: FisClientProtocol {
     }
 
     /// Gets information about the specified resource type.
+    ///
+    /// - Parameter GetTargetResourceTypeInput : [no documentation found]
+    ///
+    /// - Returns: `GetTargetResourceTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified resource cannot be found.
+    /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     public func getTargetResourceType(input: GetTargetResourceTypeInput) async throws -> GetTargetResourceTypeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -286,6 +348,15 @@ extension FisClient: FisClientProtocol {
     }
 
     /// Lists the available FIS actions.
+    ///
+    /// - Parameter ListActionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListActionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     public func listActions(input: ListActionsInput) async throws -> ListActionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -320,6 +391,15 @@ extension FisClient: FisClientProtocol {
     }
 
     /// Lists your experiment templates.
+    ///
+    /// - Parameter ListExperimentTemplatesInput : [no documentation found]
+    ///
+    /// - Returns: `ListExperimentTemplatesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     public func listExperimentTemplates(input: ListExperimentTemplatesInput) async throws -> ListExperimentTemplatesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -354,6 +434,15 @@ extension FisClient: FisClientProtocol {
     }
 
     /// Lists your experiments.
+    ///
+    /// - Parameter ListExperimentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListExperimentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     public func listExperiments(input: ListExperimentsInput) async throws -> ListExperimentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -388,6 +477,10 @@ extension FisClient: FisClientProtocol {
     }
 
     /// Lists the tags for the specified resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -421,6 +514,15 @@ extension FisClient: FisClientProtocol {
     }
 
     /// Lists the target resource types.
+    ///
+    /// - Parameter ListTargetResourceTypesInput : [no documentation found]
+    ///
+    /// - Returns: `ListTargetResourceTypesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     public func listTargetResourceTypes(input: ListTargetResourceTypesInput) async throws -> ListTargetResourceTypesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -455,6 +557,18 @@ extension FisClient: FisClientProtocol {
     }
 
     /// Starts running an experiment from the specified experiment template.
+    ///
+    /// - Parameter StartExperimentInput : [no documentation found]
+    ///
+    /// - Returns: `StartExperimentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be processed because of a conflict.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found.
+    /// - `ServiceQuotaExceededException` : You have exceeded your service quota.
+    /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     public func startExperiment(input: StartExperimentInput) async throws -> StartExperimentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -499,6 +613,16 @@ extension FisClient: FisClientProtocol {
     }
 
     /// Stops the specified experiment.
+    ///
+    /// - Parameter StopExperimentInput : [no documentation found]
+    ///
+    /// - Returns: `StopExperimentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified resource cannot be found.
+    /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     public func stopExperiment(input: StopExperimentInput) async throws -> StopExperimentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -532,6 +656,10 @@ extension FisClient: FisClientProtocol {
     }
 
     /// Applies the specified tags to the specified resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -568,6 +696,10 @@ extension FisClient: FisClientProtocol {
     }
 
     /// Removes the specified tags from the specified resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -602,6 +734,17 @@ extension FisClient: FisClientProtocol {
     }
 
     /// Updates the specified experiment template.
+    ///
+    /// - Parameter UpdateExperimentTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateExperimentTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified resource cannot be found.
+    /// - `ServiceQuotaExceededException` : You have exceeded your service quota.
+    /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     public func updateExperimentTemplate(input: UpdateExperimentTemplateInput) async throws -> UpdateExperimentTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

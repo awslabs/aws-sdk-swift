@@ -68,6 +68,16 @@ public struct DynamoDBStreamsClientLogHandlerFactory: ClientRuntime.SDKLogHandle
 
 extension DynamoDBStreamsClient: DynamoDBStreamsClientProtocol {
     /// Returns information about a stream, including the current status of the stream, its Amazon Resource Name (ARN), the composition of its shards, and its corresponding DynamoDB table. You can call DescribeStream at a maximum rate of 10 times per second. Each shard in the stream has a SequenceNumberRange associated with it. If the SequenceNumberRange has a StartingSequenceNumber but no EndingSequenceNumber, then the shard is still open (able to receive more stream records). If both StartingSequenceNumber and EndingSequenceNumber are present, then that shard is closed and can no longer receive more data.
+    ///
+    /// - Parameter DescribeStreamInput : Represents the input of a DescribeStream operation.
+    ///
+    /// - Returns: `DescribeStreamOutputResponse` : Represents the output of a DescribeStream operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : An error occurred on the server side.
+    /// - `ResourceNotFoundException` : The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
     public func describeStream(input: DescribeStreamInput) async throws -> DescribeStreamOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -105,6 +115,23 @@ extension DynamoDBStreamsClient: DynamoDBStreamsClientProtocol {
     }
 
     /// Retrieves the stream records from a given shard. Specify a shard iterator using the ShardIterator parameter. The shard iterator specifies the position in the shard from which you want to start reading stream records sequentially. If there are no stream records available in the portion of the shard that the iterator points to, GetRecords returns an empty list. Note that it might take multiple calls to get to a portion of the shard that contains stream records. GetRecords can retrieve a maximum of 1 MB of data or 1000 stream records, whichever comes first.
+    ///
+    /// - Parameter GetRecordsInput : Represents the input of a GetRecords operation.
+    ///
+    /// - Returns: `GetRecordsOutputResponse` : Represents the output of a GetRecords operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ExpiredIteratorException` : The shard iterator has expired and can no longer be used to retrieve stream records. A shard iterator expires 15 minutes after it is retrieved using the GetShardIterator action.
+    /// - `InternalServerError` : An error occurred on the server side.
+    /// - `LimitExceededException` : There is no limit to the number of daily on-demand backups that can be taken. For most purposes, up to 500 simultaneous table operations are allowed per account. These operations include CreateTable, UpdateTable, DeleteTable,UpdateTimeToLive, RestoreTableFromBackup, and RestoreTableToPointInTime. When you are creating a table with one or more secondary indexes, you can have up to 250 such requests running at a time. However, if the table or index specifications are complex, then DynamoDB might temporarily reduce the number of concurrent operations. When importing into DynamoDB, up to 50 simultaneous import table operations are allowed per account. There is a soft account quota of 2,500 tables. GetRecords was called with a value of more than 1000 for the limit request parameter. More than 2 processes are reading from the same streams shard at the same time. Exceeding this limit may result in request throttling.
+    /// - `ResourceNotFoundException` : The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
+    /// - `TrimmedDataAccessException` : The operation attempted to read past the oldest stream record in a shard. In DynamoDB Streams, there is a 24 hour limit on data retention. Stream records whose age exceeds this limit are subject to removal (trimming) from the stream. You might receive a TrimmedDataAccessException if:
+    ///
+    /// * You request a shard iterator with a sequence number older than the trim point (24 hours).
+    ///
+    /// * You obtain a shard iterator, but before you use the iterator in a GetRecords request, a stream record in the shard exceeds the 24 hour period and is trimmed. This causes the iterator to access a record that no longer exists.
     public func getRecords(input: GetRecordsInput) async throws -> GetRecordsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -142,6 +169,21 @@ extension DynamoDBStreamsClient: DynamoDBStreamsClientProtocol {
     }
 
     /// Returns a shard iterator. A shard iterator provides information about how to retrieve the stream records from within a shard. Use the shard iterator in a subsequent GetRecords request to read the stream records from the shard. A shard iterator expires 15 minutes after it is returned to the requester.
+    ///
+    /// - Parameter GetShardIteratorInput : Represents the input of a GetShardIterator operation.
+    ///
+    /// - Returns: `GetShardIteratorOutputResponse` : Represents the output of a GetShardIterator operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : An error occurred on the server side.
+    /// - `ResourceNotFoundException` : The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
+    /// - `TrimmedDataAccessException` : The operation attempted to read past the oldest stream record in a shard. In DynamoDB Streams, there is a 24 hour limit on data retention. Stream records whose age exceeds this limit are subject to removal (trimming) from the stream. You might receive a TrimmedDataAccessException if:
+    ///
+    /// * You request a shard iterator with a sequence number older than the trim point (24 hours).
+    ///
+    /// * You obtain a shard iterator, but before you use the iterator in a GetRecords request, a stream record in the shard exceeds the 24 hour period and is trimmed. This causes the iterator to access a record that no longer exists.
     public func getShardIterator(input: GetShardIteratorInput) async throws -> GetShardIteratorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -179,6 +221,16 @@ extension DynamoDBStreamsClient: DynamoDBStreamsClientProtocol {
     }
 
     /// Returns an array of stream ARNs associated with the current account and endpoint. If the TableName parameter is present, then ListStreams will return only the streams ARNs for that table. You can call ListStreams at a maximum rate of 5 times per second.
+    ///
+    /// - Parameter ListStreamsInput : Represents the input of a ListStreams operation.
+    ///
+    /// - Returns: `ListStreamsOutputResponse` : Represents the output of a ListStreams operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : An error occurred on the server side.
+    /// - `ResourceNotFoundException` : The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
     public func listStreams(input: ListStreamsInput) async throws -> ListStreamsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

@@ -68,6 +68,19 @@ public struct GrafanaClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
 
 extension GrafanaClient: GrafanaClientProtocol {
     /// Assigns a Grafana Enterprise license to a workspace. Upgrading to Grafana Enterprise incurs additional fees. For more information, see [Upgrade a workspace to Grafana Enterprise](https://docs.aws.amazon.com/grafana/latest/userguide/upgrade-to-Grafana-Enterprise.html).
+    ///
+    /// - Parameter AssociateLicenseInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateLicenseOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : Unexpected error while processing the request. Retry the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
+    /// - `ValidationException` : The value of a parameter in the request caused an error.
     public func associateLicense(input: AssociateLicenseInput) async throws -> AssociateLicenseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -101,6 +114,20 @@ extension GrafanaClient: GrafanaClientProtocol {
     }
 
     /// Creates a workspace. In a workspace, you can create Grafana dashboards and visualizations to analyze your metrics, logs, and traces. You don't have to build, package, or deploy any hardware to run the Grafana server. Don't use CreateWorkspace to modify an existing workspace. Instead, use [UpdateWorkspace](https://docs.aws.amazon.com/grafana/latest/APIReference/API_UpdateWorkspace.html).
+    ///
+    /// - Parameter CreateWorkspaceInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWorkspaceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
+    /// - `InternalServerException` : Unexpected error while processing the request. Retry the request.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
+    /// - `ValidationException` : The value of a parameter in the request caused an error.
     public func createWorkspace(input: CreateWorkspaceInput) async throws -> CreateWorkspaceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -145,6 +172,21 @@ extension GrafanaClient: GrafanaClientProtocol {
     }
 
     /// Creates a Grafana API key for the workspace. This key can be used to authenticate requests sent to the workspace's HTTP API. See [https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html](https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html) for available APIs and example requests.
+    ///
+    /// - Parameter CreateWorkspaceApiKeyInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWorkspaceApiKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
+    /// - `InternalServerException` : Unexpected error while processing the request. Retry the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
+    /// - `ValidationException` : The value of a parameter in the request caused an error.
     public func createWorkspaceApiKey(input: CreateWorkspaceApiKeyInput) async throws -> CreateWorkspaceApiKeyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -181,6 +223,20 @@ extension GrafanaClient: GrafanaClientProtocol {
     }
 
     /// Deletes an Amazon Managed Grafana workspace.
+    ///
+    /// - Parameter DeleteWorkspaceInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWorkspaceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
+    /// - `InternalServerException` : Unexpected error while processing the request. Retry the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
+    /// - `ValidationException` : The value of a parameter in the request caused an error.
     public func deleteWorkspace(input: DeleteWorkspaceInput) async throws -> DeleteWorkspaceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -214,6 +270,20 @@ extension GrafanaClient: GrafanaClientProtocol {
     }
 
     /// Deletes a Grafana API key for the workspace.
+    ///
+    /// - Parameter DeleteWorkspaceApiKeyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWorkspaceApiKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
+    /// - `InternalServerException` : Unexpected error while processing the request. Retry the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
+    /// - `ValidationException` : The value of a parameter in the request caused an error.
     public func deleteWorkspaceApiKey(input: DeleteWorkspaceApiKeyInput) async throws -> DeleteWorkspaceApiKeyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -247,6 +317,19 @@ extension GrafanaClient: GrafanaClientProtocol {
     }
 
     /// Displays information about one Amazon Managed Grafana workspace.
+    ///
+    /// - Parameter DescribeWorkspaceInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeWorkspaceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : Unexpected error while processing the request. Retry the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
+    /// - `ValidationException` : The value of a parameter in the request caused an error.
     public func describeWorkspace(input: DescribeWorkspaceInput) async throws -> DescribeWorkspaceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -280,6 +363,19 @@ extension GrafanaClient: GrafanaClientProtocol {
     }
 
     /// Displays information about the authentication methods used in one Amazon Managed Grafana workspace.
+    ///
+    /// - Parameter DescribeWorkspaceAuthenticationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeWorkspaceAuthenticationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : Unexpected error while processing the request. Retry the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
+    /// - `ValidationException` : The value of a parameter in the request caused an error.
     public func describeWorkspaceAuthentication(input: DescribeWorkspaceAuthenticationInput) async throws -> DescribeWorkspaceAuthenticationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -313,6 +409,18 @@ extension GrafanaClient: GrafanaClientProtocol {
     }
 
     /// Gets the current configuration string for the given workspace.
+    ///
+    /// - Parameter DescribeWorkspaceConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeWorkspaceConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : Unexpected error while processing the request. Retry the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     public func describeWorkspaceConfiguration(input: DescribeWorkspaceConfigurationInput) async throws -> DescribeWorkspaceConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -346,6 +454,19 @@ extension GrafanaClient: GrafanaClientProtocol {
     }
 
     /// Removes the Grafana Enterprise license from a workspace.
+    ///
+    /// - Parameter DisassociateLicenseInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateLicenseOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : Unexpected error while processing the request. Retry the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
+    /// - `ValidationException` : The value of a parameter in the request caused an error.
     public func disassociateLicense(input: DisassociateLicenseInput) async throws -> DisassociateLicenseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -379,6 +500,19 @@ extension GrafanaClient: GrafanaClientProtocol {
     }
 
     /// Lists the users and groups who have the Grafana Admin and Editor roles in this workspace. If you use this operation without specifying userId or groupId, the operation returns the roles of all users and groups. If you specify a userId or a groupId, only the roles for that user or group are returned. If you do this, you can specify only one userId or one groupId.
+    ///
+    /// - Parameter ListPermissionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPermissionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : Unexpected error while processing the request. Retry the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
+    /// - `ValidationException` : The value of a parameter in the request caused an error.
     public func listPermissions(input: ListPermissionsInput) async throws -> ListPermissionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -413,6 +547,19 @@ extension GrafanaClient: GrafanaClientProtocol {
     }
 
     /// The ListTagsForResource operation returns the tags that are associated with the Amazon Managed Service for Grafana resource specified by the resourceArn. Currently, the only resource that can be tagged is a workspace.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : Unexpected error while processing the request. Retry the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
+    /// - `ValidationException` : The value of a parameter in the request caused an error.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -446,6 +593,19 @@ extension GrafanaClient: GrafanaClientProtocol {
     }
 
     /// Lists available versions of Grafana. These are available when calling CreateWorkspace. Optionally, include a workspace to list the versions to which it can be upgraded.
+    ///
+    /// - Parameter ListVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : Unexpected error while processing the request. Retry the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
+    /// - `ValidationException` : The value of a parameter in the request caused an error.
     public func listVersions(input: ListVersionsInput) async throws -> ListVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -480,6 +640,17 @@ extension GrafanaClient: GrafanaClientProtocol {
     }
 
     /// Returns a list of Amazon Managed Grafana workspaces in the account, with some information about each workspace. For more complete information about one workspace, use [DescribeWorkspace](https://docs.aws.amazon.com/AAMG/latest/APIReference/API_DescribeWorkspace.html).
+    ///
+    /// - Parameter ListWorkspacesInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorkspacesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : Unexpected error while processing the request. Retry the request.
+    /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     public func listWorkspaces(input: ListWorkspacesInput) async throws -> ListWorkspacesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -514,6 +685,19 @@ extension GrafanaClient: GrafanaClientProtocol {
     }
 
     /// The TagResource operation associates tags with an Amazon Managed Grafana resource. Currently, the only resource that can be tagged is workspaces. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : Unexpected error while processing the request. Retry the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
+    /// - `ValidationException` : The value of a parameter in the request caused an error.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -550,6 +734,19 @@ extension GrafanaClient: GrafanaClientProtocol {
     }
 
     /// The UntagResource operation removes the association of the tag with the Amazon Managed Grafana resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : Unexpected error while processing the request. Retry the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
+    /// - `ValidationException` : The value of a parameter in the request caused an error.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -584,6 +781,19 @@ extension GrafanaClient: GrafanaClientProtocol {
     }
 
     /// Updates which users in a workspace have the Grafana Admin or Editor roles.
+    ///
+    /// - Parameter UpdatePermissionsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePermissionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : Unexpected error while processing the request. Retry the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
+    /// - `ValidationException` : The value of a parameter in the request caused an error.
     public func updatePermissions(input: UpdatePermissionsInput) async throws -> UpdatePermissionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -620,6 +830,20 @@ extension GrafanaClient: GrafanaClientProtocol {
     }
 
     /// Modifies an existing Amazon Managed Grafana workspace. If you use this operation and omit any optional parameters, the existing values of those parameters are not changed. To modify the user authentication methods that the workspace uses, such as SAML or IAM Identity Center, use [UpdateWorkspaceAuthentication](https://docs.aws.amazon.com/grafana/latest/APIReference/API_UpdateWorkspaceAuthentication.html). To modify which users in the workspace have the Admin and Editor Grafana roles, use [UpdatePermissions](https://docs.aws.amazon.com/grafana/latest/APIReference/API_UpdatePermissions.html).
+    ///
+    /// - Parameter UpdateWorkspaceInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWorkspaceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
+    /// - `InternalServerException` : Unexpected error while processing the request. Retry the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
+    /// - `ValidationException` : The value of a parameter in the request caused an error.
     public func updateWorkspace(input: UpdateWorkspaceInput) async throws -> UpdateWorkspaceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -656,6 +880,20 @@ extension GrafanaClient: GrafanaClientProtocol {
     }
 
     /// Use this operation to define the identity provider (IdP) that this workspace authenticates users from, using SAML. You can also map SAML assertion attributes to workspace user information and define which groups in the assertion attribute are to have the Admin and Editor roles in the workspace. Changes to the authentication method for a workspace may take a few minutes to take effect.
+    ///
+    /// - Parameter UpdateWorkspaceAuthenticationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWorkspaceAuthenticationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
+    /// - `InternalServerException` : Unexpected error while processing the request. Retry the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
+    /// - `ValidationException` : The value of a parameter in the request caused an error.
     public func updateWorkspaceAuthentication(input: UpdateWorkspaceAuthenticationInput) async throws -> UpdateWorkspaceAuthenticationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -692,6 +930,20 @@ extension GrafanaClient: GrafanaClientProtocol {
     }
 
     /// Updates the configuration string for the given workspace
+    ///
+    /// - Parameter UpdateWorkspaceConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWorkspaceConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
+    /// - `InternalServerException` : Unexpected error while processing the request. Retry the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
+    /// - `ValidationException` : The value of a parameter in the request caused an error.
     public func updateWorkspaceConfiguration(input: UpdateWorkspaceConfigurationInput) async throws -> UpdateWorkspaceConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

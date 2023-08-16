@@ -5,8 +5,64 @@ import ClientRuntime
 /// Resource Groups Tagging API
 public protocol ResourceGroupsTaggingAPIClientProtocol {
     /// Describes the status of the StartReportCreation operation. You can call this operation only from the organization's management account and from the us-east-1 Region.
+    ///
+    /// - Parameter DescribeReportCreationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeReportCreationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConstraintViolationException` : The request was denied because performing this operation violates a constraint. Some of the reasons in the following list might not apply to this specific operation.
+    ///
+    /// * You must meet the prerequisites for using tag policies. For information, see [Prerequisites and Permissions for Using Tag Policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html) in the Organizations User Guide.
+    ///
+    /// * You must enable the tag policies service principal (tagpolicies.tag.amazonaws.com) to integrate with Organizations For information, see [EnableAWSServiceAccess](https://docs.aws.amazon.com/organizations/latest/APIReference/API_EnableAWSServiceAccess.html).
+    ///
+    /// * You must have a tag policy attached to the organization root, an OU, or an account.
+    /// - `InternalServiceException` : The request processing failed because of an unknown error, exception, or failure. You can retry the request.
+    /// - `InvalidParameterException` : This error indicates one of the following:
+    ///
+    /// * A parameter is missing.
+    ///
+    /// * A malformed string was supplied for the request parameter.
+    ///
+    /// * An out-of-range value was supplied for the request parameter.
+    ///
+    /// * The target ID is invalid, unsupported, or doesn't exist.
+    ///
+    /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
+    /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
     func describeReportCreation(input: DescribeReportCreationInput) async throws -> DescribeReportCreationOutputResponse
     /// Returns a table that shows counts of resources that are noncompliant with their tag policies. For more information on tag policies, see [Tag Policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html) in the Organizations User Guide. You can call this operation only from the organization's management account and from the us-east-1 Region. This operation supports pagination, where the response can be sent in multiple pages. You should check the PaginationToken response parameter to determine if there are additional results available to return. Repeat the query, passing the PaginationToken response parameter value as an input to the next request until you recieve a null value. A null value for PaginationToken indicates that there are no more results waiting to be returned.
+    ///
+    /// - Parameter GetComplianceSummaryInput : [no documentation found]
+    ///
+    /// - Returns: `GetComplianceSummaryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConstraintViolationException` : The request was denied because performing this operation violates a constraint. Some of the reasons in the following list might not apply to this specific operation.
+    ///
+    /// * You must meet the prerequisites for using tag policies. For information, see [Prerequisites and Permissions for Using Tag Policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html) in the Organizations User Guide.
+    ///
+    /// * You must enable the tag policies service principal (tagpolicies.tag.amazonaws.com) to integrate with Organizations For information, see [EnableAWSServiceAccess](https://docs.aws.amazon.com/organizations/latest/APIReference/API_EnableAWSServiceAccess.html).
+    ///
+    /// * You must have a tag policy attached to the organization root, an OU, or an account.
+    /// - `InternalServiceException` : The request processing failed because of an unknown error, exception, or failure. You can retry the request.
+    /// - `InvalidParameterException` : This error indicates one of the following:
+    ///
+    /// * A parameter is missing.
+    ///
+    /// * A malformed string was supplied for the request parameter.
+    ///
+    /// * An out-of-range value was supplied for the request parameter.
+    ///
+    /// * The target ID is invalid, unsupported, or doesn't exist.
+    ///
+    /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
+    /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
     func getComplianceSummary(input: GetComplianceSummaryInput) async throws -> GetComplianceSummaryOutputResponse
     /// Returns all the tagged or previously tagged resources that are located in the specified Amazon Web Services Region for the account. Depending on what information you want returned, you can also specify the following:
     ///
@@ -16,12 +72,107 @@ public protocol ResourceGroupsTaggingAPIClientProtocol {
     ///
     ///
     /// This operation supports pagination, where the response can be sent in multiple pages. You should check the PaginationToken response parameter to determine if there are additional results available to return. Repeat the query, passing the PaginationToken response parameter value as an input to the next request until you recieve a null value. A null value for PaginationToken indicates that there are no more results waiting to be returned.
+    ///
+    /// - Parameter GetResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourcesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : The request processing failed because of an unknown error, exception, or failure. You can retry the request.
+    /// - `InvalidParameterException` : This error indicates one of the following:
+    ///
+    /// * A parameter is missing.
+    ///
+    /// * A malformed string was supplied for the request parameter.
+    ///
+    /// * An out-of-range value was supplied for the request parameter.
+    ///
+    /// * The target ID is invalid, unsupported, or doesn't exist.
+    ///
+    /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
+    /// - `PaginationTokenExpiredException` : A PaginationToken is valid for a maximum of 15 minutes. Your request was denied because the specified PaginationToken has expired.
+    /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
     func getResources(input: GetResourcesInput) async throws -> GetResourcesOutputResponse
     /// Returns all tag keys currently in use in the specified Amazon Web Services Region for the calling account. This operation supports pagination, where the response can be sent in multiple pages. You should check the PaginationToken response parameter to determine if there are additional results available to return. Repeat the query, passing the PaginationToken response parameter value as an input to the next request until you recieve a null value. A null value for PaginationToken indicates that there are no more results waiting to be returned.
+    ///
+    /// - Parameter GetTagKeysInput : [no documentation found]
+    ///
+    /// - Returns: `GetTagKeysOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : The request processing failed because of an unknown error, exception, or failure. You can retry the request.
+    /// - `InvalidParameterException` : This error indicates one of the following:
+    ///
+    /// * A parameter is missing.
+    ///
+    /// * A malformed string was supplied for the request parameter.
+    ///
+    /// * An out-of-range value was supplied for the request parameter.
+    ///
+    /// * The target ID is invalid, unsupported, or doesn't exist.
+    ///
+    /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
+    /// - `PaginationTokenExpiredException` : A PaginationToken is valid for a maximum of 15 minutes. Your request was denied because the specified PaginationToken has expired.
+    /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
     func getTagKeys(input: GetTagKeysInput) async throws -> GetTagKeysOutputResponse
     /// Returns all tag values for the specified key that are used in the specified Amazon Web Services Region for the calling account. This operation supports pagination, where the response can be sent in multiple pages. You should check the PaginationToken response parameter to determine if there are additional results available to return. Repeat the query, passing the PaginationToken response parameter value as an input to the next request until you recieve a null value. A null value for PaginationToken indicates that there are no more results waiting to be returned.
+    ///
+    /// - Parameter GetTagValuesInput : [no documentation found]
+    ///
+    /// - Returns: `GetTagValuesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : The request processing failed because of an unknown error, exception, or failure. You can retry the request.
+    /// - `InvalidParameterException` : This error indicates one of the following:
+    ///
+    /// * A parameter is missing.
+    ///
+    /// * A malformed string was supplied for the request parameter.
+    ///
+    /// * An out-of-range value was supplied for the request parameter.
+    ///
+    /// * The target ID is invalid, unsupported, or doesn't exist.
+    ///
+    /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
+    /// - `PaginationTokenExpiredException` : A PaginationToken is valid for a maximum of 15 minutes. Your request was denied because the specified PaginationToken has expired.
+    /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
     func getTagValues(input: GetTagValuesInput) async throws -> GetTagValuesOutputResponse
     /// Generates a report that lists all tagged resources in the accounts across your organization and tells whether each resource is compliant with the effective tag policy. Compliance data is refreshed daily. The report is generated asynchronously. The generated report is saved to the following location: s3://example-bucket/AwsTagPolicies/o-exampleorgid/YYYY-MM-ddTHH:mm:ssZ/report.csv You can call this operation only from the organization's management account and from the us-east-1 Region.
+    ///
+    /// - Parameter StartReportCreationInput : [no documentation found]
+    ///
+    /// - Returns: `StartReportCreationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : The target of the operation is currently being modified by a different request. Try again later.
+    /// - `ConstraintViolationException` : The request was denied because performing this operation violates a constraint. Some of the reasons in the following list might not apply to this specific operation.
+    ///
+    /// * You must meet the prerequisites for using tag policies. For information, see [Prerequisites and Permissions for Using Tag Policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html) in the Organizations User Guide.
+    ///
+    /// * You must enable the tag policies service principal (tagpolicies.tag.amazonaws.com) to integrate with Organizations For information, see [EnableAWSServiceAccess](https://docs.aws.amazon.com/organizations/latest/APIReference/API_EnableAWSServiceAccess.html).
+    ///
+    /// * You must have a tag policy attached to the organization root, an OU, or an account.
+    /// - `InternalServiceException` : The request processing failed because of an unknown error, exception, or failure. You can retry the request.
+    /// - `InvalidParameterException` : This error indicates one of the following:
+    ///
+    /// * A parameter is missing.
+    ///
+    /// * A malformed string was supplied for the request parameter.
+    ///
+    /// * An out-of-range value was supplied for the request parameter.
+    ///
+    /// * The target ID is invalid, unsupported, or doesn't exist.
+    ///
+    /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
+    /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
     func startReportCreation(input: StartReportCreationInput) async throws -> StartReportCreationOutputResponse
     /// Applies one or more tags to the specified resources. Note the following:
     ///
@@ -39,6 +190,27 @@ public protocol ResourceGroupsTaggingAPIClientProtocol {
     /// * tag:TagResource
     ///
     /// * ec2:CreateTags
+    ///
+    /// - Parameter TagResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourcesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : The request processing failed because of an unknown error, exception, or failure. You can retry the request.
+    /// - `InvalidParameterException` : This error indicates one of the following:
+    ///
+    /// * A parameter is missing.
+    ///
+    /// * A malformed string was supplied for the request parameter.
+    ///
+    /// * An out-of-range value was supplied for the request parameter.
+    ///
+    /// * The target ID is invalid, unsupported, or doesn't exist.
+    ///
+    /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
+    /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
     func tagResources(input: TagResourcesInput) async throws -> TagResourcesOutputResponse
     /// Removes the specified tags from the specified resources. When you specify a tag key, the action removes both that key and its associated value. The operation succeeds even if you attempt to remove tags from a resource that were already removed. Note the following:
     ///
@@ -52,6 +224,27 @@ public protocol ResourceGroupsTaggingAPIClientProtocol {
     /// * tag:UntagResource
     ///
     /// * ec2:DeleteTags
+    ///
+    /// - Parameter UntagResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourcesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : The request processing failed because of an unknown error, exception, or failure. You can retry the request.
+    /// - `InvalidParameterException` : This error indicates one of the following:
+    ///
+    /// * A parameter is missing.
+    ///
+    /// * A malformed string was supplied for the request parameter.
+    ///
+    /// * An out-of-range value was supplied for the request parameter.
+    ///
+    /// * The target ID is invalid, unsupported, or doesn't exist.
+    ///
+    /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
+    /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
     func untagResources(input: UntagResourcesInput) async throws -> UntagResourcesOutputResponse
 }
 

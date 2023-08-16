@@ -68,6 +68,15 @@ public struct WorkMailMessageFlowClientLogHandlerFactory: ClientRuntime.SDKLogHa
 
 extension WorkMailMessageFlowClient: WorkMailMessageFlowClientProtocol {
     /// Retrieves the raw content of an in-transit email message, in MIME format.
+    ///
+    /// - Parameter GetRawMessageContentInput : [no documentation found]
+    ///
+    /// - Returns: `GetRawMessageContentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The requested email message is not found.
     public func getRawMessageContent(input: GetRawMessageContentInput) async throws -> GetRawMessageContentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -101,6 +110,24 @@ extension WorkMailMessageFlowClient: WorkMailMessageFlowClientProtocol {
     }
 
     /// Updates the raw content of an in-transit email message, in MIME format. This example describes how to update in-transit email message. For more information and examples for using this API, see [ Updating message content with AWS Lambda](https://docs.aws.amazon.com/workmail/latest/adminguide/update-with-lambda.html). Updates to an in-transit message only appear when you call PutRawMessageContent from an AWS Lambda function configured with a synchronous [ Run Lambda](https://docs.aws.amazon.com/workmail/latest/adminguide/lambda.html#synchronous-rules) rule. If you call PutRawMessageContent on a delivered or sent message, the message remains unchanged, even though [GetRawMessageContent](https://docs.aws.amazon.com/workmail/latest/APIReference/API_messageflow_GetRawMessageContent.html) returns an updated message.
+    ///
+    /// - Parameter PutRawMessageContentInput : [no documentation found]
+    ///
+    /// - Returns: `PutRawMessageContentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidContentLocation` : WorkMail could not access the updated email content. Possible reasons:
+    ///
+    /// * You made the request in a region other than your S3 bucket region.
+    ///
+    /// * The [S3 bucket owner](https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-owner-condition.html) is not the same as the calling AWS account.
+    ///
+    /// * You have an incomplete or missing S3 bucket policy. For more information about policies, see [ Updating message content with AWS Lambda ](https://docs.aws.amazon.com/workmail/latest/adminguide/update-with-lambda.html) in the WorkMail Administrator Guide.
+    /// - `MessageFrozen` : The requested email is not eligible for update. This is usually the case for a redirected email.
+    /// - `MessageRejected` : The requested email could not be updated due to an error in the MIME content. Check the error message for more information about what caused the error.
+    /// - `ResourceNotFoundException` : The requested email message is not found.
     public func putRawMessageContent(input: PutRawMessageContentInput) async throws -> PutRawMessageContentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

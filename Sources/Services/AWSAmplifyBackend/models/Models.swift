@@ -426,6 +426,12 @@ extension AmplifyBackendClientTypes.BackendAuthAppleProviderConfig: Swift.Codabl
     }
 }
 
+extension AmplifyBackendClientTypes.BackendAuthAppleProviderConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension AmplifyBackendClientTypes {
     /// Describes Apple social federation configurations for allowing your app users to sign in using OAuth.
     public struct BackendAuthAppleProviderConfig: Swift.Equatable {
@@ -476,6 +482,12 @@ extension AmplifyBackendClientTypes.BackendAuthSocialProviderConfig: Swift.Codab
         clientId = clientIdDecoded
         let clientSecretDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientSecret)
         clientSecret = clientSecretDecoded
+    }
+}
+
+extension AmplifyBackendClientTypes.BackendAuthSocialProviderConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 
@@ -1117,6 +1129,11 @@ extension AmplifyBackendClientTypes.CreateBackendAuthForgotPasswordConfig: Swift
         let smsSettingsDecoded = try containerValues.decodeIfPresent(AmplifyBackendClientTypes.SmsSettings.self, forKey: .smsSettings)
         smsSettings = smsSettingsDecoded
     }
+}
+
+extension AmplifyBackendClientTypes.CreateBackendAuthForgotPasswordConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateBackendAuthForgotPasswordConfig(deliveryMethod: \(Swift.String(describing: deliveryMethod)), emailSettings: \"CONTENT_REDACTED\", smsSettings: \"CONTENT_REDACTED\")"}
 }
 
 extension AmplifyBackendClientTypes {
@@ -1824,6 +1841,11 @@ extension AmplifyBackendClientTypes.CreateBackendAuthVerificationMessageConfig: 
         let smsSettingsDecoded = try containerValues.decodeIfPresent(AmplifyBackendClientTypes.SmsSettings.self, forKey: .smsSettings)
         smsSettings = smsSettingsDecoded
     }
+}
+
+extension AmplifyBackendClientTypes.CreateBackendAuthVerificationMessageConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateBackendAuthVerificationMessageConfig(deliveryMethod: \(Swift.String(describing: deliveryMethod)), emailSettings: \"CONTENT_REDACTED\", smsSettings: \"CONTENT_REDACTED\")"}
 }
 
 extension AmplifyBackendClientTypes {
@@ -3336,6 +3358,12 @@ extension AmplifyBackendClientTypes.EmailSettings: Swift.Codable {
         emailMessage = emailMessageDecoded
         let emailSubjectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .emailSubject)
         emailSubject = emailSubjectDecoded
+    }
+}
+
+extension AmplifyBackendClientTypes.EmailSettings: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 
@@ -6312,6 +6340,12 @@ extension AmplifyBackendClientTypes.SmsSettings: Swift.Codable {
     }
 }
 
+extension AmplifyBackendClientTypes.SmsSettings: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension AmplifyBackendClientTypes {
     /// SMS settings for authentication.
     public struct SmsSettings: Swift.Equatable {
@@ -6363,6 +6397,11 @@ extension AmplifyBackendClientTypes.SocialProviderSettings: Swift.Codable {
         let signInWithAppleDecoded = try containerValues.decodeIfPresent(AmplifyBackendClientTypes.BackendAuthAppleProviderConfig.self, forKey: .signInWithApple)
         signInWithApple = signInWithAppleDecoded
     }
+}
+
+extension AmplifyBackendClientTypes.SocialProviderSettings: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SocialProviderSettings(facebook: \"CONTENT_REDACTED\", google: \"CONTENT_REDACTED\", loginWithAmazon: \"CONTENT_REDACTED\", signInWithApple: \"CONTENT_REDACTED\")"}
 }
 
 extension AmplifyBackendClientTypes {
@@ -6736,6 +6775,11 @@ extension AmplifyBackendClientTypes.UpdateBackendAuthForgotPasswordConfig: Swift
         let smsSettingsDecoded = try containerValues.decodeIfPresent(AmplifyBackendClientTypes.SmsSettings.self, forKey: .smsSettings)
         smsSettings = smsSettingsDecoded
     }
+}
+
+extension AmplifyBackendClientTypes.UpdateBackendAuthForgotPasswordConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateBackendAuthForgotPasswordConfig(deliveryMethod: \(Swift.String(describing: deliveryMethod)), emailSettings: \"CONTENT_REDACTED\", smsSettings: \"CONTENT_REDACTED\")"}
 }
 
 extension AmplifyBackendClientTypes {
@@ -7374,6 +7418,11 @@ extension AmplifyBackendClientTypes.UpdateBackendAuthVerificationMessageConfig: 
         let smsSettingsDecoded = try containerValues.decodeIfPresent(AmplifyBackendClientTypes.SmsSettings.self, forKey: .smsSettings)
         smsSettings = smsSettingsDecoded
     }
+}
+
+extension AmplifyBackendClientTypes.UpdateBackendAuthVerificationMessageConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateBackendAuthVerificationMessageConfig(deliveryMethod: \(Swift.String(describing: deliveryMethod)), emailSettings: \"CONTENT_REDACTED\", smsSettings: \"CONTENT_REDACTED\")"}
 }
 
 extension AmplifyBackendClientTypes {

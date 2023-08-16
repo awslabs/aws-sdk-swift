@@ -68,6 +68,21 @@ public struct CodeDeployClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
 
 extension CodeDeployClient: CodeDeployClientProtocol {
     /// Adds tags to on-premises instances.
+    ///
+    /// - Parameter AddTagsToOnPremisesInstancesInput : Represents the input of, and adds tags to, an on-premises instance operation.
+    ///
+    /// - Returns: `AddTagsToOnPremisesInstancesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InstanceLimitExceededException` : The maximum number of allowed on-premises instances in a single call was exceeded.
+    /// - `InstanceNameRequiredException` : An on-premises instance name was not specified.
+    /// - `InstanceNotRegisteredException` : The specified on-premises instance is not registered.
+    /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
+    /// - `InvalidTagException` : The tag was specified in an invalid format.
+    /// - `TagLimitExceededException` : The maximum allowed number of tags was exceeded.
+    /// - `TagRequiredException` : A tag was not specified.
     public func addTagsToOnPremisesInstances(input: AddTagsToOnPremisesInstancesInput) async throws -> AddTagsToOnPremisesInstancesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -105,6 +120,20 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Gets information about one or more application revisions. The maximum number of application revisions that can be returned is 25.
+    ///
+    /// - Parameter BatchGetApplicationRevisionsInput : Represents the input of a BatchGetApplicationRevisions operation.
+    ///
+    /// - Returns: `BatchGetApplicationRevisionsOutputResponse` : Represents the output of a BatchGetApplicationRevisions operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
+    /// - `BatchLimitExceededException` : The maximum number of names or IDs allowed for this request (100) was exceeded.
+    /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
+    /// - `InvalidRevisionException` : The revision was specified in an invalid format.
+    /// - `RevisionRequiredException` : The revision ID was not specified.
     public func batchGetApplicationRevisions(input: BatchGetApplicationRevisionsInput) async throws -> BatchGetApplicationRevisionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -142,6 +171,18 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Gets information about one or more applications. The maximum number of applications that can be returned is 100.
+    ///
+    /// - Parameter BatchGetApplicationsInput : Represents the input of a BatchGetApplications operation.
+    ///
+    /// - Returns: `BatchGetApplicationsOutputResponse` : Represents the output of a BatchGetApplications operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
+    /// - `BatchLimitExceededException` : The maximum number of names or IDs allowed for this request (100) was exceeded.
+    /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     public func batchGetApplications(input: BatchGetApplicationsInput) async throws -> BatchGetApplicationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -179,6 +220,21 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Gets information about one or more deployment groups.
+    ///
+    /// - Parameter BatchGetDeploymentGroupsInput : Represents the input of a BatchGetDeploymentGroups operation.
+    ///
+    /// - Returns: `BatchGetDeploymentGroupsOutputResponse` : Represents the output of a BatchGetDeploymentGroups operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
+    /// - `BatchLimitExceededException` : The maximum number of names or IDs allowed for this request (100) was exceeded.
+    /// - `DeploymentConfigDoesNotExistException` : The deployment configuration does not exist with the IAM user or Amazon Web Services account.
+    /// - `DeploymentGroupNameRequiredException` : The deployment group name was not specified.
+    /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
+    /// - `InvalidDeploymentGroupNameException` : The deployment group name was specified in an invalid format.
     public func batchGetDeploymentGroups(input: BatchGetDeploymentGroupsInput) async throws -> BatchGetDeploymentGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -217,6 +273,21 @@ extension CodeDeployClient: CodeDeployClientProtocol {
 
     /// This method works, but is deprecated. Use BatchGetDeploymentTargets instead. Returns an array of one or more instances associated with a deployment. This method works with EC2/On-premises and Lambda compute platforms. The newer BatchGetDeploymentTargets works with all compute platforms. The maximum number of instances that can be returned is 25.
     @available(*, deprecated, message: "This operation is deprecated, use BatchGetDeploymentTargets instead.")
+    ///
+    /// - Parameter BatchGetDeploymentInstancesInput : Represents the input of a BatchGetDeploymentInstances operation.
+    ///
+    /// - Returns: `BatchGetDeploymentInstancesOutputResponse` : Represents the output of a BatchGetDeploymentInstances operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BatchLimitExceededException` : The maximum number of names or IDs allowed for this request (100) was exceeded.
+    /// - `DeploymentDoesNotExistException` : The deployment with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
+    /// - `InstanceIdRequiredException` : The instance ID was not specified.
+    /// - `InvalidComputePlatformException` : The computePlatform is invalid. The computePlatform should be Lambda, Server, or ECS.
+    /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
+    /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
     public func batchGetDeploymentInstances(input: BatchGetDeploymentInstancesInput) async throws -> BatchGetDeploymentInstancesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -262,6 +333,23 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// * Amazon ECS: Information about Amazon ECS service targets.
     ///
     /// * CloudFormation: Information about targets of blue/green deployments initiated by a CloudFormation stack update.
+    ///
+    /// - Parameter BatchGetDeploymentTargetsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetDeploymentTargetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DeploymentDoesNotExistException` : The deployment with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
+    /// - `DeploymentNotStartedException` : The specified deployment has not started.
+    /// - `DeploymentTargetDoesNotExistException` : The provided target ID does not belong to the attempted deployment.
+    /// - `DeploymentTargetIdRequiredException` : A deployment target ID was not provided.
+    /// - `DeploymentTargetListSizeExceededException` : The maximum number of targets that can be associated with an Amazon ECS or Lambda deployment was exceeded. The target list of both types of deployments must have exactly one item. This exception does not apply to EC2/On-premises deployments.
+    /// - `InstanceDoesNotExistException` : The specified instance does not exist in the deployment group.
+    /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
+    /// - `InvalidDeploymentTargetIdException` : The target ID provided was not valid.
     public func batchGetDeploymentTargets(input: BatchGetDeploymentTargetsInput) async throws -> BatchGetDeploymentTargetsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -299,6 +387,17 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Gets information about one or more deployments. The maximum number of deployments that can be returned is 25.
+    ///
+    /// - Parameter BatchGetDeploymentsInput : Represents the input of a BatchGetDeployments operation.
+    ///
+    /// - Returns: `BatchGetDeploymentsOutputResponse` : Represents the output of a BatchGetDeployments operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BatchLimitExceededException` : The maximum number of names or IDs allowed for this request (100) was exceeded.
+    /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
+    /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
     public func batchGetDeployments(input: BatchGetDeploymentsInput) async throws -> BatchGetDeploymentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -336,6 +435,17 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Gets information about one or more on-premises instances. The maximum number of on-premises instances that can be returned is 25.
+    ///
+    /// - Parameter BatchGetOnPremisesInstancesInput : Represents the input of a BatchGetOnPremisesInstances operation.
+    ///
+    /// - Returns: `BatchGetOnPremisesInstancesOutputResponse` : Represents the output of a BatchGetOnPremisesInstances operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BatchLimitExceededException` : The maximum number of names or IDs allowed for this request (100) was exceeded.
+    /// - `InstanceNameRequiredException` : An on-premises instance name was not specified.
+    /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
     public func batchGetOnPremisesInstances(input: BatchGetOnPremisesInstancesInput) async throws -> BatchGetOnPremisesInstancesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -373,6 +483,22 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// For a blue/green deployment, starts the process of rerouting traffic from instances in the original environment to instances in the replacement environment without waiting for a specified wait time to elapse. (Traffic rerouting, which is achieved by registering instances in the replacement environment with the load balancer, can start as soon as all instances have a status of Ready.)
+    ///
+    /// - Parameter ContinueDeploymentInput : [no documentation found]
+    ///
+    /// - Returns: `ContinueDeploymentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DeploymentAlreadyCompletedException` : The deployment is already complete.
+    /// - `DeploymentDoesNotExistException` : The deployment with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
+    /// - `DeploymentIsNotInReadyStateException` : The deployment does not have a status of Ready and can't continue yet.
+    /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
+    /// - `InvalidDeploymentStatusException` : The specified deployment status doesn't exist or cannot be determined.
+    /// - `InvalidDeploymentWaitTypeException` : The wait type is invalid.
+    /// - `UnsupportedActionForDeploymentTypeException` : A call was submitted that is not supported for the specified deployment type.
     public func continueDeployment(input: ContinueDeploymentInput) async throws -> ContinueDeploymentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -410,6 +536,20 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Creates an application.
+    ///
+    /// - Parameter CreateApplicationInput : Represents the input of a CreateApplication operation.
+    ///
+    /// - Returns: `CreateApplicationOutputResponse` : Represents the output of a CreateApplication operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ApplicationAlreadyExistsException` : An application with the specified name with the IAM user or Amazon Web Services account already exists.
+    /// - `ApplicationLimitExceededException` : More applications were attempted to be created than are allowed.
+    /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
+    /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
+    /// - `InvalidComputePlatformException` : The computePlatform is invalid. The computePlatform should be Lambda, Server, or ECS.
+    /// - `InvalidTagsToAddException` : The specified tags are not valid.
     public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -447,6 +587,58 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Deploys an application revision through the specified deployment group.
+    ///
+    /// - Parameter CreateDeploymentInput : Represents the input of a CreateDeployment operation.
+    ///
+    /// - Returns: `CreateDeploymentOutputResponse` : Represents the output of a CreateDeployment operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlarmsLimitExceededException` : The maximum number of alarms for a deployment group (10) was exceeded.
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
+    /// - `DeploymentConfigDoesNotExistException` : The deployment configuration does not exist with the IAM user or Amazon Web Services account.
+    /// - `DeploymentGroupDoesNotExistException` : The named deployment group with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentGroupNameRequiredException` : The deployment group name was not specified.
+    /// - `DeploymentLimitExceededException` : The number of allowed deployments was exceeded.
+    /// - `DescriptionTooLongException` : The description is too long.
+    /// - `InvalidAlarmConfigException` : The format of the alarm configuration is invalid. Possible causes include:
+    ///
+    /// * The alarm list is null.
+    ///
+    /// * The alarm object is null.
+    ///
+    /// * The alarm name is empty or null or exceeds the limit of 255 characters.
+    ///
+    /// * Two alarms with the same name have been specified.
+    ///
+    /// * The alarm configuration is enabled, but the alarm list is empty.
+    /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
+    /// - `InvalidAutoRollbackConfigException` : The automatic rollback configuration was specified in an invalid format. For example, automatic rollback is enabled, but an invalid triggering event type or no event types were listed.
+    /// - `InvalidAutoScalingGroupException` : The Auto Scaling group was specified in an invalid format or does not exist.
+    /// - `InvalidDeploymentConfigNameException` : The deployment configuration name was specified in an invalid format.
+    /// - `InvalidDeploymentGroupNameException` : The deployment group name was specified in an invalid format.
+    /// - `InvalidFileExistsBehaviorException` : An invalid fileExistsBehavior option was specified to determine how CodeDeploy handles files or directories that already exist in a deployment target location, but weren't part of the previous successful deployment. Valid values include "DISALLOW," "OVERWRITE," and "RETAIN."
+    /// - `InvalidGitHubAccountTokenException` : The GitHub token is not valid.
+    /// - `InvalidIgnoreApplicationStopFailuresValueException` : The IgnoreApplicationStopFailures value is invalid. For Lambda deployments, false is expected. For EC2/On-premises deployments, true or false is expected.
+    /// - `InvalidLoadBalancerInfoException` : An invalid load balancer name, or no load balancer name, was specified.
+    /// - `InvalidRevisionException` : The revision was specified in an invalid format.
+    /// - `InvalidRoleException` : The service role ARN was specified in an invalid format. Or, if an Auto Scaling group was specified, the specified service role does not grant the appropriate permissions to Amazon EC2 Auto Scaling.
+    /// - `InvalidTargetInstancesException` : The target instance configuration is invalid. Possible causes include:
+    ///
+    /// * Configuration data for target instances was entered for an in-place deployment.
+    ///
+    /// * The limit of 10 tags for a tag type was exceeded.
+    ///
+    /// * The combined length of the tag names exceeded the limit.
+    ///
+    /// * A specified tag is not currently applied to any instances.
+    /// - `InvalidTrafficRoutingConfigurationException` : The configuration that specifies how traffic is routed during a deployment is invalid.
+    /// - `InvalidUpdateOutdatedInstancesOnlyValueException` : The UpdateOutdatedInstancesOnly value is invalid. For Lambda deployments, false is expected. For EC2/On-premises deployments, true or false is expected.
+    /// - `RevisionDoesNotExistException` : The named revision does not exist with the IAM user or Amazon Web Services account.
+    /// - `RevisionRequiredException` : The revision ID was not specified.
+    /// - `ThrottlingException` : An API function was called too frequently.
     public func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -484,6 +676,21 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Creates a deployment configuration.
+    ///
+    /// - Parameter CreateDeploymentConfigInput : Represents the input of a CreateDeploymentConfig operation.
+    ///
+    /// - Returns: `CreateDeploymentConfigOutputResponse` : Represents the output of a CreateDeploymentConfig operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DeploymentConfigAlreadyExistsException` : A deployment configuration with the specified name with the IAM user or Amazon Web Services account already exists.
+    /// - `DeploymentConfigLimitExceededException` : The deployment configurations limit was exceeded.
+    /// - `DeploymentConfigNameRequiredException` : The deployment configuration name was not specified.
+    /// - `InvalidComputePlatformException` : The computePlatform is invalid. The computePlatform should be Lambda, Server, or ECS.
+    /// - `InvalidDeploymentConfigNameException` : The deployment configuration name was specified in an invalid format.
+    /// - `InvalidMinimumHealthyHostValueException` : The minimum healthy instance value was specified in an invalid format.
+    /// - `InvalidTrafficRoutingConfigurationException` : The configuration that specifies how traffic is routed during a deployment is invalid.
     public func createDeploymentConfig(input: CreateDeploymentConfigInput) async throws -> CreateDeploymentConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -521,6 +728,57 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Creates a deployment group to which application revisions are deployed.
+    ///
+    /// - Parameter CreateDeploymentGroupInput : Represents the input of a CreateDeploymentGroup operation.
+    ///
+    /// - Returns: `CreateDeploymentGroupOutputResponse` : Represents the output of a CreateDeploymentGroup operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlarmsLimitExceededException` : The maximum number of alarms for a deployment group (10) was exceeded.
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
+    /// - `DeploymentConfigDoesNotExistException` : The deployment configuration does not exist with the IAM user or Amazon Web Services account.
+    /// - `DeploymentGroupAlreadyExistsException` : A deployment group with the specified name with the IAM user or Amazon Web Services account already exists.
+    /// - `DeploymentGroupLimitExceededException` : The deployment groups limit was exceeded.
+    /// - `DeploymentGroupNameRequiredException` : The deployment group name was not specified.
+    /// - `ECSServiceMappingLimitExceededException` : The Amazon ECS service is associated with more than one deployment groups. An Amazon ECS service can be associated with only one deployment group.
+    /// - `InvalidAlarmConfigException` : The format of the alarm configuration is invalid. Possible causes include:
+    ///
+    /// * The alarm list is null.
+    ///
+    /// * The alarm object is null.
+    ///
+    /// * The alarm name is empty or null or exceeds the limit of 255 characters.
+    ///
+    /// * Two alarms with the same name have been specified.
+    ///
+    /// * The alarm configuration is enabled, but the alarm list is empty.
+    /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
+    /// - `InvalidAutoRollbackConfigException` : The automatic rollback configuration was specified in an invalid format. For example, automatic rollback is enabled, but an invalid triggering event type or no event types were listed.
+    /// - `InvalidAutoScalingGroupException` : The Auto Scaling group was specified in an invalid format or does not exist.
+    /// - `InvalidBlueGreenDeploymentConfigurationException` : The configuration for the blue/green deployment group was provided in an invalid format. For information about deployment configuration format, see [CreateDeploymentConfig].
+    /// - `InvalidDeploymentConfigNameException` : The deployment configuration name was specified in an invalid format.
+    /// - `InvalidDeploymentGroupNameException` : The deployment group name was specified in an invalid format.
+    /// - `InvalidDeploymentStyleException` : An invalid deployment style was specified. Valid deployment types include "IN_PLACE" and "BLUE_GREEN." Valid deployment options include "WITH_TRAFFIC_CONTROL" and "WITHOUT_TRAFFIC_CONTROL."
+    /// - `InvalidEC2TagCombinationException` : A call was submitted that specified both Ec2TagFilters and Ec2TagSet, but only one of these data types can be used in a single call.
+    /// - `InvalidEC2TagException` : The tag was specified in an invalid format.
+    /// - `InvalidECSServiceException` : The Amazon ECS service identifier is not valid.
+    /// - `InvalidInputException` : The input was specified in an invalid format.
+    /// - `InvalidLoadBalancerInfoException` : An invalid load balancer name, or no load balancer name, was specified.
+    /// - `InvalidOnPremisesTagCombinationException` : A call was submitted that specified both OnPremisesTagFilters and OnPremisesTagSet, but only one of these data types can be used in a single call.
+    /// - `InvalidRoleException` : The service role ARN was specified in an invalid format. Or, if an Auto Scaling group was specified, the specified service role does not grant the appropriate permissions to Amazon EC2 Auto Scaling.
+    /// - `InvalidTagException` : The tag was specified in an invalid format.
+    /// - `InvalidTagsToAddException` : The specified tags are not valid.
+    /// - `InvalidTargetGroupPairException` : A target group pair associated with this deployment is not valid.
+    /// - `InvalidTrafficRoutingConfigurationException` : The configuration that specifies how traffic is routed during a deployment is invalid.
+    /// - `InvalidTriggerConfigException` : The trigger was specified in an invalid format.
+    /// - `LifecycleHookLimitExceededException` : The limit for lifecycle hooks was exceeded.
+    /// - `RoleRequiredException` : The role ID was not specified.
+    /// - `TagSetListLimitExceededException` : The number of tag groups included in the tag set list exceeded the maximum allowed limit of 3.
+    /// - `ThrottlingException` : An API function was called too frequently.
+    /// - `TriggerTargetsLimitExceededException` : The maximum allowed number of triggers was exceeded.
     public func createDeploymentGroup(input: CreateDeploymentGroupInput) async throws -> CreateDeploymentGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -558,6 +816,17 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Deletes an application.
+    ///
+    /// - Parameter DeleteApplicationInput : Represents the input of a DeleteApplication operation.
+    ///
+    /// - Returns: `DeleteApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
+    /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
+    /// - `InvalidRoleException` : The service role ARN was specified in an invalid format. Or, if an Auto Scaling group was specified, the specified service role does not grant the appropriate permissions to Amazon EC2 Auto Scaling.
     public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -595,6 +864,18 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Deletes a deployment configuration. A deployment configuration cannot be deleted if it is currently in use. Predefined configurations cannot be deleted.
+    ///
+    /// - Parameter DeleteDeploymentConfigInput : Represents the input of a DeleteDeploymentConfig operation.
+    ///
+    /// - Returns: `DeleteDeploymentConfigOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DeploymentConfigInUseException` : The deployment configuration is still in use.
+    /// - `DeploymentConfigNameRequiredException` : The deployment configuration name was not specified.
+    /// - `InvalidDeploymentConfigNameException` : The deployment configuration name was specified in an invalid format.
+    /// - `InvalidOperationException` : An invalid operation was detected.
     public func deleteDeploymentConfig(input: DeleteDeploymentConfigInput) async throws -> DeleteDeploymentConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -632,6 +913,19 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Deletes a deployment group.
+    ///
+    /// - Parameter DeleteDeploymentGroupInput : Represents the input of a DeleteDeploymentGroup operation.
+    ///
+    /// - Returns: `DeleteDeploymentGroupOutputResponse` : Represents the output of a DeleteDeploymentGroup operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
+    /// - `DeploymentGroupNameRequiredException` : The deployment group name was not specified.
+    /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
+    /// - `InvalidDeploymentGroupNameException` : The deployment group name was specified in an invalid format.
+    /// - `InvalidRoleException` : The service role ARN was specified in an invalid format. Or, if an Auto Scaling group was specified, the specified service role does not grant the appropriate permissions to Amazon EC2 Auto Scaling.
     public func deleteDeploymentGroup(input: DeleteDeploymentGroupInput) async throws -> DeleteDeploymentGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -669,6 +963,19 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Deletes a GitHub account connection.
+    ///
+    /// - Parameter DeleteGitHubAccountTokenInput : Represents the input of a DeleteGitHubAccount operation.
+    ///
+    /// - Returns: `DeleteGitHubAccountTokenOutputResponse` : Represents the output of a DeleteGitHubAccountToken operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `GitHubAccountTokenDoesNotExistException` : No GitHub account connection exists with the named specified in the call.
+    /// - `GitHubAccountTokenNameRequiredException` : The call is missing a required GitHub account connection name.
+    /// - `InvalidGitHubAccountTokenNameException` : The format of the specified GitHub account connection name is invalid.
+    /// - `OperationNotSupportedException` : The API used does not support the deployment.
+    /// - `ResourceValidationException` : The specified resource could not be validated.
     public func deleteGitHubAccountToken(input: DeleteGitHubAccountTokenInput) async throws -> DeleteGitHubAccountTokenOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -706,6 +1013,10 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Deletes resources linked to an external ID.
+    ///
+    /// - Parameter DeleteResourcesByExternalIdInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteResourcesByExternalIdOutputResponse` : [no documentation found]
     public func deleteResourcesByExternalId(input: DeleteResourcesByExternalIdInput) async throws -> DeleteResourcesByExternalIdOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -743,6 +1054,16 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Deregisters an on-premises instance.
+    ///
+    /// - Parameter DeregisterOnPremisesInstanceInput : Represents the input of a DeregisterOnPremisesInstance operation.
+    ///
+    /// - Returns: `DeregisterOnPremisesInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InstanceNameRequiredException` : An on-premises instance name was not specified.
+    /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
     public func deregisterOnPremisesInstance(input: DeregisterOnPremisesInstanceInput) async throws -> DeregisterOnPremisesInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -780,6 +1101,17 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Gets information about an application.
+    ///
+    /// - Parameter GetApplicationInput : Represents the input of a GetApplication operation.
+    ///
+    /// - Returns: `GetApplicationOutputResponse` : Represents the output of a GetApplication operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
+    /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     public func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -817,6 +1149,20 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Gets information about an application revision.
+    ///
+    /// - Parameter GetApplicationRevisionInput : Represents the input of a GetApplicationRevision operation.
+    ///
+    /// - Returns: `GetApplicationRevisionOutputResponse` : Represents the output of a GetApplicationRevision operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
+    /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
+    /// - `InvalidRevisionException` : The revision was specified in an invalid format.
+    /// - `RevisionDoesNotExistException` : The named revision does not exist with the IAM user or Amazon Web Services account.
+    /// - `RevisionRequiredException` : The revision ID was not specified.
     public func getApplicationRevision(input: GetApplicationRevisionInput) async throws -> GetApplicationRevisionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -854,6 +1200,17 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Gets information about a deployment. The content property of the appSpecContent object in the returned revision is always null. Use GetApplicationRevision and the sha256 property of the returned appSpecContent object to get the content of the deployment’s AppSpec file.
+    ///
+    /// - Parameter GetDeploymentInput : Represents the input of a GetDeployment operation.
+    ///
+    /// - Returns: `GetDeploymentOutputResponse` : Represents the output of a GetDeployment operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DeploymentDoesNotExistException` : The deployment with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
+    /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
     public func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -891,6 +1248,18 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Gets information about a deployment configuration.
+    ///
+    /// - Parameter GetDeploymentConfigInput : Represents the input of a GetDeploymentConfig operation.
+    ///
+    /// - Returns: `GetDeploymentConfigOutputResponse` : Represents the output of a GetDeploymentConfig operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DeploymentConfigDoesNotExistException` : The deployment configuration does not exist with the IAM user or Amazon Web Services account.
+    /// - `DeploymentConfigNameRequiredException` : The deployment configuration name was not specified.
+    /// - `InvalidComputePlatformException` : The computePlatform is invalid. The computePlatform should be Lambda, Server, or ECS.
+    /// - `InvalidDeploymentConfigNameException` : The deployment configuration name was specified in an invalid format.
     public func getDeploymentConfig(input: GetDeploymentConfigInput) async throws -> GetDeploymentConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -928,6 +1297,21 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Gets information about a deployment group.
+    ///
+    /// - Parameter GetDeploymentGroupInput : Represents the input of a GetDeploymentGroup operation.
+    ///
+    /// - Returns: `GetDeploymentGroupOutputResponse` : Represents the output of a GetDeploymentGroup operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
+    /// - `DeploymentConfigDoesNotExistException` : The deployment configuration does not exist with the IAM user or Amazon Web Services account.
+    /// - `DeploymentGroupDoesNotExistException` : The named deployment group with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentGroupNameRequiredException` : The deployment group name was not specified.
+    /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
+    /// - `InvalidDeploymentGroupNameException` : The deployment group name was specified in an invalid format.
     public func getDeploymentGroup(input: GetDeploymentGroupInput) async throws -> GetDeploymentGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -966,6 +1350,21 @@ extension CodeDeployClient: CodeDeployClientProtocol {
 
     /// Gets information about an instance as part of a deployment.
     @available(*, deprecated, message: "This operation is deprecated, use GetDeploymentTarget instead.")
+    ///
+    /// - Parameter GetDeploymentInstanceInput : Represents the input of a GetDeploymentInstance operation.
+    ///
+    /// - Returns: `GetDeploymentInstanceOutputResponse` : Represents the output of a GetDeploymentInstance operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DeploymentDoesNotExistException` : The deployment with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
+    /// - `InstanceDoesNotExistException` : The specified instance does not exist in the deployment group.
+    /// - `InstanceIdRequiredException` : The instance ID was not specified.
+    /// - `InvalidComputePlatformException` : The computePlatform is invalid. The computePlatform should be Lambda, Server, or ECS.
+    /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
+    /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
     public func getDeploymentInstance(input: GetDeploymentInstanceInput) async throws -> GetDeploymentInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1003,6 +1402,22 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Returns information about a deployment target.
+    ///
+    /// - Parameter GetDeploymentTargetInput : [no documentation found]
+    ///
+    /// - Returns: `GetDeploymentTargetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DeploymentDoesNotExistException` : The deployment with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
+    /// - `DeploymentNotStartedException` : The specified deployment has not started.
+    /// - `DeploymentTargetDoesNotExistException` : The provided target ID does not belong to the attempted deployment.
+    /// - `DeploymentTargetIdRequiredException` : A deployment target ID was not provided.
+    /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
+    /// - `InvalidDeploymentTargetIdException` : The target ID provided was not valid.
+    /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
     public func getDeploymentTarget(input: GetDeploymentTargetInput) async throws -> GetDeploymentTargetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1040,6 +1455,17 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Gets information about an on-premises instance.
+    ///
+    /// - Parameter GetOnPremisesInstanceInput : Represents the input of a GetOnPremisesInstance operation.
+    ///
+    /// - Returns: `GetOnPremisesInstanceOutputResponse` : Represents the output of a GetOnPremisesInstance operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InstanceNameRequiredException` : An on-premises instance name was not specified.
+    /// - `InstanceNotRegisteredException` : The specified on-premises instance is not registered.
+    /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
     public func getOnPremisesInstance(input: GetOnPremisesInstanceInput) async throws -> GetOnPremisesInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1077,6 +1503,24 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Lists information about revisions for an application.
+    ///
+    /// - Parameter ListApplicationRevisionsInput : Represents the input of a ListApplicationRevisions operation.
+    ///
+    /// - Returns: `ListApplicationRevisionsOutputResponse` : Represents the output of a ListApplicationRevisions operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
+    /// - `BucketNameFilterRequiredException` : A bucket name is required, but was not provided.
+    /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
+    /// - `InvalidBucketNameFilterException` : The bucket name either doesn't exist or was specified in an invalid format.
+    /// - `InvalidDeployedStateFilterException` : The deployed state filter was specified in an invalid format.
+    /// - `InvalidKeyPrefixFilterException` : The specified key prefix filter was specified in an invalid format.
+    /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
+    /// - `InvalidSortByException` : The column name to sort by is either not present or was specified in an invalid format.
+    /// - `InvalidSortOrderException` : The sort order was specified in an invalid format.
     public func listApplicationRevisions(input: ListApplicationRevisionsInput) async throws -> ListApplicationRevisionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1114,6 +1558,15 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Lists the applications registered with the IAM user or Amazon Web Services account.
+    ///
+    /// - Parameter ListApplicationsInput : Represents the input of a ListApplications operation.
+    ///
+    /// - Returns: `ListApplicationsOutputResponse` : Represents the output of a ListApplications operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
     public func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1151,6 +1604,15 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Lists the deployment configurations with the IAM user or Amazon Web Services account.
+    ///
+    /// - Parameter ListDeploymentConfigsInput : Represents the input of a ListDeploymentConfigs operation.
+    ///
+    /// - Returns: `ListDeploymentConfigsOutputResponse` : Represents the output of a ListDeploymentConfigs operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
     public func listDeploymentConfigs(input: ListDeploymentConfigsInput) async throws -> ListDeploymentConfigsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1188,6 +1650,18 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Lists the deployment groups for an application registered with the IAM user or Amazon Web Services account.
+    ///
+    /// - Parameter ListDeploymentGroupsInput : Represents the input of a ListDeploymentGroups operation.
+    ///
+    /// - Returns: `ListDeploymentGroupsOutputResponse` : Represents the output of a ListDeploymentGroups operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
+    /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
+    /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
     public func listDeploymentGroups(input: ListDeploymentGroupsInput) async throws -> ListDeploymentGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1226,6 +1700,24 @@ extension CodeDeployClient: CodeDeployClientProtocol {
 
     /// The newer BatchGetDeploymentTargets should be used instead because it works with all compute types. ListDeploymentInstances throws an exception if it is used with a compute platform other than EC2/On-premises or Lambda. Lists the instance for a deployment associated with the IAM user or Amazon Web Services account.
     @available(*, deprecated, message: "This operation is deprecated, use ListDeploymentTargets instead.")
+    ///
+    /// - Parameter ListDeploymentInstancesInput : Represents the input of a ListDeploymentInstances operation.
+    ///
+    /// - Returns: `ListDeploymentInstancesOutputResponse` : Represents the output of a ListDeploymentInstances operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DeploymentDoesNotExistException` : The deployment with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
+    /// - `DeploymentNotStartedException` : The specified deployment has not started.
+    /// - `InvalidComputePlatformException` : The computePlatform is invalid. The computePlatform should be Lambda, Server, or ECS.
+    /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
+    /// - `InvalidDeploymentInstanceTypeException` : An instance type was specified for an in-place deployment. Instance types are supported for blue/green deployments only.
+    /// - `InvalidInstanceStatusException` : The specified instance status does not exist.
+    /// - `InvalidInstanceTypeException` : An invalid instance type was specified for instances in a blue/green deployment. Valid values include "Blue" for an original environment and "Green" for a replacement environment.
+    /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
+    /// - `InvalidTargetFilterNameException` : The target filter name is invalid.
     public func listDeploymentInstances(input: ListDeploymentInstancesInput) async throws -> ListDeploymentInstancesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1263,6 +1755,22 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Returns an array of target IDs that are associated a deployment.
+    ///
+    /// - Parameter ListDeploymentTargetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDeploymentTargetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DeploymentDoesNotExistException` : The deployment with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
+    /// - `DeploymentNotStartedException` : The specified deployment has not started.
+    /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
+    /// - `InvalidDeploymentInstanceTypeException` : An instance type was specified for an in-place deployment. Instance types are supported for blue/green deployments only.
+    /// - `InvalidInstanceStatusException` : The specified instance status does not exist.
+    /// - `InvalidInstanceTypeException` : An invalid instance type was specified for instances in a blue/green deployment. Valid values include "Blue" for an original environment and "Green" for a replacement environment.
+    /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
     public func listDeploymentTargets(input: ListDeploymentTargetsInput) async throws -> ListDeploymentTargetsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1300,6 +1808,25 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Lists the deployments in a deployment group for an application registered with the IAM user or Amazon Web Services account.
+    ///
+    /// - Parameter ListDeploymentsInput : Represents the input of a ListDeployments operation.
+    ///
+    /// - Returns: `ListDeploymentsOutputResponse` : Represents the output of a ListDeployments operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
+    /// - `DeploymentGroupDoesNotExistException` : The named deployment group with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentGroupNameRequiredException` : The deployment group name was not specified.
+    /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
+    /// - `InvalidDeploymentGroupNameException` : The deployment group name was specified in an invalid format.
+    /// - `InvalidDeploymentStatusException` : The specified deployment status doesn't exist or cannot be determined.
+    /// - `InvalidExternalIdException` : The external ID was specified in an invalid format.
+    /// - `InvalidInputException` : The input was specified in an invalid format.
+    /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
+    /// - `InvalidTimeRangeException` : The specified time range was specified in an invalid format.
     public func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1337,6 +1864,17 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Lists the names of stored connections to GitHub accounts.
+    ///
+    /// - Parameter ListGitHubAccountTokenNamesInput : Represents the input of a ListGitHubAccountTokenNames operation.
+    ///
+    /// - Returns: `ListGitHubAccountTokenNamesOutputResponse` : Represents the output of a ListGitHubAccountTokenNames operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
+    /// - `OperationNotSupportedException` : The API used does not support the deployment.
+    /// - `ResourceValidationException` : The specified resource could not be validated.
     public func listGitHubAccountTokenNames(input: ListGitHubAccountTokenNamesInput) async throws -> ListGitHubAccountTokenNamesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1374,6 +1912,17 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Gets a list of names for one or more on-premises instances. Unless otherwise specified, both registered and deregistered on-premises instance names are listed. To list only registered or deregistered on-premises instance names, use the registration status parameter.
+    ///
+    /// - Parameter ListOnPremisesInstancesInput : Represents the input of a ListOnPremisesInstances operation.
+    ///
+    /// - Returns: `ListOnPremisesInstancesOutputResponse` : Represents the output of the list on-premises instances operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
+    /// - `InvalidRegistrationStatusException` : The registration status was specified in an invalid format.
+    /// - `InvalidTagFilterException` : The tag filter was specified in an invalid format.
     public func listOnPremisesInstances(input: ListOnPremisesInstancesInput) async throws -> ListOnPremisesInstancesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1411,6 +1960,17 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Returns a list of tags for the resource identified by a specified Amazon Resource Name (ARN). Tags are used to organize and categorize your CodeDeploy resources.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArnNotSupportedException` : The specified ARN is not supported. For example, it might be an ARN for a resource that is not expected.
+    /// - `InvalidArnException` : The specified ARN is not in a valid format.
+    /// - `ResourceArnRequiredException` : The ARN of a resource is required, but was not found.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1448,6 +2008,21 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Sets the result of a Lambda validation function. The function validates lifecycle hooks during a deployment that uses the Lambda or Amazon ECS compute platform. For Lambda deployments, the available lifecycle hooks are BeforeAllowTraffic and AfterAllowTraffic. For Amazon ECS deployments, the available lifecycle hooks are BeforeInstall, AfterInstall, AfterAllowTestTraffic, BeforeAllowTraffic, and AfterAllowTraffic. Lambda validation functions return Succeeded or Failed. For more information, see [AppSpec 'hooks' Section for an Lambda Deployment ](https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file-structure-hooks.html#appspec-hooks-lambda) and [AppSpec 'hooks' Section for an Amazon ECS Deployment](https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file-structure-hooks.html#appspec-hooks-ecs).
+    ///
+    /// - Parameter PutLifecycleEventHookExecutionStatusInput : [no documentation found]
+    ///
+    /// - Returns: `PutLifecycleEventHookExecutionStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DeploymentDoesNotExistException` : The deployment with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
+    /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
+    /// - `InvalidLifecycleEventHookExecutionIdException` : A lifecycle event hook is invalid. Review the hooks section in your AppSpec file to ensure the lifecycle events and hooks functions are valid.
+    /// - `InvalidLifecycleEventHookExecutionStatusException` : The result of a Lambda validation function that verifies a lifecycle event is invalid. It should return Succeeded or Failed.
+    /// - `LifecycleEventAlreadyCompletedException` : An attempt to return the status of an already completed lifecycle event occurred.
+    /// - `UnsupportedActionForDeploymentTypeException` : A call was submitted that is not supported for the specified deployment type.
     public func putLifecycleEventHookExecutionStatus(input: PutLifecycleEventHookExecutionStatusInput) async throws -> PutLifecycleEventHookExecutionStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1485,6 +2060,20 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Registers with CodeDeploy a revision for the specified application.
+    ///
+    /// - Parameter RegisterApplicationRevisionInput : Represents the input of a RegisterApplicationRevision operation.
+    ///
+    /// - Returns: `RegisterApplicationRevisionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
+    /// - `DescriptionTooLongException` : The description is too long.
+    /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
+    /// - `InvalidRevisionException` : The revision was specified in an invalid format.
+    /// - `RevisionRequiredException` : The revision ID was not specified.
     public func registerApplicationRevision(input: RegisterApplicationRevisionInput) async throws -> RegisterApplicationRevisionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1522,6 +2111,24 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Registers an on-premises instance. Only one IAM ARN (an IAM session ARN or IAM user ARN) is supported in the request. You cannot use both.
+    ///
+    /// - Parameter RegisterOnPremisesInstanceInput : Represents the input of the register on-premises instance operation.
+    ///
+    /// - Returns: `RegisterOnPremisesInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IamArnRequiredException` : No IAM ARN was included in the request. You must use an IAM session ARN or IAM user ARN in the request.
+    /// - `IamSessionArnAlreadyRegisteredException` : The request included an IAM session ARN that has already been used to register a different instance.
+    /// - `IamUserArnAlreadyRegisteredException` : The specified IAM user ARN is already registered with an on-premises instance.
+    /// - `IamUserArnRequiredException` : An IAM user ARN was not specified.
+    /// - `InstanceNameAlreadyRegisteredException` : The specified on-premises instance name is already registered.
+    /// - `InstanceNameRequiredException` : An on-premises instance name was not specified.
+    /// - `InvalidIamSessionArnException` : The IAM session ARN was specified in an invalid format.
+    /// - `InvalidIamUserArnException` : The IAM user ARN was specified in an invalid format.
+    /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
+    /// - `MultipleIamArnsProvidedException` : Both an IAM user ARN and an IAM session ARN were included in the request. Use only one ARN type.
     public func registerOnPremisesInstance(input: RegisterOnPremisesInstanceInput) async throws -> RegisterOnPremisesInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1559,6 +2166,21 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Removes one or more tags from one or more on-premises instances.
+    ///
+    /// - Parameter RemoveTagsFromOnPremisesInstancesInput : Represents the input of a RemoveTagsFromOnPremisesInstances operation.
+    ///
+    /// - Returns: `RemoveTagsFromOnPremisesInstancesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InstanceLimitExceededException` : The maximum number of allowed on-premises instances in a single call was exceeded.
+    /// - `InstanceNameRequiredException` : An on-premises instance name was not specified.
+    /// - `InstanceNotRegisteredException` : The specified on-premises instance is not registered.
+    /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
+    /// - `InvalidTagException` : The tag was specified in an invalid format.
+    /// - `TagLimitExceededException` : The maximum allowed number of tags was exceeded.
+    /// - `TagRequiredException` : A tag was not specified.
     public func removeTagsFromOnPremisesInstances(input: RemoveTagsFromOnPremisesInstancesInput) async throws -> RemoveTagsFromOnPremisesInstancesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1597,6 +2219,20 @@ extension CodeDeployClient: CodeDeployClientProtocol {
 
     /// In a blue/green deployment, overrides any specified wait time and starts terminating instances immediately after the traffic routing is complete.
     @available(*, deprecated, message: "This operation is deprecated, use ContinueDeployment with DeploymentWaitType instead.")
+    ///
+    /// - Parameter SkipWaitTimeForInstanceTerminationInput : [no documentation found]
+    ///
+    /// - Returns: `SkipWaitTimeForInstanceTerminationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DeploymentAlreadyCompletedException` : The deployment is already complete.
+    /// - `DeploymentDoesNotExistException` : The deployment with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
+    /// - `DeploymentNotStartedException` : The specified deployment has not started.
+    /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
+    /// - `UnsupportedActionForDeploymentTypeException` : A call was submitted that is not supported for the specified deployment type.
     public func skipWaitTimeForInstanceTermination(input: SkipWaitTimeForInstanceTerminationInput) async throws -> SkipWaitTimeForInstanceTerminationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1634,6 +2270,20 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Attempts to stop an ongoing deployment.
+    ///
+    /// - Parameter StopDeploymentInput : Represents the input of a StopDeployment operation.
+    ///
+    /// - Returns: `StopDeploymentOutputResponse` : Represents the output of a StopDeployment operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DeploymentAlreadyCompletedException` : The deployment is already complete.
+    /// - `DeploymentDoesNotExistException` : The deployment with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentGroupDoesNotExistException` : The named deployment group with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
+    /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
+    /// - `UnsupportedActionForDeploymentTypeException` : A call was submitted that is not supported for the specified deployment type.
     public func stopDeployment(input: StopDeploymentInput) async throws -> StopDeploymentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1671,6 +2321,22 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Associates the list of tags in the input Tags parameter with the resource identified by the ResourceArn input parameter.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ArnNotSupportedException` : The specified ARN is not supported. For example, it might be an ARN for a resource that is not expected.
+    /// - `DeploymentConfigDoesNotExistException` : The deployment configuration does not exist with the IAM user or Amazon Web Services account.
+    /// - `DeploymentGroupDoesNotExistException` : The named deployment group with the IAM user or Amazon Web Services account does not exist.
+    /// - `InvalidArnException` : The specified ARN is not in a valid format.
+    /// - `InvalidTagsToAddException` : The specified tags are not valid.
+    /// - `ResourceArnRequiredException` : The ARN of a resource is required, but was not found.
+    /// - `TagRequiredException` : A tag was not specified.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1708,6 +2374,22 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Disassociates a resource from a list of tags. The resource is identified by the ResourceArn input parameter. The tags are identified by the list of keys in the TagKeys input parameter.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ArnNotSupportedException` : The specified ARN is not supported. For example, it might be an ARN for a resource that is not expected.
+    /// - `DeploymentConfigDoesNotExistException` : The deployment configuration does not exist with the IAM user or Amazon Web Services account.
+    /// - `DeploymentGroupDoesNotExistException` : The named deployment group with the IAM user or Amazon Web Services account does not exist.
+    /// - `InvalidArnException` : The specified ARN is not in a valid format.
+    /// - `InvalidTagsToAddException` : The specified tags are not valid.
+    /// - `ResourceArnRequiredException` : The ARN of a resource is required, but was not found.
+    /// - `TagRequiredException` : A tag was not specified.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1745,6 +2427,18 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Changes the name of an application.
+    ///
+    /// - Parameter UpdateApplicationInput : Represents the input of an UpdateApplication operation.
+    ///
+    /// - Returns: `UpdateApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ApplicationAlreadyExistsException` : An application with the specified name with the IAM user or Amazon Web Services account already exists.
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
+    /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1782,6 +2476,55 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     }
 
     /// Changes information about a deployment group.
+    ///
+    /// - Parameter UpdateDeploymentGroupInput : Represents the input of an UpdateDeploymentGroup operation.
+    ///
+    /// - Returns: `UpdateDeploymentGroupOutputResponse` : Represents the output of an UpdateDeploymentGroup operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlarmsLimitExceededException` : The maximum number of alarms for a deployment group (10) was exceeded.
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
+    /// - `DeploymentConfigDoesNotExistException` : The deployment configuration does not exist with the IAM user or Amazon Web Services account.
+    /// - `DeploymentGroupAlreadyExistsException` : A deployment group with the specified name with the IAM user or Amazon Web Services account already exists.
+    /// - `DeploymentGroupDoesNotExistException` : The named deployment group with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentGroupNameRequiredException` : The deployment group name was not specified.
+    /// - `ECSServiceMappingLimitExceededException` : The Amazon ECS service is associated with more than one deployment groups. An Amazon ECS service can be associated with only one deployment group.
+    /// - `InvalidAlarmConfigException` : The format of the alarm configuration is invalid. Possible causes include:
+    ///
+    /// * The alarm list is null.
+    ///
+    /// * The alarm object is null.
+    ///
+    /// * The alarm name is empty or null or exceeds the limit of 255 characters.
+    ///
+    /// * Two alarms with the same name have been specified.
+    ///
+    /// * The alarm configuration is enabled, but the alarm list is empty.
+    /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
+    /// - `InvalidAutoRollbackConfigException` : The automatic rollback configuration was specified in an invalid format. For example, automatic rollback is enabled, but an invalid triggering event type or no event types were listed.
+    /// - `InvalidAutoScalingGroupException` : The Auto Scaling group was specified in an invalid format or does not exist.
+    /// - `InvalidBlueGreenDeploymentConfigurationException` : The configuration for the blue/green deployment group was provided in an invalid format. For information about deployment configuration format, see [CreateDeploymentConfig].
+    /// - `InvalidDeploymentConfigNameException` : The deployment configuration name was specified in an invalid format.
+    /// - `InvalidDeploymentGroupNameException` : The deployment group name was specified in an invalid format.
+    /// - `InvalidDeploymentStyleException` : An invalid deployment style was specified. Valid deployment types include "IN_PLACE" and "BLUE_GREEN." Valid deployment options include "WITH_TRAFFIC_CONTROL" and "WITHOUT_TRAFFIC_CONTROL."
+    /// - `InvalidEC2TagCombinationException` : A call was submitted that specified both Ec2TagFilters and Ec2TagSet, but only one of these data types can be used in a single call.
+    /// - `InvalidEC2TagException` : The tag was specified in an invalid format.
+    /// - `InvalidECSServiceException` : The Amazon ECS service identifier is not valid.
+    /// - `InvalidInputException` : The input was specified in an invalid format.
+    /// - `InvalidLoadBalancerInfoException` : An invalid load balancer name, or no load balancer name, was specified.
+    /// - `InvalidOnPremisesTagCombinationException` : A call was submitted that specified both OnPremisesTagFilters and OnPremisesTagSet, but only one of these data types can be used in a single call.
+    /// - `InvalidRoleException` : The service role ARN was specified in an invalid format. Or, if an Auto Scaling group was specified, the specified service role does not grant the appropriate permissions to Amazon EC2 Auto Scaling.
+    /// - `InvalidTagException` : The tag was specified in an invalid format.
+    /// - `InvalidTargetGroupPairException` : A target group pair associated with this deployment is not valid.
+    /// - `InvalidTrafficRoutingConfigurationException` : The configuration that specifies how traffic is routed during a deployment is invalid.
+    /// - `InvalidTriggerConfigException` : The trigger was specified in an invalid format.
+    /// - `LifecycleHookLimitExceededException` : The limit for lifecycle hooks was exceeded.
+    /// - `TagSetListLimitExceededException` : The number of tag groups included in the tag set list exceeded the maximum allowed limit of 3.
+    /// - `ThrottlingException` : An API function was called too frequently.
+    /// - `TriggerTargetsLimitExceededException` : The maximum allowed number of triggers was exceeded.
     public func updateDeploymentGroup(input: UpdateDeploymentGroupInput) async throws -> UpdateDeploymentGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

@@ -109,3 +109,27 @@ extension ListAvailableResourceMetricsInput: ClientRuntime.PaginateToken {
             serviceType: self.serviceType
         )}
 }
+extension PIClient {
+    /// Paginate over `[ListPerformanceAnalysisReportsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPerformanceAnalysisReportsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPerformanceAnalysisReportsOutputResponse`
+    public func listPerformanceAnalysisReportsPaginated(input: ListPerformanceAnalysisReportsInput) -> ClientRuntime.PaginatorSequence<ListPerformanceAnalysisReportsInput, ListPerformanceAnalysisReportsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListPerformanceAnalysisReportsInput, ListPerformanceAnalysisReportsOutputResponse>(input: input, inputKey: \ListPerformanceAnalysisReportsInput.nextToken, outputKey: \ListPerformanceAnalysisReportsOutputResponse.nextToken, paginationFunction: self.listPerformanceAnalysisReports(input:))
+    }
+}
+
+extension ListPerformanceAnalysisReportsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListPerformanceAnalysisReportsInput {
+        return ListPerformanceAnalysisReportsInput(
+            identifier: self.identifier,
+            listTags: self.listTags,
+            maxResults: self.maxResults,
+            nextToken: token,
+            serviceType: self.serviceType
+        )}
+}

@@ -68,6 +68,16 @@ public struct PersonalizeRuntimeClientLogHandlerFactory: ClientRuntime.SDKLogHan
 
 extension PersonalizeRuntimeClient: PersonalizeRuntimeClientProtocol {
     /// Re-ranks a list of recommended items for the given user. The first item in the list is deemed the most likely item to be of interest to the user. The solution backing the campaign must have been created using a recipe of type PERSONALIZED_RANKING.
+    ///
+    /// - Parameter GetPersonalizedRankingInput : [no documentation found]
+    ///
+    /// - Returns: `GetPersonalizedRankingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : Provide a valid value for the field or parameter.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
     public func getPersonalizedRanking(input: GetPersonalizedRankingInput) async throws -> GetPersonalizedRankingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -111,6 +121,16 @@ extension PersonalizeRuntimeClient: PersonalizeRuntimeClientProtocol {
     ///
     ///
     /// Campaigns that are backed by a solution created using a recipe of type PERSONALIZED_RANKING use the API. For recommenders, the recommender's ARN is required and the required item and user input depends on the use case (domain-based recipe) backing the recommender. For information on use case requirements see [Choosing recommender use cases](https://docs.aws.amazon.com/personalize/latest/dg/domain-use-cases.html).
+    ///
+    /// - Parameter GetRecommendationsInput : [no documentation found]
+    ///
+    /// - Returns: `GetRecommendationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : Provide a valid value for the field or parameter.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
     public func getRecommendations(input: GetRecommendationsInput) async throws -> GetRecommendationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

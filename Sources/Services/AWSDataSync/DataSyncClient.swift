@@ -68,6 +68,16 @@ public struct DataSyncClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
 
 extension DataSyncClient: DataSyncClientProtocol {
     /// Creates an Amazon Web Services resource for an on-premises storage system that you want DataSync Discovery to collect information about.
+    ///
+    /// - Parameter AddStorageSystemInput : [no documentation found]
+    ///
+    /// - Returns: `AddStorageSystemOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func addStorageSystem(input: AddStorageSystemInput) async throws -> AddStorageSystemOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -113,6 +123,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Stops an DataSync task execution that's in progress. The transfer of some files are abruptly interrupted. File contents that're transferred to the destination might be incomplete or inconsistent with the source files. However, if you start a new task execution using the same task and allow it to finish, file content on the destination will be complete and consistent. This applies to other unexpected failures that interrupt a task execution. In all of these cases, DataSync successfully completes the transfer when you start the next task execution.
+    ///
+    /// - Parameter CancelTaskExecutionInput : CancelTaskExecutionRequest
+    ///
+    /// - Returns: `CancelTaskExecutionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func cancelTaskExecution(input: CancelTaskExecutionInput) async throws -> CancelTaskExecutionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -157,6 +177,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     ///
     ///
     /// If you're transferring between Amazon Web Services storage services, you don't need a DataSync agent.
+    ///
+    /// - Parameter CreateAgentInput : CreateAgentRequest
+    ///
+    /// - Returns: `CreateAgentOutputResponse` : CreateAgentResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func createAgent(input: CreateAgentInput) async throws -> CreateAgentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -194,6 +224,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Creates an endpoint for a Microsoft Azure Blob Storage container that DataSync can use as a transfer source or destination. Before you begin, make sure you know [how DataSync accesses Azure Blob Storage](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access) and works with [access tiers](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access-tiers) and [blob types](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#blob-types). You also need a [DataSync agent](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-creating-agent) that can connect to your container.
+    ///
+    /// - Parameter CreateLocationAzureBlobInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLocationAzureBlobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func createLocationAzureBlob(input: CreateLocationAzureBlobInput) async throws -> CreateLocationAzureBlobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -231,6 +271,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Creates an endpoint for an Amazon EFS file system that DataSync can access for a transfer. For more information, see [Creating a location for Amazon EFS](https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html).
+    ///
+    /// - Parameter CreateLocationEfsInput : CreateLocationEfsRequest
+    ///
+    /// - Returns: `CreateLocationEfsOutputResponse` : CreateLocationEfs
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func createLocationEfs(input: CreateLocationEfsInput) async throws -> CreateLocationEfsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -268,6 +318,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Creates an endpoint for an Amazon FSx for Lustre file system.
+    ///
+    /// - Parameter CreateLocationFsxLustreInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLocationFsxLustreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func createLocationFsxLustre(input: CreateLocationFsxLustreInput) async throws -> CreateLocationFsxLustreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -305,6 +365,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Creates an endpoint for an Amazon FSx for NetApp ONTAP file system that DataSync can access for a transfer. For more information, see [Creating a location for FSx for ONTAP](https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html).
+    ///
+    /// - Parameter CreateLocationFsxOntapInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLocationFsxOntapOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func createLocationFsxOntap(input: CreateLocationFsxOntapInput) async throws -> CreateLocationFsxOntapOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -342,6 +412,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Creates an endpoint for an Amazon FSx for OpenZFS file system that DataSync can access for a transfer. For more information, see [Creating a location for FSx for OpenZFS](https://docs.aws.amazon.com/datasync/latest/userguide/create-openzfs-location.html). Request parameters related to SMB aren't supported with the CreateLocationFsxOpenZfs operation.
+    ///
+    /// - Parameter CreateLocationFsxOpenZfsInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLocationFsxOpenZfsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func createLocationFsxOpenZfs(input: CreateLocationFsxOpenZfsInput) async throws -> CreateLocationFsxOpenZfsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -379,6 +459,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Creates an endpoint for an Amazon FSx for Windows File Server file system.
+    ///
+    /// - Parameter CreateLocationFsxWindowsInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLocationFsxWindowsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func createLocationFsxWindows(input: CreateLocationFsxWindowsInput) async throws -> CreateLocationFsxWindowsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -416,6 +506,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Creates an endpoint for a Hadoop Distributed File System (HDFS).
+    ///
+    /// - Parameter CreateLocationHdfsInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLocationHdfsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func createLocationHdfs(input: CreateLocationHdfsInput) async throws -> CreateLocationHdfsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -452,7 +552,17 @@ extension DataSyncClient: DataSyncClientProtocol {
         return result
     }
 
-    /// Creates an endpoint for an Network File System (NFS) file server that DataSync can use for a data transfer.
+    /// Creates an endpoint for a Network File System (NFS) file server that DataSync can use for a data transfer. For more information, see [Configuring transfers to or from an NFS file server](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html). If you're copying data to or from an Snowcone device, you can also use CreateLocationNfs to create your transfer location. For more information, see [Configuring transfers with Snowcone](https://docs.aws.amazon.com/datasync/latest/userguide/nfs-on-snowcone.html).
+    ///
+    /// - Parameter CreateLocationNfsInput : CreateLocationNfsRequest
+    ///
+    /// - Returns: `CreateLocationNfsOutputResponse` : CreateLocationNfsResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func createLocationNfs(input: CreateLocationNfsInput) async throws -> CreateLocationNfsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -490,6 +600,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Creates an endpoint for an object storage system that DataSync can access for a transfer. For more information, see [Creating a location for object storage](https://docs.aws.amazon.com/datasync/latest/userguide/create-object-location.html).
+    ///
+    /// - Parameter CreateLocationObjectStorageInput : CreateLocationObjectStorageRequest
+    ///
+    /// - Returns: `CreateLocationObjectStorageOutputResponse` : CreateLocationObjectStorageResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func createLocationObjectStorage(input: CreateLocationObjectStorageInput) async throws -> CreateLocationObjectStorageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -534,6 +654,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     ///
     ///
     /// For more information, see [Creating an Amazon S3 location](https://docs.aws.amazon.com/datasync/latest/userguide/create-locations-cli.html#create-location-s3-cli).
+    ///
+    /// - Parameter CreateLocationS3Input : CreateLocationS3Request
+    ///
+    /// - Returns: `CreateLocationS3OutputResponse` : CreateLocationS3Response
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func createLocationS3(input: CreateLocationS3Input) async throws -> CreateLocationS3OutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -571,6 +701,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Creates an endpoint for a Server Message Block (SMB) file server that DataSync can use for a data transfer. Before you begin, make sure that you understand how DataSync [accesses an SMB file server](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html).
+    ///
+    /// - Parameter CreateLocationSmbInput : CreateLocationSmbRequest
+    ///
+    /// - Returns: `CreateLocationSmbOutputResponse` : CreateLocationSmbResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func createLocationSmb(input: CreateLocationSmbInput) async throws -> CreateLocationSmbOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -608,6 +748,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Configures a task, which defines where and how DataSync transfers your data. A task includes a source location, a destination location, and the preferences for how and when you want to transfer your data (such as bandwidth limits, scheduling, among other options). If you're planning to transfer data to or from an Amazon S3 location, review [how DataSync can affect your S3 request charges](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-s3-requests) and the [DataSync pricing page](http://aws.amazon.com/datasync/pricing/) before you begin.
+    ///
+    /// - Parameter CreateTaskInput : CreateTaskRequest
+    ///
+    /// - Returns: `CreateTaskOutputResponse` : CreateTaskResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func createTask(input: CreateTaskInput) async throws -> CreateTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -645,6 +795,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Deletes an agent. To specify which agent to delete, use the Amazon Resource Name (ARN) of the agent in your request. The operation disassociates the agent from your Amazon Web Services account. However, it doesn't delete the agent virtual machine (VM) from your on-premises environment.
+    ///
+    /// - Parameter DeleteAgentInput : DeleteAgentRequest
+    ///
+    /// - Returns: `DeleteAgentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func deleteAgent(input: DeleteAgentInput) async throws -> DeleteAgentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -682,6 +842,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Deletes the configuration of a location used by DataSync.
+    ///
+    /// - Parameter DeleteLocationInput : DeleteLocation
+    ///
+    /// - Returns: `DeleteLocationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func deleteLocation(input: DeleteLocationInput) async throws -> DeleteLocationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -719,6 +889,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Deletes an DataSync task.
+    ///
+    /// - Parameter DeleteTaskInput : DeleteTask
+    ///
+    /// - Returns: `DeleteTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func deleteTask(input: DeleteTaskInput) async throws -> DeleteTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -756,6 +936,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Returns metadata about an DataSync agent, such as its name, endpoint type, and status.
+    ///
+    /// - Parameter DescribeAgentInput : DescribeAgent
+    ///
+    /// - Returns: `DescribeAgentOutputResponse` : DescribeAgentResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeAgent(input: DescribeAgentInput) async throws -> DescribeAgentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -793,6 +983,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Returns information about a DataSync discovery job.
+    ///
+    /// - Parameter DescribeDiscoveryJobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDiscoveryJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeDiscoveryJob(input: DescribeDiscoveryJobInput) async throws -> DescribeDiscoveryJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -830,6 +1030,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Provides details about how an DataSync transfer location for Microsoft Azure Blob Storage is configured.
+    ///
+    /// - Parameter DescribeLocationAzureBlobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeLocationAzureBlobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeLocationAzureBlob(input: DescribeLocationAzureBlobInput) async throws -> DescribeLocationAzureBlobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -867,6 +1077,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Returns metadata about your DataSync location for an Amazon EFS file system.
+    ///
+    /// - Parameter DescribeLocationEfsInput : DescribeLocationEfsRequest
+    ///
+    /// - Returns: `DescribeLocationEfsOutputResponse` : DescribeLocationEfsResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeLocationEfs(input: DescribeLocationEfsInput) async throws -> DescribeLocationEfsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -904,6 +1124,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Provides details about how an DataSync location for an Amazon FSx for Lustre file system is configured.
+    ///
+    /// - Parameter DescribeLocationFsxLustreInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeLocationFsxLustreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeLocationFsxLustre(input: DescribeLocationFsxLustreInput) async throws -> DescribeLocationFsxLustreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -941,6 +1171,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Provides details about how an DataSync location for an Amazon FSx for NetApp ONTAP file system is configured. If your location uses SMB, the DescribeLocationFsxOntap operation doesn't actually return a Password.
+    ///
+    /// - Parameter DescribeLocationFsxOntapInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeLocationFsxOntapOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeLocationFsxOntap(input: DescribeLocationFsxOntapInput) async throws -> DescribeLocationFsxOntapOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -978,6 +1218,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Provides details about how an DataSync location for an Amazon FSx for OpenZFS file system is configured. Response elements related to SMB aren't supported with the DescribeLocationFsxOpenZfs operation.
+    ///
+    /// - Parameter DescribeLocationFsxOpenZfsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeLocationFsxOpenZfsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeLocationFsxOpenZfs(input: DescribeLocationFsxOpenZfsInput) async throws -> DescribeLocationFsxOpenZfsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1015,6 +1265,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Returns metadata about an Amazon FSx for Windows File Server location, such as information about its path.
+    ///
+    /// - Parameter DescribeLocationFsxWindowsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeLocationFsxWindowsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeLocationFsxWindows(input: DescribeLocationFsxWindowsInput) async throws -> DescribeLocationFsxWindowsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1052,6 +1312,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Returns metadata, such as the authentication information about the Hadoop Distributed File System (HDFS) location.
+    ///
+    /// - Parameter DescribeLocationHdfsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeLocationHdfsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeLocationHdfs(input: DescribeLocationHdfsInput) async throws -> DescribeLocationHdfsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1088,7 +1358,17 @@ extension DataSyncClient: DataSyncClientProtocol {
         return result
     }
 
-    /// Returns metadata, such as the path information, about an NFS location.
+    /// Provides details about how an DataSync transfer location for a Network File System (NFS) file server is configured.
+    ///
+    /// - Parameter DescribeLocationNfsInput : DescribeLocationNfsRequest
+    ///
+    /// - Returns: `DescribeLocationNfsOutputResponse` : DescribeLocationNfsResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeLocationNfs(input: DescribeLocationNfsInput) async throws -> DescribeLocationNfsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1126,6 +1406,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Returns metadata about your DataSync location for an object storage system.
+    ///
+    /// - Parameter DescribeLocationObjectStorageInput : DescribeLocationObjectStorageRequest
+    ///
+    /// - Returns: `DescribeLocationObjectStorageOutputResponse` : DescribeLocationObjectStorageResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeLocationObjectStorage(input: DescribeLocationObjectStorageInput) async throws -> DescribeLocationObjectStorageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1163,6 +1453,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Returns metadata, such as bucket name, about an Amazon S3 bucket location.
+    ///
+    /// - Parameter DescribeLocationS3Input : DescribeLocationS3Request
+    ///
+    /// - Returns: `DescribeLocationS3OutputResponse` : DescribeLocationS3Response
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeLocationS3(input: DescribeLocationS3Input) async throws -> DescribeLocationS3OutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1200,6 +1500,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Returns metadata, such as the path and user information about an SMB location.
+    ///
+    /// - Parameter DescribeLocationSmbInput : DescribeLocationSmbRequest
+    ///
+    /// - Returns: `DescribeLocationSmbOutputResponse` : DescribeLocationSmbResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeLocationSmb(input: DescribeLocationSmbInput) async throws -> DescribeLocationSmbOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1237,6 +1547,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Returns information about an on-premises storage system that you're using with DataSync Discovery.
+    ///
+    /// - Parameter DescribeStorageSystemInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeStorageSystemOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeStorageSystem(input: DescribeStorageSystemInput) async throws -> DescribeStorageSystemOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1274,6 +1594,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Returns information, including performance data and capacity usage, which DataSync Discovery collects about a specific resource in your-premises storage system.
+    ///
+    /// - Parameter DescribeStorageSystemResourceMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeStorageSystemResourceMetricsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeStorageSystemResourceMetrics(input: DescribeStorageSystemResourceMetricsInput) async throws -> DescribeStorageSystemResourceMetricsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1311,6 +1641,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Returns information that DataSync Discovery collects about resources in your on-premises storage system.
+    ///
+    /// - Parameter DescribeStorageSystemResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeStorageSystemResourcesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeStorageSystemResources(input: DescribeStorageSystemResourcesInput) async throws -> DescribeStorageSystemResourcesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1348,6 +1688,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Provides information about an DataSync transfer task.
+    ///
+    /// - Parameter DescribeTaskInput : DescribeTaskRequest
+    ///
+    /// - Returns: `DescribeTaskOutputResponse` : DescribeTaskResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeTask(input: DescribeTaskInput) async throws -> DescribeTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1385,6 +1735,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Provides information about an DataSync transfer task that's running.
+    ///
+    /// - Parameter DescribeTaskExecutionInput : DescribeTaskExecutionRequest
+    ///
+    /// - Returns: `DescribeTaskExecutionOutputResponse` : DescribeTaskExecutionResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeTaskExecution(input: DescribeTaskExecutionInput) async throws -> DescribeTaskExecutionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1422,6 +1782,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Creates recommendations about where to migrate your data to in Amazon Web Services. Recommendations are generated based on information that DataSync Discovery collects about your on-premises storage system's resources. For more information, see [Recommendations provided by DataSync Discovery](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html). Once generated, you can view your recommendations by using the [DescribeStorageSystemResources](https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeStorageSystemResources.html) operation. If your [discovery job completes successfully](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-job-statuses.html#discovery-job-statuses-table), you don't need to use this operation. DataSync Discovery generates the recommendations for you automatically.
+    ///
+    /// - Parameter GenerateRecommendationsInput : [no documentation found]
+    ///
+    /// - Returns: `GenerateRecommendationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func generateRecommendations(input: GenerateRecommendationsInput) async throws -> GenerateRecommendationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1459,6 +1829,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Returns a list of DataSync agents that belong to an Amazon Web Services account in the Amazon Web Services Region specified in the request. With pagination, you can reduce the number of agents returned in a response. If you get a truncated list of agents in a response, the response contains a marker that you can specify in your next request to fetch the next page of agents. ListAgents is eventually consistent. This means the result of running the operation might not reflect that you just created or deleted an agent. For example, if you create an agent with [CreateAgent](https://docs.aws.amazon.com/datasync/latest/userguide/API_CreateAgent.html) and then immediately run ListAgents, that agent might not show up in the list right away. In situations like this, you can always confirm whether an agent has been created (or deleted) by using [DescribeAgent](https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeAgent.html).
+    ///
+    /// - Parameter ListAgentsInput : ListAgentsRequest
+    ///
+    /// - Returns: `ListAgentsOutputResponse` : ListAgentsResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func listAgents(input: ListAgentsInput) async throws -> ListAgentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1496,6 +1876,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Provides a list of the existing discovery jobs in the Amazon Web Services Region and Amazon Web Services account where you're using DataSync Discovery.
+    ///
+    /// - Parameter ListDiscoveryJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDiscoveryJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func listDiscoveryJobs(input: ListDiscoveryJobsInput) async throws -> ListDiscoveryJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1533,6 +1923,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Returns a list of source and destination locations. If you have more locations than are returned in a response (that is, the response returns only a truncated list of your agents), the response contains a token that you can specify in your next request to fetch the next page of locations.
+    ///
+    /// - Parameter ListLocationsInput : ListLocationsRequest
+    ///
+    /// - Returns: `ListLocationsOutputResponse` : ListLocationsResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func listLocations(input: ListLocationsInput) async throws -> ListLocationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1570,6 +1970,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Lists the on-premises storage systems that you're using with DataSync Discovery.
+    ///
+    /// - Parameter ListStorageSystemsInput : [no documentation found]
+    ///
+    /// - Returns: `ListStorageSystemsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func listStorageSystems(input: ListStorageSystemsInput) async throws -> ListStorageSystemsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1607,6 +2017,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Returns all the tags associated with an Amazon Web Services resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : ListTagsForResourceRequest
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : ListTagsForResourceResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1644,6 +2064,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Returns a list of executed tasks.
+    ///
+    /// - Parameter ListTaskExecutionsInput : ListTaskExecutions
+    ///
+    /// - Returns: `ListTaskExecutionsOutputResponse` : ListTaskExecutionsResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func listTaskExecutions(input: ListTaskExecutionsInput) async throws -> ListTaskExecutionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1681,6 +2111,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Returns a list of the DataSync tasks you created.
+    ///
+    /// - Parameter ListTasksInput : ListTasksRequest
+    ///
+    /// - Returns: `ListTasksOutputResponse` : ListTasksResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func listTasks(input: ListTasksInput) async throws -> ListTasksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1718,6 +2158,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Permanently removes a storage system resource from DataSync Discovery, including the associated discovery jobs, collected data, and recommendations.
+    ///
+    /// - Parameter RemoveStorageSystemInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveStorageSystemOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func removeStorageSystem(input: RemoveStorageSystemInput) async throws -> RemoveStorageSystemOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1755,6 +2205,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Runs a DataSync discovery job on your on-premises storage system. If you haven't added the storage system to DataSync Discovery yet, do this first by using the [AddStorageSystem](https://docs.aws.amazon.com/datasync/latest/userguide/API_AddStorageSystem.html) operation.
+    ///
+    /// - Parameter StartDiscoveryJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartDiscoveryJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func startDiscoveryJob(input: StartDiscoveryJobInput) async throws -> StartDiscoveryJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1800,6 +2260,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Starts an DataSync task. For each task, you can only run one task execution at a time. There are several phases to a task execution. For more information, see [Task execution statuses](https://docs.aws.amazon.com/datasync/latest/userguide/working-with-task-executions.html#understand-task-execution-statuses). If you're planning to transfer data to or from an Amazon S3 location, review [how DataSync can affect your S3 request charges](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-s3-requests) and the [DataSync pricing page](http://aws.amazon.com/datasync/pricing/) before you begin.
+    ///
+    /// - Parameter StartTaskExecutionInput : StartTaskExecutionRequest
+    ///
+    /// - Returns: `StartTaskExecutionOutputResponse` : StartTaskExecutionResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func startTaskExecution(input: StartTaskExecutionInput) async throws -> StartTaskExecutionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1837,6 +2307,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Stops a running DataSync discovery job. You can stop a discovery job anytime. A job that's stopped before it's scheduled to end likely will provide you some information about your on-premises storage system resources. To get recommendations for a stopped job, you must use the [GenerateRecommendations](https://docs.aws.amazon.com/datasync/latest/userguide/API_GenerateRecommendations.html) operation.
+    ///
+    /// - Parameter StopDiscoveryJobInput : [no documentation found]
+    ///
+    /// - Returns: `StopDiscoveryJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func stopDiscoveryJob(input: StopDiscoveryJobInput) async throws -> StopDiscoveryJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1874,6 +2354,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Applies a tag to an Amazon Web Services resource. Tags are key-value pairs that can help you manage, filter, and search for your resources. These include DataSync resources, such as locations, tasks, and task executions.
+    ///
+    /// - Parameter TagResourceInput : TagResourceRequest
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1911,6 +2401,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Removes tags from an Amazon Web Services resource.
+    ///
+    /// - Parameter UntagResourceInput : UntagResourceRequest
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1948,6 +2448,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Updates the name of an agent.
+    ///
+    /// - Parameter UpdateAgentInput : UpdateAgentRequest
+    ///
+    /// - Returns: `UpdateAgentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func updateAgent(input: UpdateAgentInput) async throws -> UpdateAgentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1985,6 +2495,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Edits a DataSync discovery job configuration.
+    ///
+    /// - Parameter UpdateDiscoveryJobInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDiscoveryJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func updateDiscoveryJob(input: UpdateDiscoveryJobInput) async throws -> UpdateDiscoveryJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2022,6 +2542,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Modifies some configurations of the Microsoft Azure Blob Storage transfer location that you're using with DataSync.
+    ///
+    /// - Parameter UpdateLocationAzureBlobInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateLocationAzureBlobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func updateLocationAzureBlob(input: UpdateLocationAzureBlobInput) async throws -> UpdateLocationAzureBlobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2059,6 +2589,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Updates some parameters of a previously created location for a Hadoop Distributed File System cluster.
+    ///
+    /// - Parameter UpdateLocationHdfsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateLocationHdfsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func updateLocationHdfs(input: UpdateLocationHdfsInput) async throws -> UpdateLocationHdfsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2095,7 +2635,17 @@ extension DataSyncClient: DataSyncClientProtocol {
         return result
     }
 
-    /// Updates some of the parameters of a previously created location for Network File System (NFS) access. For information about creating an NFS location, see [Creating a location for NFS](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html).
+    /// Modifies some configurations of the Network File System (NFS) transfer location that you're using with DataSync. For more information, see [Configuring transfers to or from an NFS file server](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html).
+    ///
+    /// - Parameter UpdateLocationNfsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateLocationNfsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func updateLocationNfs(input: UpdateLocationNfsInput) async throws -> UpdateLocationNfsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2133,6 +2683,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Updates some parameters of an existing object storage location that DataSync accesses for a transfer. For information about creating a self-managed object storage location, see [Creating a location for object storage](https://docs.aws.amazon.com/datasync/latest/userguide/create-object-location.html).
+    ///
+    /// - Parameter UpdateLocationObjectStorageInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateLocationObjectStorageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func updateLocationObjectStorage(input: UpdateLocationObjectStorageInput) async throws -> UpdateLocationObjectStorageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2170,6 +2730,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Updates some of the parameters of a previously created location for Server Message Block (SMB) file system access. For information about creating an SMB location, see [Creating a location for SMB](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html).
+    ///
+    /// - Parameter UpdateLocationSmbInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateLocationSmbOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func updateLocationSmb(input: UpdateLocationSmbInput) async throws -> UpdateLocationSmbOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2207,6 +2777,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Modifies some configurations of an on-premises storage system resource that you're using with DataSync Discovery.
+    ///
+    /// - Parameter UpdateStorageSystemInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateStorageSystemOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func updateStorageSystem(input: UpdateStorageSystemInput) async throws -> UpdateStorageSystemOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2244,6 +2824,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Updates the metadata associated with a task.
+    ///
+    /// - Parameter UpdateTaskInput : UpdateTaskResponse
+    ///
+    /// - Returns: `UpdateTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func updateTask(input: UpdateTaskInput) async throws -> UpdateTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2281,6 +2871,16 @@ extension DataSyncClient: DataSyncClientProtocol {
     }
 
     /// Modifies a running DataSync task. Currently, the only Option that you can modify with UpdateTaskExecution is [BytesPerSecond](https://docs.aws.amazon.com/datasync/latest/userguide/API_Options.html#DataSync-Type-Options-BytesPerSecond), which throttles bandwidth for a running or queued task.
+    ///
+    /// - Parameter UpdateTaskExecutionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateTaskExecutionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
+    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func updateTaskExecution(input: UpdateTaskExecutionInput) async throws -> UpdateTaskExecutionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

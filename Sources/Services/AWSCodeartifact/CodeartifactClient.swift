@@ -68,6 +68,21 @@ public struct CodeartifactClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
 
 extension CodeartifactClient: CodeartifactClientProtocol {
     /// Adds an existing external connection to a repository. One external connection is allowed per repository. A repository can have one or more upstream repositories, or an external connection.
+    ///
+    /// - Parameter AssociateExternalConnectionInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateExternalConnectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `ConflictException` : The operation did not succeed because prerequisites are not met.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ServiceQuotaExceededException` : The operation did not succeed because it would have exceeded a service limit for your account.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func associateExternalConnection(input: AssociateExternalConnectionInput) async throws -> AssociateExternalConnectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -102,6 +117,21 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Copies package versions from one repository to another repository in the same domain. You must specify versions or versionRevisions. You cannot specify both.
+    ///
+    /// - Parameter CopyPackageVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `CopyPackageVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `ConflictException` : The operation did not succeed because prerequisites are not met.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ServiceQuotaExceededException` : The operation did not succeed because it would have exceeded a service limit for your account.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func copyPackageVersions(input: CopyPackageVersionsInput) async throws -> CopyPackageVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -139,6 +169,21 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Creates a domain. CodeArtifact domains make it easier to manage multiple repositories across an organization. You can use a domain to apply permissions across many repositories owned by different Amazon Web Services accounts. An asset is stored only once in a domain, even if it's in multiple repositories. Although you can have multiple domains, we recommend a single production domain that contains all published artifacts so that your development teams can find and share packages. You can use a second pre-production domain to test changes to the production domain configuration.
+    ///
+    /// - Parameter CreateDomainInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDomainOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `ConflictException` : The operation did not succeed because prerequisites are not met.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ServiceQuotaExceededException` : The operation did not succeed because it would have exceeded a service limit for your account.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -176,6 +221,21 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Creates a repository.
+    ///
+    /// - Parameter CreateRepositoryInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRepositoryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `ConflictException` : The operation did not succeed because prerequisites are not met.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ServiceQuotaExceededException` : The operation did not succeed because it would have exceeded a service limit for your account.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func createRepository(input: CreateRepositoryInput) async throws -> CreateRepositoryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -213,6 +273,19 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Deletes a domain. You cannot delete a domain that contains repositories. If you want to delete a domain with repositories, first delete its repositories.
+    ///
+    /// - Parameter DeleteDomainInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDomainOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `ConflictException` : The operation did not succeed because prerequisites are not met.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -247,6 +320,20 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Deletes the resource policy set on a domain.
+    ///
+    /// - Parameter DeleteDomainPermissionsPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDomainPermissionsPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `ConflictException` : The operation did not succeed because prerequisites are not met.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func deleteDomainPermissionsPolicy(input: DeleteDomainPermissionsPolicyInput) async throws -> DeleteDomainPermissionsPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -281,6 +368,20 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Deletes a package and all associated package versions. A deleted package cannot be restored. To delete one or more package versions, use the [DeletePackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DeletePackageVersions.html) API.
+    ///
+    /// - Parameter DeletePackageInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePackageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `ConflictException` : The operation did not succeed because prerequisites are not met.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func deletePackage(input: DeletePackageInput) async throws -> DeletePackageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -315,6 +416,20 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Deletes one or more versions of a package. A deleted package version cannot be restored in your repository. If you want to remove a package version from your repository and be able to restore it later, set its status to Archived. Archived packages cannot be downloaded from a repository and don't show up with list package APIs (for example, [ListPackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html)), but you can restore them using [UpdatePackageVersionsStatus](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_UpdatePackageVersionsStatus.html).
+    ///
+    /// - Parameter DeletePackageVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePackageVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `ConflictException` : The operation did not succeed because prerequisites are not met.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func deletePackageVersions(input: DeletePackageVersionsInput) async throws -> DeletePackageVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -352,6 +467,20 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Deletes a repository.
+    ///
+    /// - Parameter DeleteRepositoryInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRepositoryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `ConflictException` : The operation did not succeed because prerequisites are not met.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func deleteRepository(input: DeleteRepositoryInput) async throws -> DeleteRepositoryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -386,6 +515,20 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Deletes the resource policy that is set on a repository. After a resource policy is deleted, the permissions allowed and denied by the deleted policy are removed. The effect of deleting a resource policy might not be immediate. Use DeleteRepositoryPermissionsPolicy with caution. After a policy is deleted, Amazon Web Services users, roles, and accounts lose permissions to perform the repository actions granted by the deleted policy.
+    ///
+    /// - Parameter DeleteRepositoryPermissionsPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRepositoryPermissionsPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `ConflictException` : The operation did not succeed because prerequisites are not met.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func deleteRepositoryPermissionsPolicy(input: DeleteRepositoryPermissionsPolicyInput) async throws -> DeleteRepositoryPermissionsPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -420,6 +563,19 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Returns a [DomainDescription](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DomainDescription.html) object that contains information about the requested domain.
+    ///
+    /// - Parameter DescribeDomainInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDomainOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func describeDomain(input: DescribeDomainInput) async throws -> DescribeDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -454,6 +610,19 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Returns a [PackageDescription](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageDescription.html) object that contains information about the requested package.
+    ///
+    /// - Parameter DescribePackageInput : [no documentation found]
+    ///
+    /// - Returns: `DescribePackageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func describePackage(input: DescribePackageInput) async throws -> DescribePackageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -488,6 +657,20 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Returns a [PackageVersionDescription](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionDescription.html) object that contains information about the requested package version.
+    ///
+    /// - Parameter DescribePackageVersionInput : [no documentation found]
+    ///
+    /// - Returns: `DescribePackageVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `ConflictException` : The operation did not succeed because prerequisites are not met.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func describePackageVersion(input: DescribePackageVersionInput) async throws -> DescribePackageVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -522,6 +705,19 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Returns a RepositoryDescription object that contains detailed information about the requested repository.
+    ///
+    /// - Parameter DescribeRepositoryInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeRepositoryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func describeRepository(input: DescribeRepositoryInput) async throws -> DescribeRepositoryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -556,6 +752,21 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Removes an existing external connection from a repository.
+    ///
+    /// - Parameter DisassociateExternalConnectionInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateExternalConnectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `ConflictException` : The operation did not succeed because prerequisites are not met.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ServiceQuotaExceededException` : The operation did not succeed because it would have exceeded a service limit for your account.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func disassociateExternalConnection(input: DisassociateExternalConnectionInput) async throws -> DisassociateExternalConnectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -590,6 +801,20 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Deletes the assets in package versions and sets the package versions' status to Disposed. A disposed package version cannot be restored in your repository because its assets are deleted. To view all disposed package versions in a repository, use [ListPackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html) and set the [status](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html#API_ListPackageVersions_RequestSyntax) parameter to Disposed. To view information about a disposed package version, use [DescribePackageVersion](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DescribePackageVersion.html).
+    ///
+    /// - Parameter DisposePackageVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `DisposePackageVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `ConflictException` : The operation did not succeed because prerequisites are not met.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func disposePackageVersions(input: DisposePackageVersionsInput) async throws -> DisposePackageVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -627,6 +852,19 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Generates a temporary authorization token for accessing repositories in the domain. This API requires the codeartifact:GetAuthorizationToken and sts:GetServiceBearerToken permissions. For more information about authorization tokens, see [CodeArtifact authentication and tokens](https://docs.aws.amazon.com/codeartifact/latest/ug/tokens-authentication.html). CodeArtifact authorization tokens are valid for a period of 12 hours when created with the login command. You can call login periodically to refresh the token. When you create an authorization token with the GetAuthorizationToken API, you can set a custom authorization period, up to a maximum of 12 hours, with the durationSeconds parameter. The authorization period begins after login or GetAuthorizationToken is called. If login or GetAuthorizationToken is called while assuming a role, the token lifetime is independent of the maximum session duration of the role. For example, if you call sts assume-role and specify a session duration of 15 minutes, then generate a CodeArtifact authorization token, the token will be valid for the full authorization period even though this is longer than the 15-minute session duration. See [Using IAM Roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html) for more information on controlling session duration.
+    ///
+    /// - Parameter GetAuthorizationTokenInput : [no documentation found]
+    ///
+    /// - Returns: `GetAuthorizationTokenOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func getAuthorizationToken(input: GetAuthorizationTokenInput) async throws -> GetAuthorizationTokenOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -661,6 +899,19 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Returns the resource policy attached to the specified domain. The policy is a resource-based policy, not an identity-based policy. For more information, see [Identity-based policies and resource-based policies ](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html) in the IAM User Guide.
+    ///
+    /// - Parameter GetDomainPermissionsPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetDomainPermissionsPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func getDomainPermissionsPolicy(input: GetDomainPermissionsPolicyInput) async throws -> GetDomainPermissionsPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -695,6 +946,20 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Returns an asset (or file) that is in a package. For example, for a Maven package version, use GetPackageVersionAsset to download a JAR file, a POM file, or any other assets in the package version.
+    ///
+    /// - Parameter GetPackageVersionAssetInput : [no documentation found]
+    ///
+    /// - Returns: `GetPackageVersionAssetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `ConflictException` : The operation did not succeed because prerequisites are not met.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func getPackageVersionAsset(input: GetPackageVersionAssetInput) async throws -> GetPackageVersionAssetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -729,6 +994,19 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Gets the readme file or descriptive text for a package version. The returned text might contain formatting. For example, it might contain formatting for Markdown or reStructuredText.
+    ///
+    /// - Parameter GetPackageVersionReadmeInput : [no documentation found]
+    ///
+    /// - Returns: `GetPackageVersionReadmeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func getPackageVersionReadme(input: GetPackageVersionReadmeInput) async throws -> GetPackageVersionReadmeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -771,6 +1049,19 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// * nuget
     ///
     /// * pypi
+    ///
+    /// - Parameter GetRepositoryEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `GetRepositoryEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func getRepositoryEndpoint(input: GetRepositoryEndpointInput) async throws -> GetRepositoryEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -805,6 +1096,19 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Returns the resource policy that is set on a repository.
+    ///
+    /// - Parameter GetRepositoryPermissionsPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetRepositoryPermissionsPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func getRepositoryPermissionsPolicy(input: GetRepositoryPermissionsPolicyInput) async throws -> GetRepositoryPermissionsPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -839,6 +1143,18 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Returns a list of [DomainSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionDescription.html) objects for all domains owned by the Amazon Web Services account that makes this call. Each returned DomainSummary object contains information about a domain.
+    ///
+    /// - Parameter ListDomainsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDomainsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -875,6 +1191,19 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Returns a list of [AssetSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_AssetSummary.html) objects for assets in a package version.
+    ///
+    /// - Parameter ListPackageVersionAssetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPackageVersionAssetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func listPackageVersionAssets(input: ListPackageVersionAssetsInput) async throws -> ListPackageVersionAssetsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -909,6 +1238,19 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Returns the direct dependencies for a package version. The dependencies are returned as [PackageDependency](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageDependency.html) objects. CodeArtifact extracts the dependencies for a package version from the metadata file for the package format (for example, the package.json file for npm packages and the pom.xml file for Maven). Any package version dependencies that are not listed in the configuration file are not returned.
+    ///
+    /// - Parameter ListPackageVersionDependenciesInput : [no documentation found]
+    ///
+    /// - Returns: `ListPackageVersionDependenciesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func listPackageVersionDependencies(input: ListPackageVersionDependenciesInput) async throws -> ListPackageVersionDependenciesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -943,6 +1285,19 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Returns a list of [PackageVersionSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionSummary.html) objects for package versions in a repository that match the request parameters. Package versions of all statuses will be returned by default when calling list-package-versions with no --status parameter.
+    ///
+    /// - Parameter ListPackageVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPackageVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func listPackageVersions(input: ListPackageVersionsInput) async throws -> ListPackageVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -977,6 +1332,19 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Returns a list of [PackageSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageSummary.html) objects for packages in a repository that match the request parameters.
+    ///
+    /// - Parameter ListPackagesInput : [no documentation found]
+    ///
+    /// - Returns: `ListPackagesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func listPackages(input: ListPackagesInput) async throws -> ListPackagesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1011,6 +1379,18 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Returns a list of [RepositorySummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_RepositorySummary.html) objects. Each RepositorySummary contains information about a repository in the specified Amazon Web Services account and that matches the input parameters.
+    ///
+    /// - Parameter ListRepositoriesInput : [no documentation found]
+    ///
+    /// - Returns: `ListRepositoriesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func listRepositories(input: ListRepositoriesInput) async throws -> ListRepositoriesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1045,6 +1425,19 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Returns a list of [RepositorySummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_RepositorySummary.html) objects. Each RepositorySummary contains information about a repository in the specified domain and that matches the input parameters.
+    ///
+    /// - Parameter ListRepositoriesInDomainInput : [no documentation found]
+    ///
+    /// - Returns: `ListRepositoriesInDomainOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func listRepositoriesInDomain(input: ListRepositoriesInDomainInput) async throws -> ListRepositoriesInDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1079,6 +1472,18 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Gets information about Amazon Web Services tags for a specified Amazon Resource Name (ARN) in CodeArtifact.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1113,6 +1518,21 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Creates a new package version containing one or more assets (or files). The unfinished flag can be used to keep the package version in the Unfinished state until all of its assets have been uploaded (see [Package version status](https://docs.aws.amazon.com/codeartifact/latest/ug/packages-overview.html#package-version-status.html#package-version-status) in the CodeArtifact user guide). To set the package version’s status to Published, omit the unfinished flag when uploading the final asset, or set the status using [UpdatePackageVersionStatus](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_UpdatePackageVersionsStatus.html). Once a package version’s status is set to Published, it cannot change back to Unfinished. Only generic packages can be published using this API. For more information, see [Using generic packages](https://docs.aws.amazon.com/codeartifact/latest/ug/using-generic.html) in the CodeArtifact User Guide.
+    ///
+    /// - Parameter PublishPackageVersionInput : [no documentation found]
+    ///
+    /// - Returns: `PublishPackageVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `ConflictException` : The operation did not succeed because prerequisites are not met.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ServiceQuotaExceededException` : The operation did not succeed because it would have exceeded a service limit for your account.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func publishPackageVersion(input: PublishPackageVersionInput) async throws -> PublishPackageVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1151,6 +1571,21 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Sets a resource policy on a domain that specifies permissions to access it. When you call PutDomainPermissionsPolicy, the resource policy on the domain is ignored when evaluting permissions. This ensures that the owner of a domain cannot lock themselves out of the domain, which would prevent them from being able to update the resource policy.
+    ///
+    /// - Parameter PutDomainPermissionsPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutDomainPermissionsPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `ConflictException` : The operation did not succeed because prerequisites are not met.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ServiceQuotaExceededException` : The operation did not succeed because it would have exceeded a service limit for your account.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func putDomainPermissionsPolicy(input: PutDomainPermissionsPolicyInput) async throws -> PutDomainPermissionsPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1187,6 +1622,19 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Sets the package origin configuration for a package. The package origin configuration determines how new versions of a package can be added to a repository. You can allow or block direct publishing of new package versions, or ingestion and retaining of new package versions from an external connection or upstream source. For more information about package origin controls and configuration, see [Editing package origin controls](https://docs.aws.amazon.com/codeartifact/latest/ug/package-origin-controls.html) in the CodeArtifact User Guide. PutPackageOriginConfiguration can be called on a package that doesn't yet exist in the repository. When called on a package that does not exist, a package is created in the repository with no versions and the requested restrictions are set on the package. This can be used to preemptively block ingesting or retaining any versions from external connections or upstream repositories, or to block publishing any versions of the package into the repository before connecting any package managers or publishers to the repository.
+    ///
+    /// - Parameter PutPackageOriginConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutPackageOriginConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func putPackageOriginConfiguration(input: PutPackageOriginConfigurationInput) async throws -> PutPackageOriginConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1224,6 +1672,21 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Sets the resource policy on a repository that specifies permissions to access it. When you call PutRepositoryPermissionsPolicy, the resource policy on the repository is ignored when evaluting permissions. This ensures that the owner of a repository cannot lock themselves out of the repository, which would prevent them from being able to update the resource policy.
+    ///
+    /// - Parameter PutRepositoryPermissionsPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutRepositoryPermissionsPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `ConflictException` : The operation did not succeed because prerequisites are not met.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ServiceQuotaExceededException` : The operation did not succeed because it would have exceeded a service limit for your account.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func putRepositoryPermissionsPolicy(input: PutRepositoryPermissionsPolicyInput) async throws -> PutRepositoryPermissionsPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1261,6 +1724,19 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Adds or updates tags for a resource in CodeArtifact.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ServiceQuotaExceededException` : The operation did not succeed because it would have exceeded a service limit for your account.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1298,6 +1774,18 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Removes tags from a resource in CodeArtifact.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1335,6 +1823,20 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Updates the status of one or more versions of a package. Using UpdatePackageVersionsStatus, you can update the status of package versions to Archived, Published, or Unlisted. To set the status of a package version to Disposed, use [DisposePackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DisposePackageVersions.html).
+    ///
+    /// - Parameter UpdatePackageVersionsStatusInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePackageVersionsStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `ConflictException` : The operation did not succeed because prerequisites are not met.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func updatePackageVersionsStatus(input: UpdatePackageVersionsStatusInput) async throws -> UpdatePackageVersionsStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1372,6 +1874,21 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     }
 
     /// Update the properties of a repository.
+    ///
+    /// - Parameter UpdateRepositoryInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRepositoryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation did not succeed because of an unauthorized access attempt.
+    /// - `ConflictException` : The operation did not succeed because prerequisites are not met.
+    /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
+    /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
+    /// - `ServiceQuotaExceededException` : The operation did not succeed because it would have exceeded a service limit for your account.
+    /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
+    /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     public func updateRepository(input: UpdateRepositoryInput) async throws -> UpdateRepositoryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

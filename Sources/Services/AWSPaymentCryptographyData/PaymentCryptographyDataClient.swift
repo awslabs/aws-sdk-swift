@@ -74,6 +74,19 @@ extension PaymentCryptographyDataClient: PaymentCryptographyDataClientProtocol {
     /// * [GetPublicCertificate](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetPublicKeyCertificate.html)
     ///
     /// * [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html)
+    ///
+    /// - Parameter DecryptDataInput : [no documentation found]
+    ///
+    /// - Returns: `DecryptDataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     public func decryptData(input: DecryptDataInput) async throws -> DecryptDataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -118,6 +131,19 @@ extension PaymentCryptographyDataClient: PaymentCryptographyDataClientProtocol {
     /// * [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html)
     ///
     /// * [ReEncryptData]
+    ///
+    /// - Parameter EncryptDataInput : [no documentation found]
+    ///
+    /// - Returns: `EncryptDataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     public func encryptData(input: EncryptDataInput) async throws -> EncryptDataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -158,6 +184,19 @@ extension PaymentCryptographyDataClient: PaymentCryptographyDataClientProtocol {
     /// * [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html)
     ///
     /// * [VerifyCardValidationData]
+    ///
+    /// - Parameter GenerateCardValidationDataInput : [no documentation found]
+    ///
+    /// - Returns: `GenerateCardValidationDataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     public func generateCardValidationData(input: GenerateCardValidationDataInput) async throws -> GenerateCardValidationDataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -196,6 +235,19 @@ extension PaymentCryptographyDataClient: PaymentCryptographyDataClientProtocol {
     /// Generates a Message Authentication Code (MAC) cryptogram within Amazon Web Services Payment Cryptography. You can use this operation when keys won't be shared but mutual data is present on both ends for validation. In this case, known data values are used to generate a MAC on both ends for comparision without sending or receiving data in ciphertext or plaintext. You can use this operation to generate a DUPKT, HMAC or EMV MAC by setting generation attributes and algorithm to the associated values. The MAC generation encryption key must have valid values for KeyUsage such as TR31_M7_HMAC_KEY for HMAC generation, and they key must have KeyModesOfUse set to Generate and Verify. For information about valid keys for this operation, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html) and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html) in the Amazon Web Services Payment Cryptography User Guide. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
     /// * [VerifyMac]
+    ///
+    /// - Parameter GenerateMacInput : [no documentation found]
+    ///
+    /// - Returns: `GenerateMacOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     public func generateMac(input: GenerateMacInput) async throws -> GenerateMacOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -238,6 +290,19 @@ extension PaymentCryptographyDataClient: PaymentCryptographyDataClientProtocol {
     /// * [TranslatePinData]
     ///
     /// * [VerifyPinData]
+    ///
+    /// - Parameter GeneratePinDataInput : [no documentation found]
+    ///
+    /// - Returns: `GeneratePinDataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     public func generatePinData(input: GeneratePinDataInput) async throws -> GeneratePinDataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -282,6 +347,19 @@ extension PaymentCryptographyDataClient: PaymentCryptographyDataClientProtocol {
     /// * [GetPublicCertificate](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetPublicKeyCertificate.html)
     ///
     /// * [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html)
+    ///
+    /// - Parameter ReEncryptDataInput : [no documentation found]
+    ///
+    /// - Returns: `ReEncryptDataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     public func reEncryptData(input: ReEncryptDataInput) async throws -> ReEncryptDataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -322,6 +400,19 @@ extension PaymentCryptographyDataClient: PaymentCryptographyDataClientProtocol {
     /// * [GeneratePinData]
     ///
     /// * [VerifyPinData]
+    ///
+    /// - Parameter TranslatePinDataInput : [no documentation found]
+    ///
+    /// - Returns: `TranslatePinDataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     public func translatePinData(input: TranslatePinDataInput) async throws -> TranslatePinDataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -362,6 +453,20 @@ extension PaymentCryptographyDataClient: PaymentCryptographyDataClientProtocol {
     /// * [VerifyCardValidationData]
     ///
     /// * [VerifyPinData]
+    ///
+    /// - Parameter VerifyAuthRequestCryptogramInput : [no documentation found]
+    ///
+    /// - Returns: `VerifyAuthRequestCryptogramOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
+    /// - `VerificationFailedException` : This request failed verification.
     public func verifyAuthRequestCryptogram(input: VerifyAuthRequestCryptogramInput) async throws -> VerifyAuthRequestCryptogramOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -404,6 +509,20 @@ extension PaymentCryptographyDataClient: PaymentCryptographyDataClientProtocol {
     /// * [VerifyAuthRequestCryptogram]
     ///
     /// * [VerifyPinData]
+    ///
+    /// - Parameter VerifyCardValidationDataInput : [no documentation found]
+    ///
+    /// - Returns: `VerifyCardValidationDataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
+    /// - `VerificationFailedException` : This request failed verification.
     public func verifyCardValidationData(input: VerifyCardValidationDataInput) async throws -> VerifyCardValidationDataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -442,6 +561,20 @@ extension PaymentCryptographyDataClient: PaymentCryptographyDataClientProtocol {
     /// Verifies a Message Authentication Code (MAC). You can use this operation when keys won't be shared but mutual data is present on both ends for validation. In this case, known data values are used to generate a MAC on both ends for verification without sending or receiving data in ciphertext or plaintext. You can use this operation to verify a DUPKT, HMAC or EMV MAC by setting generation attributes and algorithm to the associated values. Use the same encryption key for MAC verification as you use for [GenerateMac]. For information about valid keys for this operation, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html) and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html) in the Amazon Web Services Payment Cryptography User Guide. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
     /// * [GenerateMac]
+    ///
+    /// - Parameter VerifyMacInput : [no documentation found]
+    ///
+    /// - Returns: `VerifyMacOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
+    /// - `VerificationFailedException` : This request failed verification.
     public func verifyMac(input: VerifyMacInput) async throws -> VerifyMacOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -482,6 +615,20 @@ extension PaymentCryptographyDataClient: PaymentCryptographyDataClientProtocol {
     /// * [GeneratePinData]
     ///
     /// * [TranslatePinData]
+    ///
+    /// - Parameter VerifyPinDataInput : [no documentation found]
+    ///
+    /// - Returns: `VerifyPinDataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
+    /// - `VerificationFailedException` : This request failed verification.
     public func verifyPinData(input: VerifyPinDataInput) async throws -> VerifyPinDataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

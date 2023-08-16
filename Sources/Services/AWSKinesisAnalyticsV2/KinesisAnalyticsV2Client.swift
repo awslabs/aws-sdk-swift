@@ -68,6 +68,20 @@ public struct KinesisAnalyticsV2ClientLogHandlerFactory: ClientRuntime.SDKLogHan
 
 extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// Adds an Amazon CloudWatch log stream to monitor application configuration errors.
+    ///
+    /// - Parameter AddApplicationCloudWatchLoggingOptionInput : [no documentation found]
+    ///
+    /// - Returns: `AddApplicationCloudWatchLoggingOptionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `InvalidApplicationConfigurationException` : The user-provided application configuration is not valid.
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `InvalidRequestException` : The request JSON is not valid for the operation.
+    /// - `ResourceInUseException` : The application is not available for this operation.
+    /// - `ResourceNotFoundException` : Specified application can't be found.
     public func addApplicationCloudWatchLoggingOption(input: AddApplicationCloudWatchLoggingOptionInput) async throws -> AddApplicationCloudWatchLoggingOptionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -105,6 +119,20 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     }
 
     /// Adds a streaming source to your SQL-based Kinesis Data Analytics application. You can add a streaming source when you create an application, or you can use this operation to add a streaming source after you create an application. For more information, see [CreateApplication]. Any configuration update, including adding a streaming source using this operation, results in a new version of the application. You can use the [DescribeApplication] operation to find the current application version.
+    ///
+    /// - Parameter AddApplicationInputInput : [no documentation found]
+    ///
+    /// - Returns: `AddApplicationInputOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CodeValidationException` : The user-provided application code (query) is not valid. This can be a simple syntax error.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `InvalidRequestException` : The request JSON is not valid for the operation.
+    /// - `ResourceInUseException` : The application is not available for this operation.
+    /// - `ResourceNotFoundException` : Specified application can't be found.
     public func addApplicationInput(input: AddApplicationInputInput) async throws -> AddApplicationInputOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -142,6 +170,19 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     }
 
     /// Adds an [InputProcessingConfiguration] to a SQL-based Kinesis Data Analytics application. An input processor pre-processes records on the input stream before the application's SQL code executes. Currently, the only input processor available is [Amazon Lambda](https://docs.aws.amazon.com/lambda/).
+    ///
+    /// - Parameter AddApplicationInputProcessingConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `AddApplicationInputProcessingConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `InvalidRequestException` : The request JSON is not valid for the operation.
+    /// - `ResourceInUseException` : The application is not available for this operation.
+    /// - `ResourceNotFoundException` : Specified application can't be found.
     public func addApplicationInputProcessingConfiguration(input: AddApplicationInputProcessingConfigurationInput) async throws -> AddApplicationInputProcessingConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -179,6 +220,19 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     }
 
     /// Adds an external destination to your SQL-based Kinesis Data Analytics application. If you want Kinesis Data Analytics to deliver data from an in-application stream within your application to an external destination (such as an Kinesis data stream, a Kinesis Data Firehose delivery stream, or an Amazon Lambda function), you add the relevant configuration to your application using this operation. You can configure one or more outputs for your application. Each output configuration maps an in-application stream and an external destination. You can use one of the output configurations to deliver data from your in-application error stream to an external destination so that you can analyze the errors. Any configuration update, including adding a streaming source using this operation, results in a new version of the application. You can use the [DescribeApplication] operation to find the current application version.
+    ///
+    /// - Parameter AddApplicationOutputInput : [no documentation found]
+    ///
+    /// - Returns: `AddApplicationOutputOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `InvalidRequestException` : The request JSON is not valid for the operation.
+    /// - `ResourceInUseException` : The application is not available for this operation.
+    /// - `ResourceNotFoundException` : Specified application can't be found.
     public func addApplicationOutput(input: AddApplicationOutputInput) async throws -> AddApplicationOutputOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -216,6 +270,19 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     }
 
     /// Adds a reference data source to an existing SQL-based Kinesis Data Analytics application. Kinesis Data Analytics reads reference data (that is, an Amazon S3 object) and creates an in-application table within your application. In the request, you provide the source (S3 bucket name and object key name), name of the in-application table to create, and the necessary mapping information that describes how data in an Amazon S3 object maps to columns in the resulting in-application table.
+    ///
+    /// - Parameter AddApplicationReferenceDataSourceInput : [no documentation found]
+    ///
+    /// - Returns: `AddApplicationReferenceDataSourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `InvalidRequestException` : The request JSON is not valid for the operation.
+    /// - `ResourceInUseException` : The application is not available for this operation.
+    /// - `ResourceNotFoundException` : Specified application can't be found.
     public func addApplicationReferenceDataSource(input: AddApplicationReferenceDataSourceInput) async throws -> AddApplicationReferenceDataSourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -257,6 +324,19 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// * VPC configurations are not supported for SQL applications.
     ///
     /// * When a VPC is added to a Kinesis Data Analytics application, the application can no longer be accessed from the Internet directly. To enable Internet access to the application, add an Internet gateway to your VPC.
+    ///
+    /// - Parameter AddApplicationVpcConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `AddApplicationVpcConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `InvalidApplicationConfigurationException` : The user-provided application configuration is not valid.
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `ResourceInUseException` : The application is not available for this operation.
+    /// - `ResourceNotFoundException` : Specified application can't be found.
     public func addApplicationVpcConfiguration(input: AddApplicationVpcConfigurationInput) async throws -> AddApplicationVpcConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -294,6 +374,22 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     }
 
     /// Creates a Kinesis Data Analytics application. For information about creating a Kinesis Data Analytics application, see [Creating an Application](https://docs.aws.amazon.com/kinesisanalytics/latest/java/getting-started.html).
+    ///
+    /// - Parameter CreateApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CodeValidationException` : The user-provided application code (query) is not valid. This can be a simple syntax error.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `InvalidRequestException` : The request JSON is not valid for the operation.
+    /// - `LimitExceededException` : The number of allowed resources has been exceeded.
+    /// - `ResourceInUseException` : The application is not available for this operation.
+    /// - `TooManyTagsException` : Application created with too many tags, or too many tags added to an application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -331,6 +427,17 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     }
 
     /// Creates and returns a URL that you can use to connect to an application's extension. The IAM role or user used to call this API defines the permissions to access the extension. After the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request that attempts to connect to the extension. You control the amount of time that the URL will be valid using the SessionExpirationDurationInSeconds parameter. If you do not provide this parameter, the returned URL is valid for twelve hours. The URL that you get from a call to CreateApplicationPresignedUrl must be used within 3 minutes to be valid. If you first try to use the URL after the 3-minute limit expires, the service returns an HTTP 403 Forbidden error.
+    ///
+    /// - Parameter CreateApplicationPresignedUrlInput : [no documentation found]
+    ///
+    /// - Returns: `CreateApplicationPresignedUrlOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `ResourceInUseException` : The application is not available for this operation.
+    /// - `ResourceNotFoundException` : Specified application can't be found.
     public func createApplicationPresignedUrl(input: CreateApplicationPresignedUrlInput) async throws -> CreateApplicationPresignedUrlOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -368,6 +475,21 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     }
 
     /// Creates a snapshot of the application's state data.
+    ///
+    /// - Parameter CreateApplicationSnapshotInput : [no documentation found]
+    ///
+    /// - Returns: `CreateApplicationSnapshotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidApplicationConfigurationException` : The user-provided application configuration is not valid.
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `InvalidRequestException` : The request JSON is not valid for the operation.
+    /// - `LimitExceededException` : The number of allowed resources has been exceeded.
+    /// - `ResourceInUseException` : The application is not available for this operation.
+    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func createApplicationSnapshot(input: CreateApplicationSnapshotInput) async throws -> CreateApplicationSnapshotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -405,6 +527,20 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     }
 
     /// Deletes the specified application. Kinesis Data Analytics halts application execution and deletes the application.
+    ///
+    /// - Parameter DeleteApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `InvalidApplicationConfigurationException` : The user-provided application configuration is not valid.
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `InvalidRequestException` : The request JSON is not valid for the operation.
+    /// - `ResourceInUseException` : The application is not available for this operation.
+    /// - `ResourceNotFoundException` : Specified application can't be found.
     public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -442,6 +578,20 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     }
 
     /// Deletes an Amazon CloudWatch log stream from an Kinesis Data Analytics application.
+    ///
+    /// - Parameter DeleteApplicationCloudWatchLoggingOptionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApplicationCloudWatchLoggingOptionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `InvalidApplicationConfigurationException` : The user-provided application configuration is not valid.
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `InvalidRequestException` : The request JSON is not valid for the operation.
+    /// - `ResourceInUseException` : The application is not available for this operation.
+    /// - `ResourceNotFoundException` : Specified application can't be found.
     public func deleteApplicationCloudWatchLoggingOption(input: DeleteApplicationCloudWatchLoggingOptionInput) async throws -> DeleteApplicationCloudWatchLoggingOptionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -479,6 +629,19 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     }
 
     /// Deletes an [InputProcessingConfiguration] from an input.
+    ///
+    /// - Parameter DeleteApplicationInputProcessingConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApplicationInputProcessingConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `InvalidRequestException` : The request JSON is not valid for the operation.
+    /// - `ResourceInUseException` : The application is not available for this operation.
+    /// - `ResourceNotFoundException` : Specified application can't be found.
     public func deleteApplicationInputProcessingConfiguration(input: DeleteApplicationInputProcessingConfigurationInput) async throws -> DeleteApplicationInputProcessingConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -516,6 +679,19 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     }
 
     /// Deletes the output destination configuration from your SQL-based Kinesis Data Analytics application's configuration. Kinesis Data Analytics will no longer write data from the corresponding in-application stream to the external output destination.
+    ///
+    /// - Parameter DeleteApplicationOutputInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApplicationOutputOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `InvalidRequestException` : The request JSON is not valid for the operation.
+    /// - `ResourceInUseException` : The application is not available for this operation.
+    /// - `ResourceNotFoundException` : Specified application can't be found.
     public func deleteApplicationOutput(input: DeleteApplicationOutputInput) async throws -> DeleteApplicationOutputOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -553,6 +729,19 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     }
 
     /// Deletes a reference data source configuration from the specified SQL-based Kinesis Data Analytics application's configuration. If the application is running, Kinesis Data Analytics immediately removes the in-application table that you created using the [AddApplicationReferenceDataSource] operation.
+    ///
+    /// - Parameter DeleteApplicationReferenceDataSourceInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApplicationReferenceDataSourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `InvalidRequestException` : The request JSON is not valid for the operation.
+    /// - `ResourceInUseException` : The application is not available for this operation.
+    /// - `ResourceNotFoundException` : Specified application can't be found.
     public func deleteApplicationReferenceDataSource(input: DeleteApplicationReferenceDataSourceInput) async throws -> DeleteApplicationReferenceDataSourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -590,6 +779,20 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     }
 
     /// Deletes a snapshot of application state.
+    ///
+    /// - Parameter DeleteApplicationSnapshotInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApplicationSnapshotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `InvalidRequestException` : The request JSON is not valid for the operation.
+    /// - `ResourceInUseException` : The application is not available for this operation.
+    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func deleteApplicationSnapshot(input: DeleteApplicationSnapshotInput) async throws -> DeleteApplicationSnapshotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -627,6 +830,19 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     }
 
     /// Removes a VPC configuration from a Kinesis Data Analytics application.
+    ///
+    /// - Parameter DeleteApplicationVpcConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApplicationVpcConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `InvalidApplicationConfigurationException` : The user-provided application configuration is not valid.
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `ResourceInUseException` : The application is not available for this operation.
+    /// - `ResourceNotFoundException` : Specified application can't be found.
     public func deleteApplicationVpcConfiguration(input: DeleteApplicationVpcConfigurationInput) async throws -> DeleteApplicationVpcConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -664,6 +880,17 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     }
 
     /// Returns information about a specific Kinesis Data Analytics application. If you want to retrieve a list of all applications in your account, use the [ListApplications] operation.
+    ///
+    /// - Parameter DescribeApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `InvalidRequestException` : The request JSON is not valid for the operation.
+    /// - `ResourceNotFoundException` : Specified application can't be found.
     public func describeApplication(input: DescribeApplicationInput) async throws -> DescribeApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -701,6 +928,17 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     }
 
     /// Returns information about a snapshot of application state data.
+    ///
+    /// - Parameter DescribeApplicationSnapshotInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeApplicationSnapshotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func describeApplicationSnapshot(input: DescribeApplicationSnapshotInput) async throws -> DescribeApplicationSnapshotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -738,6 +976,17 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     }
 
     /// Provides a detailed description of a specified version of the application. To see a list of all the versions of an application, invoke the [ListApplicationVersions] operation. This operation is supported only for Amazon Kinesis Data Analytics for Apache Flink.
+    ///
+    /// - Parameter DescribeApplicationVersionInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeApplicationVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func describeApplicationVersion(input: DescribeApplicationVersionInput) async throws -> DescribeApplicationVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -775,6 +1024,20 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     }
 
     /// Infers a schema for a SQL-based Kinesis Data Analytics application by evaluating sample records on the specified streaming source (Kinesis data stream or Kinesis Data Firehose delivery stream) or Amazon S3 object. In the response, the operation returns the inferred schema and also the sample records that the operation used to infer the schema. You can use the inferred schema when configuring a streaming source for your application. When you create an application using the Kinesis Data Analytics console, the console uses this operation to infer a schema and show it in the console user interface.
+    ///
+    /// - Parameter DiscoverInputSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `DiscoverInputSchemaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `InvalidRequestException` : The request JSON is not valid for the operation.
+    /// - `ResourceProvisionedThroughputExceededException` : Discovery failed to get a record from the streaming source because of the Kinesis Streams ProvisionedThroughputExceededException. For more information, see [GetRecords](http://docs.aws.amazon.com/kinesis/latest/APIReference/API_GetRecords.html) in the Amazon Kinesis Streams API Reference.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `UnableToDetectSchemaException` : The data format is not valid. Kinesis Data Analytics cannot detect the schema for the given streaming source.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func discoverInputSchema(input: DiscoverInputSchemaInput) async throws -> DiscoverInputSchemaOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -812,6 +1075,16 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     }
 
     /// Lists information about the current application snapshots.
+    ///
+    /// - Parameter ListApplicationSnapshotsInput : [no documentation found]
+    ///
+    /// - Returns: `ListApplicationSnapshotsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func listApplicationSnapshots(input: ListApplicationSnapshotsInput) async throws -> ListApplicationSnapshotsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -849,6 +1122,17 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     }
 
     /// Lists all the versions for the specified application, including versions that were rolled back. The response also includes a summary of the configuration associated with each version. To get the complete description of a specific application version, invoke the [DescribeApplicationVersion] operation. This operation is supported only for Amazon Kinesis Data Analytics for Apache Flink.
+    ///
+    /// - Parameter ListApplicationVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListApplicationVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func listApplicationVersions(input: ListApplicationVersionsInput) async throws -> ListApplicationVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -886,6 +1170,15 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     }
 
     /// Returns a list of Kinesis Data Analytics applications in your account. For each application, the response includes the application name, Amazon Resource Name (ARN), and status. If you want detailed information about a specific application, use [DescribeApplication].
+    ///
+    /// - Parameter ListApplicationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListApplicationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : The request JSON is not valid for the operation.
     public func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -923,6 +1216,17 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     }
 
     /// Retrieves the list of key-value tags assigned to the application. For more information, see [Using Tagging](https://docs.aws.amazon.com/kinesisanalytics/latest/java/how-tagging.html).
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `ResourceNotFoundException` : Specified application can't be found.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -960,6 +1264,20 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     }
 
     /// Reverts the application to the previous running version. You can roll back an application if you suspect it is stuck in a transient status. You can roll back an application only if it is in the UPDATING or AUTOSCALING status. When you rollback an application, it loads state data from the last successful snapshot. If the application has no snapshots, Kinesis Data Analytics rejects the rollback request. This action is not supported for Kinesis Data Analytics for SQL applications.
+    ///
+    /// - Parameter RollbackApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `RollbackApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `InvalidRequestException` : The request JSON is not valid for the operation.
+    /// - `ResourceInUseException` : The application is not available for this operation.
+    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func rollbackApplication(input: RollbackApplicationInput) async throws -> RollbackApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -997,6 +1315,19 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     }
 
     /// Starts the specified Kinesis Data Analytics application. After creating an application, you must exclusively call this operation to start your application.
+    ///
+    /// - Parameter StartApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `StartApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidApplicationConfigurationException` : The user-provided application configuration is not valid.
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `InvalidRequestException` : The request JSON is not valid for the operation.
+    /// - `ResourceInUseException` : The application is not available for this operation.
+    /// - `ResourceNotFoundException` : Specified application can't be found.
     public func startApplication(input: StartApplicationInput) async throws -> StartApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1034,6 +1365,20 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     }
 
     /// Stops the application from processing data. You can stop an application only if it is in the running status, unless you set the Force parameter to true. You can use the [DescribeApplication] operation to find the application status. Kinesis Data Analytics takes a snapshot when the application is stopped, unless Force is set to true.
+    ///
+    /// - Parameter StopApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `StopApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `InvalidApplicationConfigurationException` : The user-provided application configuration is not valid.
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `InvalidRequestException` : The request JSON is not valid for the operation.
+    /// - `ResourceInUseException` : The application is not available for this operation.
+    /// - `ResourceNotFoundException` : Specified application can't be found.
     public func stopApplication(input: StopApplicationInput) async throws -> StopApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1071,6 +1416,19 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     }
 
     /// Adds one or more key-value tags to a Kinesis Data Analytics application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50. For more information, see [Using Tagging](https://docs.aws.amazon.com/kinesisanalytics/latest/java/how-tagging.html).
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `ResourceInUseException` : The application is not available for this operation.
+    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `TooManyTagsException` : Application created with too many tags, or too many tags added to an application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1108,6 +1466,19 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     }
 
     /// Removes one or more tags from a Kinesis Data Analytics application. For more information, see [Using Tagging](https://docs.aws.amazon.com/kinesisanalytics/latest/java/how-tagging.html).
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `ResourceInUseException` : The application is not available for this operation.
+    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `TooManyTagsException` : Application created with too many tags, or too many tags added to an application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1145,6 +1516,22 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     }
 
     /// Updates an existing Kinesis Data Analytics application. Using this operation, you can update application code, input configuration, and output configuration. Kinesis Data Analytics updates the ApplicationVersionId each time you update your application. You cannot update the RuntimeEnvironment of an existing application. If you need to update an application's RuntimeEnvironment, you must delete the application and create it again.
+    ///
+    /// - Parameter UpdateApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CodeValidationException` : The user-provided application code (query) is not valid. This can be a simple syntax error.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `InvalidApplicationConfigurationException` : The user-provided application configuration is not valid.
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `InvalidRequestException` : The request JSON is not valid for the operation.
+    /// - `LimitExceededException` : The number of allowed resources has been exceeded.
+    /// - `ResourceInUseException` : The application is not available for this operation.
+    /// - `ResourceNotFoundException` : Specified application can't be found.
     public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1182,6 +1569,19 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     }
 
     /// Updates the maintenance configuration of the Kinesis Data Analytics application. You can invoke this operation on an application that is in one of the two following states: READY or RUNNING. If you invoke it when the application is in a state other than these two states, it throws a ResourceInUseException. The service makes use of the updated configuration the next time it schedules maintenance for the application. If you invoke this operation after the service schedules maintenance, the service will apply the configuration update the next time it schedules maintenance for the application. This means that you might not see the maintenance configuration update applied to the maintenance process that follows a successful invocation of this operation, but to the following maintenance process instead. To see the current maintenance configuration of your application, invoke the [DescribeApplication] operation. For information about application maintenance, see [Kinesis Data Analytics for Apache Flink Maintenance](https://docs.aws.amazon.com/kinesisanalytics/latest/java/maintenance.html). This operation is supported only for Amazon Kinesis Data Analytics for Apache Flink.
+    ///
+    /// - Parameter UpdateApplicationMaintenanceConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateApplicationMaintenanceConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `ResourceInUseException` : The application is not available for this operation.
+    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func updateApplicationMaintenanceConfiguration(input: UpdateApplicationMaintenanceConfigurationInput) async throws -> UpdateApplicationMaintenanceConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

@@ -82,6 +82,20 @@ extension KinesisVideoMediaClient: KinesisVideoMediaClientProtocol {
     ///
     ///
     /// Both the HTTP status code and the ErrorType header can be utilized to make programmatic decisions about whether errors are retry-able and under what conditions, as well as provide information on what actions the client programmer might need to take in order to successfully try again. For more information, see the Errors section at the bottom of this topic, as well as [Common Errors](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/CommonErrors.html).
+    ///
+    /// - Parameter GetMediaInput : [no documentation found]
+    ///
+    /// - Returns: `GetMediaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientLimitExceededException` : Kinesis Video Streams has throttled the request because you have exceeded the limit of allowed client calls. Try making the call later.
+    /// - `ConnectionLimitExceededException` : Kinesis Video Streams has throttled the request because you have exceeded the limit of allowed client connections.
+    /// - `InvalidArgumentException` : The value for this input parameter is invalid.
+    /// - `InvalidEndpointException` : Status Code: 400, Caller used wrong endpoint to write data to a stream. On receiving such an exception, the user must call GetDataEndpoint with AccessMode set to "READ" and use the endpoint Kinesis Video returns in the next GetMedia call.
+    /// - `NotAuthorizedException` : Status Code: 403, The caller is not authorized to perform an operation on the given stream, or the token has expired.
+    /// - `ResourceNotFoundException` : Status Code: 404, The stream with the given name does not exist.
     public func getMedia(input: GetMediaInput) async throws -> GetMediaOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

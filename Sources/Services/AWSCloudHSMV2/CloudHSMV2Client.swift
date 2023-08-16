@@ -68,6 +68,20 @@ public struct CloudHSMV2ClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
 
 extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     /// Copy an AWS CloudHSM cluster backup to a different region.
+    ///
+    /// - Parameter CopyBackupToRegionInput : [no documentation found]
+    ///
+    /// - Returns: `CopyBackupToRegionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
+    /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
+    /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
+    /// - `CloudHsmTagException` : The request was rejected because of a tagging failure. Verify the tag conditions in all applicable policies, and then retry the request.
     public func copyBackupToRegion(input: CopyBackupToRegionInput) async throws -> CopyBackupToRegionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -105,6 +119,20 @@ extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     }
 
     /// Creates a new AWS CloudHSM cluster.
+    ///
+    /// - Parameter CreateClusterInput : [no documentation found]
+    ///
+    /// - Returns: `CreateClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
+    /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
+    /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
+    /// - `CloudHsmTagException` : The request was rejected because of a tagging failure. Verify the tag conditions in all applicable policies, and then retry the request.
     public func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -142,6 +170,19 @@ extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     }
 
     /// Creates a new hardware security module (HSM) in the specified AWS CloudHSM cluster.
+    ///
+    /// - Parameter CreateHsmInput : [no documentation found]
+    ///
+    /// - Returns: `CreateHsmOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
+    /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
+    /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
     public func createHsm(input: CreateHsmInput) async throws -> CreateHsmOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -179,6 +220,19 @@ extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     }
 
     /// Deletes a specified AWS CloudHSM backup. A backup can be restored up to 7 days after the DeleteBackup request is made. For more information on restoring a backup, see [RestoreBackup].
+    ///
+    /// - Parameter DeleteBackupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBackupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
+    /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
+    /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
     public func deleteBackup(input: DeleteBackupInput) async throws -> DeleteBackupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -216,6 +270,20 @@ extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     }
 
     /// Deletes the specified AWS CloudHSM cluster. Before you can delete a cluster, you must delete all HSMs in the cluster. To see if the cluster contains any HSMs, use [DescribeClusters]. To delete an HSM, use [DeleteHsm].
+    ///
+    /// - Parameter DeleteClusterInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
+    /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
+    /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
+    /// - `CloudHsmTagException` : The request was rejected because of a tagging failure. Verify the tag conditions in all applicable policies, and then retry the request.
     public func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -253,6 +321,19 @@ extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     }
 
     /// Deletes the specified HSM. To specify an HSM, you can use its identifier (ID), the IP address of the HSM's elastic network interface (ENI), or the ID of the HSM's ENI. You need to specify only one of these values. To find these values, use [DescribeClusters].
+    ///
+    /// - Parameter DeleteHsmInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteHsmOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
+    /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
+    /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
     public func deleteHsm(input: DeleteHsmInput) async throws -> DeleteHsmOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -290,6 +371,20 @@ extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     }
 
     /// Gets information about backups of AWS CloudHSM clusters. This is a paginated operation, which means that each response might contain only a subset of all the backups. When the response contains only a subset of backups, it includes a NextToken value. Use this value in a subsequent DescribeBackups request to get more backups. When you receive a response with no NextToken (or an empty or null value), that means there are no more backups to get.
+    ///
+    /// - Parameter DescribeBackupsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeBackupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
+    /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
+    /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
+    /// - `CloudHsmTagException` : The request was rejected because of a tagging failure. Verify the tag conditions in all applicable policies, and then retry the request.
     public func describeBackups(input: DescribeBackupsInput) async throws -> DescribeBackupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -327,6 +422,19 @@ extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     }
 
     /// Gets information about AWS CloudHSM clusters. This is a paginated operation, which means that each response might contain only a subset of all the clusters. When the response contains only a subset of clusters, it includes a NextToken value. Use this value in a subsequent DescribeClusters request to get more clusters. When you receive a response with no NextToken (or an empty or null value), that means there are no more clusters to get.
+    ///
+    /// - Parameter DescribeClustersInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeClustersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
+    /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
+    /// - `CloudHsmTagException` : The request was rejected because of a tagging failure. Verify the tag conditions in all applicable policies, and then retry the request.
     public func describeClusters(input: DescribeClustersInput) async throws -> DescribeClustersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -364,6 +472,19 @@ extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     }
 
     /// Claims an AWS CloudHSM cluster by submitting the cluster certificate issued by your issuing certificate authority (CA) and the CA's root certificate. Before you can claim a cluster, you must sign the cluster's certificate signing request (CSR) with your issuing CA. To get the cluster's CSR, use [DescribeClusters].
+    ///
+    /// - Parameter InitializeClusterInput : [no documentation found]
+    ///
+    /// - Returns: `InitializeClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
+    /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
+    /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
     public func initializeCluster(input: InitializeClusterInput) async throws -> InitializeClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -401,6 +522,20 @@ extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     }
 
     /// Gets a list of tags for the specified AWS CloudHSM cluster. This is a paginated operation, which means that each response might contain only a subset of all the tags. When the response contains only a subset of tags, it includes a NextToken value. Use this value in a subsequent ListTags request to get more tags. When you receive a response with no NextToken (or an empty or null value), that means there are no more tags to get.
+    ///
+    /// - Parameter ListTagsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
+    /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
+    /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
+    /// - `CloudHsmTagException` : The request was rejected because of a tagging failure. Verify the tag conditions in all applicable policies, and then retry the request.
     public func listTags(input: ListTagsInput) async throws -> ListTagsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -438,6 +573,19 @@ extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     }
 
     /// Modifies attributes for AWS CloudHSM backup.
+    ///
+    /// - Parameter ModifyBackupAttributesInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyBackupAttributesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
+    /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
+    /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
     public func modifyBackupAttributes(input: ModifyBackupAttributesInput) async throws -> ModifyBackupAttributesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -475,6 +623,19 @@ extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     }
 
     /// Modifies AWS CloudHSM cluster.
+    ///
+    /// - Parameter ModifyClusterInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
+    /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
+    /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
     public func modifyCluster(input: ModifyClusterInput) async throws -> ModifyClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -512,6 +673,19 @@ extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     }
 
     /// Restores a specified AWS CloudHSM backup that is in the PENDING_DELETION state. For mor information on deleting a backup, see [DeleteBackup].
+    ///
+    /// - Parameter RestoreBackupInput : [no documentation found]
+    ///
+    /// - Returns: `RestoreBackupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
+    /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
+    /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
     public func restoreBackup(input: RestoreBackupInput) async throws -> RestoreBackupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -549,6 +723,20 @@ extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     }
 
     /// Adds or overwrites one or more tags for the specified AWS CloudHSM cluster.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
+    /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
+    /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
+    /// - `CloudHsmTagException` : The request was rejected because of a tagging failure. Verify the tag conditions in all applicable policies, and then retry the request.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -586,6 +774,20 @@ extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     }
 
     /// Removes the specified tag or tags from the specified AWS CloudHSM cluster.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
+    /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
+    /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
+    /// - `CloudHsmTagException` : The request was rejected because of a tagging failure. Verify the tag conditions in all applicable policies, and then retry the request.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

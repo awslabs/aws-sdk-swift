@@ -68,6 +68,18 @@ public struct DeviceFarmClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
 
 extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// Creates a device pool.
+    ///
+    /// - Parameter CreateDevicePoolInput : Represents a request to the create device pool operation.
+    ///
+    /// - Returns: `CreateDevicePoolOutputResponse` : Represents the result of a create device pool request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func createDevicePool(input: CreateDevicePoolInput) async throws -> CreateDevicePoolOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -105,6 +117,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Creates a profile that can be applied to one or more private fleet device instances.
+    ///
+    /// - Parameter CreateInstanceProfileInput : [no documentation found]
+    ///
+    /// - Returns: `CreateInstanceProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func createInstanceProfile(input: CreateInstanceProfileInput) async throws -> CreateInstanceProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -142,6 +166,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Creates a network profile.
+    ///
+    /// - Parameter CreateNetworkProfileInput : [no documentation found]
+    ///
+    /// - Returns: `CreateNetworkProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func createNetworkProfile(input: CreateNetworkProfileInput) async throws -> CreateNetworkProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -179,6 +215,19 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Creates a project.
+    ///
+    /// - Parameter CreateProjectInput : Represents a request to the create project operation.
+    ///
+    /// - Returns: `CreateProjectOutputResponse` : Represents the result of a create project request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
+    /// - `TagOperationException` : The operation was not successful. Try again.
     public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -216,6 +265,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Specifies and starts a remote access session.
+    ///
+    /// - Parameter CreateRemoteAccessSessionInput : Creates and submits a request to start a remote access session.
+    ///
+    /// - Returns: `CreateRemoteAccessSessionOutputResponse` : Represents the server response from a request to create a remote access session.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func createRemoteAccessSession(input: CreateRemoteAccessSessionInput) async throws -> CreateRemoteAccessSessionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -253,6 +314,17 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Creates a Selenium testing project. Projects are used to track [TestGridSession] instances.
+    ///
+    /// - Parameter CreateTestGridProjectInput : [no documentation found]
+    ///
+    /// - Returns: `CreateTestGridProjectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
+    /// - `LimitExceededException` : A limit was exceeded.
     public func createTestGridProject(input: CreateTestGridProjectInput) async throws -> CreateTestGridProjectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -290,6 +362,17 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Creates a signed, short-term URL that can be passed to a Selenium RemoteWebDriver constructor.
+    ///
+    /// - Parameter CreateTestGridUrlInput : [no documentation found]
+    ///
+    /// - Returns: `CreateTestGridUrlOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
+    /// - `NotFoundException` : The specified entity was not found.
     public func createTestGridUrl(input: CreateTestGridUrlInput) async throws -> CreateTestGridUrlOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -327,6 +410,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Uploads an app or test scripts.
+    ///
+    /// - Parameter CreateUploadInput : Represents a request to the create upload operation.
+    ///
+    /// - Returns: `CreateUploadOutputResponse` : Represents the result of a create upload request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func createUpload(input: CreateUploadInput) async throws -> CreateUploadOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -364,6 +459,17 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Creates a configuration record in Device Farm for your Amazon Virtual Private Cloud (VPC) endpoint.
+    ///
+    /// - Parameter CreateVPCEConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateVPCEConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func createVPCEConfiguration(input: CreateVPCEConfigurationInput) async throws -> CreateVPCEConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -401,6 +507,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Deletes a device pool given the pool ARN. Does not allow deletion of curated pools owned by the system.
+    ///
+    /// - Parameter DeleteDevicePoolInput : Represents a request to the delete device pool operation.
+    ///
+    /// - Returns: `DeleteDevicePoolOutputResponse` : Represents the result of a delete device pool request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func deleteDevicePool(input: DeleteDevicePoolInput) async throws -> DeleteDevicePoolOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -438,6 +556,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Deletes a profile that can be applied to one or more private device instances.
+    ///
+    /// - Parameter DeleteInstanceProfileInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteInstanceProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func deleteInstanceProfile(input: DeleteInstanceProfileInput) async throws -> DeleteInstanceProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -475,6 +605,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Deletes a network profile.
+    ///
+    /// - Parameter DeleteNetworkProfileInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteNetworkProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func deleteNetworkProfile(input: DeleteNetworkProfileInput) async throws -> DeleteNetworkProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -512,6 +654,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Deletes an AWS Device Farm project, given the project ARN. Deleting this resource does not stop an in-progress run.
+    ///
+    /// - Parameter DeleteProjectInput : Represents a request to the delete project operation.
+    ///
+    /// - Returns: `DeleteProjectOutputResponse` : Represents the result of a delete project request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -549,6 +703,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Deletes a completed remote access session and its results.
+    ///
+    /// - Parameter DeleteRemoteAccessSessionInput : Represents the request to delete the specified remote access session.
+    ///
+    /// - Returns: `DeleteRemoteAccessSessionOutputResponse` : The response from the server when a request is made to delete the remote access session.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func deleteRemoteAccessSession(input: DeleteRemoteAccessSessionInput) async throws -> DeleteRemoteAccessSessionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -586,6 +752,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Deletes the run, given the run ARN. Deleting this resource does not stop an in-progress run.
+    ///
+    /// - Parameter DeleteRunInput : Represents a request to the delete run operation.
+    ///
+    /// - Returns: `DeleteRunOutputResponse` : Represents the result of a delete run request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func deleteRun(input: DeleteRunInput) async throws -> DeleteRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -623,6 +801,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Deletes a Selenium testing project and all content generated under it. You cannot undo this operation. You cannot delete a project if it has active sessions.
+    ///
+    /// - Parameter DeleteTestGridProjectInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteTestGridProjectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `CannotDeleteException` : The requested object could not be deleted.
+    /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
+    /// - `NotFoundException` : The specified entity was not found.
     public func deleteTestGridProject(input: DeleteTestGridProjectInput) async throws -> DeleteTestGridProjectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -660,6 +850,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Deletes an upload given the upload ARN.
+    ///
+    /// - Parameter DeleteUploadInput : Represents a request to the delete upload operation.
+    ///
+    /// - Returns: `DeleteUploadOutputResponse` : Represents the result of a delete upload request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func deleteUpload(input: DeleteUploadInput) async throws -> DeleteUploadOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -697,6 +899,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Deletes a configuration for your Amazon Virtual Private Cloud (VPC) endpoint.
+    ///
+    /// - Parameter DeleteVPCEConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteVPCEConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `InvalidOperationException` : There was an error with the update request, or you do not have sufficient permissions to update this VPC endpoint configuration.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func deleteVPCEConfiguration(input: DeleteVPCEConfigurationInput) async throws -> DeleteVPCEConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -734,6 +948,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Returns the number of unmetered iOS or unmetered Android devices that have been purchased by the account.
+    ///
+    /// - Parameter GetAccountSettingsInput : Represents the request sent to retrieve the account settings.
+    ///
+    /// - Returns: `GetAccountSettingsOutputResponse` : Represents the account settings return values from the GetAccountSettings request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func getAccountSettings(input: GetAccountSettingsInput) async throws -> GetAccountSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -771,6 +997,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Gets information about a unique device type.
+    ///
+    /// - Parameter GetDeviceInput : Represents a request to the get device request.
+    ///
+    /// - Returns: `GetDeviceOutputResponse` : Represents the result of a get device request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func getDevice(input: GetDeviceInput) async throws -> GetDeviceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -808,6 +1046,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Returns information about a device instance that belongs to a private device fleet.
+    ///
+    /// - Parameter GetDeviceInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `GetDeviceInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func getDeviceInstance(input: GetDeviceInstanceInput) async throws -> GetDeviceInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -845,6 +1095,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Gets information about a device pool.
+    ///
+    /// - Parameter GetDevicePoolInput : Represents a request to the get device pool operation.
+    ///
+    /// - Returns: `GetDevicePoolOutputResponse` : Represents the result of a get device pool request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func getDevicePool(input: GetDevicePoolInput) async throws -> GetDevicePoolOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -882,6 +1144,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Gets information about compatibility with a device pool.
+    ///
+    /// - Parameter GetDevicePoolCompatibilityInput : Represents a request to the get device pool compatibility operation.
+    ///
+    /// - Returns: `GetDevicePoolCompatibilityOutputResponse` : Represents the result of describe device pool compatibility request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func getDevicePoolCompatibility(input: GetDevicePoolCompatibilityInput) async throws -> GetDevicePoolCompatibilityOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -919,6 +1193,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Returns information about the specified instance profile.
+    ///
+    /// - Parameter GetInstanceProfileInput : [no documentation found]
+    ///
+    /// - Returns: `GetInstanceProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func getInstanceProfile(input: GetInstanceProfileInput) async throws -> GetInstanceProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -956,6 +1242,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Gets information about a job.
+    ///
+    /// - Parameter GetJobInput : Represents a request to the get job operation.
+    ///
+    /// - Returns: `GetJobOutputResponse` : Represents the result of a get job request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func getJob(input: GetJobInput) async throws -> GetJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -993,6 +1291,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Returns information about a network profile.
+    ///
+    /// - Parameter GetNetworkProfileInput : [no documentation found]
+    ///
+    /// - Returns: `GetNetworkProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func getNetworkProfile(input: GetNetworkProfileInput) async throws -> GetNetworkProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1030,6 +1340,19 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Gets the current status and future status of all offerings purchased by an AWS account. The response indicates how many offerings are currently available and the offerings that will be available in the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com).
+    ///
+    /// - Parameter GetOfferingStatusInput : Represents the request to retrieve the offering status for the specified customer or account.
+    ///
+    /// - Returns: `GetOfferingStatusOutputResponse` : Returns the status result for a device offering.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotEligibleException` : Exception gets thrown when a user is not eligible to perform the specified transaction.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func getOfferingStatus(input: GetOfferingStatusInput) async throws -> GetOfferingStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1067,6 +1390,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Gets information about a project.
+    ///
+    /// - Parameter GetProjectInput : Represents a request to the get project operation.
+    ///
+    /// - Returns: `GetProjectOutputResponse` : Represents the result of a get project request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func getProject(input: GetProjectInput) async throws -> GetProjectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1104,6 +1439,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Returns a link to a currently running remote access session.
+    ///
+    /// - Parameter GetRemoteAccessSessionInput : Represents the request to get information about the specified remote access session.
+    ///
+    /// - Returns: `GetRemoteAccessSessionOutputResponse` : Represents the response from the server that lists detailed information about the remote access session.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func getRemoteAccessSession(input: GetRemoteAccessSessionInput) async throws -> GetRemoteAccessSessionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1141,6 +1488,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Gets information about a run.
+    ///
+    /// - Parameter GetRunInput : Represents a request to the get run operation.
+    ///
+    /// - Returns: `GetRunOutputResponse` : Represents the result of a get run request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func getRun(input: GetRunInput) async throws -> GetRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1178,6 +1537,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Gets information about a suite.
+    ///
+    /// - Parameter GetSuiteInput : Represents a request to the get suite operation.
+    ///
+    /// - Returns: `GetSuiteOutputResponse` : Represents the result of a get suite request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func getSuite(input: GetSuiteInput) async throws -> GetSuiteOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1215,6 +1586,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Gets information about a test.
+    ///
+    /// - Parameter GetTestInput : Represents a request to the get test operation.
+    ///
+    /// - Returns: `GetTestOutputResponse` : Represents the result of a get test request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func getTest(input: GetTestInput) async throws -> GetTestOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1252,6 +1635,17 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Retrieves information about a Selenium testing project.
+    ///
+    /// - Parameter GetTestGridProjectInput : [no documentation found]
+    ///
+    /// - Returns: `GetTestGridProjectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
+    /// - `NotFoundException` : The specified entity was not found.
     public func getTestGridProject(input: GetTestGridProjectInput) async throws -> GetTestGridProjectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1293,6 +1687,17 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// * The session ARN ([GetTestGridSessionRequest$sessionArn]).
     ///
     /// * The project ARN and a session ID ([GetTestGridSessionRequest$projectArn] and [GetTestGridSessionRequest$sessionId]).
+    ///
+    /// - Parameter GetTestGridSessionInput : [no documentation found]
+    ///
+    /// - Returns: `GetTestGridSessionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
+    /// - `NotFoundException` : The specified entity was not found.
     public func getTestGridSession(input: GetTestGridSessionInput) async throws -> GetTestGridSessionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1330,6 +1735,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Gets information about an upload.
+    ///
+    /// - Parameter GetUploadInput : Represents a request to the get upload operation.
+    ///
+    /// - Returns: `GetUploadOutputResponse` : Represents the result of a get upload request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func getUpload(input: GetUploadInput) async throws -> GetUploadOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1367,6 +1784,17 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Returns information about the configuration settings for your Amazon Virtual Private Cloud (VPC) endpoint.
+    ///
+    /// - Parameter GetVPCEConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetVPCEConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func getVPCEConfiguration(input: GetVPCEConfigurationInput) async throws -> GetVPCEConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1404,6 +1832,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Installs an application to the device in a remote access session. For Android applications, the file must be in .apk format. For iOS applications, the file must be in .ipa format.
+    ///
+    /// - Parameter InstallToRemoteAccessSessionInput : Represents the request to install an Android application (in .apk format) or an iOS application (in .ipa format) as part of a remote access session.
+    ///
+    /// - Returns: `InstallToRemoteAccessSessionOutputResponse` : Represents the response from the server after AWS Device Farm makes a request to install to a remote access session.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func installToRemoteAccessSession(input: InstallToRemoteAccessSessionInput) async throws -> InstallToRemoteAccessSessionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1441,6 +1881,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Gets information about artifacts.
+    ///
+    /// - Parameter ListArtifactsInput : Represents a request to the list artifacts operation.
+    ///
+    /// - Returns: `ListArtifactsOutputResponse` : Represents the result of a list artifacts operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func listArtifacts(input: ListArtifactsInput) async throws -> ListArtifactsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1478,6 +1930,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Returns information about the private device instances associated with one or more AWS accounts.
+    ///
+    /// - Parameter ListDeviceInstancesInput : [no documentation found]
+    ///
+    /// - Returns: `ListDeviceInstancesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func listDeviceInstances(input: ListDeviceInstancesInput) async throws -> ListDeviceInstancesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1515,6 +1979,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Gets information about device pools.
+    ///
+    /// - Parameter ListDevicePoolsInput : Represents the result of a list device pools request.
+    ///
+    /// - Returns: `ListDevicePoolsOutputResponse` : Represents the result of a list device pools request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func listDevicePools(input: ListDevicePoolsInput) async throws -> ListDevicePoolsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1552,6 +2028,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Gets information about unique device types.
+    ///
+    /// - Parameter ListDevicesInput : Represents the result of a list devices request.
+    ///
+    /// - Returns: `ListDevicesOutputResponse` : Represents the result of a list devices operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1589,6 +2077,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Returns information about all the instance profiles in an AWS account.
+    ///
+    /// - Parameter ListInstanceProfilesInput : [no documentation found]
+    ///
+    /// - Returns: `ListInstanceProfilesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func listInstanceProfiles(input: ListInstanceProfilesInput) async throws -> ListInstanceProfilesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1626,6 +2126,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Gets information about jobs for a given test run.
+    ///
+    /// - Parameter ListJobsInput : Represents a request to the list jobs operation.
+    ///
+    /// - Returns: `ListJobsOutputResponse` : Represents the result of a list jobs request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func listJobs(input: ListJobsInput) async throws -> ListJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1663,6 +2175,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Returns the list of available network profiles.
+    ///
+    /// - Parameter ListNetworkProfilesInput : [no documentation found]
+    ///
+    /// - Returns: `ListNetworkProfilesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func listNetworkProfiles(input: ListNetworkProfilesInput) async throws -> ListNetworkProfilesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1700,6 +2224,19 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Returns a list of offering promotions. Each offering promotion record contains the ID and description of the promotion. The API returns a NotEligible error if the caller is not permitted to invoke the operation. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you must be able to invoke this operation.
+    ///
+    /// - Parameter ListOfferingPromotionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListOfferingPromotionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotEligibleException` : Exception gets thrown when a user is not eligible to perform the specified transaction.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func listOfferingPromotions(input: ListOfferingPromotionsInput) async throws -> ListOfferingPromotionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1737,6 +2274,19 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Returns a list of all historical purchases, renewals, and system renewal transactions for an AWS account. The list is paginated and ordered by a descending timestamp (most recent transactions are first). The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com).
+    ///
+    /// - Parameter ListOfferingTransactionsInput : Represents the request to list the offering transaction history.
+    ///
+    /// - Returns: `ListOfferingTransactionsOutputResponse` : Returns the transaction log of the specified offerings.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotEligibleException` : Exception gets thrown when a user is not eligible to perform the specified transaction.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func listOfferingTransactions(input: ListOfferingTransactionsInput) async throws -> ListOfferingTransactionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1774,6 +2324,19 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Returns a list of products or offerings that the user can manage through the API. Each offering record indicates the recurring price per unit and the frequency for that offering. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com).
+    ///
+    /// - Parameter ListOfferingsInput : Represents the request to list all offerings.
+    ///
+    /// - Returns: `ListOfferingsOutputResponse` : Represents the return values of the list of offerings.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotEligibleException` : Exception gets thrown when a user is not eligible to perform the specified transaction.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func listOfferings(input: ListOfferingsInput) async throws -> ListOfferingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1811,6 +2374,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Gets information about projects.
+    ///
+    /// - Parameter ListProjectsInput : Represents a request to the list projects operation.
+    ///
+    /// - Returns: `ListProjectsOutputResponse` : Represents the result of a list projects request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1848,6 +2423,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Returns a list of all currently running remote access sessions.
+    ///
+    /// - Parameter ListRemoteAccessSessionsInput : Represents the request to return information about the remote access session.
+    ///
+    /// - Returns: `ListRemoteAccessSessionsOutputResponse` : Represents the response from the server after AWS Device Farm makes a request to return information about the remote access session.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func listRemoteAccessSessions(input: ListRemoteAccessSessionsInput) async throws -> ListRemoteAccessSessionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1885,6 +2472,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Gets information about runs, given an AWS Device Farm project ARN.
+    ///
+    /// - Parameter ListRunsInput : Represents a request to the list runs operation.
+    ///
+    /// - Returns: `ListRunsOutputResponse` : Represents the result of a list runs request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func listRuns(input: ListRunsInput) async throws -> ListRunsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1922,6 +2521,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Gets information about samples, given an AWS Device Farm job ARN.
+    ///
+    /// - Parameter ListSamplesInput : Represents a request to the list samples operation.
+    ///
+    /// - Returns: `ListSamplesOutputResponse` : Represents the result of a list samples request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func listSamples(input: ListSamplesInput) async throws -> ListSamplesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1959,6 +2570,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Gets information about test suites for a given job.
+    ///
+    /// - Parameter ListSuitesInput : Represents a request to the list suites operation.
+    ///
+    /// - Returns: `ListSuitesOutputResponse` : Represents the result of a list suites request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func listSuites(input: ListSuitesInput) async throws -> ListSuitesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1996,6 +2619,17 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// List the tags for an AWS Device Farm resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `TagOperationException` : The operation was not successful. Try again.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2033,6 +2667,16 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Gets a list of all Selenium testing projects in your account.
+    ///
+    /// - Parameter ListTestGridProjectsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTestGridProjectsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
     public func listTestGridProjects(input: ListTestGridProjectsInput) async throws -> ListTestGridProjectsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2070,6 +2714,17 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Returns a list of the actions taken in a [TestGridSession].
+    ///
+    /// - Parameter ListTestGridSessionActionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTestGridSessionActionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
+    /// - `NotFoundException` : The specified entity was not found.
     public func listTestGridSessionActions(input: ListTestGridSessionActionsInput) async throws -> ListTestGridSessionActionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2107,6 +2762,17 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Retrieves a list of artifacts created during the session.
+    ///
+    /// - Parameter ListTestGridSessionArtifactsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTestGridSessionArtifactsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
+    /// - `NotFoundException` : The specified entity was not found.
     public func listTestGridSessionArtifacts(input: ListTestGridSessionArtifactsInput) async throws -> ListTestGridSessionArtifactsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2144,6 +2810,17 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Retrieves a list of sessions for a [TestGridProject].
+    ///
+    /// - Parameter ListTestGridSessionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTestGridSessionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
+    /// - `NotFoundException` : The specified entity was not found.
     public func listTestGridSessions(input: ListTestGridSessionsInput) async throws -> ListTestGridSessionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2181,6 +2858,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Gets information about tests in a given test suite.
+    ///
+    /// - Parameter ListTestsInput : Represents a request to the list tests operation.
+    ///
+    /// - Returns: `ListTestsOutputResponse` : Represents the result of a list tests request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func listTests(input: ListTestsInput) async throws -> ListTestsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2218,6 +2907,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Gets information about unique problems, such as exceptions or crashes. Unique problems are defined as a single instance of an error across a run, job, or suite. For example, if a call in your application consistently raises an exception (OutOfBoundsException in MyActivity.java:386), ListUniqueProblems returns a single entry instead of many individual entries for that exception.
+    ///
+    /// - Parameter ListUniqueProblemsInput : Represents a request to the list unique problems operation.
+    ///
+    /// - Returns: `ListUniqueProblemsOutputResponse` : Represents the result of a list unique problems request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func listUniqueProblems(input: ListUniqueProblemsInput) async throws -> ListUniqueProblemsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2255,6 +2956,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Gets information about uploads, given an AWS Device Farm project ARN.
+    ///
+    /// - Parameter ListUploadsInput : Represents a request to the list uploads operation.
+    ///
+    /// - Returns: `ListUploadsOutputResponse` : Represents the result of a list uploads request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func listUploads(input: ListUploadsInput) async throws -> ListUploadsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2292,6 +3005,16 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Returns information about all Amazon Virtual Private Cloud (VPC) endpoint configurations in the AWS account.
+    ///
+    /// - Parameter ListVPCEConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListVPCEConfigurationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func listVPCEConfigurations(input: ListVPCEConfigurationsInput) async throws -> ListVPCEConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2329,6 +3052,19 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Immediately purchases offerings for an AWS account. Offerings renew with the latest total purchased quantity for an offering, unless the renewal was overridden. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com).
+    ///
+    /// - Parameter PurchaseOfferingInput : Represents a request for a purchase offering.
+    ///
+    /// - Returns: `PurchaseOfferingOutputResponse` : The result of the purchase offering (for example, success or failure).
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotEligibleException` : Exception gets thrown when a user is not eligible to perform the specified transaction.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func purchaseOffering(input: PurchaseOfferingInput) async throws -> PurchaseOfferingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2366,6 +3102,19 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Explicitly sets the quantity of devices to renew for an offering, starting from the effectiveDate of the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com).
+    ///
+    /// - Parameter RenewOfferingInput : A request that represents an offering renewal.
+    ///
+    /// - Returns: `RenewOfferingOutputResponse` : The result of a renewal offering.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotEligibleException` : Exception gets thrown when a user is not eligible to perform the specified transaction.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func renewOffering(input: RenewOfferingInput) async throws -> RenewOfferingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2403,6 +3152,19 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Schedules a run.
+    ///
+    /// - Parameter ScheduleRunInput : Represents a request to the schedule run operation.
+    ///
+    /// - Returns: `ScheduleRunOutputResponse` : Represents the result of a schedule run request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `IdempotencyException` : An entity with the same name already exists.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func scheduleRun(input: ScheduleRunInput) async throws -> ScheduleRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2440,6 +3202,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Initiates a stop request for the current job. AWS Device Farm immediately stops the job on the device where tests have not started. You are not billed for this device. On the device where tests have started, setup suite and teardown suite tests run to completion on the device. You are billed for setup, teardown, and any tests that were in progress or already completed.
+    ///
+    /// - Parameter StopJobInput : [no documentation found]
+    ///
+    /// - Returns: `StopJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func stopJob(input: StopJobInput) async throws -> StopJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2477,6 +3251,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Ends a specified remote access session.
+    ///
+    /// - Parameter StopRemoteAccessSessionInput : Represents the request to stop the remote access session.
+    ///
+    /// - Returns: `StopRemoteAccessSessionOutputResponse` : Represents the response from the server that describes the remote access session when AWS Device Farm stops the session.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func stopRemoteAccessSession(input: StopRemoteAccessSessionInput) async throws -> StopRemoteAccessSessionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2514,6 +3300,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Initiates a stop request for the current test run. AWS Device Farm immediately stops the run on devices where tests have not started. You are not billed for these devices. On devices where tests have started executing, setup suite and teardown suite tests run to completion on those devices. You are billed for setup, teardown, and any tests that were in progress or already completed.
+    ///
+    /// - Parameter StopRunInput : Represents the request to stop a specific run.
+    ///
+    /// - Returns: `StopRunOutputResponse` : Represents the results of your stop run attempt.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func stopRun(input: StopRunInput) async throws -> StopRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2551,6 +3349,19 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `TagOperationException` : The operation was not successful. Try again.
+    /// - `TagPolicyException` : The request doesn't comply with the AWS Identity and Access Management (IAM) tag policy. Correct your request and then retry it.
+    /// - `TooManyTagsException` : The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2588,6 +3399,17 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Deletes the specified tags from a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `TagOperationException` : The operation was not successful. Try again.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2625,6 +3447,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Updates information about a private device instance.
+    ///
+    /// - Parameter UpdateDeviceInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDeviceInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func updateDeviceInstance(input: UpdateDeviceInstanceInput) async throws -> UpdateDeviceInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2662,6 +3496,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Modifies the name, description, and rules in a device pool given the attributes and the pool ARN. Rule updates are all-or-nothing, meaning they can only be updated as a whole (or not at all).
+    ///
+    /// - Parameter UpdateDevicePoolInput : Represents a request to the update device pool operation.
+    ///
+    /// - Returns: `UpdateDevicePoolOutputResponse` : Represents the result of an update device pool request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func updateDevicePool(input: UpdateDevicePoolInput) async throws -> UpdateDevicePoolOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2699,6 +3545,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Updates information about an existing private device instance profile.
+    ///
+    /// - Parameter UpdateInstanceProfileInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateInstanceProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func updateInstanceProfile(input: UpdateInstanceProfileInput) async throws -> UpdateInstanceProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2736,6 +3594,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Updates the network profile.
+    ///
+    /// - Parameter UpdateNetworkProfileInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateNetworkProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func updateNetworkProfile(input: UpdateNetworkProfileInput) async throws -> UpdateNetworkProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2773,6 +3643,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Modifies the specified project name, given the project ARN and a new name.
+    ///
+    /// - Parameter UpdateProjectInput : Represents a request to the update project operation.
+    ///
+    /// - Returns: `UpdateProjectOutputResponse` : Represents the result of an update project request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2810,6 +3692,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Change details of a project.
+    ///
+    /// - Parameter UpdateTestGridProjectInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateTestGridProjectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
     public func updateTestGridProject(input: UpdateTestGridProjectInput) async throws -> UpdateTestGridProjectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2847,6 +3741,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Updates an uploaded test spec.
+    ///
+    /// - Parameter UpdateUploadInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateUploadOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func updateUpload(input: UpdateUploadInput) async throws -> UpdateUploadOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2884,6 +3790,18 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     }
 
     /// Updates information about an Amazon Virtual Private Cloud (VPC) endpoint configuration.
+    ///
+    /// - Parameter UpdateVPCEConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateVPCEConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ArgumentException` : An invalid argument was specified.
+    /// - `InvalidOperationException` : There was an error with the update request, or you do not have sufficient permissions to update this VPC endpoint configuration.
+    /// - `NotFoundException` : The specified entity was not found.
+    /// - `ServiceAccountException` : There was a problem with the service account.
     public func updateVPCEConfiguration(input: UpdateVPCEConfigurationInput) async throws -> UpdateVPCEConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

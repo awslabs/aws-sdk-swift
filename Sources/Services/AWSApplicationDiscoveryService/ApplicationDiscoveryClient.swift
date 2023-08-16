@@ -68,6 +68,19 @@ public struct ApplicationDiscoveryClientLogHandlerFactory: ClientRuntime.SDKLogH
 
 extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     /// Associates one or more configuration items with an application.
+    ///
+    /// - Parameter AssociateConfigurationItemsToApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateConfigurationItemsToApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     public func associateConfigurationItemsToApplication(input: AssociateConfigurationItemsToApplicationInput) async throws -> AssociateConfigurationItemsToApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -105,6 +118,19 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     }
 
     /// Deletes one or more import tasks, each identified by their import ID. Each import task has a number of records that can identify servers or applications. Amazon Web Services Application Discovery Service has built-in matching logic that will identify when discovered servers match existing entries that you've previously discovered, the information for the already-existing discovered server is updated. When you delete an import task that contains records that were used to match, the information in those matched records that comes from the deleted records will also be deleted.
+    ///
+    /// - Parameter BatchDeleteImportDataInput : [no documentation found]
+    ///
+    /// - Returns: `BatchDeleteImportDataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     public func batchDeleteImportData(input: BatchDeleteImportDataInput) async throws -> BatchDeleteImportDataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -142,6 +168,19 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     }
 
     /// Creates an application with the given name and description.
+    ///
+    /// - Parameter CreateApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -179,6 +218,20 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     }
 
     /// Creates one or more tags for configuration items. Tags are metadata that help you categorize IT assets. This API accepts a list of multiple configuration items. Do not store sensitive information (like personal data) in tags.
+    ///
+    /// - Parameter CreateTagsInput : [no documentation found]
+    ///
+    /// - Returns: `CreateTagsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `ResourceNotFoundException` : The specified configuration ID was not located. Verify the configuration ID and try again.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     public func createTags(input: CreateTagsInput) async throws -> CreateTagsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -216,6 +269,19 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     }
 
     /// Deletes a list of applications and their associations with configuration items.
+    ///
+    /// - Parameter DeleteApplicationsInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApplicationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     public func deleteApplications(input: DeleteApplicationsInput) async throws -> DeleteApplicationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -253,6 +319,20 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     }
 
     /// Deletes the association between configuration items and one or more tags. This API accepts a list of multiple configuration items.
+    ///
+    /// - Parameter DeleteTagsInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteTagsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `ResourceNotFoundException` : The specified configuration ID was not located. Verify the configuration ID and try again.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     public func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -290,6 +370,19 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     }
 
     /// Lists agents or collectors as specified by ID or other filters. All agents/collectors associated with your user can be listed if you call DescribeAgents as is without passing any parameters.
+    ///
+    /// - Parameter DescribeAgentsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAgentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     public func describeAgents(input: DescribeAgentsInput) async throws -> DescribeAgentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -338,6 +431,19 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     ///
     ///
     /// Output fields are specific to the asset type specified. For example, the output for a server configuration item includes a list of attributes about the server, such as host name, operating system, number of network cards, etc. For a complete list of outputs for each asset type, see [Using the DescribeConfigurations Action](https://docs.aws.amazon.com/application-discovery/latest/userguide/discovery-api-queries.html#DescribeConfigurations) in the Amazon Web Services Application Discovery Service User Guide.
+    ///
+    /// - Parameter DescribeConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeConfigurationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     public func describeConfigurations(input: DescribeConfigurationsInput) async throws -> DescribeConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -375,6 +481,21 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     }
 
     /// Lists exports as specified by ID. All continuous exports associated with your user can be listed if you call DescribeContinuousExports as is without passing any parameters.
+    ///
+    /// - Parameter DescribeContinuousExportsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeContinuousExportsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `OperationNotPermittedException` : This operation is not permitted.
+    /// - `ResourceNotFoundException` : The specified configuration ID was not located. Verify the configuration ID and try again.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     public func describeContinuousExports(input: DescribeContinuousExportsInput) async throws -> DescribeContinuousExportsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -413,6 +534,20 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
 
     /// DescribeExportConfigurations is deprecated. Use [DescribeExportTasks](https://docs.aws.amazon.com/application-discovery/latest/APIReference/API_DescribeExportTasks.html), instead.
     @available(*, deprecated)
+    ///
+    /// - Parameter DescribeExportConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeExportConfigurationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `ResourceNotFoundException` : The specified configuration ID was not located. Verify the configuration ID and try again.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     public func describeExportConfigurations(input: DescribeExportConfigurationsInput) async throws -> DescribeExportConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -450,6 +585,19 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     }
 
     /// Retrieve status of one or more export tasks. You can retrieve the status of up to 100 export tasks.
+    ///
+    /// - Parameter DescribeExportTasksInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeExportTasksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     public func describeExportTasks(input: DescribeExportTasksInput) async throws -> DescribeExportTasksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -487,6 +635,19 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     }
 
     /// Returns an array of import tasks for your account, including status information, times, IDs, the Amazon S3 Object URL for the import file, and more.
+    ///
+    /// - Parameter DescribeImportTasksInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeImportTasksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     public func describeImportTasks(input: DescribeImportTasksInput) async throws -> DescribeImportTasksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -533,6 +694,20 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     ///
     ///
     /// Also, all configuration items associated with your user that have tags can be listed if you call DescribeTags as is without passing any parameters.
+    ///
+    /// - Parameter DescribeTagsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeTagsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `ResourceNotFoundException` : The specified configuration ID was not located. Verify the configuration ID and try again.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     public func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -570,6 +745,19 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     }
 
     /// Disassociates one or more configuration items from an application.
+    ///
+    /// - Parameter DisassociateConfigurationItemsFromApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateConfigurationItemsFromApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     public func disassociateConfigurationItemsFromApplication(input: DisassociateConfigurationItemsFromApplicationInput) async throws -> DisassociateConfigurationItemsFromApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -608,6 +796,20 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
 
     /// Deprecated. Use StartExportTask instead. Exports all discovered configuration data to an Amazon S3 bucket or an application that enables you to view and evaluate the data. Data includes tags and tag associations, processes, connections, servers, and system performance. This API returns an export ID that you can query using the DescribeExportConfigurations API. The system imposes a limit of two configuration exports in six hours.
     @available(*, deprecated)
+    ///
+    /// - Parameter ExportConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ExportConfigurationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `OperationNotPermittedException` : This operation is not permitted.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     public func exportConfigurations(input: ExportConfigurationsInput) async throws -> ExportConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -645,6 +847,19 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     }
 
     /// Retrieves a short summary of discovered assets. This API operation takes no request parameters and is called as is at the command prompt as shown in the example.
+    ///
+    /// - Parameter GetDiscoverySummaryInput : [no documentation found]
+    ///
+    /// - Returns: `GetDiscoverySummaryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     public func getDiscoverySummary(input: GetDiscoverySummaryInput) async throws -> GetDiscoverySummaryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -682,6 +897,20 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     }
 
     /// Retrieves a list of configuration items as specified by the value passed to the required parameter configurationType. Optional filtering may be applied to refine search results.
+    ///
+    /// - Parameter ListConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListConfigurationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `ResourceNotFoundException` : The specified configuration ID was not located. Verify the configuration ID and try again.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     public func listConfigurations(input: ListConfigurationsInput) async throws -> ListConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -719,6 +948,19 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     }
 
     /// Retrieves a list of servers that are one network hop away from a specified server.
+    ///
+    /// - Parameter ListServerNeighborsInput : [no documentation found]
+    ///
+    /// - Returns: `ListServerNeighborsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     public func listServerNeighbors(input: ListServerNeighborsInput) async throws -> ListServerNeighborsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -756,6 +998,22 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     }
 
     /// Start the continuous flow of agent's discovered data into Amazon Athena.
+    ///
+    /// - Parameter StartContinuousExportInput : [no documentation found]
+    ///
+    /// - Returns: `StartContinuousExportOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `ConflictErrorException` :
+    /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `OperationNotPermittedException` : This operation is not permitted.
+    /// - `ResourceInUseException` : This issue occurs when the same clientRequestToken is used with the StartImportTask action, but with different parameters. For example, you use the same request token but have two different import URLs, you can encounter this issue. If the import tasks are meant to be different, use a different clientRequestToken, and try again.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     public func startContinuousExport(input: StartContinuousExportInput) async throws -> StartContinuousExportOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -793,6 +1051,19 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     }
 
     /// Instructs the specified agents to start collecting data.
+    ///
+    /// - Parameter StartDataCollectionByAgentIdsInput : [no documentation found]
+    ///
+    /// - Returns: `StartDataCollectionByAgentIdsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     public func startDataCollectionByAgentIds(input: StartDataCollectionByAgentIdsInput) async throws -> StartDataCollectionByAgentIdsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -830,6 +1101,20 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     }
 
     /// Begins the export of a discovered data report to an Amazon S3 bucket managed by Amazon Web Services. Exports might provide an estimate of fees and savings based on certain information that you provide. Fee estimates do not include any taxes that might apply. Your actual fees and savings depend on a variety of factors, including your actual usage of Amazon Web Services services, which might vary from the estimates provided in this report. If you do not specify preferences or agentIds in the filter, a summary of all servers, applications, tags, and performance is generated. This data is an aggregation of all server data collected through on-premises tooling, file import, application grouping and applying tags. If you specify agentIds in a filter, the task exports up to 72 hours of detailed data collected by the identified Application Discovery Agent, including network, process, and performance details. A time range for exported agent data may be set by using startTime and endTime. Export of detailed agent data is limited to five concurrently running exports. Export of detailed agent data is limited to two exports per day. If you enable ec2RecommendationsPreferences in preferences , an Amazon EC2 instance matching the characteristics of each server in Application Discovery Service is generated. Changing the attributes of the ec2RecommendationsPreferences changes the criteria of the recommendation.
+    ///
+    /// - Parameter StartExportTaskInput : [no documentation found]
+    ///
+    /// - Returns: `StartExportTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `OperationNotPermittedException` : This operation is not permitted.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     public func startExportTask(input: StartExportTaskInput) async throws -> StartExportTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -878,6 +1163,20 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     ///
     ///
     /// For more information, including step-by-step procedures, see [Migration Hub Import](https://docs.aws.amazon.com/application-discovery/latest/userguide/discovery-import.html) in the Amazon Web Services Application Discovery Service User Guide. There are limits to the number of import tasks you can create (and delete) in an Amazon Web Services account. For more information, see [Amazon Web Services Application Discovery Service Limits](https://docs.aws.amazon.com/application-discovery/latest/userguide/ads_service_limits.html) in the Amazon Web Services Application Discovery Service User Guide.
+    ///
+    /// - Parameter StartImportTaskInput : [no documentation found]
+    ///
+    /// - Returns: `StartImportTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `ResourceInUseException` : This issue occurs when the same clientRequestToken is used with the StartImportTask action, but with different parameters. For example, you use the same request token but have two different import URLs, you can encounter this issue. If the import tasks are meant to be different, use a different clientRequestToken, and try again.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     public func startImportTask(input: StartImportTaskInput) async throws -> StartImportTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -923,6 +1222,22 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     }
 
     /// Stop the continuous flow of agent's discovered data into Amazon Athena.
+    ///
+    /// - Parameter StopContinuousExportInput : [no documentation found]
+    ///
+    /// - Returns: `StopContinuousExportOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `OperationNotPermittedException` : This operation is not permitted.
+    /// - `ResourceInUseException` : This issue occurs when the same clientRequestToken is used with the StartImportTask action, but with different parameters. For example, you use the same request token but have two different import URLs, you can encounter this issue. If the import tasks are meant to be different, use a different clientRequestToken, and try again.
+    /// - `ResourceNotFoundException` : The specified configuration ID was not located. Verify the configuration ID and try again.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     public func stopContinuousExport(input: StopContinuousExportInput) async throws -> StopContinuousExportOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -960,6 +1275,19 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     }
 
     /// Instructs the specified agents to stop collecting data.
+    ///
+    /// - Parameter StopDataCollectionByAgentIdsInput : [no documentation found]
+    ///
+    /// - Returns: `StopDataCollectionByAgentIdsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     public func stopDataCollectionByAgentIds(input: StopDataCollectionByAgentIdsInput) async throws -> StopDataCollectionByAgentIdsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -997,6 +1325,19 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     }
 
     /// Updates metadata about an application.
+    ///
+    /// - Parameter UpdateApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

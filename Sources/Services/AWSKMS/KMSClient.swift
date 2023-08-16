@@ -68,6 +68,23 @@ public struct KMSClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
 
 extension KMSClient: KMSClientProtocol {
     /// Cancels the deletion of a KMS key. When this operation succeeds, the key state of the KMS key is Disabled. To enable the KMS key, use [EnableKey]. For more information about scheduling and canceling deletion of a KMS key, see [Deleting KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/deleting-keys.html) in the Key Management Service Developer Guide. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions: [kms:CancelKeyDeletion](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [ScheduleKeyDeletion]
+    ///
+    /// - Parameter CancelKeyDeletionInput : [no documentation found]
+    ///
+    /// - Returns: `CancelKeyDeletionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     public func cancelKeyDeletion(input: CancelKeyDeletionInput) async throws -> CancelKeyDeletionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -115,6 +132,38 @@ extension KMSClient: KMSClientProtocol {
     /// * [DisconnectCustomKeyStore]
     ///
     /// * [UpdateCustomKeyStore]
+    ///
+    /// - Parameter ConnectCustomKeyStoreInput : [no documentation found]
+    ///
+    /// - Returns: `ConnectCustomKeyStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CloudHsmClusterInvalidConfigurationException` : The request was rejected because the associated CloudHSM cluster did not meet the configuration requirements for an CloudHSM key store.
+    ///
+    /// * The CloudHSM cluster must be configured with private subnets in at least two different Availability Zones in the Region.
+    ///
+    /// * The [security group for the cluster](https://docs.aws.amazon.com/cloudhsm/latest/userguide/configure-sg.html) (cloudhsm-cluster--sg) must include inbound rules and outbound rules that allow TCP traffic on ports 2223-2225. The Source in the inbound rules and the Destination in the outbound rules must match the security group ID. These rules are set by default when you create the CloudHSM cluster. Do not delete or change them. To get information about a particular security group, use the [DescribeSecurityGroups](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSecurityGroups.html) operation.
+    ///
+    /// * The CloudHSM cluster must contain at least as many HSMs as the operation requires. To add HSMs, use the CloudHSM [CreateHsm](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/API_CreateHsm.html) operation. For the [CreateCustomKeyStore], [UpdateCustomKeyStore], and [CreateKey] operations, the CloudHSM cluster must have at least two active HSMs, each in a different Availability Zone. For the [ConnectCustomKeyStore] operation, the CloudHSM must contain at least one active HSM.
+    ///
+    ///
+    /// For information about the requirements for an CloudHSM cluster that is associated with an CloudHSM key store, see [Assemble the Prerequisites](https://docs.aws.amazon.com/kms/latest/developerguide/create-keystore.html#before-keystore) in the Key Management Service Developer Guide. For information about creating a private subnet for an CloudHSM cluster, see [Create a Private Subnet](https://docs.aws.amazon.com/cloudhsm/latest/userguide/create-subnets.html) in the CloudHSM User Guide. For information about cluster security groups, see [Configure a Default Security Group](https://docs.aws.amazon.com/cloudhsm/latest/userguide/configure-sg.html) in the CloudHSM User Guide .
+    /// - `CloudHsmClusterNotActiveException` : The request was rejected because the CloudHSM cluster associated with the CloudHSM key store is not active. Initialize and activate the cluster and try the command again. For detailed instructions, see [Getting Started](https://docs.aws.amazon.com/cloudhsm/latest/userguide/getting-started.html) in the CloudHSM User Guide.
+    /// - `CustomKeyStoreInvalidStateException` : The request was rejected because of the ConnectionState of the custom key store. To get the ConnectionState of a custom key store, use the [DescribeCustomKeyStores] operation. This exception is thrown under the following conditions:
+    ///
+    /// * You requested the [ConnectCustomKeyStore] operation on a custom key store with a ConnectionState of DISCONNECTING or FAILED. This operation is valid for all other ConnectionState values. To reconnect a custom key store in a FAILED state, disconnect it ([DisconnectCustomKeyStore]), then connect it (ConnectCustomKeyStore).
+    ///
+    /// * You requested the [CreateKey] operation in a custom key store that is not connected. This operations is valid only when the custom key store ConnectionState is CONNECTED.
+    ///
+    /// * You requested the [DisconnectCustomKeyStore] operation on a custom key store with a ConnectionState of DISCONNECTING or DISCONNECTED. This operation is valid for all other ConnectionState values.
+    ///
+    /// * You requested the [UpdateCustomKeyStore] or [DeleteCustomKeyStore] operation on a custom key store that is not disconnected. This operation is valid only when the custom key store ConnectionState is DISCONNECTED.
+    ///
+    /// * You requested the [GenerateRandom] operation in an CloudHSM key store that is not connected. This operation is valid only when the CloudHSM key store ConnectionState is CONNECTED.
+    /// - `CustomKeyStoreNotFoundException` : The request was rejected because KMS cannot find a custom key store with the specified key store name or ID.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
     public func connectCustomKeyStore(input: ConnectCustomKeyStoreInput) async throws -> ConnectCustomKeyStoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -165,6 +214,25 @@ extension KMSClient: KMSClientProtocol {
     /// * [ListAliases]
     ///
     /// * [UpdateAlias]
+    ///
+    /// - Parameter CreateAliasInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAliasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : The request was rejected because it attempted to create a resource that already exists.
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `InvalidAliasNameException` : The request was rejected because the specified alias name is not valid.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `LimitExceededException` : The request was rejected because a quota was exceeded. For more information, see [Quotas](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html) in the Key Management Service Developer Guide.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     public func createAlias(input: CreateAliasInput) async throws -> CreateAliasOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -219,6 +287,40 @@ extension KMSClient: KMSClientProtocol {
     /// * [DisconnectCustomKeyStore]
     ///
     /// * [UpdateCustomKeyStore]
+    ///
+    /// - Parameter CreateCustomKeyStoreInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCustomKeyStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CloudHsmClusterInUseException` : The request was rejected because the specified CloudHSM cluster is already associated with an CloudHSM key store in the account, or it shares a backup history with an CloudHSM key store in the account. Each CloudHSM key store in the account must be associated with a different CloudHSM cluster. CloudHSM clusters that share a backup history have the same cluster certificate. To view the cluster certificate of an CloudHSM cluster, use the [DescribeClusters](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/API_DescribeClusters.html) operation.
+    /// - `CloudHsmClusterInvalidConfigurationException` : The request was rejected because the associated CloudHSM cluster did not meet the configuration requirements for an CloudHSM key store.
+    ///
+    /// * The CloudHSM cluster must be configured with private subnets in at least two different Availability Zones in the Region.
+    ///
+    /// * The [security group for the cluster](https://docs.aws.amazon.com/cloudhsm/latest/userguide/configure-sg.html) (cloudhsm-cluster--sg) must include inbound rules and outbound rules that allow TCP traffic on ports 2223-2225. The Source in the inbound rules and the Destination in the outbound rules must match the security group ID. These rules are set by default when you create the CloudHSM cluster. Do not delete or change them. To get information about a particular security group, use the [DescribeSecurityGroups](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSecurityGroups.html) operation.
+    ///
+    /// * The CloudHSM cluster must contain at least as many HSMs as the operation requires. To add HSMs, use the CloudHSM [CreateHsm](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/API_CreateHsm.html) operation. For the [CreateCustomKeyStore], [UpdateCustomKeyStore], and [CreateKey] operations, the CloudHSM cluster must have at least two active HSMs, each in a different Availability Zone. For the [ConnectCustomKeyStore] operation, the CloudHSM must contain at least one active HSM.
+    ///
+    ///
+    /// For information about the requirements for an CloudHSM cluster that is associated with an CloudHSM key store, see [Assemble the Prerequisites](https://docs.aws.amazon.com/kms/latest/developerguide/create-keystore.html#before-keystore) in the Key Management Service Developer Guide. For information about creating a private subnet for an CloudHSM cluster, see [Create a Private Subnet](https://docs.aws.amazon.com/cloudhsm/latest/userguide/create-subnets.html) in the CloudHSM User Guide. For information about cluster security groups, see [Configure a Default Security Group](https://docs.aws.amazon.com/cloudhsm/latest/userguide/configure-sg.html) in the CloudHSM User Guide .
+    /// - `CloudHsmClusterNotActiveException` : The request was rejected because the CloudHSM cluster associated with the CloudHSM key store is not active. Initialize and activate the cluster and try the command again. For detailed instructions, see [Getting Started](https://docs.aws.amazon.com/cloudhsm/latest/userguide/getting-started.html) in the CloudHSM User Guide.
+    /// - `CloudHsmClusterNotFoundException` : The request was rejected because KMS cannot find the CloudHSM cluster with the specified cluster ID. Retry the request with a different cluster ID.
+    /// - `CustomKeyStoreNameInUseException` : The request was rejected because the specified custom key store name is already assigned to another custom key store in the account. Try again with a custom key store name that is unique in the account.
+    /// - `IncorrectTrustAnchorException` : The request was rejected because the trust anchor certificate in the request to create an CloudHSM key store is not the trust anchor certificate for the specified CloudHSM cluster. When you [initialize the CloudHSM cluster](https://docs.aws.amazon.com/cloudhsm/latest/userguide/initialize-cluster.html#sign-csr), you create the trust anchor certificate and save it in the customerCA.crt file.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `LimitExceededException` : The request was rejected because a quota was exceeded. For more information, see [Quotas](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html) in the Key Management Service Developer Guide.
+    /// - `XksProxyIncorrectAuthenticationCredentialException` : The request was rejected because the proxy credentials failed to authenticate to the specified external key store proxy. The specified external key store proxy rejected a status request from KMS due to invalid credentials. This can indicate an error in the credentials or in the identification of the external key store proxy.
+    /// - `XksProxyInvalidConfigurationException` : The request was rejected because the Amazon VPC endpoint service configuration does not fulfill the requirements for an external key store proxy. For details, see the exception message.
+    /// - `XksProxyInvalidResponseException` : KMS cannot interpret the response it received from the external key store proxy. The problem might be a poorly constructed response, but it could also be a transient network issue. If you see this error repeatedly, report it to the proxy vendor.
+    /// - `XksProxyUriEndpointInUseException` : The request was rejected because the concatenation of the XksProxyUriEndpoint is already associated with an external key store in the Amazon Web Services account and Region. Each external key store in an account and Region must use a unique external key store proxy address.
+    /// - `XksProxyUriInUseException` : The request was rejected because the concatenation of the XksProxyUriEndpoint and XksProxyUriPath is already associated with an external key store in the Amazon Web Services account and Region. Each external key store in an account and Region must use a unique external key store proxy API address.
+    /// - `XksProxyUriUnreachableException` : KMS was unable to reach the specified XksProxyUriPath. The path must be reachable before you create the external key store or update its settings. This exception is also thrown when the external key store proxy response to a GetHealthStatus request indicates that all external key manager instances are unavailable.
+    /// - `XksProxyVpcEndpointServiceInUseException` : The request was rejected because the specified Amazon VPC endpoint service is already associated with an external key store in the Amazon Web Services account and Region. Each external key store in an Amazon Web Services account and Region must use a different Amazon VPC endpoint service.
+    /// - `XksProxyVpcEndpointServiceInvalidConfigurationException` : The request was rejected because the Amazon VPC endpoint service configuration does not fulfill the requirements for an external key store proxy. For details, see the exception message and [review the requirements] for Amazon VPC endpoint service connectivity for an external key store.
+    /// - `XksProxyVpcEndpointServiceNotFoundException` : The request was rejected because KMS could not find the specified VPC endpoint service. Use [DescribeCustomKeyStores] to verify the VPC endpoint service name for the external key store. Also, confirm that the Allow principals list for the VPC endpoint service includes the KMS service principal for the Region, such as cks.kms.us-east-1.amazonaws.com.
     public func createCustomKeyStore(input: CreateCustomKeyStoreInput) async throws -> CreateCustomKeyStoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -271,6 +373,27 @@ extension KMSClient: KMSClientProtocol {
     /// * [RetireGrant]
     ///
     /// * [RevokeGrant]
+    ///
+    /// - Parameter CreateGrantInput : [no documentation found]
+    ///
+    /// - Returns: `CreateGrantOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `DisabledException` : The request was rejected because the specified KMS key is not enabled.
+    /// - `DryRunOperationException` : The request was rejected because the DryRun parameter was specified.
+    /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
+    /// - `InvalidGrantTokenException` : The request was rejected because the specified grant token is not valid.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `LimitExceededException` : The request was rejected because a quota was exceeded. For more information, see [Quotas](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html) in the Key Management Service Developer Guide.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     public func createGrant(input: CreateGrantInput) async throws -> CreateGrantOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -314,6 +437,46 @@ extension KMSClient: KMSClientProtocol {
     /// * [ListKeys]
     ///
     /// * [ScheduleKeyDeletion]
+    ///
+    /// - Parameter CreateKeyInput : [no documentation found]
+    ///
+    /// - Returns: `CreateKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CloudHsmClusterInvalidConfigurationException` : The request was rejected because the associated CloudHSM cluster did not meet the configuration requirements for an CloudHSM key store.
+    ///
+    /// * The CloudHSM cluster must be configured with private subnets in at least two different Availability Zones in the Region.
+    ///
+    /// * The [security group for the cluster](https://docs.aws.amazon.com/cloudhsm/latest/userguide/configure-sg.html) (cloudhsm-cluster--sg) must include inbound rules and outbound rules that allow TCP traffic on ports 2223-2225. The Source in the inbound rules and the Destination in the outbound rules must match the security group ID. These rules are set by default when you create the CloudHSM cluster. Do not delete or change them. To get information about a particular security group, use the [DescribeSecurityGroups](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSecurityGroups.html) operation.
+    ///
+    /// * The CloudHSM cluster must contain at least as many HSMs as the operation requires. To add HSMs, use the CloudHSM [CreateHsm](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/API_CreateHsm.html) operation. For the [CreateCustomKeyStore], [UpdateCustomKeyStore], and [CreateKey] operations, the CloudHSM cluster must have at least two active HSMs, each in a different Availability Zone. For the [ConnectCustomKeyStore] operation, the CloudHSM must contain at least one active HSM.
+    ///
+    ///
+    /// For information about the requirements for an CloudHSM cluster that is associated with an CloudHSM key store, see [Assemble the Prerequisites](https://docs.aws.amazon.com/kms/latest/developerguide/create-keystore.html#before-keystore) in the Key Management Service Developer Guide. For information about creating a private subnet for an CloudHSM cluster, see [Create a Private Subnet](https://docs.aws.amazon.com/cloudhsm/latest/userguide/create-subnets.html) in the CloudHSM User Guide. For information about cluster security groups, see [Configure a Default Security Group](https://docs.aws.amazon.com/cloudhsm/latest/userguide/configure-sg.html) in the CloudHSM User Guide .
+    /// - `CustomKeyStoreInvalidStateException` : The request was rejected because of the ConnectionState of the custom key store. To get the ConnectionState of a custom key store, use the [DescribeCustomKeyStores] operation. This exception is thrown under the following conditions:
+    ///
+    /// * You requested the [ConnectCustomKeyStore] operation on a custom key store with a ConnectionState of DISCONNECTING or FAILED. This operation is valid for all other ConnectionState values. To reconnect a custom key store in a FAILED state, disconnect it ([DisconnectCustomKeyStore]), then connect it (ConnectCustomKeyStore).
+    ///
+    /// * You requested the [CreateKey] operation in a custom key store that is not connected. This operations is valid only when the custom key store ConnectionState is CONNECTED.
+    ///
+    /// * You requested the [DisconnectCustomKeyStore] operation on a custom key store with a ConnectionState of DISCONNECTING or DISCONNECTED. This operation is valid for all other ConnectionState values.
+    ///
+    /// * You requested the [UpdateCustomKeyStore] or [DeleteCustomKeyStore] operation on a custom key store that is not disconnected. This operation is valid only when the custom key store ConnectionState is DISCONNECTED.
+    ///
+    /// * You requested the [GenerateRandom] operation in an CloudHSM key store that is not connected. This operation is valid only when the CloudHSM key store ConnectionState is CONNECTED.
+    /// - `CustomKeyStoreNotFoundException` : The request was rejected because KMS cannot find a custom key store with the specified key store name or ID.
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `LimitExceededException` : The request was rejected because a quota was exceeded. For more information, see [Quotas](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html) in the Key Management Service Developer Guide.
+    /// - `MalformedPolicyDocumentException` : The request was rejected because the specified policy is not syntactically or semantically correct.
+    /// - `TagException` : The request was rejected because one or more tags are not valid.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
+    /// - `XksKeyAlreadyInUseException` : The request was rejected because the (XksKeyId) is already associated with a KMS key in this external key store. Each KMS key in an external key store must be associated with a different external key.
+    /// - `XksKeyInvalidConfigurationException` : The request was rejected because the external key specified by the XksKeyId parameter did not meet the configuration requirements for an external key store. The external key must be an AES-256 symmetric key that is enabled and performs encryption and decryption.
+    /// - `XksKeyNotFoundException` : The request was rejected because the external key store proxy could not find the external key. This exception is thrown when the value of the XksKeyId parameter doesn't identify a key in the external key manager associated with the external key proxy. Verify that the XksKeyId represents an existing key in the external key manager. Use the key identifier that the external key store proxy uses to identify the key. For details, see the documentation provided with your external key store proxy or key manager.
     public func createKey(input: CreateKeyInput) async throws -> CreateKeyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -372,6 +535,36 @@ extension KMSClient: KMSClientProtocol {
     /// * [GenerateDataKeyPair]
     ///
     /// * [ReEncrypt]
+    ///
+    /// - Parameter DecryptInput : [no documentation found]
+    ///
+    /// - Returns: `DecryptOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `DisabledException` : The request was rejected because the specified KMS key is not enabled.
+    /// - `DryRunOperationException` : The request was rejected because the DryRun parameter was specified.
+    /// - `IncorrectKeyException` : The request was rejected because the specified KMS key cannot decrypt the data. The KeyId in a [Decrypt] request and the SourceKeyId in a [ReEncrypt] request must identify the same KMS key that was used to encrypt the ciphertext.
+    /// - `InvalidCiphertextException` : From the [Decrypt] or [ReEncrypt] operation, the request was rejected because the specified ciphertext, or additional authenticated data incorporated into the ciphertext, such as the encryption context, is corrupted, missing, or otherwise invalid. From the [ImportKeyMaterial] operation, the request was rejected because KMS could not decrypt the encrypted (wrapped) key material.
+    /// - `InvalidGrantTokenException` : The request was rejected because the specified grant token is not valid.
+    /// - `InvalidKeyUsageException` : The request was rejected for one of the following reasons:
+    ///
+    /// * The KeyUsage value of the KMS key is incompatible with the API operation.
+    ///
+    /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
+    ///
+    ///
+    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
+    /// - `KeyUnavailableException` : The request was rejected because the specified KMS key was not available. You can retry the request.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     public func decrypt(input: DecryptInput) async throws -> DecryptOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -422,6 +615,22 @@ extension KMSClient: KMSClientProtocol {
     /// * [ListAliases]
     ///
     /// * [UpdateAlias]
+    ///
+    /// - Parameter DeleteAliasInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAliasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     public func deleteAlias(input: DeleteAliasInput) async throws -> DeleteAliasOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -469,6 +678,28 @@ extension KMSClient: KMSClientProtocol {
     /// * [DisconnectCustomKeyStore]
     ///
     /// * [UpdateCustomKeyStore]
+    ///
+    /// - Parameter DeleteCustomKeyStoreInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCustomKeyStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CustomKeyStoreHasCMKsException` : The request was rejected because the custom key store contains KMS keys. After verifying that you do not need to use the KMS keys, use the [ScheduleKeyDeletion] operation to delete the KMS keys. After they are deleted, you can delete the custom key store.
+    /// - `CustomKeyStoreInvalidStateException` : The request was rejected because of the ConnectionState of the custom key store. To get the ConnectionState of a custom key store, use the [DescribeCustomKeyStores] operation. This exception is thrown under the following conditions:
+    ///
+    /// * You requested the [ConnectCustomKeyStore] operation on a custom key store with a ConnectionState of DISCONNECTING or FAILED. This operation is valid for all other ConnectionState values. To reconnect a custom key store in a FAILED state, disconnect it ([DisconnectCustomKeyStore]), then connect it (ConnectCustomKeyStore).
+    ///
+    /// * You requested the [CreateKey] operation in a custom key store that is not connected. This operations is valid only when the custom key store ConnectionState is CONNECTED.
+    ///
+    /// * You requested the [DisconnectCustomKeyStore] operation on a custom key store with a ConnectionState of DISCONNECTING or DISCONNECTED. This operation is valid for all other ConnectionState values.
+    ///
+    /// * You requested the [UpdateCustomKeyStore] or [DeleteCustomKeyStore] operation on a custom key store that is not disconnected. This operation is valid only when the custom key store ConnectionState is DISCONNECTED.
+    ///
+    /// * You requested the [GenerateRandom] operation in an CloudHSM key store that is not connected. This operation is valid only when the CloudHSM key store ConnectionState is CONNECTED.
+    /// - `CustomKeyStoreNotFoundException` : The request was rejected because KMS cannot find a custom key store with the specified key store name or ID.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
     public func deleteCustomKeyStore(input: DeleteCustomKeyStoreInput) async throws -> DeleteCustomKeyStoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -510,6 +741,24 @@ extension KMSClient: KMSClientProtocol {
     /// * [GetParametersForImport]
     ///
     /// * [ImportKeyMaterial]
+    ///
+    /// - Parameter DeleteImportedKeyMaterialInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteImportedKeyMaterialOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func deleteImportedKeyMaterial(input: DeleteImportedKeyMaterialInput) async throws -> DeleteImportedKeyMaterialOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -557,6 +806,17 @@ extension KMSClient: KMSClientProtocol {
     /// * [DisconnectCustomKeyStore]
     ///
     /// * [UpdateCustomKeyStore]
+    ///
+    /// - Parameter DescribeCustomKeyStoresInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeCustomKeyStoresOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CustomKeyStoreNotFoundException` : The request was rejected because KMS cannot find a custom key store with the specified key store name or ID.
+    /// - `InvalidMarkerException` : The request was rejected because the marker that specifies where pagination should next begin is not valid.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
     public func describeCustomKeyStores(input: DescribeCustomKeyStoresInput) async throws -> DescribeCustomKeyStoresOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -619,6 +879,18 @@ extension KMSClient: KMSClientProtocol {
     /// * [ListResourceTags]
     ///
     /// * [ListRetirableGrants]
+    ///
+    /// - Parameter DescribeKeyInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     public func describeKey(input: DescribeKeyInput) async throws -> DescribeKeyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -656,6 +928,23 @@ extension KMSClient: KMSClientProtocol {
     }
 
     /// Sets the state of a KMS key to disabled. This change temporarily prevents use of the KMS key for [cryptographic operations](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#cryptographic-operations). For more information about how key state affects the use of a KMS key, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide . The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions: [kms:DisableKey](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [EnableKey]
+    ///
+    /// - Parameter DisableKeyInput : [no documentation found]
+    ///
+    /// - Returns: `DisableKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     public func disableKey(input: DisableKeyInput) async throws -> DisableKeyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -697,6 +986,25 @@ extension KMSClient: KMSClientProtocol {
     /// * [EnableKeyRotation]
     ///
     /// * [GetKeyRotationStatus]
+    ///
+    /// - Parameter DisableKeyRotationInput : [no documentation found]
+    ///
+    /// - Returns: `DisableKeyRotationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `DisabledException` : The request was rejected because the specified KMS key is not enabled.
+    /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func disableKeyRotation(input: DisableKeyRotationInput) async throws -> DisableKeyRotationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -744,6 +1052,27 @@ extension KMSClient: KMSClientProtocol {
     /// * [DescribeCustomKeyStores]
     ///
     /// * [UpdateCustomKeyStore]
+    ///
+    /// - Parameter DisconnectCustomKeyStoreInput : [no documentation found]
+    ///
+    /// - Returns: `DisconnectCustomKeyStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CustomKeyStoreInvalidStateException` : The request was rejected because of the ConnectionState of the custom key store. To get the ConnectionState of a custom key store, use the [DescribeCustomKeyStores] operation. This exception is thrown under the following conditions:
+    ///
+    /// * You requested the [ConnectCustomKeyStore] operation on a custom key store with a ConnectionState of DISCONNECTING or FAILED. This operation is valid for all other ConnectionState values. To reconnect a custom key store in a FAILED state, disconnect it ([DisconnectCustomKeyStore]), then connect it (ConnectCustomKeyStore).
+    ///
+    /// * You requested the [CreateKey] operation in a custom key store that is not connected. This operations is valid only when the custom key store ConnectionState is CONNECTED.
+    ///
+    /// * You requested the [DisconnectCustomKeyStore] operation on a custom key store with a ConnectionState of DISCONNECTING or DISCONNECTED. This operation is valid for all other ConnectionState values.
+    ///
+    /// * You requested the [UpdateCustomKeyStore] or [DeleteCustomKeyStore] operation on a custom key store that is not disconnected. This operation is valid only when the custom key store ConnectionState is DISCONNECTED.
+    ///
+    /// * You requested the [GenerateRandom] operation in an CloudHSM key store that is not connected. This operation is valid only when the CloudHSM key store ConnectionState is CONNECTED.
+    /// - `CustomKeyStoreNotFoundException` : The request was rejected because KMS cannot find a custom key store with the specified key store name or ID.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
     public func disconnectCustomKeyStore(input: DisconnectCustomKeyStoreInput) async throws -> DisconnectCustomKeyStoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -781,6 +1110,24 @@ extension KMSClient: KMSClientProtocol {
     }
 
     /// Sets the key state of a KMS key to enabled. This allows you to use the KMS key for [cryptographic operations](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#cryptographic-operations). The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions: [kms:EnableKey](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [DisableKey]
+    ///
+    /// - Parameter EnableKeyInput : [no documentation found]
+    ///
+    /// - Returns: `EnableKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `LimitExceededException` : The request was rejected because a quota was exceeded. For more information, see [Quotas](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html) in the Key Management Service Developer Guide.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     public func enableKey(input: EnableKeyInput) async throws -> EnableKeyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -822,6 +1169,25 @@ extension KMSClient: KMSClientProtocol {
     /// * [DisableKeyRotation]
     ///
     /// * [GetKeyRotationStatus]
+    ///
+    /// - Parameter EnableKeyRotationInput : [no documentation found]
+    ///
+    /// - Returns: `EnableKeyRotationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `DisabledException` : The request was rejected because the specified KMS key is not enabled.
+    /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func enableKeyRotation(input: EnableKeyRotationInput) async throws -> EnableKeyRotationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -904,6 +1270,34 @@ extension KMSClient: KMSClientProtocol {
     /// * [GenerateDataKey]
     ///
     /// * [GenerateDataKeyPair]
+    ///
+    /// - Parameter EncryptInput : [no documentation found]
+    ///
+    /// - Returns: `EncryptOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `DisabledException` : The request was rejected because the specified KMS key is not enabled.
+    /// - `DryRunOperationException` : The request was rejected because the DryRun parameter was specified.
+    /// - `InvalidGrantTokenException` : The request was rejected because the specified grant token is not valid.
+    /// - `InvalidKeyUsageException` : The request was rejected for one of the following reasons:
+    ///
+    /// * The KeyUsage value of the KMS key is incompatible with the API operation.
+    ///
+    /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
+    ///
+    ///
+    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
+    /// - `KeyUnavailableException` : The request was rejected because the specified KMS key was not available. You can retry the request.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     public func encrypt(input: EncryptInput) async throws -> EncryptOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -967,6 +1361,34 @@ extension KMSClient: KMSClientProtocol {
     /// * [GenerateDataKeyPairWithoutPlaintext]
     ///
     /// * [GenerateDataKeyWithoutPlaintext]
+    ///
+    /// - Parameter GenerateDataKeyInput : [no documentation found]
+    ///
+    /// - Returns: `GenerateDataKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `DisabledException` : The request was rejected because the specified KMS key is not enabled.
+    /// - `DryRunOperationException` : The request was rejected because the DryRun parameter was specified.
+    /// - `InvalidGrantTokenException` : The request was rejected because the specified grant token is not valid.
+    /// - `InvalidKeyUsageException` : The request was rejected for one of the following reasons:
+    ///
+    /// * The KeyUsage value of the KMS key is incompatible with the API operation.
+    ///
+    /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
+    ///
+    ///
+    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
+    /// - `KeyUnavailableException` : The request was rejected because the specified KMS key was not available. You can retry the request.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     public func generateDataKey(input: GenerateDataKeyInput) async throws -> GenerateDataKeyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1014,6 +1436,35 @@ extension KMSClient: KMSClientProtocol {
     /// * [GenerateDataKeyPairWithoutPlaintext]
     ///
     /// * [GenerateDataKeyWithoutPlaintext]
+    ///
+    /// - Parameter GenerateDataKeyPairInput : [no documentation found]
+    ///
+    /// - Returns: `GenerateDataKeyPairOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `DisabledException` : The request was rejected because the specified KMS key is not enabled.
+    /// - `DryRunOperationException` : The request was rejected because the DryRun parameter was specified.
+    /// - `InvalidGrantTokenException` : The request was rejected because the specified grant token is not valid.
+    /// - `InvalidKeyUsageException` : The request was rejected for one of the following reasons:
+    ///
+    /// * The KeyUsage value of the KMS key is incompatible with the API operation.
+    ///
+    /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
+    ///
+    ///
+    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
+    /// - `KeyUnavailableException` : The request was rejected because the specified KMS key was not available. You can retry the request.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func generateDataKeyPair(input: GenerateDataKeyPairInput) async throws -> GenerateDataKeyPairOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1061,6 +1512,35 @@ extension KMSClient: KMSClientProtocol {
     /// * [GenerateDataKeyPair]
     ///
     /// * [GenerateDataKeyWithoutPlaintext]
+    ///
+    /// - Parameter GenerateDataKeyPairWithoutPlaintextInput : [no documentation found]
+    ///
+    /// - Returns: `GenerateDataKeyPairWithoutPlaintextOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `DisabledException` : The request was rejected because the specified KMS key is not enabled.
+    /// - `DryRunOperationException` : The request was rejected because the DryRun parameter was specified.
+    /// - `InvalidGrantTokenException` : The request was rejected because the specified grant token is not valid.
+    /// - `InvalidKeyUsageException` : The request was rejected for one of the following reasons:
+    ///
+    /// * The KeyUsage value of the KMS key is incompatible with the API operation.
+    ///
+    /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
+    ///
+    ///
+    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
+    /// - `KeyUnavailableException` : The request was rejected because the specified KMS key was not available. You can retry the request.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func generateDataKeyPairWithoutPlaintext(input: GenerateDataKeyPairWithoutPlaintextInput) async throws -> GenerateDataKeyPairWithoutPlaintextOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1108,6 +1588,34 @@ extension KMSClient: KMSClientProtocol {
     /// * [GenerateDataKeyPair]
     ///
     /// * [GenerateDataKeyPairWithoutPlaintext]
+    ///
+    /// - Parameter GenerateDataKeyWithoutPlaintextInput : [no documentation found]
+    ///
+    /// - Returns: `GenerateDataKeyWithoutPlaintextOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `DisabledException` : The request was rejected because the specified KMS key is not enabled.
+    /// - `DryRunOperationException` : The request was rejected because the DryRun parameter was specified.
+    /// - `InvalidGrantTokenException` : The request was rejected because the specified grant token is not valid.
+    /// - `InvalidKeyUsageException` : The request was rejected for one of the following reasons:
+    ///
+    /// * The KeyUsage value of the KMS key is incompatible with the API operation.
+    ///
+    /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
+    ///
+    ///
+    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
+    /// - `KeyUnavailableException` : The request was rejected because the specified KMS key was not available. You can retry the request.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     public func generateDataKeyWithoutPlaintext(input: GenerateDataKeyWithoutPlaintextInput) async throws -> GenerateDataKeyWithoutPlaintextOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1145,6 +1653,33 @@ extension KMSClient: KMSClientProtocol {
     }
 
     /// Generates a hash-based message authentication code (HMAC) for a message using an HMAC KMS key and a MAC algorithm that the key supports. HMAC KMS keys and the HMAC algorithms that KMS uses conform to industry standards defined in [RFC 2104](https://datatracker.ietf.org/doc/html/rfc2104). You can use value that GenerateMac returns in the [VerifyMac] operation to demonstrate that the original message has not changed. Also, because a secret key is used to create the hash, you can verify that the party that generated the hash has the required secret key. You can also use the raw result to implement HMAC-based algorithms such as key derivation functions. This operation is part of KMS support for HMAC KMS keys. For details, see [HMAC keys in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/hmac.html) in the Key Management Service Developer Guide . Best practices recommend that you limit the time during which any signing mechanism, including an HMAC, is effective. This deters an attack where the actor uses a signed message to establish validity repeatedly or long after the message is superseded. HMAC tags do not include a timestamp, but you can include a timestamp in the token or message to help you detect when its time to refresh the HMAC. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN in the value of the KeyId parameter. Required permissions: [kms:GenerateMac](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [VerifyMac]
+    ///
+    /// - Parameter GenerateMacInput : [no documentation found]
+    ///
+    /// - Returns: `GenerateMacOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DisabledException` : The request was rejected because the specified KMS key is not enabled.
+    /// - `DryRunOperationException` : The request was rejected because the DryRun parameter was specified.
+    /// - `InvalidGrantTokenException` : The request was rejected because the specified grant token is not valid.
+    /// - `InvalidKeyUsageException` : The request was rejected for one of the following reasons:
+    ///
+    /// * The KeyUsage value of the KMS key is incompatible with the API operation.
+    ///
+    /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
+    ///
+    ///
+    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
+    /// - `KeyUnavailableException` : The request was rejected because the specified KMS key was not available. You can retry the request.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     public func generateMac(input: GenerateMacInput) async throws -> GenerateMacOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1182,6 +1717,29 @@ extension KMSClient: KMSClientProtocol {
     }
 
     /// Returns a random byte string that is cryptographically secure. You must use the NumberOfBytes parameter to specify the length of the random byte string. There is no default value for string length. By default, the random byte string is generated in KMS. To generate the byte string in the CloudHSM cluster associated with an CloudHSM key store, use the CustomKeyStoreId parameter. GenerateRandom also supports [Amazon Web Services Nitro Enclaves](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitro-enclave.html), which provide an isolated compute environment in Amazon EC2. To call GenerateRandom for a Nitro enclave, use the [Amazon Web Services Nitro Enclaves SDK](https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk) or any Amazon Web Services SDK. Use the Recipient parameter to provide the attestation document for the enclave. Instead of plaintext bytes, the response includes the plaintext bytes encrypted under the public key from the attestation document (CiphertextForRecipient).For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide. For more information about entropy and random number generation, see [Key Management Service Cryptographic Details](https://docs.aws.amazon.com/kms/latest/cryptographic-details/). Cross-account use: Not applicable. GenerateRandom does not use any account-specific resources, such as KMS keys. Required permissions: [kms:GenerateRandom](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (IAM policy)
+    ///
+    /// - Parameter GenerateRandomInput : [no documentation found]
+    ///
+    /// - Returns: `GenerateRandomOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CustomKeyStoreInvalidStateException` : The request was rejected because of the ConnectionState of the custom key store. To get the ConnectionState of a custom key store, use the [DescribeCustomKeyStores] operation. This exception is thrown under the following conditions:
+    ///
+    /// * You requested the [ConnectCustomKeyStore] operation on a custom key store with a ConnectionState of DISCONNECTING or FAILED. This operation is valid for all other ConnectionState values. To reconnect a custom key store in a FAILED state, disconnect it ([DisconnectCustomKeyStore]), then connect it (ConnectCustomKeyStore).
+    ///
+    /// * You requested the [CreateKey] operation in a custom key store that is not connected. This operations is valid only when the custom key store ConnectionState is CONNECTED.
+    ///
+    /// * You requested the [DisconnectCustomKeyStore] operation on a custom key store with a ConnectionState of DISCONNECTING or DISCONNECTED. This operation is valid for all other ConnectionState values.
+    ///
+    /// * You requested the [UpdateCustomKeyStore] or [DeleteCustomKeyStore] operation on a custom key store that is not disconnected. This operation is valid only when the custom key store ConnectionState is DISCONNECTED.
+    ///
+    /// * You requested the [GenerateRandom] operation in an CloudHSM key store that is not connected. This operation is valid only when the CloudHSM key store ConnectionState is CONNECTED.
+    /// - `CustomKeyStoreNotFoundException` : The request was rejected because KMS cannot find a custom key store with the specified key store name or ID.
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func generateRandom(input: GenerateRandomInput) async throws -> GenerateRandomOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1219,6 +1777,23 @@ extension KMSClient: KMSClientProtocol {
     }
 
     /// Gets a key policy attached to the specified KMS key. Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions: [kms:GetKeyPolicy](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [PutKeyPolicy]
+    ///
+    /// - Parameter GetKeyPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetKeyPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     public func getKeyPolicy(input: GetKeyPolicyInput) async throws -> GetKeyPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1267,6 +1842,24 @@ extension KMSClient: KMSClientProtocol {
     /// * [DisableKeyRotation]
     ///
     /// * [EnableKeyRotation]
+    ///
+    /// - Parameter GetKeyRotationStatusInput : [no documentation found]
+    ///
+    /// - Returns: `GetKeyRotationStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func getKeyRotationStatus(input: GetKeyRotationStatusInput) async throws -> GetKeyRotationStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1324,6 +1917,24 @@ extension KMSClient: KMSClientProtocol {
     /// * [ImportKeyMaterial]
     ///
     /// * [DeleteImportedKeyMaterial]
+    ///
+    /// - Parameter GetParametersForImportInput : [no documentation found]
+    ///
+    /// - Returns: `GetParametersForImportOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func getParametersForImport(input: GetParametersForImportInput) async throws -> GetParametersForImportOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1370,6 +1981,35 @@ extension KMSClient: KMSClientProtocol {
     ///
     ///
     /// Although KMS cannot enforce these restrictions on external operations, it is crucial that you use this information to prevent the public key from being used improperly. For example, you can prevent a public signing key from being used encrypt data, or prevent a public key from being used with an encryption algorithm that is not supported by KMS. You can also avoid errors, such as using the wrong signing algorithm in a verification operation. To verify a signature outside of KMS with an SM2 public key (China Regions only), you must specify the distinguishing ID. By default, KMS uses 1234567812345678 as the distinguishing ID. For more information, see [Offline verification with SM2 key pairs](https://docs.aws.amazon.com/kms/latest/developerguide/asymmetric-key-specs.html#key-spec-sm-offline-verification). The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN in the value of the KeyId parameter. Required permissions: [kms:GetPublicKey](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [CreateKey]
+    ///
+    /// - Parameter GetPublicKeyInput : [no documentation found]
+    ///
+    /// - Returns: `GetPublicKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `DisabledException` : The request was rejected because the specified KMS key is not enabled.
+    /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
+    /// - `InvalidGrantTokenException` : The request was rejected because the specified grant token is not valid.
+    /// - `InvalidKeyUsageException` : The request was rejected for one of the following reasons:
+    ///
+    /// * The KeyUsage value of the KMS key is incompatible with the API operation.
+    ///
+    /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
+    ///
+    ///
+    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
+    /// - `KeyUnavailableException` : The request was rejected because the specified KMS key was not available. You can retry the request.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func getPublicKey(input: GetPublicKeyInput) async throws -> GetPublicKeyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1433,6 +2073,28 @@ extension KMSClient: KMSClientProtocol {
     /// * [DeleteImportedKeyMaterial]
     ///
     /// * [GetParametersForImport]
+    ///
+    /// - Parameter ImportKeyMaterialInput : [no documentation found]
+    ///
+    /// - Returns: `ImportKeyMaterialOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `ExpiredImportTokenException` : The request was rejected because the specified import token is expired. Use [GetParametersForImport] to get a new import token and public key, use the new public key to encrypt the key material, and then try the request again.
+    /// - `IncorrectKeyMaterialException` : The request was rejected because the key material in the request is, expired, invalid, or is not the same key material that was previously imported into this KMS key.
+    /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
+    /// - `InvalidCiphertextException` : From the [Decrypt] or [ReEncrypt] operation, the request was rejected because the specified ciphertext, or additional authenticated data incorporated into the ciphertext, such as the encryption context, is corrupted, missing, or otherwise invalid. From the [ImportKeyMaterial] operation, the request was rejected because KMS could not decrypt the encrypted (wrapped) key material.
+    /// - `InvalidImportTokenException` : The request was rejected because the provided import token is invalid or is associated with a different KMS key.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func importKeyMaterial(input: ImportKeyMaterialInput) async throws -> ImportKeyMaterialOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1476,6 +2138,19 @@ extension KMSClient: KMSClientProtocol {
     /// * [DeleteAlias]
     ///
     /// * [UpdateAlias]
+    ///
+    /// - Parameter ListAliasesInput : [no documentation found]
+    ///
+    /// - Returns: `ListAliasesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
+    /// - `InvalidMarkerException` : The request was rejected because the marker that specifies where pagination should next begin is not valid.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     public func listAliases(input: ListAliasesInput) async throws -> ListAliasesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1521,6 +2196,25 @@ extension KMSClient: KMSClientProtocol {
     /// * [RetireGrant]
     ///
     /// * [RevokeGrant]
+    ///
+    /// - Parameter ListGrantsInput : [no documentation found]
+    ///
+    /// - Returns: `ListGrantsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
+    /// - `InvalidGrantIdException` : The request was rejected because the specified GrantId is not valid.
+    /// - `InvalidMarkerException` : The request was rejected because the marker that specifies where pagination should next begin is not valid.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     public func listGrants(input: ListGrantsInput) async throws -> ListGrantsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1562,6 +2256,23 @@ extension KMSClient: KMSClientProtocol {
     /// * [GetKeyPolicy]
     ///
     /// * [PutKeyPolicy]
+    ///
+    /// - Parameter ListKeyPoliciesInput : [no documentation found]
+    ///
+    /// - Returns: `ListKeyPoliciesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     public func listKeyPolicies(input: ListKeyPoliciesInput) async throws -> ListKeyPoliciesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1607,6 +2318,17 @@ extension KMSClient: KMSClientProtocol {
     /// * [ListAliases]
     ///
     /// * [ListResourceTags]
+    ///
+    /// - Parameter ListKeysInput : [no documentation found]
+    ///
+    /// - Returns: `ListKeysOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `InvalidMarkerException` : The request was rejected because the marker that specifies where pagination should next begin is not valid.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
     public func listKeys(input: ListKeysInput) async throws -> ListKeysOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1652,6 +2374,18 @@ extension KMSClient: KMSClientProtocol {
     /// * [TagResource]
     ///
     /// * [UntagResource]
+    ///
+    /// - Parameter ListResourceTagsInput : [no documentation found]
+    ///
+    /// - Returns: `ListResourceTagsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
+    /// - `InvalidMarkerException` : The request was rejected because the marker that specifies where pagination should next begin is not valid.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     public func listResourceTags(input: ListResourceTagsInput) async throws -> ListResourceTagsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1697,6 +2431,19 @@ extension KMSClient: KMSClientProtocol {
     /// * [RetireGrant]
     ///
     /// * [RevokeGrant]
+    ///
+    /// - Parameter ListRetirableGrantsInput : [no documentation found]
+    ///
+    /// - Returns: `ListRetirableGrantsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
+    /// - `InvalidMarkerException` : The request was rejected because the marker that specifies where pagination should next begin is not valid.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     public func listRetirableGrants(input: ListRetirableGrantsInput) async throws -> ListRetirableGrantsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1734,6 +2481,26 @@ extension KMSClient: KMSClientProtocol {
     }
 
     /// Attaches a key policy to the specified KMS key. For more information about key policies, see [Key Policies](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html) in the Key Management Service Developer Guide. For help writing and formatting a JSON policy document, see the [IAM JSON Policy Reference](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies.html) in the Identity and Access Management User Guide . For examples of adding a key policy in multiple programming languages, see [Setting a key policy](https://docs.aws.amazon.com/kms/latest/developerguide/programming-key-policies.html#put-policy) in the Key Management Service Developer Guide. Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions: [kms:PutKeyPolicy](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [GetKeyPolicy]
+    ///
+    /// - Parameter PutKeyPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutKeyPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `LimitExceededException` : The request was rejected because a quota was exceeded. For more information, see [Quotas](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html) in the Key Management Service Developer Guide.
+    /// - `MalformedPolicyDocumentException` : The request was rejected because the specified policy is not syntactically or semantically correct.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func putKeyPolicy(input: PutKeyPolicyInput) async throws -> PutKeyPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1795,6 +2562,36 @@ extension KMSClient: KMSClientProtocol {
     /// * [GenerateDataKey]
     ///
     /// * [GenerateDataKeyPair]
+    ///
+    /// - Parameter ReEncryptInput : [no documentation found]
+    ///
+    /// - Returns: `ReEncryptOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `DisabledException` : The request was rejected because the specified KMS key is not enabled.
+    /// - `DryRunOperationException` : The request was rejected because the DryRun parameter was specified.
+    /// - `IncorrectKeyException` : The request was rejected because the specified KMS key cannot decrypt the data. The KeyId in a [Decrypt] request and the SourceKeyId in a [ReEncrypt] request must identify the same KMS key that was used to encrypt the ciphertext.
+    /// - `InvalidCiphertextException` : From the [Decrypt] or [ReEncrypt] operation, the request was rejected because the specified ciphertext, or additional authenticated data incorporated into the ciphertext, such as the encryption context, is corrupted, missing, or otherwise invalid. From the [ImportKeyMaterial] operation, the request was rejected because KMS could not decrypt the encrypted (wrapped) key material.
+    /// - `InvalidGrantTokenException` : The request was rejected because the specified grant token is not valid.
+    /// - `InvalidKeyUsageException` : The request was rejected for one of the following reasons:
+    ///
+    /// * The KeyUsage value of the KMS key is incompatible with the API operation.
+    ///
+    /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
+    ///
+    ///
+    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
+    /// - `KeyUnavailableException` : The request was rejected because the specified KMS key was not available. You can retry the request.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     public func reEncrypt(input: ReEncryptInput) async throws -> ReEncryptOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1845,6 +2642,28 @@ extension KMSClient: KMSClientProtocol {
     /// * [CreateKey]
     ///
     /// * [UpdatePrimaryRegion]
+    ///
+    /// - Parameter ReplicateKeyInput : [no documentation found]
+    ///
+    /// - Returns: `ReplicateKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : The request was rejected because it attempted to create a resource that already exists.
+    /// - `DisabledException` : The request was rejected because the specified KMS key is not enabled.
+    /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `LimitExceededException` : The request was rejected because a quota was exceeded. For more information, see [Quotas](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html) in the Key Management Service Developer Guide.
+    /// - `MalformedPolicyDocumentException` : The request was rejected because the specified policy is not syntactically or semantically correct.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
+    /// - `TagException` : The request was rejected because one or more tags are not valid.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func replicateKey(input: ReplicateKeyInput) async throws -> ReplicateKeyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1890,6 +2709,26 @@ extension KMSClient: KMSClientProtocol {
     /// * [ListRetirableGrants]
     ///
     /// * [RevokeGrant]
+    ///
+    /// - Parameter RetireGrantInput : [no documentation found]
+    ///
+    /// - Returns: `RetireGrantOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `DryRunOperationException` : The request was rejected because the DryRun parameter was specified.
+    /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
+    /// - `InvalidGrantIdException` : The request was rejected because the specified GrantId is not valid.
+    /// - `InvalidGrantTokenException` : The request was rejected because the specified grant token is not valid.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     public func retireGrant(input: RetireGrantInput) async throws -> RetireGrantOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1935,6 +2774,25 @@ extension KMSClient: KMSClientProtocol {
     /// * [ListRetirableGrants]
     ///
     /// * [RetireGrant]
+    ///
+    /// - Parameter RevokeGrantInput : [no documentation found]
+    ///
+    /// - Returns: `RevokeGrantOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `DryRunOperationException` : The request was rejected because the DryRun parameter was specified.
+    /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
+    /// - `InvalidGrantIdException` : The request was rejected because the specified GrantId is not valid.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     public func revokeGrant(input: RevokeGrantInput) async throws -> RevokeGrantOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1976,6 +2834,23 @@ extension KMSClient: KMSClientProtocol {
     /// * [CancelKeyDeletion]
     ///
     /// * [DisableKey]
+    ///
+    /// - Parameter ScheduleKeyDeletionInput : [no documentation found]
+    ///
+    /// - Returns: `ScheduleKeyDeletionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     public func scheduleKeyDeletion(input: ScheduleKeyDeletionInput) async throws -> ScheduleKeyDeletionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2022,6 +2897,34 @@ extension KMSClient: KMSClientProtocol {
     ///
     ///
     /// When signing a message, be sure to record the KMS key and the signing algorithm. This information is required to verify the signature. Best practices recommend that you limit the time during which any signature is effective. This deters an attack where the actor uses a signed message to establish validity repeatedly or long after the message is superseded. Signatures do not include a timestamp, but you can include a timestamp in the signed message to help you detect when its time to refresh the signature. To verify the signature that this operation generates, use the [Verify] operation. Or use the [GetPublicKey] operation to download the public key and then use the public key to verify the signature outside of KMS. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN in the value of the KeyId parameter. Required permissions: [kms:Sign](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [Verify]
+    ///
+    /// - Parameter SignInput : [no documentation found]
+    ///
+    /// - Returns: `SignOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `DisabledException` : The request was rejected because the specified KMS key is not enabled.
+    /// - `DryRunOperationException` : The request was rejected because the DryRun parameter was specified.
+    /// - `InvalidGrantTokenException` : The request was rejected because the specified grant token is not valid.
+    /// - `InvalidKeyUsageException` : The request was rejected for one of the following reasons:
+    ///
+    /// * The KeyUsage value of the KMS key is incompatible with the API operation.
+    ///
+    /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
+    ///
+    ///
+    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
+    /// - `KeyUnavailableException` : The request was rejected because the specified KMS key was not available. You can retry the request.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     public func sign(input: SignInput) async throws -> SignOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2067,6 +2970,24 @@ extension KMSClient: KMSClientProtocol {
     /// * [ReplicateKey]
     ///
     /// * [UntagResource]
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `LimitExceededException` : The request was rejected because a quota was exceeded. For more information, see [Quotas](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html) in the Key Management Service Developer Guide.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
+    /// - `TagException` : The request was rejected because one or more tags are not valid.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2112,6 +3033,23 @@ extension KMSClient: KMSClientProtocol {
     /// * [ReplicateKey]
     ///
     /// * [TagResource]
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
+    /// - `TagException` : The request was rejected because one or more tags are not valid.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2164,6 +3102,23 @@ extension KMSClient: KMSClientProtocol {
     /// * [DeleteAlias]
     ///
     /// * [ListAliases]
+    ///
+    /// - Parameter UpdateAliasInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAliasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `LimitExceededException` : The request was rejected because a quota was exceeded. For more information, see [Quotas](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html) in the Key Management Service Developer Guide.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     public func updateAlias(input: UpdateAliasInput) async throws -> UpdateAliasOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2211,6 +3166,50 @@ extension KMSClient: KMSClientProtocol {
     /// * [DescribeCustomKeyStores]
     ///
     /// * [DisconnectCustomKeyStore]
+    ///
+    /// - Parameter UpdateCustomKeyStoreInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateCustomKeyStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CloudHsmClusterInvalidConfigurationException` : The request was rejected because the associated CloudHSM cluster did not meet the configuration requirements for an CloudHSM key store.
+    ///
+    /// * The CloudHSM cluster must be configured with private subnets in at least two different Availability Zones in the Region.
+    ///
+    /// * The [security group for the cluster](https://docs.aws.amazon.com/cloudhsm/latest/userguide/configure-sg.html) (cloudhsm-cluster--sg) must include inbound rules and outbound rules that allow TCP traffic on ports 2223-2225. The Source in the inbound rules and the Destination in the outbound rules must match the security group ID. These rules are set by default when you create the CloudHSM cluster. Do not delete or change them. To get information about a particular security group, use the [DescribeSecurityGroups](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSecurityGroups.html) operation.
+    ///
+    /// * The CloudHSM cluster must contain at least as many HSMs as the operation requires. To add HSMs, use the CloudHSM [CreateHsm](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/API_CreateHsm.html) operation. For the [CreateCustomKeyStore], [UpdateCustomKeyStore], and [CreateKey] operations, the CloudHSM cluster must have at least two active HSMs, each in a different Availability Zone. For the [ConnectCustomKeyStore] operation, the CloudHSM must contain at least one active HSM.
+    ///
+    ///
+    /// For information about the requirements for an CloudHSM cluster that is associated with an CloudHSM key store, see [Assemble the Prerequisites](https://docs.aws.amazon.com/kms/latest/developerguide/create-keystore.html#before-keystore) in the Key Management Service Developer Guide. For information about creating a private subnet for an CloudHSM cluster, see [Create a Private Subnet](https://docs.aws.amazon.com/cloudhsm/latest/userguide/create-subnets.html) in the CloudHSM User Guide. For information about cluster security groups, see [Configure a Default Security Group](https://docs.aws.amazon.com/cloudhsm/latest/userguide/configure-sg.html) in the CloudHSM User Guide .
+    /// - `CloudHsmClusterNotActiveException` : The request was rejected because the CloudHSM cluster associated with the CloudHSM key store is not active. Initialize and activate the cluster and try the command again. For detailed instructions, see [Getting Started](https://docs.aws.amazon.com/cloudhsm/latest/userguide/getting-started.html) in the CloudHSM User Guide.
+    /// - `CloudHsmClusterNotFoundException` : The request was rejected because KMS cannot find the CloudHSM cluster with the specified cluster ID. Retry the request with a different cluster ID.
+    /// - `CloudHsmClusterNotRelatedException` : The request was rejected because the specified CloudHSM cluster has a different cluster certificate than the original cluster. You cannot use the operation to specify an unrelated cluster for an CloudHSM key store. Specify an CloudHSM cluster that shares a backup history with the original cluster. This includes clusters that were created from a backup of the current cluster, and clusters that were created from the same backup that produced the current cluster. CloudHSM clusters that share a backup history have the same cluster certificate. To view the cluster certificate of an CloudHSM cluster, use the [DescribeClusters](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/API_DescribeClusters.html) operation.
+    /// - `CustomKeyStoreInvalidStateException` : The request was rejected because of the ConnectionState of the custom key store. To get the ConnectionState of a custom key store, use the [DescribeCustomKeyStores] operation. This exception is thrown under the following conditions:
+    ///
+    /// * You requested the [ConnectCustomKeyStore] operation on a custom key store with a ConnectionState of DISCONNECTING or FAILED. This operation is valid for all other ConnectionState values. To reconnect a custom key store in a FAILED state, disconnect it ([DisconnectCustomKeyStore]), then connect it (ConnectCustomKeyStore).
+    ///
+    /// * You requested the [CreateKey] operation in a custom key store that is not connected. This operations is valid only when the custom key store ConnectionState is CONNECTED.
+    ///
+    /// * You requested the [DisconnectCustomKeyStore] operation on a custom key store with a ConnectionState of DISCONNECTING or DISCONNECTED. This operation is valid for all other ConnectionState values.
+    ///
+    /// * You requested the [UpdateCustomKeyStore] or [DeleteCustomKeyStore] operation on a custom key store that is not disconnected. This operation is valid only when the custom key store ConnectionState is DISCONNECTED.
+    ///
+    /// * You requested the [GenerateRandom] operation in an CloudHSM key store that is not connected. This operation is valid only when the CloudHSM key store ConnectionState is CONNECTED.
+    /// - `CustomKeyStoreNameInUseException` : The request was rejected because the specified custom key store name is already assigned to another custom key store in the account. Try again with a custom key store name that is unique in the account.
+    /// - `CustomKeyStoreNotFoundException` : The request was rejected because KMS cannot find a custom key store with the specified key store name or ID.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `XksProxyIncorrectAuthenticationCredentialException` : The request was rejected because the proxy credentials failed to authenticate to the specified external key store proxy. The specified external key store proxy rejected a status request from KMS due to invalid credentials. This can indicate an error in the credentials or in the identification of the external key store proxy.
+    /// - `XksProxyInvalidConfigurationException` : The request was rejected because the Amazon VPC endpoint service configuration does not fulfill the requirements for an external key store proxy. For details, see the exception message.
+    /// - `XksProxyInvalidResponseException` : KMS cannot interpret the response it received from the external key store proxy. The problem might be a poorly constructed response, but it could also be a transient network issue. If you see this error repeatedly, report it to the proxy vendor.
+    /// - `XksProxyUriEndpointInUseException` : The request was rejected because the concatenation of the XksProxyUriEndpoint is already associated with an external key store in the Amazon Web Services account and Region. Each external key store in an account and Region must use a unique external key store proxy address.
+    /// - `XksProxyUriInUseException` : The request was rejected because the concatenation of the XksProxyUriEndpoint and XksProxyUriPath is already associated with an external key store in the Amazon Web Services account and Region. Each external key store in an account and Region must use a unique external key store proxy API address.
+    /// - `XksProxyUriUnreachableException` : KMS was unable to reach the specified XksProxyUriPath. The path must be reachable before you create the external key store or update its settings. This exception is also thrown when the external key store proxy response to a GetHealthStatus request indicates that all external key manager instances are unavailable.
+    /// - `XksProxyVpcEndpointServiceInUseException` : The request was rejected because the specified Amazon VPC endpoint service is already associated with an external key store in the Amazon Web Services account and Region. Each external key store in an Amazon Web Services account and Region must use a different Amazon VPC endpoint service.
+    /// - `XksProxyVpcEndpointServiceInvalidConfigurationException` : The request was rejected because the Amazon VPC endpoint service configuration does not fulfill the requirements for an external key store proxy. For details, see the exception message and [review the requirements] for Amazon VPC endpoint service connectivity for an external key store.
+    /// - `XksProxyVpcEndpointServiceNotFoundException` : The request was rejected because KMS could not find the specified VPC endpoint service. Use [DescribeCustomKeyStores] to verify the VPC endpoint service name for the external key store. Also, confirm that the Allow principals list for the VPC endpoint service includes the KMS service principal for the Region, such as cks.kms.us-east-1.amazonaws.com.
     public func updateCustomKeyStore(input: UpdateCustomKeyStoreInput) async throws -> UpdateCustomKeyStoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2252,6 +3251,23 @@ extension KMSClient: KMSClientProtocol {
     /// * [CreateKey]
     ///
     /// * [DescribeKey]
+    ///
+    /// - Parameter UpdateKeyDescriptionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateKeyDescriptionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     public func updateKeyDescription(input: UpdateKeyDescriptionInput) async throws -> UpdateKeyDescriptionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2300,6 +3316,24 @@ extension KMSClient: KMSClientProtocol {
     /// * [CreateKey]
     ///
     /// * [ReplicateKey]
+    ///
+    /// - Parameter UpdatePrimaryRegionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePrimaryRegionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DisabledException` : The request was rejected because the specified KMS key is not enabled.
+    /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func updatePrimaryRegion(input: UpdatePrimaryRegionInput) async throws -> UpdatePrimaryRegionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2337,6 +3371,35 @@ extension KMSClient: KMSClientProtocol {
     }
 
     /// Verifies a digital signature that was generated by the [Sign] operation. Verification confirms that an authorized user signed the message with the specified KMS key and signing algorithm, and the message hasn't changed since it was signed. If the signature is verified, the value of the SignatureValid field in the response is True. If the signature verification fails, the Verify operation fails with an KMSInvalidSignatureException exception. A digital signature is generated by using the private key in an asymmetric KMS key. The signature is verified by using the public key in the same asymmetric KMS key. For information about asymmetric KMS keys, see [Asymmetric KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) in the Key Management Service Developer Guide. To use the Verify operation, specify the same asymmetric KMS key, message, and signing algorithm that were used to produce the signature. The message type does not need to be the same as the one used for signing, but it must indicate whether the value of the Message parameter should be hashed as part of the verification process. You can also verify the digital signature by using the public key of the KMS key outside of KMS. Use the [GetPublicKey] operation to download the public key in the asymmetric KMS key and then use the public key to verify the signature outside of KMS. The advantage of using the Verify operation is that it is performed within KMS. As a result, it's easy to call, the operation is performed within the FIPS boundary, it is logged in CloudTrail, and you can use key policy and IAM policy to determine who is authorized to use the KMS key to verify signatures. To verify a signature outside of KMS with an SM2 public key (China Regions only), you must specify the distinguishing ID. By default, KMS uses 1234567812345678 as the distinguishing ID. For more information, see [Offline verification with SM2 key pairs](https://docs.aws.amazon.com/kms/latest/developerguide/asymmetric-key-specs.html#key-spec-sm-offline-verification). The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN in the value of the KeyId parameter. Required permissions: [kms:Verify](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [Sign]
+    ///
+    /// - Parameter VerifyInput : [no documentation found]
+    ///
+    /// - Returns: `VerifyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `DisabledException` : The request was rejected because the specified KMS key is not enabled.
+    /// - `DryRunOperationException` : The request was rejected because the DryRun parameter was specified.
+    /// - `InvalidGrantTokenException` : The request was rejected because the specified grant token is not valid.
+    /// - `InvalidKeyUsageException` : The request was rejected for one of the following reasons:
+    ///
+    /// * The KeyUsage value of the KMS key is incompatible with the API operation.
+    ///
+    /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
+    ///
+    ///
+    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
+    /// - `KeyUnavailableException` : The request was rejected because the specified KMS key was not available. You can retry the request.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidSignatureException` : The request was rejected because the signature verification failed. Signature verification fails when it cannot confirm that signature was produced by signing the specified message with the specified KMS key and signing algorithm.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     public func verify(input: VerifyInput) async throws -> VerifyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2374,6 +3437,34 @@ extension KMSClient: KMSClientProtocol {
     }
 
     /// Verifies the hash-based message authentication code (HMAC) for a specified message, HMAC KMS key, and MAC algorithm. To verify the HMAC, VerifyMac computes an HMAC using the message, HMAC KMS key, and MAC algorithm that you specify, and compares the computed HMAC to the HMAC that you specify. If the HMACs are identical, the verification succeeds; otherwise, it fails. Verification indicates that the message hasn't changed since the HMAC was calculated, and the specified key was used to generate and verify the HMAC. HMAC KMS keys and the HMAC algorithms that KMS uses conform to industry standards defined in [RFC 2104](https://datatracker.ietf.org/doc/html/rfc2104). This operation is part of KMS support for HMAC KMS keys. For details, see [HMAC keys in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/hmac.html) in the Key Management Service Developer Guide. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN in the value of the KeyId parameter. Required permissions: [kms:VerifyMac](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [GenerateMac]
+    ///
+    /// - Parameter VerifyMacInput : [no documentation found]
+    ///
+    /// - Returns: `VerifyMacOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DisabledException` : The request was rejected because the specified KMS key is not enabled.
+    /// - `DryRunOperationException` : The request was rejected because the DryRun parameter was specified.
+    /// - `InvalidGrantTokenException` : The request was rejected because the specified grant token is not valid.
+    /// - `InvalidKeyUsageException` : The request was rejected for one of the following reasons:
+    ///
+    /// * The KeyUsage value of the KMS key is incompatible with the API operation.
+    ///
+    /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
+    ///
+    ///
+    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
+    /// - `KeyUnavailableException` : The request was rejected because the specified KMS key was not available. You can retry the request.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidMacException` : The request was rejected because the HMAC verification failed. HMAC verification fails when the HMAC computed by using the specified message, HMAC KMS key, and MAC algorithm does not match the HMAC specified in the request.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     public func verifyMac(input: VerifyMacInput) async throws -> VerifyMacOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

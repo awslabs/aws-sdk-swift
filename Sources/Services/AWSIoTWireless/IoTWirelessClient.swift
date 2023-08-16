@@ -68,6 +68,20 @@ public struct IoTWirelessClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFac
 
 extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// Associates a partner account with your AWS account.
+    ///
+    /// - Parameter AssociateAwsAccountWithPartnerAccountInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateAwsAccountWithPartnerAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func associateAwsAccountWithPartnerAccount(input: AssociateAwsAccountWithPartnerAccountInput) async throws -> AssociateAwsAccountWithPartnerAccountOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -112,6 +126,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Associate a multicast group with a FUOTA task.
+    ///
+    /// - Parameter AssociateMulticastGroupWithFuotaTaskInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateMulticastGroupWithFuotaTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func associateMulticastGroupWithFuotaTask(input: AssociateMulticastGroupWithFuotaTaskInput) async throws -> AssociateMulticastGroupWithFuotaTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -148,6 +176,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Associate a wireless device with a FUOTA task.
+    ///
+    /// - Parameter AssociateWirelessDeviceWithFuotaTaskInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateWirelessDeviceWithFuotaTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func associateWirelessDeviceWithFuotaTask(input: AssociateWirelessDeviceWithFuotaTaskInput) async throws -> AssociateWirelessDeviceWithFuotaTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -184,6 +226,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Associates a wireless device with a multicast group.
+    ///
+    /// - Parameter AssociateWirelessDeviceWithMulticastGroupInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateWirelessDeviceWithMulticastGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func associateWirelessDeviceWithMulticastGroup(input: AssociateWirelessDeviceWithMulticastGroupInput) async throws -> AssociateWirelessDeviceWithMulticastGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -220,6 +276,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Associates a wireless device with a thing.
+    ///
+    /// - Parameter AssociateWirelessDeviceWithThingInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateWirelessDeviceWithThingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func associateWirelessDeviceWithThing(input: AssociateWirelessDeviceWithThingInput) async throws -> AssociateWirelessDeviceWithThingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -256,6 +326,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Associates a wireless gateway with a certificate.
+    ///
+    /// - Parameter AssociateWirelessGatewayWithCertificateInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateWirelessGatewayWithCertificateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func associateWirelessGatewayWithCertificate(input: AssociateWirelessGatewayWithCertificateInput) async throws -> AssociateWirelessGatewayWithCertificateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -292,6 +376,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Associates a wireless gateway with a thing.
+    ///
+    /// - Parameter AssociateWirelessGatewayWithThingInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateWirelessGatewayWithThingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func associateWirelessGatewayWithThing(input: AssociateWirelessGatewayWithThingInput) async throws -> AssociateWirelessGatewayWithThingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -328,6 +426,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Cancels an existing multicast group session.
+    ///
+    /// - Parameter CancelMulticastGroupSessionInput : [no documentation found]
+    ///
+    /// - Returns: `CancelMulticastGroupSessionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func cancelMulticastGroupSession(input: CancelMulticastGroupSessionInput) async throws -> CancelMulticastGroupSessionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -361,6 +473,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Creates a new destination that maps a device message to an AWS IoT rule.
+    ///
+    /// - Parameter CreateDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDestinationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func createDestination(input: CreateDestinationInput) async throws -> CreateDestinationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -405,6 +531,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Creates a new device profile.
+    ///
+    /// - Parameter CreateDeviceProfileInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDeviceProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func createDeviceProfile(input: CreateDeviceProfileInput) async throws -> CreateDeviceProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -449,6 +588,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Creates a FUOTA task.
+    ///
+    /// - Parameter CreateFuotaTaskInput : [no documentation found]
+    ///
+    /// - Returns: `CreateFuotaTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func createFuotaTask(input: CreateFuotaTaskInput) async throws -> CreateFuotaTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -493,6 +646,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Creates a multicast group.
+    ///
+    /// - Parameter CreateMulticastGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CreateMulticastGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func createMulticastGroup(input: CreateMulticastGroupInput) async throws -> CreateMulticastGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -537,6 +704,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Creates a new network analyzer configuration.
+    ///
+    /// - Parameter CreateNetworkAnalyzerConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateNetworkAnalyzerConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func createNetworkAnalyzerConfiguration(input: CreateNetworkAnalyzerConfigurationInput) async throws -> CreateNetworkAnalyzerConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -581,6 +762,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Creates a new service profile.
+    ///
+    /// - Parameter CreateServiceProfileInput : [no documentation found]
+    ///
+    /// - Returns: `CreateServiceProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func createServiceProfile(input: CreateServiceProfileInput) async throws -> CreateServiceProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -625,6 +819,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Provisions a wireless device.
+    ///
+    /// - Parameter CreateWirelessDeviceInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWirelessDeviceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func createWirelessDevice(input: CreateWirelessDeviceInput) async throws -> CreateWirelessDeviceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -669,6 +877,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Provisions a wireless gateway.
+    ///
+    /// - Parameter CreateWirelessGatewayInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWirelessGatewayOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func createWirelessGateway(input: CreateWirelessGatewayInput) async throws -> CreateWirelessGatewayOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -713,6 +934,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Creates a task for a wireless gateway.
+    ///
+    /// - Parameter CreateWirelessGatewayTaskInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWirelessGatewayTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func createWirelessGatewayTask(input: CreateWirelessGatewayTaskInput) async throws -> CreateWirelessGatewayTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -749,6 +984,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Creates a gateway task definition.
+    ///
+    /// - Parameter CreateWirelessGatewayTaskDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWirelessGatewayTaskDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func createWirelessGatewayTaskDefinition(input: CreateWirelessGatewayTaskDefinitionInput) async throws -> CreateWirelessGatewayTaskDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -793,6 +1042,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Deletes a destination.
+    ///
+    /// - Parameter DeleteDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDestinationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func deleteDestination(input: DeleteDestinationInput) async throws -> DeleteDestinationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -826,6 +1089,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Deletes a device profile.
+    ///
+    /// - Parameter DeleteDeviceProfileInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDeviceProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func deleteDeviceProfile(input: DeleteDeviceProfileInput) async throws -> DeleteDeviceProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -859,6 +1136,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Deletes a FUOTA task.
+    ///
+    /// - Parameter DeleteFuotaTaskInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteFuotaTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func deleteFuotaTask(input: DeleteFuotaTaskInput) async throws -> DeleteFuotaTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -892,6 +1182,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Deletes a multicast group if it is not in use by a fuota task.
+    ///
+    /// - Parameter DeleteMulticastGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteMulticastGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func deleteMulticastGroup(input: DeleteMulticastGroupInput) async throws -> DeleteMulticastGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -925,6 +1229,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Deletes a network analyzer configuration.
+    ///
+    /// - Parameter DeleteNetworkAnalyzerConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteNetworkAnalyzerConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func deleteNetworkAnalyzerConfiguration(input: DeleteNetworkAnalyzerConfigurationInput) async throws -> DeleteNetworkAnalyzerConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -958,6 +1276,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Remove queued messages from the downlink queue.
+    ///
+    /// - Parameter DeleteQueuedMessagesInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteQueuedMessagesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func deleteQueuedMessages(input: DeleteQueuedMessagesInput) async throws -> DeleteQueuedMessagesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -992,6 +1323,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Deletes a service profile.
+    ///
+    /// - Parameter DeleteServiceProfileInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteServiceProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func deleteServiceProfile(input: DeleteServiceProfileInput) async throws -> DeleteServiceProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1025,6 +1370,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Deletes a wireless device.
+    ///
+    /// - Parameter DeleteWirelessDeviceInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWirelessDeviceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func deleteWirelessDevice(input: DeleteWirelessDeviceInput) async throws -> DeleteWirelessDeviceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1058,6 +1416,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Delete an import task.
+    ///
+    /// - Parameter DeleteWirelessDeviceImportTaskInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWirelessDeviceImportTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func deleteWirelessDeviceImportTask(input: DeleteWirelessDeviceImportTaskInput) async throws -> DeleteWirelessDeviceImportTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1091,6 +1463,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Deletes a wireless gateway.
+    ///
+    /// - Parameter DeleteWirelessGatewayInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWirelessGatewayOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func deleteWirelessGateway(input: DeleteWirelessGatewayInput) async throws -> DeleteWirelessGatewayOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1124,6 +1509,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Deletes a wireless gateway task.
+    ///
+    /// - Parameter DeleteWirelessGatewayTaskInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWirelessGatewayTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func deleteWirelessGatewayTask(input: DeleteWirelessGatewayTaskInput) async throws -> DeleteWirelessGatewayTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1157,6 +1555,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Deletes a wireless gateway task definition. Deleting this task definition does not affect tasks that are currently in progress.
+    ///
+    /// - Parameter DeleteWirelessGatewayTaskDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWirelessGatewayTaskDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func deleteWirelessGatewayTaskDefinition(input: DeleteWirelessGatewayTaskDefinitionInput) async throws -> DeleteWirelessGatewayTaskDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1190,6 +1601,18 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Deregister a wireless device from AWS IoT Wireless.
+    ///
+    /// - Parameter DeregisterWirelessDeviceInput : [no documentation found]
+    ///
+    /// - Returns: `DeregisterWirelessDeviceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func deregisterWirelessDevice(input: DeregisterWirelessDeviceInput) async throws -> DeregisterWirelessDeviceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1224,6 +1647,18 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Disassociates your AWS account from a partner account. If PartnerAccountId and PartnerType are null, disassociates your AWS account from all partner accounts.
+    ///
+    /// - Parameter DisassociateAwsAccountFromPartnerAccountInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateAwsAccountFromPartnerAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func disassociateAwsAccountFromPartnerAccount(input: DisassociateAwsAccountFromPartnerAccountInput) async throws -> DisassociateAwsAccountFromPartnerAccountOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1258,6 +1693,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Disassociates a multicast group from a fuota task.
+    ///
+    /// - Parameter DisassociateMulticastGroupFromFuotaTaskInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateMulticastGroupFromFuotaTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func disassociateMulticastGroupFromFuotaTask(input: DisassociateMulticastGroupFromFuotaTaskInput) async throws -> DisassociateMulticastGroupFromFuotaTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1291,6 +1739,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Disassociates a wireless device from a FUOTA task.
+    ///
+    /// - Parameter DisassociateWirelessDeviceFromFuotaTaskInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateWirelessDeviceFromFuotaTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func disassociateWirelessDeviceFromFuotaTask(input: DisassociateWirelessDeviceFromFuotaTaskInput) async throws -> DisassociateWirelessDeviceFromFuotaTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1324,6 +1786,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Disassociates a wireless device from a multicast group.
+    ///
+    /// - Parameter DisassociateWirelessDeviceFromMulticastGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateWirelessDeviceFromMulticastGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func disassociateWirelessDeviceFromMulticastGroup(input: DisassociateWirelessDeviceFromMulticastGroupInput) async throws -> DisassociateWirelessDeviceFromMulticastGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1357,6 +1832,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Disassociates a wireless device from its currently associated thing.
+    ///
+    /// - Parameter DisassociateWirelessDeviceFromThingInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateWirelessDeviceFromThingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func disassociateWirelessDeviceFromThing(input: DisassociateWirelessDeviceFromThingInput) async throws -> DisassociateWirelessDeviceFromThingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1390,6 +1879,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Disassociates a wireless gateway from its currently associated certificate.
+    ///
+    /// - Parameter DisassociateWirelessGatewayFromCertificateInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateWirelessGatewayFromCertificateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func disassociateWirelessGatewayFromCertificate(input: DisassociateWirelessGatewayFromCertificateInput) async throws -> DisassociateWirelessGatewayFromCertificateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1423,6 +1925,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Disassociates a wireless gateway from its currently associated thing.
+    ///
+    /// - Parameter DisassociateWirelessGatewayFromThingInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateWirelessGatewayFromThingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func disassociateWirelessGatewayFromThing(input: DisassociateWirelessGatewayFromThingInput) async throws -> DisassociateWirelessGatewayFromThingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1456,6 +1972,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Gets information about a destination.
+    ///
+    /// - Parameter GetDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `GetDestinationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func getDestination(input: GetDestinationInput) async throws -> GetDestinationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1489,6 +2018,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Gets information about a device profile.
+    ///
+    /// - Parameter GetDeviceProfileInput : [no documentation found]
+    ///
+    /// - Returns: `GetDeviceProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func getDeviceProfile(input: GetDeviceProfileInput) async throws -> GetDeviceProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1522,6 +2064,17 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Get the event configuration based on resource types.
+    ///
+    /// - Parameter GetEventConfigurationByResourceTypesInput : [no documentation found]
+    ///
+    /// - Returns: `GetEventConfigurationByResourceTypesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     public func getEventConfigurationByResourceTypes(input: GetEventConfigurationByResourceTypesInput) async throws -> GetEventConfigurationByResourceTypesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1555,6 +2108,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Gets information about a FUOTA task.
+    ///
+    /// - Parameter GetFuotaTaskInput : [no documentation found]
+    ///
+    /// - Returns: `GetFuotaTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func getFuotaTask(input: GetFuotaTaskInput) async throws -> GetFuotaTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1588,6 +2154,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Returns current default log levels or log levels by resource types. Based on resource types, log levels can be for wireless device log options or wireless gateway log options.
+    ///
+    /// - Parameter GetLogLevelsByResourceTypesInput : [no documentation found]
+    ///
+    /// - Returns: `GetLogLevelsByResourceTypesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func getLogLevelsByResourceTypes(input: GetLogLevelsByResourceTypesInput) async throws -> GetLogLevelsByResourceTypesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1621,6 +2200,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Gets information about a multicast group.
+    ///
+    /// - Parameter GetMulticastGroupInput : [no documentation found]
+    ///
+    /// - Returns: `GetMulticastGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func getMulticastGroup(input: GetMulticastGroupInput) async throws -> GetMulticastGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1654,6 +2246,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Gets information about a multicast group session.
+    ///
+    /// - Parameter GetMulticastGroupSessionInput : [no documentation found]
+    ///
+    /// - Returns: `GetMulticastGroupSessionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func getMulticastGroupSession(input: GetMulticastGroupSessionInput) async throws -> GetMulticastGroupSessionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1687,6 +2292,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Get network analyzer configuration.
+    ///
+    /// - Parameter GetNetworkAnalyzerConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetNetworkAnalyzerConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func getNetworkAnalyzerConfiguration(input: GetNetworkAnalyzerConfigurationInput) async throws -> GetNetworkAnalyzerConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1720,6 +2338,18 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Gets information about a partner account. If PartnerAccountId and PartnerType are null, returns all partner accounts.
+    ///
+    /// - Parameter GetPartnerAccountInput : [no documentation found]
+    ///
+    /// - Returns: `GetPartnerAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func getPartnerAccount(input: GetPartnerAccountInput) async throws -> GetPartnerAccountOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1755,6 +2385,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
 
     /// Get the position information for a given resource. This action is no longer supported. Calls to retrieve the position information should use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
+    ///
+    /// - Parameter GetPositionInput : [no documentation found]
+    ///
+    /// - Returns: `GetPositionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func getPosition(input: GetPositionInput) async throws -> GetPositionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1790,6 +2433,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
 
     /// Get position configuration for a given resource. This action is no longer supported. Calls to retrieve the position configuration should use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
+    ///
+    /// - Parameter GetPositionConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetPositionConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func getPositionConfiguration(input: GetPositionConfigurationInput) async throws -> GetPositionConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1824,6 +2480,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Get estimated position information as a payload in GeoJSON format. The payload measurement data is resolved using solvers that are provided by third-party vendors.
+    ///
+    /// - Parameter GetPositionEstimateInput : [no documentation found]
+    ///
+    /// - Returns: `GetPositionEstimateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func getPositionEstimate(input: GetPositionEstimateInput) async throws -> GetPositionEstimateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1860,6 +2529,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Get the event configuration for a particular resource identifier.
+    ///
+    /// - Parameter GetResourceEventConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourceEventConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func getResourceEventConfiguration(input: GetResourceEventConfigurationInput) async throws -> GetResourceEventConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1894,6 +2576,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Fetches the log-level override, if any, for a given resource-ID and resource-type. It can be used for a wireless device or a wireless gateway.
+    ///
+    /// - Parameter GetResourceLogLevelInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourceLogLevelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func getResourceLogLevel(input: GetResourceLogLevelInput) async throws -> GetResourceLogLevelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1928,6 +2623,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Get the position information for a given wireless device or a wireless gateway resource. The position information uses the [ World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
+    ///
+    /// - Parameter GetResourcePositionInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourcePositionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func getResourcePosition(input: GetResourcePositionInput) async throws -> GetResourcePositionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1962,6 +2670,18 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Gets the account-specific endpoint for Configuration and Update Server (CUPS) protocol or LoRaWAN Network Server (LNS) connections.
+    ///
+    /// - Parameter GetServiceEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `GetServiceEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func getServiceEndpoint(input: GetServiceEndpointInput) async throws -> GetServiceEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1996,6 +2716,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Gets information about a service profile.
+    ///
+    /// - Parameter GetServiceProfileInput : [no documentation found]
+    ///
+    /// - Returns: `GetServiceProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func getServiceProfile(input: GetServiceProfileInput) async throws -> GetServiceProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2029,6 +2762,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Gets information about a wireless device.
+    ///
+    /// - Parameter GetWirelessDeviceInput : [no documentation found]
+    ///
+    /// - Returns: `GetWirelessDeviceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func getWirelessDevice(input: GetWirelessDeviceInput) async throws -> GetWirelessDeviceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2063,6 +2809,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Get information about an import task and count of device onboarding summary information for the import task.
+    ///
+    /// - Parameter GetWirelessDeviceImportTaskInput : [no documentation found]
+    ///
+    /// - Returns: `GetWirelessDeviceImportTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func getWirelessDeviceImportTask(input: GetWirelessDeviceImportTaskInput) async throws -> GetWirelessDeviceImportTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2096,6 +2856,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Gets operating information about a wireless device.
+    ///
+    /// - Parameter GetWirelessDeviceStatisticsInput : [no documentation found]
+    ///
+    /// - Returns: `GetWirelessDeviceStatisticsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func getWirelessDeviceStatistics(input: GetWirelessDeviceStatisticsInput) async throws -> GetWirelessDeviceStatisticsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2129,6 +2902,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Gets information about a wireless gateway.
+    ///
+    /// - Parameter GetWirelessGatewayInput : [no documentation found]
+    ///
+    /// - Returns: `GetWirelessGatewayOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func getWirelessGateway(input: GetWirelessGatewayInput) async throws -> GetWirelessGatewayOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2163,6 +2949,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Gets the ID of the certificate that is currently associated with a wireless gateway.
+    ///
+    /// - Parameter GetWirelessGatewayCertificateInput : [no documentation found]
+    ///
+    /// - Returns: `GetWirelessGatewayCertificateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func getWirelessGatewayCertificate(input: GetWirelessGatewayCertificateInput) async throws -> GetWirelessGatewayCertificateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2196,6 +2995,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Gets the firmware version and other information about a wireless gateway.
+    ///
+    /// - Parameter GetWirelessGatewayFirmwareInformationInput : [no documentation found]
+    ///
+    /// - Returns: `GetWirelessGatewayFirmwareInformationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func getWirelessGatewayFirmwareInformation(input: GetWirelessGatewayFirmwareInformationInput) async throws -> GetWirelessGatewayFirmwareInformationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2229,6 +3041,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Gets operating information about a wireless gateway.
+    ///
+    /// - Parameter GetWirelessGatewayStatisticsInput : [no documentation found]
+    ///
+    /// - Returns: `GetWirelessGatewayStatisticsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func getWirelessGatewayStatistics(input: GetWirelessGatewayStatisticsInput) async throws -> GetWirelessGatewayStatisticsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2262,6 +3087,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Gets information about a wireless gateway task.
+    ///
+    /// - Parameter GetWirelessGatewayTaskInput : [no documentation found]
+    ///
+    /// - Returns: `GetWirelessGatewayTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func getWirelessGatewayTask(input: GetWirelessGatewayTaskInput) async throws -> GetWirelessGatewayTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2295,6 +3133,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Gets information about a wireless gateway task definition.
+    ///
+    /// - Parameter GetWirelessGatewayTaskDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `GetWirelessGatewayTaskDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func getWirelessGatewayTaskDefinition(input: GetWirelessGatewayTaskDefinitionInput) async throws -> GetWirelessGatewayTaskDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2328,6 +3179,18 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Lists the destinations registered to your AWS account.
+    ///
+    /// - Parameter ListDestinationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDestinationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func listDestinations(input: ListDestinationsInput) async throws -> ListDestinationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2362,6 +3225,18 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Lists the device profiles registered to your AWS account.
+    ///
+    /// - Parameter ListDeviceProfilesInput : [no documentation found]
+    ///
+    /// - Returns: `ListDeviceProfilesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func listDeviceProfiles(input: ListDeviceProfilesInput) async throws -> ListDeviceProfilesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2396,6 +3271,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// List the Sidewalk devices in an import task and their onboarding status.
+    ///
+    /// - Parameter ListDevicesForWirelessDeviceImportTaskInput : [no documentation found]
+    ///
+    /// - Returns: `ListDevicesForWirelessDeviceImportTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func listDevicesForWirelessDeviceImportTask(input: ListDevicesForWirelessDeviceImportTaskInput) async throws -> ListDevicesForWirelessDeviceImportTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2430,6 +3319,18 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// List event configurations where at least one event topic has been enabled.
+    ///
+    /// - Parameter ListEventConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListEventConfigurationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func listEventConfigurations(input: ListEventConfigurationsInput) async throws -> ListEventConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2464,6 +3365,18 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Lists the FUOTA tasks registered to your AWS account.
+    ///
+    /// - Parameter ListFuotaTasksInput : [no documentation found]
+    ///
+    /// - Returns: `ListFuotaTasksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func listFuotaTasks(input: ListFuotaTasksInput) async throws -> ListFuotaTasksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2498,6 +3411,18 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Lists the multicast groups registered to your AWS account.
+    ///
+    /// - Parameter ListMulticastGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `ListMulticastGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func listMulticastGroups(input: ListMulticastGroupsInput) async throws -> ListMulticastGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2532,6 +3457,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// List all multicast groups associated with a fuota task.
+    ///
+    /// - Parameter ListMulticastGroupsByFuotaTaskInput : [no documentation found]
+    ///
+    /// - Returns: `ListMulticastGroupsByFuotaTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func listMulticastGroupsByFuotaTask(input: ListMulticastGroupsByFuotaTaskInput) async throws -> ListMulticastGroupsByFuotaTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2566,6 +3504,18 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Lists the network analyzer configurations.
+    ///
+    /// - Parameter ListNetworkAnalyzerConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListNetworkAnalyzerConfigurationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func listNetworkAnalyzerConfigurations(input: ListNetworkAnalyzerConfigurationsInput) async throws -> ListNetworkAnalyzerConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2600,6 +3550,18 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Lists the partner accounts associated with your AWS account.
+    ///
+    /// - Parameter ListPartnerAccountsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPartnerAccountsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func listPartnerAccounts(input: ListPartnerAccountsInput) async throws -> ListPartnerAccountsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2635,6 +3597,18 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
 
     /// List position configurations for a given resource, such as positioning solvers. This action is no longer supported. Calls to retrieve position information should use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
+    ///
+    /// - Parameter ListPositionConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPositionConfigurationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func listPositionConfigurations(input: ListPositionConfigurationsInput) async throws -> ListPositionConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2669,6 +3643,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// List queued messages in the downlink queue.
+    ///
+    /// - Parameter ListQueuedMessagesInput : [no documentation found]
+    ///
+    /// - Returns: `ListQueuedMessagesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func listQueuedMessages(input: ListQueuedMessagesInput) async throws -> ListQueuedMessagesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2703,6 +3690,18 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Lists the service profiles registered to your AWS account.
+    ///
+    /// - Parameter ListServiceProfilesInput : [no documentation found]
+    ///
+    /// - Returns: `ListServiceProfilesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func listServiceProfiles(input: ListServiceProfilesInput) async throws -> ListServiceProfilesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2737,6 +3736,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Lists the tags (metadata) you have assigned to the resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2771,6 +3783,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// List wireless devices that have been added to an import task.
+    ///
+    /// - Parameter ListWirelessDeviceImportTasksInput : [no documentation found]
+    ///
+    /// - Returns: `ListWirelessDeviceImportTasksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func listWirelessDeviceImportTasks(input: ListWirelessDeviceImportTasksInput) async throws -> ListWirelessDeviceImportTasksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2805,6 +3831,18 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Lists the wireless devices registered to your AWS account.
+    ///
+    /// - Parameter ListWirelessDevicesInput : [no documentation found]
+    ///
+    /// - Returns: `ListWirelessDevicesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func listWirelessDevices(input: ListWirelessDevicesInput) async throws -> ListWirelessDevicesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2839,6 +3877,18 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// List the wireless gateway tasks definitions registered to your AWS account.
+    ///
+    /// - Parameter ListWirelessGatewayTaskDefinitionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListWirelessGatewayTaskDefinitionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func listWirelessGatewayTaskDefinitions(input: ListWirelessGatewayTaskDefinitionsInput) async throws -> ListWirelessGatewayTaskDefinitionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2873,6 +3923,18 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Lists the wireless gateways registered to your AWS account.
+    ///
+    /// - Parameter ListWirelessGatewaysInput : [no documentation found]
+    ///
+    /// - Returns: `ListWirelessGatewaysOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func listWirelessGateways(input: ListWirelessGatewaysInput) async throws -> ListWirelessGatewaysOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2908,6 +3970,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
 
     /// Put position configuration for a given resource. This action is no longer supported. Calls to update the position configuration should use the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_UpdateResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
+    ///
+    /// - Parameter PutPositionConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutPositionConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func putPositionConfiguration(input: PutPositionConfigurationInput) async throws -> PutPositionConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2945,6 +4020,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Sets the log-level override for a resource-ID and resource-type. This option can be specified for a wireless gateway or a wireless device. A limit of 200 log level override can be set per account.
+    ///
+    /// - Parameter PutResourceLogLevelInput : [no documentation found]
+    ///
+    /// - Returns: `PutResourceLogLevelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func putResourceLogLevel(input: PutResourceLogLevelInput) async throws -> PutResourceLogLevelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2982,6 +4070,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Removes the log-level overrides for all resources; both wireless devices and wireless gateways.
+    ///
+    /// - Parameter ResetAllResourceLogLevelsInput : [no documentation found]
+    ///
+    /// - Returns: `ResetAllResourceLogLevelsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func resetAllResourceLogLevels(input: ResetAllResourceLogLevelsInput) async throws -> ResetAllResourceLogLevelsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3015,6 +4116,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Removes the log-level override, if any, for a specific resource-ID and resource-type. It can be used for a wireless device or a wireless gateway.
+    ///
+    /// - Parameter ResetResourceLogLevelInput : [no documentation found]
+    ///
+    /// - Returns: `ResetResourceLogLevelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func resetResourceLogLevel(input: ResetResourceLogLevelInput) async throws -> ResetResourceLogLevelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3049,6 +4163,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Sends the specified data to a multicast group.
+    ///
+    /// - Parameter SendDataToMulticastGroupInput : [no documentation found]
+    ///
+    /// - Returns: `SendDataToMulticastGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func sendDataToMulticastGroup(input: SendDataToMulticastGroupInput) async throws -> SendDataToMulticastGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3085,6 +4213,18 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Sends a decrypted application data frame to a device.
+    ///
+    /// - Parameter SendDataToWirelessDeviceInput : [no documentation found]
+    ///
+    /// - Returns: `SendDataToWirelessDeviceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func sendDataToWirelessDevice(input: SendDataToWirelessDeviceInput) async throws -> SendDataToWirelessDeviceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3121,6 +4261,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Starts a bulk association of all qualifying wireless devices with a multicast group.
+    ///
+    /// - Parameter StartBulkAssociateWirelessDeviceWithMulticastGroupInput : [no documentation found]
+    ///
+    /// - Returns: `StartBulkAssociateWirelessDeviceWithMulticastGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func startBulkAssociateWirelessDeviceWithMulticastGroup(input: StartBulkAssociateWirelessDeviceWithMulticastGroupInput) async throws -> StartBulkAssociateWirelessDeviceWithMulticastGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3157,6 +4310,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Starts a bulk disassociatin of all qualifying wireless devices from a multicast group.
+    ///
+    /// - Parameter StartBulkDisassociateWirelessDeviceFromMulticastGroupInput : [no documentation found]
+    ///
+    /// - Returns: `StartBulkDisassociateWirelessDeviceFromMulticastGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func startBulkDisassociateWirelessDeviceFromMulticastGroup(input: StartBulkDisassociateWirelessDeviceFromMulticastGroupInput) async throws -> StartBulkDisassociateWirelessDeviceFromMulticastGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3193,6 +4359,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Starts a FUOTA task.
+    ///
+    /// - Parameter StartFuotaTaskInput : [no documentation found]
+    ///
+    /// - Returns: `StartFuotaTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func startFuotaTask(input: StartFuotaTaskInput) async throws -> StartFuotaTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3229,6 +4409,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Starts a multicast group session.
+    ///
+    /// - Parameter StartMulticastGroupSessionInput : [no documentation found]
+    ///
+    /// - Returns: `StartMulticastGroupSessionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func startMulticastGroupSession(input: StartMulticastGroupSessionInput) async throws -> StartMulticastGroupSessionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3265,6 +4459,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Start import task for a single wireless device.
+    ///
+    /// - Parameter StartSingleWirelessDeviceImportTaskInput : [no documentation found]
+    ///
+    /// - Returns: `StartSingleWirelessDeviceImportTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func startSingleWirelessDeviceImportTask(input: StartSingleWirelessDeviceImportTaskInput) async throws -> StartSingleWirelessDeviceImportTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3309,6 +4517,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Start import task for provisioning Sidewalk devices in bulk using an S3 CSV file.
+    ///
+    /// - Parameter StartWirelessDeviceImportTaskInput : [no documentation found]
+    ///
+    /// - Returns: `StartWirelessDeviceImportTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func startWirelessDeviceImportTask(input: StartWirelessDeviceImportTaskInput) async throws -> StartWirelessDeviceImportTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3353,6 +4575,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Adds a tag to a resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `TooManyTagsException` : The request was denied because the resource can't have any more tags.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3390,6 +4626,18 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Simulates a provisioned device by sending an uplink data payload of Hello.
+    ///
+    /// - Parameter TestWirelessDeviceInput : [no documentation found]
+    ///
+    /// - Returns: `TestWirelessDeviceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func testWirelessDevice(input: TestWirelessDeviceInput) async throws -> TestWirelessDeviceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3423,6 +4671,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Removes one or more tags from a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3457,6 +4718,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Updates properties of a destination.
+    ///
+    /// - Parameter UpdateDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDestinationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func updateDestination(input: UpdateDestinationInput) async throws -> UpdateDestinationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3493,6 +4767,18 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Update the event configuration based on resource types.
+    ///
+    /// - Parameter UpdateEventConfigurationByResourceTypesInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEventConfigurationByResourceTypesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func updateEventConfigurationByResourceTypes(input: UpdateEventConfigurationByResourceTypesInput) async throws -> UpdateEventConfigurationByResourceTypesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3529,6 +4815,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Updates properties of a FUOTA task.
+    ///
+    /// - Parameter UpdateFuotaTaskInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateFuotaTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func updateFuotaTask(input: UpdateFuotaTaskInput) async throws -> UpdateFuotaTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3565,6 +4865,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Set default log level, or log levels by resource types. This can be for wireless device log options or wireless gateways log options and is used to control the log messages that'll be displayed in CloudWatch.
+    ///
+    /// - Parameter UpdateLogLevelsByResourceTypesInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateLogLevelsByResourceTypesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func updateLogLevelsByResourceTypes(input: UpdateLogLevelsByResourceTypesInput) async throws -> UpdateLogLevelsByResourceTypesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3601,6 +4915,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Updates properties of a multicast group session.
+    ///
+    /// - Parameter UpdateMulticastGroupInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateMulticastGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func updateMulticastGroup(input: UpdateMulticastGroupInput) async throws -> UpdateMulticastGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3637,6 +4965,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Update network analyzer configuration.
+    ///
+    /// - Parameter UpdateNetworkAnalyzerConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateNetworkAnalyzerConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func updateNetworkAnalyzerConfiguration(input: UpdateNetworkAnalyzerConfigurationInput) async throws -> UpdateNetworkAnalyzerConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3673,6 +5014,18 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Updates properties of a partner account.
+    ///
+    /// - Parameter UpdatePartnerAccountInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePartnerAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func updatePartnerAccount(input: UpdatePartnerAccountInput) async throws -> UpdatePartnerAccountOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3711,6 +5064,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
 
     /// Update the position information of a resource. This action is no longer supported. Calls to update the position information should use the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_UpdateResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
+    ///
+    /// - Parameter UpdatePositionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePositionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func updatePosition(input: UpdatePositionInput) async throws -> UpdatePositionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3748,6 +5114,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Update the event configuration for a particular resource identifier.
+    ///
+    /// - Parameter UpdateResourceEventConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateResourceEventConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func updateResourceEventConfiguration(input: UpdateResourceEventConfigurationInput) async throws -> UpdateResourceEventConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3785,6 +5165,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Update the position information of a given wireless device or a wireless gateway resource. The position coordinates are based on the [ World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
+    ///
+    /// - Parameter UpdateResourcePositionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateResourcePositionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func updateResourcePosition(input: UpdateResourcePositionInput) async throws -> UpdateResourcePositionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3822,6 +5215,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Updates properties of a wireless device.
+    ///
+    /// - Parameter UpdateWirelessDeviceInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWirelessDeviceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func updateWirelessDevice(input: UpdateWirelessDeviceInput) async throws -> UpdateWirelessDeviceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3858,6 +5264,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Update an import task to add more devices to the task.
+    ///
+    /// - Parameter UpdateWirelessDeviceImportTaskInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWirelessDeviceImportTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `ConflictException` : Adding, updating, or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func updateWirelessDeviceImportTask(input: UpdateWirelessDeviceImportTaskInput) async throws -> UpdateWirelessDeviceImportTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3894,6 +5314,19 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     }
 
     /// Updates properties of a wireless gateway.
+    ///
+    /// - Parameter UpdateWirelessGatewayInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWirelessGatewayOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have permission to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : Resource does not exist.
+    /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
+    /// - `ValidationException` : The input did not meet the specified constraints.
     public func updateWirelessGateway(input: UpdateWirelessGatewayInput) async throws -> UpdateWirelessGatewayOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

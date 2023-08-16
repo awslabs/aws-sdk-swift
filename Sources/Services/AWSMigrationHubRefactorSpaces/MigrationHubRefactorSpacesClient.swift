@@ -68,6 +68,21 @@ public struct MigrationHubRefactorSpacesClientLogHandlerFactory: ClientRuntime.S
 
 extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProtocol {
     /// Creates an Amazon Web Services Migration Hub Refactor Spaces application. The account that owns the environment also owns the applications created inside the environment, regardless of the account that creates the application. Refactor Spaces provisions an Amazon API Gateway, API Gateway VPC link, and Network Load Balancer for the application proxy inside your account. In environments created with a [CreateEnvironment:NetworkFabricType](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/APIReference/API_CreateEnvironment.html#migrationhubrefactorspaces-CreateEnvironment-request-NetworkFabricType) of NONE you need to configure [ VPC to VPC connectivity](https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/amazon-vpc-to-amazon-vpc-connectivity-options.html) between your service VPC and the application proxy VPC to route traffic through the application proxy to a service with a private URL endpoint. For more information, see [ Create an application](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/userguide/getting-started-create-application.html) in the Refactor Spaces User Guide.
+    ///
+    /// - Parameter CreateApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : Request was denied because the request was throttled.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
     public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -112,6 +127,21 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     }
 
     /// Creates an Amazon Web Services Migration Hub Refactor Spaces environment. The caller owns the environment resource, and all Refactor Spaces applications, services, and routes created within the environment. They are referred to as the environment owner. The environment owner has cross-account visibility and control of Refactor Spaces resources that are added to the environment by other accounts that the environment is shared with. When creating an environment with a [CreateEnvironment:NetworkFabricType](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/APIReference/API_CreateEnvironment.html#migrationhubrefactorspaces-CreateEnvironment-request-NetworkFabricType) of TRANSIT_GATEWAY, Refactor Spaces provisions a transit gateway to enable services in VPCs to communicate directly across accounts. If [CreateEnvironment:NetworkFabricType](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/APIReference/API_CreateEnvironment.html#migrationhubrefactorspaces-CreateEnvironment-request-NetworkFabricType) is NONE, Refactor Spaces does not create a transit gateway and you must use your network infrastructure to route traffic to services with private URL endpoints.
+    ///
+    /// - Parameter CreateEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : Request was denied because the request was throttled.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
     public func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -163,6 +193,21 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     ///
     ///
     /// Environments without a network bridge When you create environments without a network bridge ([CreateEnvironment:NetworkFabricType](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/APIReference/API_CreateEnvironment.html#migrationhubrefactorspaces-CreateEnvironment-request-NetworkFabricType) is NONE) and you use your own networking infrastructure, you need to configure [VPC to VPC connectivity](https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/amazon-vpc-to-amazon-vpc-connectivity-options.html) between your network and the application proxy VPC. Route creation from the application proxy to service endpoints will fail if your network is not configured to connect to the application proxy VPC. For more information, see [ Create a route](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/userguide/getting-started-create-role.html) in the Refactor Spaces User Guide.
+    ///
+    /// - Parameter CreateRouteInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRouteOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : Request was denied because the request was throttled.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
     public func createRoute(input: CreateRouteInput) async throws -> CreateRouteOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -207,6 +252,21 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     }
 
     /// Creates an Amazon Web Services Migration Hub Refactor Spaces service. The account owner of the service is always the environment owner, regardless of which account in the environment creates the service. Services have either a URL endpoint in a virtual private cloud (VPC), or a Lambda function endpoint. If an Amazon Web Services resource is launched in a service VPC, and you want it to be accessible to all of an environment’s services with VPCs and routes, apply the RefactorSpacesSecurityGroup to the resource. Alternatively, to add more cross-account constraints, apply your own security group.
+    ///
+    /// - Parameter CreateServiceInput : [no documentation found]
+    ///
+    /// - Returns: `CreateServiceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : Request was denied because the request was throttled.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
     public func createService(input: CreateServiceInput) async throws -> CreateServiceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -251,6 +311,20 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     }
 
     /// Deletes an Amazon Web Services Migration Hub Refactor Spaces application. Before you can delete an application, you must first delete any services or routes within the application.
+    ///
+    /// - Parameter DeleteApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : Request was denied because the request was throttled.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
     public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -284,6 +358,20 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     }
 
     /// Deletes an Amazon Web Services Migration Hub Refactor Spaces environment. Before you can delete an environment, you must first delete any applications and services within the environment.
+    ///
+    /// - Parameter DeleteEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : Request was denied because the request was throttled.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
     public func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -317,6 +405,19 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     }
 
     /// Deletes the resource policy set for the environment.
+    ///
+    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteResourcePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : Request was denied because the request was throttled.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
     public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -350,6 +451,20 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     }
 
     /// Deletes an Amazon Web Services Migration Hub Refactor Spaces route.
+    ///
+    /// - Parameter DeleteRouteInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRouteOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : Request was denied because the request was throttled.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
     public func deleteRoute(input: DeleteRouteInput) async throws -> DeleteRouteOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -383,6 +498,20 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     }
 
     /// Deletes an Amazon Web Services Migration Hub Refactor Spaces service.
+    ///
+    /// - Parameter DeleteServiceInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteServiceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : Request was denied because the request was throttled.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
     public func deleteService(input: DeleteServiceInput) async throws -> DeleteServiceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -416,6 +545,19 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     }
 
     /// Gets an Amazon Web Services Migration Hub Refactor Spaces application.
+    ///
+    /// - Parameter GetApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `GetApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : Request was denied because the request was throttled.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
     public func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -449,6 +591,19 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     }
 
     /// Gets an Amazon Web Services Migration Hub Refactor Spaces environment.
+    ///
+    /// - Parameter GetEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `GetEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : Request was denied because the request was throttled.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
     public func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -482,6 +637,19 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     }
 
     /// Gets the resource-based permission policy that is set for the given environment.
+    ///
+    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourcePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : Request was denied because the request was throttled.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
     public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -515,6 +683,19 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     }
 
     /// Gets an Amazon Web Services Migration Hub Refactor Spaces route.
+    ///
+    /// - Parameter GetRouteInput : [no documentation found]
+    ///
+    /// - Returns: `GetRouteOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : Request was denied because the request was throttled.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
     public func getRoute(input: GetRouteInput) async throws -> GetRouteOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -548,6 +729,19 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     }
 
     /// Gets an Amazon Web Services Migration Hub Refactor Spaces service.
+    ///
+    /// - Parameter GetServiceInput : [no documentation found]
+    ///
+    /// - Returns: `GetServiceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : Request was denied because the request was throttled.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
     public func getService(input: GetServiceInput) async throws -> GetServiceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -581,6 +775,21 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     }
 
     /// Lists all the Amazon Web Services Migration Hub Refactor Spaces applications within an environment.
+    ///
+    /// - Parameter ListApplicationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListApplicationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : Request was denied because the request was throttled.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
     public func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -615,6 +824,19 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     }
 
     /// Lists all Amazon Web Services Migration Hub Refactor Spaces service virtual private clouds (VPCs) that are part of the environment.
+    ///
+    /// - Parameter ListEnvironmentVpcsInput : [no documentation found]
+    ///
+    /// - Returns: `ListEnvironmentVpcsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : Request was denied because the request was throttled.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
     public func listEnvironmentVpcs(input: ListEnvironmentVpcsInput) async throws -> ListEnvironmentVpcsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -649,6 +871,19 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     }
 
     /// Lists Amazon Web Services Migration Hub Refactor Spaces environments owned by a caller account or shared with the caller account.
+    ///
+    /// - Parameter ListEnvironmentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListEnvironmentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : Request was denied because the request was throttled.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
     public func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -683,6 +918,21 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     }
 
     /// Lists all the Amazon Web Services Migration Hub Refactor Spaces routes within an application.
+    ///
+    /// - Parameter ListRoutesInput : [no documentation found]
+    ///
+    /// - Returns: `ListRoutesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : Request was denied because the request was throttled.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
     public func listRoutes(input: ListRoutesInput) async throws -> ListRoutesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -717,6 +967,21 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     }
 
     /// Lists all the Amazon Web Services Migration Hub Refactor Spaces services within an application.
+    ///
+    /// - Parameter ListServicesInput : [no documentation found]
+    ///
+    /// - Returns: `ListServicesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred while processing the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : Request was denied because the request was throttled.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
     public func listServices(input: ListServicesInput) async throws -> ListServicesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -751,6 +1016,17 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     }
 
     /// Lists the tags of a resource. The caller account must be the same as the resource’s OwnerAccountId. Listing tags in other accounts is not supported.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error occurred while processing the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -784,6 +1060,20 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     }
 
     /// Attaches a resource-based permission policy to the Amazon Web Services Migration Hub Refactor Spaces environment. The policy must contain the same actions and condition statements as the arn:aws:ram::aws:permission/AWSRAMDefaultPermissionRefactorSpacesEnvironment permission in Resource Access Manager. The policy must not contain new lines or blank lines.
+    ///
+    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutResourcePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing the request.
+    /// - `InvalidResourcePolicyException` : The resource policy is not valid.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : Request was denied because the request was throttled.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
     public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -820,6 +1110,17 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     }
 
     /// Removes the tags of a given resource. Tags are metadata which can be used to manage a resource. To tag a resource, the caller account must be the same as the resource’s OwnerAccountId. Tagging resources in other accounts is not supported. Amazon Web Services Migration Hub Refactor Spaces does not propagate tags to orchestrated resources, such as an environment’s transit gateway.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error occurred while processing the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -856,6 +1157,17 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     }
 
     /// Adds to or modifies the tags of the given resource. Tags are metadata which can be used to manage a resource. To untag a resource, the caller account must be the same as the resource’s OwnerAccountId. Untagging resources across accounts is not supported.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error occurred while processing the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -890,6 +1202,19 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     }
 
     /// Updates an Amazon Web Services Migration Hub Refactor Spaces route.
+    ///
+    /// - Parameter UpdateRouteInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRouteOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : Request was denied because the request was throttled.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
     public func updateRoute(input: UpdateRouteInput) async throws -> UpdateRouteOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

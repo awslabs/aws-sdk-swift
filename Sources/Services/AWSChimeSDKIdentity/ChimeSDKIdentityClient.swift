@@ -68,6 +68,22 @@ public struct ChimeSDKIdentityClientLogHandlerFactory: ClientRuntime.SDKLogHandl
 
 extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// Creates an Amazon Chime SDK messaging AppInstance under an AWS account. Only SDK messaging customers use this API. CreateAppInstance supports idempotency behavior as described in the AWS API Standard. identity
+    ///
+    /// - Parameter CreateAppInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAppInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func createAppInstance(input: CreateAppInstanceInput) async throws -> CreateAppInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -119,6 +135,22 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     ///
     ///
     /// Only an AppInstanceUser and AppInstanceBot can be promoted to an AppInstanceAdmin role.
+    ///
+    /// - Parameter CreateAppInstanceAdminInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAppInstanceAdminOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func createAppInstanceAdmin(input: CreateAppInstanceAdminInput) async throws -> CreateAppInstanceAdminOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -155,6 +187,22 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     }
 
     /// Creates a bot under an Amazon Chime AppInstance. The request consists of a unique Configuration and Name for that bot.
+    ///
+    /// - Parameter CreateAppInstanceBotInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAppInstanceBotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func createAppInstanceBot(input: CreateAppInstanceBotInput) async throws -> CreateAppInstanceBotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -199,6 +247,22 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     }
 
     /// Creates a user under an Amazon Chime AppInstance. The request consists of a unique appInstanceUserId and Name for that user.
+    ///
+    /// - Parameter CreateAppInstanceUserInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAppInstanceUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func createAppInstanceUser(input: CreateAppInstanceUserInput) async throws -> CreateAppInstanceUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -243,6 +307,21 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     }
 
     /// Deletes an AppInstance and all associated data asynchronously.
+    ///
+    /// - Parameter DeleteAppInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAppInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func deleteAppInstance(input: DeleteAppInstanceInput) async throws -> DeleteAppInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -276,6 +355,22 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     }
 
     /// Demotes an AppInstanceAdmin to an AppInstanceUser or AppInstanceBot. This action does not delete the user.
+    ///
+    /// - Parameter DeleteAppInstanceAdminInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAppInstanceAdminOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func deleteAppInstanceAdmin(input: DeleteAppInstanceAdminInput) async throws -> DeleteAppInstanceAdminOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -309,6 +404,22 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     }
 
     /// Deletes an AppInstanceBot.
+    ///
+    /// - Parameter DeleteAppInstanceBotInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAppInstanceBotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func deleteAppInstanceBot(input: DeleteAppInstanceBotInput) async throws -> DeleteAppInstanceBotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -342,6 +453,22 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     }
 
     /// Deletes an AppInstanceUser.
+    ///
+    /// - Parameter DeleteAppInstanceUserInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAppInstanceUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func deleteAppInstanceUser(input: DeleteAppInstanceUserInput) async throws -> DeleteAppInstanceUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -375,6 +502,20 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     }
 
     /// Deregisters an AppInstanceUserEndpoint.
+    ///
+    /// - Parameter DeregisterAppInstanceUserEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `DeregisterAppInstanceUserEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func deregisterAppInstanceUserEndpoint(input: DeregisterAppInstanceUserEndpointInput) async throws -> DeregisterAppInstanceUserEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -408,6 +549,20 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     }
 
     /// Returns the full details of an AppInstance.
+    ///
+    /// - Parameter DescribeAppInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAppInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func describeAppInstance(input: DescribeAppInstanceInput) async throws -> DescribeAppInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -441,6 +596,20 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     }
 
     /// Returns the full details of an AppInstanceAdmin.
+    ///
+    /// - Parameter DescribeAppInstanceAdminInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAppInstanceAdminOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func describeAppInstanceAdmin(input: DescribeAppInstanceAdminInput) async throws -> DescribeAppInstanceAdminOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -474,6 +643,21 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     }
 
     /// The AppInstanceBot's information.
+    ///
+    /// - Parameter DescribeAppInstanceBotInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAppInstanceBotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func describeAppInstanceBot(input: DescribeAppInstanceBotInput) async throws -> DescribeAppInstanceBotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -507,6 +691,20 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     }
 
     /// Returns the full details of an AppInstanceUser.
+    ///
+    /// - Parameter DescribeAppInstanceUserInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAppInstanceUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func describeAppInstanceUser(input: DescribeAppInstanceUserInput) async throws -> DescribeAppInstanceUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -540,6 +738,20 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     }
 
     /// Returns the full details of an AppInstanceUserEndpoint.
+    ///
+    /// - Parameter DescribeAppInstanceUserEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAppInstanceUserEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func describeAppInstanceUserEndpoint(input: DescribeAppInstanceUserEndpointInput) async throws -> DescribeAppInstanceUserEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -573,6 +785,20 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     }
 
     /// Gets the retention settings for an AppInstance.
+    ///
+    /// - Parameter GetAppInstanceRetentionSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `GetAppInstanceRetentionSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func getAppInstanceRetentionSettings(input: GetAppInstanceRetentionSettingsInput) async throws -> GetAppInstanceRetentionSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -606,6 +832,21 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     }
 
     /// Returns a list of the administrators in the AppInstance.
+    ///
+    /// - Parameter ListAppInstanceAdminsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAppInstanceAdminsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func listAppInstanceAdmins(input: ListAppInstanceAdminsInput) async throws -> ListAppInstanceAdminsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -640,6 +881,21 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     }
 
     /// Lists all AppInstanceBots created under a single AppInstance.
+    ///
+    /// - Parameter ListAppInstanceBotsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAppInstanceBotsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func listAppInstanceBots(input: ListAppInstanceBotsInput) async throws -> ListAppInstanceBotsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -674,6 +930,20 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     }
 
     /// Lists all the AppInstanceUserEndpoints created under a single AppInstanceUser.
+    ///
+    /// - Parameter ListAppInstanceUserEndpointsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAppInstanceUserEndpointsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func listAppInstanceUserEndpoints(input: ListAppInstanceUserEndpointsInput) async throws -> ListAppInstanceUserEndpointsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -708,6 +978,20 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     }
 
     /// List all AppInstanceUsers created under a single AppInstance.
+    ///
+    /// - Parameter ListAppInstanceUsersInput : [no documentation found]
+    ///
+    /// - Returns: `ListAppInstanceUsersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func listAppInstanceUsers(input: ListAppInstanceUsersInput) async throws -> ListAppInstanceUsersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -742,6 +1026,20 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     }
 
     /// Lists all Amazon Chime AppInstances created under a single AWS account.
+    ///
+    /// - Parameter ListAppInstancesInput : [no documentation found]
+    ///
+    /// - Returns: `ListAppInstancesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func listAppInstances(input: ListAppInstancesInput) async throws -> ListAppInstancesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -776,6 +1074,20 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     }
 
     /// Lists the tags applied to an Amazon Chime SDK identity resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -810,6 +1122,20 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     }
 
     /// Sets the amount of time in days that a given AppInstance retains data.
+    ///
+    /// - Parameter PutAppInstanceRetentionSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `PutAppInstanceRetentionSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func putAppInstanceRetentionSettings(input: PutAppInstanceRetentionSettingsInput) async throws -> PutAppInstanceRetentionSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -846,6 +1172,21 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     }
 
     /// Sets the number of days before the AppInstanceUser is automatically deleted. A background process deletes expired AppInstanceUsers within 6 hours of expiration. Actual deletion times may vary. Expired AppInstanceUsers that have not yet been deleted appear as active, and you can update their expiration settings. The system honors the new settings.
+    ///
+    /// - Parameter PutAppInstanceUserExpirationSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `PutAppInstanceUserExpirationSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func putAppInstanceUserExpirationSettings(input: PutAppInstanceUserExpirationSettingsInput) async throws -> PutAppInstanceUserExpirationSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -882,6 +1223,22 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     }
 
     /// Registers an endpoint under an Amazon Chime AppInstanceUser. The endpoint receives messages for a user. For push notifications, the endpoint is a mobile device used to receive mobile push notifications for a user.
+    ///
+    /// - Parameter RegisterAppInstanceUserEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `RegisterAppInstanceUserEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func registerAppInstanceUserEndpoint(input: RegisterAppInstanceUserEndpointInput) async throws -> RegisterAppInstanceUserEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -926,6 +1283,21 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     }
 
     /// Applies the specified tags to the specified Amazon Chime SDK identity resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -963,6 +1335,20 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     }
 
     /// Removes the specified tags from the specified Amazon Chime SDK identity resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1000,6 +1386,21 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     }
 
     /// Updates AppInstance metadata.
+    ///
+    /// - Parameter UpdateAppInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAppInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func updateAppInstance(input: UpdateAppInstanceInput) async throws -> UpdateAppInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1036,6 +1437,22 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     }
 
     /// Updates the name and metadata of an AppInstanceBot.
+    ///
+    /// - Parameter UpdateAppInstanceBotInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAppInstanceBotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func updateAppInstanceBot(input: UpdateAppInstanceBotInput) async throws -> UpdateAppInstanceBotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1072,6 +1489,22 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     }
 
     /// Updates the details of an AppInstanceUser. You can update names and metadata.
+    ///
+    /// - Parameter UpdateAppInstanceUserInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAppInstanceUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func updateAppInstanceUser(input: UpdateAppInstanceUserInput) async throws -> UpdateAppInstanceUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1108,6 +1541,21 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     }
 
     /// Updates the details of an AppInstanceUserEndpoint. You can update the name and AllowMessage values.
+    ///
+    /// - Parameter UpdateAppInstanceUserEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAppInstanceUserEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     public func updateAppInstanceUserEndpoint(input: UpdateAppInstanceUserEndpointInput) async throws -> UpdateAppInstanceUserEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

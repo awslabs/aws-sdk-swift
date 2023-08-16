@@ -68,6 +68,20 @@ public struct SchemasClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
 
 extension SchemasClient: SchemasClientProtocol {
     /// Creates a discoverer.
+    ///
+    /// - Parameter CreateDiscovererInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDiscovererOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ConflictException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     public func createDiscoverer(input: CreateDiscovererInput) async throws -> CreateDiscovererOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +118,20 @@ extension SchemasClient: SchemasClientProtocol {
     }
 
     /// Creates a registry.
+    ///
+    /// - Parameter CreateRegistryInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRegistryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ConflictException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     public func createRegistry(input: CreateRegistryInput) async throws -> CreateRegistryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -140,6 +168,18 @@ extension SchemasClient: SchemasClientProtocol {
     }
 
     /// Creates a schema definition. Inactive schemas will be deleted after two years.
+    ///
+    /// - Parameter CreateSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSchemaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
     public func createSchema(input: CreateSchemaInput) async throws -> CreateSchemaOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -176,6 +216,20 @@ extension SchemasClient: SchemasClientProtocol {
     }
 
     /// Deletes a discoverer.
+    ///
+    /// - Parameter DeleteDiscovererInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDiscovererOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     public func deleteDiscoverer(input: DeleteDiscovererInput) async throws -> DeleteDiscovererOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -209,6 +263,20 @@ extension SchemasClient: SchemasClientProtocol {
     }
 
     /// Deletes a Registry.
+    ///
+    /// - Parameter DeleteRegistryInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRegistryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     public func deleteRegistry(input: DeleteRegistryInput) async throws -> DeleteRegistryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -242,6 +310,20 @@ extension SchemasClient: SchemasClientProtocol {
     }
 
     /// Delete the resource-based policy attached to the specified registry.
+    ///
+    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteResourcePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -276,6 +358,20 @@ extension SchemasClient: SchemasClientProtocol {
     }
 
     /// Delete a schema definition.
+    ///
+    /// - Parameter DeleteSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSchemaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     public func deleteSchema(input: DeleteSchemaInput) async throws -> DeleteSchemaOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -309,6 +405,20 @@ extension SchemasClient: SchemasClientProtocol {
     }
 
     /// Delete the schema version definition
+    ///
+    /// - Parameter DeleteSchemaVersionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSchemaVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     public func deleteSchemaVersion(input: DeleteSchemaVersionInput) async throws -> DeleteSchemaVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -342,6 +452,20 @@ extension SchemasClient: SchemasClientProtocol {
     }
 
     /// Describe the code binding URI.
+    ///
+    /// - Parameter DescribeCodeBindingInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeCodeBindingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `TooManyRequestsException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     public func describeCodeBinding(input: DescribeCodeBindingInput) async throws -> DescribeCodeBindingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -376,6 +500,20 @@ extension SchemasClient: SchemasClientProtocol {
     }
 
     /// Describes the discoverer.
+    ///
+    /// - Parameter DescribeDiscovererInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDiscovererOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     public func describeDiscoverer(input: DescribeDiscovererInput) async throws -> DescribeDiscovererOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -409,6 +547,20 @@ extension SchemasClient: SchemasClientProtocol {
     }
 
     /// Describes the registry.
+    ///
+    /// - Parameter DescribeRegistryInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeRegistryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     public func describeRegistry(input: DescribeRegistryInput) async throws -> DescribeRegistryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -442,6 +594,20 @@ extension SchemasClient: SchemasClientProtocol {
     }
 
     /// Retrieve the schema definition.
+    ///
+    /// - Parameter DescribeSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeSchemaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     public func describeSchema(input: DescribeSchemaInput) async throws -> DescribeSchemaOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -475,6 +641,21 @@ extension SchemasClient: SchemasClientProtocol {
         return result
     }
 
+    ///
+    /// - Parameter ExportSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `ExportSchemaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `TooManyRequestsException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     public func exportSchema(input: ExportSchemaInput) async throws -> ExportSchemaOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -509,6 +690,20 @@ extension SchemasClient: SchemasClientProtocol {
     }
 
     /// Get the code binding source URI.
+    ///
+    /// - Parameter GetCodeBindingSourceInput : [no documentation found]
+    ///
+    /// - Returns: `GetCodeBindingSourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `TooManyRequestsException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     public func getCodeBindingSource(input: GetCodeBindingSourceInput) async throws -> GetCodeBindingSourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -543,6 +738,19 @@ extension SchemasClient: SchemasClientProtocol {
     }
 
     /// Get the discovered schema that was generated based on sampled events.
+    ///
+    /// - Parameter GetDiscoveredSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `GetDiscoveredSchemaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     public func getDiscoveredSchema(input: GetDiscoveredSchemaInput) async throws -> GetDiscoveredSchemaOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -579,6 +787,20 @@ extension SchemasClient: SchemasClientProtocol {
     }
 
     /// Retrieves the resource-based policy attached to a given registry.
+    ///
+    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourcePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -613,6 +835,19 @@ extension SchemasClient: SchemasClientProtocol {
     }
 
     /// List the discoverers.
+    ///
+    /// - Parameter ListDiscoverersInput : [no documentation found]
+    ///
+    /// - Returns: `ListDiscoverersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     public func listDiscoverers(input: ListDiscoverersInput) async throws -> ListDiscoverersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -647,6 +882,19 @@ extension SchemasClient: SchemasClientProtocol {
     }
 
     /// List the registries.
+    ///
+    /// - Parameter ListRegistriesInput : [no documentation found]
+    ///
+    /// - Returns: `ListRegistriesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     public func listRegistries(input: ListRegistriesInput) async throws -> ListRegistriesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -681,6 +929,20 @@ extension SchemasClient: SchemasClientProtocol {
     }
 
     /// Provides a list of the schema versions and related information.
+    ///
+    /// - Parameter ListSchemaVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSchemaVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     public func listSchemaVersions(input: ListSchemaVersionsInput) async throws -> ListSchemaVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -715,6 +977,19 @@ extension SchemasClient: SchemasClientProtocol {
     }
 
     /// List the schemas.
+    ///
+    /// - Parameter ListSchemasInput : [no documentation found]
+    ///
+    /// - Returns: `ListSchemasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     public func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -749,6 +1024,18 @@ extension SchemasClient: SchemasClientProtocol {
     }
 
     /// Get tags for resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -782,6 +1069,21 @@ extension SchemasClient: SchemasClientProtocol {
     }
 
     /// Put code binding URI
+    ///
+    /// - Parameter PutCodeBindingInput : [no documentation found]
+    ///
+    /// - Returns: `PutCodeBindingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `GoneException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `TooManyRequestsException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     public func putCodeBinding(input: PutCodeBindingInput) async throws -> PutCodeBindingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -816,6 +1118,21 @@ extension SchemasClient: SchemasClientProtocol {
     }
 
     /// The name of the policy.
+    ///
+    /// - Parameter PutResourcePolicyInput : The name of the policy.
+    ///
+    /// - Returns: `PutResourcePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `PreconditionFailedException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -853,6 +1170,19 @@ extension SchemasClient: SchemasClientProtocol {
     }
 
     /// Search the schemas
+    ///
+    /// - Parameter SearchSchemasInput : [no documentation found]
+    ///
+    /// - Returns: `SearchSchemasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     public func searchSchemas(input: SearchSchemasInput) async throws -> SearchSchemasOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -887,6 +1217,20 @@ extension SchemasClient: SchemasClientProtocol {
     }
 
     /// Starts the discoverer
+    ///
+    /// - Parameter StartDiscovererInput : [no documentation found]
+    ///
+    /// - Returns: `StartDiscovererOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     public func startDiscoverer(input: StartDiscovererInput) async throws -> StartDiscovererOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -920,6 +1264,20 @@ extension SchemasClient: SchemasClientProtocol {
     }
 
     /// Stops the discoverer
+    ///
+    /// - Parameter StopDiscovererInput : [no documentation found]
+    ///
+    /// - Returns: `StopDiscovererOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     public func stopDiscoverer(input: StopDiscovererInput) async throws -> StopDiscovererOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -953,6 +1311,18 @@ extension SchemasClient: SchemasClientProtocol {
     }
 
     /// Add tags to a resource.
+    ///
+    /// - Parameter TagResourceInput :
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -989,6 +1359,18 @@ extension SchemasClient: SchemasClientProtocol {
     }
 
     /// Removes tags from a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1023,6 +1405,20 @@ extension SchemasClient: SchemasClientProtocol {
     }
 
     /// Updates the discoverer
+    ///
+    /// - Parameter UpdateDiscovererInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDiscovererOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     public func updateDiscoverer(input: UpdateDiscovererInput) async throws -> UpdateDiscovererOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1059,6 +1455,20 @@ extension SchemasClient: SchemasClientProtocol {
     }
 
     /// Updates a registry.
+    ///
+    /// - Parameter UpdateRegistryInput : Updates the registry.
+    ///
+    /// - Returns: `UpdateRegistryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     public func updateRegistry(input: UpdateRegistryInput) async throws -> UpdateRegistryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1095,6 +1505,19 @@ extension SchemasClient: SchemasClientProtocol {
     }
 
     /// Updates the schema definition Inactive schemas will be deleted after two years.
+    ///
+    /// - Parameter UpdateSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSchemaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
     public func updateSchema(input: UpdateSchemaInput) async throws -> UpdateSchemaOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

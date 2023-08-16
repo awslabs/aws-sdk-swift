@@ -5,65 +5,488 @@ import ClientRuntime
 /// Amazon EventBridge Schema Registry
 public protocol SchemasClientProtocol {
     /// Creates a discoverer.
+    ///
+    /// - Parameter CreateDiscovererInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDiscovererOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ConflictException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     func createDiscoverer(input: CreateDiscovererInput) async throws -> CreateDiscovererOutputResponse
     /// Creates a registry.
+    ///
+    /// - Parameter CreateRegistryInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRegistryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ConflictException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     func createRegistry(input: CreateRegistryInput) async throws -> CreateRegistryOutputResponse
     /// Creates a schema definition. Inactive schemas will be deleted after two years.
+    ///
+    /// - Parameter CreateSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSchemaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
     func createSchema(input: CreateSchemaInput) async throws -> CreateSchemaOutputResponse
     /// Deletes a discoverer.
+    ///
+    /// - Parameter DeleteDiscovererInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDiscovererOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     func deleteDiscoverer(input: DeleteDiscovererInput) async throws -> DeleteDiscovererOutputResponse
     /// Deletes a Registry.
+    ///
+    /// - Parameter DeleteRegistryInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRegistryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     func deleteRegistry(input: DeleteRegistryInput) async throws -> DeleteRegistryOutputResponse
     /// Delete the resource-based policy attached to the specified registry.
+    ///
+    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteResourcePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutputResponse
     /// Delete a schema definition.
+    ///
+    /// - Parameter DeleteSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSchemaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     func deleteSchema(input: DeleteSchemaInput) async throws -> DeleteSchemaOutputResponse
     /// Delete the schema version definition
+    ///
+    /// - Parameter DeleteSchemaVersionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSchemaVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     func deleteSchemaVersion(input: DeleteSchemaVersionInput) async throws -> DeleteSchemaVersionOutputResponse
     /// Describe the code binding URI.
+    ///
+    /// - Parameter DescribeCodeBindingInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeCodeBindingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `TooManyRequestsException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     func describeCodeBinding(input: DescribeCodeBindingInput) async throws -> DescribeCodeBindingOutputResponse
     /// Describes the discoverer.
+    ///
+    /// - Parameter DescribeDiscovererInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDiscovererOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     func describeDiscoverer(input: DescribeDiscovererInput) async throws -> DescribeDiscovererOutputResponse
     /// Describes the registry.
+    ///
+    /// - Parameter DescribeRegistryInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeRegistryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     func describeRegistry(input: DescribeRegistryInput) async throws -> DescribeRegistryOutputResponse
     /// Retrieve the schema definition.
+    ///
+    /// - Parameter DescribeSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeSchemaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     func describeSchema(input: DescribeSchemaInput) async throws -> DescribeSchemaOutputResponse
+    ///
+    /// - Parameter ExportSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `ExportSchemaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `TooManyRequestsException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     func exportSchema(input: ExportSchemaInput) async throws -> ExportSchemaOutputResponse
     /// Get the code binding source URI.
+    ///
+    /// - Parameter GetCodeBindingSourceInput : [no documentation found]
+    ///
+    /// - Returns: `GetCodeBindingSourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `TooManyRequestsException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     func getCodeBindingSource(input: GetCodeBindingSourceInput) async throws -> GetCodeBindingSourceOutputResponse
     /// Get the discovered schema that was generated based on sampled events.
+    ///
+    /// - Parameter GetDiscoveredSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `GetDiscoveredSchemaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     func getDiscoveredSchema(input: GetDiscoveredSchemaInput) async throws -> GetDiscoveredSchemaOutputResponse
     /// Retrieves the resource-based policy attached to a given registry.
+    ///
+    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourcePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutputResponse
     /// List the discoverers.
+    ///
+    /// - Parameter ListDiscoverersInput : [no documentation found]
+    ///
+    /// - Returns: `ListDiscoverersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     func listDiscoverers(input: ListDiscoverersInput) async throws -> ListDiscoverersOutputResponse
     /// List the registries.
+    ///
+    /// - Parameter ListRegistriesInput : [no documentation found]
+    ///
+    /// - Returns: `ListRegistriesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     func listRegistries(input: ListRegistriesInput) async throws -> ListRegistriesOutputResponse
     /// List the schemas.
+    ///
+    /// - Parameter ListSchemasInput : [no documentation found]
+    ///
+    /// - Returns: `ListSchemasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutputResponse
     /// Provides a list of the schema versions and related information.
+    ///
+    /// - Parameter ListSchemaVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSchemaVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     func listSchemaVersions(input: ListSchemaVersionsInput) async throws -> ListSchemaVersionsOutputResponse
     /// Get tags for resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Put code binding URI
+    ///
+    /// - Parameter PutCodeBindingInput : [no documentation found]
+    ///
+    /// - Returns: `PutCodeBindingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `GoneException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `TooManyRequestsException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     func putCodeBinding(input: PutCodeBindingInput) async throws -> PutCodeBindingOutputResponse
     /// The name of the policy.
+    ///
+    /// - Parameter PutResourcePolicyInput : The name of the policy.
+    ///
+    /// - Returns: `PutResourcePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `PreconditionFailedException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutputResponse
     /// Search the schemas
+    ///
+    /// - Parameter SearchSchemasInput : [no documentation found]
+    ///
+    /// - Returns: `SearchSchemasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     func searchSchemas(input: SearchSchemasInput) async throws -> SearchSchemasOutputResponse
     /// Starts the discoverer
+    ///
+    /// - Parameter StartDiscovererInput : [no documentation found]
+    ///
+    /// - Returns: `StartDiscovererOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     func startDiscoverer(input: StartDiscovererInput) async throws -> StartDiscovererOutputResponse
     /// Stops the discoverer
+    ///
+    /// - Parameter StopDiscovererInput : [no documentation found]
+    ///
+    /// - Returns: `StopDiscovererOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     func stopDiscoverer(input: StopDiscovererInput) async throws -> StopDiscovererOutputResponse
     /// Add tags to a resource.
+    ///
+    /// - Parameter TagResourceInput :
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes tags from a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates the discoverer
+    ///
+    /// - Parameter UpdateDiscovererInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDiscovererOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     func updateDiscoverer(input: UpdateDiscovererInput) async throws -> UpdateDiscovererOutputResponse
     /// Updates a registry.
+    ///
+    /// - Parameter UpdateRegistryInput : Updates the registry.
+    ///
+    /// - Returns: `UpdateRegistryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
+    /// - `UnauthorizedException` : [no documentation found]
     func updateRegistry(input: UpdateRegistryInput) async throws -> UpdateRegistryOutputResponse
     /// Updates the schema definition Inactive schemas will be deleted after two years.
+    ///
+    /// - Parameter UpdateSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSchemaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : [no documentation found]
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalServerErrorException` : [no documentation found]
+    /// - `NotFoundException` : [no documentation found]
+    /// - `ServiceUnavailableException` : [no documentation found]
     func updateSchema(input: UpdateSchemaInput) async throws -> UpdateSchemaOutputResponse
 }
 

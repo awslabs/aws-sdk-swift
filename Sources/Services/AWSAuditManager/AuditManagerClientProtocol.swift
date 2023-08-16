@@ -16,14 +16,74 @@ import ClientRuntime
 /// If you're new to Audit Manager, we recommend that you review the [ Audit Manager User Guide](https://docs.aws.amazon.com/audit-manager/latest/userguide/what-is.html).
 public protocol AuditManagerClientProtocol {
     /// Associates an evidence folder to an assessment report in an Audit Manager assessment.
+    ///
+    /// - Parameter AssociateAssessmentReportEvidenceFolderInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateAssessmentReportEvidenceFolderOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func associateAssessmentReportEvidenceFolder(input: AssociateAssessmentReportEvidenceFolderInput) async throws -> AssociateAssessmentReportEvidenceFolderOutputResponse
     /// Associates a list of evidence to an assessment report in an Audit Manager assessment.
+    ///
+    /// - Parameter BatchAssociateAssessmentReportEvidenceInput : [no documentation found]
+    ///
+    /// - Returns: `BatchAssociateAssessmentReportEvidenceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func batchAssociateAssessmentReportEvidence(input: BatchAssociateAssessmentReportEvidenceInput) async throws -> BatchAssociateAssessmentReportEvidenceOutputResponse
     /// Creates a batch of delegations for an assessment in Audit Manager.
+    ///
+    /// - Parameter BatchCreateDelegationByAssessmentInput : [no documentation found]
+    ///
+    /// - Returns: `BatchCreateDelegationByAssessmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func batchCreateDelegationByAssessment(input: BatchCreateDelegationByAssessmentInput) async throws -> BatchCreateDelegationByAssessmentOutputResponse
     /// Deletes a batch of delegations for an assessment in Audit Manager.
+    ///
+    /// - Parameter BatchDeleteDelegationByAssessmentInput : [no documentation found]
+    ///
+    /// - Returns: `BatchDeleteDelegationByAssessmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func batchDeleteDelegationByAssessment(input: BatchDeleteDelegationByAssessmentInput) async throws -> BatchDeleteDelegationByAssessmentOutputResponse
     /// Disassociates a list of evidence from an assessment report in Audit Manager.
+    ///
+    /// - Parameter BatchDisassociateAssessmentReportEvidenceInput : [no documentation found]
+    ///
+    /// - Returns: `BatchDisassociateAssessmentReportEvidenceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func batchDisassociateAssessmentReportEvidence(input: BatchDisassociateAssessmentReportEvidenceInput) async throws -> BatchDisassociateAssessmentReportEvidenceOutputResponse
     /// Adds one or more pieces of evidence to a control in an Audit Manager assessment. You can import manual evidence from any S3 bucket by specifying the S3 URI of the object. You can also upload a file from your browser, or enter plain text in response to a risk assessment question. The following restrictions apply to this action:
     ///
@@ -37,20 +97,120 @@ public protocol AuditManagerClientProtocol {
     ///
     ///
     /// For more information about Audit Manager service restrictions, see [Quotas and restrictions for Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/service-quotas.html).
+    ///
+    /// - Parameter BatchImportEvidenceToAssessmentControlInput : [no documentation found]
+    ///
+    /// - Returns: `BatchImportEvidenceToAssessmentControlOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func batchImportEvidenceToAssessmentControl(input: BatchImportEvidenceToAssessmentControlInput) async throws -> BatchImportEvidenceToAssessmentControlOutputResponse
     /// Creates an assessment in Audit Manager.
+    ///
+    /// - Parameter CreateAssessmentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAssessmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ServiceQuotaExceededException` : You've reached your account quota for this resource type. To perform the requested action, delete some existing resources or [request a quota increase](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) from the Service Quotas console. For a list of Audit Manager service quotas, see [Quotas and restrictions for Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/service-quotas.html).
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func createAssessment(input: CreateAssessmentInput) async throws -> CreateAssessmentOutputResponse
     /// Creates a custom framework in Audit Manager.
+    ///
+    /// - Parameter CreateAssessmentFrameworkInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAssessmentFrameworkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ServiceQuotaExceededException` : You've reached your account quota for this resource type. To perform the requested action, delete some existing resources or [request a quota increase](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) from the Service Quotas console. For a list of Audit Manager service quotas, see [Quotas and restrictions for Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/service-quotas.html).
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func createAssessmentFramework(input: CreateAssessmentFrameworkInput) async throws -> CreateAssessmentFrameworkOutputResponse
     /// Creates an assessment report for the specified assessment.
+    ///
+    /// - Parameter CreateAssessmentReportInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAssessmentReportOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func createAssessmentReport(input: CreateAssessmentReportInput) async throws -> CreateAssessmentReportOutputResponse
     /// Creates a new custom control in Audit Manager.
+    ///
+    /// - Parameter CreateControlInput : [no documentation found]
+    ///
+    /// - Returns: `CreateControlOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ServiceQuotaExceededException` : You've reached your account quota for this resource type. To perform the requested action, delete some existing resources or [request a quota increase](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) from the Service Quotas console. For a list of Audit Manager service quotas, see [Quotas and restrictions for Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/service-quotas.html).
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func createControl(input: CreateControlInput) async throws -> CreateControlOutputResponse
     /// Deletes an assessment in Audit Manager.
+    ///
+    /// - Parameter DeleteAssessmentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAssessmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func deleteAssessment(input: DeleteAssessmentInput) async throws -> DeleteAssessmentOutputResponse
     /// Deletes a custom framework in Audit Manager.
+    ///
+    /// - Parameter DeleteAssessmentFrameworkInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAssessmentFrameworkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func deleteAssessmentFramework(input: DeleteAssessmentFrameworkInput) async throws -> DeleteAssessmentFrameworkOutputResponse
     /// Deletes a share request for a custom framework in Audit Manager.
+    ///
+    /// - Parameter DeleteAssessmentFrameworkShareInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAssessmentFrameworkShareOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func deleteAssessmentFrameworkShare(input: DeleteAssessmentFrameworkShareInput) async throws -> DeleteAssessmentFrameworkShareOutputResponse
     /// Deletes an assessment report in Audit Manager. When you run the DeleteAssessmentReport operation, Audit Manager attempts to delete the following data:
     ///
@@ -60,10 +220,46 @@ public protocol AuditManagerClientProtocol {
     ///
     ///
     /// If Audit Manager can’t access the assessment report in your S3 bucket, the report isn’t deleted. In this event, the DeleteAssessmentReport operation doesn’t fail. Instead, it proceeds to delete the associated metadata only. You must then delete the assessment report from the S3 bucket yourself. This scenario happens when Audit Manager receives a 403 (Forbidden) or 404 (Not Found) error from Amazon S3. To avoid this, make sure that your S3 bucket is available, and that you configured the correct permissions for Audit Manager to delete resources in your S3 bucket. For an example permissions policy that you can use, see [Assessment report destination permissions](https://docs.aws.amazon.com/audit-manager/latest/userguide/security_iam_id-based-policy-examples.html#full-administrator-access-assessment-report-destination) in the Audit Manager User Guide. For information about the issues that could cause a 403 (Forbidden) or 404 (Not Found) error from Amazon S3, see [List of Error Codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList) in the Amazon Simple Storage Service API Reference.
+    ///
+    /// - Parameter DeleteAssessmentReportInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAssessmentReportOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func deleteAssessmentReport(input: DeleteAssessmentReportInput) async throws -> DeleteAssessmentReportOutputResponse
     /// Deletes a custom control in Audit Manager. When you invoke this operation, the custom control is deleted from any frameworks or assessments that it’s currently part of. As a result, Audit Manager will stop collecting evidence for that custom control in all of your assessments. This includes assessments that you previously created before you deleted the custom control.
+    ///
+    /// - Parameter DeleteControlInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteControlOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func deleteControl(input: DeleteControlInput) async throws -> DeleteControlOutputResponse
     /// Deregisters an account in Audit Manager. Before you deregister, you can use the [UpdateSettings](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_UpdateSettings.html) API operation to set your preferred data retention policy. By default, Audit Manager retains your data. If you want to delete your data, you can use the DeregistrationPolicy attribute to request the deletion of your data. For more information about data retention, see [Data Protection](https://docs.aws.amazon.com/audit-manager/latest/userguide/data-protection.html) in the Audit Manager User Guide.
+    ///
+    /// - Parameter DeregisterAccountInput : [no documentation found]
+    ///
+    /// - Returns: `DeregisterAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func deregisterAccount(input: DeregisterAccountInput) async throws -> DeregisterAccountOutputResponse
     /// Removes the specified Amazon Web Services account as a delegated administrator for Audit Manager. When you remove a delegated administrator from your Audit Manager settings, you continue to have access to the evidence that you previously collected under that account. This is also the case when you deregister a delegated administrator from Organizations. However, Audit Manager stops collecting and attaching evidence to that delegated administrator account moving forward. Keep in mind the following cleanup task if you use evidence finder: Before you use your management account to remove a delegated administrator, make sure that the current delegated administrator account signs in to Audit Manager and disables evidence finder first. Disabling evidence finder automatically deletes the event data store that was created in their account when they enabled evidence finder. If this task isn’t completed, the event data store remains in their account. In this case, we recommend that the original delegated administrator goes to CloudTrail Lake and manually [deletes the event data store](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-eds-disable-termination.html). This cleanup task is necessary to ensure that you don't end up with multiple event data stores. Audit Manager ignores an unused event data store after you remove or change a delegated administrator account. However, the unused event data store continues to incur storage costs from CloudTrail Lake if you don't delete it. When you deregister a delegated administrator account for Audit Manager, the data for that account isn’t deleted. If you want to delete resource data for a delegated administrator account, you must perform that task separately before you deregister the account. Either, you can do this in the Audit Manager console. Or, you can use one of the delete API operations that are provided by Audit Manager. To delete your Audit Manager resource data, see the following instructions:
     ///
@@ -79,26 +275,154 @@ public protocol AuditManagerClientProtocol {
     ///
     ///
     /// At this time, Audit Manager doesn't provide an option to delete evidence for a specific delegated administrator. Instead, when your management account deregisters Audit Manager, we perform a cleanup for the current delegated administrator account at the time of deregistration.
+    ///
+    /// - Parameter DeregisterOrganizationAdminAccountInput : [no documentation found]
+    ///
+    /// - Returns: `DeregisterOrganizationAdminAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func deregisterOrganizationAdminAccount(input: DeregisterOrganizationAdminAccountInput) async throws -> DeregisterOrganizationAdminAccountOutputResponse
     /// Disassociates an evidence folder from the specified assessment report in Audit Manager.
+    ///
+    /// - Parameter DisassociateAssessmentReportEvidenceFolderInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateAssessmentReportEvidenceFolderOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func disassociateAssessmentReportEvidenceFolder(input: DisassociateAssessmentReportEvidenceFolderInput) async throws -> DisassociateAssessmentReportEvidenceFolderOutputResponse
     /// Gets the registration status of an account in Audit Manager.
+    ///
+    /// - Parameter GetAccountStatusInput : [no documentation found]
+    ///
+    /// - Returns: `GetAccountStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     func getAccountStatus(input: GetAccountStatusInput) async throws -> GetAccountStatusOutputResponse
     /// Gets information about a specified assessment.
+    ///
+    /// - Parameter GetAssessmentInput : [no documentation found]
+    ///
+    /// - Returns: `GetAssessmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func getAssessment(input: GetAssessmentInput) async throws -> GetAssessmentOutputResponse
     /// Gets information about a specified framework.
+    ///
+    /// - Parameter GetAssessmentFrameworkInput : [no documentation found]
+    ///
+    /// - Returns: `GetAssessmentFrameworkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func getAssessmentFramework(input: GetAssessmentFrameworkInput) async throws -> GetAssessmentFrameworkOutputResponse
     /// Gets the URL of an assessment report in Audit Manager.
+    ///
+    /// - Parameter GetAssessmentReportUrlInput : [no documentation found]
+    ///
+    /// - Returns: `GetAssessmentReportUrlOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func getAssessmentReportUrl(input: GetAssessmentReportUrlInput) async throws -> GetAssessmentReportUrlOutputResponse
     /// Gets a list of changelogs from Audit Manager.
+    ///
+    /// - Parameter GetChangeLogsInput : [no documentation found]
+    ///
+    /// - Returns: `GetChangeLogsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func getChangeLogs(input: GetChangeLogsInput) async throws -> GetChangeLogsOutputResponse
     /// Gets information about a specified control.
+    ///
+    /// - Parameter GetControlInput : [no documentation found]
+    ///
+    /// - Returns: `GetControlOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func getControl(input: GetControlInput) async throws -> GetControlOutputResponse
     /// Gets a list of delegations from an audit owner to a delegate.
+    ///
+    /// - Parameter GetDelegationsInput : [no documentation found]
+    ///
+    /// - Returns: `GetDelegationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func getDelegations(input: GetDelegationsInput) async throws -> GetDelegationsOutputResponse
     /// Gets information about a specified evidence item.
+    ///
+    /// - Parameter GetEvidenceInput : [no documentation found]
+    ///
+    /// - Returns: `GetEvidenceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func getEvidence(input: GetEvidenceInput) async throws -> GetEvidenceOutputResponse
     /// Gets all evidence from a specified evidence folder in Audit Manager.
+    ///
+    /// - Parameter GetEvidenceByEvidenceFolderInput : [no documentation found]
+    ///
+    /// - Returns: `GetEvidenceByEvidenceFolderOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func getEvidenceByEvidenceFolder(input: GetEvidenceByEvidenceFolderInput) async throws -> GetEvidenceByEvidenceFolderOutputResponse
     /// Creates a presigned Amazon S3 URL that can be used to upload a file as manual evidence. For instructions on how to use this operation, see [Upload a file from your browser ](https://docs.aws.amazon.com/audit-manager/latest/userguide/upload-evidence.html#how-to-upload-manual-evidence-files) in the Audit Manager User Guide. The following restrictions apply to this operation:
     ///
@@ -110,50 +434,314 @@ public protocol AuditManagerClientProtocol {
     ///
     ///
     /// For more information about Audit Manager service restrictions, see [Quotas and restrictions for Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/service-quotas.html).
+    ///
+    /// - Parameter GetEvidenceFileUploadUrlInput : [no documentation found]
+    ///
+    /// - Returns: `GetEvidenceFileUploadUrlOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func getEvidenceFileUploadUrl(input: GetEvidenceFileUploadUrlInput) async throws -> GetEvidenceFileUploadUrlOutputResponse
     /// Gets an evidence folder from a specified assessment in Audit Manager.
+    ///
+    /// - Parameter GetEvidenceFolderInput : [no documentation found]
+    ///
+    /// - Returns: `GetEvidenceFolderOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func getEvidenceFolder(input: GetEvidenceFolderInput) async throws -> GetEvidenceFolderOutputResponse
     /// Gets the evidence folders from a specified assessment in Audit Manager.
+    ///
+    /// - Parameter GetEvidenceFoldersByAssessmentInput : [no documentation found]
+    ///
+    /// - Returns: `GetEvidenceFoldersByAssessmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func getEvidenceFoldersByAssessment(input: GetEvidenceFoldersByAssessmentInput) async throws -> GetEvidenceFoldersByAssessmentOutputResponse
     /// Gets a list of evidence folders that are associated with a specified control in an Audit Manager assessment.
+    ///
+    /// - Parameter GetEvidenceFoldersByAssessmentControlInput : [no documentation found]
+    ///
+    /// - Returns: `GetEvidenceFoldersByAssessmentControlOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func getEvidenceFoldersByAssessmentControl(input: GetEvidenceFoldersByAssessmentControlInput) async throws -> GetEvidenceFoldersByAssessmentControlOutputResponse
     /// Gets the latest analytics data for all your current active assessments.
+    ///
+    /// - Parameter GetInsightsInput : [no documentation found]
+    ///
+    /// - Returns: `GetInsightsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     func getInsights(input: GetInsightsInput) async throws -> GetInsightsOutputResponse
     /// Gets the latest analytics data for a specific active assessment.
+    ///
+    /// - Parameter GetInsightsByAssessmentInput : [no documentation found]
+    ///
+    /// - Returns: `GetInsightsByAssessmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func getInsightsByAssessment(input: GetInsightsByAssessmentInput) async throws -> GetInsightsByAssessmentOutputResponse
     /// Gets the name of the delegated Amazon Web Services administrator account for a specified organization.
+    ///
+    /// - Parameter GetOrganizationAdminAccountInput : [no documentation found]
+    ///
+    /// - Returns: `GetOrganizationAdminAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func getOrganizationAdminAccount(input: GetOrganizationAdminAccountInput) async throws -> GetOrganizationAdminAccountOutputResponse
     /// Gets a list of all of the Amazon Web Services that you can choose to include in your assessment. When you [create an assessment](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_CreateAssessment.html), specify which of these services you want to include to narrow the assessment's [scope](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_Scope.html).
+    ///
+    /// - Parameter GetServicesInScopeInput : [no documentation found]
+    ///
+    /// - Returns: `GetServicesInScopeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func getServicesInScope(input: GetServicesInScopeInput) async throws -> GetServicesInScopeOutputResponse
     /// Gets the settings for a specified Amazon Web Services account.
+    ///
+    /// - Parameter GetSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `GetSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     func getSettings(input: GetSettingsInput) async throws -> GetSettingsOutputResponse
     /// Lists the latest analytics data for controls within a specific control domain and a specific active assessment. Control insights are listed only if the control belongs to the control domain and assessment that was specified. Moreover, the control must have collected evidence on the lastUpdated date of controlInsightsByAssessment. If neither of these conditions are met, no data is listed for that control.
+    ///
+    /// - Parameter ListAssessmentControlInsightsByControlDomainInput : [no documentation found]
+    ///
+    /// - Returns: `ListAssessmentControlInsightsByControlDomainOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func listAssessmentControlInsightsByControlDomain(input: ListAssessmentControlInsightsByControlDomainInput) async throws -> ListAssessmentControlInsightsByControlDomainOutputResponse
     /// Returns a list of the frameworks that are available in the Audit Manager framework library.
+    ///
+    /// - Parameter ListAssessmentFrameworksInput : [no documentation found]
+    ///
+    /// - Returns: `ListAssessmentFrameworksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func listAssessmentFrameworks(input: ListAssessmentFrameworksInput) async throws -> ListAssessmentFrameworksOutputResponse
     /// Returns a list of sent or received share requests for custom frameworks in Audit Manager.
+    ///
+    /// - Parameter ListAssessmentFrameworkShareRequestsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAssessmentFrameworkShareRequestsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func listAssessmentFrameworkShareRequests(input: ListAssessmentFrameworkShareRequestsInput) async throws -> ListAssessmentFrameworkShareRequestsOutputResponse
     /// Returns a list of assessment reports created in Audit Manager.
+    ///
+    /// - Parameter ListAssessmentReportsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAssessmentReportsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func listAssessmentReports(input: ListAssessmentReportsInput) async throws -> ListAssessmentReportsOutputResponse
     /// Returns a list of current and past assessments from Audit Manager.
+    ///
+    /// - Parameter ListAssessmentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAssessmentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func listAssessments(input: ListAssessmentsInput) async throws -> ListAssessmentsOutputResponse
     /// Lists the latest analytics data for control domains across all of your active assessments. A control domain is listed only if at least one of the controls within that domain collected evidence on the lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is listed for that control domain.
+    ///
+    /// - Parameter ListControlDomainInsightsInput : [no documentation found]
+    ///
+    /// - Returns: `ListControlDomainInsightsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func listControlDomainInsights(input: ListControlDomainInsightsInput) async throws -> ListControlDomainInsightsOutputResponse
     /// Lists analytics data for control domains within a specified active assessment. A control domain is listed only if at least one of the controls within that domain collected evidence on the lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is listed for that domain.
+    ///
+    /// - Parameter ListControlDomainInsightsByAssessmentInput : [no documentation found]
+    ///
+    /// - Returns: `ListControlDomainInsightsByAssessmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func listControlDomainInsightsByAssessment(input: ListControlDomainInsightsByAssessmentInput) async throws -> ListControlDomainInsightsByAssessmentOutputResponse
     /// Lists the latest analytics data for controls within a specific control domain across all active assessments. Control insights are listed only if the control belongs to the control domain that was specified and the control collected evidence on the lastUpdated date of controlInsightsMetadata. If neither of these conditions are met, no data is listed for that control.
+    ///
+    /// - Parameter ListControlInsightsByControlDomainInput : [no documentation found]
+    ///
+    /// - Returns: `ListControlInsightsByControlDomainOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func listControlInsightsByControlDomain(input: ListControlInsightsByControlDomainInput) async throws -> ListControlInsightsByControlDomainOutputResponse
     /// Returns a list of controls from Audit Manager.
+    ///
+    /// - Parameter ListControlsInput : [no documentation found]
+    ///
+    /// - Returns: `ListControlsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func listControls(input: ListControlsInput) async throws -> ListControlsOutputResponse
     /// Returns a list of keywords that are pre-mapped to the specified control data source.
+    ///
+    /// - Parameter ListKeywordsForDataSourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListKeywordsForDataSourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func listKeywordsForDataSource(input: ListKeywordsForDataSourceInput) async throws -> ListKeywordsForDataSourceOutputResponse
     /// Returns a list of all Audit Manager notifications.
+    ///
+    /// - Parameter ListNotificationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListNotificationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func listNotifications(input: ListNotificationsInput) async throws -> ListNotificationsOutputResponse
     /// Returns a list of tags for the specified resource in Audit Manager.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Enables Audit Manager for the specified Amazon Web Services account.
+    ///
+    /// - Parameter RegisterAccountInput : [no documentation found]
+    ///
+    /// - Returns: `RegisterAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func registerAccount(input: RegisterAccountInput) async throws -> RegisterAccountOutputResponse
     /// Enables an Amazon Web Services account within the organization as the delegated administrator for Audit Manager.
+    ///
+    /// - Parameter RegisterOrganizationAdminAccountInput : [no documentation found]
+    ///
+    /// - Returns: `RegisterOrganizationAdminAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func registerOrganizationAdminAccount(input: RegisterOrganizationAdminAccountInput) async throws -> RegisterOrganizationAdminAccountOutputResponse
     /// Creates a share request for a custom framework in Audit Manager. The share request specifies a recipient and notifies them that a custom framework is available. Recipients have 120 days to accept or decline the request. If no action is taken, the share request expires. When you create a share request, Audit Manager stores a snapshot of your custom framework in the US East (N. Virginia) Amazon Web Services Region. Audit Manager also stores a backup of the same snapshot in the US West (Oregon) Amazon Web Services Region. Audit Manager deletes the snapshot and the backup snapshot when one of the following events occurs:
     ///
@@ -167,28 +755,171 @@ public protocol AuditManagerClientProtocol {
     ///
     ///
     /// When a sender [resends a share request](https://docs.aws.amazon.com/audit-manager/latest/userguide/framework-sharing.html#framework-sharing-resend), the snapshot is replaced with an updated version that corresponds with the latest version of the custom framework. When a recipient accepts a share request, the snapshot is replicated into their Amazon Web Services account under the Amazon Web Services Region that was specified in the share request. When you invoke the StartAssessmentFrameworkShare API, you are about to share a custom framework with another Amazon Web Services account. You may not share a custom framework that is derived from a standard framework if the standard framework is designated as not eligible for sharing by Amazon Web Services, unless you have obtained permission to do so from the owner of the standard framework. To learn more about which standard frameworks are eligible for sharing, see [Framework sharing eligibility](https://docs.aws.amazon.com/audit-manager/latest/userguide/share-custom-framework-concepts-and-terminology.html#eligibility) in the Audit Manager User Guide.
+    ///
+    /// - Parameter StartAssessmentFrameworkShareInput : [no documentation found]
+    ///
+    /// - Returns: `StartAssessmentFrameworkShareOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func startAssessmentFrameworkShare(input: StartAssessmentFrameworkShareInput) async throws -> StartAssessmentFrameworkShareOutputResponse
     /// Tags the specified resource in Audit Manager.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes a tag from a resource in Audit Manager.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Edits an Audit Manager assessment.
+    ///
+    /// - Parameter UpdateAssessmentInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAssessmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func updateAssessment(input: UpdateAssessmentInput) async throws -> UpdateAssessmentOutputResponse
     /// Updates a control within an assessment in Audit Manager.
+    ///
+    /// - Parameter UpdateAssessmentControlInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAssessmentControlOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func updateAssessmentControl(input: UpdateAssessmentControlInput) async throws -> UpdateAssessmentControlOutputResponse
     /// Updates the status of a control set in an Audit Manager assessment.
+    ///
+    /// - Parameter UpdateAssessmentControlSetStatusInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAssessmentControlSetStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func updateAssessmentControlSetStatus(input: UpdateAssessmentControlSetStatusInput) async throws -> UpdateAssessmentControlSetStatusOutputResponse
     /// Updates a custom framework in Audit Manager.
+    ///
+    /// - Parameter UpdateAssessmentFrameworkInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAssessmentFrameworkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func updateAssessmentFramework(input: UpdateAssessmentFrameworkInput) async throws -> UpdateAssessmentFrameworkOutputResponse
     /// Updates a share request for a custom framework in Audit Manager.
+    ///
+    /// - Parameter UpdateAssessmentFrameworkShareInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAssessmentFrameworkShareOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ServiceQuotaExceededException` : You've reached your account quota for this resource type. To perform the requested action, delete some existing resources or [request a quota increase](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) from the Service Quotas console. For a list of Audit Manager service quotas, see [Quotas and restrictions for Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/service-quotas.html).
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func updateAssessmentFrameworkShare(input: UpdateAssessmentFrameworkShareInput) async throws -> UpdateAssessmentFrameworkShareOutputResponse
     /// Updates the status of an assessment in Audit Manager.
+    ///
+    /// - Parameter UpdateAssessmentStatusInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAssessmentStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ServiceQuotaExceededException` : You've reached your account quota for this resource type. To perform the requested action, delete some existing resources or [request a quota increase](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) from the Service Quotas console. For a list of Audit Manager service quotas, see [Quotas and restrictions for Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/service-quotas.html).
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func updateAssessmentStatus(input: UpdateAssessmentStatusInput) async throws -> UpdateAssessmentStatusOutputResponse
     /// Updates a custom control in Audit Manager.
+    ///
+    /// - Parameter UpdateControlInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateControlOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func updateControl(input: UpdateControlInput) async throws -> UpdateControlOutputResponse
     /// Updates Audit Manager settings for the current account.
+    ///
+    /// - Parameter UpdateSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func updateSettings(input: UpdateSettingsInput) async throws -> UpdateSettingsOutputResponse
     /// Validates the integrity of an assessment report in Audit Manager.
+    ///
+    /// - Parameter ValidateAssessmentReportIntegrityInput : [no documentation found]
+    ///
+    /// - Returns: `ValidateAssessmentReportIntegrityOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
+    /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     func validateAssessmentReportIntegrity(input: ValidateAssessmentReportIntegrityInput) async throws -> ValidateAssessmentReportIntegrityOutputResponse
 }
 

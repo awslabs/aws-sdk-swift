@@ -5,30 +5,179 @@ import ClientRuntime
 /// Describes all of the AWS IoT 1-Click device-related API operations for the service. Also provides sample requests, responses, and errors for the supported web services protocols.
 public protocol IoT1ClickDevicesClientProtocol {
     /// Adds device(s) to your account (i.e., claim one or more devices) if and only if you received a claim code with the device(s).
+    ///
+    /// - Parameter ClaimDevicesByClaimCodeInput : [no documentation found]
+    ///
+    /// - Returns: `ClaimDevicesByClaimCodeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ForbiddenException` : [no documentation found]
+    /// - `InternalFailureException` : [no documentation found]
+    /// - `InvalidRequestException` : [no documentation found]
     func claimDevicesByClaimCode(input: ClaimDevicesByClaimCodeInput) async throws -> ClaimDevicesByClaimCodeOutputResponse
     /// Given a device ID, returns a DescribeDeviceResponse object describing the details of the device.
+    ///
+    /// - Parameter DescribeDeviceInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDeviceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : [no documentation found]
+    /// - `InvalidRequestException` : [no documentation found]
+    /// - `ResourceNotFoundException` : [no documentation found]
     func describeDevice(input: DescribeDeviceInput) async throws -> DescribeDeviceOutputResponse
     /// Given a device ID, finalizes the claim request for the associated device. Claiming a device consists of initiating a claim, then publishing a device event, and finalizing the claim. For a device of type button, a device event can be published by simply clicking the device.
+    ///
+    /// - Parameter FinalizeDeviceClaimInput : [no documentation found]
+    ///
+    /// - Returns: `FinalizeDeviceClaimOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : [no documentation found]
+    /// - `InvalidRequestException` : [no documentation found]
+    /// - `PreconditionFailedException` : [no documentation found]
+    /// - `ResourceConflictException` : [no documentation found]
+    /// - `ResourceNotFoundException` : [no documentation found]
     func finalizeDeviceClaim(input: FinalizeDeviceClaimInput) async throws -> FinalizeDeviceClaimOutputResponse
     /// Given a device ID, returns the invokable methods associated with the device.
+    ///
+    /// - Parameter GetDeviceMethodsInput : [no documentation found]
+    ///
+    /// - Returns: `GetDeviceMethodsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : [no documentation found]
+    /// - `InvalidRequestException` : [no documentation found]
+    /// - `ResourceNotFoundException` : [no documentation found]
     func getDeviceMethods(input: GetDeviceMethodsInput) async throws -> GetDeviceMethodsOutputResponse
     /// Given a device ID, initiates a claim request for the associated device. Claiming a device consists of initiating a claim, then publishing a device event, and finalizing the claim. For a device of type button, a device event can be published by simply clicking the device.
+    ///
+    /// - Parameter InitiateDeviceClaimInput : [no documentation found]
+    ///
+    /// - Returns: `InitiateDeviceClaimOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : [no documentation found]
+    /// - `InvalidRequestException` : [no documentation found]
+    /// - `ResourceConflictException` : [no documentation found]
+    /// - `ResourceNotFoundException` : [no documentation found]
     func initiateDeviceClaim(input: InitiateDeviceClaimInput) async throws -> InitiateDeviceClaimOutputResponse
     /// Given a device ID, issues a request to invoke a named device method (with possible parameters). See the "Example POST" code snippet below.
+    ///
+    /// - Parameter InvokeDeviceMethodInput : [no documentation found]
+    ///
+    /// - Returns: `InvokeDeviceMethodOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : [no documentation found]
+    /// - `InvalidRequestException` : [no documentation found]
+    /// - `PreconditionFailedException` : [no documentation found]
+    /// - `RangeNotSatisfiableException` : [no documentation found]
+    /// - `ResourceConflictException` : [no documentation found]
+    /// - `ResourceNotFoundException` : [no documentation found]
     func invokeDeviceMethod(input: InvokeDeviceMethodInput) async throws -> InvokeDeviceMethodOutputResponse
     /// Using a device ID, returns a DeviceEventsResponse object containing an array of events for the device.
+    ///
+    /// - Parameter ListDeviceEventsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDeviceEventsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : [no documentation found]
+    /// - `InvalidRequestException` : [no documentation found]
+    /// - `RangeNotSatisfiableException` : [no documentation found]
+    /// - `ResourceNotFoundException` : [no documentation found]
     func listDeviceEvents(input: ListDeviceEventsInput) async throws -> ListDeviceEventsOutputResponse
     /// Lists the 1-Click compatible devices associated with your AWS account.
+    ///
+    /// - Parameter ListDevicesInput : [no documentation found]
+    ///
+    /// - Returns: `ListDevicesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : [no documentation found]
+    /// - `InvalidRequestException` : [no documentation found]
+    /// - `RangeNotSatisfiableException` : [no documentation found]
     func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutputResponse
     /// Lists the tags associated with the specified resource ARN.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : [no documentation found]
+    /// - `ResourceNotFoundException` : [no documentation found]
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Adds or updates the tags associated with the resource ARN. See [AWS IoT 1-Click Service Limits](https://docs.aws.amazon.com/iot-1-click/latest/developerguide/1click-appendix.html#1click-limits) for the maximum number of tags allowed per resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : [no documentation found]
+    /// - `InvalidRequestException` : [no documentation found]
+    /// - `ResourceNotFoundException` : [no documentation found]
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Disassociates a device from your AWS account using its device ID.
+    ///
+    /// - Parameter UnclaimDeviceInput : [no documentation found]
+    ///
+    /// - Returns: `UnclaimDeviceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : [no documentation found]
+    /// - `InvalidRequestException` : [no documentation found]
+    /// - `ResourceNotFoundException` : [no documentation found]
     func unclaimDevice(input: UnclaimDeviceInput) async throws -> UnclaimDeviceOutputResponse
     /// Using tag keys, deletes the tags (key/value pairs) associated with the specified resource ARN.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : [no documentation found]
+    /// - `InvalidRequestException` : [no documentation found]
+    /// - `ResourceNotFoundException` : [no documentation found]
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Using a Boolean value (true or false), this operation enables or disables the device given a device ID.
+    ///
+    /// - Parameter UpdateDeviceStateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDeviceStateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : [no documentation found]
+    /// - `InvalidRequestException` : [no documentation found]
+    /// - `ResourceNotFoundException` : [no documentation found]
     func updateDeviceState(input: UpdateDeviceStateInput) async throws -> UpdateDeviceStateOutputResponse
 }
 

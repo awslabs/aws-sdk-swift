@@ -68,6 +68,17 @@ public struct RoboMakerClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFacto
 
 extension RoboMakerClient: RoboMakerClientProtocol {
     /// Deletes one or more worlds in a batch operation.
+    ///
+    /// - Parameter BatchDeleteWorldsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchDeleteWorldsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func batchDeleteWorlds(input: BatchDeleteWorldsInput) async throws -> BatchDeleteWorldsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +115,18 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Describes one or more simulation jobs.
+    ///
+    /// - Parameter BatchDescribeSimulationJobInput : [no documentation found]
+    ///
+    /// - Returns: `BatchDescribeSimulationJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func batchDescribeSimulationJob(input: BatchDescribeSimulationJobInput) async throws -> BatchDescribeSimulationJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -141,6 +164,18 @@ extension RoboMakerClient: RoboMakerClientProtocol {
 
     /// Cancels the specified deployment job. This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
+    ///
+    /// - Parameter CancelDeploymentJobInput : [no documentation found]
+    ///
+    /// - Returns: `CancelDeploymentJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func cancelDeploymentJob(input: CancelDeploymentJobInput) async throws -> CancelDeploymentJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -177,6 +212,18 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Cancels the specified simulation job.
+    ///
+    /// - Parameter CancelSimulationJobInput : [no documentation found]
+    ///
+    /// - Returns: `CancelSimulationJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func cancelSimulationJob(input: CancelSimulationJobInput) async throws -> CancelSimulationJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -213,6 +260,18 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Cancels a simulation job batch. When you cancel a simulation job batch, you are also cancelling all of the active simulation jobs created as part of the batch.
+    ///
+    /// - Parameter CancelSimulationJobBatchInput : [no documentation found]
+    ///
+    /// - Returns: `CancelSimulationJobBatchOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func cancelSimulationJobBatch(input: CancelSimulationJobBatchInput) async throws -> CancelSimulationJobBatchOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -249,6 +308,18 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Cancels the specified export job.
+    ///
+    /// - Parameter CancelWorldExportJobInput : [no documentation found]
+    ///
+    /// - Returns: `CancelWorldExportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func cancelWorldExportJob(input: CancelWorldExportJobInput) async throws -> CancelWorldExportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -285,6 +356,18 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Cancels the specified world generator job.
+    ///
+    /// - Parameter CancelWorldGenerationJobInput : [no documentation found]
+    ///
+    /// - Returns: `CancelWorldGenerationJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func cancelWorldGenerationJob(input: CancelWorldGenerationJobInput) async throws -> CancelWorldGenerationJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -322,6 +405,21 @@ extension RoboMakerClient: RoboMakerClientProtocol {
 
     /// Deploys a specific version of a robot application to robots in a fleet. This API is no longer supported and will throw an error if used. The robot application must have a numbered applicationVersion for consistency reasons. To create a new version, use CreateRobotApplicationVersion or see [Creating a Robot Application Version](https://docs.aws.amazon.com/robomaker/latest/dg/create-robot-application-version.html). After 90 days, deployment jobs expire and will be deleted. They will no longer be accessible.
     @available(*, deprecated, message: "AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
+    ///
+    /// - Parameter CreateDeploymentJobInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDeploymentJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentDeploymentException` : The failure percentage threshold percentage was met.
+    /// - `IdempotentParameterMismatchException` : The request uses the same client token as a previous, but non-identical request. Do not reuse a client token with different requests, unless the requests are identical.
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func createDeploymentJob(input: CreateDeploymentJobInput) async throws -> CreateDeploymentJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -367,6 +465,18 @@ extension RoboMakerClient: RoboMakerClientProtocol {
 
     /// Creates a fleet, a logical group of robots running the same robot application. This API is no longer supported and will throw an error if used.
     @available(*, deprecated, message: "AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
+    ///
+    /// - Parameter CreateFleetInput : [no documentation found]
+    ///
+    /// - Returns: `CreateFleetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func createFleet(input: CreateFleetInput) async throws -> CreateFleetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -404,6 +514,19 @@ extension RoboMakerClient: RoboMakerClientProtocol {
 
     /// Creates a robot. This API is no longer supported and will throw an error if used.
     @available(*, deprecated, message: "AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
+    ///
+    /// - Parameter CreateRobotInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRobotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
+    /// - `ResourceAlreadyExistsException` : The specified resource already exists.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func createRobot(input: CreateRobotInput) async throws -> CreateRobotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -440,6 +563,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Creates a robot application.
+    ///
+    /// - Parameter CreateRobotApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRobotApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IdempotentParameterMismatchException` : The request uses the same client token as a previous, but non-identical request. Do not reuse a client token with different requests, unless the requests are identical.
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
+    /// - `ResourceAlreadyExistsException` : The specified resource already exists.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func createRobotApplication(input: CreateRobotApplicationInput) async throws -> CreateRobotApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -476,6 +613,19 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Creates a version of a robot application.
+    ///
+    /// - Parameter CreateRobotApplicationVersionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRobotApplicationVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IdempotentParameterMismatchException` : The request uses the same client token as a previous, but non-identical request. Do not reuse a client token with different requests, unless the requests are identical.
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func createRobotApplicationVersion(input: CreateRobotApplicationVersionInput) async throws -> CreateRobotApplicationVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -512,6 +662,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Creates a simulation application.
+    ///
+    /// - Parameter CreateSimulationApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSimulationApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IdempotentParameterMismatchException` : The request uses the same client token as a previous, but non-identical request. Do not reuse a client token with different requests, unless the requests are identical.
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
+    /// - `ResourceAlreadyExistsException` : The specified resource already exists.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func createSimulationApplication(input: CreateSimulationApplicationInput) async throws -> CreateSimulationApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -548,6 +712,19 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Creates a simulation application with a specific revision id.
+    ///
+    /// - Parameter CreateSimulationApplicationVersionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSimulationApplicationVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IdempotentParameterMismatchException` : The request uses the same client token as a previous, but non-identical request. Do not reuse a client token with different requests, unless the requests are identical.
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func createSimulationApplicationVersion(input: CreateSimulationApplicationVersionInput) async throws -> CreateSimulationApplicationVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -584,6 +761,21 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Creates a simulation job. After 90 days, simulation jobs expire and will be deleted. They will no longer be accessible.
+    ///
+    /// - Parameter CreateSimulationJobInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSimulationJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IdempotentParameterMismatchException` : The request uses the same client token as a previous, but non-identical request. Do not reuse a client token with different requests, unless the requests are identical.
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func createSimulationJob(input: CreateSimulationJobInput) async throws -> CreateSimulationJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -628,6 +820,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Creates a world export job.
+    ///
+    /// - Parameter CreateWorldExportJobInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWorldExportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IdempotentParameterMismatchException` : The request uses the same client token as a previous, but non-identical request. Do not reuse a client token with different requests, unless the requests are identical.
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func createWorldExportJob(input: CreateWorldExportJobInput) async throws -> CreateWorldExportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -672,6 +878,21 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Creates worlds using the specified template.
+    ///
+    /// - Parameter CreateWorldGenerationJobInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWorldGenerationJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IdempotentParameterMismatchException` : The request uses the same client token as a previous, but non-identical request. Do not reuse a client token with different requests, unless the requests are identical.
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func createWorldGenerationJob(input: CreateWorldGenerationJobInput) async throws -> CreateWorldGenerationJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -716,6 +937,20 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Creates a world template.
+    ///
+    /// - Parameter CreateWorldTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWorldTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
+    /// - `ResourceAlreadyExistsException` : The specified resource already exists.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func createWorldTemplate(input: CreateWorldTemplateInput) async throws -> CreateWorldTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -753,6 +988,17 @@ extension RoboMakerClient: RoboMakerClientProtocol {
 
     /// Deletes a fleet. This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
+    ///
+    /// - Parameter DeleteFleetInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteFleetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func deleteFleet(input: DeleteFleetInput) async throws -> DeleteFleetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -790,6 +1036,17 @@ extension RoboMakerClient: RoboMakerClientProtocol {
 
     /// Deletes a robot. This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
+    ///
+    /// - Parameter DeleteRobotInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRobotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func deleteRobot(input: DeleteRobotInput) async throws -> DeleteRobotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -826,6 +1083,17 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Deletes a robot application.
+    ///
+    /// - Parameter DeleteRobotApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRobotApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func deleteRobotApplication(input: DeleteRobotApplicationInput) async throws -> DeleteRobotApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -862,6 +1130,17 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Deletes a simulation application.
+    ///
+    /// - Parameter DeleteSimulationApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSimulationApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func deleteSimulationApplication(input: DeleteSimulationApplicationInput) async throws -> DeleteSimulationApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -898,6 +1177,18 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Deletes a world template.
+    ///
+    /// - Parameter DeleteWorldTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWorldTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func deleteWorldTemplate(input: DeleteWorldTemplateInput) async throws -> DeleteWorldTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -935,6 +1226,18 @@ extension RoboMakerClient: RoboMakerClientProtocol {
 
     /// Deregisters a robot. This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
+    ///
+    /// - Parameter DeregisterRobotInput : [no documentation found]
+    ///
+    /// - Returns: `DeregisterRobotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func deregisterRobot(input: DeregisterRobotInput) async throws -> DeregisterRobotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -972,6 +1275,18 @@ extension RoboMakerClient: RoboMakerClientProtocol {
 
     /// Describes a deployment job. This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
+    ///
+    /// - Parameter DescribeDeploymentJobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDeploymentJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func describeDeploymentJob(input: DescribeDeploymentJobInput) async throws -> DescribeDeploymentJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1009,6 +1324,18 @@ extension RoboMakerClient: RoboMakerClientProtocol {
 
     /// Describes a fleet. This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
+    ///
+    /// - Parameter DescribeFleetInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeFleetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func describeFleet(input: DescribeFleetInput) async throws -> DescribeFleetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1046,6 +1373,18 @@ extension RoboMakerClient: RoboMakerClientProtocol {
 
     /// Describes a robot. This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
+    ///
+    /// - Parameter DescribeRobotInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeRobotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func describeRobot(input: DescribeRobotInput) async throws -> DescribeRobotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1082,6 +1421,18 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Describes a robot application.
+    ///
+    /// - Parameter DescribeRobotApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeRobotApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func describeRobotApplication(input: DescribeRobotApplicationInput) async throws -> DescribeRobotApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1118,6 +1469,18 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Describes a simulation application.
+    ///
+    /// - Parameter DescribeSimulationApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeSimulationApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func describeSimulationApplication(input: DescribeSimulationApplicationInput) async throws -> DescribeSimulationApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1154,6 +1517,18 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Describes a simulation job.
+    ///
+    /// - Parameter DescribeSimulationJobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeSimulationJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func describeSimulationJob(input: DescribeSimulationJobInput) async throws -> DescribeSimulationJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1190,6 +1565,17 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Describes a simulation job batch.
+    ///
+    /// - Parameter DescribeSimulationJobBatchInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeSimulationJobBatchOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
     public func describeSimulationJobBatch(input: DescribeSimulationJobBatchInput) async throws -> DescribeSimulationJobBatchOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1226,6 +1612,18 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Describes a world.
+    ///
+    /// - Parameter DescribeWorldInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeWorldOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func describeWorld(input: DescribeWorldInput) async throws -> DescribeWorldOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1262,6 +1660,18 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Describes a world export job.
+    ///
+    /// - Parameter DescribeWorldExportJobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeWorldExportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func describeWorldExportJob(input: DescribeWorldExportJobInput) async throws -> DescribeWorldExportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1298,6 +1708,18 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Describes a world generation job.
+    ///
+    /// - Parameter DescribeWorldGenerationJobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeWorldGenerationJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func describeWorldGenerationJob(input: DescribeWorldGenerationJobInput) async throws -> DescribeWorldGenerationJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1334,6 +1756,18 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Describes a world template.
+    ///
+    /// - Parameter DescribeWorldTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeWorldTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func describeWorldTemplate(input: DescribeWorldTemplateInput) async throws -> DescribeWorldTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1370,6 +1804,18 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Gets the world template body.
+    ///
+    /// - Parameter GetWorldTemplateBodyInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorldTemplateBodyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func getWorldTemplateBody(input: GetWorldTemplateBodyInput) async throws -> GetWorldTemplateBodyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1407,6 +1853,18 @@ extension RoboMakerClient: RoboMakerClientProtocol {
 
     /// Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs. This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
+    ///
+    /// - Parameter ListDeploymentJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDeploymentJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func listDeploymentJobs(input: ListDeploymentJobsInput) async throws -> ListDeploymentJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1444,6 +1902,18 @@ extension RoboMakerClient: RoboMakerClientProtocol {
 
     /// Returns a list of fleets. You can optionally provide filters to retrieve specific fleets. This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
+    ///
+    /// - Parameter ListFleetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListFleetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func listFleets(input: ListFleetsInput) async throws -> ListFleetsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1480,6 +1950,17 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Returns a list of robot application. You can optionally provide filters to retrieve specific robot applications.
+    ///
+    /// - Parameter ListRobotApplicationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListRobotApplicationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func listRobotApplications(input: ListRobotApplicationsInput) async throws -> ListRobotApplicationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1517,6 +1998,18 @@ extension RoboMakerClient: RoboMakerClientProtocol {
 
     /// Returns a list of robots. You can optionally provide filters to retrieve specific robots. This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
+    ///
+    /// - Parameter ListRobotsInput : [no documentation found]
+    ///
+    /// - Returns: `ListRobotsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func listRobots(input: ListRobotsInput) async throws -> ListRobotsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1553,6 +2046,17 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Returns a list of simulation applications. You can optionally provide filters to retrieve specific simulation applications.
+    ///
+    /// - Parameter ListSimulationApplicationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSimulationApplicationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func listSimulationApplications(input: ListSimulationApplicationsInput) async throws -> ListSimulationApplicationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1589,6 +2093,16 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Returns a list simulation job batches. You can optionally provide filters to retrieve specific simulation batch jobs.
+    ///
+    /// - Parameter ListSimulationJobBatchesInput : [no documentation found]
+    ///
+    /// - Returns: `ListSimulationJobBatchesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
     public func listSimulationJobBatches(input: ListSimulationJobBatchesInput) async throws -> ListSimulationJobBatchesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1625,6 +2139,17 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Returns a list of simulation jobs. You can optionally provide filters to retrieve specific simulation jobs.
+    ///
+    /// - Parameter ListSimulationJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSimulationJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func listSimulationJobs(input: ListSimulationJobsInput) async throws -> ListSimulationJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1661,6 +2186,18 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Lists all tags on a AWS RoboMaker resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1694,6 +2231,17 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Lists world export jobs.
+    ///
+    /// - Parameter ListWorldExportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorldExportJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func listWorldExportJobs(input: ListWorldExportJobsInput) async throws -> ListWorldExportJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1730,6 +2278,17 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Lists world generator jobs.
+    ///
+    /// - Parameter ListWorldGenerationJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorldGenerationJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func listWorldGenerationJobs(input: ListWorldGenerationJobsInput) async throws -> ListWorldGenerationJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1766,6 +2325,17 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Lists world templates.
+    ///
+    /// - Parameter ListWorldTemplatesInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorldTemplatesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func listWorldTemplates(input: ListWorldTemplatesInput) async throws -> ListWorldTemplatesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1802,6 +2372,17 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Lists worlds.
+    ///
+    /// - Parameter ListWorldsInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorldsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func listWorlds(input: ListWorldsInput) async throws -> ListWorldsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1839,6 +2420,19 @@ extension RoboMakerClient: RoboMakerClientProtocol {
 
     /// Registers a robot with a fleet. This API is no longer supported and will throw an error if used.
     @available(*, deprecated, message: "AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
+    ///
+    /// - Parameter RegisterRobotInput : [no documentation found]
+    ///
+    /// - Returns: `RegisterRobotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func registerRobot(input: RegisterRobotInput) async throws -> RegisterRobotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1875,6 +2469,19 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Restarts a running simulation job.
+    ///
+    /// - Parameter RestartSimulationJobInput : [no documentation found]
+    ///
+    /// - Returns: `RestartSimulationJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func restartSimulationJob(input: RestartSimulationJobInput) async throws -> RestartSimulationJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1911,6 +2518,19 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Starts a new simulation job batch. The batch is defined using one or more SimulationJobRequest objects.
+    ///
+    /// - Parameter StartSimulationJobBatchInput : [no documentation found]
+    ///
+    /// - Returns: `StartSimulationJobBatchOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IdempotentParameterMismatchException` : The request uses the same client token as a previous, but non-identical request. Do not reuse a client token with different requests, unless the requests are identical.
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func startSimulationJobBatch(input: StartSimulationJobBatchInput) async throws -> StartSimulationJobBatchOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1956,6 +2576,21 @@ extension RoboMakerClient: RoboMakerClientProtocol {
 
     /// Syncrhonizes robots in a fleet to the latest deployment. This is helpful if robots were added after a deployment. This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
+    ///
+    /// - Parameter SyncDeploymentJobInput : [no documentation found]
+    ///
+    /// - Returns: `SyncDeploymentJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentDeploymentException` : The failure percentage threshold percentage was met.
+    /// - `IdempotentParameterMismatchException` : The request uses the same client token as a previous, but non-identical request. Do not reuse a client token with different requests, unless the requests are identical.
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func syncDeploymentJob(input: SyncDeploymentJobInput) async throws -> SyncDeploymentJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2000,6 +2635,18 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Adds or edits tags for a AWS RoboMaker resource. Each tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty strings. For information about the rules that apply to tag keys and tag values, see [User-Defined Tag Restrictions](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html) in the AWS Billing and Cost Management User Guide.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2036,6 +2683,18 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Removes the specified tags from the specified AWS RoboMaker resource. To remove a tag, specify the tag key. To change the tag value of an existing tag key, use [TagResource](https://docs.aws.amazon.com/robomaker/latest/dg/API_TagResource.html).
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2070,6 +2729,19 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Updates a robot application.
+    ///
+    /// - Parameter UpdateRobotApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRobotApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func updateRobotApplication(input: UpdateRobotApplicationInput) async throws -> UpdateRobotApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2106,6 +2778,19 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Updates a simulation application.
+    ///
+    /// - Parameter UpdateSimulationApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSimulationApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func updateSimulationApplication(input: UpdateSimulationApplicationInput) async throws -> UpdateSimulationApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2142,6 +2827,18 @@ extension RoboMakerClient: RoboMakerClientProtocol {
     }
 
     /// Updates a world template.
+    ///
+    /// - Parameter UpdateWorldTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWorldTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : AWS RoboMaker experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : AWS RoboMaker is temporarily unable to process the request. Try your call again.
     public func updateWorldTemplate(input: UpdateWorldTemplateInput) async throws -> UpdateWorldTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

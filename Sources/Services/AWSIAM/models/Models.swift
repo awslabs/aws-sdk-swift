@@ -1751,7 +1751,7 @@ extension CreateLoginProfileInputBody: Swift.Decodable {
         userName = userNameDecoded
         let passwordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .password)
         password = passwordDecoded
-        let passwordResetRequiredDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .passwordResetRequired)
+        let passwordResetRequiredDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .passwordResetRequired) ?? false
         passwordResetRequired = passwordResetRequiredDecoded
     }
 }
@@ -2304,7 +2304,7 @@ extension CreatePolicyVersionInputBody: Swift.Decodable {
         policyArn = policyArnDecoded
         let policyDocumentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyDocument)
         policyDocument = policyDocumentDecoded
-        let setAsDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .setAsDefault)
+        let setAsDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .setAsDefault) ?? false
         setAsDefault = setAsDefaultDecoded
     }
 }
@@ -7075,7 +7075,7 @@ extension GetAccountAuthorizationDetailsOutputResponseBody: Swift.Decodable {
         } else {
             policies = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -7814,7 +7814,7 @@ extension GetGroupOutputResponseBody: Swift.Decodable {
         } else {
             users = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -8723,7 +8723,7 @@ extension GetOrganizationsAccessReportOutputResponseBody: Swift.Decodable {
         } else {
             accessDetails = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -9750,7 +9750,7 @@ extension GetServiceLastAccessedDetailsOutputResponseBody: Swift.Decodable {
         }
         let jobCompletionDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .jobCompletionDate)
         jobCompletionDate = jobCompletionDateDecoded
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -9963,7 +9963,7 @@ extension GetServiceLastAccessedDetailsWithEntitiesOutputResponseBody: Swift.Dec
         } else {
             entityDetailsList = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -11305,7 +11305,7 @@ extension ListAccessKeysOutputResponseBody: Swift.Decodable {
         } else {
             accessKeyMetadata = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -11451,7 +11451,7 @@ extension ListAccountAliasesOutputResponseBody: Swift.Decodable {
         } else {
             accountAliases = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -11621,7 +11621,7 @@ extension ListAttachedGroupPoliciesOutputResponseBody: Swift.Decodable {
         } else {
             attachedPolicies = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -11791,7 +11791,7 @@ extension ListAttachedRolePoliciesOutputResponseBody: Swift.Decodable {
         } else {
             attachedPolicies = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -11961,7 +11961,7 @@ extension ListAttachedUserPoliciesOutputResponseBody: Swift.Decodable {
         } else {
             attachedPolicies = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -12207,7 +12207,7 @@ extension ListEntitiesForPolicyOutputResponseBody: Swift.Decodable {
         } else {
             policyRoles = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -12366,7 +12366,7 @@ extension ListGroupPoliciesOutputResponseBody: Swift.Decodable {
         } else {
             policyNames = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -12525,7 +12525,7 @@ extension ListGroupsForUserOutputResponseBody: Swift.Decodable {
         } else {
             groups = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -12682,7 +12682,7 @@ extension ListGroupsOutputResponseBody: Swift.Decodable {
         } else {
             groups = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -12840,7 +12840,7 @@ extension ListInstanceProfileTagsOutputResponseBody: Swift.Decodable {
         } else {
             tags = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -12999,7 +12999,7 @@ extension ListInstanceProfilesForRoleOutputResponseBody: Swift.Decodable {
         } else {
             instanceProfiles = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -13156,7 +13156,7 @@ extension ListInstanceProfilesOutputResponseBody: Swift.Decodable {
         } else {
             instanceProfiles = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -13315,7 +13315,7 @@ extension ListMFADeviceTagsOutputResponseBody: Swift.Decodable {
         } else {
             tags = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -13473,7 +13473,7 @@ extension ListMFADevicesOutputResponseBody: Swift.Decodable {
         } else {
             mfaDevices = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -13632,7 +13632,7 @@ extension ListOpenIDConnectProviderTagsOutputResponseBody: Swift.Decodable {
         } else {
             tags = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -13976,7 +13976,7 @@ extension ListPoliciesGrantingServiceAccessOutputResponseBody: Swift.Decodable {
         } else {
             policiesGrantingServiceAccess = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -14070,7 +14070,7 @@ extension ListPoliciesInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scopeDecoded = try containerValues.decodeIfPresent(IAMClientTypes.PolicyScopeType.self, forKey: .scope)
         scope = scopeDecoded
-        let onlyAttachedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .onlyAttached)
+        let onlyAttachedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .onlyAttached) ?? false
         onlyAttached = onlyAttachedDecoded
         let pathPrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pathPrefix)
         pathPrefix = pathPrefixDecoded
@@ -14165,7 +14165,7 @@ extension ListPoliciesOutputResponseBody: Swift.Decodable {
         } else {
             policies = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -14324,7 +14324,7 @@ extension ListPolicyTagsOutputResponseBody: Swift.Decodable {
         } else {
             tags = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -14483,7 +14483,7 @@ extension ListPolicyVersionsOutputResponseBody: Swift.Decodable {
         } else {
             versions = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -14642,7 +14642,7 @@ extension ListRolePoliciesOutputResponseBody: Swift.Decodable {
         } else {
             policyNames = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -14800,7 +14800,7 @@ extension ListRoleTagsOutputResponseBody: Swift.Decodable {
         } else {
             tags = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -14957,7 +14957,7 @@ extension ListRolesOutputResponseBody: Swift.Decodable {
         } else {
             roles = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -15116,7 +15116,7 @@ extension ListSAMLProviderTagsOutputResponseBody: Swift.Decodable {
         } else {
             tags = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -15360,7 +15360,7 @@ extension ListSSHPublicKeysOutputResponseBody: Swift.Decodable {
         } else {
             sshPublicKeys = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -15518,7 +15518,7 @@ extension ListServerCertificateTagsOutputResponseBody: Swift.Decodable {
         } else {
             tags = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -15675,7 +15675,7 @@ extension ListServerCertificatesOutputResponseBody: Swift.Decodable {
         } else {
             serverCertificateMetadataList = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -15958,7 +15958,7 @@ extension ListSigningCertificatesOutputResponseBody: Swift.Decodable {
         } else {
             certificates = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -16117,7 +16117,7 @@ extension ListUserPoliciesOutputResponseBody: Swift.Decodable {
         } else {
             policyNames = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -16275,7 +16275,7 @@ extension ListUserTagsOutputResponseBody: Swift.Decodable {
         } else {
             tags = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -16432,7 +16432,7 @@ extension ListUsersOutputResponseBody: Swift.Decodable {
         } else {
             users = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -16588,7 +16588,7 @@ extension ListVirtualMFADevicesOutputResponseBody: Swift.Decodable {
         } else {
             virtualMFADevices = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -16621,7 +16621,7 @@ extension IAMClientTypes.LoginProfile: Swift.Codable {
         userName = userNameDecoded
         let createDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createDate)
         createDate = createDateDecoded
-        let passwordResetRequiredDecoded = try containerValues.decode(Swift.Bool.self, forKey: .passwordResetRequired)
+        let passwordResetRequiredDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .passwordResetRequired) ?? false
         passwordResetRequired = passwordResetRequiredDecoded
     }
 }
@@ -16899,7 +16899,7 @@ extension IAMClientTypes.ManagedPolicyDetail: Swift.Codable {
         attachmentCount = attachmentCountDecoded
         let permissionsBoundaryUsageCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .permissionsBoundaryUsageCount)
         permissionsBoundaryUsageCount = permissionsBoundaryUsageCountDecoded
-        let isAttachableDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isAttachable)
+        let isAttachableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isAttachable) ?? false
         isAttachable = isAttachableDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
@@ -17092,7 +17092,7 @@ extension IAMClientTypes.OrganizationsDecisionDetail: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let allowedByOrganizationsDecoded = try containerValues.decode(Swift.Bool.self, forKey: .allowedByOrganizations)
+        let allowedByOrganizationsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowedByOrganizations) ?? false
         allowedByOrganizations = allowedByOrganizationsDecoded
     }
 }
@@ -17165,17 +17165,17 @@ extension IAMClientTypes.PasswordPolicy: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let minimumPasswordLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minimumPasswordLength)
         minimumPasswordLength = minimumPasswordLengthDecoded
-        let requireSymbolsDecoded = try containerValues.decode(Swift.Bool.self, forKey: .requireSymbols)
+        let requireSymbolsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requireSymbols) ?? false
         requireSymbols = requireSymbolsDecoded
-        let requireNumbersDecoded = try containerValues.decode(Swift.Bool.self, forKey: .requireNumbers)
+        let requireNumbersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requireNumbers) ?? false
         requireNumbers = requireNumbersDecoded
-        let requireUppercaseCharactersDecoded = try containerValues.decode(Swift.Bool.self, forKey: .requireUppercaseCharacters)
+        let requireUppercaseCharactersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requireUppercaseCharacters) ?? false
         requireUppercaseCharacters = requireUppercaseCharactersDecoded
-        let requireLowercaseCharactersDecoded = try containerValues.decode(Swift.Bool.self, forKey: .requireLowercaseCharacters)
+        let requireLowercaseCharactersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requireLowercaseCharacters) ?? false
         requireLowercaseCharacters = requireLowercaseCharactersDecoded
-        let allowUsersToChangePasswordDecoded = try containerValues.decode(Swift.Bool.self, forKey: .allowUsersToChangePassword)
+        let allowUsersToChangePasswordDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowUsersToChangePassword) ?? false
         allowUsersToChangePassword = allowUsersToChangePasswordDecoded
-        let expirePasswordsDecoded = try containerValues.decode(Swift.Bool.self, forKey: .expirePasswords)
+        let expirePasswordsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .expirePasswords) ?? false
         expirePasswords = expirePasswordsDecoded
         let maxPasswordAgeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxPasswordAge)
         maxPasswordAge = maxPasswordAgeDecoded
@@ -17335,7 +17335,7 @@ extension IAMClientTypes.PermissionsBoundaryDecisionDetail: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let allowedByPermissionsBoundaryDecoded = try containerValues.decode(Swift.Bool.self, forKey: .allowedByPermissionsBoundary)
+        let allowedByPermissionsBoundaryDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowedByPermissionsBoundary) ?? false
         allowedByPermissionsBoundary = allowedByPermissionsBoundaryDecoded
     }
 }
@@ -17437,7 +17437,7 @@ extension IAMClientTypes.Policy: Swift.Codable {
         attachmentCount = attachmentCountDecoded
         let permissionsBoundaryUsageCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .permissionsBoundaryUsageCount)
         permissionsBoundaryUsageCount = permissionsBoundaryUsageCountDecoded
-        let isAttachableDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isAttachable)
+        let isAttachableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isAttachable) ?? false
         isAttachable = isAttachableDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
@@ -18139,7 +18139,7 @@ extension IAMClientTypes.PolicyVersion: Swift.Codable {
         document = documentDecoded
         let versionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionId)
         versionId = versionIdDecoded
-        let isDefaultVersionDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isDefaultVersion)
+        let isDefaultVersionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isDefaultVersion) ?? false
         isDefaultVersion = isDefaultVersionDecoded
         let createDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createDate)
         createDate = createDateDecoded
@@ -18192,9 +18192,9 @@ extension IAMClientTypes.Position: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let lineDecoded = try containerValues.decode(Swift.Int.self, forKey: .line)
+        let lineDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .line) ?? 0
         line = lineDecoded
-        let columnDecoded = try containerValues.decode(Swift.Int.self, forKey: .column)
+        let columnDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .column) ?? 0
         column = columnDecoded
     }
 }
@@ -21399,7 +21399,7 @@ extension SimulateCustomPolicyOutputResponseBody: Swift.Decodable {
         } else {
             evaluationResults = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -21817,7 +21817,7 @@ extension SimulatePrincipalPolicyOutputResponseBody: Swift.Decodable {
         } else {
             evaluationResults = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -24206,15 +24206,15 @@ extension UpdateAccountPasswordPolicyInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let minimumPasswordLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minimumPasswordLength)
         minimumPasswordLength = minimumPasswordLengthDecoded
-        let requireSymbolsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requireSymbols)
+        let requireSymbolsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requireSymbols) ?? false
         requireSymbols = requireSymbolsDecoded
-        let requireNumbersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requireNumbers)
+        let requireNumbersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requireNumbers) ?? false
         requireNumbers = requireNumbersDecoded
-        let requireUppercaseCharactersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requireUppercaseCharacters)
+        let requireUppercaseCharactersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requireUppercaseCharacters) ?? false
         requireUppercaseCharacters = requireUppercaseCharactersDecoded
-        let requireLowercaseCharactersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requireLowercaseCharacters)
+        let requireLowercaseCharactersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requireLowercaseCharacters) ?? false
         requireLowercaseCharacters = requireLowercaseCharactersDecoded
-        let allowUsersToChangePasswordDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowUsersToChangePassword)
+        let allowUsersToChangePasswordDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowUsersToChangePassword) ?? false
         allowUsersToChangePassword = allowUsersToChangePasswordDecoded
         let maxPasswordAgeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxPasswordAge)
         maxPasswordAge = maxPasswordAgeDecoded

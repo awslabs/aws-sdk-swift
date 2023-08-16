@@ -68,6 +68,21 @@ public struct DevOpsGuruClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
 
 extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// Adds a notification channel to DevOps Guru. A notification channel is used to notify you about important DevOps Guru events, such as when an insight is generated. If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission to send it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. DevOps Guru only supports standard SNS topics. For more information, see [Permissions for Amazon SNS topics](https://docs.aws.amazon.com/devops-guru/latest/userguide/sns-required-permissions.html). If you use an Amazon SNS topic that is encrypted by an Amazon Web Services Key Management Service customer-managed key (CMK), then you must add permissions to the CMK. For more information, see [Permissions for Amazon Web Services KMS–encrypted Amazon SNS topics](https://docs.aws.amazon.com/devops-guru/latest/userguide/sns-kms-permissions.html).
+    ///
+    /// - Parameter AddNotificationChannelInput : [no documentation found]
+    ///
+    /// - Returns: `AddNotificationChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `ConflictException` : An exception that is thrown when a conflict occurs.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ResourceNotFoundException` : A requested resource could not be found
+    /// - `ServiceQuotaExceededException` : The request contains a value that exceeds a maximum quota.
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func addNotificationChannel(input: AddNotificationChannelInput) async throws -> AddNotificationChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +119,20 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// Deletes the insight along with the associated anomalies, events and recommendations.
+    ///
+    /// - Parameter DeleteInsightInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteInsightOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `ConflictException` : An exception that is thrown when a conflict occurs.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ResourceNotFoundException` : A requested resource could not be found
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func deleteInsight(input: DeleteInsightInput) async throws -> DeleteInsightOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -137,6 +166,18 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// Returns the number of open reactive insights, the number of open proactive insights, and the number of metrics analyzed in your Amazon Web Services account. Use these numbers to gauge the health of operations in your Amazon Web Services account.
+    ///
+    /// - Parameter DescribeAccountHealthInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAccountHealthOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func describeAccountHealth(input: DescribeAccountHealthInput) async throws -> DescribeAccountHealthOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -170,6 +211,18 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// For the time range passed in, returns the number of open reactive insight that were created, the number of open proactive insights that were created, and the Mean Time to Recover (MTTR) for all closed reactive insights.
+    ///
+    /// - Parameter DescribeAccountOverviewInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAccountOverviewOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func describeAccountOverview(input: DescribeAccountOverviewInput) async throws -> DescribeAccountOverviewOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -206,6 +259,19 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// Returns details about an anomaly that you specify using its ID.
+    ///
+    /// - Parameter DescribeAnomalyInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAnomalyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ResourceNotFoundException` : A requested resource could not be found
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func describeAnomaly(input: DescribeAnomalyInput) async throws -> DescribeAnomalyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -240,6 +306,18 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// Returns the integration status of services that are integrated with DevOps Guru as Consumer via EventBridge. The one service that can be integrated with DevOps Guru is Amazon CodeGuru Profiler, which can produce proactive recommendations which can be stored and viewed in DevOps Guru.
+    ///
+    /// - Parameter DescribeEventSourcesConfigInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeEventSourcesConfigOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func describeEventSourcesConfig(input: DescribeEventSourcesConfigInput) async throws -> DescribeEventSourcesConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -273,6 +351,19 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// Returns the most recent feedback submitted in the current Amazon Web Services account and Region.
+    ///
+    /// - Parameter DescribeFeedbackInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeFeedbackOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ResourceNotFoundException` : A requested resource could not be found
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func describeFeedback(input: DescribeFeedbackInput) async throws -> DescribeFeedbackOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -309,6 +400,19 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// Returns details about an insight that you specify using its ID.
+    ///
+    /// - Parameter DescribeInsightInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeInsightOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ResourceNotFoundException` : A requested resource could not be found
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func describeInsight(input: DescribeInsightInput) async throws -> DescribeInsightOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -343,6 +447,18 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// Returns active insights, predictive insights, and resource hours analyzed in last hour.
+    ///
+    /// - Parameter DescribeOrganizationHealthInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeOrganizationHealthOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func describeOrganizationHealth(input: DescribeOrganizationHealthInput) async throws -> DescribeOrganizationHealthOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -379,6 +495,18 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// Returns an overview of your organization's history based on the specified time range. The overview includes the total reactive and proactive insights.
+    ///
+    /// - Parameter DescribeOrganizationOverviewInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeOrganizationOverviewOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func describeOrganizationOverview(input: DescribeOrganizationOverviewInput) async throws -> DescribeOrganizationOverviewOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -415,6 +543,18 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// Provides an overview of your system's health. If additional member accounts are part of your organization, you can filter those accounts using the AccountIds field.
+    ///
+    /// - Parameter DescribeOrganizationResourceCollectionHealthInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeOrganizationResourceCollectionHealthOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func describeOrganizationResourceCollectionHealth(input: DescribeOrganizationResourceCollectionHealthInput) async throws -> DescribeOrganizationResourceCollectionHealthOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -451,6 +591,18 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// Returns the number of open proactive insights, open reactive insights, and the Mean Time to Recover (MTTR) for all closed insights in resource collections in your account. You specify the type of Amazon Web Services resources collection. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks.
+    ///
+    /// - Parameter DescribeResourceCollectionHealthInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeResourceCollectionHealthOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func describeResourceCollectionHealth(input: DescribeResourceCollectionHealthInput) async throws -> DescribeResourceCollectionHealthOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -485,6 +637,19 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// Returns the integration status of services that are integrated with DevOps Guru. The one service that can be integrated with DevOps Guru is Amazon Web Services Systems Manager, which can be used to create an OpsItem for each generated insight.
+    ///
+    /// - Parameter DescribeServiceIntegrationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeServiceIntegrationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ResourceNotFoundException` : A requested resource could not be found
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func describeServiceIntegration(input: DescribeServiceIntegrationInput) async throws -> DescribeServiceIntegrationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -518,6 +683,19 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// Returns an estimate of the monthly cost for DevOps Guru to analyze your Amazon Web Services resources. For more information, see [Estimate your Amazon DevOps Guru costs](https://docs.aws.amazon.com/devops-guru/latest/userguide/cost-estimate.html) and [Amazon DevOps Guru pricing](http://aws.amazon.com/devops-guru/pricing/).
+    ///
+    /// - Parameter GetCostEstimationInput : [no documentation found]
+    ///
+    /// - Returns: `GetCostEstimationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ResourceNotFoundException` : A requested resource could not be found
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func getCostEstimation(input: GetCostEstimationInput) async throws -> GetCostEstimationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -552,6 +730,19 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// Returns lists Amazon Web Services resources that are of the specified resource collection type. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks.
+    ///
+    /// - Parameter GetResourceCollectionInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourceCollectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ResourceNotFoundException` : A requested resource could not be found
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func getResourceCollection(input: GetResourceCollectionInput) async throws -> GetResourceCollectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -586,6 +777,19 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// Returns a list of the anomalies that belong to an insight that you specify using its ID.
+    ///
+    /// - Parameter ListAnomaliesForInsightInput : [no documentation found]
+    ///
+    /// - Returns: `ListAnomaliesForInsightOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ResourceNotFoundException` : A requested resource could not be found
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func listAnomaliesForInsight(input: ListAnomaliesForInsightInput) async throws -> ListAnomaliesForInsightOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -622,6 +826,19 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// Returns the list of log groups that contain log anomalies.
+    ///
+    /// - Parameter ListAnomalousLogGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAnomalousLogGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ResourceNotFoundException` : A requested resource could not be found
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func listAnomalousLogGroups(input: ListAnomalousLogGroupsInput) async throws -> ListAnomalousLogGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -658,6 +875,19 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// Returns a list of the events emitted by the resources that are evaluated by DevOps Guru. You can use filters to specify which events are returned.
+    ///
+    /// - Parameter ListEventsInput : [no documentation found]
+    ///
+    /// - Returns: `ListEventsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ResourceNotFoundException` : A requested resource could not be found
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func listEvents(input: ListEventsInput) async throws -> ListEventsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -694,6 +924,18 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// Returns a list of insights in your Amazon Web Services account. You can specify which insights are returned by their start time and status (ONGOING, CLOSED, or ANY).
+    ///
+    /// - Parameter ListInsightsInput : [no documentation found]
+    ///
+    /// - Returns: `ListInsightsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func listInsights(input: ListInsightsInput) async throws -> ListInsightsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -730,6 +972,18 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// Returns the list of all log groups that are being monitored and tagged by DevOps Guru.
+    ///
+    /// - Parameter ListMonitoredResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ListMonitoredResourcesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ResourceNotFoundException` : A requested resource could not be found
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func listMonitoredResources(input: ListMonitoredResourcesInput) async throws -> ListMonitoredResourcesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -766,6 +1020,18 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// Returns a list of notification channels configured for DevOps Guru. Each notification channel is used to notify you when DevOps Guru generates an insight that contains information about how to improve your operations. The one supported notification channel is Amazon Simple Notification Service (Amazon SNS).
+    ///
+    /// - Parameter ListNotificationChannelsInput : [no documentation found]
+    ///
+    /// - Returns: `ListNotificationChannelsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func listNotificationChannels(input: ListNotificationChannelsInput) async throws -> ListNotificationChannelsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -802,6 +1068,18 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// Returns a list of insights associated with the account or OU Id.
+    ///
+    /// - Parameter ListOrganizationInsightsInput : [no documentation found]
+    ///
+    /// - Returns: `ListOrganizationInsightsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func listOrganizationInsights(input: ListOrganizationInsightsInput) async throws -> ListOrganizationInsightsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -838,6 +1116,19 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// Returns a list of a specified insight's recommendations. Each recommendation includes a list of related metrics and a list of related events.
+    ///
+    /// - Parameter ListRecommendationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListRecommendationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ResourceNotFoundException` : A requested resource could not be found
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func listRecommendations(input: ListRecommendationsInput) async throws -> ListRecommendationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -874,6 +1165,20 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// Collects customer feedback about the specified insight.
+    ///
+    /// - Parameter PutFeedbackInput : [no documentation found]
+    ///
+    /// - Returns: `PutFeedbackOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `ConflictException` : An exception that is thrown when a conflict occurs.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ResourceNotFoundException` : A requested resource could not be found
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func putFeedback(input: PutFeedbackInput) async throws -> PutFeedbackOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -910,6 +1215,20 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// Removes a notification channel from DevOps Guru. A notification channel is used to notify you when DevOps Guru generates an insight that contains information about how to improve your operations.
+    ///
+    /// - Parameter RemoveNotificationChannelInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveNotificationChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `ConflictException` : An exception that is thrown when a conflict occurs.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ResourceNotFoundException` : A requested resource could not be found
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func removeNotificationChannel(input: RemoveNotificationChannelInput) async throws -> RemoveNotificationChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -943,6 +1262,18 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// Returns a list of insights in your Amazon Web Services account. You can specify which insights are returned by their start time, one or more statuses (ONGOING or CLOSED), one or more severities (LOW, MEDIUM, and HIGH), and type (REACTIVE or PROACTIVE). Use the Filters parameter to specify status and severity search parameters. Use the Type parameter to specify REACTIVE or PROACTIVE in your search.
+    ///
+    /// - Parameter SearchInsightsInput : [no documentation found]
+    ///
+    /// - Returns: `SearchInsightsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func searchInsights(input: SearchInsightsInput) async throws -> SearchInsightsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -979,6 +1310,18 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// Returns a list of insights in your organization. You can specify which insights are returned by their start time, one or more statuses (ONGOING, CLOSED, and CLOSED), one or more severities (LOW, MEDIUM, and HIGH), and type (REACTIVE or PROACTIVE). Use the Filters parameter to specify status and severity search parameters. Use the Type parameter to specify REACTIVE or PROACTIVE in your search.
+    ///
+    /// - Parameter SearchOrganizationInsightsInput : [no documentation found]
+    ///
+    /// - Returns: `SearchOrganizationInsightsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func searchOrganizationInsights(input: SearchOrganizationInsightsInput) async throws -> SearchOrganizationInsightsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1015,6 +1358,20 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// Starts the creation of an estimate of the monthly cost to analyze your Amazon Web Services resources.
+    ///
+    /// - Parameter StartCostEstimationInput : [no documentation found]
+    ///
+    /// - Returns: `StartCostEstimationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `ConflictException` : An exception that is thrown when a conflict occurs.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ResourceNotFoundException` : A requested resource could not be found
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func startCostEstimation(input: StartCostEstimationInput) async throws -> StartCostEstimationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1059,6 +1416,18 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// Enables or disables integration with a service that can be integrated with DevOps Guru. The one service that can be integrated with DevOps Guru is Amazon CodeGuru Profiler, which can produce proactive recommendations which can be stored and viewed in DevOps Guru.
+    ///
+    /// - Parameter UpdateEventSourcesConfigInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEventSourcesConfigOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func updateEventSourcesConfig(input: UpdateEventSourcesConfigInput) async throws -> UpdateEventSourcesConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1095,6 +1464,19 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// Updates the collection of resources that DevOps Guru analyzes. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks. This method also creates the IAM role required for you to use DevOps Guru.
+    ///
+    /// - Parameter UpdateResourceCollectionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateResourceCollectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `ConflictException` : An exception that is thrown when a conflict occurs.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func updateResourceCollection(input: UpdateResourceCollectionInput) async throws -> UpdateResourceCollectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1131,6 +1513,19 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     }
 
     /// Enables or disables integration with a service that can be integrated with DevOps Guru. The one service that can be integrated with DevOps Guru is Amazon Web Services Systems Manager, which can be used to create an OpsItem for each generated insight.
+    ///
+    /// - Parameter UpdateServiceIntegrationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateServiceIntegrationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `ConflictException` : An exception that is thrown when a conflict occurs.
+    /// - `InternalServerException` : An internal failure in an Amazon service occurred.
+    /// - `ThrottlingException` : The request was denied due to a request throttling.
+    /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
     public func updateServiceIntegration(input: UpdateServiceIntegrationInput) async throws -> UpdateServiceIntegrationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

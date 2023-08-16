@@ -68,6 +68,16 @@ public struct GuardDutyClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFacto
 
 extension GuardDutyClient: GuardDutyClientProtocol {
     /// Accepts the invitation to be a member account and get monitored by a GuardDuty administrator account that sent the invitation.
+    ///
+    /// - Parameter AcceptAdministratorInvitationInput : [no documentation found]
+    ///
+    /// - Returns: `AcceptAdministratorInvitationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func acceptAdministratorInvitation(input: AcceptAdministratorInvitationInput) async throws -> AcceptAdministratorInvitationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -105,6 +115,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
 
     /// Accepts the invitation to be monitored by a GuardDuty administrator account.
     @available(*, deprecated, message: "This operation is deprecated, use AcceptAdministratorInvitation instead")
+    ///
+    /// - Parameter AcceptInvitationInput : [no documentation found]
+    ///
+    /// - Returns: `AcceptInvitationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func acceptInvitation(input: AcceptInvitationInput) async throws -> AcceptInvitationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -141,6 +161,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Archives GuardDuty findings that are specified by the list of finding IDs. Only the administrator account can archive findings. Member accounts don't have permission to archive findings from their accounts.
+    ///
+    /// - Parameter ArchiveFindingsInput : [no documentation found]
+    ///
+    /// - Returns: `ArchiveFindingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func archiveFindings(input: ArchiveFindingsInput) async throws -> ArchiveFindingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -177,6 +207,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Creates a single Amazon GuardDuty detector. A detector is a resource that represents the GuardDuty service. To start using GuardDuty, you must create a detector in each Region where you enable the service. You can have only one detector per account per Region. All data sources are enabled in a new detector by default. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
+    ///
+    /// - Parameter CreateDetectorInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDetectorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func createDetector(input: CreateDetectorInput) async throws -> CreateDetectorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -221,6 +261,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Creates a filter using the specified finding criteria. The maximum number of saved filters per Amazon Web Services account per Region is 100. For more information, see [Quotas for GuardDuty](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_limits.html).
+    ///
+    /// - Parameter CreateFilterInput : [no documentation found]
+    ///
+    /// - Returns: `CreateFilterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func createFilter(input: CreateFilterInput) async throws -> CreateFilterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -265,6 +315,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Creates a new IPSet, which is called a trusted IP list in the console user interface. An IPSet is a list of IP addresses that are trusted for secure communication with Amazon Web Services infrastructure and applications. GuardDuty doesn't generate findings for IP addresses that are included in IPSets. Only users from the administrator account can use this operation.
+    ///
+    /// - Parameter CreateIPSetInput : [no documentation found]
+    ///
+    /// - Returns: `CreateIPSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func createIPSet(input: CreateIPSetInput) async throws -> CreateIPSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -309,6 +369,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Creates member accounts of the current Amazon Web Services account by specifying a list of Amazon Web Services account IDs. This step is a prerequisite for managing the associated member accounts either by invitation or through an organization. As a delegated administrator, using CreateMembers will enable GuardDuty in the added member accounts, with the exception of the organization delegated administrator account. A delegated administrator must enable GuardDuty prior to being added as a member. If you are adding accounts by invitation, before using [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html), use CreateMembers after GuardDuty has been enabled in potential member accounts. If you disassociate a member from a GuardDuty delegated administrator, the member account details obtained from this API, including the associated email addresses, will be retained. This is done so that the delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html) API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html) API.
+    ///
+    /// - Parameter CreateMembersInput : [no documentation found]
+    ///
+    /// - Returns: `CreateMembersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func createMembers(input: CreateMembersInput) async throws -> CreateMembersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -345,6 +415,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Creates a publishing destination to export findings to. The resource to export findings to must exist before you use this operation.
+    ///
+    /// - Parameter CreatePublishingDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `CreatePublishingDestinationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func createPublishingDestination(input: CreatePublishingDestinationInput) async throws -> CreatePublishingDestinationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -389,6 +469,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Generates sample findings of types specified by the list of finding types. If 'NULL' is specified for findingTypes, the API generates sample findings of all supported finding types.
+    ///
+    /// - Parameter CreateSampleFindingsInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSampleFindingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func createSampleFindings(input: CreateSampleFindingsInput) async throws -> CreateSampleFindingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -425,6 +515,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Creates a new ThreatIntelSet. ThreatIntelSets consist of known malicious IP addresses. GuardDuty generates findings based on ThreatIntelSets. Only users of the administrator account can use this operation.
+    ///
+    /// - Parameter CreateThreatIntelSetInput : [no documentation found]
+    ///
+    /// - Returns: `CreateThreatIntelSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func createThreatIntelSet(input: CreateThreatIntelSetInput) async throws -> CreateThreatIntelSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -469,6 +569,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Declines invitations sent to the current member account by Amazon Web Services accounts specified by their account IDs.
+    ///
+    /// - Parameter DeclineInvitationsInput : [no documentation found]
+    ///
+    /// - Returns: `DeclineInvitationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func declineInvitations(input: DeclineInvitationsInput) async throws -> DeclineInvitationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -505,6 +615,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Deletes an Amazon GuardDuty detector that is specified by the detector ID.
+    ///
+    /// - Parameter DeleteDetectorInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDetectorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func deleteDetector(input: DeleteDetectorInput) async throws -> DeleteDetectorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -538,6 +658,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Deletes the filter specified by the filter name.
+    ///
+    /// - Parameter DeleteFilterInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteFilterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func deleteFilter(input: DeleteFilterInput) async throws -> DeleteFilterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -571,6 +701,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Deletes the IPSet specified by the ipSetId. IPSets are called trusted IP lists in the console user interface.
+    ///
+    /// - Parameter DeleteIPSetInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteIPSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func deleteIPSet(input: DeleteIPSetInput) async throws -> DeleteIPSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -604,6 +744,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Deletes invitations sent to the current member account by Amazon Web Services accounts specified by their account IDs.
+    ///
+    /// - Parameter DeleteInvitationsInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteInvitationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func deleteInvitations(input: DeleteInvitationsInput) async throws -> DeleteInvitationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -640,6 +790,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Deletes GuardDuty member accounts (to the current GuardDuty administrator account) specified by the account IDs. With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to disable GuardDuty for a member account in your organization.
+    ///
+    /// - Parameter DeleteMembersInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteMembersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func deleteMembers(input: DeleteMembersInput) async throws -> DeleteMembersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -676,6 +836,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Deletes the publishing definition with the specified destinationId.
+    ///
+    /// - Parameter DeletePublishingDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePublishingDestinationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func deletePublishingDestination(input: DeletePublishingDestinationInput) async throws -> DeletePublishingDestinationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -709,6 +879,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Deletes the ThreatIntelSet specified by the ThreatIntelSet ID.
+    ///
+    /// - Parameter DeleteThreatIntelSetInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteThreatIntelSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func deleteThreatIntelSet(input: DeleteThreatIntelSetInput) async throws -> DeleteThreatIntelSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -742,6 +922,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Returns a list of malware scans. Each member account can view the malware scans for their own accounts. An administrator can view the malware scans for all the member accounts. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
+    ///
+    /// - Parameter DescribeMalwareScansInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeMalwareScansOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func describeMalwareScans(input: DescribeMalwareScansInput) async throws -> DescribeMalwareScansOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -778,6 +968,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Returns information about the account selected as the delegated administrator for GuardDuty. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
+    ///
+    /// - Parameter DescribeOrganizationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeOrganizationConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func describeOrganizationConfiguration(input: DescribeOrganizationConfigurationInput) async throws -> DescribeOrganizationConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -812,6 +1012,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Returns information about the publishing destination specified by the provided destinationId.
+    ///
+    /// - Parameter DescribePublishingDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribePublishingDestinationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func describePublishingDestination(input: DescribePublishingDestinationInput) async throws -> DescribePublishingDestinationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -845,6 +1055,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Disables an Amazon Web Services account within the Organization as the GuardDuty delegated administrator.
+    ///
+    /// - Parameter DisableOrganizationAdminAccountInput : [no documentation found]
+    ///
+    /// - Returns: `DisableOrganizationAdminAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func disableOrganizationAdminAccount(input: DisableOrganizationAdminAccountInput) async throws -> DisableOrganizationAdminAccountOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -881,6 +1101,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Disassociates the current GuardDuty member account from its administrator account. When you disassociate an invited member from a GuardDuty delegated administrator, the member account details obtained from the [CreateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html) API, including the associated email addresses, are retained. This is done so that the delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html) API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html) API. With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to disable GuardDuty in a member account.
+    ///
+    /// - Parameter DisassociateFromAdministratorAccountInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateFromAdministratorAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func disassociateFromAdministratorAccount(input: DisassociateFromAdministratorAccountInput) async throws -> DisassociateFromAdministratorAccountOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -915,6 +1145,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
 
     /// Disassociates the current GuardDuty member account from its administrator account. When you disassociate an invited member from a GuardDuty delegated administrator, the member account details obtained from the [CreateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html) API, including the associated email addresses, are retained. This is done so that the delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html) API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html) API.
     @available(*, deprecated, message: "This operation is deprecated, use DisassociateFromAdministratorAccount instead")
+    ///
+    /// - Parameter DisassociateFromMasterAccountInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateFromMasterAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func disassociateFromMasterAccount(input: DisassociateFromMasterAccountInput) async throws -> DisassociateFromMasterAccountOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -948,6 +1188,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Disassociates GuardDuty member accounts (from the current administrator account) specified by the account IDs. When you disassociate an invited member from a GuardDuty delegated administrator, the member account details obtained from the [CreateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html) API, including the associated email addresses, are retained. This is done so that the delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html) API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html) API. With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to disassociate a member account before removing them from your Amazon Web Services organization.
+    ///
+    /// - Parameter DisassociateMembersInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateMembersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func disassociateMembers(input: DisassociateMembersInput) async throws -> DisassociateMembersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -984,6 +1234,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Enables an Amazon Web Services account within the organization as the GuardDuty delegated administrator.
+    ///
+    /// - Parameter EnableOrganizationAdminAccountInput : [no documentation found]
+    ///
+    /// - Returns: `EnableOrganizationAdminAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func enableOrganizationAdminAccount(input: EnableOrganizationAdminAccountInput) async throws -> EnableOrganizationAdminAccountOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1020,6 +1280,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Provides the details for the GuardDuty administrator account associated with the current GuardDuty member account.
+    ///
+    /// - Parameter GetAdministratorAccountInput : [no documentation found]
+    ///
+    /// - Returns: `GetAdministratorAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func getAdministratorAccount(input: GetAdministratorAccountInput) async throws -> GetAdministratorAccountOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1053,6 +1323,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Retrieves aggregated statistics for your account. If you are a GuardDuty administrator, you can retrieve the statistics for all the resources associated with the active member accounts in your organization who have enabled EKS Runtime Monitoring and have the GuardDuty agent running on their EKS nodes.
+    ///
+    /// - Parameter GetCoverageStatisticsInput : [no documentation found]
+    ///
+    /// - Returns: `GetCoverageStatisticsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func getCoverageStatistics(input: GetCoverageStatisticsInput) async throws -> GetCoverageStatisticsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1089,6 +1369,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Retrieves an Amazon GuardDuty detector specified by the detectorId. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
+    ///
+    /// - Parameter GetDetectorInput : [no documentation found]
+    ///
+    /// - Returns: `GetDetectorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func getDetector(input: GetDetectorInput) async throws -> GetDetectorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1122,6 +1412,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Returns the details of the filter specified by the filter name.
+    ///
+    /// - Parameter GetFilterInput : [no documentation found]
+    ///
+    /// - Returns: `GetFilterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func getFilter(input: GetFilterInput) async throws -> GetFilterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1155,6 +1455,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Describes Amazon GuardDuty findings specified by finding IDs.
+    ///
+    /// - Parameter GetFindingsInput : [no documentation found]
+    ///
+    /// - Returns: `GetFindingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func getFindings(input: GetFindingsInput) async throws -> GetFindingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1191,6 +1501,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Lists Amazon GuardDuty findings statistics for the specified detector ID.
+    ///
+    /// - Parameter GetFindingsStatisticsInput : [no documentation found]
+    ///
+    /// - Returns: `GetFindingsStatisticsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func getFindingsStatistics(input: GetFindingsStatisticsInput) async throws -> GetFindingsStatisticsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1227,6 +1547,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Retrieves the IPSet specified by the ipSetId.
+    ///
+    /// - Parameter GetIPSetInput : [no documentation found]
+    ///
+    /// - Returns: `GetIPSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func getIPSet(input: GetIPSetInput) async throws -> GetIPSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1260,6 +1590,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Returns the count of all GuardDuty membership invitations that were sent to the current member account except the currently accepted invitation.
+    ///
+    /// - Parameter GetInvitationsCountInput : [no documentation found]
+    ///
+    /// - Returns: `GetInvitationsCountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func getInvitationsCount(input: GetInvitationsCountInput) async throws -> GetInvitationsCountOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1293,6 +1633,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Returns the details of the malware scan settings. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
+    ///
+    /// - Parameter GetMalwareScanSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `GetMalwareScanSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func getMalwareScanSettings(input: GetMalwareScanSettingsInput) async throws -> GetMalwareScanSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1327,6 +1677,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
 
     /// Provides the details for the GuardDuty administrator account associated with the current GuardDuty member account.
     @available(*, deprecated, message: "This operation is deprecated, use GetAdministratorAccount instead")
+    ///
+    /// - Parameter GetMasterAccountInput : [no documentation found]
+    ///
+    /// - Returns: `GetMasterAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func getMasterAccount(input: GetMasterAccountInput) async throws -> GetMasterAccountOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1360,6 +1720,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Describes which data sources are enabled for the member account's detector. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
+    ///
+    /// - Parameter GetMemberDetectorsInput : [no documentation found]
+    ///
+    /// - Returns: `GetMemberDetectorsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func getMemberDetectors(input: GetMemberDetectorsInput) async throws -> GetMemberDetectorsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1396,6 +1766,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Retrieves GuardDuty member accounts (of the current GuardDuty administrator account) specified by the account IDs.
+    ///
+    /// - Parameter GetMembersInput : [no documentation found]
+    ///
+    /// - Returns: `GetMembersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func getMembers(input: GetMembersInput) async throws -> GetMembersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1432,6 +1812,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Provides the number of days left for each data source used in the free trial period.
+    ///
+    /// - Parameter GetRemainingFreeTrialDaysInput : [no documentation found]
+    ///
+    /// - Returns: `GetRemainingFreeTrialDaysOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func getRemainingFreeTrialDays(input: GetRemainingFreeTrialDaysInput) async throws -> GetRemainingFreeTrialDaysOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1468,6 +1858,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Retrieves the ThreatIntelSet that is specified by the ThreatIntelSet ID.
+    ///
+    /// - Parameter GetThreatIntelSetInput : [no documentation found]
+    ///
+    /// - Returns: `GetThreatIntelSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func getThreatIntelSet(input: GetThreatIntelSetInput) async throws -> GetThreatIntelSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1501,6 +1901,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Lists Amazon GuardDuty usage statistics over the last 30 days for the specified detector ID. For newly enabled detectors or data sources, the cost returned will include only the usage so far under 30 days. This may differ from the cost metrics in the console, which project usage over 30 days to provide a monthly cost estimate. For more information, see [Understanding How Usage Costs are Calculated](https://docs.aws.amazon.com/guardduty/latest/ug/monitoring_costs.html#usage-calculations).
+    ///
+    /// - Parameter GetUsageStatisticsInput : [no documentation found]
+    ///
+    /// - Returns: `GetUsageStatisticsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func getUsageStatistics(input: GetUsageStatisticsInput) async throws -> GetUsageStatisticsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1537,6 +1947,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Invites Amazon Web Services accounts to become members of an organization administered by the Amazon Web Services account that invokes this API. If you are using Amazon Web Services Organizations to manager your GuardDuty environment, this step is not needed. For more information, see [Managing accounts with Amazon Web Services Organizations](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_organizations.html). To invite Amazon Web Services accounts, the first step is to ensure that GuardDuty has been enabled in the potential member accounts. You can now invoke this API to add accounts by invitation. The invited accounts can either accept or decline the invitation from their GuardDuty accounts. Each invited Amazon Web Services account can choose to accept the invitation from only one Amazon Web Services account. For more information, see [Managing GuardDuty accounts by invitation](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_invitations.html). After the invite has been accepted and you choose to disassociate a member account (by using [DisassociateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DisassociateMembers.html)) from your account, the details of the member account obtained by invoking [CreateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html), including the associated email addresses, will be retained. This is done so that you can invoke InviteMembers without the need to invoke [CreateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html) again. To remove the details associated with a member account, you must also invoke [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html).
+    ///
+    /// - Parameter InviteMembersInput : [no documentation found]
+    ///
+    /// - Returns: `InviteMembersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func inviteMembers(input: InviteMembersInput) async throws -> InviteMembersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1573,6 +1993,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Lists coverage details for your GuardDuty account. If you're a GuardDuty administrator, you can retrieve all resources associated with the active member accounts in your organization. Make sure the accounts have EKS Runtime Monitoring enabled and GuardDuty agent running on their EKS nodes.
+    ///
+    /// - Parameter ListCoverageInput : [no documentation found]
+    ///
+    /// - Returns: `ListCoverageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func listCoverage(input: ListCoverageInput) async throws -> ListCoverageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1609,6 +2039,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Lists detectorIds of all the existing Amazon GuardDuty detector resources.
+    ///
+    /// - Parameter ListDetectorsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDetectorsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func listDetectors(input: ListDetectorsInput) async throws -> ListDetectorsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1643,6 +2083,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Returns a paginated list of the current filters.
+    ///
+    /// - Parameter ListFiltersInput : [no documentation found]
+    ///
+    /// - Returns: `ListFiltersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func listFilters(input: ListFiltersInput) async throws -> ListFiltersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1677,6 +2127,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Lists Amazon GuardDuty findings for the specified detector ID.
+    ///
+    /// - Parameter ListFindingsInput : [no documentation found]
+    ///
+    /// - Returns: `ListFindingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func listFindings(input: ListFindingsInput) async throws -> ListFindingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1713,6 +2173,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Lists the IPSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the IPSets returned are the IPSets from the associated administrator account.
+    ///
+    /// - Parameter ListIPSetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListIPSetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func listIPSets(input: ListIPSetsInput) async throws -> ListIPSetsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1747,6 +2217,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Lists all GuardDuty membership invitations that were sent to the current Amazon Web Services account.
+    ///
+    /// - Parameter ListInvitationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListInvitationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func listInvitations(input: ListInvitationsInput) async throws -> ListInvitationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1781,6 +2261,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Lists details about all member accounts for the current GuardDuty administrator account.
+    ///
+    /// - Parameter ListMembersInput : [no documentation found]
+    ///
+    /// - Returns: `ListMembersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func listMembers(input: ListMembersInput) async throws -> ListMembersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1815,6 +2305,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Lists the accounts configured as GuardDuty delegated administrators.
+    ///
+    /// - Parameter ListOrganizationAdminAccountsInput : [no documentation found]
+    ///
+    /// - Returns: `ListOrganizationAdminAccountsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func listOrganizationAdminAccounts(input: ListOrganizationAdminAccountsInput) async throws -> ListOrganizationAdminAccountsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1849,6 +2349,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Returns a list of publishing destinations associated with the specified detectorId.
+    ///
+    /// - Parameter ListPublishingDestinationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPublishingDestinationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func listPublishingDestinations(input: ListPublishingDestinationsInput) async throws -> ListPublishingDestinationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1882,7 +2392,18 @@ extension GuardDutyClient: GuardDutyClientProtocol {
         return result
     }
 
-    /// Lists tags for a resource. Tagging is currently supported for detectors, finding filters, IP sets, threat intel sets, publishing destination, with a limit of 50 tags per resource. When invoked, this operation returns all assigned tags for a given resource.
+    /// Lists tags for a resource. Tagging is currently supported for detectors, finding filters, IP sets, threat intel sets, and publishing destination, with a limit of 50 tags per each resource. When invoked, this operation returns all assigned tags for a given resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An access denied exception object.
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1916,6 +2437,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Lists the ThreatIntelSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the ThreatIntelSets associated with the administrator account are returned.
+    ///
+    /// - Parameter ListThreatIntelSetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListThreatIntelSetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func listThreatIntelSets(input: ListThreatIntelSetsInput) async throws -> ListThreatIntelSetsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1950,6 +2481,17 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Initiates the malware scan. Invoking this API will automatically create the [Service-linked role ](https://docs.aws.amazon.com/guardduty/latest/ug/slr-permissions-malware-protection.html) in the corresponding account.
+    ///
+    /// - Parameter StartMalwareScanInput : [no documentation found]
+    ///
+    /// - Returns: `StartMalwareScanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `ConflictException` : A request conflict exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func startMalwareScan(input: StartMalwareScanInput) async throws -> StartMalwareScanOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1986,6 +2528,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Turns on GuardDuty monitoring of the specified member accounts. Use this operation to restart monitoring of accounts that you stopped monitoring with the [StopMonitoringMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_StopMonitoringMembers.html) operation.
+    ///
+    /// - Parameter StartMonitoringMembersInput : [no documentation found]
+    ///
+    /// - Returns: `StartMonitoringMembersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func startMonitoringMembers(input: StartMonitoringMembersInput) async throws -> StartMonitoringMembersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2022,6 +2574,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Stops GuardDuty monitoring for the specified member accounts. Use the StartMonitoringMembers operation to restart monitoring for those accounts. With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to stop monitoring the member accounts in your organization.
+    ///
+    /// - Parameter StopMonitoringMembersInput : [no documentation found]
+    ///
+    /// - Returns: `StopMonitoringMembersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func stopMonitoringMembers(input: StopMonitoringMembersInput) async throws -> StopMonitoringMembersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2058,6 +2620,17 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Adds tags to a resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An access denied exception object.
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2094,6 +2667,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Unarchives GuardDuty findings specified by the findingIds.
+    ///
+    /// - Parameter UnarchiveFindingsInput : [no documentation found]
+    ///
+    /// - Returns: `UnarchiveFindingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func unarchiveFindings(input: UnarchiveFindingsInput) async throws -> UnarchiveFindingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2130,6 +2713,17 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Removes tags from a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An access denied exception object.
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2164,6 +2758,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Updates the Amazon GuardDuty detector specified by the detectorId. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
+    ///
+    /// - Parameter UpdateDetectorInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDetectorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func updateDetector(input: UpdateDetectorInput) async throws -> UpdateDetectorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2200,6 +2804,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Updates the filter specified by the filter name.
+    ///
+    /// - Parameter UpdateFilterInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateFilterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func updateFilter(input: UpdateFilterInput) async throws -> UpdateFilterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2236,6 +2850,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Marks the specified GuardDuty findings as useful or not useful.
+    ///
+    /// - Parameter UpdateFindingsFeedbackInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateFindingsFeedbackOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func updateFindingsFeedback(input: UpdateFindingsFeedbackInput) async throws -> UpdateFindingsFeedbackOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2272,6 +2896,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Updates the IPSet specified by the IPSet ID.
+    ///
+    /// - Parameter UpdateIPSetInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateIPSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func updateIPSet(input: UpdateIPSetInput) async throws -> UpdateIPSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2308,6 +2942,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Updates the malware scan settings. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
+    ///
+    /// - Parameter UpdateMalwareScanSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateMalwareScanSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func updateMalwareScanSettings(input: UpdateMalwareScanSettingsInput) async throws -> UpdateMalwareScanSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2344,6 +2988,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Contains information on member accounts to be updated. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
+    ///
+    /// - Parameter UpdateMemberDetectorsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateMemberDetectorsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func updateMemberDetectors(input: UpdateMemberDetectorsInput) async throws -> UpdateMemberDetectorsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2380,6 +3034,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Configures the delegated administrator account with the provided values. You must provide the value for either autoEnableOrganizationMembers or autoEnable. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
+    ///
+    /// - Parameter UpdateOrganizationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateOrganizationConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func updateOrganizationConfiguration(input: UpdateOrganizationConfigurationInput) async throws -> UpdateOrganizationConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2416,6 +3080,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Updates information about the publishing destination specified by the destinationId.
+    ///
+    /// - Parameter UpdatePublishingDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePublishingDestinationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func updatePublishingDestination(input: UpdatePublishingDestinationInput) async throws -> UpdatePublishingDestinationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2452,6 +3126,16 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     }
 
     /// Updates the ThreatIntelSet specified by the ThreatIntelSet ID.
+    ///
+    /// - Parameter UpdateThreatIntelSetInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateThreatIntelSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
     public func updateThreatIntelSet(input: UpdateThreatIntelSetInput) async throws -> UpdateThreatIntelSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

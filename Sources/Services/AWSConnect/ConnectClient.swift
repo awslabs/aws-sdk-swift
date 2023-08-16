@@ -68,6 +68,19 @@ public struct ConnectClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
 
 extension ConnectClient: ConnectClientProtocol {
     /// Activates an evaluation form in the specified Amazon Connect instance. After the evaluation form is activated, it is available to start new evaluations based on the form.
+    ///
+    /// - Parameter ActivateEvaluationFormInput : [no documentation found]
+    ///
+    /// - Returns: `ActivateEvaluationFormOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func activateEvaluationForm(input: ActivateEvaluationFormInput) async throws -> ActivateEvaluationFormOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +117,21 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Associates an approved origin to an Amazon Connect instance.
+    ///
+    /// - Parameter AssociateApprovedOriginInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateApprovedOriginOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func associateApprovedOrigin(input: AssociateApprovedOriginInput) async throws -> AssociateApprovedOriginOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -140,6 +168,21 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Allows the specified Amazon Connect instance to access the specified Amazon Lex or Amazon Lex V2 bot.
+    ///
+    /// - Parameter AssociateBotInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateBotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func associateBot(input: AssociateBotInput) async throws -> AssociateBotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -176,6 +219,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Associates an existing vocabulary as the default. Contact Lens for Amazon Connect uses the vocabulary in post-call and real-time analysis sessions for the given language.
+    ///
+    /// - Parameter AssociateDefaultVocabularyInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateDefaultVocabularyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func associateDefaultVocabulary(input: AssociateDefaultVocabularyInput) async throws -> AssociateDefaultVocabularyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -212,6 +268,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Associates a storage resource type for the first time. You can only associate one type of storage configuration in a single call. This means, for example, that you can't define an instance with multiple S3 buckets for storing chat transcripts. This API does not create a resource that doesn't exist. It only associates it to the instance. Ensure that the resource being specified in the storage configuration, like an S3 bucket, exists when being used for association.
+    ///
+    /// - Parameter AssociateInstanceStorageConfigInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateInstanceStorageConfigOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func associateInstanceStorageConfig(input: AssociateInstanceStorageConfigInput) async throws -> AssociateInstanceStorageConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -248,6 +318,21 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Allows the specified Amazon Connect instance to access the specified Lambda function.
+    ///
+    /// - Parameter AssociateLambdaFunctionInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateLambdaFunctionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func associateLambdaFunction(input: AssociateLambdaFunctionInput) async throws -> AssociateLambdaFunctionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -284,6 +369,21 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Allows the specified Amazon Connect instance to access the specified Amazon Lex V1 bot. This API only supports the association of Amazon Lex V1 bots.
+    ///
+    /// - Parameter AssociateLexBotInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateLexBotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func associateLexBot(input: AssociateLexBotInput) async throws -> AssociateLexBotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -320,6 +420,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Associates a flow with a phone number claimed to your Amazon Connect instance. If the number is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
+    ///
+    /// - Parameter AssociatePhoneNumberContactFlowInput : [no documentation found]
+    ///
+    /// - Returns: `AssociatePhoneNumberContactFlowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func associatePhoneNumberContactFlow(input: AssociatePhoneNumberContactFlowInput) async throws -> AssociatePhoneNumberContactFlowOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -356,6 +469,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Associates a set of quick connects with a queue.
+    ///
+    /// - Parameter AssociateQueueQuickConnectsInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateQueueQuickConnectsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func associateQueueQuickConnects(input: AssociateQueueQuickConnectsInput) async throws -> AssociateQueueQuickConnectsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -392,6 +519,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Associates a set of queues with a routing profile.
+    ///
+    /// - Parameter AssociateRoutingProfileQueuesInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateRoutingProfileQueuesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func associateRoutingProfileQueues(input: AssociateRoutingProfileQueuesInput) async throws -> AssociateRoutingProfileQueuesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -428,6 +568,21 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Associates a security key to the instance.
+    ///
+    /// - Parameter AssociateSecurityKeyInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateSecurityKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func associateSecurityKey(input: AssociateSecurityKeyInput) async throws -> AssociateSecurityKeyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -463,7 +618,71 @@ extension ConnectClient: ConnectClientProtocol {
         return result
     }
 
+    /// Associates an agent with a traffic distribution group.
+    ///
+    /// - Parameter AssociateTrafficDistributionGroupUserInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateTrafficDistributionGroupUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func associateTrafficDistributionGroupUser(input: AssociateTrafficDistributionGroupUserInput) async throws -> AssociateTrafficDistributionGroupUserOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateTrafficDistributionGroupUser")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<AssociateTrafficDistributionGroupUserInput, AssociateTrafficDistributionGroupUserOutputResponse, AssociateTrafficDistributionGroupUserOutputError>(id: "associateTrafficDistributionGroupUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateTrafficDistributionGroupUserInput, AssociateTrafficDistributionGroupUserOutputResponse, AssociateTrafficDistributionGroupUserOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateTrafficDistributionGroupUserInput, AssociateTrafficDistributionGroupUserOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateTrafficDistributionGroupUserOutputResponse, AssociateTrafficDistributionGroupUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateTrafficDistributionGroupUserInput, AssociateTrafficDistributionGroupUserOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateTrafficDistributionGroupUserInput, AssociateTrafficDistributionGroupUserOutputResponse>(xmlName: "AssociateTrafficDistributionGroupUserRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateTrafficDistributionGroupUserOutputResponse, AssociateTrafficDistributionGroupUserOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateTrafficDistributionGroupUserOutputResponse, AssociateTrafficDistributionGroupUserOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateTrafficDistributionGroupUserOutputResponse, AssociateTrafficDistributionGroupUserOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateTrafficDistributionGroupUserOutputResponse, AssociateTrafficDistributionGroupUserOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Claims an available phone number to your Amazon Connect instance or traffic distribution group. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance or traffic distribution group was created. For more information about how to use this operation, see [Claim a phone number in your country](https://docs.aws.amazon.com/connect/latest/adminguide/claim-phone-number.html) and [Claim phone numbers to traffic distribution groups](https://docs.aws.amazon.com/connect/latest/adminguide/claim-phone-numbers-traffic-distribution-groups.html) in the Amazon Connect Administrator Guide. You can call the [SearchAvailablePhoneNumbers](https://docs.aws.amazon.com/connect/latest/APIReference/API_SearchAvailablePhoneNumbers.html) API for available phone numbers that you can claim. Call the [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) API to verify the status of a previous [ClaimPhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimPhoneNumber.html) operation. If you plan to claim and release numbers frequently during a 30 day period, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until 30 days past the oldest number released has expired. By default you can claim and release up to 200% of your maximum number of active phone numbers during any 30 day period. If you claim and release phone numbers using the UI or API during a rolling 30 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming any more numbers until 30 days past the oldest number released has expired. For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 30 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services support ticket.
+    ///
+    /// - Parameter ClaimPhoneNumberInput : [no documentation found]
+    ///
+    /// - Returns: `ClaimPhoneNumberOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `IdempotencyException` : An entity with the same name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func claimPhoneNumber(input: ClaimPhoneNumberInput) async throws -> ClaimPhoneNumberOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -508,6 +727,21 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Creates an agent status for the specified Amazon Connect instance.
+    ///
+    /// - Parameter CreateAgentStatusInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAgentStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func createAgentStatus(input: CreateAgentStatusInput) async throws -> CreateAgentStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -544,6 +778,22 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Creates a flow for the specified Amazon Connect instance. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html).
+    ///
+    /// - Parameter CreateContactFlowInput : [no documentation found]
+    ///
+    /// - Returns: `CreateContactFlowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidContactFlowException` : The flow is not valid.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func createContactFlow(input: CreateContactFlowInput) async throws -> CreateContactFlowOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -580,6 +830,24 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Creates a flow module for the specified Amazon Connect instance.
+    ///
+    /// - Parameter CreateContactFlowModuleInput : [no documentation found]
+    ///
+    /// - Returns: `CreateContactFlowModuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `IdempotencyException` : An entity with the same name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidContactFlowModuleException` : The problems with the module. Please fix before trying again.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func createContactFlowModule(input: CreateContactFlowModuleInput) async throws -> CreateContactFlowModuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -624,6 +892,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Creates an evaluation form in the specified Amazon Connect instance. The form can be used to define questions related to agent performance, and create sections to organize such questions. Question and section identifiers cannot be duplicated within the same evaluation form.
+    ///
+    /// - Parameter CreateEvaluationFormInput : [no documentation found]
+    ///
+    /// - Returns: `CreateEvaluationFormOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func createEvaluationForm(input: CreateEvaluationFormInput) async throws -> CreateEvaluationFormOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -668,6 +950,21 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Creates hours of operation.
+    ///
+    /// - Parameter CreateHoursOfOperationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateHoursOfOperationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func createHoursOfOperation(input: CreateHoursOfOperationInput) async throws -> CreateHoursOfOperationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -704,6 +1001,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Initiates an Amazon Connect instance with all the supported channels enabled. It does not attach any storage, such as Amazon Simple Storage Service (Amazon S3) or Amazon Kinesis. It also does not allow for any configurations on features, such as Contact Lens for Amazon Connect. Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days. If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances. You must wait 30 days before you can restart creating and deleting instances in your account.
+    ///
+    /// - Parameter CreateInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `CreateInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func createInstance(input: CreateInstanceInput) async throws -> CreateInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -740,6 +1050,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Creates an Amazon Web Services resource association with an Amazon Connect instance.
+    ///
+    /// - Parameter CreateIntegrationAssociationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateIntegrationAssociationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func createIntegrationAssociation(input: CreateIntegrationAssociationInput) async throws -> CreateIntegrationAssociationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -776,6 +1099,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Adds a new participant into an on-going chat contact. For more information, see [Customize chat flow experiences by integrating custom participants](https://docs.aws.amazon.com/connect/latest/adminguide/chat-customize-flow.html).
+    ///
+    /// - Parameter CreateParticipantInput : [no documentation found]
+    ///
+    /// - Returns: `CreateParticipantOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func createParticipant(input: CreateParticipantInput) async throws -> CreateParticipantOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -820,6 +1156,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Creates a prompt. For more information about prompts, such as supported file types and maximum length, see [Create prompts](https://docs.aws.amazon.com/connect/latest/adminguide/prompts.html) in the Amazon Connect Administrator's Guide.
+    ///
+    /// - Parameter CreatePromptInput : [no documentation found]
+    ///
+    /// - Returns: `CreatePromptOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func createPrompt(input: CreatePromptInput) async throws -> CreatePromptOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -856,6 +1206,21 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Creates a new queue for the specified Amazon Connect instance. If the number being used in the input is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the OutboundCallerIdNumberId value of the [OutboundCallerConfig](https://docs.aws.amazon.com/connect/latest/APIReference/API_OutboundCallerConfig) request body parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException. Only use the phone number ARN format that doesn't contain instance in the path, for example, arn:aws:connect:us-east-1:1234567890:phone-number/uuid. This is the same ARN format that is returned when you call the [ListPhoneNumbersV2](https://docs.aws.amazon.com/connect/latest/APIReference/API_ListPhoneNumbersV2.html) API.
+    ///
+    /// - Parameter CreateQueueInput : [no documentation found]
+    ///
+    /// - Returns: `CreateQueueOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func createQueue(input: CreateQueueInput) async throws -> CreateQueueOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -892,6 +1257,21 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Creates a quick connect for the specified Amazon Connect instance.
+    ///
+    /// - Parameter CreateQuickConnectInput : [no documentation found]
+    ///
+    /// - Returns: `CreateQuickConnectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func createQuickConnect(input: CreateQuickConnectInput) async throws -> CreateQuickConnectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -928,6 +1308,21 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Creates a new routing profile.
+    ///
+    /// - Parameter CreateRoutingProfileInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRoutingProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func createRoutingProfile(input: CreateRoutingProfileInput) async throws -> CreateRoutingProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -964,6 +1359,21 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Creates a rule for the specified Amazon Connect instance. Use the [Rules Function language](https://docs.aws.amazon.com/connect/latest/APIReference/connect-rules-language.html) to code conditions for the rule.
+    ///
+    /// - Parameter CreateRuleInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func createRule(input: CreateRuleInput) async throws -> CreateRuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1008,6 +1418,21 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Creates a security profile.
+    ///
+    /// - Parameter CreateSecurityProfileInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSecurityProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func createSecurityProfile(input: CreateSecurityProfileInput) async throws -> CreateSecurityProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1044,6 +1469,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Creates a new task template in the specified Amazon Connect instance.
+    ///
+    /// - Parameter CreateTaskTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `CreateTaskTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `PropertyValidationException` : The property is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func createTaskTemplate(input: CreateTaskTemplateInput) async throws -> CreateTaskTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1088,6 +1527,22 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Creates a traffic distribution group given an Amazon Connect instance that has been replicated. For more information about creating traffic distribution groups, see [Set up traffic distribution groups](https://docs.aws.amazon.com/connect/latest/adminguide/setup-traffic-distribution-groups.html) in the Amazon Connect Administrator Guide.
+    ///
+    /// - Parameter CreateTrafficDistributionGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CreateTrafficDistributionGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ResourceNotReadyException` : The resource is not ready.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func createTrafficDistributionGroup(input: CreateTrafficDistributionGroupInput) async throws -> CreateTrafficDistributionGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1132,6 +1587,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Creates a use case for an integration association.
+    ///
+    /// - Parameter CreateUseCaseInput : [no documentation found]
+    ///
+    /// - Returns: `CreateUseCaseOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func createUseCase(input: CreateUseCaseInput) async throws -> CreateUseCaseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1168,6 +1636,21 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Creates a user account for the specified Amazon Connect instance. For information about how to create user accounts using the Amazon Connect console, see [Add Users](https://docs.aws.amazon.com/connect/latest/adminguide/user-management.html) in the Amazon Connect Administrator Guide.
+    ///
+    /// - Parameter CreateUserInput : [no documentation found]
+    ///
+    /// - Returns: `CreateUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func createUser(input: CreateUserInput) async throws -> CreateUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1204,6 +1687,21 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Creates a new user hierarchy group.
+    ///
+    /// - Parameter CreateUserHierarchyGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CreateUserHierarchyGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func createUserHierarchyGroup(input: CreateUserHierarchyGroupInput) async throws -> CreateUserHierarchyGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1240,6 +1738,21 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Creates a custom vocabulary associated with your Amazon Connect instance. You can set a custom vocabulary to be your default vocabulary for a given language. Contact Lens for Amazon Connect uses the default vocabulary in post-call and real-time contact analysis sessions for that language.
+    ///
+    /// - Parameter CreateVocabularyInput : [no documentation found]
+    ///
+    /// - Returns: `CreateVocabularyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func createVocabulary(input: CreateVocabularyInput) async throws -> CreateVocabularyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1284,6 +1797,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Deactivates an evaluation form in the specified Amazon Connect instance. After a form is deactivated, it is no longer available for users to start new evaluations based on the form.
+    ///
+    /// - Parameter DeactivateEvaluationFormInput : [no documentation found]
+    ///
+    /// - Returns: `DeactivateEvaluationFormOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deactivateEvaluationForm(input: DeactivateEvaluationFormInput) async throws -> DeactivateEvaluationFormOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1320,6 +1846,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Deletes a contact evaluation in the specified Amazon Connect instance.
+    ///
+    /// - Parameter DeleteContactEvaluationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteContactEvaluationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deleteContactEvaluation(input: DeleteContactEvaluationInput) async throws -> DeleteContactEvaluationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1353,6 +1892,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Deletes a flow for the specified Amazon Connect instance.
+    ///
+    /// - Parameter DeleteContactFlowInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteContactFlowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deleteContactFlow(input: DeleteContactFlowInput) async throws -> DeleteContactFlowOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1386,6 +1939,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Deletes the specified flow module.
+    ///
+    /// - Parameter DeleteContactFlowModuleInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteContactFlowModuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deleteContactFlowModule(input: DeleteContactFlowModuleInput) async throws -> DeleteContactFlowModuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1423,6 +1990,19 @@ extension ConnectClient: ConnectClientProtocol {
     /// * If the version property is provided, only the specified version of the evaluation form is deleted.
     ///
     /// * If no version is provided, then the full form (all versions) is deleted.
+    ///
+    /// - Parameter DeleteEvaluationFormInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEvaluationFormOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deleteEvaluationForm(input: DeleteEvaluationFormInput) async throws -> DeleteEvaluationFormOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1457,6 +2037,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Deletes an hours of operation.
+    ///
+    /// - Parameter DeleteHoursOfOperationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteHoursOfOperationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deleteHoursOfOperation(input: DeleteHoursOfOperationInput) async throws -> DeleteHoursOfOperationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1490,6 +2083,17 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Deletes the Amazon Connect instance. Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days. If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances. You must wait 30 days before you can restart creating and deleting instances in your account.
+    ///
+    /// - Parameter DeleteInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
     public func deleteInstance(input: DeleteInstanceInput) async throws -> DeleteInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1523,6 +2127,18 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Deletes an Amazon Web Services resource association from an Amazon Connect instance. The association must not have any use cases associated with it.
+    ///
+    /// - Parameter DeleteIntegrationAssociationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteIntegrationAssociationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deleteIntegrationAssociation(input: DeleteIntegrationAssociationInput) async throws -> DeleteIntegrationAssociationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1556,6 +2172,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Deletes a prompt.
+    ///
+    /// - Parameter DeletePromptInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePromptOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deletePrompt(input: DeletePromptInput) async throws -> DeletePromptOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1589,6 +2218,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Deletes a queue.
+    ///
+    /// - Parameter DeleteQueueInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteQueueOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deleteQueue(input: DeleteQueueInput) async throws -> DeleteQueueOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1622,6 +2265,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Deletes a quick connect.
+    ///
+    /// - Parameter DeleteQuickConnectInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteQuickConnectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deleteQuickConnect(input: DeleteQuickConnectInput) async throws -> DeleteQuickConnectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1655,6 +2311,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Deletes a routing profile.
+    ///
+    /// - Parameter DeleteRoutingProfileInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRoutingProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deleteRoutingProfile(input: DeleteRoutingProfileInput) async throws -> DeleteRoutingProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1688,6 +2358,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Deletes a rule for the specified Amazon Connect instance.
+    ///
+    /// - Parameter DeleteRuleInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1721,6 +2404,21 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Deletes a security profile.
+    ///
+    /// - Parameter DeleteSecurityProfileInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSecurityProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deleteSecurityProfile(input: DeleteSecurityProfileInput) async throws -> DeleteSecurityProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1754,6 +2452,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Deletes the task template.
+    ///
+    /// - Parameter DeleteTaskTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteTaskTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deleteTaskTemplate(input: DeleteTaskTemplateInput) async throws -> DeleteTaskTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1787,6 +2498,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Deletes a traffic distribution group. This API can be called only in the Region where the traffic distribution group is created. For more information about deleting traffic distribution groups, see [Delete traffic distribution groups](https://docs.aws.amazon.com/connect/latest/adminguide/delete-traffic-distribution-groups.html) in the Amazon Connect Administrator Guide.
+    ///
+    /// - Parameter DeleteTrafficDistributionGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteTrafficDistributionGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deleteTrafficDistributionGroup(input: DeleteTrafficDistributionGroupInput) async throws -> DeleteTrafficDistributionGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1820,6 +2544,18 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Deletes a use case from an integration association.
+    ///
+    /// - Parameter DeleteUseCaseInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteUseCaseOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deleteUseCase(input: DeleteUseCaseInput) async throws -> DeleteUseCaseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1853,6 +2589,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Deletes a user account from the specified Amazon Connect instance. For information about what happens to a user's data when their account is deleted, see [Delete Users from Your Amazon Connect Instance](https://docs.aws.amazon.com/connect/latest/adminguide/delete-users.html) in the Amazon Connect Administrator Guide.
+    ///
+    /// - Parameter DeleteUserInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1886,6 +2635,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Deletes an existing user hierarchy group. It must not be associated with any agents or have any active child groups.
+    ///
+    /// - Parameter DeleteUserHierarchyGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteUserHierarchyGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deleteUserHierarchyGroup(input: DeleteUserHierarchyGroupInput) async throws -> DeleteUserHierarchyGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1919,6 +2682,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Deletes the vocabulary that has the given identifier.
+    ///
+    /// - Parameter DeleteVocabularyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteVocabularyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deleteVocabulary(input: DeleteVocabularyInput) async throws -> DeleteVocabularyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1952,6 +2729,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Describes an agent status.
+    ///
+    /// - Parameter DescribeAgentStatusInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAgentStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func describeAgentStatus(input: DescribeAgentStatusInput) async throws -> DescribeAgentStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1985,6 +2775,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified contact. Contact information remains available in Amazon Connect for 24 months, and then it is deleted. Only data from November 12, 2021, and later is returned by this API.
+    ///
+    /// - Parameter DescribeContactInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeContactOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func describeContact(input: DescribeContactInput) async throws -> DescribeContactOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2018,6 +2821,18 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Describes a contact evaluation in the specified Amazon Connect instance.
+    ///
+    /// - Parameter DescribeContactEvaluationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeContactEvaluationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func describeContactEvaluation(input: DescribeContactEvaluationInput) async throws -> DescribeContactEvaluationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2051,6 +2866,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Describes the specified flow. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html).
+    ///
+    /// - Parameter DescribeContactFlowInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeContactFlowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ContactFlowNotPublishedException` : The flow has not been published.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func describeContactFlow(input: DescribeContactFlowInput) async throws -> DescribeContactFlowOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2084,6 +2913,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Describes the specified flow module.
+    ///
+    /// - Parameter DescribeContactFlowModuleInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeContactFlowModuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func describeContactFlowModule(input: DescribeContactFlowModuleInput) async throws -> DescribeContactFlowModuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2117,6 +2960,18 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Describes an evaluation form in the specified Amazon Connect instance. If the version property is not provided, the latest version of the evaluation form is described.
+    ///
+    /// - Parameter DescribeEvaluationFormInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeEvaluationFormOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func describeEvaluationForm(input: DescribeEvaluationFormInput) async throws -> DescribeEvaluationFormOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2151,6 +3006,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Describes the hours of operation.
+    ///
+    /// - Parameter DescribeHoursOfOperationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeHoursOfOperationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func describeHoursOfOperation(input: DescribeHoursOfOperationInput) async throws -> DescribeHoursOfOperationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2184,6 +3052,17 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Returns the current state of the specified instance identifier. It tracks the instance while it is being created and returns an error status, if applicable. If an instance is not created successfully, the instance status reason field returns details relevant to the reason. The instance in a failed state is returned only for 24 hours after the CreateInstance API was invoked.
+    ///
+    /// - Parameter DescribeInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
     public func describeInstance(input: DescribeInstanceInput) async throws -> DescribeInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2217,6 +3096,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified instance attribute.
+    ///
+    /// - Parameter DescribeInstanceAttributeInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeInstanceAttributeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func describeInstanceAttribute(input: DescribeInstanceAttributeInput) async throws -> DescribeInstanceAttributeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2250,6 +3142,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Retrieves the current storage configurations for the specified resource type, association ID, and instance ID.
+    ///
+    /// - Parameter DescribeInstanceStorageConfigInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeInstanceStorageConfigOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func describeInstanceStorageConfig(input: DescribeInstanceStorageConfigInput) async throws -> DescribeInstanceStorageConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2284,6 +3189,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Gets details and status of a phone number that’s claimed to your Amazon Connect instance or traffic distribution group. If the number is claimed to a traffic distribution group, and you are calling in the Amazon Web Services Region where the traffic distribution group was created, you can use either a phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
+    ///
+    /// - Parameter DescribePhoneNumberInput : [no documentation found]
+    ///
+    /// - Returns: `DescribePhoneNumberOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func describePhoneNumber(input: DescribePhoneNumberInput) async throws -> DescribePhoneNumberOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2317,6 +3235,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Describes the prompt.
+    ///
+    /// - Parameter DescribePromptInput : [no documentation found]
+    ///
+    /// - Returns: `DescribePromptOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func describePrompt(input: DescribePromptInput) async throws -> DescribePromptOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2350,6 +3281,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified queue.
+    ///
+    /// - Parameter DescribeQueueInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeQueueOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func describeQueue(input: DescribeQueueInput) async throws -> DescribeQueueOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2383,6 +3327,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Describes the quick connect.
+    ///
+    /// - Parameter DescribeQuickConnectInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeQuickConnectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func describeQuickConnect(input: DescribeQuickConnectInput) async throws -> DescribeQuickConnectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2416,6 +3373,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Describes the specified routing profile.
+    ///
+    /// - Parameter DescribeRoutingProfileInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeRoutingProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func describeRoutingProfile(input: DescribeRoutingProfileInput) async throws -> DescribeRoutingProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2449,6 +3419,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Describes a rule for the specified Amazon Connect instance.
+    ///
+    /// - Parameter DescribeRuleInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func describeRule(input: DescribeRuleInput) async throws -> DescribeRuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2482,6 +3465,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Gets basic information about the security profle.
+    ///
+    /// - Parameter DescribeSecurityProfileInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeSecurityProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func describeSecurityProfile(input: DescribeSecurityProfileInput) async throws -> DescribeSecurityProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2515,6 +3511,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Gets details and status of a traffic distribution group.
+    ///
+    /// - Parameter DescribeTrafficDistributionGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeTrafficDistributionGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func describeTrafficDistributionGroup(input: DescribeTrafficDistributionGroupInput) async throws -> DescribeTrafficDistributionGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2548,6 +3557,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Describes the specified user account. You can [find the instance ID in the Amazon Connect console](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) (it’s the final part of the ARN). The console does not display the user IDs. Instead, list the users and note the IDs provided in the output.
+    ///
+    /// - Parameter DescribeUserInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2581,6 +3603,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Describes the specified hierarchy group.
+    ///
+    /// - Parameter DescribeUserHierarchyGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeUserHierarchyGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func describeUserHierarchyGroup(input: DescribeUserHierarchyGroupInput) async throws -> DescribeUserHierarchyGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2614,6 +3649,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Describes the hierarchy structure of the specified Amazon Connect instance.
+    ///
+    /// - Parameter DescribeUserHierarchyStructureInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeUserHierarchyStructureOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func describeUserHierarchyStructure(input: DescribeUserHierarchyStructureInput) async throws -> DescribeUserHierarchyStructureOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2647,6 +3695,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Describes the specified vocabulary.
+    ///
+    /// - Parameter DescribeVocabularyInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeVocabularyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func describeVocabulary(input: DescribeVocabularyInput) async throws -> DescribeVocabularyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2680,6 +3741,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Revokes access to integrated applications from Amazon Connect.
+    ///
+    /// - Parameter DisassociateApprovedOriginInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateApprovedOriginOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func disassociateApprovedOrigin(input: DisassociateApprovedOriginInput) async throws -> DisassociateApprovedOriginOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2714,6 +3788,18 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Revokes authorization from the specified instance to access the specified Amazon Lex or Amazon Lex V2 bot.
+    ///
+    /// - Parameter DisassociateBotInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateBotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func disassociateBot(input: DisassociateBotInput) async throws -> DisassociateBotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2750,6 +3836,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Removes the storage type configurations for the specified resource type and association ID.
+    ///
+    /// - Parameter DisassociateInstanceStorageConfigInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateInstanceStorageConfigOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func disassociateInstanceStorageConfig(input: DisassociateInstanceStorageConfigInput) async throws -> DisassociateInstanceStorageConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2784,6 +3883,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Remove the Lambda function from the dropdown options available in the relevant flow blocks.
+    ///
+    /// - Parameter DisassociateLambdaFunctionInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateLambdaFunctionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func disassociateLambdaFunction(input: DisassociateLambdaFunctionInput) async throws -> DisassociateLambdaFunctionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2818,6 +3930,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Revokes authorization from the specified instance to access the specified Amazon Lex bot.
+    ///
+    /// - Parameter DisassociateLexBotInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateLexBotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func disassociateLexBot(input: DisassociateLexBotInput) async throws -> DisassociateLexBotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2852,6 +3977,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Removes the flow association from a phone number claimed to your Amazon Connect instance. If the number is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
+    ///
+    /// - Parameter DisassociatePhoneNumberContactFlowInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociatePhoneNumberContactFlowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func disassociatePhoneNumberContactFlow(input: DisassociatePhoneNumberContactFlowInput) async throws -> DisassociatePhoneNumberContactFlowOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2886,6 +4024,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Disassociates a set of quick connects from a queue.
+    ///
+    /// - Parameter DisassociateQueueQuickConnectsInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateQueueQuickConnectsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func disassociateQueueQuickConnects(input: DisassociateQueueQuickConnectsInput) async throws -> DisassociateQueueQuickConnectsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2922,6 +4073,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Disassociates a set of queues from a routing profile.
+    ///
+    /// - Parameter DisassociateRoutingProfileQueuesInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateRoutingProfileQueuesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func disassociateRoutingProfileQueues(input: DisassociateRoutingProfileQueuesInput) async throws -> DisassociateRoutingProfileQueuesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2958,6 +4122,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Deletes the specified security key.
+    ///
+    /// - Parameter DisassociateSecurityKeyInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateSecurityKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func disassociateSecurityKey(input: DisassociateSecurityKeyInput) async throws -> DisassociateSecurityKeyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2990,7 +4167,69 @@ extension ConnectClient: ConnectClientProtocol {
         return result
     }
 
+    /// Disassociates an agent from a traffic distribution group.
+    ///
+    /// - Parameter DisassociateTrafficDistributionGroupUserInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateTrafficDistributionGroupUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func disassociateTrafficDistributionGroupUser(input: DisassociateTrafficDistributionGroupUserInput) async throws -> DisassociateTrafficDistributionGroupUserOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateTrafficDistributionGroupUser")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DisassociateTrafficDistributionGroupUserInput, DisassociateTrafficDistributionGroupUserOutputResponse, DisassociateTrafficDistributionGroupUserOutputError>(id: "disassociateTrafficDistributionGroupUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateTrafficDistributionGroupUserInput, DisassociateTrafficDistributionGroupUserOutputResponse, DisassociateTrafficDistributionGroupUserOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateTrafficDistributionGroupUserInput, DisassociateTrafficDistributionGroupUserOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateTrafficDistributionGroupUserOutputResponse, DisassociateTrafficDistributionGroupUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DisassociateTrafficDistributionGroupUserInput, DisassociateTrafficDistributionGroupUserOutputResponse>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateTrafficDistributionGroupUserOutputResponse, DisassociateTrafficDistributionGroupUserOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateTrafficDistributionGroupUserOutputResponse, DisassociateTrafficDistributionGroupUserOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateTrafficDistributionGroupUserOutputResponse, DisassociateTrafficDistributionGroupUserOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateTrafficDistributionGroupUserOutputResponse, DisassociateTrafficDistributionGroupUserOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Dismisses contacts from an agent’s CCP and returns the agent to an available state, which allows the agent to receive a new routed contact. Contacts can only be dismissed if they are in a MISSED, ERROR, ENDED, or REJECTED state in the [Agent Event Stream](https://docs.aws.amazon.com/connect/latest/adminguide/about-contact-states.html).
+    ///
+    /// - Parameter DismissUserContactInput : [no documentation found]
+    ///
+    /// - Returns: `DismissUserContactOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func dismissUserContact(input: DismissUserContactInput) async throws -> DismissUserContactOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3027,6 +4266,17 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Retrieves the contact attributes for the specified contact.
+    ///
+    /// - Parameter GetContactAttributesInput : [no documentation found]
+    ///
+    /// - Returns: `GetContactAttributesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
     public func getContactAttributes(input: GetContactAttributesInput) async throws -> GetContactAttributesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3060,6 +4310,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Gets the real-time metric data from the specified Amazon Connect instance. For a description of each metric, see [Real-time Metrics Definitions](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html) in the Amazon Connect Administrator Guide.
+    ///
+    /// - Parameter GetCurrentMetricDataInput : [no documentation found]
+    ///
+    /// - Returns: `GetCurrentMetricDataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func getCurrentMetricData(input: GetCurrentMetricDataInput) async throws -> GetCurrentMetricDataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3096,6 +4359,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Gets the real-time active user data from the specified Amazon Connect instance.
+    ///
+    /// - Parameter GetCurrentUserDataInput : [no documentation found]
+    ///
+    /// - Returns: `GetCurrentUserDataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func getCurrentUserData(input: GetCurrentUserDataInput) async throws -> GetCurrentUserDataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3132,6 +4408,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Retrieves a token for federation. This API doesn't support root users. If you try to invoke GetFederationToken with root credentials, an error message similar to the following one appears: Provided identity: Principal: .... User: .... cannot be used for federation with Amazon Connect
+    ///
+    /// - Parameter GetFederationTokenInput : [no documentation found]
+    ///
+    /// - Returns: `GetFederationTokenOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `UserNotFoundException` : No user with the specified credentials was found in the Amazon Connect instance.
     public func getFederationToken(input: GetFederationTokenInput) async throws -> GetFederationTokenOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3165,6 +4455,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Gets historical metric data from the specified Amazon Connect instance. For a description of each historical metric, see [Historical Metrics Definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html) in the Amazon Connect Administrator Guide.
+    ///
+    /// - Parameter GetMetricDataInput : [no documentation found]
+    ///
+    /// - Returns: `GetMetricDataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func getMetricData(input: GetMetricDataInput) async throws -> GetMetricDataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3201,6 +4504,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Gets metric data from the specified Amazon Connect instance. GetMetricDataV2 offers more features than [GetMetricData](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetMetricData.html), the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 35 days, in 24-hour intervals. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see [Historical metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html) in the Amazon Connect Administrator's Guide.
+    ///
+    /// - Parameter GetMetricDataV2Input : [no documentation found]
+    ///
+    /// - Returns: `GetMetricDataV2OutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func getMetricDataV2(input: GetMetricDataV2Input) async throws -> GetMetricDataV2OutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3237,6 +4553,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Gets the prompt file.
+    ///
+    /// - Parameter GetPromptFileInput : [no documentation found]
+    ///
+    /// - Returns: `GetPromptFileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func getPromptFile(input: GetPromptFileInput) async throws -> GetPromptFileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3270,6 +4599,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Gets details about a specific task template in the specified Amazon Connect instance.
+    ///
+    /// - Parameter GetTaskTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GetTaskTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func getTaskTemplate(input: GetTaskTemplateInput) async throws -> GetTaskTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3304,6 +4646,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Retrieves the current traffic distribution for a given traffic distribution group.
+    ///
+    /// - Parameter GetTrafficDistributionInput : [no documentation found]
+    ///
+    /// - Returns: `GetTrafficDistributionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func getTrafficDistribution(input: GetTrafficDistributionInput) async throws -> GetTrafficDistributionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3337,6 +4692,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Lists agent statuses.
+    ///
+    /// - Parameter ListAgentStatusesInput : [no documentation found]
+    ///
+    /// - Returns: `ListAgentStatusesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listAgentStatuses(input: ListAgentStatusesInput) async throws -> ListAgentStatusesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3371,6 +4739,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all approved origins associated with the instance.
+    ///
+    /// - Parameter ListApprovedOriginsInput : [no documentation found]
+    ///
+    /// - Returns: `ListApprovedOriginsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listApprovedOrigins(input: ListApprovedOriginsInput) async throws -> ListApprovedOriginsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3405,6 +4786,18 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. For the specified version of Amazon Lex, returns a paginated list of all the Amazon Lex bots currently associated with the instance. Use this API to returns both Amazon Lex V1 and V2 bots.
+    ///
+    /// - Parameter ListBotsInput : [no documentation found]
+    ///
+    /// - Returns: `ListBotsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listBots(input: ListBotsInput) async throws -> ListBotsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3439,6 +4832,18 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Lists contact evaluations in the specified Amazon Connect instance.
+    ///
+    /// - Parameter ListContactEvaluationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListContactEvaluationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listContactEvaluations(input: ListContactEvaluationsInput) async throws -> ListContactEvaluationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3473,6 +4878,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Provides information about the flow modules for the specified Amazon Connect instance.
+    ///
+    /// - Parameter ListContactFlowModulesInput : [no documentation found]
+    ///
+    /// - Returns: `ListContactFlowModulesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listContactFlowModules(input: ListContactFlowModulesInput) async throws -> ListContactFlowModulesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3507,6 +4926,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Provides information about the flows for the specified Amazon Connect instance. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html). For more information about flows, see [Flows](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-contact-flows.html) in the Amazon Connect Administrator Guide.
+    ///
+    /// - Parameter ListContactFlowsInput : [no documentation found]
+    ///
+    /// - Returns: `ListContactFlowsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listContactFlows(input: ListContactFlowsInput) async throws -> ListContactFlowsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3541,6 +4973,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. For the specified referenceTypes, returns a list of references associated with the contact.
+    ///
+    /// - Parameter ListContactReferencesInput : [no documentation found]
+    ///
+    /// - Returns: `ListContactReferencesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listContactReferences(input: ListContactReferencesInput) async throws -> ListContactReferencesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3575,6 +5020,18 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Lists the default vocabularies for the specified Amazon Connect instance.
+    ///
+    /// - Parameter ListDefaultVocabulariesInput : [no documentation found]
+    ///
+    /// - Returns: `ListDefaultVocabulariesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listDefaultVocabularies(input: ListDefaultVocabulariesInput) async throws -> ListDefaultVocabulariesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3611,6 +5068,18 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Lists versions of an evaluation form in the specified Amazon Connect instance.
+    ///
+    /// - Parameter ListEvaluationFormVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListEvaluationFormVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listEvaluationFormVersions(input: ListEvaluationFormVersionsInput) async throws -> ListEvaluationFormVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3645,6 +5114,18 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Lists evaluation forms in the specified Amazon Connect instance.
+    ///
+    /// - Parameter ListEvaluationFormsInput : [no documentation found]
+    ///
+    /// - Returns: `ListEvaluationFormsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listEvaluationForms(input: ListEvaluationFormsInput) async throws -> ListEvaluationFormsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3679,6 +5160,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Provides information about the hours of operation for the specified Amazon Connect instance. For more information about hours of operation, see [Set the Hours of Operation for a Queue](https://docs.aws.amazon.com/connect/latest/adminguide/set-hours-operation.html) in the Amazon Connect Administrator Guide.
+    ///
+    /// - Parameter ListHoursOfOperationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListHoursOfOperationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listHoursOfOperations(input: ListHoursOfOperationsInput) async throws -> ListHoursOfOperationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3713,6 +5207,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all attribute types for the given instance.
+    ///
+    /// - Parameter ListInstanceAttributesInput : [no documentation found]
+    ///
+    /// - Returns: `ListInstanceAttributesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listInstanceAttributes(input: ListInstanceAttributesInput) async throws -> ListInstanceAttributesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3747,6 +5254,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of storage configs for the identified instance and resource type.
+    ///
+    /// - Parameter ListInstanceStorageConfigsInput : [no documentation found]
+    ///
+    /// - Returns: `ListInstanceStorageConfigsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listInstanceStorageConfigs(input: ListInstanceStorageConfigsInput) async throws -> ListInstanceStorageConfigsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3781,6 +5301,16 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Return a list of instances which are in active state, creation-in-progress state, and failed state. Instances that aren't successfully created (they are in a failed state) are returned only for 24 hours after the CreateInstance API was invoked.
+    ///
+    /// - Parameter ListInstancesInput : [no documentation found]
+    ///
+    /// - Returns: `ListInstancesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
     public func listInstances(input: ListInstancesInput) async throws -> ListInstancesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3815,6 +5345,18 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Provides summary information about the Amazon Web Services resource associations for the specified Amazon Connect instance.
+    ///
+    /// - Parameter ListIntegrationAssociationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListIntegrationAssociationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listIntegrationAssociations(input: ListIntegrationAssociationsInput) async throws -> ListIntegrationAssociationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3849,6 +5391,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all Lambda functions that display in the dropdown options in the relevant flow blocks.
+    ///
+    /// - Parameter ListLambdaFunctionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListLambdaFunctionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listLambdaFunctions(input: ListLambdaFunctionsInput) async throws -> ListLambdaFunctionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3883,6 +5438,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all the Amazon Lex V1 bots currently associated with the instance. To return both Amazon Lex V1 and V2 bots, use the [ListBots](https://docs.aws.amazon.com/connect/latest/APIReference/API_ListBots.html) API.
+    ///
+    /// - Parameter ListLexBotsInput : [no documentation found]
+    ///
+    /// - Returns: `ListLexBotsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listLexBots(input: ListLexBotsInput) async throws -> ListLexBotsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3917,6 +5485,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Provides information about the phone numbers for the specified Amazon Connect instance. For more information about phone numbers, see [Set Up Phone Numbers for Your Contact Center](https://docs.aws.amazon.com/connect/latest/adminguide/contact-center-phone-number.html) in the Amazon Connect Administrator Guide. The phone number Arn value that is returned from each of the items in the [PhoneNumberSummaryList](https://docs.aws.amazon.com/connect/latest/APIReference/API_ListPhoneNumbers.html#connect-ListPhoneNumbers-response-PhoneNumberSummaryList) cannot be used to tag phone number resources. It will fail with a ResourceNotFoundException. Instead, use the [ListPhoneNumbersV2](https://docs.aws.amazon.com/connect/latest/APIReference/API_ListPhoneNumbersV2.html) API. It returns the new phone number ARN that can be used to tag phone number resources.
+    ///
+    /// - Parameter ListPhoneNumbersInput : [no documentation found]
+    ///
+    /// - Returns: `ListPhoneNumbersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listPhoneNumbers(input: ListPhoneNumbersInput) async throws -> ListPhoneNumbersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3951,6 +5532,23 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Lists phone numbers claimed to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with traffic distribution group. For more information about phone numbers, see [Set Up Phone Numbers for Your Contact Center](https://docs.aws.amazon.com/connect/latest/adminguide/contact-center-phone-number.html) in the Amazon Connect Administrator Guide.
+    ///
+    /// * When given an instance ARN, ListPhoneNumbersV2 returns only the phone numbers claimed to the instance.
+    ///
+    /// * When given a traffic distribution group ARN ListPhoneNumbersV2 returns only the phone numbers claimed to the traffic distribution group.
+    ///
+    /// - Parameter ListPhoneNumbersV2Input : [no documentation found]
+    ///
+    /// - Returns: `ListPhoneNumbersV2OutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listPhoneNumbersV2(input: ListPhoneNumbersV2Input) async throws -> ListPhoneNumbersV2OutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3987,6 +5585,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Provides information about the prompts for the specified Amazon Connect instance.
+    ///
+    /// - Parameter ListPromptsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPromptsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listPrompts(input: ListPromptsInput) async throws -> ListPromptsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4021,6 +5632,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Lists the quick connects associated with a queue.
+    ///
+    /// - Parameter ListQueueQuickConnectsInput : [no documentation found]
+    ///
+    /// - Returns: `ListQueueQuickConnectsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listQueueQuickConnects(input: ListQueueQuickConnectsInput) async throws -> ListQueueQuickConnectsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4055,6 +5679,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Provides information about the queues for the specified Amazon Connect instance. If you do not specify a QueueTypes parameter, both standard and agent queues are returned. This might cause an unexpected truncation of results if you have more than 1000 agents and you limit the number of results of the API call in code. For more information about queues, see [Queues: Standard and Agent](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-queues-standard-and-agent.html) in the Amazon Connect Administrator Guide.
+    ///
+    /// - Parameter ListQueuesInput : [no documentation found]
+    ///
+    /// - Returns: `ListQueuesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listQueues(input: ListQueuesInput) async throws -> ListQueuesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4089,6 +5726,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Provides information about the quick connects for the specified Amazon Connect instance.
+    ///
+    /// - Parameter ListQuickConnectsInput : [no documentation found]
+    ///
+    /// - Returns: `ListQuickConnectsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listQuickConnects(input: ListQuickConnectsInput) async throws -> ListQuickConnectsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4123,6 +5773,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Lists the queues associated with a routing profile.
+    ///
+    /// - Parameter ListRoutingProfileQueuesInput : [no documentation found]
+    ///
+    /// - Returns: `ListRoutingProfileQueuesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listRoutingProfileQueues(input: ListRoutingProfileQueuesInput) async throws -> ListRoutingProfileQueuesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4157,6 +5820,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Provides summary information about the routing profiles for the specified Amazon Connect instance. For more information about routing profiles, see [Routing Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-routing.html) and [Create a Routing Profile](https://docs.aws.amazon.com/connect/latest/adminguide/routing-profiles.html) in the Amazon Connect Administrator Guide.
+    ///
+    /// - Parameter ListRoutingProfilesInput : [no documentation found]
+    ///
+    /// - Returns: `ListRoutingProfilesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listRoutingProfiles(input: ListRoutingProfilesInput) async throws -> ListRoutingProfilesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4191,6 +5867,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// List all rules for the specified Amazon Connect instance.
+    ///
+    /// - Parameter ListRulesInput : [no documentation found]
+    ///
+    /// - Returns: `ListRulesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listRules(input: ListRulesInput) async throws -> ListRulesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4225,6 +5914,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all security keys associated with the instance.
+    ///
+    /// - Parameter ListSecurityKeysInput : [no documentation found]
+    ///
+    /// - Returns: `ListSecurityKeysOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listSecurityKeys(input: ListSecurityKeysInput) async throws -> ListSecurityKeysOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4259,6 +5961,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Lists the permissions granted to a security profile.
+    ///
+    /// - Parameter ListSecurityProfilePermissionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSecurityProfilePermissionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listSecurityProfilePermissions(input: ListSecurityProfilePermissionsInput) async throws -> ListSecurityProfilePermissionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4293,6 +6008,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Provides summary information about the security profiles for the specified Amazon Connect instance. For more information about security profiles, see [Security Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/connect-security-profiles.html) in the Amazon Connect Administrator Guide.
+    ///
+    /// - Parameter ListSecurityProfilesInput : [no documentation found]
+    ///
+    /// - Returns: `ListSecurityProfilesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listSecurityProfiles(input: ListSecurityProfilesInput) async throws -> ListSecurityProfilesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4327,6 +6055,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Lists the tags for the specified resource. For sample policies that use tags, see [Amazon Connect Identity-Based Policy Examples](https://docs.aws.amazon.com/connect/latest/adminguide/security_iam_id-based-policy-examples.html) in the Amazon Connect Administrator Guide.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4360,6 +6101,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Lists task templates for the specified Amazon Connect instance.
+    ///
+    /// - Parameter ListTaskTemplatesInput : [no documentation found]
+    ///
+    /// - Returns: `ListTaskTemplatesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listTaskTemplates(input: ListTaskTemplatesInput) async throws -> ListTaskTemplatesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4393,7 +6147,66 @@ extension ConnectClient: ConnectClientProtocol {
         return result
     }
 
+    /// Lists traffic distribution group users.
+    ///
+    /// - Parameter ListTrafficDistributionGroupUsersInput : [no documentation found]
+    ///
+    /// - Returns: `ListTrafficDistributionGroupUsersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func listTrafficDistributionGroupUsers(input: ListTrafficDistributionGroupUsersInput) async throws -> ListTrafficDistributionGroupUsersOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listTrafficDistributionGroupUsers")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListTrafficDistributionGroupUsersInput, ListTrafficDistributionGroupUsersOutputResponse, ListTrafficDistributionGroupUsersOutputError>(id: "listTrafficDistributionGroupUsers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTrafficDistributionGroupUsersInput, ListTrafficDistributionGroupUsersOutputResponse, ListTrafficDistributionGroupUsersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTrafficDistributionGroupUsersInput, ListTrafficDistributionGroupUsersOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTrafficDistributionGroupUsersOutputResponse, ListTrafficDistributionGroupUsersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListTrafficDistributionGroupUsersInput, ListTrafficDistributionGroupUsersOutputResponse>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTrafficDistributionGroupUsersOutputResponse, ListTrafficDistributionGroupUsersOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrafficDistributionGroupUsersOutputResponse, ListTrafficDistributionGroupUsersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrafficDistributionGroupUsersOutputResponse, ListTrafficDistributionGroupUsersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTrafficDistributionGroupUsersOutputResponse, ListTrafficDistributionGroupUsersOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Lists traffic distribution groups.
+    ///
+    /// - Parameter ListTrafficDistributionGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTrafficDistributionGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listTrafficDistributionGroups(input: ListTrafficDistributionGroupsInput) async throws -> ListTrafficDistributionGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4428,6 +6241,18 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Lists the use cases for the integration association.
+    ///
+    /// - Parameter ListUseCasesInput : Provides summary information about the use cases for the specified integration association.
+    ///
+    /// - Returns: `ListUseCasesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listUseCases(input: ListUseCasesInput) async throws -> ListUseCasesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4462,6 +6287,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Provides summary information about the hierarchy groups for the specified Amazon Connect instance. For more information about agent hierarchies, see [Set Up Agent Hierarchies](https://docs.aws.amazon.com/connect/latest/adminguide/agent-hierarchy.html) in the Amazon Connect Administrator Guide.
+    ///
+    /// - Parameter ListUserHierarchyGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `ListUserHierarchyGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listUserHierarchyGroups(input: ListUserHierarchyGroupsInput) async throws -> ListUserHierarchyGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4496,6 +6334,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Provides summary information about the users for the specified Amazon Connect instance.
+    ///
+    /// - Parameter ListUsersInput : [no documentation found]
+    ///
+    /// - Returns: `ListUsersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listUsers(input: ListUsersInput) async throws -> ListUsersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4530,6 +6381,21 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Initiates silent monitoring of a contact. The Contact Control Panel (CCP) of the user specified by userId will be set to silent monitoring mode on the contact.
+    ///
+    /// - Parameter MonitorContactInput : [no documentation found]
+    ///
+    /// - Returns: `MonitorContactOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `IdempotencyException` : An entity with the same name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func monitorContact(input: MonitorContactInput) async throws -> MonitorContactOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4574,6 +6440,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Changes the current status of a user or agent in Amazon Connect. If the agent is currently handling a contact, this sets the agent's next status. For more information, see [Agent status](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-agent-status.html) and [Set your next status](https://docs.aws.amazon.com/connect/latest/adminguide/set-next-status.html) in the Amazon Connect Administrator Guide.
+    ///
+    /// - Parameter PutUserStatusInput : [no documentation found]
+    ///
+    /// - Returns: `PutUserStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func putUserStatus(input: PutUserStatusInput) async throws -> PutUserStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4610,6 +6490,21 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Releases a phone number previously claimed to an Amazon Connect instance or traffic distribution group. You can call this API only in the Amazon Web Services Region where the number was claimed. To release phone numbers from a traffic distribution group, use the ReleasePhoneNumber API, not the Amazon Connect console. After releasing a phone number, the phone number enters into a cooldown period of 30 days. It cannot be searched for or claimed again until the period has ended. If you accidentally release a phone number, contact Amazon Web Services Support. If you plan to claim and release numbers frequently during a 30 day period, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until 30 days past the oldest number released has expired. By default you can claim and release up to 200% of your maximum number of active phone numbers during any 30 day period. If you claim and release phone numbers using the UI or API during a rolling 30 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming any more numbers until 30 days past the oldest number released has expired. For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 30 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services support ticket.
+    ///
+    /// - Parameter ReleasePhoneNumberInput : [no documentation found]
+    ///
+    /// - Returns: `ReleasePhoneNumberOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `IdempotencyException` : An entity with the same name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func releasePhoneNumber(input: ReleasePhoneNumberInput) async throws -> ReleasePhoneNumberOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4652,6 +6547,22 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Replicates an Amazon Connect instance in the specified Amazon Web Services Region. For more information about replicating an Amazon Connect instance, see [Create a replica of your existing Amazon Connect instance](https://docs.aws.amazon.com/connect/latest/adminguide/create-replica-connect-instance.html) in the Amazon Connect Administrator Guide.
+    ///
+    /// - Parameter ReplicateInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `ReplicateInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ResourceNotReadyException` : The resource is not ready.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func replicateInstance(input: ReplicateInstanceInput) async throws -> ReplicateInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4696,6 +6607,17 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// When a contact is being recorded, and the recording has been suspended using SuspendContactRecording, this API resumes recording the call or screen. Voice and screen recordings are supported.
+    ///
+    /// - Parameter ResumeContactRecordingInput : [no documentation found]
+    ///
+    /// - Returns: `ResumeContactRecordingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
     public func resumeContactRecording(input: ResumeContactRecordingInput) async throws -> ResumeContactRecordingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4732,6 +6654,18 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Searches for available phone numbers that you can claim to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with the traffic distribution group.
+    ///
+    /// - Parameter SearchAvailablePhoneNumbersInput : [no documentation found]
+    ///
+    /// - Returns: `SearchAvailablePhoneNumbersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func searchAvailablePhoneNumbers(input: SearchAvailablePhoneNumbersInput) async throws -> SearchAvailablePhoneNumbersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4768,6 +6702,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Searches the hours of operation in an Amazon Connect instance, with optional filtering.
+    ///
+    /// - Parameter SearchHoursOfOperationsInput : [no documentation found]
+    ///
+    /// - Returns: `SearchHoursOfOperationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func searchHoursOfOperations(input: SearchHoursOfOperationsInput) async throws -> SearchHoursOfOperationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4804,6 +6751,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Searches prompts in an Amazon Connect instance, with optional filtering.
+    ///
+    /// - Parameter SearchPromptsInput : [no documentation found]
+    ///
+    /// - Returns: `SearchPromptsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func searchPrompts(input: SearchPromptsInput) async throws -> SearchPromptsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4840,6 +6800,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Searches queues in an Amazon Connect instance, with optional filtering.
+    ///
+    /// - Parameter SearchQueuesInput : [no documentation found]
+    ///
+    /// - Returns: `SearchQueuesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func searchQueues(input: SearchQueuesInput) async throws -> SearchQueuesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4876,6 +6849,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Searches quick connects in an Amazon Connect instance, with optional filtering.
+    ///
+    /// - Parameter SearchQuickConnectsInput : [no documentation found]
+    ///
+    /// - Returns: `SearchQuickConnectsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func searchQuickConnects(input: SearchQuickConnectsInput) async throws -> SearchQuickConnectsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4912,6 +6898,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Searches tags used in an Amazon Connect instance using optional search criteria.
+    ///
+    /// - Parameter SearchResourceTagsInput : [no documentation found]
+    ///
+    /// - Returns: `SearchResourceTagsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `MaximumResultReturnedException` : Maximum number (1000) of tags have been returned with current request. Consider changing request parameters to get more tags.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func searchResourceTags(input: SearchResourceTagsInput) async throws -> SearchResourceTagsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4948,6 +6948,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Searches routing profiles in an Amazon Connect instance, with optional filtering.
+    ///
+    /// - Parameter SearchRoutingProfilesInput : [no documentation found]
+    ///
+    /// - Returns: `SearchRoutingProfilesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func searchRoutingProfiles(input: SearchRoutingProfilesInput) async throws -> SearchRoutingProfilesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4984,6 +6997,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Searches security profiles in an Amazon Connect instance, with optional filtering.
+    ///
+    /// - Parameter SearchSecurityProfilesInput : [no documentation found]
+    ///
+    /// - Returns: `SearchSecurityProfilesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func searchSecurityProfiles(input: SearchSecurityProfilesInput) async throws -> SearchSecurityProfilesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5020,6 +7046,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Searches users in an Amazon Connect instance, with optional filtering. AfterContactWorkTimeLimit is returned in milliseconds.
+    ///
+    /// - Parameter SearchUsersInput : [no documentation found]
+    ///
+    /// - Returns: `SearchUsersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func searchUsers(input: SearchUsersInput) async throws -> SearchUsersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5056,6 +7095,18 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Searches for vocabularies within a specific Amazon Connect instance using State, NameStartsWith, and LanguageCode.
+    ///
+    /// - Parameter SearchVocabulariesInput : [no documentation found]
+    ///
+    /// - Returns: `SearchVocabulariesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func searchVocabularies(input: SearchVocabulariesInput) async throws -> SearchVocabulariesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5099,6 +7150,19 @@ extension ConnectClient: ConnectClientProtocol {
     ///
     ///
     /// If you use the ChatDurationInMinutes parameter and receive a 400 error, your account may not support the ability to configure custom chat durations. For more information, contact Amazon Web Services Support. For more information about chat, see [Chat](https://docs.aws.amazon.com/connect/latest/adminguide/chat.html) in the Amazon Connect Administrator Guide.
+    ///
+    /// - Parameter StartChatContactInput : [no documentation found]
+    ///
+    /// - Returns: `StartChatContactOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
     public func startChatContact(input: StartChatContactInput) async throws -> StartChatContactOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5143,6 +7207,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Starts an empty evaluation in the specified Amazon Connect instance, using the given evaluation form for the particular contact. The evaluation form version used for the contact evaluation corresponds to the currently activated version. If no version is activated for the evaluation form, the contact evaluation cannot be started. Evaluations created through the public API do not contain answer values suggested from automation.
+    ///
+    /// - Parameter StartContactEvaluationInput : [no documentation found]
+    ///
+    /// - Returns: `StartContactEvaluationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func startContactEvaluation(input: StartContactEvaluationInput) async throws -> StartContactEvaluationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5194,6 +7272,18 @@ extension ConnectClient: ConnectClientProtocol {
     ///
     ///
     /// StartContactRecording is a one-time action. For example, if you use StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and you want to suspend and resume it, such as when collecting sensitive information (for example, a credit card number), use SuspendContactRecording and ResumeContactRecording. You can use this API to override the recording behavior configured in the [Set recording behavior](https://docs.aws.amazon.com/connect/latest/adminguide/set-recording-behavior.html) block. Only voice recordings are supported at this time.
+    ///
+    /// - Parameter StartContactRecordingInput : [no documentation found]
+    ///
+    /// - Returns: `StartContactRecordingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
     public func startContactRecording(input: StartContactRecordingInput) async throws -> StartContactRecordingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5230,6 +7320,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Initiates real-time message streaming for a new chat contact. For more information about message streaming, see [Enable real-time chat message streaming](https://docs.aws.amazon.com/connect/latest/adminguide/chat-message-streaming.html) in the Amazon Connect Administrator Guide.
+    ///
+    /// - Parameter StartContactStreamingInput : [no documentation found]
+    ///
+    /// - Returns: `StartContactStreamingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
     public func startContactStreaming(input: StartContactStreamingInput) async throws -> StartContactStreamingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5274,6 +7377,21 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Places an outbound call to a contact, and then initiates the flow. It performs the actions in the flow that's specified (in ContactFlowId). Agents do not initiate the outbound API, which means that they do not dial the contact. If the flow places an outbound call to a contact, and then puts the contact in queue, the call is then routed to the agent, like any other inbound case. There is a 60-second dialing timeout for this operation. If the call is not connected after 60 seconds, it fails. UK numbers with a 447 prefix are not allowed by default. Before you can dial these UK mobile numbers, you must submit a service quota increase request. For more information, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide. Campaign calls are not allowed by default. Before you can make a call with TrafficType = CAMPAIGN, you must submit a service quota increase request to the quota [Amazon Connect campaigns](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#outbound-communications-quotas).
+    ///
+    /// - Parameter StartOutboundVoiceContactInput : [no documentation found]
+    ///
+    /// - Returns: `StartOutboundVoiceContactOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DestinationNotAllowedException` : Outbound calls to the destination number are not allowed.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
+    /// - `OutboundContactNotPermittedException` : The contact is not permitted.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
     public func startOutboundVoiceContact(input: StartOutboundVoiceContactInput) async throws -> StartOutboundVoiceContactOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5318,6 +7436,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Initiates a flow to start a new task.
+    ///
+    /// - Parameter StartTaskContactInput : [no documentation found]
+    ///
+    /// - Returns: `StartTaskContactOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func startTaskContact(input: StartTaskContactInput) async throws -> StartTaskContactOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5368,6 +7500,19 @@ extension ConnectClient: ConnectClientProtocol {
     /// * TRANSFER
     ///
     /// * QUEUE_TRANSFER
+    ///
+    /// - Parameter StopContactInput : [no documentation found]
+    ///
+    /// - Returns: `StopContactOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ContactNotFoundException` : The contact with the specified ID is not active or does not exist. Applies to Voice calls only, not to Chat, Task, or Voice Callback.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
     public func stopContact(input: StopContactInput) async throws -> StopContactOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5404,6 +7549,17 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Stops recording a call when a contact is being recorded. StopContactRecording is a one-time action. If you use StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and you want to suspend it for sensitive information (for example, to collect a credit card number), and then restart it, use SuspendContactRecording and ResumeContactRecording. Only voice recordings are supported at this time.
+    ///
+    /// - Parameter StopContactRecordingInput : [no documentation found]
+    ///
+    /// - Returns: `StopContactRecordingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
     public func stopContactRecording(input: StopContactRecordingInput) async throws -> StopContactRecordingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5440,6 +7596,18 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Ends message streaming on a specified contact. To restart message streaming on that contact, call the [StartContactStreaming](https://docs.aws.amazon.com/connect/latest/APIReference/API_StartContactStreaming.html) API.
+    ///
+    /// - Parameter StopContactStreamingInput : [no documentation found]
+    ///
+    /// - Returns: `StopContactStreamingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
     public func stopContactStreaming(input: StopContactStreamingInput) async throws -> StopContactStreamingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5476,6 +7644,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Submits a contact evaluation in the specified Amazon Connect instance. Answers included in the request are merged with existing answers for the given evaluation. If no answers or notes are passed, the evaluation is submitted with the existing answers and notes. You can delete an answer or note by passing an empty object ({}) to the question identifier. If a contact evaluation is already in submitted state, this operation will trigger a resubmission.
+    ///
+    /// - Parameter SubmitContactEvaluationInput : [no documentation found]
+    ///
+    /// - Returns: `SubmitContactEvaluationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func submitContactEvaluation(input: SubmitContactEvaluationInput) async throws -> SubmitContactEvaluationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5512,6 +7693,17 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// When a contact is being recorded, this API suspends recording the call or screen. For example, you might suspend the call or screen recording while collecting sensitive information, such as a credit card number. Then use ResumeContactRecording to restart recording. The period of time that the recording is suspended is filled with silence in the final recording. Voice and screen recordings are supported.
+    ///
+    /// - Parameter SuspendContactRecordingInput : [no documentation found]
+    ///
+    /// - Returns: `SuspendContactRecordingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
     public func suspendContactRecording(input: SuspendContactRecordingInput) async throws -> SuspendContactRecordingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5548,6 +7740,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Adds the specified tags to the specified resource. Some of the supported resource types are agents, routing profiles, queues, quick connects, contact flows, agent statuses, hours of operation, phone numbers, security profiles, and task templates. For a complete list, see [Tagging resources in Amazon Connect](https://docs.aws.amazon.com/connect/latest/adminguide/tagging.html). For sample policies that use tags, see [Amazon Connect Identity-Based Policy Examples](https://docs.aws.amazon.com/connect/latest/adminguide/security_iam_id-based-policy-examples.html) in the Amazon Connect Administrator Guide.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5594,6 +7799,21 @@ extension ConnectClient: ConnectClientProtocol {
     /// * The TransferContact API can be called only on active contacts.
     ///
     /// * A contact cannot be transferred more than 11 times.
+    ///
+    /// - Parameter TransferContactInput : [no documentation found]
+    ///
+    /// - Returns: `TransferContactOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `IdempotencyException` : An entity with the same name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func transferContact(input: TransferContactInput) async throws -> TransferContactOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5638,6 +7858,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Removes the specified tags from the specified resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5672,6 +7905,21 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Updates agent status.
+    ///
+    /// - Parameter UpdateAgentStatusInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAgentStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateAgentStatus(input: UpdateAgentStatusInput) async throws -> UpdateAgentStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5708,6 +7956,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Adds or updates user-defined contact information associated with the specified contact. At least one field to be updated must be present in the request. You can add or update user-defined contact information for both ongoing and completed contacts.
+    ///
+    /// - Parameter UpdateContactInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateContactOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateContact(input: UpdateContactInput) async throws -> UpdateContactOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5744,6 +8005,18 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Creates or updates user-defined contact attributes associated with the specified contact. You can create or update user-defined attributes for both ongoing and completed contacts. For example, while the call is active, you can update the customer's name or the reason the customer called. You can add notes about steps that the agent took during the call that display to the next agent that takes the call. You can also update attributes for a contact using data from your CRM application and save the data with the contact in Amazon Connect. You could also flag calls for additional analysis, such as legal review or to identify abusive callers. Contact attributes are available in Amazon Connect for 24 months, and are then deleted. For information about contact record retention and the maximum size of the contact record attributes section, see [Feature specifications](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#feature-limits) in the Amazon Connect Administrator Guide.
+    ///
+    /// - Parameter UpdateContactAttributesInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateContactAttributesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
     public func updateContactAttributes(input: UpdateContactAttributesInput) async throws -> UpdateContactAttributesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5780,6 +8053,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Updates details about a contact evaluation in the specified Amazon Connect instance. A contact evaluation must be in draft state. Answers included in the request are merged with existing answers for the given evaluation. An answer or note can be deleted by passing an empty object ({}) to the question identifier.
+    ///
+    /// - Parameter UpdateContactEvaluationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateContactEvaluationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateContactEvaluation(input: UpdateContactEvaluationInput) async throws -> UpdateContactEvaluationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5816,6 +8102,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Updates the specified flow. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html).
+    ///
+    /// - Parameter UpdateContactFlowContentInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateContactFlowContentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidContactFlowException` : The flow is not valid.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateContactFlowContent(input: UpdateContactFlowContentInput) async throws -> UpdateContactFlowContentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5852,6 +8152,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Updates metadata about specified flow.
+    ///
+    /// - Parameter UpdateContactFlowMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateContactFlowMetadataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateContactFlowMetadata(input: UpdateContactFlowMetadataInput) async throws -> UpdateContactFlowMetadataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5888,6 +8202,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Updates specified flow module for the specified Amazon Connect instance.
+    ///
+    /// - Parameter UpdateContactFlowModuleContentInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateContactFlowModuleContentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidContactFlowModuleException` : The problems with the module. Please fix before trying again.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateContactFlowModuleContent(input: UpdateContactFlowModuleContentInput) async throws -> UpdateContactFlowModuleContentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5924,6 +8252,21 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Updates metadata about specified flow module.
+    ///
+    /// - Parameter UpdateContactFlowModuleMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateContactFlowModuleMetadataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateContactFlowModuleMetadata(input: UpdateContactFlowModuleMetadataInput) async throws -> UpdateContactFlowModuleMetadataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5960,6 +8303,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// The name of the flow. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html).
+    ///
+    /// - Parameter UpdateContactFlowNameInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateContactFlowNameOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateContactFlowName(input: UpdateContactFlowNameInput) async throws -> UpdateContactFlowNameOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5996,6 +8353,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Updates the scheduled time of a task contact that is already scheduled.
+    ///
+    /// - Parameter UpdateContactScheduleInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateContactScheduleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateContactSchedule(input: UpdateContactScheduleInput) async throws -> UpdateContactScheduleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6032,6 +8403,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Updates details about a specific evaluation form version in the specified Amazon Connect instance. Question and section identifiers cannot be duplicated within the same evaluation form. This operation does not support partial updates. Instead it does a full update of evaluation form content.
+    ///
+    /// - Parameter UpdateEvaluationFormInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEvaluationFormOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateEvaluationForm(input: UpdateEvaluationFormInput) async throws -> UpdateEvaluationFormOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6076,6 +8461,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the hours of operation.
+    ///
+    /// - Parameter UpdateHoursOfOperationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateHoursOfOperationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateHoursOfOperation(input: UpdateHoursOfOperationInput) async throws -> UpdateHoursOfOperationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6112,6 +8511,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the value for the specified attribute type.
+    ///
+    /// - Parameter UpdateInstanceAttributeInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateInstanceAttributeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateInstanceAttribute(input: UpdateInstanceAttributeInput) async throws -> UpdateInstanceAttributeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6148,6 +8560,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Updates an existing configuration for a resource type. This API is idempotent.
+    ///
+    /// - Parameter UpdateInstanceStorageConfigInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateInstanceStorageConfigOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateInstanceStorageConfig(input: UpdateInstanceStorageConfigInput) async throws -> UpdateInstanceStorageConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6196,6 +8621,20 @@ extension ConnectClient: ConnectClientProtocol {
     ///
     ///
     /// For more information about how chat timeouts work, see [Set up chat timeouts for human participants](https://docs.aws.amazon.com/connect/latest/adminguide/setup-chat-timeouts.html).
+    ///
+    /// - Parameter UpdateParticipantRoleConfigInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateParticipantRoleConfigOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateParticipantRoleConfig(input: UpdateParticipantRoleConfigInput) async throws -> UpdateParticipantRoleConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6232,6 +8671,21 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Updates your claimed phone number from its current Amazon Connect instance or traffic distribution group to another Amazon Connect instance or traffic distribution group in the same Amazon Web Services Region. After using this API, you must verify that the phone number is attached to the correct flow in the target instance or traffic distribution group. You need to do this because the API switches only the phone number to a new instance or traffic distribution group. It doesn't migrate the flow configuration of the phone number, too. You can call [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) API to verify the status of a previous [UpdatePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumber.html) operation.
+    ///
+    /// - Parameter UpdatePhoneNumberInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePhoneNumberOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `IdempotencyException` : An entity with the same name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updatePhoneNumber(input: UpdatePhoneNumberInput) async throws -> UpdatePhoneNumberOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6276,6 +8730,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Updates a prompt.
+    ///
+    /// - Parameter UpdatePromptInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePromptOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updatePrompt(input: UpdatePromptInput) async throws -> UpdatePromptOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6312,6 +8779,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the hours of operation for the specified queue.
+    ///
+    /// - Parameter UpdateQueueHoursOfOperationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateQueueHoursOfOperationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateQueueHoursOfOperation(input: UpdateQueueHoursOfOperationInput) async throws -> UpdateQueueHoursOfOperationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6348,6 +8828,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the maximum number of contacts allowed in a queue before it is considered full.
+    ///
+    /// - Parameter UpdateQueueMaxContactsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateQueueMaxContactsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateQueueMaxContacts(input: UpdateQueueMaxContactsInput) async throws -> UpdateQueueMaxContactsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6384,6 +8877,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the name and description of a queue. At least Name or Description must be provided.
+    ///
+    /// - Parameter UpdateQueueNameInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateQueueNameOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateQueueName(input: UpdateQueueNameInput) async throws -> UpdateQueueNameOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6420,6 +8927,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue. If the number being used in the input is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the OutboundCallerIdNumberId value of the [OutboundCallerConfig](https://docs.aws.amazon.com/connect/latest/APIReference/API_OutboundCallerConfig) request body parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException. Only use the phone number ARN format that doesn't contain instance in the path, for example, arn:aws:connect:us-east-1:1234567890:phone-number/uuid. This is the same ARN format that is returned when you call the [ListPhoneNumbersV2](https://docs.aws.amazon.com/connect/latest/APIReference/API_ListPhoneNumbersV2.html) API.
+    ///
+    /// - Parameter UpdateQueueOutboundCallerConfigInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateQueueOutboundCallerConfigOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateQueueOutboundCallerConfig(input: UpdateQueueOutboundCallerConfigInput) async throws -> UpdateQueueOutboundCallerConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6456,6 +8976,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the status of the queue.
+    ///
+    /// - Parameter UpdateQueueStatusInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateQueueStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateQueueStatus(input: UpdateQueueStatusInput) async throws -> UpdateQueueStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6492,6 +9025,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Updates the configuration settings for the specified quick connect.
+    ///
+    /// - Parameter UpdateQuickConnectConfigInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateQuickConnectConfigOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateQuickConnectConfig(input: UpdateQuickConnectConfigInput) async throws -> UpdateQuickConnectConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6528,6 +9074,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Updates the name and description of a quick connect. The request accepts the following data in JSON format. At least Name or Description must be provided.
+    ///
+    /// - Parameter UpdateQuickConnectNameInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateQuickConnectNameOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateQuickConnectName(input: UpdateQuickConnectNameInput) async throws -> UpdateQuickConnectNameOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6563,7 +9122,69 @@ extension ConnectClient: ConnectClientProtocol {
         return result
     }
 
+    /// Whether agents with this routing profile will have their routing order calculated based on time since their last inbound contact or longest idle time.
+    ///
+    /// - Parameter UpdateRoutingProfileAgentAvailabilityTimerInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRoutingProfileAgentAvailabilityTimerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func updateRoutingProfileAgentAvailabilityTimer(input: UpdateRoutingProfileAgentAvailabilityTimerInput) async throws -> UpdateRoutingProfileAgentAvailabilityTimerOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateRoutingProfileAgentAvailabilityTimer")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<UpdateRoutingProfileAgentAvailabilityTimerInput, UpdateRoutingProfileAgentAvailabilityTimerOutputResponse, UpdateRoutingProfileAgentAvailabilityTimerOutputError>(id: "updateRoutingProfileAgentAvailabilityTimer")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRoutingProfileAgentAvailabilityTimerInput, UpdateRoutingProfileAgentAvailabilityTimerOutputResponse, UpdateRoutingProfileAgentAvailabilityTimerOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRoutingProfileAgentAvailabilityTimerInput, UpdateRoutingProfileAgentAvailabilityTimerOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRoutingProfileAgentAvailabilityTimerOutputResponse, UpdateRoutingProfileAgentAvailabilityTimerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateRoutingProfileAgentAvailabilityTimerInput, UpdateRoutingProfileAgentAvailabilityTimerOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateRoutingProfileAgentAvailabilityTimerInput, UpdateRoutingProfileAgentAvailabilityTimerOutputResponse>(xmlName: "UpdateRoutingProfileAgentAvailabilityTimerRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateRoutingProfileAgentAvailabilityTimerOutputResponse, UpdateRoutingProfileAgentAvailabilityTimerOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRoutingProfileAgentAvailabilityTimerOutputResponse, UpdateRoutingProfileAgentAvailabilityTimerOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRoutingProfileAgentAvailabilityTimerOutputResponse, UpdateRoutingProfileAgentAvailabilityTimerOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRoutingProfileAgentAvailabilityTimerOutputResponse, UpdateRoutingProfileAgentAvailabilityTimerOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Updates the channels that agents can handle in the Contact Control Panel (CCP) for a routing profile.
+    ///
+    /// - Parameter UpdateRoutingProfileConcurrencyInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRoutingProfileConcurrencyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateRoutingProfileConcurrency(input: UpdateRoutingProfileConcurrencyInput) async throws -> UpdateRoutingProfileConcurrencyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6600,6 +9221,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Updates the default outbound queue of a routing profile.
+    ///
+    /// - Parameter UpdateRoutingProfileDefaultOutboundQueueInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRoutingProfileDefaultOutboundQueueOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateRoutingProfileDefaultOutboundQueue(input: UpdateRoutingProfileDefaultOutboundQueueInput) async throws -> UpdateRoutingProfileDefaultOutboundQueueOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6636,6 +9270,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Updates the name and description of a routing profile. The request accepts the following data in JSON format. At least Name or Description must be provided.
+    ///
+    /// - Parameter UpdateRoutingProfileNameInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRoutingProfileNameOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateRoutingProfileName(input: UpdateRoutingProfileNameInput) async throws -> UpdateRoutingProfileNameOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6672,6 +9320,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Updates the properties associated with a set of queues for a routing profile.
+    ///
+    /// - Parameter UpdateRoutingProfileQueuesInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRoutingProfileQueuesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateRoutingProfileQueues(input: UpdateRoutingProfileQueuesInput) async throws -> UpdateRoutingProfileQueuesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6708,6 +9369,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Updates a rule for the specified Amazon Connect instance. Use the [Rules Function language](https://docs.aws.amazon.com/connect/latest/APIReference/connect-rules-language.html) to code conditions for the rule.
+    ///
+    /// - Parameter UpdateRuleInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateRule(input: UpdateRuleInput) async throws -> UpdateRuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6744,6 +9419,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Updates a security profile.
+    ///
+    /// - Parameter UpdateSecurityProfileInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSecurityProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateSecurityProfile(input: UpdateSecurityProfileInput) async throws -> UpdateSecurityProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6780,6 +9468,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Updates details about a specific task template in the specified Amazon Connect instance. This operation does not support partial updates. Instead it does a full update of template content.
+    ///
+    /// - Parameter UpdateTaskTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateTaskTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `PropertyValidationException` : The property is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateTaskTemplate(input: UpdateTaskTemplateInput) async throws -> UpdateTaskTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6815,7 +9517,21 @@ extension ConnectClient: ConnectClientProtocol {
         return result
     }
 
-    /// Updates the traffic distribution for a given traffic distribution group. For more information about updating a traffic distribution group, see [Update telephony traffic distribution across Amazon Web Services Regions ](https://docs.aws.amazon.com/connect/latest/adminguide/update-telephony-traffic-distribution.html) in the Amazon Connect Administrator Guide.
+    /// Updates the traffic distribution for a given traffic distribution group. You can change the SignInConfig only for a default TrafficDistributionGroup. If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup, an InvalidRequestException is returned. For more information about updating a traffic distribution group, see [Update telephony traffic distribution across Amazon Web Services Regions ](https://docs.aws.amazon.com/connect/latest/adminguide/update-telephony-traffic-distribution.html) in the Amazon Connect Administrator Guide.
+    ///
+    /// - Parameter UpdateTrafficDistributionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateTrafficDistributionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateTrafficDistribution(input: UpdateTrafficDistributionInput) async throws -> UpdateTrafficDistributionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6852,6 +9568,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Assigns the specified hierarchy group to the specified user.
+    ///
+    /// - Parameter UpdateUserHierarchyInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateUserHierarchyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateUserHierarchy(input: UpdateUserHierarchyInput) async throws -> UpdateUserHierarchyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6888,6 +9617,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Updates the name of the user hierarchy group.
+    ///
+    /// - Parameter UpdateUserHierarchyGroupNameInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateUserHierarchyGroupNameOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateUserHierarchyGroupName(input: UpdateUserHierarchyGroupNameInput) async throws -> UpdateUserHierarchyGroupNameOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6924,6 +9667,20 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Updates the user hierarchy structure: add, remove, and rename user hierarchy levels.
+    ///
+    /// - Parameter UpdateUserHierarchyStructureInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateUserHierarchyStructureOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateUserHierarchyStructure(input: UpdateUserHierarchyStructureInput) async throws -> UpdateUserHierarchyStructureOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6960,6 +9717,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Updates the identity information for the specified user. We strongly recommend limiting who has the ability to invoke UpdateUserIdentityInfo. Someone with that ability can change the login credentials of other users by changing their email address. This poses a security risk to your organization. They can change the email address of a user to the attacker's email address, and then reset the password through email. For more information, see [Best Practices for Security Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-best-practices.html) in the Amazon Connect Administrator Guide.
+    ///
+    /// - Parameter UpdateUserIdentityInfoInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateUserIdentityInfoOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateUserIdentityInfo(input: UpdateUserIdentityInfoInput) async throws -> UpdateUserIdentityInfoOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6996,6 +9766,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Updates the phone configuration settings for the specified user.
+    ///
+    /// - Parameter UpdateUserPhoneConfigInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateUserPhoneConfigOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateUserPhoneConfig(input: UpdateUserPhoneConfigInput) async throws -> UpdateUserPhoneConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -7032,6 +9815,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Assigns the specified routing profile to the specified user.
+    ///
+    /// - Parameter UpdateUserRoutingProfileInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateUserRoutingProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateUserRoutingProfile(input: UpdateUserRoutingProfileInput) async throws -> UpdateUserRoutingProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -7068,6 +9864,19 @@ extension ConnectClient: ConnectClientProtocol {
     }
 
     /// Assigns the specified security profiles to the specified user.
+    ///
+    /// - Parameter UpdateUserSecurityProfilesInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateUserSecurityProfilesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateUserSecurityProfiles(input: UpdateUserSecurityProfilesInput) async throws -> UpdateUserSecurityProfilesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

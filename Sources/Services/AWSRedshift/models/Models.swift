@@ -798,7 +798,7 @@ extension AssociateDataShareConsumerOutputResponseBody: Swift.Decodable {
         dataShareArn = dataShareArnDecoded
         let producerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .producerArn)
         producerArn = producerArnDecoded
-        let allowPubliclyAccessibleConsumersDecoded = try containerValues.decode(Swift.Bool.self, forKey: .allowPubliclyAccessibleConsumers)
+        let allowPubliclyAccessibleConsumersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowPubliclyAccessibleConsumers) ?? false
         allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumersDecoded
         if containerValues.contains(.dataShareAssociations) {
             struct KeyVal0{struct member{}}
@@ -1615,7 +1615,7 @@ extension AuthorizeDataShareOutputResponseBody: Swift.Decodable {
         dataShareArn = dataShareArnDecoded
         let producerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .producerArn)
         producerArn = producerArnDecoded
-        let allowPubliclyAccessibleConsumersDecoded = try containerValues.decode(Swift.Bool.self, forKey: .allowPubliclyAccessibleConsumers)
+        let allowPubliclyAccessibleConsumersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowPubliclyAccessibleConsumers) ?? false
         allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumersDecoded
         if containerValues.contains(.dataShareAssociations) {
             struct KeyVal0{struct member{}}
@@ -1863,7 +1863,7 @@ extension AuthorizeEndpointAccessOutputResponseBody: Swift.Decodable {
         clusterStatus = clusterStatusDecoded
         let statusDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.AuthorizationStatus.self, forKey: .status)
         status = statusDecoded
-        let allowedAllVPCsDecoded = try containerValues.decode(Swift.Bool.self, forKey: .allowedAllVPCs)
+        let allowedAllVPCsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowedAllVPCs) ?? false
         allowedAllVPCs = allowedAllVPCsDecoded
         if containerValues.contains(.allowedVPCs) {
             struct KeyVal0{struct VpcIdentifier{}}
@@ -1884,7 +1884,7 @@ extension AuthorizeEndpointAccessOutputResponseBody: Swift.Decodable {
         } else {
             allowedVPCs = nil
         }
-        let endpointCountDecoded = try containerValues.decode(Swift.Int.self, forKey: .endpointCount)
+        let endpointCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endpointCount) ?? 0
         endpointCount = endpointCountDecoded
     }
 }
@@ -2407,7 +2407,7 @@ extension BatchModifyClusterSnapshotsInputBody: Swift.Decodable {
         }
         let manualSnapshotRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .manualSnapshotRetentionPeriod)
         manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriodDecoded
-        let forceDecoded = try containerValues.decode(Swift.Bool.self, forKey: .force)
+        let forceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .force) ?? false
         force = forceDecoded
     }
 }
@@ -3283,9 +3283,9 @@ extension RedshiftClientTypes.Cluster: Swift.Codable {
         endpoint = endpointDecoded
         let clusterCreateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .clusterCreateTime)
         clusterCreateTime = clusterCreateTimeDecoded
-        let automatedSnapshotRetentionPeriodDecoded = try containerValues.decode(Swift.Int.self, forKey: .automatedSnapshotRetentionPeriod)
+        let automatedSnapshotRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .automatedSnapshotRetentionPeriod) ?? 0
         automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriodDecoded
-        let manualSnapshotRetentionPeriodDecoded = try containerValues.decode(Swift.Int.self, forKey: .manualSnapshotRetentionPeriod)
+        let manualSnapshotRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .manualSnapshotRetentionPeriod) ?? 0
         manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriodDecoded
         if containerValues.contains(.clusterSecurityGroups) {
             struct KeyVal0{struct ClusterSecurityGroup{}}
@@ -3356,13 +3356,13 @@ extension RedshiftClientTypes.Cluster: Swift.Codable {
         pendingModifiedValues = pendingModifiedValuesDecoded
         let clusterVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterVersion)
         clusterVersion = clusterVersionDecoded
-        let allowVersionUpgradeDecoded = try containerValues.decode(Swift.Bool.self, forKey: .allowVersionUpgrade)
+        let allowVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowVersionUpgrade) ?? false
         allowVersionUpgrade = allowVersionUpgradeDecoded
-        let numberOfNodesDecoded = try containerValues.decode(Swift.Int.self, forKey: .numberOfNodes)
+        let numberOfNodesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfNodes) ?? 0
         numberOfNodes = numberOfNodesDecoded
-        let publiclyAccessibleDecoded = try containerValues.decode(Swift.Bool.self, forKey: .publiclyAccessible)
+        let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible) ?? false
         publiclyAccessible = publiclyAccessibleDecoded
-        let encryptedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .encrypted)
+        let encryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encrypted) ?? false
         encrypted = encryptedDecoded
         let restoreStatusDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.RestoreStatus.self, forKey: .restoreStatus)
         restoreStatus = restoreStatusDecoded
@@ -3418,7 +3418,7 @@ extension RedshiftClientTypes.Cluster: Swift.Codable {
         }
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
-        let enhancedVpcRoutingDecoded = try containerValues.decode(Swift.Bool.self, forKey: .enhancedVpcRouting)
+        let enhancedVpcRoutingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enhancedVpcRouting) ?? false
         enhancedVpcRouting = enhancedVpcRoutingDecoded
         if containerValues.contains(.iamRoles) {
             struct KeyVal0{struct ClusterIamRole{}}
@@ -5107,9 +5107,9 @@ extension RedshiftClientTypes.ClusterSnapshotCopyStatus: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let destinationRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationRegion)
         destinationRegion = destinationRegionDecoded
-        let retentionPeriodDecoded = try containerValues.decode(Swift.Int.self, forKey: .retentionPeriod)
+        let retentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .retentionPeriod) ?? 0
         retentionPeriod = retentionPeriodDecoded
-        let manualSnapshotRetentionPeriodDecoded = try containerValues.decode(Swift.Int.self, forKey: .manualSnapshotRetentionPeriod)
+        let manualSnapshotRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .manualSnapshotRetentionPeriod) ?? 0
         manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriodDecoded
         let snapshotCopyGrantNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotCopyGrantName)
         snapshotCopyGrantName = snapshotCopyGrantNameDecoded
@@ -7744,7 +7744,7 @@ extension CreateEndpointAccessOutputResponseBody: Swift.Decodable {
         endpointName = endpointNameDecoded
         let endpointCreateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .endpointCreateTime)
         endpointCreateTime = endpointCreateTimeDecoded
-        let portDecoded = try containerValues.decode(Swift.Int.self, forKey: .port)
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
         port = portDecoded
         let addressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .address)
         address = addressDecoded
@@ -9379,7 +9379,7 @@ extension CreateUsageLimitInputBody: Swift.Decodable {
         featureType = featureTypeDecoded
         let limitTypeDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.UsageLimitLimitType.self, forKey: .limitType)
         limitType = limitTypeDecoded
-        let amountDecoded = try containerValues.decode(Swift.Int.self, forKey: .amount)
+        let amountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .amount) ?? 0
         amount = amountDecoded
         let periodDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.UsageLimitPeriod.self, forKey: .period)
         period = periodDecoded
@@ -9530,7 +9530,7 @@ extension CreateUsageLimitOutputResponseBody: Swift.Decodable {
         featureType = featureTypeDecoded
         let limitTypeDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.UsageLimitLimitType.self, forKey: .limitType)
         limitType = limitTypeDecoded
-        let amountDecoded = try containerValues.decode(Swift.Int.self, forKey: .amount)
+        let amountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .amount) ?? 0
         amount = amountDecoded
         let periodDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.UsageLimitPeriod.self, forKey: .period)
         period = periodDecoded
@@ -9709,7 +9709,7 @@ extension RedshiftClientTypes.DataShare: Swift.Codable {
         dataShareArn = dataShareArnDecoded
         let producerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .producerArn)
         producerArn = producerArnDecoded
-        let allowPubliclyAccessibleConsumersDecoded = try containerValues.decode(Swift.Bool.self, forKey: .allowPubliclyAccessibleConsumers)
+        let allowPubliclyAccessibleConsumersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowPubliclyAccessibleConsumers) ?? false
         allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumersDecoded
         if containerValues.contains(.dataShareAssociations) {
             struct KeyVal0{struct member{}}
@@ -9996,9 +9996,9 @@ extension RedshiftClientTypes.DataTransferProgress: Swift.Codable {
         status = statusDecoded
         let currentRateInMegaBytesPerSecondDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .currentRateInMegaBytesPerSecond)
         currentRateInMegaBytesPerSecond = currentRateInMegaBytesPerSecondDecoded
-        let totalDataInMegaBytesDecoded = try containerValues.decode(Swift.Int.self, forKey: .totalDataInMegaBytes)
+        let totalDataInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalDataInMegaBytes) ?? 0
         totalDataInMegaBytes = totalDataInMegaBytesDecoded
-        let dataTransferredInMegaBytesDecoded = try containerValues.decode(Swift.Int.self, forKey: .dataTransferredInMegaBytes)
+        let dataTransferredInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .dataTransferredInMegaBytes) ?? 0
         dataTransferredInMegaBytes = dataTransferredInMegaBytesDecoded
         let estimatedTimeToCompletionInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .estimatedTimeToCompletionInSeconds)
         estimatedTimeToCompletionInSeconds = estimatedTimeToCompletionInSecondsDecoded
@@ -10183,7 +10183,7 @@ extension DeauthorizeDataShareOutputResponseBody: Swift.Decodable {
         dataShareArn = dataShareArnDecoded
         let producerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .producerArn)
         producerArn = producerArnDecoded
-        let allowPubliclyAccessibleConsumersDecoded = try containerValues.decode(Swift.Bool.self, forKey: .allowPubliclyAccessibleConsumers)
+        let allowPubliclyAccessibleConsumersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowPubliclyAccessibleConsumers) ?? false
         allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumersDecoded
         if containerValues.contains(.dataShareAssociations) {
             struct KeyVal0{struct member{}}
@@ -10528,7 +10528,7 @@ extension DeleteClusterInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterIdentifier)
         clusterIdentifier = clusterIdentifierDecoded
-        let skipFinalClusterSnapshotDecoded = try containerValues.decode(Swift.Bool.self, forKey: .skipFinalClusterSnapshot)
+        let skipFinalClusterSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .skipFinalClusterSnapshot) ?? false
         skipFinalClusterSnapshot = skipFinalClusterSnapshotDecoded
         let finalClusterSnapshotIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .finalClusterSnapshotIdentifier)
         finalClusterSnapshotIdentifier = finalClusterSnapshotIdentifierDecoded
@@ -11206,7 +11206,7 @@ extension DeleteEndpointAccessOutputResponseBody: Swift.Decodable {
         endpointName = endpointNameDecoded
         let endpointCreateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .endpointCreateTime)
         endpointCreateTime = endpointCreateTimeDecoded
-        let portDecoded = try containerValues.decode(Swift.Int.self, forKey: .port)
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
         port = portDecoded
         let addressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .address)
         address = addressDecoded
@@ -16383,7 +16383,7 @@ extension DescribeLoggingStatusOutputResponseBody: Swift.Decodable {
     public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeLoggingStatusResult"))
-        let loggingEnabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .loggingEnabled)
+        let loggingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .loggingEnabled) ?? false
         loggingEnabled = loggingEnabledDecoded
         let bucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketName)
         bucketName = bucketNameDecoded
@@ -18462,9 +18462,9 @@ extension DescribeStorageOutputResponseBody: Swift.Decodable {
     public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeStorageResult"))
-        let totalBackupSizeInMegaBytesDecoded = try containerValues.decode(Swift.Double.self, forKey: .totalBackupSizeInMegaBytes)
+        let totalBackupSizeInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .totalBackupSizeInMegaBytes) ?? 0
         totalBackupSizeInMegaBytes = totalBackupSizeInMegaBytesDecoded
-        let totalProvisionedStorageInMegaBytesDecoded = try containerValues.decode(Swift.Double.self, forKey: .totalProvisionedStorageInMegaBytes)
+        let totalProvisionedStorageInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .totalProvisionedStorageInMegaBytes) ?? 0
         totalProvisionedStorageInMegaBytes = totalProvisionedStorageInMegaBytesDecoded
     }
 }
@@ -19277,7 +19277,7 @@ extension DisableLoggingOutputResponseBody: Swift.Decodable {
     public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DisableLoggingResult"))
-        let loggingEnabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .loggingEnabled)
+        let loggingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .loggingEnabled) ?? false
         loggingEnabled = loggingEnabledDecoded
         let bucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketName)
         bucketName = bucketNameDecoded
@@ -19576,7 +19576,7 @@ extension DisassociateDataShareConsumerOutputResponseBody: Swift.Decodable {
         dataShareArn = dataShareArnDecoded
         let producerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .producerArn)
         producerArn = producerArnDecoded
-        let allowPubliclyAccessibleConsumersDecoded = try containerValues.decode(Swift.Bool.self, forKey: .allowPubliclyAccessibleConsumers)
+        let allowPubliclyAccessibleConsumersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowPubliclyAccessibleConsumers) ?? false
         allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumersDecoded
         if containerValues.contains(.dataShareAssociations) {
             struct KeyVal0{struct member{}}
@@ -19981,7 +19981,7 @@ extension EnableLoggingOutputResponseBody: Swift.Decodable {
     public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("EnableLoggingResult"))
-        let loggingEnabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .loggingEnabled)
+        let loggingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .loggingEnabled) ?? false
         loggingEnabled = loggingEnabledDecoded
         let bucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketName)
         bucketName = bucketNameDecoded
@@ -20203,7 +20203,7 @@ extension RedshiftClientTypes.Endpoint: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let addressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .address)
         address = addressDecoded
-        let portDecoded = try containerValues.decode(Swift.Int.self, forKey: .port)
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
         port = portDecoded
         if containerValues.contains(.vpcEndpoints) {
             struct KeyVal0{struct VpcEndpoint{}}
@@ -20322,7 +20322,7 @@ extension RedshiftClientTypes.EndpointAccess: Swift.Codable {
         endpointName = endpointNameDecoded
         let endpointCreateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .endpointCreateTime)
         endpointCreateTime = endpointCreateTimeDecoded
-        let portDecoded = try containerValues.decode(Swift.Int.self, forKey: .port)
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
         port = portDecoded
         let addressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .address)
         address = addressDecoded
@@ -20523,7 +20523,7 @@ extension RedshiftClientTypes.EndpointAuthorization: Swift.Codable {
         clusterStatus = clusterStatusDecoded
         let statusDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.AuthorizationStatus.self, forKey: .status)
         status = statusDecoded
-        let allowedAllVPCsDecoded = try containerValues.decode(Swift.Bool.self, forKey: .allowedAllVPCs)
+        let allowedAllVPCsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowedAllVPCs) ?? false
         allowedAllVPCs = allowedAllVPCsDecoded
         if containerValues.contains(.allowedVPCs) {
             struct KeyVal0{struct VpcIdentifier{}}
@@ -20544,7 +20544,7 @@ extension RedshiftClientTypes.EndpointAuthorization: Swift.Codable {
         } else {
             allowedVPCs = nil
         }
-        let endpointCountDecoded = try containerValues.decode(Swift.Int.self, forKey: .endpointCount)
+        let endpointCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endpointCount) ?? 0
         endpointCount = endpointCountDecoded
     }
 }
@@ -21337,7 +21337,7 @@ extension RedshiftClientTypes.EventSubscription: Swift.Codable {
         }
         let severityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .severity)
         severity = severityDecoded
-        let enabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .enabled)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
         enabled = enabledDecoded
         if containerValues.contains(.tags) {
             struct KeyVal0{struct Tag{}}
@@ -26244,7 +26244,7 @@ extension ModifyClusterSnapshotInputBody: Swift.Decodable {
         snapshotIdentifier = snapshotIdentifierDecoded
         let manualSnapshotRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .manualSnapshotRetentionPeriod)
         manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriodDecoded
-        let forceDecoded = try containerValues.decode(Swift.Bool.self, forKey: .force)
+        let forceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .force) ?? false
         force = forceDecoded
     }
 }
@@ -26914,7 +26914,7 @@ extension ModifyEndpointAccessOutputResponseBody: Swift.Decodable {
         endpointName = endpointNameDecoded
         let endpointCreateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .endpointCreateTime)
         endpointCreateTime = endpointCreateTimeDecoded
-        let portDecoded = try containerValues.decode(Swift.Int.self, forKey: .port)
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
         port = portDecoded
         let addressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .address)
         address = addressDecoded
@@ -27505,9 +27505,9 @@ extension ModifySnapshotCopyRetentionPeriodInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterIdentifier)
         clusterIdentifier = clusterIdentifierDecoded
-        let retentionPeriodDecoded = try containerValues.decode(Swift.Int.self, forKey: .retentionPeriod)
+        let retentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .retentionPeriod) ?? 0
         retentionPeriod = retentionPeriodDecoded
-        let manualDecoded = try containerValues.decode(Swift.Bool.self, forKey: .manual)
+        let manualDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .manual) ?? false
         manual = manualDecoded
     }
 }
@@ -28020,7 +28020,7 @@ extension ModifyUsageLimitOutputResponseBody: Swift.Decodable {
         featureType = featureTypeDecoded
         let limitTypeDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.UsageLimitLimitType.self, forKey: .limitType)
         limitType = limitTypeDecoded
-        let amountDecoded = try containerValues.decode(Swift.Int.self, forKey: .amount)
+        let amountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .amount) ?? 0
         amount = amountDecoded
         let periodDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.UsageLimitPeriod.self, forKey: .period)
         period = periodDecoded
@@ -28141,7 +28141,7 @@ extension RedshiftClientTypes.NodeConfigurationOption: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nodeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeType)
         nodeType = nodeTypeDecoded
-        let numberOfNodesDecoded = try containerValues.decode(Swift.Int.self, forKey: .numberOfNodes)
+        let numberOfNodesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfNodes) ?? 0
         numberOfNodes = numberOfNodesDecoded
         let estimatedDiskUtilizationPercentDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .estimatedDiskUtilizationPercent)
         estimatedDiskUtilizationPercent = estimatedDiskUtilizationPercentDecoded
@@ -28603,7 +28603,7 @@ extension RedshiftClientTypes.Parameter: Swift.Codable {
         allowedValues = allowedValuesDecoded
         let applyTypeDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.ParameterApplyType.self, forKey: .applyType)
         applyType = applyTypeDecoded
-        let isModifiableDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isModifiable)
+        let isModifiableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isModifiable) ?? false
         isModifiable = isModifiableDecoded
         let minimumEngineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .minimumEngineVersion)
         minimumEngineVersion = minimumEngineVersionDecoded
@@ -29366,7 +29366,7 @@ extension RedshiftClientTypes.RecurringCharge: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let recurringChargeAmountDecoded = try containerValues.decode(Swift.Double.self, forKey: .recurringChargeAmount)
+        let recurringChargeAmountDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .recurringChargeAmount) ?? 0
         recurringChargeAmount = recurringChargeAmountDecoded
         let recurringChargeFrequencyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recurringChargeFrequency)
         recurringChargeFrequency = recurringChargeFrequencyDecoded
@@ -29521,7 +29521,7 @@ extension RejectDataShareOutputResponseBody: Swift.Decodable {
         dataShareArn = dataShareArnDecoded
         let producerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .producerArn)
         producerArn = producerArnDecoded
-        let allowPubliclyAccessibleConsumersDecoded = try containerValues.decode(Swift.Bool.self, forKey: .allowPubliclyAccessibleConsumers)
+        let allowPubliclyAccessibleConsumersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowPubliclyAccessibleConsumers) ?? false
         allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumersDecoded
         if containerValues.contains(.dataShareAssociations) {
             struct KeyVal0{struct member{}}
@@ -29626,15 +29626,15 @@ extension RedshiftClientTypes.ReservedNode: Swift.Codable {
         nodeType = nodeTypeDecoded
         let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startTime)
         startTime = startTimeDecoded
-        let durationDecoded = try containerValues.decode(Swift.Int.self, forKey: .duration)
+        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration) ?? 0
         duration = durationDecoded
-        let fixedPriceDecoded = try containerValues.decode(Swift.Double.self, forKey: .fixedPrice)
+        let fixedPriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .fixedPrice) ?? 0
         fixedPrice = fixedPriceDecoded
-        let usagePriceDecoded = try containerValues.decode(Swift.Double.self, forKey: .usagePrice)
+        let usagePriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .usagePrice) ?? 0
         usagePrice = usagePriceDecoded
         let currencyCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .currencyCode)
         currencyCode = currencyCodeDecoded
-        let nodeCountDecoded = try containerValues.decode(Swift.Int.self, forKey: .nodeCount)
+        let nodeCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nodeCount) ?? 0
         nodeCount = nodeCountDecoded
         let stateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .state)
         state = stateDecoded
@@ -29870,7 +29870,7 @@ extension RedshiftClientTypes.ReservedNodeConfigurationOption: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceReservedNodeDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.ReservedNode.self, forKey: .sourceReservedNode)
         sourceReservedNode = sourceReservedNodeDecoded
-        let targetReservedNodeCountDecoded = try containerValues.decode(Swift.Int.self, forKey: .targetReservedNodeCount)
+        let targetReservedNodeCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .targetReservedNodeCount) ?? 0
         targetReservedNodeCount = targetReservedNodeCountDecoded
         let targetReservedNodeOfferingDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.ReservedNodeOffering.self, forKey: .targetReservedNodeOffering)
         targetReservedNodeOffering = targetReservedNodeOfferingDecoded
@@ -30043,13 +30043,13 @@ extension RedshiftClientTypes.ReservedNodeExchangeStatus: Swift.Codable {
         sourceReservedNodeId = sourceReservedNodeIdDecoded
         let sourceReservedNodeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceReservedNodeType)
         sourceReservedNodeType = sourceReservedNodeTypeDecoded
-        let sourceReservedNodeCountDecoded = try containerValues.decode(Swift.Int.self, forKey: .sourceReservedNodeCount)
+        let sourceReservedNodeCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sourceReservedNodeCount) ?? 0
         sourceReservedNodeCount = sourceReservedNodeCountDecoded
         let targetReservedNodeOfferingIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetReservedNodeOfferingId)
         targetReservedNodeOfferingId = targetReservedNodeOfferingIdDecoded
         let targetReservedNodeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetReservedNodeType)
         targetReservedNodeType = targetReservedNodeTypeDecoded
-        let targetReservedNodeCountDecoded = try containerValues.decode(Swift.Int.self, forKey: .targetReservedNodeCount)
+        let targetReservedNodeCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .targetReservedNodeCount) ?? 0
         targetReservedNodeCount = targetReservedNodeCountDecoded
     }
 }
@@ -30259,11 +30259,11 @@ extension RedshiftClientTypes.ReservedNodeOffering: Swift.Codable {
         reservedNodeOfferingId = reservedNodeOfferingIdDecoded
         let nodeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeType)
         nodeType = nodeTypeDecoded
-        let durationDecoded = try containerValues.decode(Swift.Int.self, forKey: .duration)
+        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration) ?? 0
         duration = durationDecoded
-        let fixedPriceDecoded = try containerValues.decode(Swift.Double.self, forKey: .fixedPrice)
+        let fixedPriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .fixedPrice) ?? 0
         fixedPrice = fixedPriceDecoded
-        let usagePriceDecoded = try containerValues.decode(Swift.Double.self, forKey: .usagePrice)
+        let usagePriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .usagePrice) ?? 0
         usagePrice = usagePriceDecoded
         let currencyCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .currencyCode)
         currencyCode = currencyCodeDecoded
@@ -30552,7 +30552,7 @@ extension ResetClusterParameterGroupInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let parameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parameterGroupName)
         parameterGroupName = parameterGroupNameDecoded
-        let resetAllParametersDecoded = try containerValues.decode(Swift.Bool.self, forKey: .resetAllParameters)
+        let resetAllParametersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .resetAllParameters) ?? false
         resetAllParameters = resetAllParametersDecoded
         if containerValues.contains(.parameters) {
             struct KeyVal0{struct Parameter{}}
@@ -30933,7 +30933,7 @@ extension RedshiftClientTypes.ResizeInfo: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resizeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resizeType)
         resizeType = resizeTypeDecoded
-        let allowCancelResizeDecoded = try containerValues.decode(Swift.Bool.self, forKey: .allowCancelResize)
+        let allowCancelResizeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowCancelResize) ?? false
         allowCancelResize = allowCancelResizeDecoded
     }
 }
@@ -31677,15 +31677,15 @@ extension RedshiftClientTypes.RestoreStatus: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
-        let currentRestoreRateInMegaBytesPerSecondDecoded = try containerValues.decode(Swift.Double.self, forKey: .currentRestoreRateInMegaBytesPerSecond)
+        let currentRestoreRateInMegaBytesPerSecondDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .currentRestoreRateInMegaBytesPerSecond) ?? 0
         currentRestoreRateInMegaBytesPerSecond = currentRestoreRateInMegaBytesPerSecondDecoded
-        let snapshotSizeInMegaBytesDecoded = try containerValues.decode(Swift.Int.self, forKey: .snapshotSizeInMegaBytes)
+        let snapshotSizeInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .snapshotSizeInMegaBytes) ?? 0
         snapshotSizeInMegaBytes = snapshotSizeInMegaBytesDecoded
-        let progressInMegaBytesDecoded = try containerValues.decode(Swift.Int.self, forKey: .progressInMegaBytes)
+        let progressInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .progressInMegaBytes) ?? 0
         progressInMegaBytes = progressInMegaBytesDecoded
-        let elapsedTimeInSecondsDecoded = try containerValues.decode(Swift.Int.self, forKey: .elapsedTimeInSeconds)
+        let elapsedTimeInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .elapsedTimeInSeconds) ?? 0
         elapsedTimeInSeconds = elapsedTimeInSecondsDecoded
-        let estimatedTimeToCompletionInSecondsDecoded = try containerValues.decode(Swift.Int.self, forKey: .estimatedTimeToCompletionInSeconds)
+        let estimatedTimeToCompletionInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .estimatedTimeToCompletionInSeconds) ?? 0
         estimatedTimeToCompletionInSeconds = estimatedTimeToCompletionInSecondsDecoded
     }
 }
@@ -32345,7 +32345,7 @@ extension RevokeEndpointAccessInputBody: Swift.Decodable {
         } else {
             vpcIds = nil
         }
-        let forceDecoded = try containerValues.decode(Swift.Bool.self, forKey: .force)
+        let forceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .force) ?? false
         force = forceDecoded
     }
 }
@@ -32479,7 +32479,7 @@ extension RevokeEndpointAccessOutputResponseBody: Swift.Decodable {
         clusterStatus = clusterStatusDecoded
         let statusDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.AuthorizationStatus.self, forKey: .status)
         status = statusDecoded
-        let allowedAllVPCsDecoded = try containerValues.decode(Swift.Bool.self, forKey: .allowedAllVPCs)
+        let allowedAllVPCsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowedAllVPCs) ?? false
         allowedAllVPCs = allowedAllVPCsDecoded
         if containerValues.contains(.allowedVPCs) {
             struct KeyVal0{struct VpcIdentifier{}}
@@ -32500,7 +32500,7 @@ extension RevokeEndpointAccessOutputResponseBody: Swift.Decodable {
         } else {
             allowedVPCs = nil
         }
-        let endpointCountDecoded = try containerValues.decode(Swift.Int.self, forKey: .endpointCount)
+        let endpointCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endpointCount) ?? 0
         endpointCount = endpointCountDecoded
     }
 }
@@ -33755,7 +33755,7 @@ extension RedshiftClientTypes.Snapshot: Swift.Codable {
         snapshotCreateTime = snapshotCreateTimeDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
-        let portDecoded = try containerValues.decode(Swift.Int.self, forKey: .port)
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
         port = portDecoded
         let availabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZone)
         availabilityZone = availabilityZoneDecoded
@@ -33771,17 +33771,17 @@ extension RedshiftClientTypes.Snapshot: Swift.Codable {
         snapshotType = snapshotTypeDecoded
         let nodeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeType)
         nodeType = nodeTypeDecoded
-        let numberOfNodesDecoded = try containerValues.decode(Swift.Int.self, forKey: .numberOfNodes)
+        let numberOfNodesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfNodes) ?? 0
         numberOfNodes = numberOfNodesDecoded
         let dbNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbName)
         dbName = dbNameDecoded
         let vpcIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcId)
         vpcId = vpcIdDecoded
-        let encryptedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .encrypted)
+        let encryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encrypted) ?? false
         encrypted = encryptedDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
-        let encryptedWithHSMDecoded = try containerValues.decode(Swift.Bool.self, forKey: .encryptedWithHSM)
+        let encryptedWithHSMDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encryptedWithHSM) ?? false
         encryptedWithHSM = encryptedWithHSMDecoded
         if containerValues.contains(.accountsWithRestoreAccess) {
             struct KeyVal0{struct AccountWithRestoreAccess{}}
@@ -33804,17 +33804,17 @@ extension RedshiftClientTypes.Snapshot: Swift.Codable {
         }
         let ownerAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerAccount)
         ownerAccount = ownerAccountDecoded
-        let totalBackupSizeInMegaBytesDecoded = try containerValues.decode(Swift.Double.self, forKey: .totalBackupSizeInMegaBytes)
+        let totalBackupSizeInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .totalBackupSizeInMegaBytes) ?? 0
         totalBackupSizeInMegaBytes = totalBackupSizeInMegaBytesDecoded
-        let actualIncrementalBackupSizeInMegaBytesDecoded = try containerValues.decode(Swift.Double.self, forKey: .actualIncrementalBackupSizeInMegaBytes)
+        let actualIncrementalBackupSizeInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .actualIncrementalBackupSizeInMegaBytes) ?? 0
         actualIncrementalBackupSizeInMegaBytes = actualIncrementalBackupSizeInMegaBytesDecoded
-        let backupProgressInMegaBytesDecoded = try containerValues.decode(Swift.Double.self, forKey: .backupProgressInMegaBytes)
+        let backupProgressInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .backupProgressInMegaBytes) ?? 0
         backupProgressInMegaBytes = backupProgressInMegaBytesDecoded
-        let currentBackupRateInMegaBytesPerSecondDecoded = try containerValues.decode(Swift.Double.self, forKey: .currentBackupRateInMegaBytesPerSecond)
+        let currentBackupRateInMegaBytesPerSecondDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .currentBackupRateInMegaBytesPerSecond) ?? 0
         currentBackupRateInMegaBytesPerSecond = currentBackupRateInMegaBytesPerSecondDecoded
-        let estimatedSecondsToCompletionDecoded = try containerValues.decode(Swift.Int.self, forKey: .estimatedSecondsToCompletion)
+        let estimatedSecondsToCompletionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .estimatedSecondsToCompletion) ?? 0
         estimatedSecondsToCompletion = estimatedSecondsToCompletionDecoded
-        let elapsedTimeInSecondsDecoded = try containerValues.decode(Swift.Int.self, forKey: .elapsedTimeInSeconds)
+        let elapsedTimeInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .elapsedTimeInSeconds) ?? 0
         elapsedTimeInSeconds = elapsedTimeInSecondsDecoded
         let sourceRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceRegion)
         sourceRegion = sourceRegionDecoded
@@ -33856,7 +33856,7 @@ extension RedshiftClientTypes.Snapshot: Swift.Codable {
         } else {
             restorableNodeTypes = nil
         }
-        let enhancedVpcRoutingDecoded = try containerValues.decode(Swift.Bool.self, forKey: .enhancedVpcRouting)
+        let enhancedVpcRoutingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enhancedVpcRouting) ?? false
         enhancedVpcRouting = enhancedVpcRoutingDecoded
         let maintenanceTrackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .maintenanceTrackName)
         maintenanceTrackName = maintenanceTrackNameDecoded
@@ -36632,7 +36632,7 @@ extension RedshiftClientTypes.UsageLimit: Swift.Codable {
         featureType = featureTypeDecoded
         let limitTypeDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.UsageLimitLimitType.self, forKey: .limitType)
         limitType = limitTypeDecoded
-        let amountDecoded = try containerValues.decode(Swift.Int.self, forKey: .amount)
+        let amountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .amount) ?? 0
         amount = amountDecoded
         let periodDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.UsageLimitPeriod.self, forKey: .period)
         period = periodDecoded

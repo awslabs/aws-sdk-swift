@@ -68,6 +68,17 @@ public struct ElasticsearchClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
 
 extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// Allows the destination domain owner to accept an inbound cross-cluster search connection request.
+    ///
+    /// - Parameter AcceptInboundCrossClusterSearchConnectionInput : Container for the parameters to the [AcceptInboundCrossClusterSearchConnection] operation.
+    ///
+    /// - Returns: `AcceptInboundCrossClusterSearchConnectionOutputResponse` : The result of a [AcceptInboundCrossClusterSearchConnection] operation. Contains details of accepted inbound connection.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
+    /// - `LimitExceededException` : An exception for trying to create more than allowed resources or sub-resources. Gives http status code of 409.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     public func acceptInboundCrossClusterSearchConnection(input: AcceptInboundCrossClusterSearchConnectionInput) async throws -> AcceptInboundCrossClusterSearchConnectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -101,6 +112,18 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Attaches tags to an existing Elasticsearch domain. Tags are a set of case-sensitive key value pairs. An Elasticsearch domain may have up to 10 tags. See [ Tagging Amazon Elasticsearch Service Domains for more information.](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-managedomains.html#es-managedomains-awsresorcetagging)
+    ///
+    /// - Parameter AddTagsInput : Container for the parameters to the [AddTags] operation. Specify the tags that you want to attach to the Elasticsearch domain.
+    ///
+    /// - Returns: `AddTagsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `LimitExceededException` : An exception for trying to create more than allowed resources or sub-resources. Gives http status code of 409.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func addTags(input: AddTagsInput) async throws -> AddTagsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -137,6 +160,20 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Associates a package with an Amazon ES domain.
+    ///
+    /// - Parameter AssociatePackageInput : Container for request parameters to [AssociatePackage] operation.
+    ///
+    /// - Returns: `AssociatePackageOutputResponse` : Container for response returned by [AssociatePackage] operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An error occurred because user does not have permissions to access the resource. Returns HTTP status code 403.
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `ConflictException` : An error occurred because the client attempts to remove a resource that is currently in use. Returns HTTP status code 409.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func associatePackage(input: AssociatePackageInput) async throws -> AssociatePackageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -170,6 +207,20 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
+    ///
+    /// - Parameter AuthorizeVpcEndpointAccessInput : Container for request parameters to the [AuthorizeVpcEndpointAccess] operation. Specifies the account to be permitted to manage VPC endpoints against the domain.
+    ///
+    /// - Returns: `AuthorizeVpcEndpointAccessOutputResponse` : Container for response parameters to the [AuthorizeVpcEndpointAccess] operation. Contains the account ID and the type of the account being authorized to access the VPC endpoint.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `LimitExceededException` : An exception for trying to create more than allowed resources or sub-resources. Gives http status code of 409.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func authorizeVpcEndpointAccess(input: AuthorizeVpcEndpointAccessInput) async throws -> AuthorizeVpcEndpointAccessOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -206,6 +257,18 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Cancels a scheduled service software update for an Amazon ES domain. You can only perform this operation before the AutomatedUpdateDate and when the UpdateStatus is in the PENDING_UPDATE state.
+    ///
+    /// - Parameter CancelElasticsearchServiceSoftwareUpdateInput : Container for the parameters to the [CancelElasticsearchServiceSoftwareUpdate] operation. Specifies the name of the Elasticsearch domain that you wish to cancel a service software update on.
+    ///
+    /// - Returns: `CancelElasticsearchServiceSoftwareUpdateOutputResponse` : The result of a CancelElasticsearchServiceSoftwareUpdate operation. Contains the status of the update.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func cancelElasticsearchServiceSoftwareUpdate(input: CancelElasticsearchServiceSoftwareUpdateInput) async throws -> CancelElasticsearchServiceSoftwareUpdateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -242,6 +305,21 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Creates a new Elasticsearch domain. For more information, see [Creating Elasticsearch Domains](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-createupdatedomains.html#es-createdomains) in the Amazon Elasticsearch Service Developer Guide.
+    ///
+    /// - Parameter CreateElasticsearchDomainInput : [no documentation found]
+    ///
+    /// - Returns: `CreateElasticsearchDomainOutputResponse` : The result of a CreateElasticsearchDomain operation. Contains the status of the newly created Elasticsearch domain.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `InvalidTypeException` : An exception for trying to create or access sub-resource that is either invalid or not supported. Gives http status code of 409.
+    /// - `LimitExceededException` : An exception for trying to create more than allowed resources or sub-resources. Gives http status code of 409.
+    /// - `ResourceAlreadyExistsException` : An exception for creating a resource that already exists. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func createElasticsearchDomain(input: CreateElasticsearchDomainInput) async throws -> CreateElasticsearchDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -278,6 +356,18 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Creates a new cross-cluster search connection from a source domain to a destination domain.
+    ///
+    /// - Parameter CreateOutboundCrossClusterSearchConnectionInput : Container for the parameters to the [CreateOutboundCrossClusterSearchConnection] operation.
+    ///
+    /// - Returns: `CreateOutboundCrossClusterSearchConnectionOutputResponse` : The result of a [CreateOutboundCrossClusterSearchConnection] request. Contains the details of the newly created cross-cluster search connection.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `LimitExceededException` : An exception for trying to create more than allowed resources or sub-resources. Gives http status code of 409.
+    /// - `ResourceAlreadyExistsException` : An exception for creating a resource that already exists. Gives http status code of 400.
     public func createOutboundCrossClusterSearchConnection(input: CreateOutboundCrossClusterSearchConnectionInput) async throws -> CreateOutboundCrossClusterSearchConnectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -314,6 +404,21 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Create a package for use with Amazon ES domains.
+    ///
+    /// - Parameter CreatePackageInput : Container for request parameters to [CreatePackage] operation.
+    ///
+    /// - Returns: `CreatePackageOutputResponse` : Container for response returned by [CreatePackage] operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An error occurred because user does not have permissions to access the resource. Returns HTTP status code 403.
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `InvalidTypeException` : An exception for trying to create or access sub-resource that is either invalid or not supported. Gives http status code of 409.
+    /// - `LimitExceededException` : An exception for trying to create more than allowed resources or sub-resources. Gives http status code of 409.
+    /// - `ResourceAlreadyExistsException` : An exception for creating a resource that already exists. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func createPackage(input: CreatePackageInput) async throws -> CreatePackageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -350,6 +455,20 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Creates an Amazon OpenSearch Service-managed VPC endpoint.
+    ///
+    /// - Parameter CreateVpcEndpointInput : Container for the parameters to the [CreateVpcEndpointRequest] operation.
+    ///
+    /// - Returns: `CreateVpcEndpointOutputResponse` : Container for response parameters to the [CreateVpcEndpoint] operation. Contains the configuration and status of the VPC Endpoint being created.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `ConflictException` : An error occurred because the client attempts to remove a resource that is currently in use. Returns HTTP status code 409.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `LimitExceededException` : An exception for trying to create more than allowed resources or sub-resources. Gives http status code of 409.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func createVpcEndpoint(input: CreateVpcEndpointInput) async throws -> CreateVpcEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -386,6 +505,18 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Permanently deletes the specified Elasticsearch domain and all of its data. Once a domain is deleted, it cannot be recovered.
+    ///
+    /// - Parameter DeleteElasticsearchDomainInput : Container for the parameters to the [DeleteElasticsearchDomain] operation. Specifies the name of the Elasticsearch domain that you want to delete.
+    ///
+    /// - Returns: `DeleteElasticsearchDomainOutputResponse` : The result of a DeleteElasticsearchDomain request. Contains the status of the pending deletion, or no status if the domain and all of its resources have been deleted.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func deleteElasticsearchDomain(input: DeleteElasticsearchDomainInput) async throws -> DeleteElasticsearchDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -419,6 +550,17 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Deletes the service-linked role that Elasticsearch Service uses to manage and maintain VPC domains. Role deletion will fail if any existing VPC domains use the role. You must delete any such Elasticsearch domains before deleting the role. See [Deleting Elasticsearch Service Role](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-vpc.html#es-enabling-slr) in VPC Endpoints for Amazon Elasticsearch Service Domains.
+    ///
+    /// - Parameter DeleteElasticsearchServiceRoleInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteElasticsearchServiceRoleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func deleteElasticsearchServiceRole(input: DeleteElasticsearchServiceRoleInput) async throws -> DeleteElasticsearchServiceRoleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -452,6 +594,16 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Allows the destination domain owner to delete an existing inbound cross-cluster search connection.
+    ///
+    /// - Parameter DeleteInboundCrossClusterSearchConnectionInput : Container for the parameters to the [DeleteInboundCrossClusterSearchConnection] operation.
+    ///
+    /// - Returns: `DeleteInboundCrossClusterSearchConnectionOutputResponse` : The result of a [DeleteInboundCrossClusterSearchConnection] operation. Contains details of deleted inbound connection.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     public func deleteInboundCrossClusterSearchConnection(input: DeleteInboundCrossClusterSearchConnectionInput) async throws -> DeleteInboundCrossClusterSearchConnectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -485,6 +637,16 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Allows the source domain owner to delete an existing outbound cross-cluster search connection.
+    ///
+    /// - Parameter DeleteOutboundCrossClusterSearchConnectionInput : Container for the parameters to the [DeleteOutboundCrossClusterSearchConnection] operation.
+    ///
+    /// - Returns: `DeleteOutboundCrossClusterSearchConnectionOutputResponse` : The result of a [DeleteOutboundCrossClusterSearchConnection] operation. Contains details of deleted outbound connection.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     public func deleteOutboundCrossClusterSearchConnection(input: DeleteOutboundCrossClusterSearchConnectionInput) async throws -> DeleteOutboundCrossClusterSearchConnectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -518,6 +680,20 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Delete the package.
+    ///
+    /// - Parameter DeletePackageInput : Container for request parameters to [DeletePackage] operation.
+    ///
+    /// - Returns: `DeletePackageOutputResponse` : Container for response parameters to [DeletePackage] operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An error occurred because user does not have permissions to access the resource. Returns HTTP status code 403.
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `ConflictException` : An error occurred because the client attempts to remove a resource that is currently in use. Returns HTTP status code 409.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func deletePackage(input: DeletePackageInput) async throws -> DeletePackageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -551,6 +727,18 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
+    ///
+    /// - Parameter DeleteVpcEndpointInput : Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
+    ///
+    /// - Returns: `DeleteVpcEndpointOutputResponse` : Container for response parameters to the [DeleteVpcEndpoint] operation. Contains the summarized detail of the VPC Endpoint being deleted.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     public func deleteVpcEndpoint(input: DeleteVpcEndpointInput) async throws -> DeleteVpcEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -584,6 +772,18 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Provides scheduled Auto-Tune action details for the Elasticsearch domain, such as Auto-Tune action type, description, severity, and scheduled date.
+    ///
+    /// - Parameter DescribeDomainAutoTunesInput : Container for the parameters to the DescribeDomainAutoTunes operation.
+    ///
+    /// - Returns: `DescribeDomainAutoTunesOutputResponse` : The result of DescribeDomainAutoTunes request. See the [Developer Guide](https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html) for more information.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func describeDomainAutoTunes(input: DescribeDomainAutoTunesInput) async throws -> DescribeDomainAutoTunesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -620,6 +820,18 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Returns information about the current blue/green deployment happening on a domain, including a change ID, status, and progress stages.
+    ///
+    /// - Parameter DescribeDomainChangeProgressInput : Container for the parameters to the DescribeDomainChangeProgress operation. Specifies the domain name and optional change specific identity for which you want progress information.
+    ///
+    /// - Returns: `DescribeDomainChangeProgressOutputResponse` : The result of a DescribeDomainChangeProgress request. Contains the progress information of the requested domain change.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func describeDomainChangeProgress(input: DescribeDomainChangeProgressInput) async throws -> DescribeDomainChangeProgressOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -654,6 +866,18 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Returns domain configuration information about the specified Elasticsearch domain, including the domain ID, domain endpoint, and domain ARN.
+    ///
+    /// - Parameter DescribeElasticsearchDomainInput : Container for the parameters to the [DescribeElasticsearchDomain] operation.
+    ///
+    /// - Returns: `DescribeElasticsearchDomainOutputResponse` : The result of a DescribeElasticsearchDomain request. Contains the status of the domain specified in the request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func describeElasticsearchDomain(input: DescribeElasticsearchDomainInput) async throws -> DescribeElasticsearchDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -687,6 +911,18 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Provides cluster configuration information about the specified Elasticsearch domain, such as the state, creation date, update version, and update date for cluster options.
+    ///
+    /// - Parameter DescribeElasticsearchDomainConfigInput : Container for the parameters to the DescribeElasticsearchDomainConfig operation. Specifies the domain name for which you want configuration information.
+    ///
+    /// - Returns: `DescribeElasticsearchDomainConfigOutputResponse` : The result of a DescribeElasticsearchDomainConfig request. Contains the configuration information of the requested domain.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func describeElasticsearchDomainConfig(input: DescribeElasticsearchDomainConfigInput) async throws -> DescribeElasticsearchDomainConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -720,6 +956,17 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Returns domain configuration information about the specified Elasticsearch domains, including the domain ID, domain endpoint, and domain ARN.
+    ///
+    /// - Parameter DescribeElasticsearchDomainsInput : Container for the parameters to the [DescribeElasticsearchDomains] operation. By default, the API returns the status of all Elasticsearch domains.
+    ///
+    /// - Returns: `DescribeElasticsearchDomainsOutputResponse` : The result of a DescribeElasticsearchDomains request. Contains the status of the specified domains or all domains owned by the account.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func describeElasticsearchDomains(input: DescribeElasticsearchDomainsInput) async throws -> DescribeElasticsearchDomainsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -756,6 +1003,20 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Describe Elasticsearch Limits for a given InstanceType and ElasticsearchVersion. When modifying existing Domain, specify the [DomainName] to know what Limits are supported for modifying.
+    ///
+    /// - Parameter DescribeElasticsearchInstanceTypeLimitsInput : Container for the parameters to [DescribeElasticsearchInstanceTypeLimits] operation.
+    ///
+    /// - Returns: `DescribeElasticsearchInstanceTypeLimitsOutputResponse` : Container for the parameters received from [DescribeElasticsearchInstanceTypeLimits] operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `InvalidTypeException` : An exception for trying to create or access sub-resource that is either invalid or not supported. Gives http status code of 409.
+    /// - `LimitExceededException` : An exception for trying to create more than allowed resources or sub-resources. Gives http status code of 409.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func describeElasticsearchInstanceTypeLimits(input: DescribeElasticsearchInstanceTypeLimitsInput) async throws -> DescribeElasticsearchInstanceTypeLimitsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -790,6 +1051,16 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Lists all the inbound cross-cluster search connections for a destination domain.
+    ///
+    /// - Parameter DescribeInboundCrossClusterSearchConnectionsInput : Container for the parameters to the [DescribeInboundCrossClusterSearchConnections] operation.
+    ///
+    /// - Returns: `DescribeInboundCrossClusterSearchConnectionsOutputResponse` : The result of a [DescribeInboundCrossClusterSearchConnections] request. Contains the list of connections matching the filter criteria.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
+    /// - `InvalidPaginationTokenException` : The request processing has failed because of invalid pagination token provided by customer. Returns an HTTP status code of 400.
     public func describeInboundCrossClusterSearchConnections(input: DescribeInboundCrossClusterSearchConnectionsInput) async throws -> DescribeInboundCrossClusterSearchConnectionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -826,6 +1097,16 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Lists all the outbound cross-cluster search connections for a source domain.
+    ///
+    /// - Parameter DescribeOutboundCrossClusterSearchConnectionsInput : Container for the parameters to the [DescribeOutboundCrossClusterSearchConnections] operation.
+    ///
+    /// - Returns: `DescribeOutboundCrossClusterSearchConnectionsOutputResponse` : The result of a [DescribeOutboundCrossClusterSearchConnections] request. Contains the list of connections matching the filter criteria.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
+    /// - `InvalidPaginationTokenException` : The request processing has failed because of invalid pagination token provided by customer. Returns an HTTP status code of 400.
     public func describeOutboundCrossClusterSearchConnections(input: DescribeOutboundCrossClusterSearchConnectionsInput) async throws -> DescribeOutboundCrossClusterSearchConnectionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -862,6 +1143,19 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Describes all packages available to Amazon ES. Includes options for filtering, limiting the number of results, and pagination.
+    ///
+    /// - Parameter DescribePackagesInput : Container for request parameters to [DescribePackage] operation.
+    ///
+    /// - Returns: `DescribePackagesOutputResponse` : Container for response returned by [DescribePackages] operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An error occurred because user does not have permissions to access the resource. Returns HTTP status code 403.
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func describePackages(input: DescribePackagesInput) async throws -> DescribePackagesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -898,6 +1192,18 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Lists available reserved Elasticsearch instance offerings.
+    ///
+    /// - Parameter DescribeReservedElasticsearchInstanceOfferingsInput : Container for parameters to DescribeReservedElasticsearchInstanceOfferings
+    ///
+    /// - Returns: `DescribeReservedElasticsearchInstanceOfferingsOutputResponse` : Container for results from DescribeReservedElasticsearchInstanceOfferings
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func describeReservedElasticsearchInstanceOfferings(input: DescribeReservedElasticsearchInstanceOfferingsInput) async throws -> DescribeReservedElasticsearchInstanceOfferingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -932,6 +1238,18 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Returns information about reserved Elasticsearch instances for this account.
+    ///
+    /// - Parameter DescribeReservedElasticsearchInstancesInput : Container for parameters to DescribeReservedElasticsearchInstances
+    ///
+    /// - Returns: `DescribeReservedElasticsearchInstancesOutputResponse` : Container for results from DescribeReservedElasticsearchInstances
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func describeReservedElasticsearchInstances(input: DescribeReservedElasticsearchInstancesInput) async throws -> DescribeReservedElasticsearchInstancesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -966,6 +1284,18 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
+    ///
+    /// - Parameter DescribeVpcEndpointsInput : Container for request parameters to the [DescribeVpcEndpoints] operation. Specifies the list of VPC endpoints to be described.
+    ///
+    /// - Returns: `DescribeVpcEndpointsOutputResponse` : Container for response parameters to the [DescribeVpcEndpoints] operation. Returns a list containing configuration details and status of the VPC Endpoints as well as a list containing error responses of the endpoints that could not be described
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func describeVpcEndpoints(input: DescribeVpcEndpointsInput) async throws -> DescribeVpcEndpointsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1002,6 +1332,20 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Dissociates a package from the Amazon ES domain.
+    ///
+    /// - Parameter DissociatePackageInput : Container for request parameters to [DissociatePackage] operation.
+    ///
+    /// - Returns: `DissociatePackageOutputResponse` : Container for response returned by [DissociatePackage] operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An error occurred because user does not have permissions to access the resource. Returns HTTP status code 403.
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `ConflictException` : An error occurred because the client attempts to remove a resource that is currently in use. Returns HTTP status code 409.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func dissociatePackage(input: DissociatePackageInput) async throws -> DissociatePackageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1035,6 +1379,19 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Returns a list of upgrade compatible Elastisearch versions. You can optionally pass a [DomainName] to get all upgrade compatible Elasticsearch versions for that specific domain.
+    ///
+    /// - Parameter GetCompatibleElasticsearchVersionsInput : Container for request parameters to [GetCompatibleElasticsearchVersions] operation.
+    ///
+    /// - Returns: `GetCompatibleElasticsearchVersionsOutputResponse` : Container for response returned by [GetCompatibleElasticsearchVersions] operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func getCompatibleElasticsearchVersions(input: GetCompatibleElasticsearchVersionsInput) async throws -> GetCompatibleElasticsearchVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1069,6 +1426,19 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Returns a list of versions of the package, along with their creation time and commit message.
+    ///
+    /// - Parameter GetPackageVersionHistoryInput : Container for request parameters to [GetPackageVersionHistory] operation.
+    ///
+    /// - Returns: `GetPackageVersionHistoryOutputResponse` : Container for response returned by [GetPackageVersionHistory] operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An error occurred because user does not have permissions to access the resource. Returns HTTP status code 403.
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func getPackageVersionHistory(input: GetPackageVersionHistoryInput) async throws -> GetPackageVersionHistoryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1103,6 +1473,19 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Retrieves the complete history of the last 10 upgrades that were performed on the domain.
+    ///
+    /// - Parameter GetUpgradeHistoryInput : Container for request parameters to [GetUpgradeHistory] operation.
+    ///
+    /// - Returns: `GetUpgradeHistoryOutputResponse` : Container for response returned by [GetUpgradeHistory] operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func getUpgradeHistory(input: GetUpgradeHistoryInput) async throws -> GetUpgradeHistoryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1137,6 +1520,19 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Retrieves the latest status of the last upgrade or upgrade eligibility check that was performed on the domain.
+    ///
+    /// - Parameter GetUpgradeStatusInput : Container for request parameters to [GetUpgradeStatus] operation.
+    ///
+    /// - Returns: `GetUpgradeStatusOutputResponse` : Container for response returned by [GetUpgradeStatus] operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func getUpgradeStatus(input: GetUpgradeStatusInput) async throws -> GetUpgradeStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1170,6 +1566,16 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Returns the name of all Elasticsearch domains owned by the current user's account.
+    ///
+    /// - Parameter ListDomainNamesInput : Container for the parameters to the [ListDomainNames] operation.
+    ///
+    /// - Returns: `ListDomainNamesOutputResponse` : The result of a ListDomainNames operation. Contains the names of all domains owned by this account and their respective engine types.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func listDomainNames(input: ListDomainNamesInput) async throws -> ListDomainNamesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1204,6 +1610,19 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Lists all Amazon ES domains associated with the package.
+    ///
+    /// - Parameter ListDomainsForPackageInput : Container for request parameters to [ListDomainsForPackage] operation.
+    ///
+    /// - Returns: `ListDomainsForPackageOutputResponse` : Container for response parameters to [ListDomainsForPackage] operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An error occurred because user does not have permissions to access the resource. Returns HTTP status code 403.
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func listDomainsForPackage(input: ListDomainsForPackageInput) async throws -> ListDomainsForPackageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1238,6 +1657,18 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// List all Elasticsearch instance types that are supported for given ElasticsearchVersion
+    ///
+    /// - Parameter ListElasticsearchInstanceTypesInput : Container for the parameters to the [ListElasticsearchInstanceTypes] operation.
+    ///
+    /// - Returns: `ListElasticsearchInstanceTypesOutputResponse` : Container for the parameters returned by [ListElasticsearchInstanceTypes] operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func listElasticsearchInstanceTypes(input: ListElasticsearchInstanceTypesInput) async throws -> ListElasticsearchInstanceTypesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1272,6 +1703,18 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// List all supported Elasticsearch versions
+    ///
+    /// - Parameter ListElasticsearchVersionsInput : Container for the parameters to the [ListElasticsearchVersions] operation. Use [MaxResults] to control the maximum number of results to retrieve in a single call. Use [NextToken] in response to retrieve more results. If the received response does not contain a NextToken, then there are no more results to retrieve.
+    ///
+    /// - Returns: `ListElasticsearchVersionsOutputResponse` : Container for the parameters for response received from [ListElasticsearchVersions] operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func listElasticsearchVersions(input: ListElasticsearchVersionsInput) async throws -> ListElasticsearchVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1306,6 +1749,19 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Lists all packages associated with the Amazon ES domain.
+    ///
+    /// - Parameter ListPackagesForDomainInput : Container for request parameters to [ListPackagesForDomain] operation.
+    ///
+    /// - Returns: `ListPackagesForDomainOutputResponse` : Container for response parameters to [ListPackagesForDomain] operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An error occurred because user does not have permissions to access the resource. Returns HTTP status code 403.
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func listPackagesForDomain(input: ListPackagesForDomainInput) async throws -> ListPackagesForDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1340,6 +1796,18 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Returns all tags for the given Elasticsearch domain.
+    ///
+    /// - Parameter ListTagsInput : Container for the parameters to the [ListTags] operation. Specify the ARN for the Elasticsearch domain to which the tags are attached that you want to view are attached.
+    ///
+    /// - Returns: `ListTagsOutputResponse` : The result of a ListTags operation. Contains tags for all requested Elasticsearch domains.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func listTags(input: ListTagsInput) async throws -> ListTagsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1374,6 +1842,18 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Retrieves information about each principal that is allowed to access a given Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
+    ///
+    /// - Parameter ListVpcEndpointAccessInput : Retrieves information about each principal that is allowed to access a given Amazon OpenSearch Service domain through the use of an interface VPC endpoint
+    ///
+    /// - Returns: `ListVpcEndpointAccessOutputResponse` : Container for response parameters to the [ListVpcEndpointAccess] operation. Returns a list of accounts id and account type authorized to manage VPC endpoints.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     public func listVpcEndpointAccess(input: ListVpcEndpointAccessInput) async throws -> ListVpcEndpointAccessOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1408,6 +1888,17 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current account and Region.
+    ///
+    /// - Parameter ListVpcEndpointsInput : Container for request parameters to the [ListVpcEndpoints] operation.
+    ///
+    /// - Returns: `ListVpcEndpointsOutputResponse` : Container for response parameters to the [ListVpcEndpoints] operation. Returns a list containing summarized details of the VPC endpoints.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     public func listVpcEndpoints(input: ListVpcEndpointsInput) async throws -> ListVpcEndpointsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1442,6 +1933,18 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a particular domain.
+    ///
+    /// - Parameter ListVpcEndpointsForDomainInput : Container for request parameters to the [ListVpcEndpointsForDomain] operation. Specifies the domain whose VPC endpoints will be listed.
+    ///
+    /// - Returns: `ListVpcEndpointsForDomainOutputResponse` : Container for response parameters to the [ListVpcEndpointsForDomain] operation. Returns a list containing summarized details of the VPC endpoints.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     public func listVpcEndpointsForDomain(input: ListVpcEndpointsForDomainInput) async throws -> ListVpcEndpointsForDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1476,6 +1979,20 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Allows you to purchase reserved Elasticsearch instances.
+    ///
+    /// - Parameter PurchaseReservedElasticsearchInstanceOfferingInput : Container for parameters to PurchaseReservedElasticsearchInstanceOffering
+    ///
+    /// - Returns: `PurchaseReservedElasticsearchInstanceOfferingOutputResponse` : Represents the output of a PurchaseReservedElasticsearchInstanceOffering operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `LimitExceededException` : An exception for trying to create more than allowed resources or sub-resources. Gives http status code of 409.
+    /// - `ResourceAlreadyExistsException` : An exception for creating a resource that already exists. Gives http status code of 400.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func purchaseReservedElasticsearchInstanceOffering(input: PurchaseReservedElasticsearchInstanceOfferingInput) async throws -> PurchaseReservedElasticsearchInstanceOfferingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1512,6 +2029,16 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Allows the destination domain owner to reject an inbound cross-cluster search connection request.
+    ///
+    /// - Parameter RejectInboundCrossClusterSearchConnectionInput : Container for the parameters to the [RejectInboundCrossClusterSearchConnection] operation.
+    ///
+    /// - Returns: `RejectInboundCrossClusterSearchConnectionOutputResponse` : The result of a [RejectInboundCrossClusterSearchConnection] operation. Contains details of rejected inbound connection.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     public func rejectInboundCrossClusterSearchConnection(input: RejectInboundCrossClusterSearchConnectionInput) async throws -> RejectInboundCrossClusterSearchConnectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1545,6 +2072,17 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Removes the specified set of tags from the specified Elasticsearch domain.
+    ///
+    /// - Parameter RemoveTagsInput : Container for the parameters to the [RemoveTags] operation. Specify the ARN for the Elasticsearch domain from which you want to remove the specified TagKey.
+    ///
+    /// - Returns: `RemoveTagsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func removeTags(input: RemoveTagsInput) async throws -> RemoveTagsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1581,6 +2119,19 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Revokes access to an Amazon OpenSearch Service domain that was provided through an interface VPC endpoint.
+    ///
+    /// - Parameter RevokeVpcEndpointAccessInput : Revokes access to an Amazon OpenSearch Service domain that was provided through an interface VPC endpoint.
+    ///
+    /// - Returns: `RevokeVpcEndpointAccessOutputResponse` : Container for response parameters to the [RevokeVpcEndpointAccess] operation. The response body for this operation is empty.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func revokeVpcEndpointAccess(input: RevokeVpcEndpointAccessInput) async throws -> RevokeVpcEndpointAccessOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1617,6 +2168,18 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Schedules a service software update for an Amazon ES domain.
+    ///
+    /// - Parameter StartElasticsearchServiceSoftwareUpdateInput : Container for the parameters to the [StartElasticsearchServiceSoftwareUpdate] operation. Specifies the name of the Elasticsearch domain that you wish to schedule a service software update on.
+    ///
+    /// - Returns: `StartElasticsearchServiceSoftwareUpdateOutputResponse` : The result of a StartElasticsearchServiceSoftwareUpdate operation. Contains the status of the update.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func startElasticsearchServiceSoftwareUpdate(input: StartElasticsearchServiceSoftwareUpdateInput) async throws -> StartElasticsearchServiceSoftwareUpdateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1653,6 +2216,20 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Modifies the cluster configuration of the specified Elasticsearch domain, setting as setting the instance type and the number of instances.
+    ///
+    /// - Parameter UpdateElasticsearchDomainConfigInput : Container for the parameters to the [UpdateElasticsearchDomain] operation. Specifies the type and number of instances in the domain cluster.
+    ///
+    /// - Returns: `UpdateElasticsearchDomainConfigOutputResponse` : The result of an UpdateElasticsearchDomain request. Contains the status of the Elasticsearch domain being updated.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `InvalidTypeException` : An exception for trying to create or access sub-resource that is either invalid or not supported. Gives http status code of 409.
+    /// - `LimitExceededException` : An exception for trying to create more than allowed resources or sub-resources. Gives http status code of 409.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func updateElasticsearchDomainConfig(input: UpdateElasticsearchDomainConfigInput) async throws -> UpdateElasticsearchDomainConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1689,6 +2266,20 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Updates a package for use with Amazon ES domains.
+    ///
+    /// - Parameter UpdatePackageInput : Container for request parameters to [UpdatePackage] operation.
+    ///
+    /// - Returns: `UpdatePackageOutputResponse` : Container for response returned by [UpdatePackage] operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An error occurred because user does not have permissions to access the resource. Returns HTTP status code 403.
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `LimitExceededException` : An exception for trying to create more than allowed resources or sub-resources. Gives http status code of 409.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func updatePackage(input: UpdatePackageInput) async throws -> UpdatePackageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1725,6 +2316,20 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
+    ///
+    /// - Parameter UpdateVpcEndpointInput : Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
+    ///
+    /// - Returns: `UpdateVpcEndpointOutputResponse` : Contains the configuration and status of the VPC endpoint being updated.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `ConflictException` : An error occurred because the client attempts to remove a resource that is currently in use. Returns HTTP status code 409.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func updateVpcEndpoint(input: UpdateVpcEndpointInput) async throws -> UpdateVpcEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1761,6 +2366,20 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     }
 
     /// Allows you to either upgrade your domain or perform an Upgrade eligibility check to a compatible Elasticsearch version.
+    ///
+    /// - Parameter UpgradeElasticsearchDomainInput : Container for request parameters to [UpgradeElasticsearchDomain] operation.
+    ///
+    /// - Returns: `UpgradeElasticsearchDomainOutputResponse` : Container for response returned by [UpgradeElasticsearchDomain] operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ResourceAlreadyExistsException` : An exception for creating a resource that already exists. Gives http status code of 400.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     public func upgradeElasticsearchDomain(input: UpgradeElasticsearchDomainInput) async throws -> UpgradeElasticsearchDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

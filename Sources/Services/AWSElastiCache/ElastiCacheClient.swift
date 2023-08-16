@@ -64,6 +64,26 @@ public struct ElastiCacheClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFac
 
 extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/IAM.ResourceLevelPermissions.html). For example, you can use cost-allocation tags to your ElastiCache resources, Amazon generates a cost allocation report as a comma-separated value (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories (such as cost centers, application names, or owners) to organize your costs across multiple services. For more information, see [Using Cost Allocation Tags in Amazon ElastiCache](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Tagging.html) in the ElastiCache User Guide.
+    ///
+    /// - Parameter AddTagsToResourceInput : Represents the input of an AddTagsToResource operation.
+    ///
+    /// - Returns: `AddTagsToResourceOutputResponse` : Represents the output from the AddTagsToResource, ListTagsForResource, and RemoveTagsFromResource operations.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CacheClusterNotFoundFault` : The requested cluster ID does not refer to an existing cluster.
+    /// - `CacheParameterGroupNotFoundFault` : The requested cache parameter group name does not refer to an existing cache parameter group.
+    /// - `CacheSecurityGroupNotFoundFault` : The requested cache security group name does not refer to an existing cache security group.
+    /// - `CacheSubnetGroupNotFoundFault` : The requested cache subnet group name does not refer to an existing cache subnet group.
+    /// - `InvalidARNFault` : The requested Amazon Resource Name (ARN) does not refer to an existing resource.
+    /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
+    /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
+    /// - `ReservedCacheNodeNotFoundFault` : The requested reserved cache node was not found.
+    /// - `SnapshotNotFoundFault` : The requested snapshot name does not refer to an existing snapshot.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
+    /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
+    /// - `UserNotFoundFault` : The user does not exist or could not be found.
     public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -100,6 +120,19 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Allows network ingress to a cache security group. Applications using ElastiCache must be running on Amazon EC2, and Amazon EC2 security groups are used as the authorization mechanism. You cannot authorize ingress from an Amazon EC2 security group in one region to an ElastiCache cluster in another region.
+    ///
+    /// - Parameter AuthorizeCacheSecurityGroupIngressInput : Represents the input of an AuthorizeCacheSecurityGroupIngress operation.
+    ///
+    /// - Returns: `AuthorizeCacheSecurityGroupIngressOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationAlreadyExistsFault` : The specified Amazon EC2 security group is already authorized for the specified cache security group.
+    /// - `CacheSecurityGroupNotFoundFault` : The requested cache security group name does not refer to an existing cache security group.
+    /// - `InvalidCacheSecurityGroupStateFault` : The current state of the cache security group does not allow deletion.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     public func authorizeCacheSecurityGroupIngress(input: AuthorizeCacheSecurityGroupIngressInput) async throws -> AuthorizeCacheSecurityGroupIngressOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -136,6 +169,16 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Apply the service update. For more information on service updates and applying them, see [Applying Service Updates](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/applying-updates.html).
+    ///
+    /// - Parameter BatchApplyUpdateActionInput : [no documentation found]
+    ///
+    /// - Returns: `BatchApplyUpdateActionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `ServiceUpdateNotFoundFault` : The service update doesn't exist
     public func batchApplyUpdateAction(input: BatchApplyUpdateActionInput) async throws -> BatchApplyUpdateActionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -172,6 +215,16 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Stop the service update. For more information on service updates and stopping them, see [Stopping Service Updates](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/stopping-self-service-updates.html).
+    ///
+    /// - Parameter BatchStopUpdateActionInput : [no documentation found]
+    ///
+    /// - Returns: `BatchStopUpdateActionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `ServiceUpdateNotFoundFault` : The service update doesn't exist
     public func batchStopUpdateAction(input: BatchStopUpdateActionInput) async throws -> BatchStopUpdateActionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -208,6 +261,17 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Complete the migration of data.
+    ///
+    /// - Parameter CompleteMigrationInput : [no documentation found]
+    ///
+    /// - Returns: `CompleteMigrationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
+    /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
+    /// - `ReplicationGroupNotUnderMigrationFault` : The designated replication group is not available for data migration.
     public func completeMigration(input: CompleteMigrationInput) async throws -> CompleteMigrationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -260,6 +324,21 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// * Error Message: ElastiCache has not been granted WRITE permissions %s on the S3 Bucket. Solution: Add Upload/Delete permissions on the bucket. For more information, see [Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-grant-access) in the ElastiCache User Guide.
     ///
     /// * Error Message: ElastiCache has not been granted READ_ACP permissions %s on the S3 Bucket. Solution: Add View Permissions on the bucket. For more information, see [Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-grant-access) in the ElastiCache User Guide.
+    ///
+    /// - Parameter CopySnapshotInput : Represents the input of a CopySnapshotMessage operation.
+    ///
+    /// - Returns: `CopySnapshotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `InvalidSnapshotStateFault` : The current state of the snapshot does not allow the requested operation to occur.
+    /// - `SnapshotAlreadyExistsFault` : You already have a snapshot with the given name.
+    /// - `SnapshotNotFoundFault` : The requested snapshot name does not refer to an existing snapshot.
+    /// - `SnapshotQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of snapshots.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
     public func copySnapshot(input: CopySnapshotInput) async throws -> CopySnapshotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -296,6 +375,28 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Creates a cluster. All nodes in the cluster run the same protocol-compliant cache engine software, either Memcached or Redis. This operation is not supported for Redis (cluster mode enabled) clusters.
+    ///
+    /// - Parameter CreateCacheClusterInput : Represents the input of a CreateCacheCluster operation.
+    ///
+    /// - Returns: `CreateCacheClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CacheClusterAlreadyExistsFault` : You already have a cluster with the given identifier.
+    /// - `CacheParameterGroupNotFoundFault` : The requested cache parameter group name does not refer to an existing cache parameter group.
+    /// - `CacheSecurityGroupNotFoundFault` : The requested cache security group name does not refer to an existing cache security group.
+    /// - `CacheSubnetGroupNotFoundFault` : The requested cache subnet group name does not refer to an existing cache subnet group.
+    /// - `ClusterQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the allowed number of clusters per customer.
+    /// - `InsufficientCacheClusterCapacityFault` : The requested cache node type is not available in the specified Availability Zone. For more information, see [InsufficientCacheClusterCapacity](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html#ErrorMessages.INSUFFICIENT_CACHE_CLUSTER_CAPACITY) in the ElastiCache User Guide.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
+    /// - `InvalidVPCNetworkStateFault` : The VPC network is in an invalid state.
+    /// - `NodeQuotaForClusterExceededFault` : The request cannot be processed because it would exceed the allowed number of cache nodes in a single cluster.
+    /// - `NodeQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the allowed number of cache nodes per customer.
+    /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
     public func createCacheCluster(input: CreateCacheClusterInput) async throws -> CreateCacheClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -336,6 +437,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// * [ModifyCacheParameterGroup](https://docs.aws.amazon.com/AmazonElastiCache/latest/APIReference/API_ModifyCacheParameterGroup.html) in the ElastiCache API Reference.
     ///
     /// * [Parameters and Parameter Groups](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ParameterGroups.html) in the ElastiCache User Guide.
+    ///
+    /// - Parameter CreateCacheParameterGroupInput : Represents the input of a CreateCacheParameterGroup operation.
+    ///
+    /// - Returns: `CreateCacheParameterGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CacheParameterGroupAlreadyExistsFault` : A cache parameter group with the requested name already exists.
+    /// - `CacheParameterGroupQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of cache security groups.
+    /// - `InvalidCacheParameterGroupStateFault` : The current state of the cache parameter group does not allow the requested operation to occur.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
     public func createCacheParameterGroup(input: CreateCacheParameterGroupInput) async throws -> CreateCacheParameterGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -372,6 +487,19 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Creates a new cache security group. Use a cache security group to control access to one or more clusters. Cache security groups are only used when you are creating a cluster outside of an Amazon Virtual Private Cloud (Amazon VPC). If you are creating a cluster inside of a VPC, use a cache subnet group instead. For more information, see [CreateCacheSubnetGroup](https://docs.aws.amazon.com/AmazonElastiCache/latest/APIReference/API_CreateCacheSubnetGroup.html).
+    ///
+    /// - Parameter CreateCacheSecurityGroupInput : Represents the input of a CreateCacheSecurityGroup operation.
+    ///
+    /// - Returns: `CreateCacheSecurityGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CacheSecurityGroupAlreadyExistsFault` : A cache security group with the specified name already exists.
+    /// - `CacheSecurityGroupQuotaExceededFault` : The request cannot be processed because it would exceed the allowed number of cache security groups.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
     public func createCacheSecurityGroup(input: CreateCacheSecurityGroupInput) async throws -> CreateCacheSecurityGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -408,6 +536,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Creates a new cache subnet group. Use this parameter only when you are creating a cluster in an Amazon Virtual Private Cloud (Amazon VPC).
+    ///
+    /// - Parameter CreateCacheSubnetGroupInput : Represents the input of a CreateCacheSubnetGroup operation.
+    ///
+    /// - Returns: `CreateCacheSubnetGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CacheSubnetGroupAlreadyExistsFault` : The requested cache subnet group name is already in use by an existing cache subnet group.
+    /// - `CacheSubnetGroupQuotaExceededFault` : The request cannot be processed because it would exceed the allowed number of cache subnet groups.
+    /// - `CacheSubnetQuotaExceededFault` : The request cannot be processed because it would exceed the allowed number of subnets in a cache subnet group.
+    /// - `InvalidSubnet` : An invalid subnet identifier was specified.
+    /// - `SubnetNotAllowedFault` : At least one subnet ID does not match the other subnet IDs. This mismatch typically occurs when a user sets one subnet ID to a regional Availability Zone and a different one to an outpost. Or when a user sets the subnet ID to an Outpost when not subscribed on this service.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
     public func createCacheSubnetGroup(input: CreateCacheSubnetGroupInput) async throws -> CreateCacheSubnetGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -448,6 +590,19 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// * The GlobalReplicationGroupIdSuffix is the name of the Global datastore.
     ///
     /// * The PrimaryReplicationGroupId represents the name of the primary cluster that accepts writes and will replicate updates to the secondary cluster.
+    ///
+    /// - Parameter CreateGlobalReplicationGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CreateGlobalReplicationGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `GlobalReplicationGroupAlreadyExistsFault` : The Global datastore name already exists.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
+    /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
+    /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     public func createGlobalReplicationGroup(input: CreateGlobalReplicationGroupInput) async throws -> CreateGlobalReplicationGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -484,6 +639,33 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Creates a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group. This API can be used to create a standalone regional replication group or a secondary replication group associated with a Global datastore. A Redis (cluster mode disabled) replication group is a collection of clusters, where one of the clusters is a read/write primary and the others are read-only replicas. Writes to the primary are asynchronously propagated to the replicas. A Redis cluster-mode enabled cluster is comprised of from 1 to 90 shards (API/CLI: node groups). Each shard has a primary node and up to 5 read-only replica nodes. The configuration can range from 90 shards and 0 replicas to 15 shards and 5 replicas, which is the maximum number or replicas allowed. The node or shard limit can be increased to a maximum of 500 per cluster if the Redis engine version is 5.0.6 or higher. For example, you can choose to configure a 500 node cluster that ranges between 83 shards (one primary and 5 replicas per shard) and 500 shards (single primary and no replicas). Make sure there are enough available IP addresses to accommodate the increase. Common pitfalls include the subnets in the subnet group have too small a CIDR range or the subnets are shared and heavily used by other clusters. For more information, see [Creating a Subnet Group](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SubnetGroups.Creating.html). For versions below 5.0.6, the limit is 250 per cluster. To request a limit increase, see [Amazon Service Limits](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) and choose the limit type Nodes per cluster per instance type. When a Redis (cluster mode disabled) replication group has been successfully created, you can add one or more read replicas to it, up to a total of 5 read replicas. If you need to increase or decrease the number of node groups (console: shards), you can avail yourself of ElastiCache for Redis' scaling. For more information, see [Scaling ElastiCache for Redis Clusters](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Scaling.html) in the ElastiCache User Guide. This operation is valid for Redis only.
+    ///
+    /// - Parameter CreateReplicationGroupInput : Represents the input of a CreateReplicationGroup operation.
+    ///
+    /// - Returns: `CreateReplicationGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CacheClusterNotFoundFault` : The requested cluster ID does not refer to an existing cluster.
+    /// - `CacheParameterGroupNotFoundFault` : The requested cache parameter group name does not refer to an existing cache parameter group.
+    /// - `CacheSecurityGroupNotFoundFault` : The requested cache security group name does not refer to an existing cache security group.
+    /// - `CacheSubnetGroupNotFoundFault` : The requested cache subnet group name does not refer to an existing cache subnet group.
+    /// - `ClusterQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the allowed number of clusters per customer.
+    /// - `GlobalReplicationGroupNotFoundFault` : The Global datastore does not exist
+    /// - `InsufficientCacheClusterCapacityFault` : The requested cache node type is not available in the specified Availability Zone. For more information, see [InsufficientCacheClusterCapacity](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html#ErrorMessages.INSUFFICIENT_CACHE_CLUSTER_CAPACITY) in the ElastiCache User Guide.
+    /// - `InvalidCacheClusterStateFault` : The requested cluster is not in the available state.
+    /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `InvalidUserGroupStateFault` : The user group is not in an active state.
+    /// - `InvalidVPCNetworkStateFault` : The VPC network is in an invalid state.
+    /// - `NodeGroupsPerReplicationGroupQuotaExceededFault` : The request cannot be processed because it would exceed the maximum allowed number of node groups (shards) in a single replication group. The default maximum is 90
+    /// - `NodeQuotaForClusterExceededFault` : The request cannot be processed because it would exceed the allowed number of cache nodes in a single cluster.
+    /// - `NodeQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the allowed number of cache nodes per customer.
+    /// - `ReplicationGroupAlreadyExistsFault` : The specified replication group already exists.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
+    /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
     public func createReplicationGroup(input: CreateReplicationGroupInput) async throws -> CreateReplicationGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -520,6 +702,31 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Creates a copy of an entire cluster or replication group at a specific moment in time. This operation is valid for Redis only.
+    ///
+    /// - Parameter CreateSnapshotInput : Represents the input of a CreateSnapshot operation.
+    ///
+    /// - Returns: `CreateSnapshotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CacheClusterNotFoundFault` : The requested cluster ID does not refer to an existing cluster.
+    /// - `InvalidCacheClusterStateFault` : The requested cluster is not in the available state.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
+    /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
+    /// - `SnapshotAlreadyExistsFault` : You already have a snapshot with the given name.
+    /// - `SnapshotFeatureNotSupportedFault` : You attempted one of the following operations:
+    ///
+    /// * Creating a snapshot of a Redis cluster running on a cache.t1.micro cache node.
+    ///
+    /// * Creating a snapshot of a cluster that is running Memcached rather than Redis.
+    ///
+    ///
+    /// Neither of these are supported by ElastiCache.
+    /// - `SnapshotQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of snapshots.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
     public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -556,6 +763,21 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// For Redis engine version 6.0 onwards: Creates a Redis user. For more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.RBAC.html).
+    ///
+    /// - Parameter CreateUserInput : [no documentation found]
+    ///
+    /// - Returns: `CreateUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateUserNameFault` : A user with this username already exists.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
+    /// - `UserAlreadyExistsFault` : A user with this ID already exists.
+    /// - `UserQuotaExceededFault` : The quota of users has been exceeded.
     public func createUser(input: CreateUserInput) async throws -> CreateUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -592,6 +814,22 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// For Redis engine version 6.0 onwards: Creates a Redis user group. For more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.RBAC.html)
+    ///
+    /// - Parameter CreateUserGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CreateUserGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DefaultUserRequired` : You must add default user to a user group.
+    /// - `DuplicateUserNameFault` : A user with this username already exists.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
+    /// - `UserGroupAlreadyExistsFault` : The user group with this ID already exists.
+    /// - `UserGroupQuotaExceededFault` : The number of users exceeds the user group limit.
+    /// - `UserNotFoundFault` : The user does not exist or could not be found.
     public func createUserGroup(input: CreateUserGroupInput) async throws -> CreateUserGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -628,6 +866,18 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Decreases the number of node groups in a Global datastore
+    ///
+    /// - Parameter DecreaseNodeGroupsInGlobalReplicationGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DecreaseNodeGroupsInGlobalReplicationGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `GlobalReplicationGroupNotFoundFault` : The Global datastore does not exist
+    /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     public func decreaseNodeGroupsInGlobalReplicationGroup(input: DecreaseNodeGroupsInGlobalReplicationGroupInput) async throws -> DecreaseNodeGroupsInGlobalReplicationGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -664,6 +914,26 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Dynamically decreases the number of replicas in a Redis (cluster mode disabled) replication group or the number of replica nodes in one or more node groups (shards) of a Redis (cluster mode enabled) replication group. This operation is performed with no cluster down time.
+    ///
+    /// - Parameter DecreaseReplicaCountInput : [no documentation found]
+    ///
+    /// - Returns: `DecreaseReplicaCountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClusterQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the allowed number of clusters per customer.
+    /// - `InsufficientCacheClusterCapacityFault` : The requested cache node type is not available in the specified Availability Zone. For more information, see [InsufficientCacheClusterCapacity](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html#ErrorMessages.INSUFFICIENT_CACHE_CLUSTER_CAPACITY) in the ElastiCache User Guide.
+    /// - `InvalidCacheClusterStateFault` : The requested cluster is not in the available state.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
+    /// - `InvalidVPCNetworkStateFault` : The VPC network is in an invalid state.
+    /// - `NodeGroupsPerReplicationGroupQuotaExceededFault` : The request cannot be processed because it would exceed the maximum allowed number of node groups (shards) in a single replication group. The default maximum is 90
+    /// - `NodeQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the allowed number of cache nodes per customer.
+    /// - `NoOperationFault` : The operation was not performed because no changes were required.
+    /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
+    /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     public func decreaseReplicaCount(input: DecreaseReplicaCountInput) async throws -> DecreaseReplicaCountOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -714,6 +984,28 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// * A cluster from a Redis (cluster mode enabled) replication group
     ///
     /// * A cluster that is not in the available state
+    ///
+    /// - Parameter DeleteCacheClusterInput : Represents the input of a DeleteCacheCluster operation.
+    ///
+    /// - Returns: `DeleteCacheClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CacheClusterNotFoundFault` : The requested cluster ID does not refer to an existing cluster.
+    /// - `InvalidCacheClusterStateFault` : The requested cluster is not in the available state.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `SnapshotAlreadyExistsFault` : You already have a snapshot with the given name.
+    /// - `SnapshotFeatureNotSupportedFault` : You attempted one of the following operations:
+    ///
+    /// * Creating a snapshot of a Redis cluster running on a cache.t1.micro cache node.
+    ///
+    /// * Creating a snapshot of a cluster that is running Memcached rather than Redis.
+    ///
+    ///
+    /// Neither of these are supported by ElastiCache.
+    /// - `SnapshotQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of snapshots.
     public func deleteCacheCluster(input: DeleteCacheClusterInput) async throws -> DeleteCacheClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -750,6 +1042,18 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Deletes the specified cache parameter group. You cannot delete a cache parameter group if it is associated with any cache clusters. You cannot delete the default cache parameter groups in your account.
+    ///
+    /// - Parameter DeleteCacheParameterGroupInput : Represents the input of a DeleteCacheParameterGroup operation.
+    ///
+    /// - Returns: `DeleteCacheParameterGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CacheParameterGroupNotFoundFault` : The requested cache parameter group name does not refer to an existing cache parameter group.
+    /// - `InvalidCacheParameterGroupStateFault` : The current state of the cache parameter group does not allow the requested operation to occur.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     public func deleteCacheParameterGroup(input: DeleteCacheParameterGroupInput) async throws -> DeleteCacheParameterGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -786,6 +1090,18 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Deletes a cache security group. You cannot delete a cache security group if it is associated with any clusters.
+    ///
+    /// - Parameter DeleteCacheSecurityGroupInput : Represents the input of a DeleteCacheSecurityGroup operation.
+    ///
+    /// - Returns: `DeleteCacheSecurityGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CacheSecurityGroupNotFoundFault` : The requested cache security group name does not refer to an existing cache security group.
+    /// - `InvalidCacheSecurityGroupStateFault` : The current state of the cache security group does not allow deletion.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     public func deleteCacheSecurityGroup(input: DeleteCacheSecurityGroupInput) async throws -> DeleteCacheSecurityGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -822,6 +1138,16 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Deletes a cache subnet group. You cannot delete a default cache subnet group or one that is associated with any clusters.
+    ///
+    /// - Parameter DeleteCacheSubnetGroupInput : Represents the input of a DeleteCacheSubnetGroup operation.
+    ///
+    /// - Returns: `DeleteCacheSubnetGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CacheSubnetGroupInUse` : The requested cache subnet group is currently in use.
+    /// - `CacheSubnetGroupNotFoundFault` : The requested cache subnet group name does not refer to an existing cache subnet group.
     public func deleteCacheSubnetGroup(input: DeleteCacheSubnetGroupInput) async throws -> DeleteCacheSubnetGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -865,6 +1191,17 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     ///
     /// Since the Global Datastore has only a primary cluster, you can delete the Global Datastore while retaining the primary by setting RetainPrimaryReplicationGroup=true. The primary cluster is never deleted when deleting a Global Datastore. It can only be deleted when it no longer is associated with any Global Datastore. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the selected resources; you cannot cancel or revert this operation.
+    ///
+    /// - Parameter DeleteGlobalReplicationGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteGlobalReplicationGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `GlobalReplicationGroupNotFoundFault` : The Global datastore does not exist
+    /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     public func deleteGlobalReplicationGroup(input: DeleteGlobalReplicationGroupInput) async throws -> DeleteGlobalReplicationGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -901,6 +1238,28 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Deletes an existing replication group. By default, this operation deletes the entire replication group, including the primary/primaries and all of the read replicas. If the replication group has only one primary, you can optionally delete only the read replicas, while retaining the primary by setting RetainPrimaryCluster=true. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the selected resources; you cannot cancel or revert this operation. This operation is valid for Redis only.
+    ///
+    /// - Parameter DeleteReplicationGroupInput : Represents the input of a DeleteReplicationGroup operation.
+    ///
+    /// - Returns: `DeleteReplicationGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
+    /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
+    /// - `SnapshotAlreadyExistsFault` : You already have a snapshot with the given name.
+    /// - `SnapshotFeatureNotSupportedFault` : You attempted one of the following operations:
+    ///
+    /// * Creating a snapshot of a Redis cluster running on a cache.t1.micro cache node.
+    ///
+    /// * Creating a snapshot of a cluster that is running Memcached rather than Redis.
+    ///
+    ///
+    /// Neither of these are supported by ElastiCache.
+    /// - `SnapshotQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of snapshots.
     public func deleteReplicationGroup(input: DeleteReplicationGroupInput) async throws -> DeleteReplicationGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -937,6 +1296,18 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Deletes an existing snapshot. When you receive a successful response from this operation, ElastiCache immediately begins deleting the snapshot; you cannot cancel or revert this operation. This operation is valid for Redis only.
+    ///
+    /// - Parameter DeleteSnapshotInput : Represents the input of a DeleteSnapshot operation.
+    ///
+    /// - Returns: `DeleteSnapshotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `InvalidSnapshotStateFault` : The current state of the snapshot does not allow the requested operation to occur.
+    /// - `SnapshotNotFoundFault` : The requested snapshot name does not refer to an existing snapshot.
     public func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -973,6 +1344,19 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// For Redis engine version 6.0 onwards: Deletes a user. The user will be removed from all user groups and in turn removed from all replication groups. For more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.RBAC.html).
+    ///
+    /// - Parameter DeleteUserInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DefaultUserAssociatedToUserGroupFault` : The default user assigned to the user group.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `InvalidUserStateFault` : The user is not in active state.
+    /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
+    /// - `UserNotFoundFault` : The user does not exist or could not be found.
     public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1009,6 +1393,18 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// For Redis engine version 6.0 onwards: Deletes a user group. The user group must first be disassociated from the replication group before it can be deleted. For more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.RBAC.html).
+    ///
+    /// - Parameter DeleteUserGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteUserGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `InvalidUserGroupStateFault` : The user group is not in an active state.
+    /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
+    /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
     public func deleteUserGroup(input: DeleteUserGroupInput) async throws -> DeleteUserGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1045,6 +1441,17 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Returns information about all provisioned clusters if no cluster identifier is specified, or about a specific cache cluster if a cluster identifier is supplied. By default, abbreviated information about the clusters is returned. You can use the optional ShowCacheNodeInfo flag to retrieve detailed information about the cache nodes associated with the clusters. These details include the DNS address and port for the cache node endpoint. If the cluster is in the creating state, only cluster-level information is displayed until all of the nodes are successfully provisioned. If the cluster is in the deleting state, only cluster-level information is displayed. If cache nodes are currently being added to the cluster, node endpoint information and creation time for the additional nodes are not displayed until they are completely provisioned. When the cluster state is available, the cluster is ready for use. If cache nodes are currently being removed from the cluster, no endpoint information for the removed nodes is displayed.
+    ///
+    /// - Parameter DescribeCacheClustersInput : Represents the input of a DescribeCacheClusters operation.
+    ///
+    /// - Returns: `DescribeCacheClustersOutputResponse` : Represents the output of a DescribeCacheClusters operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CacheClusterNotFoundFault` : The requested cluster ID does not refer to an existing cluster.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     public func describeCacheClusters(input: DescribeCacheClustersInput) async throws -> DescribeCacheClustersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1081,6 +1488,10 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Returns a list of the available cache engines and their versions.
+    ///
+    /// - Parameter DescribeCacheEngineVersionsInput : Represents the input of a DescribeCacheEngineVersions operation.
+    ///
+    /// - Returns: `DescribeCacheEngineVersionsOutputResponse` : Represents the output of a [DescribeCacheEngineVersions] operation.
     public func describeCacheEngineVersions(input: DescribeCacheEngineVersionsInput) async throws -> DescribeCacheEngineVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1117,6 +1528,17 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Returns a list of cache parameter group descriptions. If a cache parameter group name is specified, the list contains only the descriptions for that group.
+    ///
+    /// - Parameter DescribeCacheParameterGroupsInput : Represents the input of a DescribeCacheParameterGroups operation.
+    ///
+    /// - Returns: `DescribeCacheParameterGroupsOutputResponse` : Represents the output of a DescribeCacheParameterGroups operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CacheParameterGroupNotFoundFault` : The requested cache parameter group name does not refer to an existing cache parameter group.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     public func describeCacheParameterGroups(input: DescribeCacheParameterGroupsInput) async throws -> DescribeCacheParameterGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1153,6 +1575,17 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Returns the detailed parameter list for a particular cache parameter group.
+    ///
+    /// - Parameter DescribeCacheParametersInput : Represents the input of a DescribeCacheParameters operation.
+    ///
+    /// - Returns: `DescribeCacheParametersOutputResponse` : Represents the output of a DescribeCacheParameters operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CacheParameterGroupNotFoundFault` : The requested cache parameter group name does not refer to an existing cache parameter group.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     public func describeCacheParameters(input: DescribeCacheParametersInput) async throws -> DescribeCacheParametersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1189,6 +1622,17 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Returns a list of cache security group descriptions. If a cache security group name is specified, the list contains only the description of that group. This applicable only when you have ElastiCache in Classic setup
+    ///
+    /// - Parameter DescribeCacheSecurityGroupsInput : Represents the input of a DescribeCacheSecurityGroups operation.
+    ///
+    /// - Returns: `DescribeCacheSecurityGroupsOutputResponse` : Represents the output of a DescribeCacheSecurityGroups operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CacheSecurityGroupNotFoundFault` : The requested cache security group name does not refer to an existing cache security group.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     public func describeCacheSecurityGroups(input: DescribeCacheSecurityGroupsInput) async throws -> DescribeCacheSecurityGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1225,6 +1669,15 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Returns a list of cache subnet group descriptions. If a subnet group name is specified, the list contains only the description of that group. This is applicable only when you have ElastiCache in VPC setup. All ElastiCache clusters now launch in VPC by default.
+    ///
+    /// - Parameter DescribeCacheSubnetGroupsInput : Represents the input of a DescribeCacheSubnetGroups operation.
+    ///
+    /// - Returns: `DescribeCacheSubnetGroupsOutputResponse` : Represents the output of a DescribeCacheSubnetGroups operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CacheSubnetGroupNotFoundFault` : The requested cache subnet group name does not refer to an existing cache subnet group.
     public func describeCacheSubnetGroups(input: DescribeCacheSubnetGroupsInput) async throws -> DescribeCacheSubnetGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1261,6 +1714,16 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Returns the default engine and system parameter information for the specified cache engine.
+    ///
+    /// - Parameter DescribeEngineDefaultParametersInput : Represents the input of a DescribeEngineDefaultParameters operation.
+    ///
+    /// - Returns: `DescribeEngineDefaultParametersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     public func describeEngineDefaultParameters(input: DescribeEngineDefaultParametersInput) async throws -> DescribeEngineDefaultParametersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1297,6 +1760,16 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Returns events related to clusters, cache security groups, and cache parameter groups. You can obtain events specific to a particular cluster, cache security group, or cache parameter group by providing the name as a parameter. By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary.
+    ///
+    /// - Parameter DescribeEventsInput : Represents the input of a DescribeEvents operation.
+    ///
+    /// - Returns: `DescribeEventsOutputResponse` : Represents the output of a DescribeEvents operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1333,6 +1806,17 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Returns information about a particular global replication group. If no identifier is specified, returns information about all Global datastores.
+    ///
+    /// - Parameter DescribeGlobalReplicationGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeGlobalReplicationGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `GlobalReplicationGroupNotFoundFault` : The Global datastore does not exist
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     public func describeGlobalReplicationGroups(input: DescribeGlobalReplicationGroupsInput) async throws -> DescribeGlobalReplicationGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1369,6 +1853,17 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Returns information about a particular replication group. If no identifier is specified, DescribeReplicationGroups returns information about all replication groups. This operation is valid for Redis only.
+    ///
+    /// - Parameter DescribeReplicationGroupsInput : Represents the input of a DescribeReplicationGroups operation.
+    ///
+    /// - Returns: `DescribeReplicationGroupsOutputResponse` : Represents the output of a DescribeReplicationGroups operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     public func describeReplicationGroups(input: DescribeReplicationGroupsInput) async throws -> DescribeReplicationGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1405,6 +1900,17 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Returns information about reserved cache nodes for this account, or about a specified reserved cache node.
+    ///
+    /// - Parameter DescribeReservedCacheNodesInput : Represents the input of a DescribeReservedCacheNodes operation.
+    ///
+    /// - Returns: `DescribeReservedCacheNodesOutputResponse` : Represents the output of a DescribeReservedCacheNodes operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `ReservedCacheNodeNotFoundFault` : The requested reserved cache node was not found.
     public func describeReservedCacheNodes(input: DescribeReservedCacheNodesInput) async throws -> DescribeReservedCacheNodesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1441,6 +1947,17 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Lists available reserved cache node offerings.
+    ///
+    /// - Parameter DescribeReservedCacheNodesOfferingsInput : Represents the input of a DescribeReservedCacheNodesOfferings operation.
+    ///
+    /// - Returns: `DescribeReservedCacheNodesOfferingsOutputResponse` : Represents the output of a DescribeReservedCacheNodesOfferings operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `ReservedCacheNodesOfferingNotFoundFault` : The requested cache node offering does not exist.
     public func describeReservedCacheNodesOfferings(input: DescribeReservedCacheNodesOfferingsInput) async throws -> DescribeReservedCacheNodesOfferingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1477,6 +1994,17 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Returns details of the service updates
+    ///
+    /// - Parameter DescribeServiceUpdatesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeServiceUpdatesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `ServiceUpdateNotFoundFault` : The service update doesn't exist
     public func describeServiceUpdates(input: DescribeServiceUpdatesInput) async throws -> DescribeServiceUpdatesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1513,6 +2041,18 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Returns information about cluster or replication group snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cache cluster. This operation is valid for Redis only.
+    ///
+    /// - Parameter DescribeSnapshotsInput : Represents the input of a DescribeSnapshotsMessage operation.
+    ///
+    /// - Returns: `DescribeSnapshotsOutputResponse` : Represents the output of a DescribeSnapshots operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CacheClusterNotFoundFault` : The requested cluster ID does not refer to an existing cluster.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `SnapshotNotFoundFault` : The requested snapshot name does not refer to an existing snapshot.
     public func describeSnapshots(input: DescribeSnapshotsInput) async throws -> DescribeSnapshotsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1549,6 +2089,16 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Returns details of the update actions
+    ///
+    /// - Parameter DescribeUpdateActionsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeUpdateActionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     public func describeUpdateActions(input: DescribeUpdateActionsInput) async throws -> DescribeUpdateActionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1585,6 +2135,17 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Returns a list of user groups.
+    ///
+    /// - Parameter DescribeUserGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeUserGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
+    /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
     public func describeUserGroups(input: DescribeUserGroupsInput) async throws -> DescribeUserGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1621,6 +2182,17 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Returns a list of users.
+    ///
+    /// - Parameter DescribeUsersInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeUsersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
+    /// - `UserNotFoundFault` : The user does not exist or could not be found.
     public func describeUsers(input: DescribeUsersInput) async throws -> DescribeUsersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1657,6 +2229,18 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Remove a secondary cluster from the Global datastore using the Global datastore name. The secondary cluster will no longer receive updates from the primary cluster, but will remain as a standalone cluster in that Amazon region.
+    ///
+    /// - Parameter DisassociateGlobalReplicationGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateGlobalReplicationGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `GlobalReplicationGroupNotFoundFault` : The Global datastore does not exist
+    /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     public func disassociateGlobalReplicationGroup(input: DisassociateGlobalReplicationGroupInput) async throws -> DisassociateGlobalReplicationGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1693,6 +2277,18 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Used to failover the primary region to a secondary region. The secondary region will become primary, and all other clusters will become secondary.
+    ///
+    /// - Parameter FailoverGlobalReplicationGroupInput : [no documentation found]
+    ///
+    /// - Returns: `FailoverGlobalReplicationGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `GlobalReplicationGroupNotFoundFault` : The Global datastore does not exist
+    /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     public func failoverGlobalReplicationGroup(input: FailoverGlobalReplicationGroupInput) async throws -> FailoverGlobalReplicationGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1729,6 +2325,17 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Increase the number of node groups in the Global datastore
+    ///
+    /// - Parameter IncreaseNodeGroupsInGlobalReplicationGroupInput : [no documentation found]
+    ///
+    /// - Returns: `IncreaseNodeGroupsInGlobalReplicationGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `GlobalReplicationGroupNotFoundFault` : The Global datastore does not exist
+    /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     public func increaseNodeGroupsInGlobalReplicationGroup(input: IncreaseNodeGroupsInGlobalReplicationGroupInput) async throws -> IncreaseNodeGroupsInGlobalReplicationGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1765,6 +2372,26 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Dynamically increases the number of replicas in a Redis (cluster mode disabled) replication group or the number of replica nodes in one or more node groups (shards) of a Redis (cluster mode enabled) replication group. This operation is performed with no cluster down time.
+    ///
+    /// - Parameter IncreaseReplicaCountInput : [no documentation found]
+    ///
+    /// - Returns: `IncreaseReplicaCountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClusterQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the allowed number of clusters per customer.
+    /// - `InsufficientCacheClusterCapacityFault` : The requested cache node type is not available in the specified Availability Zone. For more information, see [InsufficientCacheClusterCapacity](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html#ErrorMessages.INSUFFICIENT_CACHE_CLUSTER_CAPACITY) in the ElastiCache User Guide.
+    /// - `InvalidCacheClusterStateFault` : The requested cluster is not in the available state.
+    /// - `InvalidKMSKeyFault` : The KMS key supplied is not valid.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
+    /// - `InvalidVPCNetworkStateFault` : The VPC network is in an invalid state.
+    /// - `NodeGroupsPerReplicationGroupQuotaExceededFault` : The request cannot be processed because it would exceed the maximum allowed number of node groups (shards) in a single replication group. The default maximum is 90
+    /// - `NodeQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the allowed number of cache nodes per customer.
+    /// - `NoOperationFault` : The operation was not performed because no changes were required.
+    /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     public func increaseReplicaCount(input: IncreaseReplicaCountInput) async throws -> IncreaseReplicaCountOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1801,6 +2428,18 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Lists all available node types that you can scale your Redis cluster's or replication group's current node type. When you use the ModifyCacheCluster or ModifyReplicationGroup operations to scale your cluster or replication group, the value of the CacheNodeType parameter must be one of the node types returned by this operation.
+    ///
+    /// - Parameter ListAllowedNodeTypeModificationsInput : The input parameters for the ListAllowedNodeTypeModifications operation.
+    ///
+    /// - Returns: `ListAllowedNodeTypeModificationsOutputResponse` : Represents the allowed node types you can use to modify your cluster or replication group.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CacheClusterNotFoundFault` : The requested cluster ID does not refer to an existing cluster.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     public func listAllowedNodeTypeModifications(input: ListAllowedNodeTypeModificationsInput) async throws -> ListAllowedNodeTypeModificationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1837,6 +2476,25 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/IAM.ResourceLevelPermissions.html). If the cluster is not in the available state, ListTagsForResource returns an error.
+    ///
+    /// - Parameter ListTagsForResourceInput : The input parameters for the ListTagsForResource operation.
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : Represents the output from the AddTagsToResource, ListTagsForResource, and RemoveTagsFromResource operations.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CacheClusterNotFoundFault` : The requested cluster ID does not refer to an existing cluster.
+    /// - `CacheParameterGroupNotFoundFault` : The requested cache parameter group name does not refer to an existing cache parameter group.
+    /// - `CacheSecurityGroupNotFoundFault` : The requested cache security group name does not refer to an existing cache security group.
+    /// - `CacheSubnetGroupNotFoundFault` : The requested cache subnet group name does not refer to an existing cache subnet group.
+    /// - `InvalidARNFault` : The requested Amazon Resource Name (ARN) does not refer to an existing resource.
+    /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
+    /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
+    /// - `ReservedCacheNodeNotFoundFault` : The requested reserved cache node was not found.
+    /// - `SnapshotNotFoundFault` : The requested snapshot name does not refer to an existing snapshot.
+    /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
+    /// - `UserNotFoundFault` : The user does not exist or could not be found.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1873,6 +2531,25 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Modifies the settings for a cluster. You can use this operation to change one or more cluster configuration parameters by specifying the parameters and the new values.
+    ///
+    /// - Parameter ModifyCacheClusterInput : Represents the input of a ModifyCacheCluster operation.
+    ///
+    /// - Returns: `ModifyCacheClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CacheClusterNotFoundFault` : The requested cluster ID does not refer to an existing cluster.
+    /// - `CacheParameterGroupNotFoundFault` : The requested cache parameter group name does not refer to an existing cache parameter group.
+    /// - `CacheSecurityGroupNotFoundFault` : The requested cache security group name does not refer to an existing cache security group.
+    /// - `InsufficientCacheClusterCapacityFault` : The requested cache node type is not available in the specified Availability Zone. For more information, see [InsufficientCacheClusterCapacity](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html#ErrorMessages.INSUFFICIENT_CACHE_CLUSTER_CAPACITY) in the ElastiCache User Guide.
+    /// - `InvalidCacheClusterStateFault` : The requested cluster is not in the available state.
+    /// - `InvalidCacheSecurityGroupStateFault` : The current state of the cache security group does not allow deletion.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `InvalidVPCNetworkStateFault` : The VPC network is in an invalid state.
+    /// - `NodeQuotaForClusterExceededFault` : The request cannot be processed because it would exceed the allowed number of cache nodes in a single cluster.
+    /// - `NodeQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the allowed number of cache nodes per customer.
     public func modifyCacheCluster(input: ModifyCacheClusterInput) async throws -> ModifyCacheClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1909,6 +2586,23 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Modifies the parameters of a cache parameter group. You can modify up to 20 parameters in a single request by submitting a list parameter name and value pairs.
+    ///
+    /// - Parameter ModifyCacheParameterGroupInput : Represents the input of a ModifyCacheParameterGroup operation.
+    ///
+    /// - Returns: `ModifyCacheParameterGroupOutputResponse` : Represents the output of one of the following operations:
+    ///
+    /// * ModifyCacheParameterGroup
+    ///
+    /// * ResetCacheParameterGroup
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CacheParameterGroupNotFoundFault` : The requested cache parameter group name does not refer to an existing cache parameter group.
+    /// - `InvalidCacheParameterGroupStateFault` : The current state of the cache parameter group does not allow the requested operation to occur.
+    /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     public func modifyCacheParameterGroup(input: ModifyCacheParameterGroupInput) async throws -> ModifyCacheParameterGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1945,6 +2639,19 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Modifies an existing cache subnet group.
+    ///
+    /// - Parameter ModifyCacheSubnetGroupInput : Represents the input of a ModifyCacheSubnetGroup operation.
+    ///
+    /// - Returns: `ModifyCacheSubnetGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CacheSubnetGroupNotFoundFault` : The requested cache subnet group name does not refer to an existing cache subnet group.
+    /// - `CacheSubnetQuotaExceededFault` : The request cannot be processed because it would exceed the allowed number of subnets in a cache subnet group.
+    /// - `InvalidSubnet` : An invalid subnet identifier was specified.
+    /// - `SubnetInUse` : The requested subnet is being used by another cache subnet group.
+    /// - `SubnetNotAllowedFault` : At least one subnet ID does not match the other subnet IDs. This mismatch typically occurs when a user sets one subnet ID to a regional Availability Zone and a different one to an outpost. Or when a user sets the subnet ID to an Outpost when not subscribed on this service.
     public func modifyCacheSubnetGroup(input: ModifyCacheSubnetGroupInput) async throws -> ModifyCacheSubnetGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1981,6 +2688,17 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Modifies the settings for a Global datastore.
+    ///
+    /// - Parameter ModifyGlobalReplicationGroupInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyGlobalReplicationGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `GlobalReplicationGroupNotFoundFault` : The Global datastore does not exist
+    /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     public func modifyGlobalReplicationGroup(input: ModifyGlobalReplicationGroupInput) async throws -> ModifyGlobalReplicationGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2024,6 +2742,30 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     ///
     /// This operation is valid for Redis only.
+    ///
+    /// - Parameter ModifyReplicationGroupInput : Represents the input of a ModifyReplicationGroups operation.
+    ///
+    /// - Returns: `ModifyReplicationGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CacheClusterNotFoundFault` : The requested cluster ID does not refer to an existing cluster.
+    /// - `CacheParameterGroupNotFoundFault` : The requested cache parameter group name does not refer to an existing cache parameter group.
+    /// - `CacheSecurityGroupNotFoundFault` : The requested cache security group name does not refer to an existing cache security group.
+    /// - `InsufficientCacheClusterCapacityFault` : The requested cache node type is not available in the specified Availability Zone. For more information, see [InsufficientCacheClusterCapacity](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html#ErrorMessages.INSUFFICIENT_CACHE_CLUSTER_CAPACITY) in the ElastiCache User Guide.
+    /// - `InvalidCacheClusterStateFault` : The requested cluster is not in the available state.
+    /// - `InvalidCacheSecurityGroupStateFault` : The current state of the cache security group does not allow deletion.
+    /// - `InvalidKMSKeyFault` : The KMS key supplied is not valid.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
+    /// - `InvalidUserGroupStateFault` : The user group is not in an active state.
+    /// - `InvalidVPCNetworkStateFault` : The VPC network is in an invalid state.
+    /// - `NodeQuotaForClusterExceededFault` : The request cannot be processed because it would exceed the allowed number of cache nodes in a single cluster.
+    /// - `NodeQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the allowed number of cache nodes per customer.
+    /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
+    /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
     public func modifyReplicationGroup(input: ModifyReplicationGroupInput) async throws -> ModifyReplicationGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2060,6 +2802,24 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Modifies a replication group's shards (node groups) by allowing you to add shards, remove shards, or rebalance the keyspaces among existing shards.
+    ///
+    /// - Parameter ModifyReplicationGroupShardConfigurationInput : Represents the input for a ModifyReplicationGroupShardConfiguration operation.
+    ///
+    /// - Returns: `ModifyReplicationGroupShardConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InsufficientCacheClusterCapacityFault` : The requested cache node type is not available in the specified Availability Zone. For more information, see [InsufficientCacheClusterCapacity](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html#ErrorMessages.INSUFFICIENT_CACHE_CLUSTER_CAPACITY) in the ElastiCache User Guide.
+    /// - `InvalidCacheClusterStateFault` : The requested cluster is not in the available state.
+    /// - `InvalidKMSKeyFault` : The KMS key supplied is not valid.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
+    /// - `InvalidVPCNetworkStateFault` : The VPC network is in an invalid state.
+    /// - `NodeGroupsPerReplicationGroupQuotaExceededFault` : The request cannot be processed because it would exceed the maximum allowed number of node groups (shards) in a single replication group. The default maximum is 90
+    /// - `NodeQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the allowed number of cache nodes per customer.
+    /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     public func modifyReplicationGroupShardConfiguration(input: ModifyReplicationGroupShardConfigurationInput) async throws -> ModifyReplicationGroupShardConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2096,6 +2856,19 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Changes user password(s) and/or access string.
+    ///
+    /// - Parameter ModifyUserInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `InvalidUserStateFault` : The user is not in active state.
+    /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
+    /// - `UserNotFoundFault` : The user does not exist or could not be found.
     public func modifyUser(input: ModifyUserInput) async throws -> ModifyUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2132,6 +2905,22 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Changes the list of users that belong to the user group.
+    ///
+    /// - Parameter ModifyUserGroupInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyUserGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DefaultUserRequired` : You must add default user to a user group.
+    /// - `DuplicateUserNameFault` : A user with this username already exists.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `InvalidUserGroupStateFault` : The user group is not in an active state.
+    /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
+    /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
+    /// - `UserNotFoundFault` : The user does not exist or could not be found.
     public func modifyUserGroup(input: ModifyUserGroupInput) async throws -> ModifyUserGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2168,6 +2957,20 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Allows you to purchase a reserved cache node offering. Reserved nodes are not eligible for cancellation and are non-refundable. For more information, see [Managing Costs with Reserved Nodes](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/reserved-nodes.html) for Redis or [Managing Costs with Reserved Nodes](https://docs.aws.amazon.com/AmazonElastiCache/latest/mem-ug/reserved-nodes.html) for Memcached.
+    ///
+    /// - Parameter PurchaseReservedCacheNodesOfferingInput : Represents the input of a PurchaseReservedCacheNodesOffering operation.
+    ///
+    /// - Returns: `PurchaseReservedCacheNodesOfferingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `ReservedCacheNodeAlreadyExistsFault` : You already have a reservation with the given identifier.
+    /// - `ReservedCacheNodeQuotaExceededFault` : The request cannot be processed because it would exceed the user's cache node quota.
+    /// - `ReservedCacheNodesOfferingNotFoundFault` : The requested cache node offering does not exist.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
     public func purchaseReservedCacheNodesOffering(input: PurchaseReservedCacheNodesOfferingInput) async throws -> PurchaseReservedCacheNodesOfferingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2204,6 +3007,17 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Redistribute slots to ensure uniform distribution across existing shards in the cluster.
+    ///
+    /// - Parameter RebalanceSlotsInGlobalReplicationGroupInput : [no documentation found]
+    ///
+    /// - Returns: `RebalanceSlotsInGlobalReplicationGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `GlobalReplicationGroupNotFoundFault` : The Global datastore does not exist
+    /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     public func rebalanceSlotsInGlobalReplicationGroup(input: RebalanceSlotsInGlobalReplicationGroupInput) async throws -> RebalanceSlotsInGlobalReplicationGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2240,6 +3054,16 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Reboots some, or all, of the cache nodes within a provisioned cluster. This operation applies any modified cache parameter groups to the cluster. The reboot operation takes place as soon as possible, and results in a momentary outage to the cluster. During the reboot, the cluster status is set to REBOOTING. The reboot causes the contents of the cache (for each cache node being rebooted) to be lost. When the reboot is complete, a cluster event is created. Rebooting a cluster is currently supported on Memcached and Redis (cluster mode disabled) clusters. Rebooting is not supported on Redis (cluster mode enabled) clusters. If you make changes to parameters that require a Redis (cluster mode enabled) cluster reboot for the changes to be applied, see [Rebooting a Cluster](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/nodes.rebooting.html) for an alternate process.
+    ///
+    /// - Parameter RebootCacheClusterInput : Represents the input of a RebootCacheCluster operation.
+    ///
+    /// - Returns: `RebootCacheClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CacheClusterNotFoundFault` : The requested cluster ID does not refer to an existing cluster.
+    /// - `InvalidCacheClusterStateFault` : The requested cluster is not in the available state.
     public func rebootCacheCluster(input: RebootCacheClusterInput) async throws -> RebootCacheClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2276,6 +3100,26 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Removes the tags identified by the TagKeys list from the named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/IAM.ResourceLevelPermissions.html).
+    ///
+    /// - Parameter RemoveTagsFromResourceInput : Represents the input of a RemoveTagsFromResource operation.
+    ///
+    /// - Returns: `RemoveTagsFromResourceOutputResponse` : Represents the output from the AddTagsToResource, ListTagsForResource, and RemoveTagsFromResource operations.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CacheClusterNotFoundFault` : The requested cluster ID does not refer to an existing cluster.
+    /// - `CacheParameterGroupNotFoundFault` : The requested cache parameter group name does not refer to an existing cache parameter group.
+    /// - `CacheSecurityGroupNotFoundFault` : The requested cache security group name does not refer to an existing cache security group.
+    /// - `CacheSubnetGroupNotFoundFault` : The requested cache subnet group name does not refer to an existing cache subnet group.
+    /// - `InvalidARNFault` : The requested Amazon Resource Name (ARN) does not refer to an existing resource.
+    /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
+    /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
+    /// - `ReservedCacheNodeNotFoundFault` : The requested reserved cache node was not found.
+    /// - `SnapshotNotFoundFault` : The requested snapshot name does not refer to an existing snapshot.
+    /// - `TagNotFoundFault` : The requested tag was not found on this resource.
+    /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
+    /// - `UserNotFoundFault` : The user does not exist or could not be found.
     public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2312,6 +3156,23 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Modifies the parameters of a cache parameter group to the engine or system default value. You can reset specific parameters by submitting a list of parameter names. To reset the entire cache parameter group, specify the ResetAllParameters and CacheParameterGroupName parameters.
+    ///
+    /// - Parameter ResetCacheParameterGroupInput : Represents the input of a ResetCacheParameterGroup operation.
+    ///
+    /// - Returns: `ResetCacheParameterGroupOutputResponse` : Represents the output of one of the following operations:
+    ///
+    /// * ModifyCacheParameterGroup
+    ///
+    /// * ResetCacheParameterGroup
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CacheParameterGroupNotFoundFault` : The requested cache parameter group name does not refer to an existing cache parameter group.
+    /// - `InvalidCacheParameterGroupStateFault` : The current state of the cache parameter group does not allow the requested operation to occur.
+    /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     public func resetCacheParameterGroup(input: ResetCacheParameterGroupInput) async throws -> ResetCacheParameterGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2348,6 +3209,19 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Revokes ingress from a cache security group. Use this operation to disallow access from an Amazon EC2 security group that had been previously authorized.
+    ///
+    /// - Parameter RevokeCacheSecurityGroupIngressInput : Represents the input of a RevokeCacheSecurityGroupIngress operation.
+    ///
+    /// - Returns: `RevokeCacheSecurityGroupIngressOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationNotFoundFault` : The specified Amazon EC2 security group is not authorized for the specified cache security group.
+    /// - `CacheSecurityGroupNotFoundFault` : The requested cache security group name does not refer to an existing cache security group.
+    /// - `InvalidCacheSecurityGroupStateFault` : The current state of the cache security group does not allow deletion.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     public func revokeCacheSecurityGroupIngress(input: RevokeCacheSecurityGroupIngressInput) async throws -> RevokeCacheSecurityGroupIngressOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2384,6 +3258,18 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     }
 
     /// Start the migration of data.
+    ///
+    /// - Parameter StartMigrationInput : [no documentation found]
+    ///
+    /// - Returns: `StartMigrationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
+    /// - `ReplicationGroupAlreadyUnderMigrationFault` : The targeted replication group is not available.
+    /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     public func startMigration(input: StartMigrationInput) async throws -> StartMigrationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2451,6 +3337,23 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     ///
     /// Also see, [Testing Multi-AZ ](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/AutoFailover.html#auto-failover-test) in the ElastiCache User Guide.
+    ///
+    /// - Parameter TestFailoverInput : [no documentation found]
+    ///
+    /// - Returns: `TestFailoverOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `APICallRateForCustomerExceededFault` : The customer has exceeded the allowed rate of API calls.
+    /// - `InvalidCacheClusterStateFault` : The requested cluster is not in the available state.
+    /// - `InvalidKMSKeyFault` : The KMS key supplied is not valid.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
+    /// - `NodeGroupNotFoundFault` : The node group specified by the NodeGroupId parameter could not be found. Please verify that the node group exists and that you spelled the NodeGroupId value correctly.
+    /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
+    /// - `TestFailoverNotAvailableFault` : The TestFailover action is not available.
     public func testFailover(input: TestFailoverInput) async throws -> TestFailoverOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2482,6 +3385,54 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TestFailoverOutputResponse, TestFailoverOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestFailoverOutputResponse, TestFailoverOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TestFailoverOutputResponse, TestFailoverOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Async API to test connection between source and target replication group.
+    ///
+    /// - Parameter TestMigrationInput : [no documentation found]
+    ///
+    /// - Returns: `TestMigrationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
+    /// - `ReplicationGroupAlreadyUnderMigrationFault` : The targeted replication group is not available.
+    /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
+    public func testMigration(input: TestMigrationInput) async throws -> TestMigrationOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "testMigration")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "elasticache")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<TestMigrationInput, TestMigrationOutputResponse, TestMigrationOutputError>(id: "testMigration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TestMigrationInput, TestMigrationOutputResponse, TestMigrationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TestMigrationInput, TestMigrationOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TestMigrationOutputResponse, TestMigrationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TestMigrationInput, TestMigrationOutputResponse>(xmlName: "TestMigrationMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TestMigrationInput, TestMigrationOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TestMigrationOutputResponse, TestMigrationOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TestMigrationOutputResponse, TestMigrationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestMigrationOutputResponse, TestMigrationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TestMigrationOutputResponse, TestMigrationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

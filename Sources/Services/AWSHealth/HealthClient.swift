@@ -68,6 +68,15 @@ public struct HealthClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory 
 
 extension HealthClient: HealthClientProtocol {
     /// Returns a list of accounts in the organization from Organizations that are affected by the provided event. For more information about the different types of Health events, see [Event](https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html). Before you can call this operation, you must first enable Health to work with Organizations. To do this, call the [EnableHealthServiceAccessForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html) operation from your organization's management account. This API operation uses pagination. Specify the nextToken parameter in the next request to return more results.
+    ///
+    /// - Parameter DescribeAffectedAccountsForOrganizationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAffectedAccountsForOrganizationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidPaginationToken` : The specified pagination token (nextToken) is not valid.
     public func describeAffectedAccountsForOrganization(input: DescribeAffectedAccountsForOrganizationInput) async throws -> DescribeAffectedAccountsForOrganizationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -109,6 +118,16 @@ extension HealthClient: HealthClientProtocol {
     /// * This API operation uses pagination. Specify the nextToken parameter in the next request to return more results.
     ///
     /// * This operation supports resource-level permissions. You can use this operation to allow or deny access to specific Health events. For more information, see [Resource- and action-based conditions](https://docs.aws.amazon.com/health/latest/ug/security_iam_id-based-policy-examples.html#resource-action-based-conditions) in the Health User Guide.
+    ///
+    /// - Parameter DescribeAffectedEntitiesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAffectedEntitiesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidPaginationToken` : The specified pagination token (nextToken) is not valid.
+    /// - `UnsupportedLocale` : The specified locale is not supported.
     public func describeAffectedEntities(input: DescribeAffectedEntitiesInput) async throws -> DescribeAffectedEntitiesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -150,6 +169,16 @@ extension HealthClient: HealthClientProtocol {
     /// * This API operation uses pagination. Specify the nextToken parameter in the next request to return more results.
     ///
     /// * This operation doesn't support resource-level permissions. You can't use this operation to allow or deny access to specific Health events. For more information, see [Resource- and action-based conditions](https://docs.aws.amazon.com/health/latest/ug/security_iam_id-based-policy-examples.html#resource-action-based-conditions) in the Health User Guide.
+    ///
+    /// - Parameter DescribeAffectedEntitiesForOrganizationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAffectedEntitiesForOrganizationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidPaginationToken` : The specified pagination token (nextToken) is not valid.
+    /// - `UnsupportedLocale` : The specified locale is not supported.
     public func describeAffectedEntitiesForOrganization(input: DescribeAffectedEntitiesForOrganizationInput) async throws -> DescribeAffectedEntitiesForOrganizationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -187,6 +216,10 @@ extension HealthClient: HealthClientProtocol {
     }
 
     /// Returns the number of entities that are affected by each of the specified events.
+    ///
+    /// - Parameter DescribeEntityAggregatesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeEntityAggregatesOutputResponse` : [no documentation found]
     public func describeEntityAggregates(input: DescribeEntityAggregatesInput) async throws -> DescribeEntityAggregatesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -224,6 +257,15 @@ extension HealthClient: HealthClientProtocol {
     }
 
     /// Returns the number of events of each event type (issue, scheduled change, and account notification). If no filter is specified, the counts of all events in each category are returned. This API operation uses pagination. Specify the nextToken parameter in the next request to return more results.
+    ///
+    /// - Parameter DescribeEventAggregatesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeEventAggregatesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidPaginationToken` : The specified pagination token (nextToken) is not valid.
     public func describeEventAggregates(input: DescribeEventAggregatesInput) async throws -> DescribeEventAggregatesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -261,6 +303,15 @@ extension HealthClient: HealthClientProtocol {
     }
 
     /// Returns detailed information about one or more specified events. Information includes standard event data (Amazon Web Services Region, service, and so on, as returned by [DescribeEvents](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEvents.html)), a detailed event description, and possible additional metadata that depends upon the nature of the event. Affected entities are not included. To retrieve the entities, use the [DescribeAffectedEntities](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeAffectedEntities.html) operation. If a specified event can't be retrieved, an error message is returned for that event. This operation supports resource-level permissions. You can use this operation to allow or deny access to specific Health events. For more information, see [Resource- and action-based conditions](https://docs.aws.amazon.com/health/latest/ug/security_iam_id-based-policy-examples.html#resource-action-based-conditions) in the Health User Guide.
+    ///
+    /// - Parameter DescribeEventDetailsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeEventDetailsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `UnsupportedLocale` : The specified locale is not supported.
     public func describeEventDetails(input: DescribeEventDetailsInput) async throws -> DescribeEventDetailsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -305,6 +356,15 @@ extension HealthClient: HealthClientProtocol {
     ///
     ///
     /// For more information, see [Event](https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html). This operation doesn't support resource-level permissions. You can't use this operation to allow or deny access to specific Health events. For more information, see [Resource- and action-based conditions](https://docs.aws.amazon.com/health/latest/ug/security_iam_id-based-policy-examples.html#resource-action-based-conditions) in the Health User Guide.
+    ///
+    /// - Parameter DescribeEventDetailsForOrganizationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeEventDetailsForOrganizationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `UnsupportedLocale` : The specified locale is not supported.
     public func describeEventDetailsForOrganization(input: DescribeEventDetailsForOrganizationInput) async throws -> DescribeEventDetailsForOrganizationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -342,6 +402,16 @@ extension HealthClient: HealthClientProtocol {
     }
 
     /// Returns the event types that meet the specified filter criteria. You can use this API operation to find information about the Health event, such as the category, Amazon Web Service, and event code. The metadata for each event appears in the [EventType](https://docs.aws.amazon.com/health/latest/APIReference/API_EventType.html) object. If you don't specify a filter criteria, the API operation returns all event types, in no particular order. This API operation uses pagination. Specify the nextToken parameter in the next request to return more results.
+    ///
+    /// - Parameter DescribeEventTypesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeEventTypesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidPaginationToken` : The specified pagination token (nextToken) is not valid.
+    /// - `UnsupportedLocale` : The specified locale is not supported.
     public func describeEventTypes(input: DescribeEventTypesInput) async throws -> DescribeEventTypesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -383,6 +453,16 @@ extension HealthClient: HealthClientProtocol {
     /// * When you call the DescribeEvents operation and specify an entity for the entityValues parameter, Health might return public events that aren't specific to that resource. For example, if you call DescribeEvents and specify an ID for an Amazon Elastic Compute Cloud (Amazon EC2) instance, Health might return events that aren't specific to that resource or service. To get events that are specific to a service, use the services parameter in the filter object. For more information, see [Event](https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html).
     ///
     /// * This API operation uses pagination. Specify the nextToken parameter in the next request to return more results.
+    ///
+    /// - Parameter DescribeEventsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeEventsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidPaginationToken` : The specified pagination token (nextToken) is not valid.
+    /// - `UnsupportedLocale` : The specified locale is not supported.
     public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -429,6 +509,16 @@ extension HealthClient: HealthClientProtocol {
     ///
     ///
     /// If you don't specify a filter, the DescribeEventsForOrganizations returns all events across your organization. Results are sorted by lastModifiedTime, starting with the most recent event. For more information about the different types of Health events, see [Event](https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html). Before you can call this operation, you must first enable Health to work with Organizations. To do this, call the [EnableHealthServiceAccessForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html) operation from your organization's management account. This API operation uses pagination. Specify the nextToken parameter in the next request to return more results.
+    ///
+    /// - Parameter DescribeEventsForOrganizationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeEventsForOrganizationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidPaginationToken` : The specified pagination token (nextToken) is not valid.
+    /// - `UnsupportedLocale` : The specified locale is not supported.
     public func describeEventsForOrganization(input: DescribeEventsForOrganizationInput) async throws -> DescribeEventsForOrganizationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -466,6 +556,10 @@ extension HealthClient: HealthClientProtocol {
     }
 
     /// This operation provides status information on enabling or disabling Health to work with your organization. To call this operation, you must use the organization's management account.
+    ///
+    /// - Parameter DescribeHealthServiceStatusForOrganizationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeHealthServiceStatusForOrganizationOutputResponse` : [no documentation found]
     public func describeHealthServiceStatusForOrganization(input: DescribeHealthServiceStatusForOrganizationInput) async throws -> DescribeHealthServiceStatusForOrganizationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -503,6 +597,15 @@ extension HealthClient: HealthClientProtocol {
     }
 
     /// Disables Health from working with Organizations. To call this operation, you must sign in to the organization's management account. For more information, see [Aggregating Health events](https://docs.aws.amazon.com/health/latest/ug/aggregate-events.html) in the Health User Guide. This operation doesn't remove the service-linked role from the management account in your organization. You must use the IAM console, API, or Command Line Interface (CLI) to remove the service-linked role. For more information, see [Deleting a Service-Linked Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html#delete-service-linked-role) in the IAM User Guide. You can also disable the organizational feature by using the Organizations [DisableAWSServiceAccess](https://docs.aws.amazon.com/organizations/latest/APIReference/API_DisableAWSServiceAccess.html) API operation. After you call this operation, Health stops aggregating events for all other Amazon Web Services accounts in your organization. If you call the Health API operations for organizational view, Health returns an error. Health continues to aggregate health events for your Amazon Web Services account.
+    ///
+    /// - Parameter DisableHealthServiceAccessForOrganizationInput : [no documentation found]
+    ///
+    /// - Returns: `DisableHealthServiceAccessForOrganizationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : [EnableHealthServiceAccessForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html) is already in progress. Wait for the action to complete before trying again. To get the current status, use the [DescribeHealthServiceStatusForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeHealthServiceStatusForOrganization.html) operation.
     public func disableHealthServiceAccessForOrganization(input: DisableHealthServiceAccessForOrganizationInput) async throws -> DisableHealthServiceAccessForOrganizationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -547,6 +650,15 @@ extension HealthClient: HealthClientProtocol {
     ///
     ///
     /// If you don't have the required support plan, you can instead use the Health console to enable the organizational view feature. For more information, see [Aggregating Health events](https://docs.aws.amazon.com/health/latest/ug/aggregate-events.html) in the Health User Guide.
+    ///
+    /// - Parameter EnableHealthServiceAccessForOrganizationInput : [no documentation found]
+    ///
+    /// - Returns: `EnableHealthServiceAccessForOrganizationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : [EnableHealthServiceAccessForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html) is already in progress. Wait for the action to complete before trying again. To get the current status, use the [DescribeHealthServiceStatusForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeHealthServiceStatusForOrganization.html) operation.
     public func enableHealthServiceAccessForOrganization(input: EnableHealthServiceAccessForOrganizationInput) async throws -> EnableHealthServiceAccessForOrganizationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

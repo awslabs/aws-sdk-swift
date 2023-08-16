@@ -68,6 +68,19 @@ public struct AppFabricClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFacto
 
 extension AppFabricClient: AppFabricClientProtocol {
     /// Gets user access details in a batch request. This action polls data from the tasks that are kicked off by the StartUserAccessTasks action.
+    ///
+    /// - Parameter BatchGetUserAccessTasksInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetUserAccessTasksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func batchGetUserAccessTasks(input: BatchGetUserAccessTasksInput) async throws -> BatchGetUserAccessTasksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +117,19 @@ extension AppFabricClient: AppFabricClientProtocol {
     }
 
     /// Establishes a connection between Amazon Web Services AppFabric and an application, which allows AppFabric to call the APIs of the application.
+    ///
+    /// - Parameter ConnectAppAuthorizationInput : [no documentation found]
+    ///
+    /// - Returns: `ConnectAppAuthorizationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func connectAppAuthorization(input: ConnectAppAuthorizationInput) async throws -> ConnectAppAuthorizationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -140,6 +166,21 @@ extension AppFabricClient: AppFabricClientProtocol {
     }
 
     /// Creates an app authorization within an app bundle, which allows AppFabric to connect to an application.
+    ///
+    /// - Parameter CreateAppAuthorizationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAppAuthorizationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `ConflictException` : The request has created a conflict. Check the request parameters and try again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func createAppAuthorization(input: CreateAppAuthorizationInput) async throws -> CreateAppAuthorizationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -184,6 +225,20 @@ extension AppFabricClient: AppFabricClientProtocol {
     }
 
     /// Creates an app bundle to collect data from an application using AppFabric.
+    ///
+    /// - Parameter CreateAppBundleInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAppBundleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `ConflictException` : The request has created a conflict. Check the request parameters and try again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func createAppBundle(input: CreateAppBundleInput) async throws -> CreateAppBundleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -228,6 +283,20 @@ extension AppFabricClient: AppFabricClientProtocol {
     }
 
     /// Creates a data ingestion for an application.
+    ///
+    /// - Parameter CreateIngestionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateIngestionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `ConflictException` : The request has created a conflict. Check the request parameters and try again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func createIngestion(input: CreateIngestionInput) async throws -> CreateIngestionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -272,6 +341,20 @@ extension AppFabricClient: AppFabricClientProtocol {
     }
 
     /// Creates an ingestion destination, which specifies how an application's ingested data is processed by Amazon Web Services AppFabric and where it's delivered.
+    ///
+    /// - Parameter CreateIngestionDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateIngestionDestinationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `ConflictException` : The request has created a conflict. Check the request parameters and try again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func createIngestionDestination(input: CreateIngestionDestinationInput) async throws -> CreateIngestionDestinationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -316,6 +399,19 @@ extension AppFabricClient: AppFabricClientProtocol {
     }
 
     /// Deletes an app authorization. You must delete the associated ingestion before you can delete an app authorization.
+    ///
+    /// - Parameter DeleteAppAuthorizationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAppAuthorizationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func deleteAppAuthorization(input: DeleteAppAuthorizationInput) async throws -> DeleteAppAuthorizationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -349,6 +445,19 @@ extension AppFabricClient: AppFabricClientProtocol {
     }
 
     /// Deletes an app bundle. You must delete all associated app authorizations before you can delete an app bundle.
+    ///
+    /// - Parameter DeleteAppBundleInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAppBundleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `ConflictException` : The request has created a conflict. Check the request parameters and try again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func deleteAppBundle(input: DeleteAppBundleInput) async throws -> DeleteAppBundleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -382,6 +491,19 @@ extension AppFabricClient: AppFabricClientProtocol {
     }
 
     /// Deletes an ingestion. You must stop (disable) the ingestion and you must delete all associated ingestion destinations before you can delete an app ingestion.
+    ///
+    /// - Parameter DeleteIngestionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteIngestionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func deleteIngestion(input: DeleteIngestionInput) async throws -> DeleteIngestionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -415,6 +537,19 @@ extension AppFabricClient: AppFabricClientProtocol {
     }
 
     /// Deletes an ingestion destination. This deletes the association between an ingestion and it's destination. It doesn't delete previously ingested data or the storage destination, such as the Amazon S3 bucket where the data is delivered. If the ingestion destination is deleted while the associated ingestion is enabled, the ingestion will fail and is eventually disabled.
+    ///
+    /// - Parameter DeleteIngestionDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteIngestionDestinationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func deleteIngestionDestination(input: DeleteIngestionDestinationInput) async throws -> DeleteIngestionDestinationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -448,6 +583,19 @@ extension AppFabricClient: AppFabricClientProtocol {
     }
 
     /// Returns information about an app authorization.
+    ///
+    /// - Parameter GetAppAuthorizationInput : [no documentation found]
+    ///
+    /// - Returns: `GetAppAuthorizationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func getAppAuthorization(input: GetAppAuthorizationInput) async throws -> GetAppAuthorizationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -481,6 +629,19 @@ extension AppFabricClient: AppFabricClientProtocol {
     }
 
     /// Returns information about an app bundle.
+    ///
+    /// - Parameter GetAppBundleInput : [no documentation found]
+    ///
+    /// - Returns: `GetAppBundleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func getAppBundle(input: GetAppBundleInput) async throws -> GetAppBundleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -514,6 +675,19 @@ extension AppFabricClient: AppFabricClientProtocol {
     }
 
     /// Returns information about an ingestion.
+    ///
+    /// - Parameter GetIngestionInput : [no documentation found]
+    ///
+    /// - Returns: `GetIngestionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func getIngestion(input: GetIngestionInput) async throws -> GetIngestionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -547,6 +721,19 @@ extension AppFabricClient: AppFabricClientProtocol {
     }
 
     /// Returns information about an ingestion destination.
+    ///
+    /// - Parameter GetIngestionDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `GetIngestionDestinationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func getIngestionDestination(input: GetIngestionDestinationInput) async throws -> GetIngestionDestinationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -580,6 +767,19 @@ extension AppFabricClient: AppFabricClientProtocol {
     }
 
     /// Returns a list of all app authorizations configured for an app bundle.
+    ///
+    /// - Parameter ListAppAuthorizationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAppAuthorizationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func listAppAuthorizations(input: ListAppAuthorizationsInput) async throws -> ListAppAuthorizationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -614,6 +814,18 @@ extension AppFabricClient: AppFabricClientProtocol {
     }
 
     /// Returns a list of app bundles.
+    ///
+    /// - Parameter ListAppBundlesInput : [no documentation found]
+    ///
+    /// - Returns: `ListAppBundlesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func listAppBundles(input: ListAppBundlesInput) async throws -> ListAppBundlesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -648,6 +860,19 @@ extension AppFabricClient: AppFabricClientProtocol {
     }
 
     /// Returns a list of all ingestion destinations configured for an ingestion.
+    ///
+    /// - Parameter ListIngestionDestinationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListIngestionDestinationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func listIngestionDestinations(input: ListIngestionDestinationsInput) async throws -> ListIngestionDestinationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -682,6 +907,19 @@ extension AppFabricClient: AppFabricClientProtocol {
     }
 
     /// Returns a list of all ingestions configured for an app bundle.
+    ///
+    /// - Parameter ListIngestionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListIngestionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func listIngestions(input: ListIngestionsInput) async throws -> ListIngestionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -716,6 +954,19 @@ extension AppFabricClient: AppFabricClientProtocol {
     }
 
     /// Returns a list of tags for a resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -749,6 +1000,20 @@ extension AppFabricClient: AppFabricClientProtocol {
     }
 
     /// Starts (enables) an ingestion, which collects data from an application.
+    ///
+    /// - Parameter StartIngestionInput : [no documentation found]
+    ///
+    /// - Returns: `StartIngestionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `ConflictException` : The request has created a conflict. Check the request parameters and try again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func startIngestion(input: StartIngestionInput) async throws -> StartIngestionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -782,6 +1047,19 @@ extension AppFabricClient: AppFabricClientProtocol {
     }
 
     /// Starts the tasks to search user access status for a specific email address. The tasks are stopped when the user access status data is found. The tasks are terminated when the API calls to the application time out.
+    ///
+    /// - Parameter StartUserAccessTasksInput : [no documentation found]
+    ///
+    /// - Returns: `StartUserAccessTasksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func startUserAccessTasks(input: StartUserAccessTasksInput) async throws -> StartUserAccessTasksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -818,6 +1096,20 @@ extension AppFabricClient: AppFabricClientProtocol {
     }
 
     /// Stops (disables) an ingestion.
+    ///
+    /// - Parameter StopIngestionInput : [no documentation found]
+    ///
+    /// - Returns: `StopIngestionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `ConflictException` : The request has created a conflict. Check the request parameters and try again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func stopIngestion(input: StopIngestionInput) async throws -> StopIngestionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -851,6 +1143,19 @@ extension AppFabricClient: AppFabricClientProtocol {
     }
 
     /// Assigns one or more tags (key-value pairs) to the specified resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -887,6 +1192,19 @@ extension AppFabricClient: AppFabricClientProtocol {
     }
 
     /// Removes a tag or tags from a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -921,6 +1239,19 @@ extension AppFabricClient: AppFabricClientProtocol {
     }
 
     /// Updates an app authorization within an app bundle, which allows AppFabric to connect to an application. If the app authorization was in a connected state, updating the app authorization will set it back to a PendingConnect state.
+    ///
+    /// - Parameter UpdateAppAuthorizationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAppAuthorizationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func updateAppAuthorization(input: UpdateAppAuthorizationInput) async throws -> UpdateAppAuthorizationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -957,6 +1288,21 @@ extension AppFabricClient: AppFabricClientProtocol {
     }
 
     /// Updates an ingestion destination, which specifies how an application's ingested data is processed by Amazon Web Services AppFabric and where it's delivered.
+    ///
+    /// - Parameter UpdateIngestionDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateIngestionDestinationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this operation.
+    /// - `ConflictException` : The request has created a conflict. Check the request parameters and try again.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request rate exceeds the limit.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func updateIngestionDestination(input: UpdateIngestionDestinationInput) async throws -> UpdateIngestionDestinationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

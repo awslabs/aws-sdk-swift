@@ -68,6 +68,25 @@ public struct SSOOIDCClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
 
 extension SSOOIDCClient: SSOOIDCClientProtocol {
     /// Creates and returns an access token for the authorized client. The access token issued will be used to fetch short-term credentials for the assigned roles in the AWS account.
+    ///
+    /// - Parameter CreateTokenInput : [no documentation found]
+    ///
+    /// - Returns: `CreateTokenOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `AuthorizationPendingException` : Indicates that a request to authorize a client with an access user session token is pending.
+    /// - `ExpiredTokenException` : Indicates that the token issued by the service is expired and is no longer valid.
+    /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
+    /// - `InvalidClientException` : Indicates that the clientId or clientSecret in the request is invalid. For example, this can occur when a client sends an incorrect clientId or an expired clientSecret.
+    /// - `InvalidGrantException` : Indicates that a request contains an invalid grant. This can occur if a client makes a [CreateToken] request with an invalid grant type.
+    /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter might be missing or out of range.
+    /// - `InvalidScopeException` : Indicates that the scope provided in the request is invalid.
+    /// - `SlowDownException` : Indicates that the client is making the request too frequently and is more than the service can handle.
+    /// - `UnauthorizedClientException` : Indicates that the client is not currently authorized to make the request. This can happen when a clientId is not issued for a public client.
+    /// - `UnsupportedGrantTypeException` : Indicates that the grant type in the request is not supported by the service.
     public func createToken(input: CreateTokenInput) async throws -> CreateTokenOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -100,6 +119,18 @@ extension SSOOIDCClient: SSOOIDCClientProtocol {
     }
 
     /// Registers a client with IAM Identity Center. This allows clients to initiate device authorization. The output should be persisted for reuse through many authentication requests.
+    ///
+    /// - Parameter RegisterClientInput : [no documentation found]
+    ///
+    /// - Returns: `RegisterClientOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
+    /// - `InvalidClientMetadataException` : Indicates that the client information sent in the request during registration is invalid.
+    /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter might be missing or out of range.
+    /// - `InvalidScopeException` : Indicates that the scope provided in the request is invalid.
     public func registerClient(input: RegisterClientInput) async throws -> RegisterClientOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -132,6 +163,19 @@ extension SSOOIDCClient: SSOOIDCClientProtocol {
     }
 
     /// Initiates device authorization by requesting a pair of verification codes from the authorization service.
+    ///
+    /// - Parameter StartDeviceAuthorizationInput : [no documentation found]
+    ///
+    /// - Returns: `StartDeviceAuthorizationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
+    /// - `InvalidClientException` : Indicates that the clientId or clientSecret in the request is invalid. For example, this can occur when a client sends an incorrect clientId or an expired clientSecret.
+    /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter might be missing or out of range.
+    /// - `SlowDownException` : Indicates that the client is making the request too frequently and is more than the service can handle.
+    /// - `UnauthorizedClientException` : Indicates that the client is not currently authorized to make the request. This can happen when a clientId is not issued for a public client.
     public func startDeviceAuthorization(input: StartDeviceAuthorizationInput) async throws -> StartDeviceAuthorizationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

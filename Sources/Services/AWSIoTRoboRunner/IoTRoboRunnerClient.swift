@@ -68,6 +68,21 @@ public struct IoTRoboRunnerClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
 
 extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     /// Grants permission to create a destination
+    ///
+    /// - Parameter CreateDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDestinationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Exception thrown if a resource in a create request already exists.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ServiceQuotaExceededException` : Exception thrown if the user's AWS account has reached a service limit and the operation cannot proceed.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     public func createDestination(input: CreateDestinationInput) async throws -> CreateDestinationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -112,6 +127,20 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     }
 
     /// Grants permission to create a site
+    ///
+    /// - Parameter CreateSiteInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSiteOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Exception thrown if a resource in a create request already exists.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ServiceQuotaExceededException` : Exception thrown if the user's AWS account has reached a service limit and the operation cannot proceed.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     public func createSite(input: CreateSiteInput) async throws -> CreateSiteOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -156,6 +185,21 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     }
 
     /// Grants permission to create a worker
+    ///
+    /// - Parameter CreateWorkerInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWorkerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Exception thrown if a resource in a create request already exists.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ServiceQuotaExceededException` : Exception thrown if the user's AWS account has reached a service limit and the operation cannot proceed.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     public func createWorker(input: CreateWorkerInput) async throws -> CreateWorkerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -200,6 +244,21 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     }
 
     /// Grants permission to create a worker fleet
+    ///
+    /// - Parameter CreateWorkerFleetInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWorkerFleetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Exception thrown if a resource in a create request already exists.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ServiceQuotaExceededException` : Exception thrown if the user's AWS account has reached a service limit and the operation cannot proceed.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     public func createWorkerFleet(input: CreateWorkerFleetInput) async throws -> CreateWorkerFleetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -244,6 +303,20 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     }
 
     /// Grants permission to delete a destination
+    ///
+    /// - Parameter DeleteDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDestinationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Exception thrown if a resource in a create request already exists.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     public func deleteDestination(input: DeleteDestinationInput) async throws -> DeleteDestinationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -280,6 +353,20 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     }
 
     /// Grants permission to delete a site
+    ///
+    /// - Parameter DeleteSiteInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSiteOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Exception thrown if a resource in a create request already exists.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     public func deleteSite(input: DeleteSiteInput) async throws -> DeleteSiteOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -316,6 +403,20 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     }
 
     /// Grants permission to delete a worker
+    ///
+    /// - Parameter DeleteWorkerInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWorkerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Exception thrown if a resource in a create request already exists.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     public func deleteWorker(input: DeleteWorkerInput) async throws -> DeleteWorkerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -352,6 +453,20 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     }
 
     /// Grants permission to delete a worker fleet
+    ///
+    /// - Parameter DeleteWorkerFleetInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWorkerFleetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Exception thrown if a resource in a create request already exists.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     public func deleteWorkerFleet(input: DeleteWorkerFleetInput) async throws -> DeleteWorkerFleetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -388,6 +503,19 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     }
 
     /// Grants permission to get a destination
+    ///
+    /// - Parameter GetDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `GetDestinationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     public func getDestination(input: GetDestinationInput) async throws -> GetDestinationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -422,6 +550,19 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     }
 
     /// Grants permission to get a site
+    ///
+    /// - Parameter GetSiteInput : [no documentation found]
+    ///
+    /// - Returns: `GetSiteOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     public func getSite(input: GetSiteInput) async throws -> GetSiteOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -456,6 +597,19 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     }
 
     /// Grants permission to get a worker
+    ///
+    /// - Parameter GetWorkerInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     public func getWorker(input: GetWorkerInput) async throws -> GetWorkerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -490,6 +644,19 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     }
 
     /// Grants permission to get a worker fleet
+    ///
+    /// - Parameter GetWorkerFleetInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkerFleetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     public func getWorkerFleet(input: GetWorkerFleetInput) async throws -> GetWorkerFleetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -524,6 +691,19 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     }
 
     /// Grants permission to list destinations
+    ///
+    /// - Parameter ListDestinationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDestinationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     public func listDestinations(input: ListDestinationsInput) async throws -> ListDestinationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -558,6 +738,18 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     }
 
     /// Grants permission to list sites
+    ///
+    /// - Parameter ListSitesInput : [no documentation found]
+    ///
+    /// - Returns: `ListSitesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     public func listSites(input: ListSitesInput) async throws -> ListSitesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -592,6 +784,19 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     }
 
     /// Grants permission to list worker fleets
+    ///
+    /// - Parameter ListWorkerFleetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorkerFleetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     public func listWorkerFleets(input: ListWorkerFleetsInput) async throws -> ListWorkerFleetsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -626,6 +831,19 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     }
 
     /// Grants permission to list workers
+    ///
+    /// - Parameter ListWorkersInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorkersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     public func listWorkers(input: ListWorkersInput) async throws -> ListWorkersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -660,6 +878,19 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     }
 
     /// Grants permission to update a destination
+    ///
+    /// - Parameter UpdateDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDestinationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     public func updateDestination(input: UpdateDestinationInput) async throws -> UpdateDestinationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -696,6 +927,19 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     }
 
     /// Grants permission to update a site
+    ///
+    /// - Parameter UpdateSiteInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSiteOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     public func updateSite(input: UpdateSiteInput) async throws -> UpdateSiteOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -732,6 +976,19 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     }
 
     /// Grants permission to update a worker
+    ///
+    /// - Parameter UpdateWorkerInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWorkerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     public func updateWorker(input: UpdateWorkerInput) async throws -> UpdateWorkerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -768,6 +1025,19 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     }
 
     /// Grants permission to update a worker fleet
+    ///
+    /// - Parameter UpdateWorkerFleetInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWorkerFleetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     public func updateWorkerFleet(input: UpdateWorkerFleetInput) async throws -> UpdateWorkerFleetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

@@ -68,6 +68,20 @@ public struct APIGatewayClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
 
 extension APIGatewayClient: APIGatewayClientProtocol {
     /// Create an ApiKey resource.
+    ///
+    /// - Parameter CreateApiKeyInput : Request to create an ApiKey resource.
+    ///
+    /// - Returns: `CreateApiKeyOutputResponse` : A resource that can be distributed to callers for executing Method resources that require an API key. API keys can be mapped to any Stage on any RestApi, which indicates that the callers with the API key can make requests to that stage.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func createApiKey(input: CreateApiKeyInput) async throws -> CreateApiKeyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -105,6 +119,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Adds a new Authorizer resource to an existing RestApi resource.
+    ///
+    /// - Parameter CreateAuthorizerInput : Request to add a new Authorizer to an existing RestApi resource.
+    ///
+    /// - Returns: `CreateAuthorizerOutputResponse` : Represents an authorization layer for methods. If enabled on a method, API Gateway will activate the authorizer when a client calls the method.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func createAuthorizer(input: CreateAuthorizerInput) async throws -> CreateAuthorizerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -142,6 +170,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Creates a new BasePathMapping resource.
+    ///
+    /// - Parameter CreateBasePathMappingInput : Requests API Gateway to create a new BasePathMapping resource.
+    ///
+    /// - Returns: `CreateBasePathMappingOutputResponse` : Represents the base path that callers of the API must provide as part of the URL after the domain name.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func createBasePathMapping(input: CreateBasePathMappingInput) async throws -> CreateBasePathMappingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -179,6 +221,21 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Creates a Deployment resource, which makes a specified RestApi callable over the internet.
+    ///
+    /// - Parameter CreateDeploymentInput : Requests API Gateway to create a Deployment resource.
+    ///
+    /// - Returns: `CreateDeploymentOutputResponse` : An immutable representation of a RestApi resource that can be called by users using Stages. A deployment must be associated with a Stage for it to be callable over the Internet.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `ServiceUnavailableException` : The requested service is not available. For details see the accompanying error message. Retry after the specified time period.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -216,6 +273,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Creates a documentation part.
+    ///
+    /// - Parameter CreateDocumentationPartInput : Creates a new documentation part of a given API.
+    ///
+    /// - Returns: `CreateDocumentationPartOutputResponse` : A documentation part for a targeted API entity.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func createDocumentationPart(input: CreateDocumentationPartInput) async throws -> CreateDocumentationPartOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -253,6 +324,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Creates a documentation version
+    ///
+    /// - Parameter CreateDocumentationVersionInput : Creates a new documentation version of a given API.
+    ///
+    /// - Returns: `CreateDocumentationVersionOutputResponse` : A snapshot of the documentation of an API.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func createDocumentationVersion(input: CreateDocumentationVersionInput) async throws -> CreateDocumentationVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -290,6 +375,19 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Creates a new domain name.
+    ///
+    /// - Parameter CreateDomainNameInput : A request to create a new domain name.
+    ///
+    /// - Returns: `CreateDomainNameOutputResponse` : Represents a custom domain name as a user-friendly host name of an API (RestApi).
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func createDomainName(input: CreateDomainNameInput) async throws -> CreateDomainNameOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -327,6 +425,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Adds a new Model resource to an existing RestApi resource.
+    ///
+    /// - Parameter CreateModelInput : Request to add a new Model to an existing RestApi resource.
+    ///
+    /// - Returns: `CreateModelOutputResponse` : Represents the data structure of a method's request or response payload.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func createModel(input: CreateModelInput) async throws -> CreateModelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -364,6 +476,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Creates a RequestValidator of a given RestApi.
+    ///
+    /// - Parameter CreateRequestValidatorInput : Creates a RequestValidator of a given RestApi.
+    ///
+    /// - Returns: `CreateRequestValidatorOutputResponse` : A set of validation rules for incoming Method requests.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func createRequestValidator(input: CreateRequestValidatorInput) async throws -> CreateRequestValidatorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -401,6 +527,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Creates a Resource resource.
+    ///
+    /// - Parameter CreateResourceInput : Requests API Gateway to create a Resource resource.
+    ///
+    /// - Returns: `CreateResourceOutputResponse` : Represents an API resource.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func createResource(input: CreateResourceInput) async throws -> CreateResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -438,6 +578,19 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Creates a new RestApi resource.
+    ///
+    /// - Parameter CreateRestApiInput : The POST Request to add a new RestApi resource to your collection.
+    ///
+    /// - Returns: `CreateRestApiOutputResponse` : Represents a REST API.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func createRestApi(input: CreateRestApiInput) async throws -> CreateRestApiOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -475,6 +628,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Creates a new Stage resource that references a pre-existing Deployment for the API.
+    ///
+    /// - Parameter CreateStageInput : Requests API Gateway to create a Stage resource.
+    ///
+    /// - Returns: `CreateStageOutputResponse` : Represents a unique identifier for a version of a deployed RestApi that is callable by users.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func createStage(input: CreateStageInput) async throws -> CreateStageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -512,6 +679,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Creates a usage plan with the throttle and quota limits, as well as the associated API stages, specified in the payload.
+    ///
+    /// - Parameter CreateUsagePlanInput : The POST request to create a usage plan with the name, description, throttle limits and quota limits, as well as the associated API stages, specified in the payload.
+    ///
+    /// - Returns: `CreateUsagePlanOutputResponse` : Represents a usage plan used to specify who can assess associated API stages. Optionally, target request rate and quota limits can be set. In some cases clients can exceed the targets that you set. Don’t rely on usage plans to control costs. Consider using [Amazon Web Services Budgets](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html) to monitor costs and [WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html) to manage API requests.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func createUsagePlan(input: CreateUsagePlanInput) async throws -> CreateUsagePlanOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -549,6 +730,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Creates a usage plan key for adding an existing API key to a usage plan.
+    ///
+    /// - Parameter CreateUsagePlanKeyInput : The POST request to create a usage plan key for adding an existing API key to a usage plan.
+    ///
+    /// - Returns: `CreateUsagePlanKeyOutputResponse` : Represents a usage plan key to identify a plan customer.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func createUsagePlanKey(input: CreateUsagePlanKeyInput) async throws -> CreateUsagePlanKeyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -586,6 +781,19 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Creates a VPC link, under the caller's account in a selected region, in an asynchronous operation that typically takes 2-4 minutes to complete and become operational. The caller must have permissions to create and update VPC Endpoint services.
+    ///
+    /// - Parameter CreateVpcLinkInput : Creates a VPC link, under the caller's account in a selected region, in an asynchronous operation that typically takes 2-4 minutes to complete and become operational. The caller must have permissions to create and update VPC Endpoint services.
+    ///
+    /// - Returns: `CreateVpcLinkOutputResponse` : An API Gateway VPC link for a RestApi to access resources in an Amazon Virtual Private Cloud (VPC).
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func createVpcLink(input: CreateVpcLinkInput) async throws -> CreateVpcLinkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -623,6 +831,19 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Deletes the ApiKey resource.
+    ///
+    /// - Parameter DeleteApiKeyInput : A request to delete the ApiKey resource.
+    ///
+    /// - Returns: `DeleteApiKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func deleteApiKey(input: DeleteApiKeyInput) async throws -> DeleteApiKeyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -657,6 +878,19 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Deletes an existing Authorizer resource.
+    ///
+    /// - Parameter DeleteAuthorizerInput : Request to delete an existing Authorizer resource.
+    ///
+    /// - Returns: `DeleteAuthorizerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func deleteAuthorizer(input: DeleteAuthorizerInput) async throws -> DeleteAuthorizerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -691,6 +925,19 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Deletes the BasePathMapping resource.
+    ///
+    /// - Parameter DeleteBasePathMappingInput : A request to delete the BasePathMapping resource.
+    ///
+    /// - Returns: `DeleteBasePathMappingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func deleteBasePathMapping(input: DeleteBasePathMappingInput) async throws -> DeleteBasePathMappingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -725,6 +972,19 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Deletes the ClientCertificate resource.
+    ///
+    /// - Parameter DeleteClientCertificateInput : A request to delete the ClientCertificate resource.
+    ///
+    /// - Returns: `DeleteClientCertificateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func deleteClientCertificate(input: DeleteClientCertificateInput) async throws -> DeleteClientCertificateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -759,6 +1019,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Deletes a Deployment resource. Deleting a deployment will only succeed if there are no Stage resources associated with it.
+    ///
+    /// - Parameter DeleteDeploymentInput : Requests API Gateway to delete a Deployment resource.
+    ///
+    /// - Returns: `DeleteDeploymentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func deleteDeployment(input: DeleteDeploymentInput) async throws -> DeleteDeploymentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -793,6 +1067,19 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Deletes a documentation part
+    ///
+    /// - Parameter DeleteDocumentationPartInput : Deletes an existing documentation part of an API.
+    ///
+    /// - Returns: `DeleteDocumentationPartOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func deleteDocumentationPart(input: DeleteDocumentationPartInput) async throws -> DeleteDocumentationPartOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -827,6 +1114,19 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Deletes a documentation version.
+    ///
+    /// - Parameter DeleteDocumentationVersionInput : Deletes an existing documentation version of an API.
+    ///
+    /// - Returns: `DeleteDocumentationVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func deleteDocumentationVersion(input: DeleteDocumentationVersionInput) async throws -> DeleteDocumentationVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -861,6 +1161,19 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Deletes the DomainName resource.
+    ///
+    /// - Parameter DeleteDomainNameInput : A request to delete the DomainName resource.
+    ///
+    /// - Returns: `DeleteDomainNameOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func deleteDomainName(input: DeleteDomainNameInput) async throws -> DeleteDomainNameOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -895,6 +1208,19 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Clears any customization of a GatewayResponse of a specified response type on the given RestApi and resets it with the default settings.
+    ///
+    /// - Parameter DeleteGatewayResponseInput : Clears any customization of a GatewayResponse of a specified response type on the given RestApi and resets it with the default settings.
+    ///
+    /// - Returns: `DeleteGatewayResponseOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func deleteGatewayResponse(input: DeleteGatewayResponseInput) async throws -> DeleteGatewayResponseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -929,6 +1255,19 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Represents a delete integration.
+    ///
+    /// - Parameter DeleteIntegrationInput : Represents a delete integration request.
+    ///
+    /// - Returns: `DeleteIntegrationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func deleteIntegration(input: DeleteIntegrationInput) async throws -> DeleteIntegrationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -963,6 +1302,19 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Represents a delete integration response.
+    ///
+    /// - Parameter DeleteIntegrationResponseInput : Represents a delete integration response request.
+    ///
+    /// - Returns: `DeleteIntegrationResponseOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func deleteIntegrationResponse(input: DeleteIntegrationResponseInput) async throws -> DeleteIntegrationResponseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -997,6 +1349,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Deletes an existing Method resource.
+    ///
+    /// - Parameter DeleteMethodInput : Request to delete an existing Method resource.
+    ///
+    /// - Returns: `DeleteMethodOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func deleteMethod(input: DeleteMethodInput) async throws -> DeleteMethodOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1031,6 +1395,19 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Deletes an existing MethodResponse resource.
+    ///
+    /// - Parameter DeleteMethodResponseInput : A request to delete an existing MethodResponse resource.
+    ///
+    /// - Returns: `DeleteMethodResponseOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func deleteMethodResponse(input: DeleteMethodResponseInput) async throws -> DeleteMethodResponseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1065,6 +1442,19 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Deletes a model.
+    ///
+    /// - Parameter DeleteModelInput : Request to delete an existing model in an existing RestApi resource.
+    ///
+    /// - Returns: `DeleteModelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1099,6 +1489,19 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Deletes a RequestValidator of a given RestApi.
+    ///
+    /// - Parameter DeleteRequestValidatorInput : Deletes a specified RequestValidator of a given RestApi.
+    ///
+    /// - Returns: `DeleteRequestValidatorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func deleteRequestValidator(input: DeleteRequestValidatorInput) async throws -> DeleteRequestValidatorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1133,6 +1536,19 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Deletes a Resource resource.
+    ///
+    /// - Parameter DeleteResourceInput : Request to delete a Resource.
+    ///
+    /// - Returns: `DeleteResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func deleteResource(input: DeleteResourceInput) async throws -> DeleteResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1167,6 +1583,19 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Deletes the specified API.
+    ///
+    /// - Parameter DeleteRestApiInput : Request to delete the specified API from your collection.
+    ///
+    /// - Returns: `DeleteRestApiOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func deleteRestApi(input: DeleteRestApiInput) async throws -> DeleteRestApiOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1201,6 +1630,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Deletes a Stage resource.
+    ///
+    /// - Parameter DeleteStageInput : Requests API Gateway to delete a Stage resource.
+    ///
+    /// - Returns: `DeleteStageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func deleteStage(input: DeleteStageInput) async throws -> DeleteStageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1235,6 +1678,19 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Deletes a usage plan of a given plan Id.
+    ///
+    /// - Parameter DeleteUsagePlanInput : The DELETE request to delete a usage plan of a given plan Id.
+    ///
+    /// - Returns: `DeleteUsagePlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func deleteUsagePlan(input: DeleteUsagePlanInput) async throws -> DeleteUsagePlanOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1269,6 +1725,19 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Deletes a usage plan key and remove the underlying API key from the associated usage plan.
+    ///
+    /// - Parameter DeleteUsagePlanKeyInput : The DELETE request to delete a usage plan key and remove the underlying API key from the associated usage plan.
+    ///
+    /// - Returns: `DeleteUsagePlanKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func deleteUsagePlanKey(input: DeleteUsagePlanKeyInput) async throws -> DeleteUsagePlanKeyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1303,6 +1772,19 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Deletes an existing VpcLink of a specified identifier.
+    ///
+    /// - Parameter DeleteVpcLinkInput : Deletes an existing VpcLink of a specified identifier.
+    ///
+    /// - Returns: `DeleteVpcLinkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func deleteVpcLink(input: DeleteVpcLinkInput) async throws -> DeleteVpcLinkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1337,6 +1819,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Flushes all authorizer cache entries on a stage.
+    ///
+    /// - Parameter FlushStageAuthorizersCacheInput : Request to flush authorizer cache entries on a specified stage.
+    ///
+    /// - Returns: `FlushStageAuthorizersCacheOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func flushStageAuthorizersCache(input: FlushStageAuthorizersCacheInput) async throws -> FlushStageAuthorizersCacheOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1371,6 +1867,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Flushes a stage's cache.
+    ///
+    /// - Parameter FlushStageCacheInput : Requests API Gateway to flush a stage's cache.
+    ///
+    /// - Returns: `FlushStageCacheOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func flushStageCache(input: FlushStageCacheInput) async throws -> FlushStageCacheOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1405,6 +1915,19 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Generates a ClientCertificate resource.
+    ///
+    /// - Parameter GenerateClientCertificateInput : A request to generate a ClientCertificate resource.
+    ///
+    /// - Returns: `GenerateClientCertificateOutputResponse` : Represents a client certificate used to configure client-side SSL authentication while sending requests to the integration endpoint.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func generateClientCertificate(input: GenerateClientCertificateInput) async throws -> GenerateClientCertificateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1442,6 +1965,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Gets information about the current Account resource.
+    ///
+    /// - Parameter GetAccountInput : Requests API Gateway to get information about the current Account resource.
+    ///
+    /// - Returns: `GetAccountOutputResponse` : Represents an AWS account that is associated with API Gateway.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getAccount(input: GetAccountInput) async throws -> GetAccountOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1476,6 +2011,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Gets information about the current ApiKey resource.
+    ///
+    /// - Parameter GetApiKeyInput : A request to get information about the current ApiKey resource.
+    ///
+    /// - Returns: `GetApiKeyOutputResponse` : A resource that can be distributed to callers for executing Method resources that require an API key. API keys can be mapped to any Stage on any RestApi, which indicates that the callers with the API key can make requests to that stage.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getApiKey(input: GetApiKeyInput) async throws -> GetApiKeyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1511,6 +2058,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Gets information about the current ApiKeys resource.
+    ///
+    /// - Parameter GetApiKeysInput : A request to get information about the current ApiKeys resource.
+    ///
+    /// - Returns: `GetApiKeysOutputResponse` : Represents a collection of API keys as represented by an ApiKeys resource.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getApiKeys(input: GetApiKeysInput) async throws -> GetApiKeysOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1546,6 +2105,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Describe an existing Authorizer resource.
+    ///
+    /// - Parameter GetAuthorizerInput : Request to describe an existing Authorizer resource.
+    ///
+    /// - Returns: `GetAuthorizerOutputResponse` : Represents an authorization layer for methods. If enabled on a method, API Gateway will activate the authorizer when a client calls the method.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getAuthorizer(input: GetAuthorizerInput) async throws -> GetAuthorizerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1580,6 +2151,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Describe an existing Authorizers resource.
+    ///
+    /// - Parameter GetAuthorizersInput : Request to describe an existing Authorizers resource.
+    ///
+    /// - Returns: `GetAuthorizersOutputResponse` : Represents a collection of Authorizer resources.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getAuthorizers(input: GetAuthorizersInput) async throws -> GetAuthorizersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1615,6 +2198,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Describe a BasePathMapping resource.
+    ///
+    /// - Parameter GetBasePathMappingInput : Request to describe a BasePathMapping resource.
+    ///
+    /// - Returns: `GetBasePathMappingOutputResponse` : Represents the base path that callers of the API must provide as part of the URL after the domain name.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getBasePathMapping(input: GetBasePathMappingInput) async throws -> GetBasePathMappingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1649,6 +2244,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Represents a collection of BasePathMapping resources.
+    ///
+    /// - Parameter GetBasePathMappingsInput : A request to get information about a collection of BasePathMapping resources.
+    ///
+    /// - Returns: `GetBasePathMappingsOutputResponse` : Represents a collection of BasePathMapping resources.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getBasePathMappings(input: GetBasePathMappingsInput) async throws -> GetBasePathMappingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1684,6 +2291,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Gets information about the current ClientCertificate resource.
+    ///
+    /// - Parameter GetClientCertificateInput : A request to get information about the current ClientCertificate resource.
+    ///
+    /// - Returns: `GetClientCertificateOutputResponse` : Represents a client certificate used to configure client-side SSL authentication while sending requests to the integration endpoint.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getClientCertificate(input: GetClientCertificateInput) async throws -> GetClientCertificateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1718,6 +2337,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Gets a collection of ClientCertificate resources.
+    ///
+    /// - Parameter GetClientCertificatesInput : A request to get information about a collection of ClientCertificate resources.
+    ///
+    /// - Returns: `GetClientCertificatesOutputResponse` : Represents a collection of ClientCertificate resources.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getClientCertificates(input: GetClientCertificatesInput) async throws -> GetClientCertificatesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1753,6 +2384,19 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Gets information about a Deployment resource.
+    ///
+    /// - Parameter GetDeploymentInput : Requests API Gateway to get information about a Deployment resource.
+    ///
+    /// - Returns: `GetDeploymentOutputResponse` : An immutable representation of a RestApi resource that can be called by users using Stages. A deployment must be associated with a Stage for it to be callable over the Internet.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `ServiceUnavailableException` : The requested service is not available. For details see the accompanying error message. Retry after the specified time period.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1788,6 +2432,19 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Gets information about a Deployments collection.
+    ///
+    /// - Parameter GetDeploymentsInput : Requests API Gateway to get information about a Deployments collection.
+    ///
+    /// - Returns: `GetDeploymentsOutputResponse` : Represents a collection resource that contains zero or more references to your existing deployments, and links that guide you on how to interact with your collection. The collection offers a paginated view of the contained deployments.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `ServiceUnavailableException` : The requested service is not available. For details see the accompanying error message. Retry after the specified time period.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getDeployments(input: GetDeploymentsInput) async throws -> GetDeploymentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1823,6 +2480,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Gets a documentation part.
+    ///
+    /// - Parameter GetDocumentationPartInput : Gets a specified documentation part of a given API.
+    ///
+    /// - Returns: `GetDocumentationPartOutputResponse` : A documentation part for a targeted API entity.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getDocumentationPart(input: GetDocumentationPartInput) async throws -> GetDocumentationPartOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1857,6 +2526,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Gets documentation parts.
+    ///
+    /// - Parameter GetDocumentationPartsInput : Gets the documentation parts of an API. The result may be filtered by the type, name, or path of API entities (targets).
+    ///
+    /// - Returns: `GetDocumentationPartsOutputResponse` : The collection of documentation parts of an API.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getDocumentationParts(input: GetDocumentationPartsInput) async throws -> GetDocumentationPartsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1892,6 +2573,17 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Gets a documentation version.
+    ///
+    /// - Parameter GetDocumentationVersionInput : Gets a documentation snapshot of an API.
+    ///
+    /// - Returns: `GetDocumentationVersionOutputResponse` : A snapshot of the documentation of an API.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getDocumentationVersion(input: GetDocumentationVersionInput) async throws -> GetDocumentationVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1926,6 +2618,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Gets documentation versions.
+    ///
+    /// - Parameter GetDocumentationVersionsInput : Gets the documentation versions of an API.
+    ///
+    /// - Returns: `GetDocumentationVersionsOutputResponse` : The collection of documentation snapshots of an API.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getDocumentationVersions(input: GetDocumentationVersionsInput) async throws -> GetDocumentationVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1961,6 +2665,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Represents a domain name that is contained in a simpler, more intuitive URL that can be called.
+    ///
+    /// - Parameter GetDomainNameInput : Request to get the name of a DomainName resource.
+    ///
+    /// - Returns: `GetDomainNameOutputResponse` : Represents a custom domain name as a user-friendly host name of an API (RestApi).
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getDomainName(input: GetDomainNameInput) async throws -> GetDomainNameOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1995,6 +2711,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Represents a collection of DomainName resources.
+    ///
+    /// - Parameter GetDomainNamesInput : Request to describe a collection of DomainName resources.
+    ///
+    /// - Returns: `GetDomainNamesOutputResponse` : Represents a collection of DomainName resources.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getDomainNames(input: GetDomainNamesInput) async throws -> GetDomainNamesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2030,6 +2758,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Exports a deployed version of a RestApi in a specified format.
+    ///
+    /// - Parameter GetExportInput : Request a new export of a RestApi for a particular Stage.
+    ///
+    /// - Returns: `GetExportOutputResponse` : The binary blob response to GetExport, which contains the generated SDK.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getExport(input: GetExportInput) async throws -> GetExportOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2066,6 +2808,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Gets a GatewayResponse of a specified response type on the given RestApi.
+    ///
+    /// - Parameter GetGatewayResponseInput : Gets a GatewayResponse of a specified response type on the given RestApi.
+    ///
+    /// - Returns: `GetGatewayResponseOutputResponse` : A gateway response of a given response type and status code, with optional response parameters and mapping templates.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getGatewayResponse(input: GetGatewayResponseInput) async throws -> GetGatewayResponseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2100,6 +2854,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Gets the GatewayResponses collection on the given RestApi. If an API developer has not added any definitions for gateway responses, the result will be the API Gateway-generated default GatewayResponses collection for the supported response types.
+    ///
+    /// - Parameter GetGatewayResponsesInput : Gets the GatewayResponses collection on the given RestApi. If an API developer has not added any definitions for gateway responses, the result will be the API Gateway-generated default GatewayResponses collection for the supported response types.
+    ///
+    /// - Returns: `GetGatewayResponsesOutputResponse` : The collection of the GatewayResponse instances of a RestApi as a responseType-to-GatewayResponse object map of key-value pairs. As such, pagination is not supported for querying this collection.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getGatewayResponses(input: GetGatewayResponsesInput) async throws -> GetGatewayResponsesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2135,6 +2901,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Get the integration settings.
+    ///
+    /// - Parameter GetIntegrationInput : Represents a request to get the integration configuration.
+    ///
+    /// - Returns: `GetIntegrationOutputResponse` : Represents an HTTP, HTTP_PROXY, AWS, AWS_PROXY, or Mock integration.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getIntegration(input: GetIntegrationInput) async throws -> GetIntegrationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2169,6 +2947,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Represents a get integration response.
+    ///
+    /// - Parameter GetIntegrationResponseInput : Represents a get integration response request.
+    ///
+    /// - Returns: `GetIntegrationResponseOutputResponse` : Represents an integration response. The status code must map to an existing MethodResponse, and parameters and templates can be used to transform the back-end response.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getIntegrationResponse(input: GetIntegrationResponseInput) async throws -> GetIntegrationResponseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2203,6 +2993,17 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Describe an existing Method resource.
+    ///
+    /// - Parameter GetMethodInput : Request to describe an existing Method resource.
+    ///
+    /// - Returns: `GetMethodOutputResponse` : Represents a client-facing interface by which the client calls the API to access back-end resources. A Method resource is integrated with an Integration resource. Both consist of a request and one or more responses. The method request takes the client input that is passed to the back end through the integration request. A method response returns the output from the back end to the client through an integration response. A method request is embodied in a Method resource, whereas an integration request is embodied in an Integration resource. On the other hand, a method response is represented by a MethodResponse resource, whereas an integration response is represented by an IntegrationResponse resource.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getMethod(input: GetMethodInput) async throws -> GetMethodOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2237,6 +3038,17 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Describes a MethodResponse resource.
+    ///
+    /// - Parameter GetMethodResponseInput : Request to describe a MethodResponse resource.
+    ///
+    /// - Returns: `GetMethodResponseOutputResponse` : Represents a method response of a given HTTP status code returned to the client. The method response is passed from the back end through the associated integration response that can be transformed using a mapping template.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getMethodResponse(input: GetMethodResponseInput) async throws -> GetMethodResponseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2271,6 +3083,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Describes an existing model defined for a RestApi resource.
+    ///
+    /// - Parameter GetModelInput : Request to list information about a model in an existing RestApi resource.
+    ///
+    /// - Returns: `GetModelOutputResponse` : Represents the data structure of a method's request or response payload.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getModel(input: GetModelInput) async throws -> GetModelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2306,6 +3130,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Generates a sample mapping template that can be used to transform a payload into the structure of a model.
+    ///
+    /// - Parameter GetModelTemplateInput : Request to generate a sample mapping template used to transform the payload.
+    ///
+    /// - Returns: `GetModelTemplateOutputResponse` : Represents a mapping template used to transform a payload.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getModelTemplate(input: GetModelTemplateInput) async throws -> GetModelTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2340,6 +3176,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Describes existing Models defined for a RestApi resource.
+    ///
+    /// - Parameter GetModelsInput : Request to list existing Models defined for a RestApi resource.
+    ///
+    /// - Returns: `GetModelsOutputResponse` : Represents a collection of Model resources.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getModels(input: GetModelsInput) async throws -> GetModelsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2375,6 +3223,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Gets a RequestValidator of a given RestApi.
+    ///
+    /// - Parameter GetRequestValidatorInput : Gets a RequestValidator of a given RestApi.
+    ///
+    /// - Returns: `GetRequestValidatorOutputResponse` : A set of validation rules for incoming Method requests.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getRequestValidator(input: GetRequestValidatorInput) async throws -> GetRequestValidatorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2409,6 +3269,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Gets the RequestValidators collection of a given RestApi.
+    ///
+    /// - Parameter GetRequestValidatorsInput : Gets the RequestValidators collection of a given RestApi.
+    ///
+    /// - Returns: `GetRequestValidatorsOutputResponse` : A collection of RequestValidator resources of a given RestApi.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getRequestValidators(input: GetRequestValidatorsInput) async throws -> GetRequestValidatorsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2444,6 +3316,17 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Lists information about a resource.
+    ///
+    /// - Parameter GetResourceInput : Request to list information about a resource.
+    ///
+    /// - Returns: `GetResourceOutputResponse` : Represents an API resource.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getResource(input: GetResourceInput) async throws -> GetResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2479,6 +3362,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Lists information about a collection of Resource resources.
+    ///
+    /// - Parameter GetResourcesInput : Request to list information about a collection of resources.
+    ///
+    /// - Returns: `GetResourcesOutputResponse` : Represents a collection of Resource resources.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getResources(input: GetResourcesInput) async throws -> GetResourcesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2514,6 +3409,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Lists the RestApi resource in the collection.
+    ///
+    /// - Parameter GetRestApiInput : The GET request to list an existing RestApi defined for your collection.
+    ///
+    /// - Returns: `GetRestApiOutputResponse` : Represents a REST API.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getRestApi(input: GetRestApiInput) async throws -> GetRestApiOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2548,6 +3455,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Lists the RestApis resources for your collection.
+    ///
+    /// - Parameter GetRestApisInput : The GET request to list existing RestApis defined for your collection.
+    ///
+    /// - Returns: `GetRestApisOutputResponse` : Contains references to your APIs and links that guide you in how to interact with your collection. A collection offers a paginated view of your APIs.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getRestApis(input: GetRestApisInput) async throws -> GetRestApisOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2583,6 +3502,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Generates a client SDK for a RestApi and Stage.
+    ///
+    /// - Parameter GetSdkInput : Request a new generated client SDK for a RestApi and Stage.
+    ///
+    /// - Returns: `GetSdkOutputResponse` : The binary blob response to GetSdk, which contains the generated SDK.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getSdk(input: GetSdkInput) async throws -> GetSdkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2618,6 +3551,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Gets an SDK type.
+    ///
+    /// - Parameter GetSdkTypeInput : Get an SdkType instance.
+    ///
+    /// - Returns: `GetSdkTypeOutputResponse` : A type of SDK that API Gateway can generate.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getSdkType(input: GetSdkTypeInput) async throws -> GetSdkTypeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2652,6 +3597,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Gets SDK types
+    ///
+    /// - Parameter GetSdkTypesInput : Get the SdkTypes collection.
+    ///
+    /// - Returns: `GetSdkTypesOutputResponse` : The collection of SdkType instances.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getSdkTypes(input: GetSdkTypesInput) async throws -> GetSdkTypesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2687,6 +3644,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Gets information about a Stage resource.
+    ///
+    /// - Parameter GetStageInput : Requests API Gateway to get information about a Stage resource.
+    ///
+    /// - Returns: `GetStageOutputResponse` : Represents a unique identifier for a version of a deployed RestApi that is callable by users.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getStage(input: GetStageInput) async throws -> GetStageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2721,6 +3692,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Gets information about one or more Stage resources.
+    ///
+    /// - Parameter GetStagesInput : Requests API Gateway to get information about one or more Stage resources.
+    ///
+    /// - Returns: `GetStagesOutputResponse` : A list of Stage resources that are associated with the ApiKey resource.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getStages(input: GetStagesInput) async throws -> GetStagesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2756,6 +3741,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Gets the Tags collection for a given resource.
+    ///
+    /// - Parameter GetTagsInput : Gets the Tags collection for a given resource.
+    ///
+    /// - Returns: `GetTagsOutputResponse` : The collection of tags. Each tag element is associated with a given resource.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getTags(input: GetTagsInput) async throws -> GetTagsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2791,6 +3788,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Gets the usage data of a usage plan in a specified time interval.
+    ///
+    /// - Parameter GetUsageInput : The GET request to get the usage data of a usage plan in a specified time interval.
+    ///
+    /// - Returns: `GetUsageOutputResponse` : Represents the usage data of a usage plan.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getUsage(input: GetUsageInput) async throws -> GetUsageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2826,6 +3835,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Gets a usage plan of a given plan identifier.
+    ///
+    /// - Parameter GetUsagePlanInput : The GET request to get a usage plan of a given plan identifier.
+    ///
+    /// - Returns: `GetUsagePlanOutputResponse` : Represents a usage plan used to specify who can assess associated API stages. Optionally, target request rate and quota limits can be set. In some cases clients can exceed the targets that you set. Don’t rely on usage plans to control costs. Consider using [Amazon Web Services Budgets](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html) to monitor costs and [WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html) to manage API requests.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getUsagePlan(input: GetUsagePlanInput) async throws -> GetUsagePlanOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2860,6 +3881,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Gets a usage plan key of a given key identifier.
+    ///
+    /// - Parameter GetUsagePlanKeyInput : The GET request to get a usage plan key of a given key identifier.
+    ///
+    /// - Returns: `GetUsagePlanKeyOutputResponse` : Represents a usage plan key to identify a plan customer.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getUsagePlanKey(input: GetUsagePlanKeyInput) async throws -> GetUsagePlanKeyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2894,6 +3927,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Gets all the usage plan keys representing the API keys added to a specified usage plan.
+    ///
+    /// - Parameter GetUsagePlanKeysInput : The GET request to get all the usage plan keys representing the API keys added to a specified usage plan.
+    ///
+    /// - Returns: `GetUsagePlanKeysOutputResponse` : Represents the collection of usage plan keys added to usage plans for the associated API keys and, possibly, other types of keys.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getUsagePlanKeys(input: GetUsagePlanKeysInput) async throws -> GetUsagePlanKeysOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2929,6 +3974,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Gets all the usage plans of the caller's account.
+    ///
+    /// - Parameter GetUsagePlansInput : The GET request to get all the usage plans of the caller's account.
+    ///
+    /// - Returns: `GetUsagePlansOutputResponse` : Represents a collection of usage plans for an AWS account.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getUsagePlans(input: GetUsagePlansInput) async throws -> GetUsagePlansOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2964,6 +4021,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Gets a specified VPC link under the caller's account in a region.
+    ///
+    /// - Parameter GetVpcLinkInput : Gets a specified VPC link under the caller's account in a region.
+    ///
+    /// - Returns: `GetVpcLinkOutputResponse` : An API Gateway VPC link for a RestApi to access resources in an Amazon Virtual Private Cloud (VPC).
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getVpcLink(input: GetVpcLinkInput) async throws -> GetVpcLinkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2998,6 +4067,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Gets the VpcLinks collection under the caller's account in a selected region.
+    ///
+    /// - Parameter GetVpcLinksInput : Gets the VpcLinks collection under the caller's account in a selected region.
+    ///
+    /// - Returns: `GetVpcLinksOutputResponse` : The collection of VPC links under the caller's account in a region.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func getVpcLinks(input: GetVpcLinksInput) async throws -> GetVpcLinksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3033,6 +4114,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Import API keys from an external source, such as a CSV-formatted file.
+    ///
+    /// - Parameter ImportApiKeysInput : The POST request to import API keys from an external source, such as a CSV-formatted file.
+    ///
+    /// - Returns: `ImportApiKeysOutputResponse` : The identifier of an ApiKey used in a UsagePlan.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func importApiKeys(input: ImportApiKeysInput) async throws -> ImportApiKeysOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3071,6 +4166,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Imports documentation parts
+    ///
+    /// - Parameter ImportDocumentationPartsInput : Import documentation parts from an external (e.g., OpenAPI) definition file.
+    ///
+    /// - Returns: `ImportDocumentationPartsOutputResponse` : A collection of the imported DocumentationPart identifiers.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func importDocumentationParts(input: ImportDocumentationPartsInput) async throws -> ImportDocumentationPartsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3109,6 +4218,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// A feature of the API Gateway control service for creating a new API from an external API definition file.
+    ///
+    /// - Parameter ImportRestApiInput : A POST request to import an API to API Gateway using an input of an API definition file.
+    ///
+    /// - Returns: `ImportRestApiOutputResponse` : Represents a REST API.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func importRestApi(input: ImportRestApiInput) async throws -> ImportRestApiOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3147,6 +4270,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Creates a customization of a GatewayResponse of a specified response type and status code on the given RestApi.
+    ///
+    /// - Parameter PutGatewayResponseInput : Creates a customization of a GatewayResponse of a specified response type and status code on the given RestApi.
+    ///
+    /// - Returns: `PutGatewayResponseOutputResponse` : A gateway response of a given response type and status code, with optional response parameters and mapping templates.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func putGatewayResponse(input: PutGatewayResponseInput) async throws -> PutGatewayResponseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3184,6 +4321,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Sets up a method's integration.
+    ///
+    /// - Parameter PutIntegrationInput : Sets up a method's integration.
+    ///
+    /// - Returns: `PutIntegrationOutputResponse` : Represents an HTTP, HTTP_PROXY, AWS, AWS_PROXY, or Mock integration.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func putIntegration(input: PutIntegrationInput) async throws -> PutIntegrationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3221,6 +4372,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Represents a put integration.
+    ///
+    /// - Parameter PutIntegrationResponseInput : Represents a put integration response request.
+    ///
+    /// - Returns: `PutIntegrationResponseOutputResponse` : Represents an integration response. The status code must map to an existing MethodResponse, and parameters and templates can be used to transform the back-end response.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func putIntegrationResponse(input: PutIntegrationResponseInput) async throws -> PutIntegrationResponseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3258,6 +4423,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Add a method to an existing Resource resource.
+    ///
+    /// - Parameter PutMethodInput : Request to add a method to an existing Resource resource.
+    ///
+    /// - Returns: `PutMethodOutputResponse` : Represents a client-facing interface by which the client calls the API to access back-end resources. A Method resource is integrated with an Integration resource. Both consist of a request and one or more responses. The method request takes the client input that is passed to the back end through the integration request. A method response returns the output from the back end to the client through an integration response. A method request is embodied in a Method resource, whereas an integration request is embodied in an Integration resource. On the other hand, a method response is represented by a MethodResponse resource, whereas an integration response is represented by an IntegrationResponse resource.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func putMethod(input: PutMethodInput) async throws -> PutMethodOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3295,6 +4474,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Adds a MethodResponse to an existing Method resource.
+    ///
+    /// - Parameter PutMethodResponseInput : Request to add a MethodResponse to an existing Method resource.
+    ///
+    /// - Returns: `PutMethodResponseOutputResponse` : Represents a method response of a given HTTP status code returned to the client. The method response is passed from the back end through the associated integration response that can be transformed using a mapping template.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func putMethodResponse(input: PutMethodResponseInput) async throws -> PutMethodResponseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3332,6 +4525,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// A feature of the API Gateway control service for updating an existing API with an input of external API definitions. The update can take the form of merging the supplied definition into the existing API or overwriting the existing API.
+    ///
+    /// - Parameter PutRestApiInput : A PUT request to update an existing API, with external API definitions specified as the request body.
+    ///
+    /// - Returns: `PutRestApiOutputResponse` : Represents a REST API.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func putRestApi(input: PutRestApiInput) async throws -> PutRestApiOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3370,6 +4577,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Adds or updates a tag on a given resource.
+    ///
+    /// - Parameter TagResourceInput : Adds or updates a tag on a given resource.
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3407,6 +4628,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Simulate the execution of an Authorizer in your RestApi with headers, parameters, and an incoming request body.
+    ///
+    /// - Parameter TestInvokeAuthorizerInput : Make a request to simulate the invocation of an Authorizer.
+    ///
+    /// - Returns: `TestInvokeAuthorizerOutputResponse` : Represents the response of the test invoke request for a custom Authorizer
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func testInvokeAuthorizer(input: TestInvokeAuthorizerInput) async throws -> TestInvokeAuthorizerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3444,6 +4677,18 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Simulate the invocation of a Method in your RestApi with headers, parameters, and an incoming request body.
+    ///
+    /// - Parameter TestInvokeMethodInput : Make a request to simulate the invocation of a Method.
+    ///
+    /// - Returns: `TestInvokeMethodOutputResponse` : Represents the response of the test invoke request in the HTTP method.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func testInvokeMethod(input: TestInvokeMethodInput) async throws -> TestInvokeMethodOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3481,6 +4726,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Removes a tag from a given resource.
+    ///
+    /// - Parameter UntagResourceInput : Removes a tag from a given resource.
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3516,6 +4775,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Changes information about the current Account resource.
+    ///
+    /// - Parameter UpdateAccountInput : Requests API Gateway to change information about the current Account resource.
+    ///
+    /// - Returns: `UpdateAccountOutputResponse` : Represents an AWS account that is associated with API Gateway.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func updateAccount(input: UpdateAccountInput) async throws -> UpdateAccountOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3553,6 +4826,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Changes information about an ApiKey resource.
+    ///
+    /// - Parameter UpdateApiKeyInput : A request to change information about an ApiKey resource.
+    ///
+    /// - Returns: `UpdateApiKeyOutputResponse` : A resource that can be distributed to callers for executing Method resources that require an API key. API keys can be mapped to any Stage on any RestApi, which indicates that the callers with the API key can make requests to that stage.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func updateApiKey(input: UpdateApiKeyInput) async throws -> UpdateApiKeyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3590,6 +4877,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Updates an existing Authorizer resource.
+    ///
+    /// - Parameter UpdateAuthorizerInput : Request to update an existing Authorizer resource.
+    ///
+    /// - Returns: `UpdateAuthorizerOutputResponse` : Represents an authorization layer for methods. If enabled on a method, API Gateway will activate the authorizer when a client calls the method.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func updateAuthorizer(input: UpdateAuthorizerInput) async throws -> UpdateAuthorizerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3627,6 +4928,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Changes information about the BasePathMapping resource.
+    ///
+    /// - Parameter UpdateBasePathMappingInput : A request to change information about the BasePathMapping resource.
+    ///
+    /// - Returns: `UpdateBasePathMappingOutputResponse` : Represents the base path that callers of the API must provide as part of the URL after the domain name.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func updateBasePathMapping(input: UpdateBasePathMappingInput) async throws -> UpdateBasePathMappingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3664,6 +4979,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Changes information about an ClientCertificate resource.
+    ///
+    /// - Parameter UpdateClientCertificateInput : A request to change information about an ClientCertificate resource.
+    ///
+    /// - Returns: `UpdateClientCertificateOutputResponse` : Represents a client certificate used to configure client-side SSL authentication while sending requests to the integration endpoint.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func updateClientCertificate(input: UpdateClientCertificateInput) async throws -> UpdateClientCertificateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3701,6 +5030,21 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Changes information about a Deployment resource.
+    ///
+    /// - Parameter UpdateDeploymentInput : Requests API Gateway to change information about a Deployment resource.
+    ///
+    /// - Returns: `UpdateDeploymentOutputResponse` : An immutable representation of a RestApi resource that can be called by users using Stages. A deployment must be associated with a Stage for it to be callable over the Internet.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `ServiceUnavailableException` : The requested service is not available. For details see the accompanying error message. Retry after the specified time period.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func updateDeployment(input: UpdateDeploymentInput) async throws -> UpdateDeploymentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3738,6 +5082,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Updates a documentation part.
+    ///
+    /// - Parameter UpdateDocumentationPartInput : Updates an existing documentation part of a given API.
+    ///
+    /// - Returns: `UpdateDocumentationPartOutputResponse` : A documentation part for a targeted API entity.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func updateDocumentationPart(input: UpdateDocumentationPartInput) async throws -> UpdateDocumentationPartOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3775,6 +5133,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Updates a documentation version.
+    ///
+    /// - Parameter UpdateDocumentationVersionInput : Updates an existing documentation version of an API.
+    ///
+    /// - Returns: `UpdateDocumentationVersionOutputResponse` : A snapshot of the documentation of an API.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func updateDocumentationVersion(input: UpdateDocumentationVersionInput) async throws -> UpdateDocumentationVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3812,6 +5184,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Changes information about the DomainName resource.
+    ///
+    /// - Parameter UpdateDomainNameInput : A request to change information about the DomainName resource.
+    ///
+    /// - Returns: `UpdateDomainNameOutputResponse` : Represents a custom domain name as a user-friendly host name of an API (RestApi).
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func updateDomainName(input: UpdateDomainNameInput) async throws -> UpdateDomainNameOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3849,6 +5235,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Updates a GatewayResponse of a specified response type on the given RestApi.
+    ///
+    /// - Parameter UpdateGatewayResponseInput : Updates a GatewayResponse of a specified response type on the given RestApi.
+    ///
+    /// - Returns: `UpdateGatewayResponseOutputResponse` : A gateway response of a given response type and status code, with optional response parameters and mapping templates.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func updateGatewayResponse(input: UpdateGatewayResponseInput) async throws -> UpdateGatewayResponseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3886,6 +5286,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Represents an update integration.
+    ///
+    /// - Parameter UpdateIntegrationInput : Represents an update integration request.
+    ///
+    /// - Returns: `UpdateIntegrationOutputResponse` : Represents an HTTP, HTTP_PROXY, AWS, AWS_PROXY, or Mock integration.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func updateIntegration(input: UpdateIntegrationInput) async throws -> UpdateIntegrationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3923,6 +5337,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Represents an update integration response.
+    ///
+    /// - Parameter UpdateIntegrationResponseInput : Represents an update integration response request.
+    ///
+    /// - Returns: `UpdateIntegrationResponseOutputResponse` : Represents an integration response. The status code must map to an existing MethodResponse, and parameters and templates can be used to transform the back-end response.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func updateIntegrationResponse(input: UpdateIntegrationResponseInput) async throws -> UpdateIntegrationResponseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3960,6 +5388,19 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Updates an existing Method resource.
+    ///
+    /// - Parameter UpdateMethodInput : Request to update an existing Method resource.
+    ///
+    /// - Returns: `UpdateMethodOutputResponse` : Represents a client-facing interface by which the client calls the API to access back-end resources. A Method resource is integrated with an Integration resource. Both consist of a request and one or more responses. The method request takes the client input that is passed to the back end through the integration request. A method response returns the output from the back end to the client through an integration response. A method request is embodied in a Method resource, whereas an integration request is embodied in an Integration resource. On the other hand, a method response is represented by a MethodResponse resource, whereas an integration response is represented by an IntegrationResponse resource.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func updateMethod(input: UpdateMethodInput) async throws -> UpdateMethodOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3997,6 +5438,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Updates an existing MethodResponse resource.
+    ///
+    /// - Parameter UpdateMethodResponseInput : A request to update an existing MethodResponse resource.
+    ///
+    /// - Returns: `UpdateMethodResponseOutputResponse` : Represents a method response of a given HTTP status code returned to the client. The method response is passed from the back end through the associated integration response that can be transformed using a mapping template.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func updateMethodResponse(input: UpdateMethodResponseInput) async throws -> UpdateMethodResponseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4034,6 +5489,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Changes information about a model.
+    ///
+    /// - Parameter UpdateModelInput : Request to update an existing model in an existing RestApi resource.
+    ///
+    /// - Returns: `UpdateModelOutputResponse` : Represents the data structure of a method's request or response payload.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func updateModel(input: UpdateModelInput) async throws -> UpdateModelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4071,6 +5540,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Updates a RequestValidator of a given RestApi.
+    ///
+    /// - Parameter UpdateRequestValidatorInput : Updates a RequestValidator of a given RestApi.
+    ///
+    /// - Returns: `UpdateRequestValidatorOutputResponse` : A set of validation rules for incoming Method requests.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func updateRequestValidator(input: UpdateRequestValidatorInput) async throws -> UpdateRequestValidatorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4108,6 +5591,19 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Changes information about a Resource resource.
+    ///
+    /// - Parameter UpdateResourceInput : Request to change information about a Resource resource.
+    ///
+    /// - Returns: `UpdateResourceOutputResponse` : Represents an API resource.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func updateResource(input: UpdateResourceInput) async throws -> UpdateResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4145,6 +5641,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Changes information about the specified API.
+    ///
+    /// - Parameter UpdateRestApiInput : Request to update an existing RestApi resource in your collection.
+    ///
+    /// - Returns: `UpdateRestApiOutputResponse` : Represents a REST API.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func updateRestApi(input: UpdateRestApiInput) async throws -> UpdateRestApiOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4182,6 +5692,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Changes information about a Stage resource.
+    ///
+    /// - Parameter UpdateStageInput : Requests API Gateway to change information about a Stage resource.
+    ///
+    /// - Returns: `UpdateStageOutputResponse` : Represents a unique identifier for a version of a deployed RestApi that is callable by users.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func updateStage(input: UpdateStageInput) async throws -> UpdateStageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4219,6 +5743,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Grants a temporary extension to the remaining quota of a usage plan associated with a specified API key.
+    ///
+    /// - Parameter UpdateUsageInput : The PATCH request to grant a temporary extension to the remaining quota of a usage plan associated with a specified API key.
+    ///
+    /// - Returns: `UpdateUsageOutputResponse` : Represents the usage data of a usage plan.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func updateUsage(input: UpdateUsageInput) async throws -> UpdateUsageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4256,6 +5794,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Updates a usage plan of a given plan Id.
+    ///
+    /// - Parameter UpdateUsagePlanInput : The PATCH request to update a usage plan of a given plan Id.
+    ///
+    /// - Returns: `UpdateUsagePlanOutputResponse` : Represents a usage plan used to specify who can assess associated API stages. Optionally, target request rate and quota limits can be set. In some cases clients can exceed the targets that you set. Don’t rely on usage plans to control costs. Consider using [Amazon Web Services Budgets](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html) to monitor costs and [WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html) to manage API requests.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func updateUsagePlan(input: UpdateUsagePlanInput) async throws -> UpdateUsagePlanOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4293,6 +5845,20 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     }
 
     /// Updates an existing VpcLink of a specified identifier.
+    ///
+    /// - Parameter UpdateVpcLinkInput : Updates an existing VpcLink of a specified identifier.
+    ///
+    /// - Returns: `UpdateVpcLinkOutputResponse` : An API Gateway VPC link for a RestApi to access resources in an Amazon Virtual Private Cloud (VPC).
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
+    /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
+    /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
+    /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     public func updateVpcLink(input: UpdateVpcLinkInput) async throws -> UpdateVpcLinkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

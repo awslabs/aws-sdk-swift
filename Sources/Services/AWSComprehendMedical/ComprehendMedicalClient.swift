@@ -68,6 +68,18 @@ public struct ComprehendMedicalClientLogHandlerFactory: ClientRuntime.SDKLogHand
 
 extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     /// Gets the properties associated with a medical entities detection job. Use this operation to get the status of a detection job.
+    ///
+    /// - Parameter DescribeEntitiesDetectionV2JobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeEntitiesDetectionV2JobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
+    /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
+    /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func describeEntitiesDetectionV2Job(input: DescribeEntitiesDetectionV2JobInput) async throws -> DescribeEntitiesDetectionV2JobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -105,6 +117,18 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     }
 
     /// Gets the properties associated with an InferICD10CM job. Use this operation to get the status of an inference job.
+    ///
+    /// - Parameter DescribeICD10CMInferenceJobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeICD10CMInferenceJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
+    /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
+    /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func describeICD10CMInferenceJob(input: DescribeICD10CMInferenceJobInput) async throws -> DescribeICD10CMInferenceJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -142,6 +166,18 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     }
 
     /// Gets the properties associated with a protected health information (PHI) detection job. Use this operation to get the status of a detection job.
+    ///
+    /// - Parameter DescribePHIDetectionJobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribePHIDetectionJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
+    /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
+    /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func describePHIDetectionJob(input: DescribePHIDetectionJobInput) async throws -> DescribePHIDetectionJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -179,6 +215,18 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     }
 
     /// Gets the properties associated with an InferRxNorm job. Use this operation to get the status of an inference job.
+    ///
+    /// - Parameter DescribeRxNormInferenceJobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeRxNormInferenceJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
+    /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
+    /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func describeRxNormInferenceJob(input: DescribeRxNormInferenceJobInput) async throws -> DescribeRxNormInferenceJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -216,6 +264,18 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     }
 
     /// Gets the properties associated with an InferSNOMEDCT job. Use this operation to get the status of an inference job.
+    ///
+    /// - Parameter DescribeSNOMEDCTInferenceJobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeSNOMEDCTInferenceJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
+    /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
+    /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func describeSNOMEDCTInferenceJob(input: DescribeSNOMEDCTInferenceJobInput) async throws -> DescribeSNOMEDCTInferenceJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -254,6 +314,20 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
 
     /// The DetectEntities operation is deprecated. You should use the [DetectEntitiesV2] operation instead. Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information.
     @available(*, deprecated, message: "This operation is deprecated, use DetectEntitiesV2 instead.")
+    ///
+    /// - Parameter DetectEntitiesInput : [no documentation found]
+    ///
+    /// - Returns: `DetectEntitiesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `InvalidEncodingException` : The input text was not in valid UTF-8 character encoding. Check your text then retry your request.
+    /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
+    /// - `ServiceUnavailableException` : The Amazon Comprehend Medical service is temporarily unavailable. Please wait and then retry your request.
+    /// - `TextSizeLimitExceededException` : The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
+    /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func detectEntities(input: DetectEntitiesInput) async throws -> DetectEntitiesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -291,6 +365,20 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     }
 
     /// Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information. Amazon Comprehend Medical only detects medical entities in English language texts. The DetectEntitiesV2 operation replaces the [DetectEntities] operation. This new action uses a different model for determining the entities in your medical text and changes the way that some entities are returned in the output. You should use the DetectEntitiesV2 operation in all new applications. The DetectEntitiesV2 operation returns the Acuity and Direction entities as attributes instead of types.
+    ///
+    /// - Parameter DetectEntitiesV2Input : [no documentation found]
+    ///
+    /// - Returns: `DetectEntitiesV2OutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `InvalidEncodingException` : The input text was not in valid UTF-8 character encoding. Check your text then retry your request.
+    /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
+    /// - `ServiceUnavailableException` : The Amazon Comprehend Medical service is temporarily unavailable. Please wait and then retry your request.
+    /// - `TextSizeLimitExceededException` : The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
+    /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func detectEntitiesV2(input: DetectEntitiesV2Input) async throws -> DetectEntitiesV2OutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -328,6 +416,20 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     }
 
     /// Inspects the clinical text for protected health information (PHI) entities and returns the entity category, location, and confidence score for each entity. Amazon Comprehend Medical only detects entities in English language texts.
+    ///
+    /// - Parameter DetectPHIInput : [no documentation found]
+    ///
+    /// - Returns: `DetectPHIOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `InvalidEncodingException` : The input text was not in valid UTF-8 character encoding. Check your text then retry your request.
+    /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
+    /// - `ServiceUnavailableException` : The Amazon Comprehend Medical service is temporarily unavailable. Please wait and then retry your request.
+    /// - `TextSizeLimitExceededException` : The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
+    /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func detectPHI(input: DetectPHIInput) async throws -> DetectPHIOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -365,6 +467,20 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     }
 
     /// InferICD10CM detects medical conditions as entities listed in a patient record and links those entities to normalized concept identifiers in the ICD-10-CM knowledge base from the Centers for Disease Control. Amazon Comprehend Medical only detects medical entities in English language texts.
+    ///
+    /// - Parameter InferICD10CMInput : [no documentation found]
+    ///
+    /// - Returns: `InferICD10CMOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `InvalidEncodingException` : The input text was not in valid UTF-8 character encoding. Check your text then retry your request.
+    /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
+    /// - `ServiceUnavailableException` : The Amazon Comprehend Medical service is temporarily unavailable. Please wait and then retry your request.
+    /// - `TextSizeLimitExceededException` : The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
+    /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func inferICD10CM(input: InferICD10CMInput) async throws -> InferICD10CMOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -402,6 +518,20 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     }
 
     /// InferRxNorm detects medications as entities listed in a patient record and links to the normalized concept identifiers in the RxNorm database from the National Library of Medicine. Amazon Comprehend Medical only detects medical entities in English language texts.
+    ///
+    /// - Parameter InferRxNormInput : [no documentation found]
+    ///
+    /// - Returns: `InferRxNormOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `InvalidEncodingException` : The input text was not in valid UTF-8 character encoding. Check your text then retry your request.
+    /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
+    /// - `ServiceUnavailableException` : The Amazon Comprehend Medical service is temporarily unavailable. Please wait and then retry your request.
+    /// - `TextSizeLimitExceededException` : The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
+    /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func inferRxNorm(input: InferRxNormInput) async throws -> InferRxNormOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -439,6 +569,20 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     }
 
     /// InferSNOMEDCT detects possible medical concepts as entities and links them to codes from the Systematized Nomenclature of Medicine, Clinical Terms (SNOMED-CT) ontology
+    ///
+    /// - Parameter InferSNOMEDCTInput : [no documentation found]
+    ///
+    /// - Returns: `InferSNOMEDCTOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `InvalidEncodingException` : The input text was not in valid UTF-8 character encoding. Check your text then retry your request.
+    /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
+    /// - `ServiceUnavailableException` : The Amazon Comprehend Medical service is temporarily unavailable. Please wait and then retry your request.
+    /// - `TextSizeLimitExceededException` : The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
+    /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func inferSNOMEDCT(input: InferSNOMEDCTInput) async throws -> InferSNOMEDCTOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -476,6 +620,18 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     }
 
     /// Gets a list of medical entity detection jobs that you have submitted.
+    ///
+    /// - Parameter ListEntitiesDetectionV2JobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListEntitiesDetectionV2JobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
+    /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
+    /// - `ValidationException` : The filter that you specified for the operation is invalid. Check the filter values that you entered and try your request again.
     public func listEntitiesDetectionV2Jobs(input: ListEntitiesDetectionV2JobsInput) async throws -> ListEntitiesDetectionV2JobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -513,6 +669,18 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     }
 
     /// Gets a list of InferICD10CM jobs that you have submitted.
+    ///
+    /// - Parameter ListICD10CMInferenceJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListICD10CMInferenceJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
+    /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
+    /// - `ValidationException` : The filter that you specified for the operation is invalid. Check the filter values that you entered and try your request again.
     public func listICD10CMInferenceJobs(input: ListICD10CMInferenceJobsInput) async throws -> ListICD10CMInferenceJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -550,6 +718,18 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     }
 
     /// Gets a list of protected health information (PHI) detection jobs you have submitted.
+    ///
+    /// - Parameter ListPHIDetectionJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPHIDetectionJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
+    /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
+    /// - `ValidationException` : The filter that you specified for the operation is invalid. Check the filter values that you entered and try your request again.
     public func listPHIDetectionJobs(input: ListPHIDetectionJobsInput) async throws -> ListPHIDetectionJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -587,6 +767,18 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     }
 
     /// Gets a list of InferRxNorm jobs that you have submitted.
+    ///
+    /// - Parameter ListRxNormInferenceJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListRxNormInferenceJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
+    /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
+    /// - `ValidationException` : The filter that you specified for the operation is invalid. Check the filter values that you entered and try your request again.
     public func listRxNormInferenceJobs(input: ListRxNormInferenceJobsInput) async throws -> ListRxNormInferenceJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -624,6 +816,18 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     }
 
     /// Gets a list of InferSNOMEDCT jobs a user has submitted.
+    ///
+    /// - Parameter ListSNOMEDCTInferenceJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSNOMEDCTInferenceJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
+    /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
+    /// - `ValidationException` : The filter that you specified for the operation is invalid. Check the filter values that you entered and try your request again.
     public func listSNOMEDCTInferenceJobs(input: ListSNOMEDCTInferenceJobsInput) async throws -> ListSNOMEDCTInferenceJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -661,6 +865,18 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     }
 
     /// Starts an asynchronous medical entity detection job for a collection of documents. Use the DescribeEntitiesDetectionV2Job operation to track the status of a job.
+    ///
+    /// - Parameter StartEntitiesDetectionV2JobInput : [no documentation found]
+    ///
+    /// - Returns: `StartEntitiesDetectionV2JobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
+    /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
+    /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func startEntitiesDetectionV2Job(input: StartEntitiesDetectionV2JobInput) async throws -> StartEntitiesDetectionV2JobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -706,6 +922,18 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     }
 
     /// Starts an asynchronous job to detect medical conditions and link them to the ICD-10-CM ontology. Use the DescribeICD10CMInferenceJob operation to track the status of a job.
+    ///
+    /// - Parameter StartICD10CMInferenceJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartICD10CMInferenceJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
+    /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
+    /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func startICD10CMInferenceJob(input: StartICD10CMInferenceJobInput) async throws -> StartICD10CMInferenceJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -751,6 +979,18 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     }
 
     /// Starts an asynchronous job to detect protected health information (PHI). Use the DescribePHIDetectionJob operation to track the status of a job.
+    ///
+    /// - Parameter StartPHIDetectionJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartPHIDetectionJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
+    /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
+    /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func startPHIDetectionJob(input: StartPHIDetectionJobInput) async throws -> StartPHIDetectionJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -796,6 +1036,18 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     }
 
     /// Starts an asynchronous job to detect medication entities and link them to the RxNorm ontology. Use the DescribeRxNormInferenceJob operation to track the status of a job.
+    ///
+    /// - Parameter StartRxNormInferenceJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartRxNormInferenceJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
+    /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
+    /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func startRxNormInferenceJob(input: StartRxNormInferenceJobInput) async throws -> StartRxNormInferenceJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -841,6 +1093,18 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     }
 
     /// Starts an asynchronous job to detect medical concepts and link them to the SNOMED-CT ontology. Use the DescribeSNOMEDCTInferenceJob operation to track the status of a job.
+    ///
+    /// - Parameter StartSNOMEDCTInferenceJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartSNOMEDCTInferenceJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
+    /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
+    /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func startSNOMEDCTInferenceJob(input: StartSNOMEDCTInferenceJobInput) async throws -> StartSNOMEDCTInferenceJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -886,6 +1150,17 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     }
 
     /// Stops a medical entities detection job in progress.
+    ///
+    /// - Parameter StopEntitiesDetectionV2JobInput : [no documentation found]
+    ///
+    /// - Returns: `StopEntitiesDetectionV2JobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
+    /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     public func stopEntitiesDetectionV2Job(input: StopEntitiesDetectionV2JobInput) async throws -> StopEntitiesDetectionV2JobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -923,6 +1198,17 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     }
 
     /// Stops an InferICD10CM inference job in progress.
+    ///
+    /// - Parameter StopICD10CMInferenceJobInput : [no documentation found]
+    ///
+    /// - Returns: `StopICD10CMInferenceJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
+    /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     public func stopICD10CMInferenceJob(input: StopICD10CMInferenceJobInput) async throws -> StopICD10CMInferenceJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -960,6 +1246,17 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     }
 
     /// Stops a protected health information (PHI) detection job in progress.
+    ///
+    /// - Parameter StopPHIDetectionJobInput : [no documentation found]
+    ///
+    /// - Returns: `StopPHIDetectionJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
+    /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     public func stopPHIDetectionJob(input: StopPHIDetectionJobInput) async throws -> StopPHIDetectionJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -997,6 +1294,17 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     }
 
     /// Stops an InferRxNorm inference job in progress.
+    ///
+    /// - Parameter StopRxNormInferenceJobInput : [no documentation found]
+    ///
+    /// - Returns: `StopRxNormInferenceJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
+    /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     public func stopRxNormInferenceJob(input: StopRxNormInferenceJobInput) async throws -> StopRxNormInferenceJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1034,6 +1342,18 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     }
 
     /// Stops an InferSNOMEDCT inference job in progress.
+    ///
+    /// - Parameter StopSNOMEDCTInferenceJobInput : [no documentation found]
+    ///
+    /// - Returns: `StopSNOMEDCTInferenceJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
+    /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
+    /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func stopSNOMEDCTInferenceJob(input: StopSNOMEDCTInferenceJobInput) async throws -> StopSNOMEDCTInferenceJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

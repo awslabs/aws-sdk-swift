@@ -68,6 +68,21 @@ public struct PinpointClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
 
 extension PinpointClient: PinpointClientProtocol {
     /// Creates an application.
+    ///
+    /// - Parameter CreateAppInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAppOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func createApp(input: CreateAppInput) async throws -> CreateAppOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +119,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Creates a new campaign for an application or updates the settings of an existing campaign for an application.
+    ///
+    /// - Parameter CreateCampaignInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCampaignOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func createCampaign(input: CreateCampaignInput) async throws -> CreateCampaignOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -140,6 +170,19 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Creates a message template for messages that are sent through the email channel.
+    ///
+    /// - Parameter CreateEmailTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `CreateEmailTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func createEmailTemplate(input: CreateEmailTemplateInput) async throws -> CreateEmailTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -176,6 +219,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Creates an export job for an application.
+    ///
+    /// - Parameter CreateExportJobInput : [no documentation found]
+    ///
+    /// - Returns: `CreateExportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func createExportJob(input: CreateExportJobInput) async throws -> CreateExportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -212,6 +270,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Creates an import job for an application.
+    ///
+    /// - Parameter CreateImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `CreateImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func createImportJob(input: CreateImportJobInput) async throws -> CreateImportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -248,6 +321,19 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Creates a new message template for messages using the in-app message channel.
+    ///
+    /// - Parameter CreateInAppTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `CreateInAppTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func createInAppTemplate(input: CreateInAppTemplateInput) async throws -> CreateInAppTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -284,6 +370,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Creates a journey for an application.
+    ///
+    /// - Parameter CreateJourneyInput : [no documentation found]
+    ///
+    /// - Returns: `CreateJourneyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func createJourney(input: CreateJourneyInput) async throws -> CreateJourneyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -320,6 +421,19 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Creates a message template for messages that are sent through a push notification channel.
+    ///
+    /// - Parameter CreatePushTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `CreatePushTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func createPushTemplate(input: CreatePushTemplateInput) async throws -> CreatePushTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -356,6 +470,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Creates an Amazon Pinpoint configuration for a recommender model.
+    ///
+    /// - Parameter CreateRecommenderConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRecommenderConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func createRecommenderConfiguration(input: CreateRecommenderConfigurationInput) async throws -> CreateRecommenderConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -392,6 +521,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
+    ///
+    /// - Parameter CreateSegmentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSegmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func createSegment(input: CreateSegmentInput) async throws -> CreateSegmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -428,6 +572,19 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Creates a message template for messages that are sent through the SMS channel.
+    ///
+    /// - Parameter CreateSmsTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSmsTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func createSmsTemplate(input: CreateSmsTemplateInput) async throws -> CreateSmsTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -464,6 +621,19 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Creates a message template for messages that are sent through the voice channel.
+    ///
+    /// - Parameter CreateVoiceTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `CreateVoiceTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func createVoiceTemplate(input: CreateVoiceTemplateInput) async throws -> CreateVoiceTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -500,6 +670,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Disables the ADM channel for an application and deletes any existing settings for the channel.
+    ///
+    /// - Parameter DeleteAdmChannelInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAdmChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func deleteAdmChannel(input: DeleteAdmChannelInput) async throws -> DeleteAdmChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -533,6 +718,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Disables the APNs channel for an application and deletes any existing settings for the channel.
+    ///
+    /// - Parameter DeleteApnsChannelInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApnsChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func deleteApnsChannel(input: DeleteApnsChannelInput) async throws -> DeleteApnsChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -566,6 +766,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Disables the APNs sandbox channel for an application and deletes any existing settings for the channel.
+    ///
+    /// - Parameter DeleteApnsSandboxChannelInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApnsSandboxChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func deleteApnsSandboxChannel(input: DeleteApnsSandboxChannelInput) async throws -> DeleteApnsSandboxChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -599,6 +814,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Disables the APNs VoIP channel for an application and deletes any existing settings for the channel.
+    ///
+    /// - Parameter DeleteApnsVoipChannelInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApnsVoipChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func deleteApnsVoipChannel(input: DeleteApnsVoipChannelInput) async throws -> DeleteApnsVoipChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -632,6 +862,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Disables the APNs VoIP sandbox channel for an application and deletes any existing settings for the channel.
+    ///
+    /// - Parameter DeleteApnsVoipSandboxChannelInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApnsVoipSandboxChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func deleteApnsVoipSandboxChannel(input: DeleteApnsVoipSandboxChannelInput) async throws -> DeleteApnsVoipSandboxChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -665,6 +910,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Deletes an application.
+    ///
+    /// - Parameter DeleteAppInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAppOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -698,6 +958,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Disables the Baidu channel for an application and deletes any existing settings for the channel.
+    ///
+    /// - Parameter DeleteBaiduChannelInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBaiduChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func deleteBaiduChannel(input: DeleteBaiduChannelInput) async throws -> DeleteBaiduChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -731,6 +1006,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Deletes a campaign from an application.
+    ///
+    /// - Parameter DeleteCampaignInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCampaignOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func deleteCampaign(input: DeleteCampaignInput) async throws -> DeleteCampaignOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -764,6 +1054,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Disables the email channel for an application and deletes any existing settings for the channel.
+    ///
+    /// - Parameter DeleteEmailChannelInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEmailChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func deleteEmailChannel(input: DeleteEmailChannelInput) async throws -> DeleteEmailChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -797,6 +1102,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Deletes a message template for messages that were sent through the email channel.
+    ///
+    /// - Parameter DeleteEmailTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEmailTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func deleteEmailTemplate(input: DeleteEmailTemplateInput) async throws -> DeleteEmailTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -831,6 +1151,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Deletes an endpoint from an application.
+    ///
+    /// - Parameter DeleteEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -864,6 +1199,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Deletes the event stream for an application.
+    ///
+    /// - Parameter DeleteEventStreamInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEventStreamOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func deleteEventStream(input: DeleteEventStreamInput) async throws -> DeleteEventStreamOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -897,6 +1247,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Disables the GCM channel for an application and deletes any existing settings for the channel.
+    ///
+    /// - Parameter DeleteGcmChannelInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteGcmChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func deleteGcmChannel(input: DeleteGcmChannelInput) async throws -> DeleteGcmChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -930,6 +1295,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Deletes a message template for messages sent using the in-app message channel.
+    ///
+    /// - Parameter DeleteInAppTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteInAppTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func deleteInAppTemplate(input: DeleteInAppTemplateInput) async throws -> DeleteInAppTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -964,6 +1344,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Deletes a journey from an application.
+    ///
+    /// - Parameter DeleteJourneyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteJourneyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func deleteJourney(input: DeleteJourneyInput) async throws -> DeleteJourneyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -997,6 +1392,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Deletes a message template for messages that were sent through a push notification channel.
+    ///
+    /// - Parameter DeletePushTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePushTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func deletePushTemplate(input: DeletePushTemplateInput) async throws -> DeletePushTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1031,6 +1441,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Deletes an Amazon Pinpoint configuration for a recommender model.
+    ///
+    /// - Parameter DeleteRecommenderConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRecommenderConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func deleteRecommenderConfiguration(input: DeleteRecommenderConfigurationInput) async throws -> DeleteRecommenderConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1064,6 +1489,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Deletes a segment from an application.
+    ///
+    /// - Parameter DeleteSegmentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSegmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func deleteSegment(input: DeleteSegmentInput) async throws -> DeleteSegmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1097,6 +1537,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Disables the SMS channel for an application and deletes any existing settings for the channel.
+    ///
+    /// - Parameter DeleteSmsChannelInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSmsChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func deleteSmsChannel(input: DeleteSmsChannelInput) async throws -> DeleteSmsChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1130,6 +1585,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Deletes a message template for messages that were sent through the SMS channel.
+    ///
+    /// - Parameter DeleteSmsTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSmsTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func deleteSmsTemplate(input: DeleteSmsTemplateInput) async throws -> DeleteSmsTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1164,6 +1634,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Deletes all the endpoints that are associated with a specific user ID.
+    ///
+    /// - Parameter DeleteUserEndpointsInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteUserEndpointsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func deleteUserEndpoints(input: DeleteUserEndpointsInput) async throws -> DeleteUserEndpointsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1197,6 +1682,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Disables the voice channel for an application and deletes any existing settings for the channel.
+    ///
+    /// - Parameter DeleteVoiceChannelInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteVoiceChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func deleteVoiceChannel(input: DeleteVoiceChannelInput) async throws -> DeleteVoiceChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1230,6 +1730,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Deletes a message template for messages that were sent through the voice channel.
+    ///
+    /// - Parameter DeleteVoiceTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteVoiceTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func deleteVoiceTemplate(input: DeleteVoiceTemplateInput) async throws -> DeleteVoiceTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1264,6 +1779,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the status and settings of the ADM channel for an application.
+    ///
+    /// - Parameter GetAdmChannelInput : [no documentation found]
+    ///
+    /// - Returns: `GetAdmChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getAdmChannel(input: GetAdmChannelInput) async throws -> GetAdmChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1297,6 +1827,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the status and settings of the APNs channel for an application.
+    ///
+    /// - Parameter GetApnsChannelInput : [no documentation found]
+    ///
+    /// - Returns: `GetApnsChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getApnsChannel(input: GetApnsChannelInput) async throws -> GetApnsChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1330,6 +1875,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the status and settings of the APNs sandbox channel for an application.
+    ///
+    /// - Parameter GetApnsSandboxChannelInput : [no documentation found]
+    ///
+    /// - Returns: `GetApnsSandboxChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getApnsSandboxChannel(input: GetApnsSandboxChannelInput) async throws -> GetApnsSandboxChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1363,6 +1923,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the status and settings of the APNs VoIP channel for an application.
+    ///
+    /// - Parameter GetApnsVoipChannelInput : [no documentation found]
+    ///
+    /// - Returns: `GetApnsVoipChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getApnsVoipChannel(input: GetApnsVoipChannelInput) async throws -> GetApnsVoipChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1396,6 +1971,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the status and settings of the APNs VoIP sandbox channel for an application.
+    ///
+    /// - Parameter GetApnsVoipSandboxChannelInput : [no documentation found]
+    ///
+    /// - Returns: `GetApnsVoipSandboxChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getApnsVoipSandboxChannel(input: GetApnsVoipSandboxChannelInput) async throws -> GetApnsVoipSandboxChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1429,6 +2019,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about an application.
+    ///
+    /// - Parameter GetAppInput : [no documentation found]
+    ///
+    /// - Returns: `GetAppOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getApp(input: GetAppInput) async throws -> GetAppOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1462,6 +2067,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves (queries) pre-aggregated data for a standard metric that applies to an application.
+    ///
+    /// - Parameter GetApplicationDateRangeKpiInput : [no documentation found]
+    ///
+    /// - Returns: `GetApplicationDateRangeKpiOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getApplicationDateRangeKpi(input: GetApplicationDateRangeKpiInput) async throws -> GetApplicationDateRangeKpiOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1496,6 +2116,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the settings for an application.
+    ///
+    /// - Parameter GetApplicationSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `GetApplicationSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getApplicationSettings(input: GetApplicationSettingsInput) async throws -> GetApplicationSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1529,6 +2164,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about all the applications that are associated with your Amazon Pinpoint account.
+    ///
+    /// - Parameter GetAppsInput : [no documentation found]
+    ///
+    /// - Returns: `GetAppsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getApps(input: GetAppsInput) async throws -> GetAppsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1563,6 +2213,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the status and settings of the Baidu channel for an application.
+    ///
+    /// - Parameter GetBaiduChannelInput : [no documentation found]
+    ///
+    /// - Returns: `GetBaiduChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getBaiduChannel(input: GetBaiduChannelInput) async throws -> GetBaiduChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1596,6 +2261,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the status, configuration, and other settings for a campaign.
+    ///
+    /// - Parameter GetCampaignInput : [no documentation found]
+    ///
+    /// - Returns: `GetCampaignOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getCampaign(input: GetCampaignInput) async throws -> GetCampaignOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1629,6 +2309,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about all the activities for a campaign.
+    ///
+    /// - Parameter GetCampaignActivitiesInput : [no documentation found]
+    ///
+    /// - Returns: `GetCampaignActivitiesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getCampaignActivities(input: GetCampaignActivitiesInput) async throws -> GetCampaignActivitiesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1663,6 +2358,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves (queries) pre-aggregated data for a standard metric that applies to a campaign.
+    ///
+    /// - Parameter GetCampaignDateRangeKpiInput : [no documentation found]
+    ///
+    /// - Returns: `GetCampaignDateRangeKpiOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getCampaignDateRangeKpi(input: GetCampaignDateRangeKpiInput) async throws -> GetCampaignDateRangeKpiOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1697,6 +2407,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the status, configuration, and other settings for a specific version of a campaign.
+    ///
+    /// - Parameter GetCampaignVersionInput : [no documentation found]
+    ///
+    /// - Returns: `GetCampaignVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getCampaignVersion(input: GetCampaignVersionInput) async throws -> GetCampaignVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1730,6 +2455,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the status, configuration, and other settings for all versions of a campaign.
+    ///
+    /// - Parameter GetCampaignVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `GetCampaignVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getCampaignVersions(input: GetCampaignVersionsInput) async throws -> GetCampaignVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1764,6 +2504,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the status, configuration, and other settings for all the campaigns that are associated with an application.
+    ///
+    /// - Parameter GetCampaignsInput : [no documentation found]
+    ///
+    /// - Returns: `GetCampaignsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getCampaigns(input: GetCampaignsInput) async throws -> GetCampaignsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1798,6 +2553,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the history and status of each channel for an application.
+    ///
+    /// - Parameter GetChannelsInput : [no documentation found]
+    ///
+    /// - Returns: `GetChannelsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getChannels(input: GetChannelsInput) async throws -> GetChannelsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1831,6 +2601,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the status and settings of the email channel for an application.
+    ///
+    /// - Parameter GetEmailChannelInput : [no documentation found]
+    ///
+    /// - Returns: `GetEmailChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getEmailChannel(input: GetEmailChannelInput) async throws -> GetEmailChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1864,6 +2649,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves the content and settings of a message template for messages that are sent through the email channel.
+    ///
+    /// - Parameter GetEmailTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GetEmailTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getEmailTemplate(input: GetEmailTemplateInput) async throws -> GetEmailTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1898,6 +2698,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the settings and attributes of a specific endpoint for an application.
+    ///
+    /// - Parameter GetEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `GetEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getEndpoint(input: GetEndpointInput) async throws -> GetEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1931,6 +2746,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the event stream settings for an application.
+    ///
+    /// - Parameter GetEventStreamInput : [no documentation found]
+    ///
+    /// - Returns: `GetEventStreamOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getEventStream(input: GetEventStreamInput) async throws -> GetEventStreamOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1964,6 +2794,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the status and settings of a specific export job for an application.
+    ///
+    /// - Parameter GetExportJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetExportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getExportJob(input: GetExportJobInput) async throws -> GetExportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1997,6 +2842,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the status and settings of all the export jobs for an application.
+    ///
+    /// - Parameter GetExportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `GetExportJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getExportJobs(input: GetExportJobsInput) async throws -> GetExportJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2031,6 +2891,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the status and settings of the GCM channel for an application.
+    ///
+    /// - Parameter GetGcmChannelInput : [no documentation found]
+    ///
+    /// - Returns: `GetGcmChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getGcmChannel(input: GetGcmChannelInput) async throws -> GetGcmChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2064,6 +2939,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the status and settings of a specific import job for an application.
+    ///
+    /// - Parameter GetImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getImportJob(input: GetImportJobInput) async throws -> GetImportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2097,6 +2987,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the status and settings of all the import jobs for an application.
+    ///
+    /// - Parameter GetImportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `GetImportJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getImportJobs(input: GetImportJobsInput) async throws -> GetImportJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2131,6 +3036,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves the in-app messages targeted for the provided endpoint ID.
+    ///
+    /// - Parameter GetInAppMessagesInput : [no documentation found]
+    ///
+    /// - Returns: `GetInAppMessagesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getInAppMessages(input: GetInAppMessagesInput) async throws -> GetInAppMessagesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2164,6 +3084,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves the content and settings of a message template for messages sent through the in-app channel.
+    ///
+    /// - Parameter GetInAppTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GetInAppTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getInAppTemplate(input: GetInAppTemplateInput) async throws -> GetInAppTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2198,6 +3133,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the status, configuration, and other settings for a journey.
+    ///
+    /// - Parameter GetJourneyInput : [no documentation found]
+    ///
+    /// - Returns: `GetJourneyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getJourney(input: GetJourneyInput) async throws -> GetJourneyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2231,6 +3181,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves (queries) pre-aggregated data for a standard engagement metric that applies to a journey.
+    ///
+    /// - Parameter GetJourneyDateRangeKpiInput : [no documentation found]
+    ///
+    /// - Returns: `GetJourneyDateRangeKpiOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getJourneyDateRangeKpi(input: GetJourneyDateRangeKpiInput) async throws -> GetJourneyDateRangeKpiOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2265,6 +3230,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey activity.
+    ///
+    /// - Parameter GetJourneyExecutionActivityMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `GetJourneyExecutionActivityMetricsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getJourneyExecutionActivityMetrics(input: GetJourneyExecutionActivityMetricsInput) async throws -> GetJourneyExecutionActivityMetricsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2299,6 +3279,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey.
+    ///
+    /// - Parameter GetJourneyExecutionMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `GetJourneyExecutionMetricsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getJourneyExecutionMetrics(input: GetJourneyExecutionMetricsInput) async throws -> GetJourneyExecutionMetricsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2333,6 +3328,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to a journey activity.
+    ///
+    /// - Parameter GetJourneyRunExecutionActivityMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `GetJourneyRunExecutionActivityMetricsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getJourneyRunExecutionActivityMetrics(input: GetJourneyRunExecutionActivityMetricsInput) async throws -> GetJourneyRunExecutionActivityMetricsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2367,6 +3377,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to a journey.
+    ///
+    /// - Parameter GetJourneyRunExecutionMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `GetJourneyRunExecutionMetricsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getJourneyRunExecutionMetrics(input: GetJourneyRunExecutionMetricsInput) async throws -> GetJourneyRunExecutionMetricsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2401,6 +3426,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Provides information about the runs of a journey.
+    ///
+    /// - Parameter GetJourneyRunsInput : [no documentation found]
+    ///
+    /// - Returns: `GetJourneyRunsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getJourneyRuns(input: GetJourneyRunsInput) async throws -> GetJourneyRunsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2435,6 +3475,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves the content and settings of a message template for messages that are sent through a push notification channel.
+    ///
+    /// - Parameter GetPushTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GetPushTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getPushTemplate(input: GetPushTemplateInput) async throws -> GetPushTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2469,6 +3524,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about an Amazon Pinpoint configuration for a recommender model.
+    ///
+    /// - Parameter GetRecommenderConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetRecommenderConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getRecommenderConfiguration(input: GetRecommenderConfigurationInput) async throws -> GetRecommenderConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2502,6 +3572,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about all the recommender model configurations that are associated with your Amazon Pinpoint account.
+    ///
+    /// - Parameter GetRecommenderConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `GetRecommenderConfigurationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getRecommenderConfigurations(input: GetRecommenderConfigurationsInput) async throws -> GetRecommenderConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2536,6 +3621,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the configuration, dimension, and other settings for a specific segment that's associated with an application.
+    ///
+    /// - Parameter GetSegmentInput : [no documentation found]
+    ///
+    /// - Returns: `GetSegmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getSegment(input: GetSegmentInput) async throws -> GetSegmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2569,6 +3669,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the status and settings of the export jobs for a segment.
+    ///
+    /// - Parameter GetSegmentExportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `GetSegmentExportJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getSegmentExportJobs(input: GetSegmentExportJobsInput) async throws -> GetSegmentExportJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2603,6 +3718,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the status and settings of the import jobs for a segment.
+    ///
+    /// - Parameter GetSegmentImportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `GetSegmentImportJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getSegmentImportJobs(input: GetSegmentImportJobsInput) async throws -> GetSegmentImportJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2637,6 +3767,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the configuration, dimension, and other settings for a specific version of a segment that's associated with an application.
+    ///
+    /// - Parameter GetSegmentVersionInput : [no documentation found]
+    ///
+    /// - Returns: `GetSegmentVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getSegmentVersion(input: GetSegmentVersionInput) async throws -> GetSegmentVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2670,6 +3815,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the configuration, dimension, and other settings for all the versions of a specific segment that's associated with an application.
+    ///
+    /// - Parameter GetSegmentVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `GetSegmentVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getSegmentVersions(input: GetSegmentVersionsInput) async throws -> GetSegmentVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2704,6 +3864,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the configuration, dimension, and other settings for all the segments that are associated with an application.
+    ///
+    /// - Parameter GetSegmentsInput : [no documentation found]
+    ///
+    /// - Returns: `GetSegmentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getSegments(input: GetSegmentsInput) async throws -> GetSegmentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2738,6 +3913,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the status and settings of the SMS channel for an application.
+    ///
+    /// - Parameter GetSmsChannelInput : [no documentation found]
+    ///
+    /// - Returns: `GetSmsChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getSmsChannel(input: GetSmsChannelInput) async throws -> GetSmsChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2771,6 +3961,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves the content and settings of a message template for messages that are sent through the SMS channel.
+    ///
+    /// - Parameter GetSmsTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GetSmsTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getSmsTemplate(input: GetSmsTemplateInput) async throws -> GetSmsTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2805,6 +4010,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about all the endpoints that are associated with a specific user ID.
+    ///
+    /// - Parameter GetUserEndpointsInput : [no documentation found]
+    ///
+    /// - Returns: `GetUserEndpointsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getUserEndpoints(input: GetUserEndpointsInput) async throws -> GetUserEndpointsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2838,6 +4058,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the status and settings of the voice channel for an application.
+    ///
+    /// - Parameter GetVoiceChannelInput : [no documentation found]
+    ///
+    /// - Returns: `GetVoiceChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getVoiceChannel(input: GetVoiceChannelInput) async throws -> GetVoiceChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2871,6 +4106,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves the content and settings of a message template for messages that are sent through the voice channel.
+    ///
+    /// - Parameter GetVoiceTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GetVoiceTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func getVoiceTemplate(input: GetVoiceTemplateInput) async throws -> GetVoiceTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2905,6 +4155,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about the status, configuration, and other settings for all the journeys that are associated with an application.
+    ///
+    /// - Parameter ListJourneysInput : [no documentation found]
+    ///
+    /// - Returns: `ListJourneysOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func listJourneys(input: ListJourneysInput) async throws -> ListJourneysOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2939,6 +4204,10 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves all the tags (keys and values) that are associated with an application, campaign, message template, or segment.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2972,6 +4241,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about all the versions of a specific message template.
+    ///
+    /// - Parameter ListTemplateVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTemplateVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func listTemplateVersions(input: ListTemplateVersionsInput) async throws -> ListTemplateVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3006,6 +4290,19 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about all the message templates that are associated with your Amazon Pinpoint account.
+    ///
+    /// - Parameter ListTemplatesInput : [no documentation found]
+    ///
+    /// - Returns: `ListTemplatesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func listTemplates(input: ListTemplatesInput) async throws -> ListTemplatesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3040,6 +4337,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Retrieves information about a phone number.
+    ///
+    /// - Parameter PhoneNumberValidateInput : [no documentation found]
+    ///
+    /// - Returns: `PhoneNumberValidateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func phoneNumberValidate(input: PhoneNumberValidateInput) async throws -> PhoneNumberValidateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3076,6 +4388,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Creates a new event stream for an application or updates the settings of an existing event stream for an application.
+    ///
+    /// - Parameter PutEventStreamInput : [no documentation found]
+    ///
+    /// - Returns: `PutEventStreamOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func putEventStream(input: PutEventStreamInput) async throws -> PutEventStreamOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3112,6 +4439,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Creates a new event to record for endpoints, or creates or updates endpoint data that existing events are associated with.
+    ///
+    /// - Parameter PutEventsInput : [no documentation found]
+    ///
+    /// - Returns: `PutEventsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func putEvents(input: PutEventsInput) async throws -> PutEventsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3148,6 +4490,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Removes one or more attributes, of the same attribute type, from all the endpoints that are associated with an application.
+    ///
+    /// - Parameter RemoveAttributesInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveAttributesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func removeAttributes(input: RemoveAttributesInput) async throws -> RemoveAttributesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3184,6 +4541,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Creates and sends a direct message.
+    ///
+    /// - Parameter SendMessagesInput : [no documentation found]
+    ///
+    /// - Returns: `SendMessagesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func sendMessages(input: SendMessagesInput) async throws -> SendMessagesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3220,6 +4592,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Send an OTP message
+    ///
+    /// - Parameter SendOTPMessageInput : [no documentation found]
+    ///
+    /// - Returns: `SendOTPMessageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func sendOTPMessage(input: SendOTPMessageInput) async throws -> SendOTPMessageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3256,6 +4643,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Creates and sends a message to a list of users.
+    ///
+    /// - Parameter SendUsersMessagesInput : [no documentation found]
+    ///
+    /// - Returns: `SendUsersMessagesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func sendUsersMessages(input: SendUsersMessagesInput) async throws -> SendUsersMessagesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3292,6 +4694,10 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Adds one or more tags (keys and values) to an application, campaign, message template, or segment.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3328,6 +4734,10 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Removes one or more tags (keys and values) from an application, campaign, message template, or segment.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3362,6 +4772,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Enables the ADM channel for an application or updates the status and settings of the ADM channel for an application.
+    ///
+    /// - Parameter UpdateAdmChannelInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAdmChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func updateAdmChannel(input: UpdateAdmChannelInput) async throws -> UpdateAdmChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3398,6 +4823,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Enables the APNs channel for an application or updates the status and settings of the APNs channel for an application.
+    ///
+    /// - Parameter UpdateApnsChannelInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateApnsChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func updateApnsChannel(input: UpdateApnsChannelInput) async throws -> UpdateApnsChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3434,6 +4874,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Enables the APNs sandbox channel for an application or updates the status and settings of the APNs sandbox channel for an application.
+    ///
+    /// - Parameter UpdateApnsSandboxChannelInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateApnsSandboxChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func updateApnsSandboxChannel(input: UpdateApnsSandboxChannelInput) async throws -> UpdateApnsSandboxChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3470,6 +4925,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Enables the APNs VoIP channel for an application or updates the status and settings of the APNs VoIP channel for an application.
+    ///
+    /// - Parameter UpdateApnsVoipChannelInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateApnsVoipChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func updateApnsVoipChannel(input: UpdateApnsVoipChannelInput) async throws -> UpdateApnsVoipChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3506,6 +4976,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Enables the APNs VoIP sandbox channel for an application or updates the status and settings of the APNs VoIP sandbox channel for an application.
+    ///
+    /// - Parameter UpdateApnsVoipSandboxChannelInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateApnsVoipSandboxChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func updateApnsVoipSandboxChannel(input: UpdateApnsVoipSandboxChannelInput) async throws -> UpdateApnsVoipSandboxChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3542,6 +5027,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Updates the settings for an application.
+    ///
+    /// - Parameter UpdateApplicationSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateApplicationSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func updateApplicationSettings(input: UpdateApplicationSettingsInput) async throws -> UpdateApplicationSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3578,6 +5078,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Enables the Baidu channel for an application or updates the status and settings of the Baidu channel for an application.
+    ///
+    /// - Parameter UpdateBaiduChannelInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateBaiduChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func updateBaiduChannel(input: UpdateBaiduChannelInput) async throws -> UpdateBaiduChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3614,6 +5129,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Updates the configuration and other settings for a campaign.
+    ///
+    /// - Parameter UpdateCampaignInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateCampaignOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func updateCampaign(input: UpdateCampaignInput) async throws -> UpdateCampaignOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3650,6 +5180,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Enables the email channel for an application or updates the status and settings of the email channel for an application.
+    ///
+    /// - Parameter UpdateEmailChannelInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEmailChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func updateEmailChannel(input: UpdateEmailChannelInput) async throws -> UpdateEmailChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3686,6 +5231,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Updates an existing message template for messages that are sent through the email channel.
+    ///
+    /// - Parameter UpdateEmailTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEmailTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func updateEmailTemplate(input: UpdateEmailTemplateInput) async throws -> UpdateEmailTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3723,6 +5283,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Creates a new endpoint for an application or updates the settings and attributes of an existing endpoint for an application. You can also use this operation to define custom attributes for an endpoint. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
+    ///
+    /// - Parameter UpdateEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func updateEndpoint(input: UpdateEndpointInput) async throws -> UpdateEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3759,6 +5334,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Creates a new batch of endpoints for an application or updates the settings and attributes of a batch of existing endpoints for an application. You can also use this operation to define custom attributes for a batch of endpoints. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
+    ///
+    /// - Parameter UpdateEndpointsBatchInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEndpointsBatchOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func updateEndpointsBatch(input: UpdateEndpointsBatchInput) async throws -> UpdateEndpointsBatchOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3795,6 +5385,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Enables the GCM channel for an application or updates the status and settings of the GCM channel for an application.
+    ///
+    /// - Parameter UpdateGcmChannelInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateGcmChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func updateGcmChannel(input: UpdateGcmChannelInput) async throws -> UpdateGcmChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3831,6 +5436,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Updates an existing message template for messages sent through the in-app message channel.
+    ///
+    /// - Parameter UpdateInAppTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateInAppTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func updateInAppTemplate(input: UpdateInAppTemplateInput) async throws -> UpdateInAppTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3868,6 +5488,22 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Updates the configuration and other settings for a journey.
+    ///
+    /// - Parameter UpdateJourneyInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateJourneyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ConflictException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func updateJourney(input: UpdateJourneyInput) async throws -> UpdateJourneyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3904,6 +5540,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Cancels (stops) an active journey.
+    ///
+    /// - Parameter UpdateJourneyStateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateJourneyStateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func updateJourneyState(input: UpdateJourneyStateInput) async throws -> UpdateJourneyStateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3940,6 +5591,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Updates an existing message template for messages that are sent through a push notification channel.
+    ///
+    /// - Parameter UpdatePushTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePushTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func updatePushTemplate(input: UpdatePushTemplateInput) async throws -> UpdatePushTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3977,6 +5643,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Updates an Amazon Pinpoint configuration for a recommender model.
+    ///
+    /// - Parameter UpdateRecommenderConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRecommenderConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func updateRecommenderConfiguration(input: UpdateRecommenderConfigurationInput) async throws -> UpdateRecommenderConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4013,6 +5694,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
+    ///
+    /// - Parameter UpdateSegmentInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSegmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func updateSegment(input: UpdateSegmentInput) async throws -> UpdateSegmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4049,6 +5745,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Enables the SMS channel for an application or updates the status and settings of the SMS channel for an application.
+    ///
+    /// - Parameter UpdateSmsChannelInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSmsChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func updateSmsChannel(input: UpdateSmsChannelInput) async throws -> UpdateSmsChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4085,6 +5796,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Updates an existing message template for messages that are sent through the SMS channel.
+    ///
+    /// - Parameter UpdateSmsTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSmsTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func updateSmsTemplate(input: UpdateSmsTemplateInput) async throws -> UpdateSmsTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4122,6 +5848,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Changes the status of a specific version of a message template to active.
+    ///
+    /// - Parameter UpdateTemplateActiveVersionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateTemplateActiveVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func updateTemplateActiveVersion(input: UpdateTemplateActiveVersionInput) async throws -> UpdateTemplateActiveVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4158,6 +5899,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Enables the voice channel for an application or updates the status and settings of the voice channel for an application.
+    ///
+    /// - Parameter UpdateVoiceChannelInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateVoiceChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func updateVoiceChannel(input: UpdateVoiceChannelInput) async throws -> UpdateVoiceChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4194,6 +5950,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Updates an existing message template for messages that are sent through the voice channel.
+    ///
+    /// - Parameter UpdateVoiceTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateVoiceTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func updateVoiceTemplate(input: UpdateVoiceTemplateInput) async throws -> UpdateVoiceTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4231,6 +6002,21 @@ extension PinpointClient: PinpointClientProtocol {
     }
 
     /// Verify an OTP
+    ///
+    /// - Parameter VerifyOTPMessageInput : [no documentation found]
+    ///
+    /// - Returns: `VerifyOTPMessageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Provides information about an API request or response.
+    /// - `ForbiddenException` : Provides information about an API request or response.
+    /// - `InternalServerErrorException` : Provides information about an API request or response.
+    /// - `MethodNotAllowedException` : Provides information about an API request or response.
+    /// - `NotFoundException` : Provides information about an API request or response.
+    /// - `PayloadTooLargeException` : Provides information about an API request or response.
+    /// - `TooManyRequestsException` : Provides information about an API request or response.
     public func verifyOTPMessage(input: VerifyOTPMessageInput) async throws -> VerifyOTPMessageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

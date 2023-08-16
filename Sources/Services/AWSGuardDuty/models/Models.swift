@@ -2652,9 +2652,24 @@ public struct CreateFilterInput: Swift.Equatable {
     ///
     /// * accountId
     ///
+    /// * id
+    ///
     /// * region
     ///
-    /// * id
+    /// * severity To filter on the basis of severity, the API and CLI use the following input list for the [FindingCriteria](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_FindingCriteria.html) condition:
+    ///
+    /// * Low: ["1", "2", "3"]
+    ///
+    /// * Medium: ["4", "5", "6"]
+    ///
+    /// * High: ["7", "8", "9"]
+    ///
+    ///
+    /// For more information, see [Severity levels for GuardDuty findings](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings.html#guardduty_findings-severity).
+    ///
+    /// * type
+    ///
+    /// * updatedAt Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds.
     ///
     /// * resource.accessKeyDetails.accessKeyId
     ///
@@ -2670,7 +2685,9 @@ public struct CreateFilterInput: Swift.Equatable {
     ///
     /// * resource.instanceDetails.instanceId
     ///
-    /// * resource.instanceDetails.outpostArn
+    /// * resource.instanceDetails.tags.key
+    ///
+    /// * resource.instanceDetails.tags.value
     ///
     /// * resource.instanceDetails.networkInterfaces.ipv6Addresses
     ///
@@ -2688,11 +2705,19 @@ public struct CreateFilterInput: Swift.Equatable {
     ///
     /// * resource.instanceDetails.networkInterfaces.vpcId
     ///
-    /// * resource.instanceDetails.tags.key
-    ///
-    /// * resource.instanceDetails.tags.value
+    /// * resource.instanceDetails.outpostArn
     ///
     /// * resource.resourceType
+    ///
+    /// * resource.s3BucketDetails.publicAccess.effectivePermissions
+    ///
+    /// * resource.s3BucketDetails.name
+    ///
+    /// * resource.s3BucketDetails.tags.key
+    ///
+    /// * resource.s3BucketDetails.tags.value
+    ///
+    /// * resource.s3BucketDetails.type
     ///
     /// * service.action.actionType
     ///
@@ -2701,8 +2726,6 @@ public struct CreateFilterInput: Swift.Equatable {
     /// * service.action.awsApiCallAction.callerType
     ///
     /// * service.action.awsApiCallAction.errorCode
-    ///
-    /// * service.action.awsApiCallAction.userAgent
     ///
     /// * service.action.awsApiCallAction.remoteIpDetails.city.cityName
     ///
@@ -2726,8 +2749,6 @@ public struct CreateFilterInput: Swift.Equatable {
     ///
     /// * service.action.networkConnectionAction.protocol
     ///
-    /// * service.action.networkConnectionAction.localIpDetails.ipAddressV4
-    ///
     /// * service.action.networkConnectionAction.remoteIpDetails.city.cityName
     ///
     /// * service.action.networkConnectionAction.remoteIpDetails.country.countryName
@@ -2740,25 +2761,77 @@ public struct CreateFilterInput: Swift.Equatable {
     ///
     /// * service.action.networkConnectionAction.remotePortDetails.port
     ///
+    /// * service.action.awsApiCallAction.remoteAccountDetails.affiliated
+    ///
+    /// * service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV4
+    ///
+    /// * service.action.kubernetesApiCallAction.requestUri
+    ///
+    /// * service.action.networkConnectionAction.localIpDetails.ipAddressV4
+    ///
+    /// * service.action.networkConnectionAction.protocol
+    ///
+    /// * service.action.awsApiCallAction.serviceName
+    ///
+    /// * service.action.awsApiCallAction.remoteAccountDetails.accountId
+    ///
     /// * service.additionalInfo.threatListName
-    ///
-    /// * resource.s3BucketDetails.publicAccess.effectivePermissions
-    ///
-    /// * resource.s3BucketDetails.name
-    ///
-    /// * resource.s3BucketDetails.tags.key
-    ///
-    /// * resource.s3BucketDetails.tags.value
-    ///
-    /// * resource.s3BucketDetails.type
     ///
     /// * service.resourceRole
     ///
-    /// * severity
+    /// * resource.eksClusterDetails.name
     ///
-    /// * type
+    /// * resource.kubernetesDetails.kubernetesWorkloadDetails.name
     ///
-    /// * updatedAt Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds.
+    /// * resource.kubernetesDetails.kubernetesWorkloadDetails.namespace
+    ///
+    /// * resource.kubernetesDetails.kubernetesUserDetails.username
+    ///
+    /// * resource.kubernetesDetails.kubernetesWorkloadDetails.containers.image
+    ///
+    /// * resource.kubernetesDetails.kubernetesWorkloadDetails.containers.imagePrefix
+    ///
+    /// * service.ebsVolumeScanDetails.scanId
+    ///
+    /// * service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.name
+    ///
+    /// * service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.severity
+    ///
+    /// * service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.filePaths.hash
+    ///
+    /// * resource.ecsClusterDetails.name
+    ///
+    /// * resource.ecsClusterDetails.taskDetails.containers.image
+    ///
+    /// * resource.ecsClusterDetails.taskDetails.definitionArn
+    ///
+    /// * resource.containerDetails.image
+    ///
+    /// * resource.rdsDbInstanceDetails.dbInstanceIdentifier
+    ///
+    /// * resource.rdsDbInstanceDetails.dbClusterIdentifier
+    ///
+    /// * resource.rdsDbInstanceDetails.engine
+    ///
+    /// * resource.rdsDbUserDetails.user
+    ///
+    /// * resource.rdsDbInstanceDetails.tags.key
+    ///
+    /// * resource.rdsDbInstanceDetails.tags.value
+    ///
+    /// * service.runtimeDetails.process.executableSha256
+    ///
+    /// * service.runtimeDetails.process.name
+    ///
+    /// * service.runtimeDetails.process.name
+    ///
+    /// * resource.lambdaDetails.functionName
+    ///
+    /// * resource.lambdaDetails.functionArn
+    ///
+    /// * resource.lambdaDetails.tags.key
+    ///
+    /// * resource.lambdaDetails.tags.value
     /// This member is required.
     public var findingCriteria: GuardDutyClientTypes.FindingCriteria?
     /// The name of the filter. Valid characters include period (.), underscore (_), dash (-), and alphanumeric characters. A whitespace is considered to be an invalid character.
@@ -13755,12 +13828,14 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
     public enum OrgFeatureStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case all
         case new
         case `none`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OrgFeatureStatus] {
             return [
+                .all,
                 .new,
                 .none,
                 .sdkUnknown("")
@@ -13772,6 +13847,7 @@ extension GuardDutyClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .all: return "ALL"
             case .new: return "NEW"
             case .none: return "NONE"
             case let .sdkUnknown(s): return s

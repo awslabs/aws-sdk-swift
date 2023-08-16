@@ -353,7 +353,7 @@ extension SNSClientTypes.BatchResultErrorEntry: Swift.Codable {
         code = codeDecoded
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
-        let senderFaultDecoded = try containerValues.decode(Swift.Bool.self, forKey: .senderFault)
+        let senderFaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .senderFault) ?? false
         senderFault = senderFaultDecoded
     }
 }
@@ -490,7 +490,7 @@ extension CheckIfPhoneNumberIsOptedOutOutputResponseBody: Swift.Decodable {
     public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CheckIfPhoneNumberIsOptedOutResult"))
-        let isOptedOutDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isOptedOut)
+        let isOptedOutDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isOptedOut) ?? false
         isOptedOut = isOptedOutDecoded
     }
 }
@@ -2377,7 +2377,7 @@ extension GetSMSSandboxAccountStatusOutputResponseBody: Swift.Decodable {
     public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GetSMSSandboxAccountStatusResult"))
-        let isInSandboxDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isInSandbox)
+        let isInSandboxDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isInSandbox) ?? false
         isInSandbox = isInSandboxDecoded
     }
 }
@@ -6999,7 +6999,7 @@ extension SubscribeInputBody: Swift.Decodable {
         } else {
             attributes = nil
         }
-        let returnSubscriptionArnDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .returnSubscriptionArn)
+        let returnSubscriptionArnDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .returnSubscriptionArn) ?? false
         returnSubscriptionArn = returnSubscriptionArnDecoded
     }
 }

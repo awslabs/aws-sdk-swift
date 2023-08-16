@@ -68,6 +68,18 @@ public struct IvschatClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
 
 extension IvschatClient: IvschatClientProtocol {
     /// Creates an encrypted token that is used by a chat participant to establish an individual WebSocket chat connection to a room. When the token is used to connect to chat, the connection is valid for the session duration specified in the request. The token becomes invalid at the token-expiration timestamp included in the response. Use the capabilities field to permit an end user to send messages or moderate a room. The attributes field securely attaches structured data to the chat session; the data is included within each message sent by the end user and received by other participants in the room. Common use cases for attributes include passing end-user profile data like an icon, display name, colors, badges, and other display features. Encryption keys are owned by Amazon IVS Chat and never used directly by your application.
+    ///
+    /// - Parameter CreateChatTokenInput : [no documentation found]
+    ///
+    /// - Returns: `CreateChatTokenOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `PendingVerification` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     public func createChatToken(input: CreateChatTokenInput) async throws -> CreateChatTokenOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +116,20 @@ extension IvschatClient: IvschatClientProtocol {
     }
 
     /// Creates a logging configuration that allows clients to store and record sent messages.
+    ///
+    /// - Parameter CreateLoggingConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLoggingConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `PendingVerification` :
+    /// - `ResourceNotFoundException` :
+    /// - `ServiceQuotaExceededException` :
+    /// - `ValidationException` :
     public func createLoggingConfiguration(input: CreateLoggingConfigurationInput) async throws -> CreateLoggingConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -140,6 +166,20 @@ extension IvschatClient: IvschatClientProtocol {
     }
 
     /// Creates a room that allows clients to connect and pass messages.
+    ///
+    /// - Parameter CreateRoomInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRoomOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `PendingVerification` :
+    /// - `ResourceNotFoundException` :
+    /// - `ServiceQuotaExceededException` :
+    /// - `ValidationException` :
     public func createRoom(input: CreateRoomInput) async throws -> CreateRoomOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -176,6 +216,19 @@ extension IvschatClient: IvschatClientProtocol {
     }
 
     /// Deletes the specified logging configuration.
+    ///
+    /// - Parameter DeleteLoggingConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteLoggingConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `PendingVerification` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     public func deleteLoggingConfiguration(input: DeleteLoggingConfigurationInput) async throws -> DeleteLoggingConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -212,6 +265,19 @@ extension IvschatClient: IvschatClientProtocol {
     }
 
     /// Sends an event to a specific room which directs clients to delete a specific message; that is, unrender it from view and delete it from the client’s chat history. This event’s EventName is aws:DELETE_MESSAGE. This replicates the [ DeleteMessage](https://docs.aws.amazon.com/ivs/latest/chatmsgapireference/actions-deletemessage-publish.html) WebSocket operation in the Amazon IVS Chat Messaging API.
+    ///
+    /// - Parameter DeleteMessageInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteMessageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `PendingVerification` :
+    /// - `ResourceNotFoundException` :
+    /// - `ThrottlingException` :
+    /// - `ValidationException` :
     public func deleteMessage(input: DeleteMessageInput) async throws -> DeleteMessageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -248,6 +314,18 @@ extension IvschatClient: IvschatClientProtocol {
     }
 
     /// Deletes the specified room.
+    ///
+    /// - Parameter DeleteRoomInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRoomOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `PendingVerification` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     public func deleteRoom(input: DeleteRoomInput) async throws -> DeleteRoomOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -284,6 +362,19 @@ extension IvschatClient: IvschatClientProtocol {
     }
 
     /// Disconnects all connections using a specified user ID from a room. This replicates the [ DisconnectUser](https://docs.aws.amazon.com/ivs/latest/chatmsgapireference/actions-disconnectuser-publish.html) WebSocket operation in the Amazon IVS Chat Messaging API.
+    ///
+    /// - Parameter DisconnectUserInput : [no documentation found]
+    ///
+    /// - Returns: `DisconnectUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `PendingVerification` :
+    /// - `ResourceNotFoundException` :
+    /// - `ThrottlingException` :
+    /// - `ValidationException` :
     public func disconnectUser(input: DisconnectUserInput) async throws -> DisconnectUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -320,6 +411,17 @@ extension IvschatClient: IvschatClientProtocol {
     }
 
     /// Gets the specified logging configuration.
+    ///
+    /// - Parameter GetLoggingConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetLoggingConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     public func getLoggingConfiguration(input: GetLoggingConfigurationInput) async throws -> GetLoggingConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -356,6 +458,17 @@ extension IvschatClient: IvschatClientProtocol {
     }
 
     /// Gets the specified room.
+    ///
+    /// - Parameter GetRoomInput : [no documentation found]
+    ///
+    /// - Returns: `GetRoomOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     public func getRoom(input: GetRoomInput) async throws -> GetRoomOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -392,6 +505,16 @@ extension IvschatClient: IvschatClientProtocol {
     }
 
     /// Gets summary information about all your logging configurations in the AWS region where the API request is processed.
+    ///
+    /// - Parameter ListLoggingConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListLoggingConfigurationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ValidationException` :
     public func listLoggingConfigurations(input: ListLoggingConfigurationsInput) async throws -> ListLoggingConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -428,6 +551,17 @@ extension IvschatClient: IvschatClientProtocol {
     }
 
     /// Gets summary information about all your rooms in the AWS region where the API request is processed. Results are sorted in descending order of updateTime.
+    ///
+    /// - Parameter ListRoomsInput : [no documentation found]
+    ///
+    /// - Returns: `ListRoomsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     public func listRooms(input: ListRoomsInput) async throws -> ListRoomsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -464,6 +598,17 @@ extension IvschatClient: IvschatClientProtocol {
     }
 
     /// Gets information about AWS tags for the specified ARN.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -497,6 +642,19 @@ extension IvschatClient: IvschatClientProtocol {
     }
 
     /// Sends an event to a room. Use this within your application’s business logic to send events to clients of a room; e.g., to notify clients to change the way the chat UI is rendered.
+    ///
+    /// - Parameter SendEventInput : [no documentation found]
+    ///
+    /// - Returns: `SendEventOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `PendingVerification` :
+    /// - `ResourceNotFoundException` :
+    /// - `ThrottlingException` :
+    /// - `ValidationException` :
     public func sendEvent(input: SendEventInput) async throws -> SendEventOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -533,6 +691,17 @@ extension IvschatClient: IvschatClientProtocol {
     }
 
     /// Adds or updates tags for the AWS resource with the specified ARN.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -569,6 +738,17 @@ extension IvschatClient: IvschatClientProtocol {
     }
 
     /// Removes tags from the resource with the specified ARN.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -603,6 +783,19 @@ extension IvschatClient: IvschatClientProtocol {
     }
 
     /// Updates a specified logging configuration.
+    ///
+    /// - Parameter UpdateLoggingConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateLoggingConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `PendingVerification` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     public func updateLoggingConfiguration(input: UpdateLoggingConfigurationInput) async throws -> UpdateLoggingConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -639,6 +832,18 @@ extension IvschatClient: IvschatClientProtocol {
     }
 
     /// Updates a room’s configuration.
+    ///
+    /// - Parameter UpdateRoomInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRoomOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `PendingVerification` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     public func updateRoom(input: UpdateRoomInput) async throws -> UpdateRoomOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
