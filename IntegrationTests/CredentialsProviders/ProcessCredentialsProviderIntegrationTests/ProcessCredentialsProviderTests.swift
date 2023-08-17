@@ -16,23 +16,22 @@ class ProcessCredentialProviderTests: XCTestCase {
     var client: S3Client!
         
     override func setUp() async throws {
-            // Setup ProcessCredentialsProvider
-            let processCredentialsProvider = try ProcessCredentialsProvider(
-                configFilePath: Bundle.module.path(forResource: "config", ofType: nil)!,
-                credentialsFilePath: Bundle.module.path(forResource: "credentials", ofType: nil)!
-            )
-            
-            // Setup S3ClientConfiguration to use ProcessCredentialsProvider
-            let testConfig = try await S3Client.S3ClientConfiguration()
-            testConfig.credentialsProvider = processCredentialsProvider
-            
-            // Initialize our S3 client with the specified configuration
-            client = S3Client(config: testConfig)
-        }
-    
+        // Setup ProcessCredentialsProvider
+        let processCredentialsProvider = try ProcessCredentialsProvider(
+            configFilePath: Bundle.module.path(forResource: "config", ofType: nil)!,
+            credentialsFilePath: Bundle.module.path(forResource: "credentials", ofType: nil)!
+        )
+
+        // Setup S3ClientConfiguration to use ProcessCredentialsProvider
+        let testConfig = try await S3Client.S3ClientConfiguration()
+        testConfig.credentialsProvider = processCredentialsProvider
+
+        // Initialize our S3 client with the specified configuration
+        client = S3Client(config: testConfig)
+    }
+
     // This test calls listBuckets() and forces S3Client to use ProcessCredentialsProvider
     func test_listBuckets() async throws {
         _ = try await client.listBuckets(input: ListBucketsInput())
     }
-    
 }
